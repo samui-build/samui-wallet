@@ -4,7 +4,9 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "lint": "eslint . --max-warnings 0"
+    "lint": "eslint . --max-warnings 0",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -26,9 +28,12 @@
     "@types/react-dom": "^19.1.7",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
+    "@workspace/config-vitest": "workspace:*",
     "eslint": "^9.32.0",
+    "jsdom": "^27.0.0",
     "tailwindcss": "^4.1.11",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",

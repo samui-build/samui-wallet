@@ -16,6 +16,13 @@
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^test", "@workspace/config-vitest#build"]
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true
     }
   }
 }
