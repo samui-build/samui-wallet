@@ -1,9 +1,8 @@
-import { Button } from '@workspace/ui/components/button.js'
+import { SettingsUiGroupList } from './ui/settings-ui-group-list.js'
+import { useSettings } from './data-access/settings-provider.js'
 
 export function SettingsFeatureIndex() {
-  return (
-    <div>
-      <Button variant="default">Settings Feature</Button>
-    </div>
-  )
+  const { groups } = useSettings()
+
+  return <SettingsUiGroupList groups={groups} />
 }
