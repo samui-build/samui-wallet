@@ -1,15 +1,16 @@
 import { useParams } from 'react-router'
 import { useSettingsDetail } from './data-access/use-settings-detail.js'
 import { SettingsUiDetailGrid } from './ui/settings-ui-detail-grid.js'
-import { SettingsUiCard } from './ui/settings-ui-card.js'
+
+import { SettingsUiGroupCard } from './ui/settings-ui-group-card.js'
 
 export function SettingsFeatureDetail() {
-  const { groupId, itemId } = useParams() as { groupId: string; itemId: string }
-  const { item } = useSettingsDetail({ groupId, itemId })
+  const { groupId } = useParams() as { groupId: string }
+  const group = useSettingsDetail({ groupId })
 
   return (
     <SettingsUiDetailGrid>
-      <SettingsUiCard item={item} />
+      <SettingsUiGroupCard group={group} />
     </SettingsUiDetailGrid>
   )
 }

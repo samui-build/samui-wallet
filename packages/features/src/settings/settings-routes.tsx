@@ -5,6 +5,6 @@ import { SettingsFeatureDetail } from './settings-feature-detail.js'
 export default function SettingsRoutes() {
   return useRoutes([
     { index: true, element: <SettingsFeatureIndex /> },
-    { path: ':groupId/:itemId', element: <SettingsFeatureDetail /> },
+    { path: ':groupId', element: <SettingsFeatureDetail /> },
   ])
 }

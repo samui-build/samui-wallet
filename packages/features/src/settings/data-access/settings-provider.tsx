@@ -5,6 +5,7 @@ import { SettingsType } from './settings-type.js'
 
 export const defaultItems: SettingsGroup[] = [
   {
+    description: 'Managed general settings like language and currency',
     icon: LucideSettings,
     id: 'general',
     items: [
@@ -24,6 +25,7 @@ export const defaultItems: SettingsGroup[] = [
     name: 'General',
   },
   {
+    description: 'Manages security settings like auto-lock',
     icon: LucideLock,
     id: 'security',
     items: [
@@ -43,6 +45,7 @@ export const defaultItems: SettingsGroup[] = [
     name: 'Security',
   },
   {
+    description: 'Manage the appearance of the app',
     icon: LucidePaintBucket,
     id: 'appearance',
     items: [

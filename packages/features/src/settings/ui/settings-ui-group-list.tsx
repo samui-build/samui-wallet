@@ -3,7 +3,7 @@ import { SettingsUiGroupItem } from './settings-ui-group-item.js'
 
 export function SettingsUiGroupList({ groups }: { groups: SettingsGroup[] }) {
   return (
-    <div className="p-2">
+    <div className="flex flex-col gap-2">
       {groups
         .filter((group) => group.items.length)
         .map((group) => (

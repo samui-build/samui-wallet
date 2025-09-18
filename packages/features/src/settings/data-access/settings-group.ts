@@ -6,6 +6,7 @@ import { SettingsItem } from './settings-item.js'
 export type SettingsIcon = ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & react.RefAttributes<SVGSVGElement>>
 
 export interface SettingsGroup {
+  description: string
   icon: SettingsIcon
   id: string
   items: SettingsItem[]
