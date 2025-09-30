@@ -5,9 +5,10 @@ import { ReactNode } from 'react'
 import { Label } from '@workspace/ui/components/label.js'
 import { Input } from '@workspace/ui/components/input.js'
 
-export function SettingsUiInputWrapper({ children, item }: { children: ReactNode; item?: SettingsItem }) {
+export function SettingsUiInputWrapper({ children }: { children: ReactNode; }) {
   return <div className="flex items-center justify-between gap-4">{children}</div>
 }
+
 export function SettingsUiInput({ item }: { item: SettingsItem }) {
   switch (item.type) {
     case SettingsType.Boolean:

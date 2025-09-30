@@ -5,7 +5,7 @@ export function SettingsUiItems({ group }: { group: SettingsGroup }) {
   return (
     <div className="py-4 flex flex-col gap-4">
       {group.items.map((item) => (
-        <SettingsUiItem key={item.id} group={group} item={item} />
+        <SettingsUiItem key={item.id} item={item} />
       ))}
     </div>
   )
