@@ -1,9 +1,6 @@
 import { Schema } from 'effect'
 
-//
-console.log(Schema)
-
-const SettingsSchema = Schema.Struct({
+export const SettingsSchema = Schema.Struct({
   autoLockEnabled: Schema.BooleanFromString,
   autoLockSeconds: Schema.NumberFromString,
   // TODO: Make this an enum of USD/EUR/etc
@@ -14,4 +11,5 @@ const SettingsSchema = Schema.Struct({
 })
 
 export type Settings = Schema.Schema.Type<typeof SettingsSchema>
+
 export type SettingsEncoded = Schema.Schema.Encoded<typeof SettingsSchema>
