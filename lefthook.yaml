@@ -9,4 +9,4 @@ pre-commit:
   jobs:
     - name: lint
       run: pnpm lint
-      glob: "*"
+      glob: '*'
