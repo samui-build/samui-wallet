@@ -9,7 +9,7 @@
     "prepare": "lefthook install",
     "test": "vitest run",
     "test:watch": "vitest --watch",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
     "@radix-ui/react-select": "^2.2.6",
