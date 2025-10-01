@@ -1,4 +1,4 @@
-import { SettingsGroup } from '../data-access/settings-group.js'
+import type { SettingsGroup } from '../data-access/settings-group.js'
 import { SettingsUiGroupHeader } from './settings-ui-group-header.js'
 import { cn } from '@workspace/ui/lib/utils.js'
 import { LucideChevronRight } from 'lucide-react'

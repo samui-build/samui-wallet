@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useContext } from 'react'
+import { createContext, type ReactNode, useContext } from 'react'
 import { LucideLock, LucidePaintBucket, LucideSettings } from 'lucide-react'
-import { SettingsGroup } from './settings-group.js'
+import type { SettingsGroup } from './settings-group.js'
 import { SettingsType } from './settings-type.js'
 
 export const defaultItems: SettingsGroup[] = [
