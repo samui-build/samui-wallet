@@ -1,4 +1,4 @@
-import { SettingsGroup } from '../data-access/settings-group.js'
+import type { SettingsGroup } from '../data-access/settings-group.js'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card.js'
 import { SettingsUiItems } from './settings-ui-items.js'
 

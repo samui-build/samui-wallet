@@ -1,11 +1,11 @@
-import { SettingsItem } from '../data-access/settings-item.js'
+import type { SettingsItem } from '../data-access/settings-item.js'
 import { SettingsType } from '../data-access/settings-type.js'
 import { Switch } from '@workspace/ui/components/switch.js'
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { Label } from '@workspace/ui/components/label.js'
 import { Input } from '@workspace/ui/components/input.js'
 
-export function SettingsUiInputWrapper({ children }: { children: ReactNode; }) {
+export function SettingsUiInputWrapper({ children }: { children: ReactNode }) {
   return <div className="flex items-center justify-between gap-4">{children}</div>
 }
 

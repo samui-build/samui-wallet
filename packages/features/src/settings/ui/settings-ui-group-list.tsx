@@ -1,4 +1,4 @@
-import { SettingsGroup } from '../data-access/settings-group.js'
+import type { SettingsGroup } from '../data-access/settings-group.js'
 import { SettingsUiGroupItem } from './settings-ui-group-item.js'
 
 export function SettingsUiGroupList({ groups }: { groups: SettingsGroup[] }) {

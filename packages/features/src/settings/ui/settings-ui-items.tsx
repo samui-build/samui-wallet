@@ -1,5 +1,5 @@
 import { SettingsUiItem } from './settings-ui-item.js'
-import { SettingsGroup } from '../data-access/settings-group.js'
+import type { SettingsGroup } from '../data-access/settings-group.js'
 
 export function SettingsUiItems({ group }: { group: SettingsGroup }) {
   return (
