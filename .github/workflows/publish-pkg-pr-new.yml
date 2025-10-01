@@ -1,18 +1,17 @@
-name: CI
+name: Publish pkg.pr.new
 
 permissions:
   contents: read
-  pull-requests: write
 
 on:
+  pull_request:
   push:
     branches:
       - main
-
-  pull_request:
+  workflow_dispatch:
 
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,14 +23,5 @@ jobs:
       - name: Build
         run: pnpm build
 
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Lint
-        run: pnpm lint
+      - name: Publish to pkg.pr.new
+        run: pnpm pkg-pr-new publish './packages/*'
