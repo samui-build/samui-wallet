@@ -11,10 +11,10 @@
   },
   "iconLibrary": "lucide",
   "aliases": {
-    "components": "@workspace/ui/components",
-    "utils": "@workspace/ui/lib/utils",
-    "hooks": "@workspace/ui/hooks",
-    "lib": "@workspace/ui/lib",
-    "ui": "@workspace/ui/components"
+    "components": "@samui-wallet/ui/components",
+    "utils": "@samui-wallet/ui/lib/utils",
+    "hooks": "@samui-wallet/ui/hooks",
+    "lib": "@samui-wallet/ui/lib",
+    "ui": "@samui-wallet/ui/components"
   }
 }

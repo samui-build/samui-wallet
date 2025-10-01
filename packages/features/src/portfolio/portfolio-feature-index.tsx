@@ -1,4 +1,4 @@
-import { Button } from '@workspace/ui/components/button.js'
+import { Button } from '@samui-wallet/ui/components/button.js'
 
 export function PortfolioFeatureIndex() {
   return (

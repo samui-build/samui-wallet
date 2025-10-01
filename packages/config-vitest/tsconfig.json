@@ -1,5 +1,5 @@
 {
-  "extends": "@workspace/config-typescript/base.json",
+  "extends": "@samui-wallet/config-typescript/base.json",
   "compilerOptions": {
     "outDir": "dist",
     "rootDir": "src"

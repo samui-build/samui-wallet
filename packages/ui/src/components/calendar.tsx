@@ -4,8 +4,8 @@ import * as React from 'react'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
 
-import { cn } from '@workspace/ui/lib/utils'
-import { Button, buttonVariants } from '@workspace/ui/components/button'
+import { cn } from '@samui-wallet/ui/lib/utils'
+import { Button, buttonVariants } from '@samui-wallet/ui/components/button'
 
 function Calendar({
   className,

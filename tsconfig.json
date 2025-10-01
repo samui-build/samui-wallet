@@ -1,3 +1,3 @@
 {
-  "extends": "@workspace/config-typescript/base.json"
+  "extends": "@samui-wallet/config-typescript/base.json"
 }

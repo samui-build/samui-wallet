@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { cn } from '@workspace/ui/lib/utils'
+import { cn } from '@samui-wallet/ui/lib/utils'
 
 function Table({ className, ...props }: React.ComponentProps<'table'>) {
   return (

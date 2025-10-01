@@ -4,7 +4,7 @@ import * as React from 'react'
 import * as MenubarPrimitive from '@radix-ui/react-menubar'
 import { CheckIcon, ChevronRightIcon, CircleIcon } from 'lucide-react'
 
-import { cn } from '@workspace/ui/lib/utils'
+import { cn } from '@samui-wallet/ui/lib/utils'
 
 function Menubar({ className, ...props }: React.ComponentProps<typeof MenubarPrimitive.Root>) {
   return (

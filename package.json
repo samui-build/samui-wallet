@@ -13,8 +13,8 @@
   },
   "devDependencies": {
     "@radix-ui/react-select": "^2.2.6",
-    "@workspace/config-eslint": "workspace:*",
-    "@workspace/config-typescript": "workspace:*",
+    "@samui-wallet/config-eslint": "workspace:*",
+    "@samui-wallet/config-typescript": "workspace:*",
     "lefthook": "^1.13.6",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",

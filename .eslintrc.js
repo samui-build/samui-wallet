@@ -2,7 +2,7 @@
 /** @type {import("eslint").Linter.Config} */
 module.exports = {
   ignorePatterns: ['apps/**', 'packages/**'],
-  extends: ['@workspace/config-eslint/library.js'],
+  extends: ['@samui-wallet/config-eslint/library.js'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: true,

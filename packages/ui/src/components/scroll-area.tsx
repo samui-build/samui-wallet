@@ -3,7 +3,7 @@
 import * as React from 'react'
 import * as ScrollAreaPrimitive from '@radix-ui/react-scroll-area'
 
-import { cn } from '@workspace/ui/lib/utils'
+import { cn } from '@samui-wallet/ui/lib/utils'
 
 function ScrollArea({ className, children, ...props }: React.ComponentProps<typeof ScrollAreaPrimitive.Root>) {
   return (

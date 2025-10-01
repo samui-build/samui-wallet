@@ -5,8 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./*"],
-      "@workspace/features/*": ["../../packages/features/src/*"],
-      "@workspace/ui/*": ["../../packages/ui/src/*"]
+      "@samui-wallet/features/*": ["../../packages/features/src/*"],
+      "@samui-wallet/ui/*": ["../../packages/ui/src/*"]
     }
   }
 }

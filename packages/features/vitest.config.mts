@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitest/config'
-import { sharedConfig } from '@workspace/config-vitest'
+import { sharedConfig } from '@samui-wallet/config-vitest'
 
 export default defineConfig({
   ...sharedConfig,

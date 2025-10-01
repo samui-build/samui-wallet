@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/config-eslint",
+  "name": "@samui-wallet/config-eslint",
   "version": "0.0.0",
   "type": "module",
   "private": true,

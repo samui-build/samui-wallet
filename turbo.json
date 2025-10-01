@@ -18,7 +18,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^test", "@workspace/config-vitest#build"]
+      "dependsOn": ["^test", "@samui-wallet/config-vitest#build"]
     },
     "test:watch": {
       "cache": false,

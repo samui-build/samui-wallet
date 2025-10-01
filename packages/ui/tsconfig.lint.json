@@ -1,5 +1,5 @@
 {
-  "extends": "@workspace/config-typescript/react-library.json",
+  "extends": "@samui-wallet/config-typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
   },

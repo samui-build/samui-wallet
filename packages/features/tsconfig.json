@@ -1,9 +1,9 @@
 {
-  "extends": "@workspace/config-typescript/react-library.json",
+  "extends": "@samui-wallet/config-typescript/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@workspace/ui/*": ["../ui/src/*"]
+      "@samui-wallet/ui/*": ["../ui/src/*"]
     }
   },
   "include": ["."],

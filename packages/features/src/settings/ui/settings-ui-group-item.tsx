@@ -1,6 +1,6 @@
 import { SettingsGroup } from '../data-access/settings-group.js'
 import { SettingsUiGroupHeader } from './settings-ui-group-header.js'
-import { cn } from '@workspace/ui/lib/utils.js'
+import { cn } from '@samui-wallet/ui/lib/utils.js'
 import { LucideChevronRight } from 'lucide-react'
 import { NavLink } from 'react-router'
 import { useSettings } from '../data-access/settings-provider.js'
