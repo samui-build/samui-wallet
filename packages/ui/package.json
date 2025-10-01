@@ -2,7 +2,10 @@
   "name": "@workspace/ui",
   "version": "0.0.0",
   "type": "module",
-  "private": true,
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "lint": "eslint . --max-warnings 0",
     "test": "vitest run",
