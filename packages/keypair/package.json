@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/keypair",
+  "version": "0.0.0",
+  "private": false,
+  "license": "MIT",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "@workspace/config-vitest": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "dependencies": {
+    "@workspace/core": "workspace:*",
+    "@noble/hashes": "^2.0.1",
+    "@scure/bip39": "^2.0.0",
+    "@solana/kit": "catalog:",
+    "micro-key-producer": "^0.8.2"
+  }
+}
