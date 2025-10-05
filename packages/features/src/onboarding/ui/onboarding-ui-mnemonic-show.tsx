@@ -1,0 +1,51 @@
+import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert.js'
+import { Input } from '@workspace/ui/components/input.js'
+import { Label } from '@workspace/ui/components/label.js'
+import { AlertCircleIcon } from 'lucide-react'
+import { useMemo } from 'react'
+
+import { useOnboarding } from '../data-access/onboarding-provider.js'
+
+export function OnboardingUiMnemonicShow() {
+  const { mnemonic } = useOnboarding()
+  const expected = [12, 24]
+  const words = useMemo(() => mnemonic.split(' '), [mnemonic])
+  if (!expected.includes(words.length)) {
+    return (
+      <Alert variant="destructive">
+        <AlertCircleIcon />
+        <AlertTitle>Unexpected mnemonic length</AlertTitle>
+        <AlertDescription>
+          Mnemonic has {words.length} words, expected {expected.join(' or ')}
+        </AlertDescription>
+      </Alert>
+    )
+  }
+  return (
+    <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4`}>
+      {words.map((word, index) => (
+        <OnboardingUiMnemonicShowWord index={index} key={index.toString()} word={word} />
+      ))}
+    </div>
+  )
+}
+
+export function OnboardingUiMnemonicShowWord({ index, word }: { index: number; word: string }) {
+  return (
+    <div className="relative">
+      <Label className="absolute -top-2 left-2 inline-block px-1 text-xs font-medium" htmlFor={word}>
+        <span>{index + 1}</span>
+      </Label>
+      <Input
+        autoComplete="off"
+        autoCorrect="off"
+        className="block w-full rounded-md border-0 py-2.5 px-3 ring-1 ring-inset ring-zinc-300 dark:ring-zinc-700 placeholder:text-zinc-400 dark:placeholder:text-zinc-500 focus:ring-2 focus:ring-inset focus:ring-blue-600 dark:focus:ring-blue-500 sm:text-sm sm:leading-6 transition-all duration-150"
+        defaultValue={word}
+        id={word}
+        readOnly
+        spellCheck="false"
+        type="text"
+      />
+    </div>
+  )
+}

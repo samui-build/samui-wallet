@@ -1,8 +1,9 @@
 import * as bip39 from '@scure/bip39'
 
-import { getMnemonicWordlist } from './get-mnemonic-wordlist'
+import { getMnemonicWordlist } from './get-mnemonic-wordlist.js'
 
-export function generateMnemonic({ strength = 128 }: { strength?: 128 | 256 } = {}): string {
+export type MnemonicStrength = 128 | 256
+export function generateMnemonic({ strength = 128 }: { strength?: MnemonicStrength } = {}): string {
   if (![128, 256].includes(strength)) {
     throw new Error('strength must be 128 or 256')
   }
