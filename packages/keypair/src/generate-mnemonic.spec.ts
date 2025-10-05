@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 
-import { generateMnemonic } from './generate-mnemonic'
-import { getMnemonicWordlist } from './get-mnemonic-wordlist'
+import { generateMnemonic, MnemonicStrength } from './generate-mnemonic'
+import { getMnemonicWordlist, MnemonicLanguage } from './get-mnemonic-wordlist'
 
 describe('generate-mnemonic', () => {
   it('should generate a 12-word mnemonic in english', async () => {
     // ARRANGE
     expect.assertions(3)
-    const wordlist = getMnemonicWordlist('english')
+    const wordlist = getMnemonicWordlist(MnemonicLanguage.English)
     // ACT
     const result = generateMnemonic()
     // ASSERT
@@ -19,9 +19,9 @@ describe('generate-mnemonic', () => {
   it('should generate a 24-word mnemonic in english', async () => {
     // ARRANGE
     expect.assertions(3)
-    const wordlist = getMnemonicWordlist('english')
+    const wordlist = getMnemonicWordlist(MnemonicLanguage.English)
     // ACT
-    const result = generateMnemonic({ words: 24 })
+    const result = generateMnemonic({ strength: MnemonicStrength.Double })
     // ASSERT
     expect(typeof result).toEqual('string')
     expect(result.split(' ').length).toEqual(24)
@@ -31,9 +31,9 @@ describe('generate-mnemonic', () => {
   it('should generate a 12-word mnemonic in spanish', async () => {
     // ARRANGE
     expect.assertions(3)
-    const wordlist = getMnemonicWordlist('spanish')
+    const wordlist = getMnemonicWordlist(MnemonicLanguage.Spanish)
     // ACT
-    const result = generateMnemonic({ language: 'spanish' })
+    const result = generateMnemonic({ language: MnemonicLanguage.Spanish })
     // ASSERT
     expect(typeof result).toEqual('string')
     expect(result.split(' ').length).toEqual(12)
@@ -43,9 +43,9 @@ describe('generate-mnemonic', () => {
   it('should generate a 24-word mnemonic in spanish', async () => {
     // ARRANGE
     expect.assertions(3)
-    const wordlist = getMnemonicWordlist('spanish')
+    const wordlist = getMnemonicWordlist(MnemonicLanguage.Spanish)
     // ACT
-    const result = generateMnemonic({ language: 'spanish', words: 24 })
+    const result = generateMnemonic({ language: MnemonicLanguage.Spanish, strength: MnemonicStrength.Double })
     // ASSERT
     expect(typeof result).toEqual('string')
     expect(result.split(' ').length).toEqual(24)

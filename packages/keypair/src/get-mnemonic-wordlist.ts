@@ -1,11 +1,16 @@
 import { wordlist as wordlistEnglish } from '@scure/bip39/wordlists/english'
 import { wordlist as wordlistSpanish } from '@scure/bip39/wordlists/spanish'
 
-export function getMnemonicWordlist(language: 'english' | 'spanish'): string[] {
+export enum MnemonicLanguage {
+  English = 'English',
+  Spanish = 'Spanish',
+}
+
+export function getMnemonicWordlist(language: MnemonicLanguage): string[] {
   switch (language) {
-    case 'english':
+    case MnemonicLanguage.English:
       return wordlistEnglish
-    case 'spanish':
+    case MnemonicLanguage.Spanish:
       return wordlistSpanish
     default:
       throw new Error(`Unsupported language: ${language}`)
