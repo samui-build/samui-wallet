@@ -33,7 +33,8 @@
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
       "esbuild",
-      "sharp"
+      "sharp",
+      "workerd"
     ]
   }
 }

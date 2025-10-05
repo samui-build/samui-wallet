@@ -4,6 +4,7 @@
   "type": "module",
   "private": true,
   "scripts": {
+    "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
@@ -14,6 +15,7 @@
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",

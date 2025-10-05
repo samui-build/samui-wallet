@@ -486,6 +486,9 @@ importers:
       '@workspace/db-react':
         specifier: workspace:*
         version: link:../db-react
+      '@workspace/keypair':
+        specifier: workspace:*
+        version: link:../keypair
       '@workspace/settings':
         specifier: workspace:*
         version: link:../settings
