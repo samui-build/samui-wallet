@@ -157,6 +157,24 @@ importers:
         specifier: latest
         version: 5.9.3
 
+  packages/core:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.6.0
+        version: 24.6.0
+      '@workspace/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@workspace/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: ^9.36.0
+        version: 9.36.0(jiti@2.5.1)
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.3
+
   packages/features:
     dependencies:
       '@radix-ui/react-slot':
