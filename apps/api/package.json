@@ -1,0 +1,21 @@
+{
+  "name": "api",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint \"./**/*.{ts,mjs}\""
+  },
+  "dependencies": {
+    "hono": "^4.9.10"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.17",
+    "tsx": "^4.7.1",
+    "typescript": "^5.8.3",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "eslint": "^9.36.0"
+  }
+}
