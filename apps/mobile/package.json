@@ -1,0 +1,27 @@
+{
+  "name": "mobile",
+  "private": true,
+  "version": "1.0.0",
+  "main": "index.ts",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "lint": "expo lint"
+  },
+  "dependencies": {
+    "expo": "~54.0.12",
+    "expo-status-bar": "~3.0.8",
+    "react": "19.1.0",
+    "react-native": "0.81.4"
+  },
+  "devDependencies": {
+    "@types/react": "~19.1.0",
+    "@workspace/config-eslint": "workspace:^",
+    "@workspace/config-typescript": "workspace:*",
+    "eslint": "^9.36.0",
+    "eslint-config-expo": "~10.0.0",
+    "typescript": "~5.9.2"
+  }
+}
