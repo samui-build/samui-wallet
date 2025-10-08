@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/db",
+  "version": "0.0.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint \"**/*.{ts,mjs}\""
+  },
+  "dependencies": {
+    "@libsql/client": "^0.15.15",
+    "@tursodatabase/database-wasm": "^0.2.2",
+    "@workspace/core": "workspace:*",
+    "drizzle-orm": "^0.44.6"
+  },
+  "devDependencies": {
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "@types/node": "^24.6.0",
+    "drizzle-kit": "^0.31.5",
+    "eslint": "^9.36.0",
+    "typescript": "^5.9.2"
+  }
+}
