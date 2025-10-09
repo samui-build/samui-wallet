@@ -13,6 +13,7 @@
     "lint": "eslint \"./**/*.{ts,mjs}\""
   },
   "dependencies": {
+    "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
