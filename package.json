@@ -20,7 +20,7 @@
     "pkg-pr-new": "^0.0.60",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
-    "typescript": "5.9.3",
+    "typescript": "catalog:",
     "vitest": "^3.2.4"
   },
   "packageManager": "pnpm@10.18.1",

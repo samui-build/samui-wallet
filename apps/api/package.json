@@ -13,9 +13,9 @@
   "devDependencies": {
     "@types/node": "^20.11.17",
     "tsx": "^4.7.1",
-    "typescript": "^5.8.3",
+    "typescript": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "^9.36.0"
+    "eslint": "catalog:"
   }
 }
