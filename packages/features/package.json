@@ -14,22 +14,22 @@
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
     "lucide-react": "^0.545.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "react": "catalog:",
+    "react-dom": "catalog:",
     "react-router": "^7.9.3"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@turbo/gen": "^2.5.8",
     "@types/node": "^24.7.0",
-    "@types/react": "^19.2.2",
-    "@types/react-dom": "^19.2.1",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "eslint": "^9.37.0",
+    "eslint": "catalog:",
     "jsdom": "^27.0.0",
-    "typescript": "^5.9.3",
+    "typescript": "catalog:",
     "vitest": "^3.2.4"
   },
   "exports": {
