@@ -12,7 +12,7 @@ export class Db extends Dexie {
   clusters!: Table<Cluster>
   wallets!: Table<Wallet>
 
-  constructor(private readonly config: DbConfig) {
+  constructor(config: DbConfig) {
     super(config.name)
     this.version(1).stores({
       accounts: 'id, name',
