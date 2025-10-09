@@ -1,0 +1,31 @@
+{
+  "name": "@workspace/db",
+  "version": "0.0.0",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint \"**/*.{ts,mjs}\"",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "dependencies": {
+    "@workspace/core": "workspace:*",
+    "dexie": "^4.2.1"
+  },
+  "devDependencies": {
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "@workspace/config-vitest": "workspace:*",
+    "@types/node": "^24.6.0",
+    "eslint": "^9.36.0",
+    "fake-indexeddb": "^6.2.2",
+    "typescript": "^5.9.2"
+  }
+}
