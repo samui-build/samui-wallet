@@ -1,9 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import type { Db } from './db'
-import { Wallet } from './entity/wallet'
 
-export type DbWalletFindManyInput = Pick<Wallet, 'accountId'> &
-  Partial<Pick<Wallet, 'id' | 'name' | 'publicKey' | 'type'>>
+import type { Db } from './db'
+import type { Wallet } from './entity/wallet'
+
+export type DbWalletFindManyInput = Partial<Pick<Wallet, 'id' | 'name' | 'publicKey' | 'type'>> &
+  Pick<Wallet, 'accountId'>
 
 export async function dbWalletFindMany(db: Db, input: DbWalletFindManyInput): Promise<Wallet[]> {
   const { data, error } = await tryCatch(db.wallets.where('accountId').equals(input.accountId).toArray())

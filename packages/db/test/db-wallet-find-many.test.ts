@@ -1,7 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest, randomName } from './test-helpers'
-import { dbWalletCreate, DbWalletCreateInput } from '../src/db-wallet-create'
+
+import type { DbWalletCreateInput } from '../src/db-wallet-create';
+
+import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
+import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
 

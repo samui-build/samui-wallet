@@ -1,8 +1,12 @@
 import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest, randomName } from './test-helpers'
-import { dbAccountCreate, DbAccountCreateInput } from '../src/db-account-create'
+
+import type { DbAccountCreateInput } from '../src/db-account-create';
+
+import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindMany } from '../src/db-account-find-many'
+import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
 
@@ -15,7 +19,7 @@ describe('db-account-create', () => {
     it('should create an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbAccountCreateInput = { name: randomName('account'), secret: 'bar', mnemonic: 'baz' }
+      const input: DbAccountCreateInput = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
 
       // ACT
       await dbAccountCreate(db, input)
@@ -38,7 +42,7 @@ describe('db-account-create', () => {
     it('should throw an error when creating an account fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbAccountCreateInput = { name: 'test', secret: 'bar', mnemonic: 'baz' }
+      const input: DbAccountCreateInput = { mnemonic: 'baz', name: 'test', secret: 'bar' }
       vi.spyOn(db.accounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )

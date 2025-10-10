@@ -1,10 +1,10 @@
-import { ClusterType } from './cluster-type'
+import type { ClusterType } from './cluster-type'
 
 export interface Cluster {
-  id: string
   createdAt: Date
-  updatedAt: Date
-  name: string
   endpoint: string
+  id: string
+  name: string
   type: ClusterType
+  updatedAt: Date
 }

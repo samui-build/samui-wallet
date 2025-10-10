@@ -1,7 +1,8 @@
 import Dexie, { type Table } from 'dexie'
-import { Account } from './entity/account'
-import { Cluster } from './entity/cluster'
-import { Wallet } from './entity/wallet'
+
+import type { Account } from './entity/account'
+import type { Cluster } from './entity/cluster'
+import type { Wallet } from './entity/wallet'
 
 export interface DbConfig {
   name: string

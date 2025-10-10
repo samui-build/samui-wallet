@@ -1,4 +1,5 @@
 import { useMemo } from 'react'
+
 import { useSettings } from './settings-provider.js'
 
 export function useSettingsDetail({ groupId }: { groupId: string }) {

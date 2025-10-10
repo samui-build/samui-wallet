@@ -11,7 +11,8 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint \"**/*.{ts,mjs}\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },

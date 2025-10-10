@@ -1,8 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import { type Db } from './db'
-import { Account } from './entity/account'
 
-export type DbAccountUpdateInput = Partial<Omit<Account, 'id' | 'createdAt' | 'updatedAt'>>
+import type { Account } from './entity/account'
+
+import { type Db } from './db'
+
+export type DbAccountUpdateInput = Partial<Omit<Account, 'createdAt' | 'id' | 'updatedAt'>>
 
 export async function dbAccountUpdate(db: Db, id: string, input: DbAccountUpdateInput): Promise<number> {
   const { data, error } = await tryCatch(

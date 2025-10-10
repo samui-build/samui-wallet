@@ -1,10 +1,11 @@
 import { useRoutes } from 'react-router'
-import { PortfolioFeatureIndex } from './portfolio-feature-index.js'
+
 import { CoreNotFound } from '../core/ui/core-not-found.js'
+import { PortfolioFeatureIndex } from './portfolio-feature-index.js'
 
 export default function PortfolioRoutes() {
   return useRoutes([
-    { index: true, element: <PortfolioFeatureIndex /> },
-    { path: '*', element: <CoreNotFound /> },
+    { element: <PortfolioFeatureIndex />, index: true },
+    { element: <CoreNotFound />, path: '*' },
   ])
 }

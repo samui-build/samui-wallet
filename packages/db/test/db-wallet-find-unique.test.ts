@@ -1,9 +1,13 @@
 import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest, randomName } from './test-helpers'
-import { dbWalletCreate, DbWalletCreateInput } from '../src/db-wallet-create'
+
+import type { DbWalletCreateInput } from '../src/db-wallet-create';
+import type { Wallet } from '../src/entity/wallet'
+
+import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { Wallet } from '../src/entity/wallet'
+import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
 
@@ -47,7 +51,7 @@ describe('db-wallet-find-unique', () => {
       expect.assertions(1)
       const id = 'test-id'
       vi.spyOn(db.wallets, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet | undefined>,
+        () => Promise.reject(new Error('Test error')) as PromiseExtended<undefined | Wallet>,
       )
 
       // ACT & ASSERT

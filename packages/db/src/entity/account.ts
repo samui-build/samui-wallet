@@ -1,8 +1,8 @@
 export interface Account {
-  id: string
   createdAt: Date
-  updatedAt: Date
+  id: string
+  mnemonic: string
   name: string
   secret: string
-  mnemonic: string
+  updatedAt: Date
 }

@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
+
 import type { Db } from './db'
-import { Account } from './entity/account'
+import type { Account } from './entity/account'
 
 export async function dbAccountFindUnique(db: Db, id: string): Promise<Account | undefined> {
   const { data, error } = await tryCatch(db.accounts.get(id))

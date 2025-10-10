@@ -6,7 +6,7 @@ export function CoreLayout({ links }: { links: { label: string; to: string }[] }
       <header className="bg-secondary/50 px-4 py-2">
         <div className="flex items-center gap-2">
           {links.map((link) => (
-            <NavLink key={link.to} className={({ isActive }) => (isActive ? 'font-bold' : '')} to={link.to}>
+            <NavLink className={({ isActive }) => (isActive ? 'font-bold' : '')} key={link.to} to={link.to}>
               {link.label}
             </NavLink>
           ))}

@@ -7,6 +7,7 @@
     "check-types": "turbo run check-types",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "prepare": "lefthook install",
     "test": "vitest run",
     "test:watch": "vitest --watch",

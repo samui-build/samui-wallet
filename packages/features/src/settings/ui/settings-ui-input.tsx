@@ -1,24 +1,23 @@
-import type { SettingsItem } from '../data-access/settings-item.js'
-import { SettingsType } from '../data-access/settings-type.js'
-import { Switch } from '@workspace/ui/components/switch.js'
 import type { ReactNode } from 'react'
-import { Label } from '@workspace/ui/components/label.js'
-import { Input } from '@workspace/ui/components/input.js'
 
-export function SettingsUiInputWrapper({ children }: { children: ReactNode }) {
-  return <div className="flex items-center justify-between gap-4">{children}</div>
-}
+import { Input } from '@workspace/ui/components/input.js'
+import { Label } from '@workspace/ui/components/label.js'
+import { Switch } from '@workspace/ui/components/switch.js'
+
+import type { SettingsItem } from '../data-access/settings-item.js'
+
+import { SettingsType } from '../data-access/settings-type.js'
 
 export function SettingsUiInput({ item }: { item: SettingsItem }) {
   switch (item.type) {
     case SettingsType.Boolean:
       return (
         <SettingsUiInputWrapper>
-          <Label htmlFor={item.id} className="flex flex-col items-start">
+          <Label className="flex flex-col items-start" htmlFor={item.id}>
             <span>{item.name}</span>
             <span className="text-muted-foreground leading-snug font-normal">{item.description}</span>
           </Label>
-          <Switch id={item.id} defaultChecked aria-label={item.name} />
+          <Switch aria-label={item.name} defaultChecked id={item.id} />
         </SettingsUiInputWrapper>
       )
     case SettingsType.Number:
@@ -26,7 +25,7 @@ export function SettingsUiInput({ item }: { item: SettingsItem }) {
         <SettingsUiInputWrapper>
           <div className="grid w-full max-w-sm items-center gap-3">
             <Label htmlFor={item.id}>{item.name}</Label>
-            <Input type="number" id={item.id} placeholder={item.name} />
+            <Input id={item.id} placeholder={item.name} type="number" />
           </div>
           <input type="number" />
         </SettingsUiInputWrapper>
@@ -34,12 +33,16 @@ export function SettingsUiInput({ item }: { item: SettingsItem }) {
     case SettingsType.String:
       return (
         <SettingsUiInputWrapper>
-          <Label htmlFor={item.id} className="flex flex-col items-start">
+          <Label className="flex flex-col items-start" htmlFor={item.id}>
             <span>{item.name}</span>
             <span className="text-muted-foreground leading-snug font-normal">{item.description}</span>
           </Label>
-          <Input type="text" id={item.id} placeholder={item.name} />
+          <Input id={item.id} placeholder={item.name} type="text" />
         </SettingsUiInputWrapper>
       )
   }
+}
+
+export function SettingsUiInputWrapper({ children }: { children: ReactNode }) {
+  return <div className="flex items-center justify-between gap-4">{children}</div>
 }

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import { SettingsProvider } from '../../settings/data-access/settings-provider.js'
 
 const queryClient = new QueryClient()

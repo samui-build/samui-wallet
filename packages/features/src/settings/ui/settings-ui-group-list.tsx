@@ -1,4 +1,5 @@
 import type { SettingsGroup } from '../data-access/settings-group.js'
+
 import { SettingsUiGroupItem } from './settings-ui-group-item.js'
 
 export function SettingsUiGroupList({ groups }: { groups: SettingsGroup[] }) {
@@ -7,7 +8,7 @@ export function SettingsUiGroupList({ groups }: { groups: SettingsGroup[] }) {
       {groups
         .filter((group) => group.items.length)
         .map((group) => (
-          <SettingsUiGroupItem key={group.id} group={group} />
+          <SettingsUiGroupItem group={group} key={group.id} />
         ))}
     </div>
   )

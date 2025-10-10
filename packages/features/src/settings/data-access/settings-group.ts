@@ -1,9 +1,8 @@
-import type { ForwardRefExoticComponent } from 'react'
-import * as react from 'react'
 import type { LucideProps } from 'lucide-react'
-import type { SettingsItem } from './settings-item.js'
+import type { ForwardRefExoticComponent } from 'react'
+import type * as react from 'react'
 
-export type SettingsIcon = ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & react.RefAttributes<SVGSVGElement>>
+import type { SettingsItem } from './settings-item.js'
 
 export interface SettingsGroup {
   description: string
@@ -12,3 +11,5 @@ export interface SettingsGroup {
   items: SettingsItem[]
   name: string
 }
+
+export type SettingsIcon = ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & react.RefAttributes<SVGSVGElement>>
