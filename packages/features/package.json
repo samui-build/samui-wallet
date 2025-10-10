@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
-    "@tanstack/react-query": "^5.90.2",
+    "@tanstack/react-query": "catalog:",
+    "@workspace/db": "workspace:*",
+    "@workspace/db-react": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
     "lucide-react": "^0.545.0",

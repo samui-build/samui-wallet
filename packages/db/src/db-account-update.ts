@@ -1,8 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
+import type { Database } from './database'
 import type { Account } from './entity/account'
-
-import { type Database } from './database'
 
 export type DbAccountUpdateInput = Partial<Omit<Account, 'createdAt' | 'id' | 'updatedAt'>>
 
