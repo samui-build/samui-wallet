@@ -9,7 +9,8 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint \"./**/*.{ts,mjs}\""
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",

@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
+
 import type { Db } from './db'
-import { Account } from './entity/account'
+import type { Account } from './entity/account'
 
 export type DbAccountFindManyInput = Partial<Pick<Account, 'id' | 'name'>>
 

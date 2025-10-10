@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
+
 import type { Db } from './db'
-import { Cluster } from './entity/cluster'
+import type { Cluster } from './entity/cluster'
 
 export async function dbClusterFindUnique(db: Db, id: string): Promise<Cluster | undefined> {
   const { data, error } = await tryCatch(db.clusters.get(id))

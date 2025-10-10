@@ -1,9 +1,13 @@
 import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest, randomName } from './test-helpers'
-import { dbAccountCreate, DbAccountCreateInput } from '../src/db-account-create'
+
+import type { DbAccountCreateInput } from '../src/db-account-create';
+
+import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindUnique } from '../src/db-account-find-unique'
 import { dbAccountUpdate } from '../src/db-account-update'
+import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
 
@@ -16,7 +20,7 @@ describe('db-account-update', () => {
     it('should update an account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: DbAccountCreateInput = { name: randomName('account'), secret: 'bar', mnemonic: 'baz' }
+      const input: DbAccountCreateInput = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
       const id = await dbAccountCreate(db, input)
       const newName = randomName('newName')
 

@@ -10,6 +10,7 @@ import {
   type SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features'
 import {
+  type IdentifierArray,
   StandardConnect,
   type StandardConnectFeature,
   StandardDisconnect,
@@ -17,39 +18,31 @@ import {
   StandardEvents,
   type StandardEventsFeature,
   type Wallet,
+  type WalletAccount,
   type WalletIcon,
   type WalletVersion,
-  type IdentifierArray,
-  type WalletAccount,
 } from '@wallet-standard/core'
+
 import { connect } from './features/connect'
 import { disconnect } from './features/disconnect'
 import { on } from './features/events'
 import { signAndSendTransaction } from './features/sign-and-send-transaction'
-import { signTransaction } from './features/sign-transaction'
-import { signMessage } from './features/sign-message'
 import { signIn } from './features/sign-in'
+import { signMessage } from './features/sign-message'
+import { signTransaction } from './features/sign-transaction'
 import { icon } from './icon'
 
-type WalletFeatures = StandardConnectFeature &
-  StandardDisconnectFeature &
-  StandardEventsFeature &
-  SolanaSignAndSendTransactionFeature &
-  SolanaSignTransactionFeature &
+type WalletFeatures = SolanaSignAndSendTransactionFeature &
+  SolanaSignInFeature &
   SolanaSignMessageFeature &
-  SolanaSignInFeature
+  SolanaSignTransactionFeature &
+  StandardConnectFeature &
+  StandardDisconnectFeature &
+  StandardEventsFeature
 
 export class SamuiWallet implements Wallet {
-  get version(): WalletVersion {
-    return '1.0.0'
-  }
-
-  get name(): string {
-    return 'Samui'
-  }
-
-  get icon(): WalletIcon {
-    return icon
+  get accounts(): readonly WalletAccount[] {
+    return []
   }
 
   get chains(): IdentifierArray {
@@ -58,40 +51,48 @@ export class SamuiWallet implements Wallet {
 
   get features(): WalletFeatures {
     return {
-      [StandardConnect]: {
-        version: this.version,
-        connect,
-      },
-      [StandardDisconnect]: {
-        version: this.version,
-        disconnect,
-      },
-      [StandardEvents]: {
-        version: this.version,
-        on,
-      },
       [SolanaSignAndSendTransaction]: {
-        version: this.version,
-        supportedTransactionVersions: ['legacy', 0],
         signAndSendTransaction,
-      },
-      [SolanaSignTransaction]: {
-        version: this.version,
         supportedTransactionVersions: ['legacy', 0],
-        signTransaction,
-      },
-      [SolanaSignMessage]: {
         version: this.version,
-        signMessage,
       },
       [SolanaSignIn]: {
-        version: this.version,
         signIn,
+        version: this.version,
+      },
+      [SolanaSignMessage]: {
+        signMessage,
+        version: this.version,
+      },
+      [SolanaSignTransaction]: {
+        signTransaction,
+        supportedTransactionVersions: ['legacy', 0],
+        version: this.version,
+      },
+      [StandardConnect]: {
+        connect,
+        version: this.version,
+      },
+      [StandardDisconnect]: {
+        disconnect,
+        version: this.version,
+      },
+      [StandardEvents]: {
+        on,
+        version: this.version,
       },
     }
   }
 
-  get accounts(): readonly WalletAccount[] {
-    return []
+  get icon(): WalletIcon {
+    return icon
+  }
+
+  get name(): string {
+    return 'Samui'
+  }
+
+  get version(): WalletVersion {
+    return '1.0.0'
   }
 }

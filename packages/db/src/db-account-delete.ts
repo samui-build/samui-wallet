@@ -1,4 +1,5 @@
 import { tryCatch } from '@workspace/core/try-catch'
+
 import type { Db } from './db'
 
 export async function dbAccountDelete(db: Db, id: string): Promise<void> {

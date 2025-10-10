@@ -9,7 +9,8 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint \"**/{src}/**/*.{ts,mjs}\""
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
     "@workspace/config-eslint": "workspace:*",

@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
+
 import type { Db } from './db'
-import { Cluster } from './entity/cluster'
+import type { Cluster } from './entity/cluster'
 
 export type DbClusterFindManyInput = Partial<Pick<Cluster, 'endpoint' | 'id' | 'name' | 'type'>>
 

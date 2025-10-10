@@ -1,8 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import type { Db } from './db'
-import { Cluster } from './entity/cluster'
 
-export type DbClusterUpdateInput = Partial<Omit<Cluster, 'id' | 'createdAt' | 'updatedAt'>>
+import type { Db } from './db'
+import type { Cluster } from './entity/cluster'
+
+export type DbClusterUpdateInput = Partial<Omit<Cluster, 'createdAt' | 'id' | 'updatedAt'>>
 
 export async function dbClusterUpdate(db: Db, id: string, input: DbClusterUpdateInput): Promise<number> {
   const { data, error } = await tryCatch(

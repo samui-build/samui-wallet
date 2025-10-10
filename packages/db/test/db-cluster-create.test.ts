@@ -1,8 +1,12 @@
 import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest, randomName } from './test-helpers'
-import { dbClusterCreate, DbClusterCreateInput } from '../src/db-cluster-create'
+
+import type { DbClusterCreateInput } from '../src/db-cluster-create';
+
+import { dbClusterCreate } from '../src/db-cluster-create'
 import { dbClusterFindMany } from '../src/db-cluster-find-many'
+import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
 
@@ -16,8 +20,8 @@ describe('db-cluster-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input: DbClusterCreateInput = {
-        name: randomName('cluster'),
         endpoint: 'http://localhost:8899',
+        name: randomName('cluster'),
         type: 'solana:devnet',
       }
 
@@ -43,8 +47,8 @@ describe('db-cluster-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input: DbClusterCreateInput = {
-        name: 'test',
         endpoint: 'http://localhost:8899',
+        name: 'test',
         type: 'solana:devnet',
       }
       vi.spyOn(db.clusters, 'add').mockImplementationOnce(

@@ -1,9 +1,13 @@
 import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createDbTest } from './test-helpers'
-import { dbClusterCreate, DbClusterCreateInput } from '../src/db-cluster-create'
+
+import type { DbClusterCreateInput } from '../src/db-cluster-create';
+import type { Cluster } from '../src/entity/cluster'
+
+import { dbClusterCreate } from '../src/db-cluster-create'
 import { dbClusterFindMany } from '../src/db-cluster-find-many'
-import { Cluster } from '../src/entity/cluster'
+import { createDbTest } from './test-helpers'
 
 const db = createDbTest()
 
@@ -16,9 +20,9 @@ describe('db-cluster', () => {
     it('should find many clusters by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
-      const cluster1: DbClusterCreateInput = { name: 'Test Cluster Alpha', endpoint: 'ep1', type: 'solana:devnet' }
-      const cluster2: DbClusterCreateInput = { name: 'Test Cluster Beta', endpoint: 'ep2', type: 'solana:devnet' }
-      const cluster3: DbClusterCreateInput = { name: 'Another One', endpoint: 'ep3', type: 'solana:devnet' }
+      const cluster1: DbClusterCreateInput = { endpoint: 'ep1', name: 'Test Cluster Alpha', type: 'solana:devnet' }
+      const cluster2: DbClusterCreateInput = { endpoint: 'ep2', name: 'Test Cluster Beta', type: 'solana:devnet' }
+      const cluster3: DbClusterCreateInput = { endpoint: 'ep3', name: 'Another One', type: 'solana:devnet' }
       await dbClusterCreate(db, cluster1)
       await dbClusterCreate(db, cluster2)
       await dbClusterCreate(db, cluster3)
@@ -34,8 +38,8 @@ describe('db-cluster', () => {
     it('should find many clusters by id', async () => {
       // ARRANGE
       expect.assertions(2)
-      const cluster1: DbClusterCreateInput = { name: 'Test Cluster Alpha', endpoint: 'ep1', type: 'solana:devnet' }
-      const cluster2: DbClusterCreateInput = { name: 'Test Cluster Beta', endpoint: 'ep2', type: 'solana:mainnet' }
+      const cluster1: DbClusterCreateInput = { endpoint: 'ep1', name: 'Test Cluster Alpha', type: 'solana:devnet' }
+      const cluster2: DbClusterCreateInput = { endpoint: 'ep2', name: 'Test Cluster Beta', type: 'solana:mainnet' }
       const id1 = await dbClusterCreate(db, cluster1)
       await dbClusterCreate(db, cluster2)
 
@@ -50,9 +54,9 @@ describe('db-cluster', () => {
     it('should find many clusters by type', async () => {
       // ARRANGE
       expect.assertions(2)
-      const cluster1: DbClusterCreateInput = { name: 'Test Cluster Alpha', endpoint: 'ep1', type: 'solana:devnet' }
-      const cluster2: DbClusterCreateInput = { name: 'Test Cluster Beta', endpoint: 'ep2', type: 'solana:mainnet' }
-      const cluster3: DbClusterCreateInput = { name: 'Another One', endpoint: 'ep3', type: 'solana:devnet' }
+      const cluster1: DbClusterCreateInput = { endpoint: 'ep1', name: 'Test Cluster Alpha', type: 'solana:devnet' }
+      const cluster2: DbClusterCreateInput = { endpoint: 'ep2', name: 'Test Cluster Beta', type: 'solana:mainnet' }
+      const cluster3: DbClusterCreateInput = { endpoint: 'ep3', name: 'Another One', type: 'solana:devnet' }
       await dbClusterCreate(db, cluster1)
       await dbClusterCreate(db, cluster2)
       await dbClusterCreate(db, cluster3)
@@ -69,18 +73,18 @@ describe('db-cluster', () => {
       // ARRANGE
       expect.assertions(2)
       const cluster1: DbClusterCreateInput = {
-        name: 'Test Cluster Alpha',
         endpoint: 'http://test.com',
+        name: 'Test Cluster Alpha',
         type: 'solana:devnet',
       }
       const cluster2: DbClusterCreateInput = {
-        name: 'Test Cluster Beta',
         endpoint: 'http://test.com',
+        name: 'Test Cluster Beta',
         type: 'solana:devnet',
       }
       const cluster3: DbClusterCreateInput = {
-        name: 'Another One',
         endpoint: 'http://another.com',
+        name: 'Another One',
         type: 'solana:devnet',
       }
       await dbClusterCreate(db, cluster1)
@@ -98,9 +102,9 @@ describe('db-cluster', () => {
     it('should find many clusters by a partial name and type', async () => {
       // ARRANGE
       expect.assertions(2)
-      const cluster1: DbClusterCreateInput = { name: 'Test Cluster Alpha', endpoint: 'ep1', type: 'solana:devnet' }
-      const cluster2: DbClusterCreateInput = { name: 'Test Cluster Beta', endpoint: 'ep2', type: 'solana:mainnet' }
-      const cluster3: DbClusterCreateInput = { name: 'Another One', endpoint: 'ep3', type: 'solana:devnet' }
+      const cluster1: DbClusterCreateInput = { endpoint: 'ep1', name: 'Test Cluster Alpha', type: 'solana:devnet' }
+      const cluster2: DbClusterCreateInput = { endpoint: 'ep2', name: 'Test Cluster Beta', type: 'solana:mainnet' }
+      const cluster3: DbClusterCreateInput = { endpoint: 'ep3', name: 'Another One', type: 'solana:devnet' }
       await dbClusterCreate(db, cluster1)
       await dbClusterCreate(db, cluster2)
       await dbClusterCreate(db, cluster3)
