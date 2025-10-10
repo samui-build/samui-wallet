@@ -1,10 +1,10 @@
 import 'fake-indexeddb/auto'
 
-import type { Db } from '../src/db'
+import type { Database } from '../src/database'
 
 import { createDb } from '../src/create-db'
 
-export function createDbTest(): Db {
+export function createDbTest(): Database {
   return createDb({ name: 'test' })
 }
 
