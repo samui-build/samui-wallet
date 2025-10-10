@@ -4,7 +4,7 @@ import type { Account } from './entity/account'
 import type { Cluster } from './entity/cluster'
 import type { Wallet } from './entity/wallet'
 
-export interface DbConfig {
+export interface DatabaseConfig {
   name: string
 }
 
@@ -13,7 +13,7 @@ export class Database extends Dexie {
   clusters!: Table<Cluster>
   wallets!: Table<Wallet>
 
-  constructor(private readonly config: DbConfig) {
+  constructor(config: DatabaseConfig) {
     super(config.name)
     this.version(1).stores({
       accounts: 'id, name',

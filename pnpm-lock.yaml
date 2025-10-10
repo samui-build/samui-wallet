@@ -9,6 +9,9 @@ catalogs:
     '@eslint/js':
       specifier: 9.37.0
       version: 9.37.0
+    '@tanstack/react-query':
+      specifier: 5.90.2
+      version: 5.90.2
     '@types/react':
       specifier: 19.2.2
       version: 19.2.2
@@ -335,14 +338,60 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
+  packages/db-react:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.90.2(react@19.2.0)
+      '@workspace/db':
+        specifier: workspace:*
+        version: link:../db
+      react:
+        specifier: 'catalog:'
+        version: 19.2.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.0(react@19.2.0)
+    devDependencies:
+      '@types/node':
+        specifier: ^24.6.0
+        version: 24.7.0
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.1(@types/react@19.2.2)
+      '@workspace/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@workspace/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      '@workspace/config-vitest':
+        specifier: workspace:*
+        version: link:../config-vitest
+      eslint:
+        specifier: 'catalog:'
+        version: 9.37.0(jiti@2.6.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
   packages/features:
     dependencies:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.2.3(@types/react@19.2.2)(react@19.2.0)
       '@tanstack/react-query':
-        specifier: ^5.90.2
+        specifier: 'catalog:'
         version: 5.90.2(react@19.2.0)
+      '@workspace/db':
+        specifier: workspace:*
+        version: link:../db
+      '@workspace/db-react':
+        specifier: workspace:*
+        version: link:../db-react
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui

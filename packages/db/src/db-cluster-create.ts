@@ -1,8 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
+import type { Database } from './database'
 import type { Cluster } from './entity/cluster'
-
-import { type Database } from './database'
 
 export type DbClusterCreateInput = Omit<Cluster, 'createdAt' | 'id' | 'updatedAt'>
 
