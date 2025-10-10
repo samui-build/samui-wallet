@@ -9,8 +9,8 @@
   },
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
