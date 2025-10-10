@@ -10,8 +10,8 @@
     "compile": "tsc --noEmit",
     "postinstall": "wxt prepare",
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "dependencies": {
     "@workspace/wallet-standard": "workspace:*",
