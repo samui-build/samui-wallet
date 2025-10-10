@@ -2,11 +2,11 @@ import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Cluster } from './entity/cluster'
 
-import { type Db } from './db'
+import { type Database } from './database'
 
 export type DbClusterCreateInput = Omit<Cluster, 'createdAt' | 'id' | 'updatedAt'>
 
-export async function dbClusterCreate(db: Db, input: DbClusterCreateInput): Promise<string> {
+export async function dbClusterCreate(db: Database, input: DbClusterCreateInput): Promise<string> {
   const now = new Date()
   const { data, error } = await tryCatch(
     db.clusters.add({

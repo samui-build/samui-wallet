@@ -1,11 +1,11 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Db } from './db'
+import type { Database } from './database'
 import type { Cluster } from './entity/cluster'
 
 export type DbClusterFindManyInput = Partial<Pick<Cluster, 'endpoint' | 'id' | 'name' | 'type'>>
 
-export async function dbClusterFindMany(db: Db, input: DbClusterFindManyInput = {}): Promise<Cluster[]> {
+export async function dbClusterFindMany(db: Database, input: DbClusterFindManyInput = {}): Promise<Cluster[]> {
   const { data, error } = await tryCatch(db.clusters.toArray())
   if (error) {
     console.log(error)
