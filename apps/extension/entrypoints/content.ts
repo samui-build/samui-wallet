@@ -1,8 +1,8 @@
-import { allowWindowMessaging } from 'webext-bridge/content-script'
+import { setupContentScript } from '@workspace/background/setup-content-script'
 
 export default defineContentScript({
   async main() {
-    allowWindowMessaging('samui')
+    setupContentScript()
 
     await injectScript('/injected.js', {
       keepInDom: true,

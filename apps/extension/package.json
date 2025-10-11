@@ -14,10 +14,10 @@
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "dependencies": {
+    "@workspace/background": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:",
-    "webext-bridge": "^6.0.1"
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@types/react": "catalog:",

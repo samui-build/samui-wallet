@@ -1,6 +1,10 @@
 import type { SolanaSignMessageInput, SolanaSignMessageOutput } from '@solana/wallet-standard-features'
 
+import { sendSignMessage } from '@workspace/background/send-message'
+
 export async function signMessage(...inputs: SolanaSignMessageInput[]): Promise<SolanaSignMessageOutput[]> {
-  console.log('signMessage called', inputs)
-  return Promise.resolve([])
+  const response = await sendSignMessage(inputs)
+  console.log('Sign Message', response)
+
+  return response
 }
