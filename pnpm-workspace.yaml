@@ -1,5 +1,6 @@
 catalog:
   '@eslint/js': 9.37.0
+  '@solana/kit': 4.0.0
   '@tailwindcss/postcss': 4.1.14
   '@tailwindcss/vite': 4.1.14
   '@tanstack/react-query': 5.90.2
