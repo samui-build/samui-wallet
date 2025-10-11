@@ -16,24 +16,24 @@
     "@workspace/db-react": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
-    "lucide-react": "^0.545.0",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "^7.9.3"
+    "react-router": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.14",
+    "@tailwindcss/postcss": "catalog:",
     "@turbo/gen": "^2.5.8",
-    "@types/node": "^24.7.0",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
-    "jsdom": "^27.0.0",
+    "jsdom": "catalog:",
     "typescript": "catalog:",
-    "vitest": "^3.2.4"
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": "./src/*.ts"

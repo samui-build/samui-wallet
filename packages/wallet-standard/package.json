@@ -13,11 +13,11 @@
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "devDependencies": {
-    "@types/node": "^24.6.0",
+    "@types/node": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "^9.36.0",
-    "typescript": "^5.9.2"
+    "eslint": "catalog:",
+    "typescript": "catalog:"
   },
   "dependencies": {
     "@solana/wallet-standard-chains": "^1.1.1",
