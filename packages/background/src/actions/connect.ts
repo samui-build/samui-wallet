@@ -1,10 +1,7 @@
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 
-import { sendConnectMessage } from '@workspace/background/send-message'
-
 export async function connect(input?: StandardConnectInput): Promise<StandardConnectOutput> {
-  const response = await sendConnectMessage(input)
-  console.log('Connect', response)
+  console.log('Connect', input)
 
-  return response
+  return { accounts: [] }
 }

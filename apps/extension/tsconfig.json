@@ -3,5 +3,6 @@
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx"
-  }
+  },
+  "include": ["../../packages/background/webext-bridge.d.ts"]
 }

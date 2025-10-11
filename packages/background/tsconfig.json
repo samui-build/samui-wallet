@@ -3,8 +3,8 @@
   "compilerOptions": {
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "outDir": "dist"
+    "outDir": "dist",
   },
-  "include": ["src", "../../packages/background/webext-bridge.d.ts"],
+  "include": ["src", "webext-bridge.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

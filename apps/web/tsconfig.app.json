@@ -29,5 +29,5 @@
       "@workspace/ui/*": ["../../packages/ui/src/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "../../packages/background/webext-bridge.d.ts"]
 }

@@ -1,3 +1,6 @@
+import { sendDisconnectMessage } from '@workspace/background/send-message'
+
 export async function disconnect(): Promise<void> {
-  console.log('disconnect called')
+  const response = await sendDisconnectMessage()
+  console.log('Disconnect', response)
 }
