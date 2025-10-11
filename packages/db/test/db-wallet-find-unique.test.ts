@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbWalletCreateInput } from '../src/db-wallet-create';
+import type { DbWalletCreateInput } from '../src/db-wallet-create'
 import type { Wallet } from '../src/entity/wallet'
 
 import { dbWalletCreate } from '../src/db-wallet-create'

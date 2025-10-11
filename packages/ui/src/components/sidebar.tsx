@@ -1,6 +1,6 @@
 'use client'
 
-import type { VariantProps } from 'class-variance-authority';
+import type { VariantProps } from 'class-variance-authority'
 
 import { Slot } from '@radix-ui/react-slot'
 import { Button } from '@workspace/ui/components/button'
@@ -526,7 +526,8 @@ function SidebarMenuButton({
   asChild?: boolean
   isActive?: boolean
   tooltip?: React.ComponentProps<typeof TooltipContent> | string
-} & React.ComponentProps<'button'> & VariantProps<typeof sidebarMenuButtonVariants>) {
+} & React.ComponentProps<'button'> &
+  VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
   const { isMobile, state } = useSidebar()
 

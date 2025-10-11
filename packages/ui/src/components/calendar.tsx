@@ -1,6 +1,6 @@
 'use client'
 
-import type { DayButton} from 'react-day-picker';
+import type { DayButton } from 'react-day-picker'
 
 import { Button, buttonVariants } from '@workspace/ui/components/button'
 import { cn } from '@workspace/ui/lib/utils'

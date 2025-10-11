@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbAccountCreateInput } from '../src/db-account-create';
+import type { DbAccountCreateInput } from '../src/db-account-create'
 import type { Account } from '../src/entity/account'
 
 import { dbAccountCreate } from '../src/db-account-create'
