@@ -16,7 +16,7 @@
     "@workspace/db-react": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
-    "lucide-react": "^0.545.0",
+    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router": "^7.9.3"
@@ -24,7 +24,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",
     "@turbo/gen": "^2.5.8",
-    "@types/node": "^24.7.0",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",

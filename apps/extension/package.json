@@ -14,13 +14,17 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@workspace/extension-shell": "workspace:*",
+    "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@wxt-dev/auto-icons": "^1.1.0",
     "@wxt-dev/module-react": "^1.1.3",
     "typescript": "catalog:",
     "wxt": "^0.20.6",

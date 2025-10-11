@@ -24,7 +24,7 @@
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "@types/node": "^24.6.0",
+    "@types/node": "catalog:",
     "eslint": "^9.36.0",
     "fake-indexeddb": "^6.2.2",
     "typescript": "^5.9.2"

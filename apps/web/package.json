@@ -11,13 +11,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@tailwindcss/vite": "^4.1.14",
+    "@tailwindcss/vite": "catalog:",
     "@workspace/features": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "^7.9.3"
+    "react-router": "catalog:"
   },
   "devDependencies": {
     "@eslint/js": "catalog:",

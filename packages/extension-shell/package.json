@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/{{name}}",
+  "name": "@workspace/extension-shell",
   "version": "0.0.0",
   "private": false,
   "license": "MIT",
@@ -21,7 +21,13 @@
     "typescript": "catalog:"
   },
   "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@workspace/core": "workspace:*",
+    "@workspace/db": "workspace:*",
+    "@workspace/ui": "workspace:*",
+    "lucide-react": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-router": "catalog:"
   }
 }

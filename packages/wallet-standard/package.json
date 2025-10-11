@@ -13,7 +13,7 @@
     "lint:fix": "eslint . --fix"
   },
   "devDependencies": {
-    "@types/node": "^24.6.0",
+    "@types/node": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "^9.36.0",
