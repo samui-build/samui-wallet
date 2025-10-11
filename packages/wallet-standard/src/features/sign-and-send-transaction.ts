@@ -3,9 +3,13 @@ import type {
   SolanaSignAndSendTransactionOutput,
 } from '@solana/wallet-standard-features'
 
+import { sendMessage } from '@workspace/background/window'
+
 export async function signAndSendTransaction(
   ...inputs: SolanaSignAndSendTransactionInput[]
 ): Promise<SolanaSignAndSendTransactionOutput[]> {
-  console.log('signAndSendTransaction called', inputs)
-  return Promise.resolve([])
+  const response = await sendMessage('signAndSendTransaction', inputs)
+  console.log('Sign and Send Transaction', response)
+
+  return response
 }

@@ -1,7 +1,5 @@
-import { onMessage } from 'webext-bridge/background'
-
-import { ACTIONS } from '../utils/actions'
+import { handlers } from '@workspace/background/background'
 
 export default defineBackground(() => {
-  onMessage(ACTIONS.PING, async ({ data }) => data)
+  handlers()
 })
