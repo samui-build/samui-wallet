@@ -61,7 +61,7 @@ function useChart() {
   return context
 }
 
-const ChartStyle = ({ config, id }: { config: ChartConfig; id: string; }) => {
+const ChartStyle = ({ config, id }: { config: ChartConfig; id: string }) => {
   const colorConfig = Object.entries(config).filter(([, config]) => config.theme || config.color)
 
   if (!colorConfig.length) {
@@ -107,13 +107,13 @@ function ChartTooltipContent({
   nameKey,
   payload,
 }: {
-    hideIndicator?: boolean
-    hideLabel?: boolean
-    indicator?: 'dashed' | 'dot' | 'line'
-    labelKey?: string
-    nameKey?: string
-  } &
-  React.ComponentProps<'div'> & React.ComponentProps<typeof RechartsPrimitive.Tooltip>) {
+  hideIndicator?: boolean
+  hideLabel?: boolean
+  indicator?: 'dashed' | 'dot' | 'line'
+  labelKey?: string
+  nameKey?: string
+} & React.ComponentProps<'div'> &
+  React.ComponentProps<typeof RechartsPrimitive.Tooltip>) {
   const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
@@ -227,10 +227,10 @@ function ChartLegendContent({
   payload,
   verticalAlign = 'bottom',
 }: {
-    hideIcon?: boolean
-    nameKey?: string
-  } &
-  Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> & React.ComponentProps<'div'>) {
+  hideIcon?: boolean
+  nameKey?: string
+} & Pick<RechartsPrimitive.LegendProps, 'payload' | 'verticalAlign'> &
+  React.ComponentProps<'div'>) {
   const { config } = useChart()
 
   if (!payload?.length) {

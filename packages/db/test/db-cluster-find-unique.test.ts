@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbClusterCreateInput } from '../src/db-cluster-create';
+import type { DbClusterCreateInput } from '../src/db-cluster-create'
 import type { Cluster } from '../src/entity/cluster'
 
 import { dbClusterCreate } from '../src/db-cluster-create'
