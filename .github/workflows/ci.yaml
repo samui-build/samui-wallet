@@ -74,3 +74,20 @@ jobs:
 
       - name: Test
         run: pnpm test
+
+  test-browser:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Install Playwright
+        run: pnpm exec playwright install chromium
+        working-directory: apps/web
+
+      - name: Test Browser
+        run: pnpm test:browser
+        working-directory: apps/web

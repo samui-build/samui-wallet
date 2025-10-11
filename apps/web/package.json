@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
     "build": "tsc -b && vite build",
+    "dev": "vite",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:browser": "vitest --config=vitest.browser.config.ts --run",
+    "test:browser:watch": "vitest --config=vitest.browser.config.ts"
   },
   "dependencies": {
     "@tailwindcss/vite": "catalog:",
@@ -24,15 +26,18 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^5.0.4",
+    "@vitest/browser": "^3.2.4",
     "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
     "eslint-plugin-react-hooks": "^6.1.1",
     "eslint-plugin-react-refresh": "^0.4.23",
     "globals": "catalog:",
+    "playwright": "^1.56.0",
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "^7.1.9",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest-browser-react": "^1.0.1"
   }
 }
