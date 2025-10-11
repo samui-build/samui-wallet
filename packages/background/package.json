@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/wallet-standard",
+  "name": "@workspace/background",
   "version": "0.0.0",
   "private": false,
   "license": "MIT",
@@ -20,9 +20,8 @@
     "typescript": "catalog:"
   },
   "dependencies": {
-    "@solana/wallet-standard-chains": "^1.1.1",
     "@solana/wallet-standard-features": "^1.3.0",
     "@wallet-standard/core": "^1.1.1",
-    "@workspace/background": "workspace:*"
+    "@webext-core/messaging": "^2.3.0"
   }
 }
