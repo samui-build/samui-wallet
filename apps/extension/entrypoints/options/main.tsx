@@ -1,21 +1,13 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ExtensionProviders } from '@workspace/extension-shell/extension-providers'
 import { ExtensionPage, ExtensionShell } from '@workspace/extension-shell/extension-shell'
 import React from 'react'
-import ReactDOM from 'react-dom/client'
 import '@workspace/ui/globals.css'
-
-import { App } from './app'
-
-const queryClient = new QueryClient()
+import ReactDOM from 'react-dom/client'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ExtensionProviders>
-      <QueryClientProvider client={queryClient}>
-        <App />
-        <ExtensionShell page={ExtensionPage.Popup} />
-      </QueryClientProvider>
+      <ExtensionShell page={ExtensionPage.Options} />
     </ExtensionProviders>
   </React.StrictMode>,
 )
