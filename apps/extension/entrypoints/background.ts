@@ -1,4 +1,7 @@
+import { onMessage } from 'webext-bridge/background'
+
+import { ACTIONS } from '../utils/actions'
+
 export default defineBackground(() => {
-  // TODO: Validate messages before handling them
-  browser.runtime.onMessage.addListener((message, sender) => console.log(message, sender))
+  onMessage(ACTIONS.PING, async ({ data }) => data)
 })
