@@ -22,7 +22,7 @@
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
     "typescript": "catalog:",
-    "vitest": "^3.2.4"
+    "vitest": "catalog:"
   },
   "packageManager": "pnpm@10.18.1",
   "engines": {
@@ -31,7 +31,8 @@
   "pnpm": {
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
-      "esbuild"
+      "esbuild",
+      "sharp"
     ]
   }
 }

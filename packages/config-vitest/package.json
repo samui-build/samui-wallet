@@ -9,10 +9,10 @@
     "dev": "tsc --watch"
   },
   "dependencies": {
-    "vitest": "latest"
+    "vitest": "catalog:"
   },
   "devDependencies": {
     "@workspace/config-typescript": "workspace:*",
-    "typescript": "latest"
+    "typescript": "catalog:"
   }
 }
