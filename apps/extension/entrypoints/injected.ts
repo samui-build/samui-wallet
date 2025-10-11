@@ -1,8 +1,24 @@
 import { setup } from '@workspace/wallet-standard'
+import { sendMessage, setNamespace } from 'webext-bridge/window'
+
+import { ACTIONS } from '../utils/actions'
+
+const sendPingMessage = async () => {
+  const response = await sendMessage(
+    ACTIONS.PING,
+    {
+      data: 'Hello, World!',
+    },
+    'background',
+  )
+
+  console.log('Response from background:', response)
+}
 
 export default defineUnlistedScript(() => {
-  // TODO: Use externally_connectable when Firefox supports it https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/externally_connectable
-  window.postMessage({ text: 'Hello World', type: 'PING' }, '*')
+  setNamespace('samui')
 
   setup()
+
+  sendPingMessage()
 })
