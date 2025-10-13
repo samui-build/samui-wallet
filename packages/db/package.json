@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "@workspace/core": "workspace:*",
-    "dexie": "^4.2.1"
+    "dexie": "^4.2.1",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@workspace/config-eslint": "workspace:*",

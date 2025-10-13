@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbAccountCreateInput } from '../src/db-account-create'
+import type { AccountInputCreate } from '../src/dto/account-input-create'
 import type { Account } from '../src/entity/account'
 
 import { dbAccountCreate } from '../src/db-account-create'
@@ -20,7 +20,7 @@ describe('db-account-find-unique', () => {
     it('should find a unique account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: DbAccountCreateInput = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
+      const input: AccountInputCreate = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
       const id = await dbAccountCreate(db, input)
 
       // ACT

@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbWalletCreateInput } from '../src/db-wallet-create'
+import type { WalletInputCreate } from '../src/dto/wallet-input-create'
 
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
@@ -20,7 +20,7 @@ describe('db-wallet-create', () => {
       // ARRANGE
       expect.assertions(1)
       const accountId = crypto.randomUUID()
-      const input: DbWalletCreateInput = {
+      const input: WalletInputCreate = {
         accountId,
         name: randomName('wallet'),
         publicKey: crypto.randomUUID(),
@@ -48,7 +48,7 @@ describe('db-wallet-create', () => {
     it('should throw an error when creating a wallet fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbWalletCreateInput = {
+      const input: WalletInputCreate = {
         accountId: 'test-account',
         name: 'test',
         publicKey: 'test-pk',

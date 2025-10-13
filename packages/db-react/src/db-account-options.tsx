@@ -1,19 +1,23 @@
+import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
+import type { AccountInputFindMany } from '@workspace/db/dto/account-input-find-many'
+import type { AccountInputUpdate } from '@workspace/db/dto/account-input-update'
+
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
 import { db } from '@workspace/db/db'
-import { dbAccountCreate, type DbAccountCreateInput } from '@workspace/db/db-account-create'
+import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbAccountDelete } from '@workspace/db/db-account-delete'
-import { dbAccountFindMany, type DbAccountFindManyInput } from '@workspace/db/db-account-find-many'
+import { dbAccountFindMany } from '@workspace/db/db-account-find-many'
 import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
-import { dbAccountUpdate, type DbAccountUpdateInput } from '@workspace/db/db-account-update'
+import { dbAccountUpdate } from '@workspace/db/db-account-update'
 
-export type DbAccountCreateMutateOptions = MutateOptions<string, Error, { input: DbAccountCreateInput }>
+export type DbAccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountInputCreate }>
 export type DbAccountDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
-export type DbAccountUpdateMutateOptions = MutateOptions<number, Error, { input: DbAccountUpdateInput }>
+export type DbAccountUpdateMutateOptions = MutateOptions<number, Error, { input: AccountInputUpdate }>
 
 export const dbAccountOptions = {
   create: (props: DbAccountCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: DbAccountCreateInput }) => dbAccountCreate(db, input),
+      mutationFn: ({ input }: { input: AccountInputCreate }) => dbAccountCreate(db, input),
       ...props,
     }),
   delete: (props: DbAccountDeleteMutateOptions = {}) =>
@@ -21,7 +25,7 @@ export const dbAccountOptions = {
       mutationFn: ({ id }: { id: string }) => dbAccountDelete(db, id),
       ...props,
     }),
-  findMany: (input: DbAccountFindManyInput) =>
+  findMany: (input: AccountInputFindMany) =>
     queryOptions({
       queryFn: () => dbAccountFindMany(db, input),
       queryKey: ['dbAccountFindMany', input],
@@ -33,7 +37,7 @@ export const dbAccountOptions = {
     }),
   update: (props: DbAccountUpdateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id, input }: { id: string; input: DbAccountUpdateInput }) => dbAccountUpdate(db, id, input),
+      mutationFn: ({ id, input }: { id: string; input: AccountInputUpdate }) => dbAccountUpdate(db, id, input),
       ...props,
     }),
 }

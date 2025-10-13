@@ -1,8 +1,5 @@
-export interface Account {
-  createdAt: Date
-  id: string
-  mnemonic: string
-  name: string
-  secret: string
-  updatedAt: Date
-}
+import type { z } from 'zod'
+
+import type { accountSchema } from '../schema/account-schema'
+
+export type Account = z.infer<typeof accountSchema>

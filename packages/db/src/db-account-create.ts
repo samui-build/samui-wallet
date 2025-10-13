@@ -1,15 +1,15 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database'
-import type { Account } from './entity/account'
+import type { AccountInputCreate } from './dto/account-input-create'
 
-export type DbAccountCreateInput = Omit<Account, 'createdAt' | 'id' | 'updatedAt'>
+import { accountSchemaCreate } from './schema/account-schema-create'
 
-export async function dbAccountCreate(db: Database, input: DbAccountCreateInput): Promise<string> {
+export async function dbAccountCreate(db: Database, input: AccountInputCreate): Promise<string> {
   const now = new Date()
   const { data, error } = await tryCatch(
     db.accounts.add({
-      ...input,
+      ...accountSchemaCreate.parse(input),
       createdAt: now,
       id: crypto.randomUUID(),
       updatedAt: now,

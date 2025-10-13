@@ -1,19 +1,23 @@
+import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
+import type { WalletInputFindMany } from '@workspace/db/dto/wallet-input-find-many'
+import type { WalletInputUpdate } from '@workspace/db/dto/wallet-input-update'
+
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
 import { db } from '@workspace/db/db'
-import { dbWalletCreate, type DbWalletCreateInput } from '@workspace/db/db-wallet-create'
+import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import { dbWalletDelete } from '@workspace/db/db-wallet-delete'
-import { dbWalletFindMany, type DbWalletFindManyInput } from '@workspace/db/db-wallet-find-many'
+import { dbWalletFindMany } from '@workspace/db/db-wallet-find-many'
 import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
-import { dbWalletUpdate, type DbWalletUpdateInput } from '@workspace/db/db-wallet-update'
+import { dbWalletUpdate } from '@workspace/db/db-wallet-update'
 
-export type DbWalletCreateMutateOptions = MutateOptions<string, Error, { input: DbWalletCreateInput }>
+export type DbWalletCreateMutateOptions = MutateOptions<string, Error, { input: WalletInputCreate }>
 export type DbWalletDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
-export type DbWalletUpdateMutateOptions = MutateOptions<number, Error, { input: DbWalletUpdateInput }>
+export type DbWalletUpdateMutateOptions = MutateOptions<number, Error, { input: WalletInputUpdate }>
 
 export const dbWalletOptions = {
   create: (props: DbWalletCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: DbWalletCreateInput }) => dbWalletCreate(db, input),
+      mutationFn: ({ input }: { input: WalletInputCreate }) => dbWalletCreate(db, input),
       ...props,
     }),
   delete: (props: DbWalletDeleteMutateOptions = {}) =>
@@ -21,7 +25,7 @@ export const dbWalletOptions = {
       mutationFn: ({ id }: { id: string }) => dbWalletDelete(db, id),
       ...props,
     }),
-  findMany: (input: DbWalletFindManyInput) =>
+  findMany: (input: WalletInputFindMany) =>
     queryOptions({
       queryFn: () => dbWalletFindMany(db, input),
       queryKey: ['dbWalletFindMany', input],
@@ -33,7 +37,7 @@ export const dbWalletOptions = {
     }),
   update: (props: DbWalletUpdateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id, input }: { id: string; input: DbWalletUpdateInput }) => dbWalletUpdate(db, id, input),
+      mutationFn: ({ id, input }: { id: string; input: WalletInputUpdate }) => dbWalletUpdate(db, id, input),
       ...props,
     }),
 }
