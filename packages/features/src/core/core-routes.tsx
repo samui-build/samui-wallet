@@ -5,7 +5,7 @@ import { CoreLayout } from './ui/core-layout.js'
 
 const DevRoutes = lazy(() => import('../dev/dev-routes.js'))
 const PortfolioRoutes = lazy(() => import('../portfolio/portfolio-routes.js'))
-const SettingsRoutes = lazy(() => import('../settings/settings-routes.js'))
+const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
 const links = [
   { label: 'Portfolio', to: '/portfolio' },

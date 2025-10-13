@@ -1,5 +1,6 @@
 catalog:
   '@eslint/js': 9.37.0
+  '@hookform/resolvers': ^5.2.2
   '@solana/kit': 4.0.0
   '@tailwindcss/postcss': 4.1.14
   '@tailwindcss/vite': 4.1.14
@@ -12,6 +13,7 @@ catalog:
   jsdom: 27.0.0
   lucide-react: 0.545.0
   react: 19.2.0
+  react-hook-form: ^7.65.0
   react-dom: 19.2.0
   react-router: 7.9.3
   tailwindcss: 4.1.14

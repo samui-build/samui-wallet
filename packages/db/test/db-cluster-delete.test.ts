@@ -32,7 +32,7 @@ describe('db-cluster', () => {
 
       // ASSERT
       const deletedItem = await dbClusterFindUnique(db, id)
-      expect(deletedItem).toBeUndefined()
+      expect(deletedItem).toBeNull()
     })
   })
 

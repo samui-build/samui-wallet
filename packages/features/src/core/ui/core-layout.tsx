@@ -1,3 +1,4 @@
+import { Toaster } from '@workspace/ui/components/sonner'
 import { NavLink, Outlet } from 'react-router'
 
 export function CoreLayout({ links }: { links: { label: string; to: string }[] }) {
@@ -15,6 +16,7 @@ export function CoreLayout({ links }: { links: { label: string; to: string }[] }
       <main className="flex-1 overflow-y-auto p-2 lg:p-4">
         <Outlet />
       </main>
+      <Toaster richColors />
     </div>
   )
 }

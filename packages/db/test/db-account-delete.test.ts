@@ -28,7 +28,7 @@ describe('db-account-delete', () => {
 
       // ASSERT
       const deletedItem = await dbAccountFindUnique(db, id)
-      expect(deletedItem).toBeUndefined()
+      expect(deletedItem).toBeNull()
     })
   })
 
