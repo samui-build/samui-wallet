@@ -14,9 +14,11 @@
   },
   "dependencies": {
     "@hookform/resolvers": "catalog:",
+    "@tanstack/react-query": "catalog:",
     "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "catalog:",
     "react": "catalog:",

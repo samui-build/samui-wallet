@@ -15,7 +15,7 @@ export function SettingsFeatureClusterList() {
   const page = useSettingsPage({ pageId: 'clusters' })
   const deleteMutation = useDbClusterDelete({
     onError: () => toastError('Error deleting cluster'),
-    onSuccess: () => toastSuccess('Cluster deleted :)'),
+    onSuccess: () => toastSuccess('Cluster deleted'),
   })
   const items = useDbClusterLive()
   const { data } = useDbPreferenceFindUnique({ key: 'activeClusterId' })
@@ -23,7 +23,7 @@ export function SettingsFeatureClusterList() {
   return (
     <SettingsUiPageCard
       action={
-        <Button asChild>
+        <Button asChild variant="outline">
           <Link to="create">Create</Link>
         </Button>
       }

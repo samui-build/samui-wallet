@@ -587,6 +587,9 @@ importers:
       '@hookform/resolvers':
         specifier: 'catalog:'
         version: 5.2.2(react-hook-form@7.65.0(react@19.2.0))
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.90.2(react@19.2.0)
       '@workspace/core':
         specifier: workspace:*
         version: link:../core
@@ -596,6 +599,9 @@ importers:
       '@workspace/db-react':
         specifier: workspace:*
         version: link:../db-react
+      '@workspace/keypair':
+        specifier: workspace:*
+        version: link:../keypair
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui

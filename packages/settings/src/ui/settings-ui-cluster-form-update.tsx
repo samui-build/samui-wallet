@@ -90,10 +90,7 @@ export function SettingsUiClusterFormUpdate({
               <FormLabel>Name </FormLabel>
               <FormControl>
                 <Input
-                  onChange={(e) => {
-                    const val = e.target.value
-                    field.onChange(val)
-                  }}
+                  onChange={(e) => field.onChange(e.target.value)}
                   placeholder="Cluster name"
                   type="text"
                   value={field.value}

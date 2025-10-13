@@ -6,7 +6,6 @@ import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip4
 import { derivationPaths } from './derivation-paths'
 
 export interface DerivedWallet {
-  derivationPath: string
   name: string
   publicKey: string
   secretKey: string
@@ -45,7 +44,6 @@ export async function deriveFromMnemonicAtIndex({
   const secretKey = await convertKeyPairToJson(signer.keyPair)
 
   return {
-    derivationPath: derivationPath.replace('i', `${derivationIndex}`),
     name: ellipsify(signer.address.toString()),
     publicKey: signer.address.toString(),
     secretKey,
