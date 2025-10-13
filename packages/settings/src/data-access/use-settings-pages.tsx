@@ -1,9 +1,15 @@
-import { LucideNetwork } from 'lucide-react'
+import { LucideNetwork, LucideWallet2 } from 'lucide-react'
 
 import type { SettingsPage } from './settings-page.js'
 
 export function useSettingsPages(): SettingsPage[] {
   return [
+    {
+      description: 'Manage accounts and wallets',
+      icon: LucideWallet2,
+      id: 'accounts',
+      name: 'Accounts',
+    },
     {
       description: 'Manage clusters and endpoints',
       icon: LucideNetwork,

@@ -13,12 +13,14 @@ export async function dbWalletFindMany(db: Database, input: WalletInputFindMany)
     console.log(error)
     throw new Error(`Error finding wallets for account id ${parsedInput.accountId}`)
   }
-  return data?.filter((item) => {
-    const matchId = !parsedInput.id || item.id === parsedInput.id
-    const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
-    const matchPublicKey = !parsedInput.publicKey || item.publicKey === parsedInput.publicKey
-    const matchType = !parsedInput.type || item.type === parsedInput.type
+  return data
+    ?.filter((item) => {
+      const matchId = !parsedInput.id || item.id === parsedInput.id
+      const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+      const matchPublicKey = !parsedInput.publicKey || item.publicKey === parsedInput.publicKey
+      const matchType = !parsedInput.type || item.type === parsedInput.type
 
-    return matchId && matchName && matchPublicKey && matchType
-  })
+      return matchId && matchName && matchPublicKey && matchType
+    })
+    .sort((a, b) => a.derivationIndex - b.derivationIndex)
 }
