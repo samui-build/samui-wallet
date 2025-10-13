@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbClusterCreateInput } from '../src/db-cluster-create'
+import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
 
 import { dbClusterCreate } from '../src/db-cluster-create'
 import { dbClusterFindUnique } from '../src/db-cluster-find-unique'
@@ -20,7 +20,7 @@ describe('db-cluster', () => {
     it('should update a cluster', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: DbClusterCreateInput = {
+      const input: ClusterInputCreate = {
         endpoint: 'http://localhost:8899',
         name: randomName('cluster'),
         type: 'solana:devnet',

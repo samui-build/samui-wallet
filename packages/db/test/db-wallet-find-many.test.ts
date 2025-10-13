@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbWalletCreateInput } from '../src/db-wallet-create'
+import type { WalletInputCreate } from '../src/dto/wallet-input-create'
 
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
@@ -19,19 +19,19 @@ describe('db-wallet-find-many', () => {
       expect.assertions(2)
       const accountId1 = crypto.randomUUID()
       const accountId2 = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId: accountId1,
         name: randomName('wallet-1'),
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId: accountId1,
         name: randomName('wallet-2'),
         publicKey: crypto.randomUUID(),
         type: 'Imported',
       }
-      const wallet3: DbWalletCreateInput = {
+      const wallet3: WalletInputCreate = {
         accountId: accountId2,
         name: randomName('wallet-3'),
         publicKey: crypto.randomUUID(),
@@ -53,19 +53,19 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId,
         name: 'Trading Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId,
         name: 'Staking Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Imported',
       }
-      const wallet3: DbWalletCreateInput = {
+      const wallet3: WalletInputCreate = {
         accountId,
         name: 'Savings',
         publicKey: crypto.randomUUID(),
@@ -87,19 +87,19 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId,
         name: 'Trading Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId,
         name: 'Staking Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Imported',
       }
-      const wallet3: DbWalletCreateInput = {
+      const wallet3: WalletInputCreate = {
         accountId,
         name: 'Savings Wallet',
         publicKey: crypto.randomUUID(),
@@ -121,25 +121,25 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId,
         name: 'Trading Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId,
         name: 'Staking Wallet',
         publicKey: crypto.randomUUID(),
         type: 'Imported',
       }
-      const wallet3: DbWalletCreateInput = {
+      const wallet3: WalletInputCreate = {
         accountId,
         name: 'Savings',
         publicKey: crypto.randomUUID(),
         type: 'Watched',
       }
-      const wallet4: DbWalletCreateInput = {
+      const wallet4: WalletInputCreate = {
         accountId,
         name: 'Another Trading Wallet',
         publicKey: crypto.randomUUID(),
@@ -162,13 +162,13 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId,
         name: 'Wallet 1',
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId,
         name: 'Wallet 2',
         publicKey: crypto.randomUUID(),
@@ -189,13 +189,13 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: DbWalletCreateInput = {
+      const wallet1: WalletInputCreate = {
         accountId,
         name: 'Wallet 1',
         publicKey: crypto.randomUUID(),
         type: 'Derived',
       }
-      const wallet2: DbWalletCreateInput = {
+      const wallet2: WalletInputCreate = {
         accountId,
         name: 'Wallet 2',
         publicKey: crypto.randomUUID(),

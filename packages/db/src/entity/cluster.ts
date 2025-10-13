@@ -1,10 +1,5 @@
-import type { ClusterType } from './cluster-type'
+import type { z } from 'zod'
 
-export interface Cluster {
-  createdAt: Date
-  endpoint: string
-  id: string
-  name: string
-  type: ClusterType
-  updatedAt: Date
-}
+import type { clusterSchema } from '../schema/cluster-schema'
+
+export type Cluster = z.infer<typeof clusterSchema>

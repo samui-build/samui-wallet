@@ -1,20 +1,22 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database'
+import type { AccountInputFindMany } from './dto/account-input-find-many'
 import type { Account } from './entity/account'
 
-export type DbAccountFindManyInput = Partial<Pick<Account, 'id' | 'name'>>
+import { accountSchemaFindMany } from './schema/account-schema-find-many'
 
-export async function dbAccountFindMany(db: Database, input: DbAccountFindManyInput = {}): Promise<Account[]> {
+export async function dbAccountFindMany(db: Database, input: AccountInputFindMany = {}): Promise<Account[]> {
+  const parsedInput = accountSchemaFindMany.parse(input)
   const { data, error } = await tryCatch(db.accounts.toArray())
   if (error) {
     console.log(error)
     throw new Error(`Error finding accounts`)
   }
   return data.filter((item) => {
-    const matchId = !input.id || item.id === input.id
-    const matchName = !input.name || item.name.includes(input.name)
+    const matchId = !parsedInput.id || item.id === parsedInput.id
+    const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
 
-    return matchName && matchId
+    return matchId && matchName
   })
 }

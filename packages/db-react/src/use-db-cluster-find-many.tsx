@@ -1,9 +1,9 @@
-import type { DbClusterFindManyInput } from '@workspace/db/db-cluster-find-many'
+import type { ClusterInputFindMany } from '@workspace/db/dto/cluster-input-find-many'
 
 import { useQuery } from '@tanstack/react-query'
 
 import { dbClusterOptions } from './db-cluster-options'
 
-export function useDbClusterFindMany({ input }: { input: DbClusterFindManyInput }) {
+export function useDbClusterFindMany({ input }: { input: ClusterInputFindMany }) {
   return useQuery(dbClusterOptions.findMany(input))
 }

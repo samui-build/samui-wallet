@@ -1,15 +1,15 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database'
-import type { Wallet } from './entity/wallet'
+import type { WalletInputCreate } from './dto/wallet-input-create'
 
-export type DbWalletCreateInput = Omit<Wallet, 'createdAt' | 'id' | 'updatedAt'>
+import { walletSchemaCreate } from './schema/wallet-schema-create'
 
-export async function dbWalletCreate(db: Database, input: DbWalletCreateInput): Promise<string> {
+export async function dbWalletCreate(db: Database, input: WalletInputCreate): Promise<string> {
   const now = new Date()
   const { data, error } = await tryCatch(
     db.wallets.add({
-      ...input,
+      ...walletSchemaCreate.parse(input),
       createdAt: now,
       id: crypto.randomUUID(),
       updatedAt: now,

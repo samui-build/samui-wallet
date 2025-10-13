@@ -1,4 +1,4 @@
-import type { DbClusterFindManyInput } from '@workspace/db/db-cluster-find-many'
+import type { ClusterInputFindMany } from '@workspace/db/dto/cluster-input-find-many'
 import type { ClusterType } from '@workspace/db/entity/cluster-type'
 
 import { useDbClusterFindMany } from '@workspace/db-react/use-db-cluster-find-many'
@@ -46,7 +46,7 @@ function DevClusterSelect({ select }: { select: (type: ClusterType | undefined) 
   )
 }
 function DevDbClusterFindMany() {
-  const [input, setInput] = useState<DbClusterFindManyInput>({})
+  const [input, setInput] = useState<ClusterInputFindMany>({})
   const query = useDbClusterFindMany({ input })
 
   return (

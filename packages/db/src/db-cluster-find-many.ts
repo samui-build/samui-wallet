@@ -1,21 +1,23 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database'
+import type { ClusterInputFindMany } from './dto/cluster-input-find-many'
 import type { Cluster } from './entity/cluster'
 
-export type DbClusterFindManyInput = Partial<Pick<Cluster, 'endpoint' | 'id' | 'name' | 'type'>>
+import { clusterSchemaFindMany } from './schema/cluster-schema-find-many'
 
-export async function dbClusterFindMany(db: Database, input: DbClusterFindManyInput = {}): Promise<Cluster[]> {
+export async function dbClusterFindMany(db: Database, input: ClusterInputFindMany = {}): Promise<Cluster[]> {
+  const parsedInput = clusterSchemaFindMany.parse(input)
   const { data, error } = await tryCatch(db.clusters.toArray())
   if (error) {
     console.log(error)
     throw new Error(`Error finding clusters`)
   }
   return data?.filter((item) => {
-    const matchEndpoint = !input.endpoint || item.endpoint.includes(input.endpoint)
-    const matchId = !input.id || item.id === input.id
-    const matchName = !input.name || item.name.includes(input.name)
-    const matchType = !input.type || item.type === input.type
+    const matchEndpoint = !parsedInput.endpoint || item.endpoint.includes(parsedInput.endpoint)
+    const matchId = !parsedInput.id || item.id === parsedInput.id
+    const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+    const matchType = !parsedInput.type || item.type === parsedInput.type
 
     return matchName && matchType && matchEndpoint && matchId
   })

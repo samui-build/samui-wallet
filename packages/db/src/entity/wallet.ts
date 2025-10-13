@@ -1,12 +1,5 @@
-import type { WalletType } from './wallet-type'
+import type { z } from 'zod'
 
-export interface Wallet {
-  accountId: string
-  createdAt: Date
-  id: string
-  name: string
-  publicKey: string
-  secretKey?: string
-  type: WalletType
-  updatedAt: Date
-}
+import type { walletSchema } from '../schema/wallet-schema'
+
+export type Wallet = z.infer<typeof walletSchema>

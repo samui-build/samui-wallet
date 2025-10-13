@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbAccountCreateInput } from '../src/db-account-create'
+import type { AccountInputCreate } from '../src/dto/account-input-create'
 
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindMany } from '../src/db-account-find-many'
@@ -19,7 +19,7 @@ describe('db-account-create', () => {
     it('should create an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbAccountCreateInput = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
+      const input: AccountInputCreate = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
 
       // ACT
       await dbAccountCreate(db, input)
@@ -42,7 +42,7 @@ describe('db-account-create', () => {
     it('should throw an error when creating an account fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbAccountCreateInput = { mnemonic: 'baz', name: 'test', secret: 'bar' }
+      const input: AccountInputCreate = { mnemonic: 'baz', name: 'test', secret: 'bar' }
       vi.spyOn(db.accounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )

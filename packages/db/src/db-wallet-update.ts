@@ -1,14 +1,14 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database'
-import type { Wallet } from './entity/wallet'
+import type { WalletInputUpdate } from './dto/wallet-input-update'
 
-export type DbWalletUpdateInput = Partial<Omit<Wallet, 'createdAt' | 'id' | 'updatedAt'>>
+import { walletSchemaUpdate } from './schema/wallet-schema-update'
 
-export async function dbWalletUpdate(db: Database, id: string, input: DbWalletUpdateInput): Promise<number> {
+export async function dbWalletUpdate(db: Database, id: string, input: WalletInputUpdate): Promise<number> {
   const { data, error } = await tryCatch(
     db.wallets.update(id, {
-      ...input,
+      ...walletSchemaUpdate.parse(input),
       updatedAt: new Date(),
     }),
   )

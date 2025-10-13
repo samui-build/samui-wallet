@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { DbClusterCreateInput } from '../src/db-cluster-create'
+import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
 
 import { dbClusterCreate } from '../src/db-cluster-create'
 import { dbClusterFindMany } from '../src/db-cluster-find-many'
@@ -19,7 +19,7 @@ describe('db-cluster-create', () => {
     it('should create a cluster', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbClusterCreateInput = {
+      const input: ClusterInputCreate = {
         endpoint: 'http://localhost:8899',
         name: randomName('cluster'),
         type: 'solana:devnet',
@@ -46,7 +46,7 @@ describe('db-cluster-create', () => {
     it('should throw an error when creating a cluster fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: DbClusterCreateInput = {
+      const input: ClusterInputCreate = {
         endpoint: 'http://localhost:8899',
         name: 'test',
         type: 'solana:devnet',
@@ -57,6 +57,19 @@ describe('db-cluster-create', () => {
 
       // ACT & ASSERT
       await expect(dbClusterCreate(db, input)).rejects.toThrow('Error creating cluster')
+    })
+
+    it('should throw an error with an invalid endpoint', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input: ClusterInputCreate = {
+        endpoint: 'not-a-url',
+        name: randomName('cluster'),
+        type: 'solana:devnet',
+      }
+
+      // ACT & ASSERT
+      await expect(dbClusterCreate(db, input)).rejects.toThrow()
     })
   })
 })
