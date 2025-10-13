@@ -33,7 +33,7 @@ describe('db-wallet-delete', () => {
 
       // ASSERT
       const deletedItem = await dbWalletFindUnique(db, id)
-      expect(deletedItem).toBeUndefined()
+      expect(deletedItem).toBeNull()
     })
   })
 
