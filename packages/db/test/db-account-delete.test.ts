@@ -20,7 +20,12 @@ describe('db-account-delete', () => {
     it('should delete an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: AccountInputCreate = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
+      const input: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'baz',
+        name: randomName('account'),
+        secret: 'bar',
+      }
       const id = await dbAccountCreate(db, input)
 
       // ACT
