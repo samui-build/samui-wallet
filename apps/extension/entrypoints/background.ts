@@ -1,7 +1,7 @@
 import { handlers } from '@workspace/background/background'
-import { registerDbService } from '@workspace/background/services/db'
+import { services } from '@workspace/background/services'
 
 export default defineBackground(() => {
-  registerDbService()
+  services()
   handlers()
 })
