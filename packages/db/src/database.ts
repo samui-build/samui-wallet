@@ -2,6 +2,7 @@ import Dexie, { type Table } from 'dexie'
 
 import type { Account } from './entity/account'
 import type { Cluster } from './entity/cluster'
+import type { Preference } from './entity/preference'
 import type { Wallet } from './entity/wallet'
 
 export interface DatabaseConfig {
@@ -11,6 +12,7 @@ export interface DatabaseConfig {
 export class Database extends Dexie {
   accounts!: Table<Account>
   clusters!: Table<Cluster>
+  preferences!: Table<Preference>
   wallets!: Table<Wallet>
 
   constructor(config: DatabaseConfig) {
@@ -18,6 +20,7 @@ export class Database extends Dexie {
     this.version(1).stores({
       accounts: 'id, name',
       clusters: 'id, name, type',
+      preferences: 'id, &key',
       wallets: 'id, accountId, &publicKey, type',
     })
 
@@ -28,6 +31,7 @@ export class Database extends Dexie {
 
   async populate() {
     const now = new Date()
+    const activeClusterId = crypto.randomUUID()
     await this.clusters.bulkAdd([
       {
         createdAt: now,
@@ -40,7 +44,7 @@ export class Database extends Dexie {
       {
         createdAt: now,
         endpoint: 'https://api.devnet.solana.com',
-        id: crypto.randomUUID(),
+        id: activeClusterId,
         name: 'Devnet',
         type: 'solana:devnet',
         updatedAt: now,
@@ -52,6 +56,15 @@ export class Database extends Dexie {
         name: 'Testnet',
         type: 'solana:testnet',
         updatedAt: now,
+      },
+    ])
+    await this.preferences.bulkAdd([
+      {
+        createdAt: now,
+        id: crypto.randomUUID(),
+        key: 'activeClusterId',
+        updatedAt: now,
+        value: activeClusterId,
       },
     ])
   }

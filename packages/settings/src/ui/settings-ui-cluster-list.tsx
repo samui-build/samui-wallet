@@ -2,45 +2,73 @@ import type { Cluster } from '@workspace/db/entity/cluster'
 
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemGroup, ItemTitle } from '@workspace/ui/components/item'
-import { LucidePencil, LucideTrash } from 'lucide-react'
+import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
+import { LucideCheck, LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function SettingsUiClusterList({
+  activeClusterId,
   deleteItem,
   items,
+  setActive,
 }: {
+  activeClusterId: null | string
   deleteItem: (item: Cluster) => Promise<void>
   items: Cluster[]
+  setActive: (item: Cluster) => Promise<void>
 }) {
   return (
     <ItemGroup className="gap-4">
       {items.map((item) => (
-        <Item key={item.id} role="listitem" variant="outline">
+        <Item
+          className="flex-col items-stretch sm:flex-row sm:items-center"
+          key={item.id}
+          role="listitem"
+          variant={activeClusterId === item.id ? 'muted' : 'outline'}
+        >
           <ItemContent>
             <ItemTitle className="line-clamp-1">
               <Link to={`./${item.id}`}>{item.name}</Link>
             </ItemTitle>
             <ItemDescription>{item.endpoint}</ItemDescription>
           </ItemContent>
-          <ItemActions>
-            <Button asChild size="icon" variant="outline">
-              <Link to={`./${item.id}`}>
-                <LucidePencil className="size-4" />
-              </Link>
-            </Button>
-            <Button
-              onClick={async (e) => {
-                e.preventDefault()
-                if (!window.confirm('Are you sure?')) {
-                  return
-                }
-                await deleteItem(item)
-              }}
-              size="icon"
-              variant="outline"
-            >
-              <LucideTrash className="text-red-500 size-4" />
-            </Button>
+          <ItemActions className="w-full sm:w-auto">
+            {activeClusterId == item.id ? null : (
+              <UiTooltip content="Set as active">
+                <Button
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    await setActive(item)
+                  }}
+                  size="icon"
+                  variant="outline"
+                >
+                  <LucideCheck className="text-green-500 size-4" />
+                </Button>
+              </UiTooltip>
+            )}
+            <UiTooltip content="Edit">
+              <Button asChild size="icon" variant="outline">
+                <Link to={`./${item.id}`}>
+                  <LucidePencil className="size-4" />
+                </Link>
+              </Button>
+            </UiTooltip>
+            <UiTooltip content="Delete">
+              <Button
+                onClick={async (e) => {
+                  e.preventDefault()
+                  if (!window.confirm('Are you sure?')) {
+                    return
+                  }
+                  await deleteItem(item)
+                }}
+                size="icon"
+                variant="outline"
+              >
+                <LucideTrash className="text-red-500 size-4" />
+              </Button>
+            </UiTooltip>
           </ItemActions>
         </Item>
       ))}

@@ -7,6 +7,7 @@ import { clusterSchemaCreate } from './schema/cluster-schema-create'
 
 export async function dbClusterCreate(db: Database, input: ClusterInputCreate): Promise<string> {
   const now = new Date()
+  // TODO: Add runtime check to ensure Cluster.type is valid
   const { data, error } = await tryCatch(
     db.clusters.add({
       ...clusterSchemaCreate.parse(input),

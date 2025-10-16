@@ -1,5 +1,7 @@
 import { useDbClusterDelete } from '@workspace/db-react/use-db-cluster-delete'
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
+import { useDbPreferenceFindUnique } from '@workspace/db-react/use-db-preference-find-unique-by-key'
+import { useDbPreferenceUpdateByKey } from '@workspace/db-react/use-db-preference-update-by-key'
 import { Button } from '@workspace/ui/components/button'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -16,7 +18,8 @@ export function SettingsFeatureClusterList() {
     onSuccess: () => toastSuccess('Cluster deleted :)'),
   })
   const items = useDbClusterLive()
-
+  const { data } = useDbPreferenceFindUnique({ key: 'activeClusterId' })
+  const { mutateAsync } = useDbPreferenceUpdateByKey('activeClusterId')
   return (
     <SettingsUiPageCard
       action={
@@ -26,7 +29,17 @@ export function SettingsFeatureClusterList() {
       }
       page={page}
     >
-      <SettingsUiClusterList deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })} items={items} />
+      <SettingsUiClusterList
+        activeClusterId={data?.value ?? null}
+        deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
+        items={items}
+        setActive={async (item) => {
+          if (!data?.id) {
+            return
+          }
+          await mutateAsync({ input: { value: item.id } })
+        }}
+      />
     </SettingsUiPageCard>
   )
 }
