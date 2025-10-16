@@ -24,6 +24,7 @@
     "@wallet-standard/core": "^1.1.1",
     "@webext-core/messaging": "^2.3.0",
     "@webext-core/proxy-service": "^1.2.1",
-    "@workspace/db": "workspace:*"
+    "@workspace/db": "workspace:*",
+    "wxt": "^0.20.11"
   }
 }
