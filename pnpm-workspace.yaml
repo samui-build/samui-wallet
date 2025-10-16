@@ -22,7 +22,7 @@ catalog:
   react-router: 7.9.3
   tailwindcss: 4.1.14
   typescript: 5.9.3
-  typescript-eslint: 8.46.0
+  typescript-eslint: 8.46.1
   vitest: 3.2.4
   zod: ^4.1.12
 
