@@ -10,5 +10,11 @@
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "routes": [
+    {
+      "pattern": "wallet.samui.build",
+      "custom_domain": true
+    }
+  ],
   "send_metrics": false
 }
