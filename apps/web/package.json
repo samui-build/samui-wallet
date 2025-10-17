@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@cloudflare/vite-plugin": "^1.13.13",
     "@tailwindcss/vite": "catalog:",
     "@workspace/features": "workspace:*",
     "@workspace/ui": "workspace:*",
@@ -33,6 +34,7 @@
     "typescript": "catalog:",
     "typescript-eslint": "catalog:",
     "vite": "^7.1.10",
-    "vite-tsconfig-paths": "^5.1.4"
+    "vite-tsconfig-paths": "^5.1.4",
+    "wrangler": "^4.43.0"
   }
 }
