@@ -5,9 +5,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@workspace/ui/components/dropdown-menu'
 import { LucideNetwork } from 'lucide-react'
+import { Link } from 'react-router'
 
 export function SettingsUiClusterDropdown({
   activeCluster,
@@ -37,6 +39,10 @@ export function SettingsUiClusterDropdown({
             {item.name}
           </DropdownMenuItem>
         ))}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link to="/settings/clusters">Cluster settings</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )
