@@ -10,6 +10,7 @@
     "enabled": true,
     "head_sampling_rate": 1
   },
+  "preview_urls": true,
   "routes": [
     {
       "pattern": "wallet.samui.build",
