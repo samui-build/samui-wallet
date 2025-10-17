@@ -5,9 +5,11 @@ import { createKeyPairSignerFromPrivateKeyBytes } from '@solana/kit'
 import { createSeedFromMnemonic } from './create-seed-from-mnemonic'
 
 export async function createKeyPairSignerFromBip39({
+  extractable = false,
   mnemonic,
   passphrase = '',
 }: {
+  extractable?: boolean
   mnemonic: string
   passphrase?: string
 }): Promise<KeyPairSigner> {
@@ -16,5 +18,5 @@ export async function createKeyPairSignerFromBip39({
   const privateKeyBytes = seed.subarray(0, 32)
 
   // TODO: Address Happy Path blindness
-  return await createKeyPairSignerFromPrivateKeyBytes(new Uint8Array(privateKeyBytes))
+  return await createKeyPairSignerFromPrivateKeyBytes(new Uint8Array(privateKeyBytes), extractable)
 }
