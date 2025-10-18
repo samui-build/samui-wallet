@@ -28,7 +28,7 @@
     "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
-    "eslint-plugin-react-hooks": "^6.1.1",
+    "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "catalog:",
     "typescript": "catalog:",
