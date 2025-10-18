@@ -29,7 +29,7 @@ export function SettingsUiAccountListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
-        {activeId == item.id ? null : (
+        {activeId === item.id ? null : (
           <UiTooltip content="Set as active">
             <Button
               onClick={async (e) => {
