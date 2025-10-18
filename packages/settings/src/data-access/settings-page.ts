@@ -1,12 +1,8 @@
-import type { LucideProps } from 'lucide-react'
-import type * as react from 'react'
-import type { ForwardRefExoticComponent } from 'react'
-
-export type SettingsIcon = ForwardRefExoticComponent<Omit<LucideProps, 'ref'> & react.RefAttributes<SVGSVGElement>>
+import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 
 export interface SettingsPage {
   description: string
-  icon: SettingsIcon
+  icon: UiIconLucide
   id: string
   name: string
 }
