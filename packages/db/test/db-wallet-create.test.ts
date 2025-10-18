@@ -2,6 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
@@ -11,6 +12,7 @@ const db = createDbTest()
 
 describe('db-wallet-create', () => {
   beforeEach(async () => {
+    await db.preferences.clear()
     await db.wallets.clear()
   })
 
@@ -41,6 +43,24 @@ describe('db-wallet-create', () => {
       // ASSERT
       const item = await dbWalletFindUnique(db, result)
       expect(item?.derivationIndex).toBe(0)
+    })
+
+    it('should create a wallet and set activeWalletId preference', async () => {
+      // ARRANGE
+      expect.assertions(3)
+      const accountId = crypto.randomUUID()
+      const input = testWalletInputCreate({ accountId })
+
+      // ACT
+      const activeWalletIdBefore = await dbPreferenceFindUniqueByKey(db, 'activeWalletId')
+      const result = await dbWalletCreate(db, input)
+      const activeWalletIdAfter = await dbPreferenceFindUniqueByKey(db, 'activeWalletId')
+
+      // ASSERT
+      const items = await dbWalletFindMany(db, { accountId })
+      expect(items.map((i) => i.name)).toContain(input.name)
+      expect(activeWalletIdBefore).toBeNull()
+      expect(activeWalletIdAfter?.value).toBe(result)
     })
   })
 
