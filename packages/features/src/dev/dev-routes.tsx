@@ -13,11 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select.js'
+import { UiAvatar } from '@workspace/ui/components/ui-avatar.js'
+import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-colors.js'
 import { useMemo, useState } from 'react'
 
 export default function DevRoutes() {
   return (
     <div className="space-y-6">
+      <DevUiAvatars />
+      <DevUiColors />
       <DevDbTables />
       <DevDbClusterFindMany />
     </div>
@@ -45,6 +49,7 @@ function DevClusterSelect({ select }: { select: (type: ClusterType | undefined) 
     </Select>
   )
 }
+
 function DevDbClusterFindMany() {
   const [input, setInput] = useState<ClusterInputFindMany>({})
   const query = useDbClusterFindMany({ input })
@@ -75,6 +80,41 @@ function DevDbTables() {
       </CardHeader>
       <CardContent>
         <pre>{JSON.stringify(tables, null, 2)}</pre>
+      </CardContent>
+    </Card>
+  )
+}
+
+function DevUiAvatars() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>ui avatars</CardTitle>
+      </CardHeader>
+      <CardContent className="grid gap-4 grid-cols-4 justify-items-center">
+        <UiAvatar className="size-16" label="beeman" />
+        <UiAvatar className="size-16" label="tobeycodes" />
+        <UiAvatar className="size-16" label="beeman" src="https://github.com/beeman.png" />
+        <UiAvatar className="size-16" label="tobeycodes" src="https://github.com/tobeycodes.png" />
+      </CardContent>
+    </Card>
+  )
+}
+function DevUiColors() {
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>ui colors</CardTitle>
+      </CardHeader>
+      <CardContent className="grid gap-4 grid-cols-4">
+        {uiColorNames.map((uiColorName) => {
+          const { bg, text } = getColorByName(uiColorName)
+          return (
+            <div className={`${bg} ${text} p-4 text-center`} key={uiColorName}>
+              {uiColorName}
+            </div>
+          )
+        })}
       </CardContent>
     </Card>
   )
