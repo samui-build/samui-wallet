@@ -6,9 +6,10 @@ import type { ClusterInputUpdate } from './dto/cluster-input-update'
 import { clusterSchemaUpdate } from './schema/cluster-schema-update'
 
 export async function dbClusterUpdate(db: Database, id: string, input: ClusterInputUpdate): Promise<number> {
+  const parsedInput = clusterSchemaUpdate.parse(input)
   const { data, error } = await tryCatch(
     db.clusters.update(id, {
-      ...clusterSchemaUpdate.parse(input),
+      ...parsedInput,
       updatedAt: new Date(),
     }),
   )

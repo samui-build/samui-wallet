@@ -7,10 +7,12 @@ import { walletSchemaCreate } from './schema/wallet-schema-create'
 
 export async function dbWalletCreate(db: Database, input: WalletInputCreate): Promise<string> {
   const now = new Date()
+  const parsedInput = walletSchemaCreate.parse(input)
   const { data, error } = await tryCatch(
     db.wallets.add({
-      ...walletSchemaCreate.parse(input),
+      ...parsedInput,
       createdAt: now,
+      derivationIndex: parsedInput.derivationIndex ?? 0,
       id: crypto.randomUUID(),
       updatedAt: now,
     }),

@@ -6,6 +6,7 @@ import type { WalletInputCreate } from '../src/dto/wallet-input-create'
 
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
+import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
 import { createDbTest, randomName } from './test-helpers'
 
 const db = createDbTest()
@@ -33,6 +34,25 @@ describe('db-wallet-create', () => {
       // ASSERT
       const items = await dbWalletFindMany(db, { accountId })
       expect(items.map((i) => i.name)).toContain(input.name)
+    })
+
+    it('should create a wallet with a default derivationIndex of 0', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const accountId = crypto.randomUUID()
+      const input: WalletInputCreate = {
+        accountId,
+        name: randomName('wallet'),
+        publicKey: crypto.randomUUID(),
+        type: 'Derived',
+      }
+
+      // ACT
+      const result = await dbWalletCreate(db, input)
+
+      // ASSERT
+      const item = await dbWalletFindUnique(db, result)
+      expect(item?.derivationIndex).toBe(0)
     })
   })
 

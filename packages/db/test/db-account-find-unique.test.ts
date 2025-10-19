@@ -20,7 +20,12 @@ describe('db-account-find-unique', () => {
     it('should find a unique account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: AccountInputCreate = { mnemonic: 'baz', name: randomName('account'), secret: 'bar' }
+      const input: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'baz',
+        name: randomName('account'),
+        secret: 'bar',
+      }
       const id = await dbAccountCreate(db, input)
 
       // ACT

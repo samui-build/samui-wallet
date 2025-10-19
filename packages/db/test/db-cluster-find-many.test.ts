@@ -118,9 +118,12 @@ describe('db-cluster', () => {
     it('should throw an error when finding clusters fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.clusters, 'toArray').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Cluster[]>,
-      )
+      vi.spyOn(db.clusters, 'orderBy').mockImplementation(() => ({
+        // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
+        filter: () => ({
+          toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Cluster[]>,
+        }),
+      }))
 
       // ACT & ASSERT
       await expect(dbClusterFindMany(db)).rejects.toThrow('Error finding clusters')

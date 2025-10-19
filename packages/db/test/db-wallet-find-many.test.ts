@@ -1,6 +1,9 @@
+import type { PromiseExtended } from 'dexie'
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { WalletInputCreate } from '../src/dto/wallet-input-create'
+import type { Wallet } from '../src/entity/wallet'
 
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
@@ -227,11 +230,10 @@ describe('db-wallet-find-many', () => {
       expect.assertions(1)
       const accountId = 'test-account-id'
 
-      // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
-      // The spy incorrectly expects a full 'Collection' when we only need to mock the 'WhereClause' chain.
-      vi.spyOn(db.wallets, 'where').mockImplementation(() => ({
-        equals: () => ({
-          toArray: () => Promise.reject(new Error('Test error')),
+      vi.spyOn(db.wallets, 'orderBy').mockImplementation(() => ({
+        // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
+        filter: () => ({
+          toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet[]>,
         }),
       }))
 

@@ -8,9 +8,10 @@ import { clusterSchemaCreate } from './schema/cluster-schema-create'
 export async function dbClusterCreate(db: Database, input: ClusterInputCreate): Promise<string> {
   const now = new Date()
   // TODO: Add runtime check to ensure Cluster.type is valid
+  const parsedInput = clusterSchemaCreate.parse(input)
   const { data, error } = await tryCatch(
     db.clusters.add({
-      ...clusterSchemaCreate.parse(input),
+      ...parsedInput,
       createdAt: now,
       id: crypto.randomUUID(),
       updatedAt: now,

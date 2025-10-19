@@ -7,9 +7,10 @@ import { accountSchemaCreate } from './schema/account-schema-create'
 
 export async function dbAccountCreate(db: Database, input: AccountInputCreate): Promise<string> {
   const now = new Date()
+  const parsedInput = accountSchemaCreate.parse(input)
   const { data, error } = await tryCatch(
     db.accounts.add({
-      ...accountSchemaCreate.parse(input),
+      ...parsedInput,
       createdAt: now,
       id: crypto.randomUUID(),
       updatedAt: now,

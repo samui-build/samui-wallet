@@ -21,7 +21,7 @@ export class Database extends Dexie {
       accounts: 'id, name',
       clusters: 'id, name, type',
       preferences: 'id, &key',
-      wallets: 'id, accountId, &publicKey, type',
+      wallets: 'id, accountId, derivationIndex, publicKey, type',
     })
 
     this.on('populate', async () => {

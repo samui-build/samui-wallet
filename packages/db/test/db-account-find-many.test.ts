@@ -20,9 +20,19 @@ describe('db-account-find-many', () => {
     it('should find many accounts by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
-      const account1: AccountInputCreate = { mnemonic: 'm', name: 'Test Account Alpha', secret: 's' }
-      const account2: AccountInputCreate = { mnemonic: 'm', name: 'Test Account Beta', secret: 's' }
-      const account3: AccountInputCreate = { mnemonic: 'm', name: 'Another One', secret: 's' }
+      const account1: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'm',
+        name: 'Test Account Alpha',
+        secret: 's',
+      }
+      const account2: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'm',
+        name: 'Test Account Beta',
+        secret: 's',
+      }
+      const account3: AccountInputCreate = { derivationPath: 'd', mnemonic: 'm', name: 'Another One', secret: 's' }
       await dbAccountCreate(db, account1)
       await dbAccountCreate(db, account2)
       await dbAccountCreate(db, account3)
@@ -38,8 +48,18 @@ describe('db-account-find-many', () => {
     it('should find many accounts by id', async () => {
       // ARRANGE
       expect.assertions(2)
-      const account1: AccountInputCreate = { mnemonic: 'm', name: 'Test Account Alpha', secret: 's' }
-      const account2: AccountInputCreate = { mnemonic: 'm', name: 'Test Account Beta', secret: 's' }
+      const account1: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'm',
+        name: 'Test Account Alpha',
+        secret: 's',
+      }
+      const account2: AccountInputCreate = {
+        derivationPath: 'd',
+        mnemonic: 'm',
+        name: 'Test Account Beta',
+        secret: 's',
+      }
       const id1 = await dbAccountCreate(db, account1)
       await dbAccountCreate(db, account2)
 
@@ -64,9 +84,12 @@ describe('db-account-find-many', () => {
     it('should throw an error when finding accounts fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.accounts, 'toArray').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Account[]>,
-      )
+      vi.spyOn(db.accounts, 'orderBy').mockImplementation(() => ({
+        // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
+        filter: () => ({
+          toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Account[]>,
+        }),
+      }))
 
       // ACT & ASSERT
       await expect(dbAccountFindMany(db)).rejects.toThrow('Error finding accounts')
