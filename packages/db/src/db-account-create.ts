@@ -3,6 +3,8 @@ import { tryCatch } from '@workspace/core/try-catch'
 import type { Database } from './database'
 import type { AccountInputCreate } from './dto/account-input-create'
 
+import { dbPreferenceCreate } from './db-preference-create'
+import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key'
 import { accountSchemaCreate } from './schema/account-schema-create'
 
 export async function dbAccountCreate(db: Database, input: AccountInputCreate): Promise<string> {
@@ -19,6 +21,11 @@ export async function dbAccountCreate(db: Database, input: AccountInputCreate): 
   if (error) {
     console.log(error)
     throw new Error(`Error creating account`)
+  }
+
+  const activeAccountId = await dbPreferenceFindUniqueByKey(db, 'activeAccountId')
+  if (!activeAccountId) {
+    await dbPreferenceCreate(db, { key: 'activeAccountId', value: data })
   }
   return data
 }
