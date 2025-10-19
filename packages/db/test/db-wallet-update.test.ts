@@ -2,12 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { WalletInputCreate } from '../src/dto/wallet-input-create'
-
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
 import { dbWalletUpdate } from '../src/db-wallet-update'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, randomName, testWalletInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -20,12 +18,7 @@ describe('db-wallet-update', () => {
     it('should update a wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: WalletInputCreate = {
-        accountId: crypto.randomUUID(),
-        name: randomName('wallet'),
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
+      const input = testWalletInputCreate({ accountId: crypto.randomUUID(), name: randomName('wallet') })
       const id = await dbWalletCreate(db, input)
       const newName = randomName('newName')
 

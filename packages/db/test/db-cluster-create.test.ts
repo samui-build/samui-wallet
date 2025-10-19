@@ -2,11 +2,9 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
-
 import { dbClusterCreate } from '../src/db-cluster-create'
 import { dbClusterFindMany } from '../src/db-cluster-find-many'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, testClusterInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -19,11 +17,7 @@ describe('db-cluster-create', () => {
     it('should create a cluster', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: ClusterInputCreate = {
-        endpoint: 'http://localhost:8899',
-        name: randomName('cluster'),
-        type: 'solana:devnet',
-      }
+      const input = testClusterInputCreate()
 
       // ACT
       await dbClusterCreate(db, input)
@@ -46,11 +40,7 @@ describe('db-cluster-create', () => {
     it('should throw an error when creating a cluster fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: ClusterInputCreate = {
-        endpoint: 'http://localhost:8899',
-        name: 'test',
-        type: 'solana:devnet',
-      }
+      const input = testClusterInputCreate()
       vi.spyOn(db.clusters, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
@@ -62,11 +52,7 @@ describe('db-cluster-create', () => {
     it('should throw an error with an invalid endpoint', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: ClusterInputCreate = {
-        endpoint: 'not-a-url',
-        name: randomName('cluster'),
-        type: 'solana:devnet',
-      }
+      const input = testClusterInputCreate({ endpoint: 'not-a-url' })
 
       // ACT & ASSERT
       await expect(dbClusterCreate(db, input)).rejects.toThrow()

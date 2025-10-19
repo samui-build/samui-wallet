@@ -2,12 +2,11 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { AccountInputCreate } from '../src/dto/account-input-create'
 import type { Account } from '../src/entity/account'
 
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindMany } from '../src/db-account-find-many'
-import { createDbTest } from './test-helpers'
+import { createDbTest, testAccountInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -20,19 +19,9 @@ describe('db-account-find-many', () => {
     it('should find many accounts by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
-      const account1: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'm',
-        name: 'Test Account Alpha',
-        secret: 's',
-      }
-      const account2: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'm',
-        name: 'Test Account Beta',
-        secret: 's',
-      }
-      const account3: AccountInputCreate = { derivationPath: 'd', mnemonic: 'm', name: 'Another One', secret: 's' }
+      const account1 = testAccountInputCreate({ name: 'Test Account Alpha' })
+      const account2 = testAccountInputCreate({ name: 'Test Account Beta' })
+      const account3 = testAccountInputCreate({ name: 'Another One' })
       await dbAccountCreate(db, account1)
       await dbAccountCreate(db, account2)
       await dbAccountCreate(db, account3)
@@ -48,18 +37,8 @@ describe('db-account-find-many', () => {
     it('should find many accounts by id', async () => {
       // ARRANGE
       expect.assertions(2)
-      const account1: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'm',
-        name: 'Test Account Alpha',
-        secret: 's',
-      }
-      const account2: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'm',
-        name: 'Test Account Beta',
-        secret: 's',
-      }
+      const account1 = testAccountInputCreate({ name: 'Test Account Alpha' })
+      const account2 = testAccountInputCreate({ name: 'Test Account Beta' })
       const id1 = await dbAccountCreate(db, account1)
       await dbAccountCreate(db, account2)
 

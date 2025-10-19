@@ -2,12 +2,11 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { AccountInputCreate } from '../src/dto/account-input-create'
 import type { Account } from '../src/entity/account'
 
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, testAccountInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -20,12 +19,7 @@ describe('db-account-find-unique', () => {
     it('should find a unique account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'baz',
-        name: randomName('account'),
-        secret: 'bar',
-      }
+      const input = testAccountInputCreate()
       const id = await dbAccountCreate(db, input)
 
       // ACT

@@ -2,12 +2,11 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { WalletInputCreate } from '../src/dto/wallet-input-create'
 import type { Wallet } from '../src/entity/wallet'
 
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, testWalletInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -22,24 +21,9 @@ describe('db-wallet-find-many', () => {
       expect.assertions(2)
       const accountId1 = crypto.randomUUID()
       const accountId2 = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId: accountId1,
-        name: randomName('wallet-1'),
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId: accountId1,
-        name: randomName('wallet-2'),
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
-      const wallet3: WalletInputCreate = {
-        accountId: accountId2,
-        name: randomName('wallet-3'),
-        publicKey: crypto.randomUUID(),
-        type: 'Watched',
-      }
+      const wallet1 = testWalletInputCreate({ accountId: accountId1 })
+      const wallet2 = testWalletInputCreate({ accountId: accountId1 })
+      const wallet3 = testWalletInputCreate({ accountId: accountId2 })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
       await dbWalletCreate(db, wallet3)
@@ -56,24 +40,9 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId,
-        name: 'Trading Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId,
-        name: 'Staking Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
-      const wallet3: WalletInputCreate = {
-        accountId,
-        name: 'Savings',
-        publicKey: crypto.randomUUID(),
-        type: 'Watched',
-      }
+      const wallet1 = testWalletInputCreate({ accountId, name: 'Trading Wallet' })
+      const wallet2 = testWalletInputCreate({ accountId, name: 'Staking Wallet' })
+      const wallet3 = testWalletInputCreate({ accountId, name: 'Savings' })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
       await dbWalletCreate(db, wallet3)
@@ -90,24 +59,9 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId,
-        name: 'Trading Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId,
-        name: 'Staking Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
-      const wallet3: WalletInputCreate = {
-        accountId,
-        name: 'Savings Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
+      const wallet1 = testWalletInputCreate({ accountId })
+      const wallet2 = testWalletInputCreate({ accountId, type: 'Imported' })
+      const wallet3 = testWalletInputCreate({ accountId })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
       await dbWalletCreate(db, wallet3)
@@ -124,30 +78,10 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId,
-        name: 'Trading Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId,
-        name: 'Staking Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
-      const wallet3: WalletInputCreate = {
-        accountId,
-        name: 'Savings',
-        publicKey: crypto.randomUUID(),
-        type: 'Watched',
-      }
-      const wallet4: WalletInputCreate = {
-        accountId,
-        name: 'Another Trading Wallet',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
+      const wallet1 = testWalletInputCreate({ accountId, name: 'Trading Wallet' })
+      const wallet2 = testWalletInputCreate({ accountId, name: 'Staking Wallet', type: 'Imported' })
+      const wallet3 = testWalletInputCreate({ accountId, name: 'Savings', type: 'Watched' })
+      const wallet4 = testWalletInputCreate({ accountId, name: 'Another Trading Wallet', type: 'Imported' })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
       await dbWalletCreate(db, wallet3)
@@ -165,18 +99,8 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId,
-        name: 'Wallet 1',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId,
-        name: 'Wallet 2',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
+      const wallet1 = testWalletInputCreate({ accountId, name: 'Wallet 1' })
+      const wallet2 = testWalletInputCreate({ accountId, name: 'Wallet 2', type: 'Imported' })
       const id1 = await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
 
@@ -192,18 +116,8 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1: WalletInputCreate = {
-        accountId,
-        name: 'Wallet 1',
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
-      const wallet2: WalletInputCreate = {
-        accountId,
-        name: 'Wallet 2',
-        publicKey: crypto.randomUUID(),
-        type: 'Imported',
-      }
+      const wallet1 = testWalletInputCreate({ accountId, name: 'Wallet 1' })
+      const wallet2 = testWalletInputCreate({ accountId, name: 'Wallet 2', type: 'Imported' })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
 

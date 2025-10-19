@@ -10,5 +10,5 @@ export async function dbPreferenceFindUniqueByKey(db: Database, key: PreferenceK
     console.log(error)
     throw new Error(`Error finding preference with key ${key}`)
   }
-  return data ? data : null
+  return data ?? null
 }

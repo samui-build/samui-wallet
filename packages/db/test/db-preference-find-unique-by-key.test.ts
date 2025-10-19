@@ -2,37 +2,33 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
-import type { Cluster } from '../src/entity/cluster'
+import type { Preference } from '../src/entity/preference'
+import type { PreferenceKey } from '../src/entity/preference-key'
 
-import { dbClusterCreate } from '../src/db-cluster-create'
-import { dbClusterFindUnique } from '../src/db-cluster-find-unique'
-import { createDbTest, randomName } from './test-helpers'
+import { dbPreferenceCreate } from '../src/db-preference-create'
+import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
+import { createDbTest, testPreferenceInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
-describe('db-cluster', () => {
+describe('db-preference-find-unique-by-key', () => {
   beforeEach(async () => {
-    await db.clusters.clear()
+    await db.preferences.clear()
   })
 
   describe('expected behavior', () => {
-    it('should find a unique cluster', async () => {
+    it('should find a unique preference', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: ClusterInputCreate = {
-        endpoint: 'http://localhost:8899',
-        name: randomName('cluster'),
-        type: 'solana:devnet',
-      }
-      const id = await dbClusterCreate(db, input)
+      const input = testPreferenceInputCreate()
+      const key = await dbPreferenceCreate(db, input)
 
       // ACT
-      const item = await dbClusterFindUnique(db, id)
+      const item = await dbPreferenceFindUniqueByKey(db, key)
 
       // ASSERT
       expect(item).toBeDefined()
-      expect(item?.name).toBe(input.name)
+      expect(item?.value).toBe(input.value)
     })
   })
 
@@ -45,16 +41,16 @@ describe('db-cluster', () => {
       vi.restoreAllMocks()
     })
 
-    it('should throw an error when finding a unique cluster fails', async () => {
+    it('should throw an error when finding a unique preference fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.clusters, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Cluster | undefined>,
+      const key: PreferenceKey = 'activeClusterId'
+      vi.spyOn(db.preferences, 'get').mockImplementationOnce(
+        () => Promise.reject(new Error('Test error')) as PromiseExtended<Preference | undefined>,
       )
 
       // ACT & ASSERT
-      await expect(dbClusterFindUnique(db, id)).rejects.toThrow(`Error finding cluster with id ${id}`)
+      await expect(dbPreferenceFindUniqueByKey(db, key)).rejects.toThrow(`Error finding preference with key ${key}`)
     })
   })
 })

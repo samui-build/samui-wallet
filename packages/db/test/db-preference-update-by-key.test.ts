@@ -2,21 +2,17 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { PreferenceInputCreate } from '../src/dto/preference-input-create'
 import type { PreferenceInputUpdate } from '../src/dto/preference-input-update'
 
 import { dbPreferenceCreate } from '../src/db-preference-create'
 import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
 import { dbPreferenceUpdateByKey } from '../src/db-preference-update-by-key'
-import { createDbTest } from './test-helpers'
+import { createDbTest, testPreferenceInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
 describe('db-preference-update-by-key', () => {
-  const initialInput: PreferenceInputCreate = {
-    key: 'activeClusterId',
-    value: 'test-cluster-id-1',
-  }
+  const initialInput = testPreferenceInputCreate()
 
   beforeEach(async () => {
     await db.preferences.clear()

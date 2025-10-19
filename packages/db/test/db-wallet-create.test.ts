@@ -2,12 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { WalletInputCreate } from '../src/dto/wallet-input-create'
-
 import { dbWalletCreate } from '../src/db-wallet-create'
 import { dbWalletFindMany } from '../src/db-wallet-find-many'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, testWalletInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -21,12 +19,7 @@ describe('db-wallet-create', () => {
       // ARRANGE
       expect.assertions(1)
       const accountId = crypto.randomUUID()
-      const input: WalletInputCreate = {
-        accountId,
-        name: randomName('wallet'),
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
+      const input = testWalletInputCreate({ accountId })
 
       // ACT
       await dbWalletCreate(db, input)
@@ -40,12 +33,7 @@ describe('db-wallet-create', () => {
       // ARRANGE
       expect.assertions(1)
       const accountId = crypto.randomUUID()
-      const input: WalletInputCreate = {
-        accountId,
-        name: randomName('wallet'),
-        publicKey: crypto.randomUUID(),
-        type: 'Derived',
-      }
+      const input = testWalletInputCreate({ accountId })
 
       // ACT
       const result = await dbWalletCreate(db, input)
@@ -68,12 +56,7 @@ describe('db-wallet-create', () => {
     it('should throw an error when creating a wallet fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: WalletInputCreate = {
-        accountId: 'test-account',
-        name: 'test',
-        publicKey: 'test-pk',
-        type: 'Derived',
-      }
+      const input = testWalletInputCreate({ accountId: 'test-account' })
       vi.spyOn(db.wallets, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )

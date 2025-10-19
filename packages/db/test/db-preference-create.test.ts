@@ -2,11 +2,9 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { PreferenceInputCreate } from '../src/dto/preference-input-create'
-
 import { dbPreferenceCreate } from '../src/db-preference-create'
 import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
-import { createDbTest } from './test-helpers'
+import { createDbTest, testPreferenceInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -19,10 +17,7 @@ describe('db-preference-create', () => {
     it('should create a preference', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input: PreferenceInputCreate = {
-        key: 'activeClusterId',
-        value: 'test-cluster-id',
-      }
+      const input = testPreferenceInputCreate()
 
       // ACT
       await dbPreferenceCreate(db, input)
@@ -46,10 +41,7 @@ describe('db-preference-create', () => {
     it('should throw an error when creating a preference fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: PreferenceInputCreate = {
-        key: 'activeClusterId',
-        value: 'test-cluster-id',
-      }
+      const input = testPreferenceInputCreate()
       vi.spyOn(db.preferences, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
@@ -61,11 +53,10 @@ describe('db-preference-create', () => {
     it('should throw an error with an invalid key', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: PreferenceInputCreate = {
+      const input = testPreferenceInputCreate({
         // @ts-expect-error: Testing invalid input
         key: 'invalid-key',
-        value: 'some-value',
-      }
+      })
 
       // ACT & ASSERT
       await expect(dbPreferenceCreate(db, input)).rejects.toThrow()
@@ -74,10 +65,7 @@ describe('db-preference-create', () => {
     it('should throw an error when creating a preference with a key that already exists', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: PreferenceInputCreate = {
-        key: 'activeClusterId',
-        value: 'test-cluster-id-1',
-      }
+      const input = testPreferenceInputCreate()
       // Create the first preference
       await dbPreferenceCreate(db, input)
 

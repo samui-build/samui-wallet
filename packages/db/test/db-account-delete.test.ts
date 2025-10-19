@@ -2,12 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { AccountInputCreate } from '../src/dto/account-input-create'
-
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountDelete } from '../src/db-account-delete'
 import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, randomName } from './test-helpers'
+import { createDbTest, testAccountInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -20,12 +18,7 @@ describe('db-account-delete', () => {
     it('should delete an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input: AccountInputCreate = {
-        derivationPath: 'd',
-        mnemonic: 'baz',
-        name: randomName('account'),
-        secret: 'bar',
-      }
+      const input = testAccountInputCreate()
       const id = await dbAccountCreate(db, input)
 
       // ACT
