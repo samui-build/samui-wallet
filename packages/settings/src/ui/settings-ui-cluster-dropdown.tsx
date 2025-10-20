@@ -23,7 +23,7 @@ export function SettingsUiClusterDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="outline">
+        <Button variant="outline">
           <LucideNetwork /> {activeCluster?.name ?? 'Select Cluster'}
         </Button>
       </DropdownMenuTrigger>
