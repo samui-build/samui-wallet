@@ -4,6 +4,7 @@ import { createHashRouter, Navigate, RouterProvider } from 'react-router'
 
 import type { CoreLayoutLink } from './ui/core-layout.js'
 
+import { loaderPortfolio } from './data-access/loader-portfolio.js'
 import { CoreLayout } from './ui/core-layout.js'
 
 const DevRoutes = lazy(() => import('../dev/dev-routes.js'))
@@ -19,7 +20,12 @@ const router = createHashRouter([
   {
     children: [
       { element: <Navigate replace to="/portfolio" />, index: true },
-      { element: <PortfolioRoutes />, path: 'portfolio/*' },
+      {
+        element: <PortfolioRoutes />,
+        id: 'portfolio',
+        loader: loaderPortfolio,
+        path: 'portfolio/*',
+      },
       { element: <DevRoutes />, path: 'dev/*' },
       { element: <SettingsRoutes />, path: 'settings/*' },
     ],
