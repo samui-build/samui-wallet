@@ -26,9 +26,7 @@ export function SettingsUiWalletDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="outline">
-          {activeWallet.name}
-        </Button>
+        <Button variant="outline">{activeWallet.name}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {items.map((item) => (
