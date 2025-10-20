@@ -3,9 +3,9 @@ import { useDbPreferenceFindUnique } from '@workspace/db-react/use-db-preference
 import { useDbPreferenceUpdateByKey } from '@workspace/db-react/use-db-preference-update-by-key'
 import { useDbWalletFindMany } from '@workspace/db-react/use-db-wallet-find-many'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
-import { Spinner } from '@workspace/ui/components/spinner'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiError } from '@workspace/ui/components/ui-error'
+import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useParams } from 'react-router'
 
@@ -30,7 +30,7 @@ export function SettingsFeatureAccountDetails() {
   const deriveWallet = useDeriveAndCreateWallet()
 
   if (isLoading || isLoadingWallets) {
-    return <Spinner />
+    return <UiLoader />
   }
   if (isError || isErrorWallets) {
     return <UiError message={error || errorWallets} />
