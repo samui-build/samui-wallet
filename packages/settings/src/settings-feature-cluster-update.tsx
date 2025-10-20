@@ -1,9 +1,9 @@
 import { useDbClusterFindUnique } from '@workspace/db-react/use-db-cluster-find-unique'
 import { useDbClusterUpdate } from '@workspace/db-react/use-db-cluster-update'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
-import { Spinner } from '@workspace/ui/components/spinner'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiError } from '@workspace/ui/components/ui-error'
+import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useNavigate, useParams } from 'react-router'
 
@@ -16,7 +16,7 @@ export function SettingsFeatureClusterUpdate() {
   const { data: item, error, isError, isLoading } = useDbClusterFindUnique({ id: clusterId })
 
   if (isLoading) {
-    return <Spinner />
+    return <UiLoader />
   }
   if (isError) {
     return <UiError message={error} />
