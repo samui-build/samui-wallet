@@ -108,8 +108,8 @@ importers:
   apps/api:
     dependencies:
       hono:
-        specifier: ^4.9.10
-        version: 4.9.10
+        specifier: ^4.10.1
+        version: 4.10.1
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -5487,8 +5487,8 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  hono@4.9.10:
-    resolution: {integrity: sha512-AlI15ijFyKTXR7eHo7QK7OR4RoKIedZvBuRjO8iy4zrxvlY5oFCdiRG/V/lFJHCNXJ0k72ATgnyzx8Yqa5arug==}
+  hono@4.10.1:
+    resolution: {integrity: sha512-rpGNOfacO4WEPClfkEt1yfl8cbu10uB1lNpiI33AKoiAHwOS8lV748JiLx4b5ozO/u4qLjIvfpFsPXdY5Qjkmg==}
     engines: {node: '>=16.9.0'}
 
   hookable@5.5.3:
@@ -13914,7 +13914,7 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  hono@4.9.10: {}
+  hono@4.10.1: {}
 
   hookable@5.5.3: {}
 

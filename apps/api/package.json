@@ -9,7 +9,7 @@
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "dependencies": {
-    "hono": "^4.9.10"
+    "hono": "^4.10.1"
   },
   "devDependencies": {
     "@types/node": "catalog:",
