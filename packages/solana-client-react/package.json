@@ -1,0 +1,32 @@
+{
+  "name": "@workspace/solana-client-react",
+  "version": "0.0.0",
+  "private": false,
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.tsx"
+  },
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "catalog:",
+    "@workspace/db": "workspace:*",
+    "@workspace/db-react": "workspace:*",
+    "@workspace/solana-client": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}
