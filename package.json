@@ -18,7 +18,7 @@
     "@radix-ui/react-select": "^2.2.6",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "lefthook": "^1.13.6",
+    "lefthook": "^2.0.0",
     "pkg-pr-new": "^0.0.60",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
