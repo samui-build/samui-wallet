@@ -15,6 +15,8 @@
     "test:watch": "vitest --watch"
   },
   "dependencies": {
+    "@solana-program/token": "catalog:",
+    "@solana-program/token-2022": "catalog:",
     "@solana/kit": "catalog:",
     "ws": "catalog:"
   },

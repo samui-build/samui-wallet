@@ -6,6 +6,8 @@ catalog:
   '@eslint/js': 9.38.0
   '@hookform/resolvers': ^5.2.2
   '@solana/kit': 4.0.0
+  '@solana-program/token': 0.7.0
+  '@solana-program/token-2022': 0.6.0
   '@tailwindcss/postcss': 4.1.14
   '@tailwindcss/vite': 4.1.14
   '@tanstack/react-query': 5.90.5
