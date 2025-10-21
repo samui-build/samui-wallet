@@ -8,7 +8,6 @@ import { dbPreferenceCreate } from '@workspace/db/db-preference-create'
 import { dbPreferenceFindUniqueByKey } from '@workspace/db/db-preference-find-unique-by-key'
 import { dbPreferenceUpdateByKey } from '@workspace/db/db-preference-update-by-key'
 import { toastError } from '@workspace/ui/lib/toast-error'
-import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
 export type DbPreferenceCreateMutateOptions = MutateOptions<string, Error, { input: PreferenceInputCreate }>
 export type DbPreferenceUpdateMutateOptions = MutateOptions<number, Error, { input: PreferenceInputUpdate }>
@@ -18,7 +17,6 @@ export const dbPreferenceOptions = {
     mutationOptions({
       mutationFn: ({ input }: { input: PreferenceInputCreate }) => dbPreferenceCreate(db, input),
       onError: () => toastError('Error creating preference'),
-      onSuccess: () => toastSuccess('Preference created'),
       ...props,
     }),
   findUniqueByKey: (key: PreferenceKey) =>
@@ -30,7 +28,6 @@ export const dbPreferenceOptions = {
     mutationOptions({
       mutationFn: ({ input }: { input: PreferenceInputUpdate }) => dbPreferenceUpdateByKey(db, key, input),
       onError: () => toastError('Error updating preference'),
-      onSuccess: () => toastSuccess('Preference updated'),
       ...props,
     }),
 }
