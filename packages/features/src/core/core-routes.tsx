@@ -1,3 +1,4 @@
+import { UiNotFound } from '@workspace/ui/components/ui-not-found.js'
 import { LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider } from 'react-router'
@@ -28,6 +29,7 @@ const router = createHashRouter([
       },
       { element: <DevRoutes />, path: 'dev/*' },
       { element: <SettingsRoutes />, path: 'settings/*' },
+      { element: <UiNotFound />, path: '*' },
     ],
     element: <CoreLayout links={links} />,
   },
