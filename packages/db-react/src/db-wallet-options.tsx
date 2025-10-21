@@ -8,10 +8,12 @@ import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import { dbWalletDelete } from '@workspace/db/db-wallet-delete'
 import { dbWalletFindMany } from '@workspace/db/db-wallet-find-many'
 import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
+import { dbWalletSetActive } from '@workspace/db/db-wallet-set-active'
 import { dbWalletUpdate } from '@workspace/db/db-wallet-update'
 
 export type DbWalletCreateMutateOptions = MutateOptions<string, Error, { input: WalletInputCreate }>
 export type DbWalletDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
+export type DbWalletSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
 export type DbWalletUpdateMutateOptions = MutateOptions<number, Error, { input: WalletInputUpdate }>
 
 export const dbWalletOptions = {
@@ -34,6 +36,11 @@ export const dbWalletOptions = {
     queryOptions({
       queryFn: () => dbWalletFindUnique(db, id),
       queryKey: ['dbWalletFindUnique', id],
+    }),
+  setActive: (props: DbWalletSetActiveMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ id }: { id: string }) => dbWalletSetActive(db, id),
+      ...props,
     }),
   update: (props: DbWalletUpdateMutateOptions = {}) =>
     mutationOptions({

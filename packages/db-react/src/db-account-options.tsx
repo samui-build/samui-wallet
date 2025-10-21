@@ -8,10 +8,12 @@ import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbAccountDelete } from '@workspace/db/db-account-delete'
 import { dbAccountFindMany } from '@workspace/db/db-account-find-many'
 import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
+import { dbAccountSetActive } from '@workspace/db/db-account-set-active'
 import { dbAccountUpdate } from '@workspace/db/db-account-update'
 
 export type DbAccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountInputCreate }>
 export type DbAccountDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
+export type DbAccountSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
 export type DbAccountUpdateMutateOptions = MutateOptions<number, Error, { input: AccountInputUpdate }>
 
 export const dbAccountOptions = {
@@ -34,6 +36,11 @@ export const dbAccountOptions = {
     queryOptions({
       queryFn: () => dbAccountFindUnique(db, id),
       queryKey: ['dbAccountFindUnique', id],
+    }),
+  setActive: (props: DbAccountSetActiveMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ id }: { id: string }) => dbAccountSetActive(db, id),
+      ...props,
     }),
   update: (props: DbAccountUpdateMutateOptions = {}) =>
     mutationOptions({
