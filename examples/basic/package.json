@@ -15,6 +15,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@wallet-standard/core": "^1.1.1",
     "@wallet-standard/react": "^1.0.1",
+    "@workspace/ui": "link:../../packages/ui",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwindcss": "^4.1.14"
