@@ -5,6 +5,8 @@ import type { Cluster } from './entity/cluster'
 import type { Preference } from './entity/preference'
 import type { Wallet } from './entity/wallet'
 
+import { dbPopulate } from './db-populate'
+
 export interface DatabaseConfig {
   name: string
 }
@@ -25,47 +27,7 @@ export class Database extends Dexie {
     })
 
     this.on('populate', async () => {
-      await this.populate()
+      await dbPopulate(this)
     })
-  }
-
-  async populate() {
-    const now = new Date()
-    const activeClusterId = crypto.randomUUID()
-    await this.clusters.bulkAdd([
-      {
-        createdAt: now,
-        endpoint: 'http://localhost:8899',
-        id: crypto.randomUUID(),
-        name: 'Localnet',
-        type: 'solana:localnet',
-        updatedAt: now,
-      },
-      {
-        createdAt: now,
-        endpoint: 'https://api.devnet.solana.com',
-        id: activeClusterId,
-        name: 'Devnet',
-        type: 'solana:devnet',
-        updatedAt: now,
-      },
-      {
-        createdAt: now,
-        endpoint: 'https://api.testnet.solana.com',
-        id: crypto.randomUUID(),
-        name: 'Testnet',
-        type: 'solana:testnet',
-        updatedAt: now,
-      },
-    ])
-    await this.preferences.bulkAdd([
-      {
-        createdAt: now,
-        id: crypto.randomUUID(),
-        key: 'activeClusterId',
-        updatedAt: now,
-        value: activeClusterId,
-      },
-    ])
   }
 }
