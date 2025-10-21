@@ -7,6 +7,8 @@ import { Toaster } from '@workspace/ui/components/sonner'
 import { cn } from '@workspace/ui/lib/utils.js'
 import { NavLink, Outlet } from 'react-router'
 
+import { CoreUiWarningExperimental } from './core-ui-warning-experimental.js'
+
 export interface CoreLayoutLink {
   icon: UiIconLucide
   label: string
@@ -16,6 +18,7 @@ export interface CoreLayoutLink {
 export function CoreLayout({ links }: { links: CoreLayoutLink[] }) {
   return (
     <div className="h-full flex flex-col justify-between items-stretch">
+      <CoreUiWarningExperimental />
       <header className="bg-secondary/50 px-4 py-2 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <SettingsFeatureAccountDropdown />

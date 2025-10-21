@@ -9,13 +9,14 @@ import { SettingsFeatureAccountUpdate } from './settings-feature-account-update.
 import { SettingsFeatureClusterCreate } from './settings-feature-cluster-create.js'
 import { SettingsFeatureClusterList } from './settings-feature-cluster-list.js'
 import { SettingsFeatureClusterUpdate } from './settings-feature-cluster-update.js'
+import { SettingsFeatureGeneral } from './settings-feature-general.js'
 import { SettingsUiLayout } from './ui/settings-ui-layout.js'
 
 export default function SettingsRoutes() {
   return useRoutes([
     {
       children: [
-        { element: <Navigate replace to="accounts" />, index: true },
+        { element: <Navigate replace to="general" />, index: true },
         {
           children: [
             { element: <SettingsFeatureAccountList />, index: true },
@@ -34,6 +35,10 @@ export default function SettingsRoutes() {
             { element: <SettingsFeatureClusterUpdate />, path: ':clusterId' },
           ],
           path: 'clusters',
+        },
+        {
+          children: [{ element: <SettingsFeatureGeneral />, index: true }],
+          path: 'general',
         },
       ],
       element: <SettingsUiLayout />,
