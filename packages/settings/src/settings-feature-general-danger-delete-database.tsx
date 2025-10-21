@@ -1,6 +1,7 @@
 import { useDbReset } from '@workspace/db-react/use-db-reset'
 import { Button } from '@workspace/ui/components/button'
 import { Label } from '@workspace/ui/components/label'
+import { Link } from 'react-router'
 
 export function SettingsFeatureGeneralDangerDeleteDatabase() {
   const mutation = useDbReset()
@@ -22,6 +23,16 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
         variant="destructive"
       >
         Delete Database
+      </Button>
+    </div>
+  )
+}
+export function SettingsFeatureGeneralDangerDevelopers() {
+  return (
+    <div className="flex items-center justify-between space-x-2">
+      <Label>Developer section</Label>
+      <Button asChild variant="destructive">
+        <Link to="/dev">Take me there!</Link>
       </Button>
     </div>
   )
