@@ -15,6 +15,7 @@
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
