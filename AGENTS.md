@@ -1,6 +1,7 @@
 # Agent Guidelines for Samui Wallet
 
 ## Commands
+
 - **Build**: `pnpm build`
 - **Lint**: `pnpm lint` / `pnpm lint:fix`
 - **Type Check**: `pnpm check-types`
@@ -9,6 +10,7 @@
 - **Format**: `pnpm format` / `pnpm format:check`
 
 ## Code Style
+
 - **TypeScript**: Strict mode, consistent type definitions/imports
 - **Formatting**: Prettier (single quotes, 120 width, no semicolons, trailing commas)
 - **Linting**: ESLint with perfectionist (alphabetical imports/sorting)

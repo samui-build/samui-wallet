@@ -7,6 +7,10 @@ pre-push:
 pre-commit:
   parallel: true
   jobs:
+    - name: format
+      run: pnpm format
+      glob: '*'
+
     - name: lint
       run: pnpm lint
       glob: '*'
