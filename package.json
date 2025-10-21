@@ -25,7 +25,7 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "packageManager": "pnpm@10.18.1",
+  "packageManager": "pnpm@10.19.0",
   "engines": {
     "node": ">=20"
   },
@@ -33,6 +33,7 @@
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
       "esbuild",
+      "lefthook",
       "sharp"
     ]
   }
