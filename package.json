@@ -1,6 +1,6 @@
 {
-  "name": "shadcn-ui-monorepo",
-  "version": "0.0.1",
+  "name": "samui",
+  "version": "0.0.0",
   "private": true,
   "scripts": {
     "build": "turbo run build",
