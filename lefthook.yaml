@@ -5,8 +5,15 @@ pre-commit:
       run: bun lint
       glob: "*"
 
+    - name: cspell
+      run: bun spell-check
+      glob: "*"
+
 commit-msg:
   parallel: true
   commands:
     commitlint:
       run: bun commitlint --edit {1}
+
+    spell-check:
+      run: bun cspell --no-summary {1}
