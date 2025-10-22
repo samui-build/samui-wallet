@@ -8,7 +8,7 @@ import type { CoreLayoutLink } from './ui/core-layout.js'
 import { loaderPortfolio } from './data-access/loader-portfolio.js'
 import { CoreLayout } from './ui/core-layout.js'
 
-const DevRoutes = lazy(() => import('../dev/dev-routes.js'))
+const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
