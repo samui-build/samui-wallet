@@ -22,7 +22,7 @@ catalog:
   react-dom: 19.2.0
   react-hook-form: ^7.65.0
   react-router: 7.9.4
-  tailwindcss: 4.1.14
+  tailwindcss: 4.1.15
   typescript: 5.9.3
   typescript-eslint: 8.46.1
   vitest: 3.2.4
