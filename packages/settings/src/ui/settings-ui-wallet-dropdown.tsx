@@ -18,7 +18,7 @@ export function SettingsUiWalletDropdown({
 }: {
   activeWallet: undefined | Wallet
   items: Wallet[]
-  setActive: (item: Wallet) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   if (!activeWallet) {
     return null
@@ -34,7 +34,7 @@ export function SettingsUiWalletDropdown({
             disabled={item.id === activeWallet?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item)
+              await setActive(item.id)
             }}
           >
             {item.name}

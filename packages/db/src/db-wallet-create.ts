@@ -3,8 +3,8 @@ import { tryCatch } from '@workspace/core/try-catch'
 import type { Database } from './database'
 import type { WalletInputCreate } from './dto/wallet-input-create'
 
-import { dbPreferenceCreate } from './db-preference-create'
-import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key'
+import { dbPreferenceGetValue } from './db-preference-get-value'
+import { dbPreferenceSetValue } from './db-preference-set-value'
 import { walletSchemaCreate } from './schema/wallet-schema-create'
 
 export async function dbWalletCreate(db: Database, input: WalletInputCreate): Promise<string> {
@@ -24,9 +24,9 @@ export async function dbWalletCreate(db: Database, input: WalletInputCreate): Pr
     throw new Error(`Error creating wallet`)
   }
 
-  const activeWalletId = await dbPreferenceFindUniqueByKey(db, 'activeWalletId')
+  const activeWalletId = await dbPreferenceGetValue(db, 'activeWalletId')
   if (!activeWalletId) {
-    await dbPreferenceCreate(db, { key: 'activeWalletId', value: data })
+    await dbPreferenceSetValue(db, 'activeWalletId', data)
   }
 
   return data

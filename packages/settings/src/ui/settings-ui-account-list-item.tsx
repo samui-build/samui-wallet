@@ -17,7 +17,7 @@ export function SettingsUiAccountListItem({
   activeId: null | string
   deleteItem: (item: Account) => Promise<void>
   item: Account
-  setActive: (item: Account) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   return (
     <Item key={item.id} role="listitem" variant={activeId === item.id ? 'muted' : 'outline'}>
@@ -32,9 +32,8 @@ export function SettingsUiAccountListItem({
         {activeId === item.id ? null : (
           <UiTooltip content="Set as active">
             <Button
-              onClick={async (e) => {
-                e.preventDefault()
-                await setActive(item)
+              onClick={async () => {
+                await setActive(item.id)
               }}
               size="icon"
               variant="outline"

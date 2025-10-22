@@ -14,7 +14,7 @@ export function SettingsUiWalletTable({
   activeId: null | string
   deriveWallet: () => void
   items: Wallet[]
-  setActive: (item: Wallet) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   return (
     <Table>
@@ -39,7 +39,7 @@ export function SettingsUiWalletTable({
             <TableCell>
               {activeId === item.id ? null : (
                 <UiTooltip content="Set as active">
-                  <Button onClick={() => setActive(item)} size="icon" variant="outline">
+                  <Button onClick={() => setActive(item.id)} size="icon" variant="outline">
                     <LucideCheck className="text-green-500 size-4" />
                   </Button>
                 </UiTooltip>

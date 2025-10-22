@@ -3,19 +3,16 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 import { db } from '@workspace/db/db'
 import { useLiveQuery } from 'dexie-react-hooks'
 
-import { useDbPreferenceFindUniqueByKeyLive } from './use-db-preference-find-unique-by-key-live'
+import { useDbPreference } from './use-db-preference'
 
 export function useDbWalletLive() {
-  const accountId = useDbPreferenceFindUniqueByKeyLive({ key: 'activeAccountId' })
+  const [accountId] = useDbPreference('activeAccountId')
   return useLiveQuery<Wallet[], Wallet[]>(
-    () => {
-      return db.wallets
+    () =>
+      db.wallets
         .orderBy('derivationIndex')
-        .filter((item) => {
-          return !!accountId && item.accountId === accountId.value
-        })
-        .toArray()
-    },
+        .filter((item) => !!accountId && item.accountId === accountId)
+        .toArray(),
     [accountId],
     [],
   )

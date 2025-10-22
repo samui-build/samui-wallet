@@ -1,6 +1,5 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
-import { useDbPreferenceFindUnique } from '@workspace/db-react/use-db-preference-find-unique-by-key'
-import { useDbPreferenceUpdateByKey } from '@workspace/db-react/use-db-preference-update-by-key'
+import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { useDbWalletFindMany } from '@workspace/db-react/use-db-wallet-find-many'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
@@ -24,8 +23,7 @@ export function SettingsFeatureAccountDetails() {
     isLoading: isLoadingWallets,
     refetch,
   } = useDbWalletFindMany({ input: { accountId } })
-  const { data } = useDbPreferenceFindUnique({ key: 'activeWalletId' })
-  const { mutateAsync } = useDbPreferenceUpdateByKey('activeWalletId')
+  const [activeId, setActiveId] = useDbPreference('activeWalletId')
 
   const deriveWallet = useDeriveAndCreateWallet()
 
@@ -49,18 +47,13 @@ export function SettingsFeatureAccountDetails() {
       </CardHeader>
       <CardContent className="grid gap-6">
         <SettingsUiWalletTable
-          activeId={data?.value ?? null}
+          activeId={activeId}
           deriveWallet={async () => {
             await deriveWallet.mutateAsync({ index: wallets?.length ?? 0, item })
             await refetch()
           }}
           items={wallets ?? []}
-          setActive={async (item) => {
-            if (!data?.id) {
-              return
-            }
-            await mutateAsync({ input: { value: item.id } })
-          }}
+          setActive={setActiveId}
         />
       </CardContent>
     </Card>

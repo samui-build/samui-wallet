@@ -7,15 +7,15 @@ import { LucideCheck, LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function SettingsUiClusterList({
-  activeClusterId,
+  activeId,
   deleteItem,
   items,
   setActive,
 }: {
-  activeClusterId: null | string
+  activeId: null | string
   deleteItem: (item: Cluster) => Promise<void>
   items: Cluster[]
-  setActive: (item: Cluster) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   return (
     <ItemGroup className="gap-4">
@@ -24,7 +24,7 @@ export function SettingsUiClusterList({
           className="flex-col items-stretch sm:flex-row sm:items-center"
           key={item.id}
           role="listitem"
-          variant={activeClusterId === item.id ? 'muted' : 'outline'}
+          variant={activeId === item.id ? 'muted' : 'outline'}
         >
           <ItemContent>
             <ItemTitle className="line-clamp-1">
@@ -33,16 +33,9 @@ export function SettingsUiClusterList({
             <ItemDescription>{item.endpoint}</ItemDescription>
           </ItemContent>
           <ItemActions className="w-full sm:w-auto">
-            {activeClusterId == item.id ? null : (
+            {activeId == item.id ? null : (
               <UiTooltip content="Set as active">
-                <Button
-                  onClick={async (e) => {
-                    e.preventDefault()
-                    await setActive(item)
-                  }}
-                  size="icon"
-                  variant="outline"
-                >
+                <Button onClick={() => setActive(item.id)} size="icon" variant="outline">
                   <LucideCheck className="text-green-500 size-4" />
                 </Button>
               </UiTooltip>

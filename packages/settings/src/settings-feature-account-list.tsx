@@ -1,7 +1,6 @@
 import { useDbAccountDelete } from '@workspace/db-react/use-db-account-delete'
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbPreferenceFindUnique } from '@workspace/db-react/use-db-preference-find-unique-by-key'
-import { useDbPreferenceUpdateByKey } from '@workspace/db-react/use-db-preference-update-by-key'
+import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { Button } from '@workspace/ui/components/button'
 import { Card, CardContent } from '@workspace/ui/components/card'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -20,8 +19,7 @@ export function SettingsFeatureAccountList() {
     onSuccess: () => toastSuccess('Account deleted'),
   })
   const items = useDbAccountLive()
-  const { data } = useDbPreferenceFindUnique({ key: 'activeAccountId' })
-  const { mutateAsync } = useDbPreferenceUpdateByKey('activeAccountId')
+  const [activeId, setActiveId] = useDbPreference('activeAccountId')
 
   return items.length ? (
     <SettingsUiPageCard
@@ -33,15 +31,10 @@ export function SettingsFeatureAccountList() {
       page={page}
     >
       <SettingsUiAccountList
-        activeId={data?.value ?? null}
+        activeId={activeId}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={items}
-        setActive={async (item) => {
-          if (!data?.id) {
-            return
-          }
-          await mutateAsync({ input: { value: item.id } })
-        }}
+        setActive={setActiveId}
       />
     </SettingsUiPageCard>
   ) : (
