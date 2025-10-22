@@ -9,18 +9,18 @@ import { Link } from 'react-router'
 import { SettingsUiAccountItem } from './settings-ui-account-item.js'
 
 export function SettingsUiAccountListItem({
-  activeId,
+  active,
   deleteItem,
   item,
   setActive,
 }: {
-  activeId: null | string
+  active: Account | null
   deleteItem: (item: Account) => Promise<void>
   item: Account
   setActive: (id: string) => Promise<void>
 }) {
   return (
-    <Item key={item.id} role="listitem" variant={activeId === item.id ? 'muted' : 'outline'}>
+    <Item key={item.id} role="listitem" variant={active?.id === item.id ? 'muted' : 'outline'}>
       <ItemContent>
         <ItemTitle className="line-clamp-1">
           <Link to={`./${item.id}`}>
@@ -29,7 +29,7 @@ export function SettingsUiAccountListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
-        {activeId === item.id ? null : (
+        {active?.id === item.id ? null : (
           <UiTooltip content="Set as active">
             <Button
               onClick={async () => {

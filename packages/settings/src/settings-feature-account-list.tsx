@@ -1,12 +1,11 @@
 import { useDbAccountDelete } from '@workspace/db-react/use-db-account-delete'
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { Button } from '@workspace/ui/components/button'
 import { Card, CardContent } from '@workspace/ui/components/card'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { Link } from 'react-router'
 
+import { useActiveAccount } from './data-access/use-active-account.js'
 import { useSettingsPage } from './data-access/use-settings-page.js'
 import { SettingsUiAccountCreateOptions } from './ui/settings-ui-account-create-options.js'
 import { SettingsUiAccountList } from './ui/settings-ui-account-list.js'
@@ -18,10 +17,9 @@ export function SettingsFeatureAccountList() {
     onError: () => toastError('Error deleting account'),
     onSuccess: () => toastSuccess('Account deleted'),
   })
-  const items = useDbAccountLive()
-  const [activeId, setActiveId] = useDbPreference('activeAccountId')
+  const { accounts, active, setActive } = useActiveAccount()
 
-  return items.length ? (
+  return accounts.length ? (
     <SettingsUiPageCard
       action={
         <Button asChild variant="outline">
@@ -31,10 +29,10 @@ export function SettingsFeatureAccountList() {
       page={page}
     >
       <SettingsUiAccountList
-        activeId={activeId}
+        active={active}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
-        items={items}
-        setActive={setActiveId}
+        items={accounts}
+        setActive={setActive}
       />
     </SettingsUiPageCard>
   ) : (

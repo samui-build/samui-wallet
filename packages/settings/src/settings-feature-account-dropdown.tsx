@@ -1,12 +1,7 @@
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
-import { useMemo } from 'react'
-
+import { useActiveAccount } from './data-access/use-active-account.js'
 import { SettingsUiAccountDropdown } from './ui/settings-ui-account-dropdown.js'
 
 export function SettingsFeatureAccountDropdown() {
-  const items = useDbAccountLive()
-  const [activeId, setActiveId] = useDbPreference('activeAccountId')
-  const activeAccount = useMemo(() => items.find((c) => c.id === activeId), [items, activeId])
-  return <SettingsUiAccountDropdown activeAccount={activeAccount} items={items} setActive={setActiveId} />
+  const { accounts, active, setActive } = useActiveAccount()
+  return <SettingsUiAccountDropdown active={active} items={accounts} setActive={setActive} />
 }

@@ -6,12 +6,12 @@ import { ItemGroup } from '@workspace/ui/components/item'
 import { SettingsUiAccountListItem } from './settings-ui-account-list-item.js'
 
 export function SettingsUiAccountList({
-  activeId,
+  active,
   deleteItem,
   items,
   setActive,
 }: {
-  activeId: null | string
+  active: Account | null
   deleteItem: (item: Account) => Promise<void>
   items: Array<{ wallets?: Wallet[] } & Account>
   setActive: (id: string) => Promise<void>
@@ -20,7 +20,7 @@ export function SettingsUiAccountList({
     <ItemGroup className="gap-4">
       {items.map((item) => (
         <SettingsUiAccountListItem
-          activeId={activeId}
+          active={active}
           deleteItem={deleteItem}
           item={item}
           key={item.id}

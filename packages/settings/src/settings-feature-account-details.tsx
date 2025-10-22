@@ -1,6 +1,4 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
-import { useDbWalletFindMany } from '@workspace/db-react/use-db-wallet-find-many'
 import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiError } from '@workspace/ui/components/ui-error'
@@ -8,30 +6,22 @@ import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useParams } from 'react-router'
 
+import { useActiveWallet } from './data-access/use-active-wallet.js'
 import { useDeriveAndCreateWallet } from './data-access/use-derive-and-create-wallet.js'
 import { SettingsUiAccountItem } from './ui/settings-ui-account-item.js'
 import { SettingsUiWalletTable } from './ui/settings-ui-wallet-table.js'
 
 export function SettingsFeatureAccountDetails() {
   const { accountId } = useParams() as { accountId: string }
-
   const { data: item, error, isError, isLoading } = useDbAccountFindUnique({ id: accountId })
-  const {
-    data: wallets,
-    error: errorWallets,
-    isError: isErrorWallets,
-    isLoading: isLoadingWallets,
-    refetch,
-  } = useDbWalletFindMany({ input: { accountId } })
-  const [activeId, setActiveId] = useDbPreference('activeWalletId')
-
+  const { active, setActive, wallets } = useActiveWallet()
   const deriveWallet = useDeriveAndCreateWallet()
 
-  if (isLoading || isLoadingWallets) {
+  if (isLoading) {
     return <UiLoader />
   }
-  if (isError || isErrorWallets) {
-    return <UiError message={error || errorWallets} />
+  if (isError) {
+    return <UiError message={error} />
   }
   if (!item) {
     return <UiNotFound />
@@ -47,13 +37,12 @@ export function SettingsFeatureAccountDetails() {
       </CardHeader>
       <CardContent className="grid gap-6">
         <SettingsUiWalletTable
-          activeId={activeId}
+          active={active}
           deriveWallet={async () => {
             await deriveWallet.mutateAsync({ index: wallets?.length ?? 0, item })
-            await refetch()
           }}
           items={wallets ?? []}
-          setActive={setActiveId}
+          setActive={setActive}
         />
       </CardContent>
     </Card>
