@@ -1,15 +1,6 @@
 {
   "name": "mobile",
-  "private": true,
   "version": "1.0.0",
-  "main": "index.ts",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web",
-    "lint": "expo lint"
-  },
   "dependencies": {
     "expo": "~54.0.13",
     "expo-status-bar": "~3.0.8",
@@ -23,5 +14,14 @@
     "eslint": "catalog:",
     "eslint-config-expo": "~10.0.0",
     "typescript": "catalog:"
+  },
+  "main": "index.ts",
+  "private": true,
+  "scripts": {
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "lint": "expo lint",
+    "start": "expo start",
+    "web": "expo start --web"
   }
 }

@@ -1,24 +1,24 @@
 {
   "name": "@workspace/core",
   "version": "0.0.0",
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
   "private": false,
   "publishConfig": {
     "access": "public"
-  },
-  "license": "MIT",
-  "exports": {
-    "./*": "./src/*.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  },
-  "devDependencies": {
-    "@workspace/config-eslint": "workspace:*",
-    "@workspace/config-typescript": "workspace:*",
-    "@types/node": "catalog:",
-    "eslint": "catalog:",
-    "typescript": "catalog:"
   }
 }

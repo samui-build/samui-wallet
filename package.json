@@ -1,19 +1,6 @@
 {
   "name": "samui",
   "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "build": "turbo run build",
-    "check-types": "turbo run check-types",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
-    "prepare": "lefthook install",
-    "test": "vitest run",
-    "test:watch": "vitest --watch",
-    "format": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --write \"**/*.{ts,tsx,md}\"",
-    "format:check": "NODE_OPTIONS=\"--experimental-strip-types\" prettier --check \"**/*.{ts,tsx,md}\""
-  },
   "devDependencies": {
     "@radix-ui/react-select": "^2.2.6",
     "@workspace/config-eslint": "workspace:*",
@@ -21,14 +8,15 @@
     "lefthook": "^2.0.0",
     "pkg-pr-new": "^0.0.60",
     "prettier": "^3.6.2",
+    "syncpack": "14.0.0-alpha.23",
     "turbo": "^2.5.8",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "packageManager": "pnpm@10.19.0",
   "engines": {
     "node": ">=20"
   },
+  "packageManager": "pnpm@10.19.0",
   "pnpm": {
     "onlyBuiltDependencies": [
       "@tailwindcss/oxide",
@@ -36,5 +24,18 @@
       "lefthook",
       "sharp"
     ]
+  },
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "check-types": "turbo run check-types",
+    "dev": "turbo run dev",
+    "format": "syncpack format && NODE_OPTIONS=\"--experimental-strip-types\" prettier --write \"**/*.{ts,tsx,md}\"",
+    "format:check": "syncpack format --check && NODE_OPTIONS=\"--experimental-strip-types\" prettier --check \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
+    "prepare": "lefthook install",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
   }
 }

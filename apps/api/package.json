@@ -1,22 +1,22 @@
 {
   "name": "api",
-  "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
-  },
   "dependencies": {
     "hono": "^4.10.1"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "tsx": "^4.7.1",
-    "typescript": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:"
-  }
+    "eslint": "catalog:",
+    "tsx": "^4.7.1",
+    "typescript": "catalog:"
+  },
+  "private": true,
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
+  },
+  "type": "module"
 }
