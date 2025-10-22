@@ -26,8 +26,7 @@
     "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
     "jsdom": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "exports": {
     "./*": "./src/*.ts"

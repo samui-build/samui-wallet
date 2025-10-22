@@ -8,12 +8,15 @@
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },
-  "main": "dist/index.js",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.tsx"
+  },
   "private": true,
   "scripts": {
     "build": "tsc",
     "check-types": "tsc --noEmit",
     "dev": "tsc --watch"
   },
-  "types": "dist/index.d.ts"
+  "type": "module"
 }
