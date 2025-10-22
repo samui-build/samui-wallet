@@ -1,9 +1,3 @@
-pre-push:
-  parallel: true
-  jobs:
-    - name: packages audit
-      run: pnpm audit --audit-level high
-
 pre-commit:
   parallel: true
   jobs:
