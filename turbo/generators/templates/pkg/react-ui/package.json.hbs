@@ -1,27 +1,27 @@
 {
   "name": "@workspace/{{name}}",
   "version": "0.0.0",
-  "private": false,
-  "license": "MIT",
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
   "exports": {
     "./*": "./src/*.tsx"
   },
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  },
-  "devDependencies": {
-    "@workspace/config-eslint": "workspace:*",
-    "@workspace/config-typescript": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/react": "catalog:",
-    "@types/react-dom": "catalog:",
-    "eslint": "catalog:",
-    "typescript": "catalog:"
-  },
-  "dependencies": {
-    "react": "catalog:",
-    "react-dom": "catalog:"
   }
 }

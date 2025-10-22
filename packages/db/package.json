@@ -1,13 +1,27 @@
 {
   "name": "@workspace/db",
   "version": "0.0.0",
+  "dependencies": {
+    "@workspace/core": "workspace:*",
+    "dexie": "^4.2.1",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "@workspace/config-vitest": "workspace:*",
+    "eslint": "catalog:",
+    "fake-indexeddb": "^6.2.4",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
   "private": false,
   "publishConfig": {
     "access": "public"
-  },
-  "license": "MIT",
-  "exports": {
-    "./*": "./src/*.ts"
   },
   "scripts": {
     "check-types": "tsc --noEmit",
@@ -15,19 +29,5 @@
     "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  },
-  "dependencies": {
-    "@workspace/core": "workspace:*",
-    "dexie": "^4.2.1",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@workspace/config-eslint": "workspace:*",
-    "@workspace/config-typescript": "workspace:*",
-    "@workspace/config-vitest": "workspace:*",
-    "@types/node": "catalog:",
-    "eslint": "catalog:",
-    "fake-indexeddb": "^6.2.4",
-    "typescript": "catalog:"
   }
 }

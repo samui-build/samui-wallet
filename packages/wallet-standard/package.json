@@ -1,16 +1,11 @@
 {
   "name": "@workspace/wallet-standard",
   "version": "0.0.0",
-  "private": false,
-  "license": "MIT",
-  "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*.ts"
-  },
-  "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+  "dependencies": {
+    "@solana/wallet-standard-chains": "^1.1.1",
+    "@solana/wallet-standard-features": "^1.3.0",
+    "@wallet-standard/core": "^1.1.1",
+    "@workspace/background": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "catalog:",
@@ -19,10 +14,15 @@
     "eslint": "catalog:",
     "typescript": "catalog:"
   },
-  "dependencies": {
-    "@solana/wallet-standard-chains": "^1.1.1",
-    "@solana/wallet-standard-features": "^1.3.0",
-    "@wallet-standard/core": "^1.1.1",
-    "@workspace/background": "workspace:*"
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
   }
 }

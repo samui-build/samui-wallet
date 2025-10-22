@@ -1,15 +1,6 @@
 {
   "name": "@workspace/features",
   "version": "0.0.0",
-  "type": "module",
-  "private": true,
-  "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
-    "test": "vitest run",
-    "test:watch": "vitest --watch"
-  },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
     "@tanstack/react-query": "catalog:",
@@ -40,5 +31,14 @@
   },
   "exports": {
     "./*": "./src/*.ts"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "type": "module"
 }

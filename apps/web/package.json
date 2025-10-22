@@ -1,15 +1,6 @@
 {
   "name": "web",
-  "private": true,
   "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
-    "preview": "vite preview"
-  },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.13",
     "@tailwindcss/vite": "catalog:",
@@ -36,5 +27,14 @@
     "vite": "^7.1.11",
     "vite-tsconfig-paths": "^5.1.4",
     "wrangler": "^4.44.0"
-  }
+  },
+  "private": true,
+  "scripts": {
+    "build": "tsc -b && vite build",
+    "dev": "vite",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix",
+    "preview": "vite preview"
+  },
+  "type": "module"
 }
