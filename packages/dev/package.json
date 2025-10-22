@@ -1,45 +1,41 @@
 {
-  "name": "@workspace/features",
+  "name": "@workspace/dev",
   "version": "0.0.0",
   "dependencies": {
-    "@radix-ui/react-slot": "^1.2.3",
+    "@hookform/resolvers": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
-    "@workspace/dev": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "effect": "^3.18.4",
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "catalog:"
+    "react-hook-form": "catalog:",
+    "react-router": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "catalog:",
-    "@turbo/gen": "^2.5.8",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
-    "jsdom": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
-    "./*": "./src/*.ts"
+    "./*": "./src/*.tsx"
   },
-  "private": true,
+  "license": "MIT",
+  "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
-    "test": "vitest run",
-    "test:watch": "vitest --watch"
+    "lint:fix": "eslint . --max-warnings=0 --fix"
   },
   "type": "module"
 }

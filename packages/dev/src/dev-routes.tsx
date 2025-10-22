@@ -4,10 +4,10 @@ import type { ClusterType } from '@workspace/db/entity/cluster-type'
 import { useDbClusterFindMany } from '@workspace/db-react/use-db-cluster-find-many'
 import { db } from '@workspace/db/db'
 import { useGetSolanaClusterFromGenesisHash } from '@workspace/solana-client-react/use-get-solana-cluster-from-genesis-hash'
-import { Button } from '@workspace/ui/components/button.js'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card.js'
-import { Input } from '@workspace/ui/components/input.js'
-import { Label } from '@workspace/ui/components/label.js'
+import { Button } from '@workspace/ui/components/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card'
+import { Input } from '@workspace/ui/components/input'
+import { Label } from '@workspace/ui/components/label'
 import {
   Select,
   SelectContent,
@@ -16,9 +16,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from '@workspace/ui/components/select.js'
-import { UiAvatar } from '@workspace/ui/components/ui-avatar.js'
-import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-colors.js'
+} from '@workspace/ui/components/select'
+import { UiAvatar } from '@workspace/ui/components/ui-avatar'
+import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-colors'
 import { useMemo, useState } from 'react'
 
 export default function DevRoutes() {
