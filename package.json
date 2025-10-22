@@ -2,6 +2,9 @@
   "name": "samui",
   "version": "0.0.0",
   "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/types": "^20.0.0",
     "@radix-ui/react-select": "^2.2.6",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
