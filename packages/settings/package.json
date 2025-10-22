@@ -8,6 +8,7 @@
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/keypair": "workspace:*",
+    "@workspace/solana-client": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "catalog:",
     "react": "catalog:",

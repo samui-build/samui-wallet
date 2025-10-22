@@ -11,6 +11,8 @@ import {
 import { LucideWallet2 } from 'lucide-react'
 import { Link } from 'react-router'
 
+import { WalletUiItem } from './wallet-ui-item.js'
+
 export function SettingsUiWalletDropdown({
   active,
   items,
@@ -26,7 +28,9 @@ export function SettingsUiWalletDropdown({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{active.name}</Button>
+        <Button variant="outline">
+          <WalletUiItem wallet={active} />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {items.map((item) => (
@@ -37,7 +41,7 @@ export function SettingsUiWalletDropdown({
               await setActive(item.id)
             }}
           >
-            {item.name}
+            <WalletUiItem wallet={item} />
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />

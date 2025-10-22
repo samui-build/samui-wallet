@@ -693,6 +693,9 @@ importers:
       '@workspace/keypair':
         specifier: workspace:*
         version: link:../keypair
+      '@workspace/solana-client':
+        specifier: workspace:*
+        version: link:../solana-client
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui

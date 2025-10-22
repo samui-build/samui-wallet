@@ -1,14 +1,19 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
+import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
+import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
+import { assertIsAddress } from '@workspace/solana-client'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useParams } from 'react-router'
 
 import { useActiveWallet } from './data-access/use-active-wallet.js'
 import { useDeriveAndCreateWallet } from './data-access/use-derive-and-create-wallet.js'
+import { useSortWallets } from './data-access/use-sort-wallets.js'
 import { SettingsUiAccountItem } from './ui/settings-ui-account-item.js'
 import { SettingsUiWalletTable } from './ui/settings-ui-wallet-table.js'
 
@@ -16,8 +21,33 @@ export function SettingsFeatureAccountDetails() {
   const { accountId } = useParams() as { accountId: string }
   const { data: item, error, isError, isLoading } = useDbAccountFindUnique({ id: accountId })
   const { active, setActive } = useActiveWallet()
-  const wallets = useDbWalletLive({ accountId })
   const deriveWallet = useDeriveAndCreateWallet()
+  const createWalletMutation = useDbWalletCreate()
+  const wallets = useDbWalletLive({ accountId })
+  const sorted = useSortWallets(wallets)
+
+  async function createWalletImported(accountId: string) {
+    const input = window.prompt('What is the secret key you want to import?')
+    if (!input?.trim().length) {
+      return
+    }
+    const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input)
+    assertIsAddress(publicKey)
+    await createWalletMutation.mutateAsync({
+      input: { accountId, name: ellipsify(publicKey), publicKey, secretKey, type: 'Imported' },
+    })
+  }
+
+  async function createWalletWatched(accountId: string) {
+    const publicKey = window.prompt('What is the public key you want to watch?')
+    if (!publicKey?.trim().length) {
+      return
+    }
+    assertIsAddress(publicKey)
+    await createWalletMutation.mutateAsync({
+      input: { accountId, name: ellipsify(publicKey), publicKey, type: 'Watched' },
+    })
+  }
 
   if (isLoading) {
     return <UiLoader />
@@ -43,8 +73,14 @@ export function SettingsFeatureAccountDetails() {
         deriveWallet={async () => {
           await deriveWallet.mutateAsync({ index: wallets?.length ?? 0, item })
         }}
-        items={wallets ?? []}
+        importWallet={async () => {
+          await createWalletImported(item.id)
+        }}
+        items={sorted}
         setActive={setActive}
+        watchWallet={async () => {
+          await createWalletWatched(item.id)
+        }}
       />
     </UiCard>
   )
