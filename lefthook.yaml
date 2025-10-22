@@ -14,3 +14,9 @@ pre-commit:
     - name: lint
       run: pnpm lint
       glob: '*'
+
+commit-msg:
+  parallel: true
+  commands:
+    commitlint:
+      run: pnpm commitlint --edit {1}
