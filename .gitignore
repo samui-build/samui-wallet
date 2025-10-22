@@ -34,6 +34,8 @@ dist
 .wxt
 .astro
 .expo
+target
+schemas
 
 # Debug
 npm-debug.log*
