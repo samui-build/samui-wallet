@@ -12,7 +12,7 @@ export interface ClusterWallet {
 
 export function PortfolioRoutesLoaded(props: ClusterWallet) {
   return useRoutes([
-    { element: <PortfolioFeatureIndex {...props} />, index: true },
-    { element: <div>Page not found :(</div>, path: '*' },
+    { element: <PortfolioFeatureIndex {...props} />, path: '*' },
+    // { element: <div>Page not found :(</div>, path: '*' },
   ])
 }

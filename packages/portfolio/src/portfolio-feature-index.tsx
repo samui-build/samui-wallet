@@ -1,15 +1,19 @@
+import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
+
 import type { ClusterWallet } from './portfolio-routes-loaded.js'
 
-import { PortfolioFeatureGetActivity } from './portfolio-feature-get-activity.js'
-import { PortfolioFeatureGetSolBalance } from './portfolio-feature-get-sol-balance.js'
-import { PortfolioFeatureGetTokenAccounts } from './portfolio-feature-get-token-accounts.js'
+import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.js'
+import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.js'
 
 export function PortfolioFeatureIndex(props: ClusterWallet) {
   return (
-    <div className="p-4 space-y-6">
-      <PortfolioFeatureGetSolBalance {...props} />
-      <PortfolioFeatureGetTokenAccounts {...props} />
-      <PortfolioFeatureGetActivity {...props} />
-    </div>
+    <UiTabRoutes
+      basePath="/portfolio"
+      className="items-center my-6"
+      tabs={[
+        { element: <PortfolioFeatureTabTokens {...props} />, label: 'Tokens', path: 'tokens' },
+        { element: <PortfolioFeatureTabActivity {...props} />, label: 'Activity', path: 'activity' },
+      ]}
+    />
   )
 }
