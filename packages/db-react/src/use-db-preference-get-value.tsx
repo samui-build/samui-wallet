@@ -4,6 +4,6 @@ import { useQuery } from '@tanstack/react-query'
 
 import { dbPreferenceOptions } from './db-preference-options'
 
-export function useDbPreferenceFindUnique({ key }: { key: PreferenceKey }) {
-  return useQuery(dbPreferenceOptions.findUniqueByKey(key))
+export function useDbPreferenceGetValue(key: PreferenceKey) {
+  return useQuery(dbPreferenceOptions.getValue(key))
 }

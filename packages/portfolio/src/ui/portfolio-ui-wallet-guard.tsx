@@ -1,6 +1,6 @@
 import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { useDbPreferenceFindUniqueByKeyLive } from '@workspace/db-react/use-db-preference-find-unique-by-key-live'
+import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import React, { useMemo } from 'react'
 
@@ -14,12 +14,9 @@ export function PortfolioUiWalletGuard({
   render,
 }: PortfolioUiWalletGuardProps) {
   const walletLive = useDbWalletLive()
-  const activeWalletId = useDbPreferenceFindUniqueByKeyLive({ key: 'activeWalletId' })
+  const [activeId] = useDbPreference('activeWalletId')
 
-  const wallet = useMemo(
-    () => walletLive.find((item) => item.id === activeWalletId?.value),
-    [activeWalletId, walletLive],
-  )
+  const wallet = useMemo(() => walletLive.find((item) => item.id === activeId), [activeId, walletLive])
 
   return wallet ? render({ wallet }) : fallback
 }

@@ -3,32 +3,42 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { Preference } from '../src/entity/preference'
-import type { PreferenceKey } from '../src/entity/preference-key'
 
-import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
+import { dbPreferenceGetValue } from '../src/db-preference-get-value'
 import { dbPreferenceSetValue } from '../src/db-preference-set-value'
 import { createDbTest, testPreferenceInputSet } from './test-helpers'
 
 const db = createDbTest()
 
-describe('db-preference-find-unique-by-key', () => {
+describe('db-preference-get-value', () => {
   beforeEach(async () => {
     await db.preferences.clear()
   })
 
   describe('expected behavior', () => {
-    it('should find a unique preference', async () => {
+    it('should get a preference value when it exists', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(1)
       const [key, value] = testPreferenceInputSet()
       await dbPreferenceSetValue(db, key, value)
 
       // ACT
-      const result = await dbPreferenceFindUniqueByKey(db, key)
+      const result = await dbPreferenceGetValue(db, key)
 
       // ASSERT
-      expect(result).toBeDefined()
-      expect(result?.value).toBe(value)
+      expect(value).toBe(result)
+    })
+
+    it('should return null when preference does not exist', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const [key] = testPreferenceInputSet()
+
+      // ACT
+      const result = await dbPreferenceGetValue(db, key)
+
+      // ASSERT
+      expect(result).toBeNull()
     })
   })
 
@@ -41,16 +51,16 @@ describe('db-preference-find-unique-by-key', () => {
       vi.restoreAllMocks()
     })
 
-    it('should throw an error when finding a unique preference fails', async () => {
+    it('should throw an error when getting a preference fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const key: PreferenceKey = 'activeClusterId'
+      const [key] = testPreferenceInputSet()
       vi.spyOn(db.preferences, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Preference | undefined>,
+        () => Promise.reject(new Error('Test error')) as PromiseExtended<Preference>,
       )
 
       // ACT & ASSERT
-      await expect(dbPreferenceFindUniqueByKey(db, key)).rejects.toThrow(`Error finding preference with key ${key}`)
+      await expect(dbPreferenceGetValue(db, key)).rejects.toThrow(`Error getting preference with key ${key}`)
     })
   })
 })

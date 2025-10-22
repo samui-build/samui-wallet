@@ -18,7 +18,7 @@ export function SettingsUiClusterDropdown({
 }: {
   activeCluster: Cluster | undefined
   items: Cluster[]
-  setActive: (item: Cluster) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   return (
     <DropdownMenu>
@@ -33,7 +33,7 @@ export function SettingsUiClusterDropdown({
             disabled={item.id === activeCluster?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item)
+              await setActive(item.id)
             }}
           >
             {item.name}

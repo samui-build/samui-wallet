@@ -3,8 +3,8 @@ import 'fake-indexeddb/auto'
 import type { Database } from '../src/database'
 import type { AccountInputCreate } from '../src/dto/account-input-create'
 import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
-import type { PreferenceInputCreate } from '../src/dto/preference-input-create'
 import type { WalletInputCreate } from '../src/dto/wallet-input-create'
+import type { PreferenceKey } from '../src/entity/preference-key'
 
 import { createDb } from '../src/create-db'
 
@@ -35,12 +35,8 @@ export function testClusterInputCreate(input: Partial<ClusterInputCreate> = {}):
   }
 }
 
-export function testPreferenceInputCreate(input: Partial<PreferenceInputCreate> = {}): PreferenceInputCreate {
-  return {
-    key: 'activeClusterId',
-    value: randomName('preference'),
-    ...input,
-  }
+export function testPreferenceInputSet(value?: string): [PreferenceKey, string] {
+  return ['activeClusterId', value ?? randomName('preference')]
 }
 
 export function testWalletInputCreate(input: { accountId: string } & Partial<WalletInputCreate>): WalletInputCreate {

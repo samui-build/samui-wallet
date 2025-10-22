@@ -14,7 +14,7 @@ export function SettingsUiAccountList({
   activeId: null | string
   deleteItem: (item: Account) => Promise<void>
   items: Array<{ wallets?: Wallet[] } & Account>
-  setActive: (item: Account) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   return (
     <ItemGroup className="gap-4">

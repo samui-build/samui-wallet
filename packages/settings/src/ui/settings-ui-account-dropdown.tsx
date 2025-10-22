@@ -21,7 +21,7 @@ export function SettingsUiAccountDropdown({
 }: {
   activeAccount: Account | undefined
   items: Account[]
-  setActive: (item: Account) => Promise<void>
+  setActive: (id: string) => Promise<void>
 }) {
   if (!activeAccount) {
     return null
@@ -39,7 +39,7 @@ export function SettingsUiAccountDropdown({
             disabled={item.id === activeAccount?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item)
+              await setActive(item.id)
             }}
           >
             <SettingsUiAccountItem item={item} />
