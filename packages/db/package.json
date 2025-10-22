@@ -27,7 +27,7 @@
     "@workspace/config-vitest": "workspace:*",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "fake-indexeddb": "^6.2.2",
+    "fake-indexeddb": "^6.2.4",
     "typescript": "catalog:"
   }
 }
