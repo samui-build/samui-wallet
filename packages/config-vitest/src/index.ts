@@ -1,7 +1,9 @@
-export const sharedConfig = {
+import type { ViteUserConfig } from 'vitest/config'
+
+export const sharedConfig: ViteUserConfig = {
   test: {
     globals: true,
     environment: 'jsdom',
-    // setupFiles: ['./src/setup.ts'],
+    passWithNoTests: true,
   },
 }

@@ -51,8 +51,7 @@
     "eslint": "catalog:",
     "jsdom": "catalog:",
     "tailwindcss": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:"
+    "typescript": "catalog:"
   },
   "exports": {
     "./globals.css": "./src/styles/globals.css",
