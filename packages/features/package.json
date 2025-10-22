@@ -8,6 +8,7 @@
     "@workspace/db-react": "workspace:*",
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
+    "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
     "effect": "^3.18.4",
     "lucide-react": "catalog:",

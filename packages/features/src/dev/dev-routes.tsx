@@ -3,7 +3,11 @@ import type { ClusterType } from '@workspace/db/entity/cluster-type'
 
 import { useDbClusterFindMany } from '@workspace/db-react/use-db-cluster-find-many'
 import { db } from '@workspace/db/db'
+import { useGetSolanaClusterFromGenesisHash } from '@workspace/solana-client-react/use-get-solana-cluster-from-genesis-hash'
+import { Button } from '@workspace/ui/components/button.js'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card.js'
+import { Input } from '@workspace/ui/components/input.js'
+import { Label } from '@workspace/ui/components/label.js'
 import {
   Select,
   SelectContent,
@@ -22,6 +26,7 @@ export default function DevRoutes() {
     <div className="space-y-6">
       <DevUiAvatars />
       <DevUiColors />
+      <DevGenesisHash />
       <DevDbTables />
       <DevDbClusterFindMany />
     </div>
@@ -80,6 +85,69 @@ function DevDbTables() {
       </CardHeader>
       <CardContent>
         <pre>{JSON.stringify(tables, null, 2)}</pre>
+      </CardContent>
+    </Card>
+  )
+}
+function DevGenesisHash() {
+  const mutation = useGetSolanaClusterFromGenesisHash()
+  const [endpoint, setEndpoint] = useState<string>('')
+
+  const options = [
+    'https://api.devnet.solana.com',
+    'http://localhost:8899',
+    'https://api.mainnet-beta.solana.com',
+    'https://api.testnet.solana.com',
+  ]
+
+  async function submit() {
+    if (!endpoint.length) {
+      return
+    }
+    await mutation.mutateAsync(endpoint)
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>get cluster from genesis hash</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-2">
+          <div className="space-x-2 space-y-2">
+            {options.map((option) => (
+              <Button key={option} onClick={() => setEndpoint(option)} variant="outline">
+                {option}
+              </Button>
+            ))}
+          </div>
+          <div>
+            <Label htmlFor="endpoint">Endpoint</Label>
+            <Input
+              disabled={mutation.isPending}
+              id="endpoint"
+              onChange={(e) => {
+                setEndpoint(e.target.value)
+              }}
+              type="url"
+              value={endpoint}
+            />
+            <Button onClick={submit}>Submit</Button>
+          </div>
+        </div>
+        <pre>
+          {JSON.stringify(
+            {
+              //
+              data: mutation.data,
+              error: mutation.error?.message,
+              isError: mutation.isError,
+              isPending: mutation.isPending,
+            },
+            null,
+            2,
+          )}
+        </pre>
       </CardContent>
     </Card>
   )

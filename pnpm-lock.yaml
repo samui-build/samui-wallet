@@ -516,6 +516,9 @@ importers:
       '@workspace/settings':
         specifier: workspace:*
         version: link:../settings
+      '@workspace/solana-client-react':
+        specifier: workspace:*
+        version: link:../solana-client-react
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui

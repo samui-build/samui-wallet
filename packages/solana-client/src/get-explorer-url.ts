@@ -1,11 +1,11 @@
-export type ClusterType = 'solana:devnet' | 'solana:localnet' | 'solana:mainnet' | 'solana:testnet'
+import type { SolanaCluster } from './solana-cluster'
 
 export type ExplorerProvider = 'orb' | 'solana' | 'solscan'
 export const explorerProviders: ExplorerProvider[] = ['solana', 'solscan', 'orb'] as const
 
 export interface GetClusterSuffixProps {
   endpoint: string
-  type: ClusterType
+  type: SolanaCluster
 }
 
 export interface GetExplorerUrlProps {
