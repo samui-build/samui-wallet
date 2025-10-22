@@ -12,26 +12,26 @@ import { LucideWallet2 } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function SettingsUiWalletDropdown({
-  activeWallet,
+  active,
   items,
   setActive,
 }: {
-  activeWallet: undefined | Wallet
+  active: null | Wallet
   items: Wallet[]
   setActive: (id: string) => Promise<void>
 }) {
-  if (!activeWallet) {
+  if (!active) {
     return null
   }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">{activeWallet.name}</Button>
+        <Button variant="outline">{active.name}</Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {items.map((item) => (
           <DropdownMenuItem
-            disabled={item.id === activeWallet?.id}
+            disabled={item.id === active?.id}
             key={item.id}
             onClick={async () => {
               await setActive(item.id)
@@ -42,7 +42,7 @@ export function SettingsUiWalletDropdown({
         ))}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link to={`/settings/accounts/${activeWallet.accountId}`}>
+          <Link to={`/settings/accounts/${active.accountId}`}>
             <LucideWallet2 />
             Wallet settings
           </Link>

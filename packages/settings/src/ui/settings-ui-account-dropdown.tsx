@@ -15,28 +15,28 @@ import { Link } from 'react-router'
 import { SettingsUiAccountItem } from './settings-ui-account-item.js'
 
 export function SettingsUiAccountDropdown({
-  activeAccount,
+  active,
   items,
   setActive,
 }: {
-  activeAccount: Account | undefined
+  active: Account | null
   items: Account[]
   setActive: (id: string) => Promise<void>
 }) {
-  if (!activeAccount) {
+  if (!active) {
     return null
   }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button size="icon" variant="ghost">
-          <UiAvatar label={activeAccount.name} />
+          <UiAvatar label={active.name} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
         {items.map((item) => (
           <DropdownMenuItem
-            disabled={item.id === activeAccount?.id}
+            disabled={item.id === active?.id}
             key={item.id}
             onClick={async () => {
               await setActive(item.id)

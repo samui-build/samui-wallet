@@ -6,12 +6,12 @@ import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { LucideCheck, LucidePlus } from 'lucide-react'
 
 export function SettingsUiWalletTable({
-  activeId,
+  active,
   deriveWallet,
   items,
   setActive,
 }: {
-  activeId: null | string
+  active: null | Wallet
   deriveWallet: () => void
   items: Wallet[]
   setActive: (id: string) => Promise<void>
@@ -37,7 +37,7 @@ export function SettingsUiWalletTable({
             <TableCell>{item.name}</TableCell>
             <TableCell className="font-mono text-xs">{item.publicKey}</TableCell>
             <TableCell>
-              {activeId === item.id ? null : (
+              {active?.id === item.id ? null : (
                 <UiTooltip content="Set as active">
                   <Button onClick={() => setActive(item.id)} size="icon" variant="outline">
                     <LucideCheck className="text-green-500 size-4" />
