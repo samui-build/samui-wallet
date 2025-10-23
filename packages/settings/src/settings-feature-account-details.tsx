@@ -1,4 +1,5 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
+import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
@@ -14,7 +15,8 @@ import { SettingsUiWalletTable } from './ui/settings-ui-wallet-table.js'
 export function SettingsFeatureAccountDetails() {
   const { accountId } = useParams() as { accountId: string }
   const { data: item, error, isError, isLoading } = useDbAccountFindUnique({ id: accountId })
-  const { active, setActive, wallets } = useActiveWallet()
+  const { active, setActive } = useActiveWallet()
+  const wallets = useDbWalletLive({ accountId })
   const deriveWallet = useDeriveAndCreateWallet()
 
   if (isLoading) {

@@ -3,10 +3,7 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 import { db } from '@workspace/db/db'
 import { useLiveQuery } from 'dexie-react-hooks'
 
-import { useDbPreference } from './use-db-preference'
-
-export function useDbWalletLive() {
-  const [accountId] = useDbPreference('activeAccountId')
+export function useDbWalletLive({ accountId }: { accountId: null | string }) {
   return useLiveQuery<Wallet[], Wallet[]>(
     () =>
       db.wallets

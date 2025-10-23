@@ -13,10 +13,11 @@ export function PortfolioUiWalletGuard({
   fallback = <div>Wallet not selected</div>,
   render,
 }: PortfolioUiWalletGuardProps) {
-  const walletLive = useDbWalletLive()
-  const [activeId] = useDbPreference('activeWalletId')
+  const [walletId] = useDbPreference('activeWalletId')
+  const [accountId] = useDbPreference('activeAccountId')
+  const walletLive = useDbWalletLive({ accountId: accountId })
 
-  const wallet = useMemo(() => walletLive.find((item) => item.id === activeId), [activeId, walletLive])
+  const wallet = useMemo(() => walletLive.find((item) => item.id === walletId), [walletId, walletLive])
 
   return wallet ? render({ wallet }) : fallback
 }

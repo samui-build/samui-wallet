@@ -4,10 +4,11 @@ import { useDbWalletSetActive } from '@workspace/db-react/use-db-wallet-set-acti
 import { useMemo } from 'react'
 
 export function useActiveWallet() {
-  const wallets = useDbWalletLive()
-  const [activeId] = useDbPreference('activeWalletId')
+  const [walletId] = useDbPreference('activeWalletId')
+  const [accountId] = useDbPreference('activeAccountId')
+  const wallets = useDbWalletLive({ accountId: accountId })
   const { mutateAsync } = useDbWalletSetActive()
-  const active = useMemo(() => wallets.find((c) => c.id === activeId) ?? null, [wallets, activeId])
+  const active = useMemo(() => wallets.find((c) => c.id === walletId) ?? null, [wallets, walletId])
 
   return {
     active,
