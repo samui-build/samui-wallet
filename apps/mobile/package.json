@@ -5,7 +5,7 @@
     "expo": "~54.0.13",
     "expo-status-bar": "~3.0.8",
     "react": "catalog:",
-    "react-native": "0.82.0"
+    "react-native": "0.82.1"
   },
   "devDependencies": {
     "@types/react": "catalog:",
