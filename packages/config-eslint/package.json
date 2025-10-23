@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "@eslint/js": "catalog:",
-    "@typescript-eslint/eslint-plugin": "^8.46.1",
+    "@typescript-eslint/eslint-plugin": "^8.46.2",
     "@typescript-eslint/parser": "^8.46.1",
     "eslint": "catalog:",
     "eslint-config-prettier": "^10.1.8",
