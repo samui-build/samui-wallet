@@ -21,9 +21,11 @@ export function SettingsFeatureAccountImport() {
     >
       <SettingsUiAccountFormImport
         name={name}
-        submit={async (input) => {
+        submit={async (input, redirect) => {
           generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
-            navigate(`/settings/accounts/${accountId}`)
+            if (redirect) {
+              navigate(`/settings/accounts/${accountId}`)
+            }
           })
         }}
       />
