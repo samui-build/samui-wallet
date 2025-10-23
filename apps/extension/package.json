@@ -12,6 +12,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
+    "@wxt-dev/auto-icons": "^1.1.0",
     "@wxt-dev/module-react": "^1.1.3",
     "eslint": "catalog:",
     "typescript": "catalog:",
