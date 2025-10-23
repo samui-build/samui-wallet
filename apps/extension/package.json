@@ -4,11 +4,13 @@
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@workspace/background": "workspace:*",
+    "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",

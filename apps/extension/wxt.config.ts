@@ -1,3 +1,4 @@
+import tailwindcss from '@tailwindcss/vite'
 import { defineConfig } from 'wxt'
 
 export default defineConfig({
@@ -11,4 +12,7 @@ export default defineConfig({
     ],
   },
   modules: ['@wxt-dev/auto-icons', '@wxt-dev/module-react'],
+  vite: () => ({
+    plugins: [tailwindcss()],
+  }),
 })
