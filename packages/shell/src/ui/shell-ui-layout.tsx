@@ -1,24 +1,24 @@
-import type { UiIconLucide } from '@workspace/ui/components/ui-icon.js'
+import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 
 import { SettingsFeatureAccountDropdown } from '@workspace/settings/settings-feature-account-dropdown'
 import { SettingsFeatureClusterDropdown } from '@workspace/settings/settings-feature-cluster-dropdown'
 import { SettingsFeatureWalletDropdown } from '@workspace/settings/settings-feature-wallet-dropdown'
 import { Toaster } from '@workspace/ui/components/sonner'
-import { cn } from '@workspace/ui/lib/utils.js'
+import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
 
-import { CoreUiWarningExperimental } from './core-ui-warning-experimental.js'
+import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.js'
 
-export interface CoreLayoutLink {
+export interface ShellLayoutLink {
   icon: UiIconLucide
   label: string
   to: string
 }
 
-export function CoreLayout({ links }: { links: CoreLayoutLink[] }) {
+export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
   return (
     <div className="h-full flex flex-col justify-between items-stretch">
-      <CoreUiWarningExperimental />
+      <ShellUiWarningExperimental />
       <header className="bg-secondary/50 px-4 py-2 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <SettingsFeatureAccountDropdown />

@@ -1,18 +1,18 @@
-import { UiNotFound } from '@workspace/ui/components/ui-not-found.js'
+import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider } from 'react-router'
 
-import type { CoreLayoutLink } from './ui/core-layout.js'
+import type { ShellLayoutLink } from './ui/shell-ui-layout.js'
 
 import { loaderPortfolio } from './data-access/loader-portfolio.js'
-import { CoreLayout } from './ui/core-layout.js'
+import { ShellUiLayout } from './ui/shell-ui-layout.js'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
-const links: CoreLayoutLink[] = [
+const links: ShellLayoutLink[] = [
   { icon: LucidePieChart, label: 'Portfolio', to: '/portfolio' },
   { icon: LucideSettings, label: 'Settings', to: '/settings' },
 ]
@@ -31,10 +31,10 @@ const router = createHashRouter([
       { element: <SettingsRoutes />, path: 'settings/*' },
       { element: <UiNotFound />, path: '*' },
     ],
-    element: <CoreLayout links={links} />,
+    element: <ShellUiLayout links={links} />,
   },
 ])
 
-export function CoreRoutes() {
+export function ShellRoutes() {
   return <RouterProvider router={router} />
 }

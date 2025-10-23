@@ -239,9 +239,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.15(vite@7.1.11(@types/node@24.8.0)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
-      '@workspace/features':
+      '@workspace/shell':
         specifier: workspace:*
-        version: link:../../packages/features
+        version: link:../../packages/shell
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -790,6 +790,64 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 4.1.12
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.7.1
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.2
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.2(@types/react@19.2.2)
+      '@workspace/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@workspace/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: 'catalog:'
+        version: 9.38.0(jiti@2.6.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  packages/shell:
+    dependencies:
+      '@tanstack/react-query':
+        specifier: 'catalog:'
+        version: 5.90.5(react@19.2.0)
+      '@workspace/db':
+        specifier: workspace:*
+        version: link:../db
+      '@workspace/db-react':
+        specifier: workspace:*
+        version: link:../db-react
+      '@workspace/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@workspace/portfolio':
+        specifier: workspace:*
+        version: link:../portfolio
+      '@workspace/settings':
+        specifier: workspace:*
+        version: link:../settings
+      '@workspace/ui':
+        specifier: workspace:*
+        version: link:../ui
+      lucide-react:
+        specifier: 'catalog:'
+        version: 0.546.0(react@19.2.0)
+      react:
+        specifier: 'catalog:'
+        version: 19.2.0
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.0(react@19.2.0)
+      react-router:
+        specifier: 'catalog:'
+        version: 7.9.4(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
