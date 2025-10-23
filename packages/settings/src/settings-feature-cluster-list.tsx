@@ -2,13 +2,13 @@ import { useDbClusterDelete } from '@workspace/db-react/use-db-cluster-delete'
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
 import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { Button } from '@workspace/ui/components/button'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { Link } from 'react-router'
 
 import { useSettingsPage } from './data-access/use-settings-page.js'
 import { SettingsUiClusterList } from './ui/settings-ui-cluster-list.js'
-import { SettingsUiPageCard } from './ui/settings-ui-page-card.js'
 
 export function SettingsFeatureClusterList() {
   const page = useSettingsPage({ pageId: 'clusters' })
@@ -19,13 +19,14 @@ export function SettingsFeatureClusterList() {
   const items = useDbClusterLive()
   const [activeId, setActiveId] = useDbPreference('activeClusterId')
   return (
-    <SettingsUiPageCard
+    <UiCard
       action={
         <Button asChild variant="outline">
           <Link to="create">Create</Link>
         </Button>
       }
-      page={page}
+      description={page.description}
+      title={page.name}
     >
       <SettingsUiClusterList
         activeId={activeId}
@@ -33,6 +34,6 @@ export function SettingsFeatureClusterList() {
         items={items}
         setActive={setActiveId}
       />
-    </SettingsUiPageCard>
+    </UiCard>
   )
 }

@@ -1,6 +1,6 @@
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -17,25 +17,25 @@ export function SettingsFeatureAccountGenerate() {
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <UiCard
+      contentProps={{ className: 'grid gap-6' }}
+      title={
+        <div className="flex items-center gap-2">
           <UiBack />
           Generate Account
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <SettingsUiAccountMnemonicStrength setStrength={setStrength} strength={strength} />
-        <SettingsUiAccountFormGenerate
-          mnemonic={mnemonic}
-          name={name}
-          submit={async (input) => {
-            generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
-              navigate(`/settings/accounts/${accountId}`)
-            })
-          }}
-        />
-      </CardContent>
-    </Card>
+        </div>
+      }
+    >
+      <SettingsUiAccountMnemonicStrength setStrength={setStrength} strength={strength} />
+      <SettingsUiAccountFormGenerate
+        mnemonic={mnemonic}
+        name={name}
+        submit={async (input) => {
+          generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
+            navigate(`/settings/accounts/${accountId}`)
+          })
+        }}
+      />
+    </UiCard>
   )
 }

@@ -1,13 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-colors'
 
 export function DevFeatureUiColors() {
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>ui colors</CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-4 grid-cols-4">
+    <UiCard title="ui colors">
+      <div className="grid gap-4 grid-cols-4">
         {uiColorNames.map((uiColorName) => {
           const { bg, text } = getColorByName(uiColorName)
           return (
@@ -16,7 +13,7 @@ export function DevFeatureUiColors() {
             </div>
           )
         })}
-      </CardContent>
-    </Card>
+      </div>
+    </UiCard>
   )
 }

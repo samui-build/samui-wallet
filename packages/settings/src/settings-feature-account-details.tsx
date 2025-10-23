@@ -1,6 +1,6 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
@@ -28,23 +28,22 @@ export function SettingsFeatureAccountDetails() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <UiCard
+      title={
+        <div className="flex items-center gap-2">
           <UiBack />
           <SettingsUiAccountItem item={item} />
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <SettingsUiWalletTable
-          active={active}
-          deriveWallet={async () => {
-            await deriveWallet.mutateAsync({ index: wallets?.length ?? 0, item })
-          }}
-          items={wallets ?? []}
-          setActive={setActive}
-        />
-      </CardContent>
-    </Card>
+        </div>
+      }
+    >
+      <SettingsUiWalletTable
+        active={active}
+        deriveWallet={async () => {
+          await deriveWallet.mutateAsync({ index: wallets?.length ?? 0, item })
+        }}
+        items={wallets ?? []}
+        setActive={setActive}
+      />
+    </UiCard>
   )
 }
