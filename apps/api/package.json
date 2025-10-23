@@ -2,7 +2,7 @@
   "name": "api",
   "version": "0.0.0",
   "dependencies": {
-    "hono": "^4.10.1"
+    "hono": "^4.10.2"
   },
   "devDependencies": {
     "@types/node": "catalog:",
