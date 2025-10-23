@@ -1,8 +1,18 @@
 import type { ComponentProps, ReactNode } from 'react'
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@workspace/ui/components/card'
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@workspace/ui/components/card'
 
 export function UiCard({
+  action,
+  actionProps,
   cardProps,
   children,
   contentProps,
@@ -14,6 +24,8 @@ export function UiCard({
   title,
   titleProps,
 }: {
+  action?: ReactNode
+  actionProps?: Omit<ComponentProps<typeof CardAction>, 'children'>
   cardProps?: Omit<ComponentProps<typeof Card>, 'children'>
   children: ReactNode
   contentProps?: Omit<ComponentProps<typeof CardContent>, 'children'>
@@ -27,10 +39,11 @@ export function UiCard({
 }) {
   return (
     <Card {...cardProps}>
-      {title || description ? (
+      {action || description || title ? (
         <CardHeader {...headerProps}>
           {title ? <CardTitle {...titleProps}>{title}</CardTitle> : null}
           {description ? <CardDescription {...descriptionProps}>{description}</CardDescription> : null}
+          {action ? <CardAction {...actionProps}>{action}</CardAction> : null}
         </CardHeader>
       ) : null}
       <CardContent {...contentProps}>{children}</CardContent>
