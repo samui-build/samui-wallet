@@ -2,7 +2,6 @@ import type { ClusterInputFindMany } from '@workspace/db/dto/cluster-input-find-
 import type { ClusterType } from '@workspace/db/entity/cluster-type'
 
 import { useDbClusterFindMany } from '@workspace/db-react/use-db-cluster-find-many'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import {
   Select,
   SelectContent,
@@ -12,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { useState } from 'react'
 
 export function DevFeatureDbClusterFindMany() {
@@ -19,18 +19,12 @@ export function DevFeatureDbClusterFindMany() {
   const query = useDbClusterFindMany({ input })
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <div>dbClusterFindMany</div>
-          <ClusterSelect select={(type: ClusterType | undefined) => setInput({ type })} />
-        </CardTitle>
-        <CardDescription></CardDescription>
-      </CardHeader>
-      <CardContent>
-        <pre>{JSON.stringify({ data: query.data, input }, null, 2)}</pre>
-      </CardContent>
-    </Card>
+    <UiCard
+      action={<ClusterSelect select={(type: ClusterType | undefined) => setInput({ type })} />}
+      title="dbClusterFindMany"
+    >
+      <pre>{JSON.stringify({ data: query.data, input }, null, 2)}</pre>
+    </UiCard>
   )
 }
 

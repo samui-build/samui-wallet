@@ -1,5 +1,5 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { useNavigate } from 'react-router'
 
 import { useDetermineAccountName } from './data-access/use-determine-account-name.js'
@@ -11,23 +11,22 @@ export function SettingsFeatureAccountImport() {
   const navigate = useNavigate()
   const name = useDetermineAccountName()
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <UiCard
+      title={
+        <div className="flex items-center gap-2">
           <UiBack />
           Import Account
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <SettingsUiAccountFormImport
-          name={name}
-          submit={async (input) => {
-            generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
-              navigate(`/settings/accounts/${accountId}`)
-            })
-          }}
-        />
-      </CardContent>
-    </Card>
+        </div>
+      }
+    >
+      <SettingsUiAccountFormImport
+        name={name}
+        submit={async (input) => {
+          generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
+            navigate(`/settings/accounts/${accountId}`)
+          })
+        }}
+      />
+    </UiCard>
   )
 }

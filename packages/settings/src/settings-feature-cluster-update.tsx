@@ -1,7 +1,7 @@
 import { useDbClusterFindUnique } from '@workspace/db-react/use-db-cluster-find-unique'
 import { useDbClusterUpdate } from '@workspace/db-react/use-db-cluster-update'
-import { Card, CardContent, CardHeader, CardTitle } from '@workspace/ui/components/card'
 import { UiBack } from '@workspace/ui/components/ui-back'
+import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
@@ -26,23 +26,22 @@ export function SettingsFeatureClusterUpdate() {
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <UiCard
+      title={
+        <div className="flex items-center gap-2">
           <UiBack />
           Edit Cluster
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="grid gap-6">
-        <SettingsUiClusterFormUpdate
-          item={item}
-          submit={async (input) => {
-            return updateMutation.mutateAsync({ id: item.id, input }).then(() => {
-              navigate('/settings/clusters')
-            })
-          }}
-        />
-      </CardContent>
-    </Card>
+        </div>
+      }
+    >
+      <SettingsUiClusterFormUpdate
+        item={item}
+        submit={async (input) => {
+          return updateMutation.mutateAsync({ id: item.id, input }).then(() => {
+            navigate('/settings/clusters')
+          })
+        }}
+      />
+    </UiCard>
   )
 }
