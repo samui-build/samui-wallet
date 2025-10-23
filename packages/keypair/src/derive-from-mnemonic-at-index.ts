@@ -1,4 +1,3 @@
-import { ellipsify } from '@workspace/core/ellipsify'
 import { tryCatch } from '@workspace/core/try-catch'
 
 import { convertKeyPairToJson } from './convert-key-pair-to-json'
@@ -6,7 +5,6 @@ import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip4
 import { derivationPaths } from './derivation-paths'
 
 export interface DerivedWallet {
-  name: string
   publicKey: string
   secretKey: string
 }
@@ -44,7 +42,6 @@ export async function deriveFromMnemonicAtIndex({
   const secretKey = await convertKeyPairToJson(signer.keyPair)
 
   return {
-    name: ellipsify(signer.address.toString()),
     publicKey: signer.address.toString(),
     secretKey,
   }

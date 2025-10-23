@@ -3,6 +3,7 @@ import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
 import { useMutation } from '@tanstack/react-query'
 import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
+import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.js'
 
@@ -22,6 +23,7 @@ export function useGenerateAccountWithWalletMutation() {
         input: {
           ...derivedWallet,
           accountId,
+          name: ellipsify(derivedWallet.publicKey),
           type: 'Derived',
         },
       })
