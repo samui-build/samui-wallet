@@ -10,7 +10,7 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@types/node": "^24.6.0",
+    "@types/node": "^24.9.1",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
