@@ -2,7 +2,7 @@
   "name": "web",
   "version": "0.0.0",
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.13.13",
+    "@cloudflare/vite-plugin": "^1.13.14",
     "@tailwindcss/vite": "catalog:",
     "@workspace/shell": "workspace:*",
     "@workspace/ui": "workspace:*",
