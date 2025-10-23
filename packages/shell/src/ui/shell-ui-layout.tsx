@@ -7,6 +7,7 @@ import { Toaster } from '@workspace/ui/components/sonner'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
 
+import { ShellUiDeveloperModeLink } from './shell-ui-developer-mode-link.js'
 import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.js'
 
 export interface ShellLayoutLink {
@@ -24,7 +25,11 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
           <SettingsFeatureAccountDropdown />
           <SettingsFeatureWalletDropdown />
         </div>
-        <SettingsFeatureClusterDropdown />
+
+        <div className="flex items-center gap-2">
+          <ShellUiDeveloperModeLink />
+          <SettingsFeatureClusterDropdown />
+        </div>
       </header>
       <main className="flex-1 overflow-y-auto p-2 lg:p-4">
         <Outlet />
