@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRequestService } from '@workspace/background/services/request'
+import { Button } from '@workspace/ui/components/button'
 
 export function App() {
-  const request = getRequestService()
   const { data, isLoading } = useQuery({
-    queryFn: async () => await request.get(),
+    queryFn: async () => await getRequestService().get(),
     queryKey: ['request'],
   })
 
@@ -15,10 +15,14 @@ export function App() {
   switch (data.type) {
     case 'connect':
       return (
-        <div>
-          <div>Connect</div>
-          <button onClick={async () => request.resolve({ accounts: [] })}>Approve</button>
-          <button onClick={async () => request.reject()}>Reject</button>
+        <div className="p-4 flex flex-col gap-4">
+          <h1 className="text-2xl font-bold text-center">Connect</h1>
+          <div className="flex flex-col gap-2">
+            <Button onClick={async () => getRequestService().resolve({ accounts: [] })} variant="destructive">
+              Approve
+            </Button>
+            <Button onClick={async () => getRequestService().reject()}>Reject</Button>
+          </div>
         </div>
       )
 
