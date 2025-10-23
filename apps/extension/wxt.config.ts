@@ -2,6 +2,7 @@ import { defineConfig } from 'wxt'
 
 export default defineConfig({
   manifest: {
+    name: 'Samui',
     web_accessible_resources: [
       {
         matches: ['*://*/*'],
