@@ -6,7 +6,7 @@ describe('derive-from-mnemonic-at-index', () => {
   describe('expected behavior', () => {
     it('should derive a wallet at a specific index from a mnemonic', async () => {
       // ARRANGE
-      expect.assertions(3)
+      expect.assertions(2)
       const mnemonic = 'pill tomorrow foster begin walnut borrow virtual kick shift mutual shoe scatter'
       const derivationIndex = 1
       const expectedAddress = 'AWjbG5SH5VEay5ksZbGHHgJhYRhM1rsN5Z538cfFvs4a'
@@ -16,7 +16,6 @@ describe('derive-from-mnemonic-at-index', () => {
 
       // ASSERT
       expect(result.publicKey).toBe(expectedAddress)
-      expect(result.name).toBe('AWjb..vs4a')
       expect(result.secretKey).toBeDefined()
     })
   })

@@ -1,9 +1,9 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
 import type { GetActivityResult } from '@workspace/solana-client/get-activity'
 
-import { ellipsify } from '@workspace/core/ellipsify'
 import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
+import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.js'
 
