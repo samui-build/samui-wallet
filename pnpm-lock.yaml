@@ -64,8 +64,8 @@ catalogs:
       specifier: 7.9.4
       version: 7.9.4
     tailwindcss:
-      specifier: 4.1.15
-      version: 4.1.15
+      specifier: 4.1.16
+      version: 4.1.16
     typescript:
       specifier: 5.9.3
       version: 5.9.3
@@ -244,7 +244,7 @@ importers:
         version: 0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
       '@astrojs/starlight-tailwind':
         specifier: ^4.0.1
-        version: 4.0.1(@astrojs/starlight@0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)))(tailwindcss@4.1.15)
+        version: 4.0.1(@astrojs/starlight@0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)))(tailwindcss@4.1.16)
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.16(vite@7.1.11(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
@@ -256,7 +256,7 @@ importers:
         version: 0.34.4
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.15
+        version: 4.1.16
 
   apps/web:
     dependencies:
@@ -1054,7 +1054,7 @@ importers:
         version: 27.0.1(postcss@8.5.6)
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.15
+        version: 4.1.16
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -9279,9 +9279,6 @@ packages:
   tailwindcss@4.1.14:
     resolution: {integrity: sha512-b7pCxjGO98LnxVkKjaZSDeNuljC4ueKUddjENJOADtubtdo8llTaJy7HwBMeLNSSo2N5QIAgklslK1+Ir8r6CA==}
 
-  tailwindcss@4.1.15:
-    resolution: {integrity: sha512-k2WLnWkYFkdpRv+Oby3EBXIyQC8/s1HOFMBUViwtAh6Z5uAozeUSMQlIsn/c6Q2iJzqG6aJT3wdPaRNj70iYxQ==}
-
   tailwindcss@4.1.16:
     resolution: {integrity: sha512-pONL5awpaQX4LN5eiv7moSiSPd/DLDzKVRJz8Q9PgzmAdd1R4307GQS2ZpfiN7ZmekdQrfhZZiSE5jkLR4WNaA==}
 
@@ -10421,10 +10418,10 @@ snapshots:
       stream-replace-string: 2.0.0
       zod: 3.25.76
 
-  '@astrojs/starlight-tailwind@4.0.1(@astrojs/starlight@0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)))(tailwindcss@4.1.15)':
+  '@astrojs/starlight-tailwind@4.0.1(@astrojs/starlight@0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1)))(tailwindcss@4.1.16)':
     dependencies:
       '@astrojs/starlight': 0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))
-      tailwindcss: 4.1.15
+      tailwindcss: 4.1.16
 
   '@astrojs/starlight@0.36.1(astro@5.14.6(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(rollup@4.52.5)(terser@5.44.0)(tsx@4.20.6)(typescript@5.9.3)(yaml@2.8.1))':
     dependencies:
@@ -20272,8 +20269,6 @@ snapshots:
   tailwind-merge@3.3.1: {}
 
   tailwindcss@4.1.14: {}
-
-  tailwindcss@4.1.15: {}
 
   tailwindcss@4.1.16: {}
 
