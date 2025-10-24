@@ -41,10 +41,7 @@ export function SettingsUiClusterFormUpdate({
               <FormLabel>Endpoint * </FormLabel>
               <FormControl>
                 <Input
-                  onChange={(e) => {
-                    const val = e.target.value
-                    field.onChange(+val)
-                  }}
+                  onChange={(e) => field.onChange(e.target.value)}
                   placeholder="Cluster Endpoint"
                   type="url"
                   value={field.value}

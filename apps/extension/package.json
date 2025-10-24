@@ -4,6 +4,7 @@
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@workspace/background": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",

@@ -5,11 +5,11 @@ packages:
 catalog:
   '@eslint/js': 9.38.0
   '@hookform/resolvers': ^5.2.2
-  '@solana/kit': 4.0.0
   '@solana-program/token': 0.7.0
   '@solana-program/token-2022': 0.6.0
-  '@tailwindcss/postcss': 4.1.14
-  '@tailwindcss/vite': 4.1.15
+  '@solana/kit': 4.0.0
+  '@tailwindcss/postcss': 4.1.16
+  '@tailwindcss/vite': 4.1.16
   '@tanstack/react-query': 5.90.5
   '@types/node': 24.9.1
   '@types/react': 19.2.2
@@ -22,7 +22,7 @@ catalog:
   react-dom: 19.2.0
   react-hook-form: ^7.65.0
   react-router: 7.9.4
-  tailwindcss: 4.1.15
+  tailwindcss: 4.1.16
   typescript: 5.9.3
   typescript-eslint: 8.46.2
   vitest: 3.2.4

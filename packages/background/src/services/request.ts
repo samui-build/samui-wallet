@@ -1,3 +1,4 @@
+import type { SolanaSignMessageInput, SolanaSignMessageOutput } from '@solana/wallet-standard-features'
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -5,23 +6,29 @@ import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standa
 import { defineProxyService } from '@webext-core/proxy-service'
 import { browser } from 'wxt/browser'
 
-interface Request<TType extends keyof RequestTypeMap> {
-  data: RequestTypeMap[TType]['input']
-  id: number
-  reject: (reason?: Error) => void
-  resolve: (data: RequestTypeMap[TType]['output']) => void
-  type: TType
-}
+type DataType<T extends Requests['type']> = Extract<Requests, { type: T }>['data']
 
-interface RequestTypeMap {
-  connect: {
-    input: StandardConnectInput | undefined
-    output: StandardConnectOutput
-  }
-}
+type Requests =
+  | {
+      data: SolanaSignMessageInput[]
+      id: number
+      reject: (reason?: Error) => void
+      resolve: (data: SolanaSignMessageOutput[]) => void
+      type: 'signMessage'
+    }
+  | {
+      data: StandardConnectInput | undefined
+      id: number
+      reject: (reason?: Error) => void
+      resolve: (data: StandardConnectOutput) => void
+      type: 'connect'
+    }
+
+type ResolveType<T extends Requests['type']> =
+  Extract<Requests, { type: T }> extends { resolve: (data: infer R) => void } ? R : never
 
 class RequestService {
-  private request?: Request<keyof RequestTypeMap>
+  private request?: Requests
 
   constructor() {
     browser.windows.onRemoved.addListener((windowId: number) => {
@@ -32,10 +39,7 @@ class RequestService {
     })
   }
 
-  async create<TType extends keyof RequestTypeMap>(
-    type: TType,
-    data: RequestTypeMap[TType]['input'],
-  ): Promise<RequestTypeMap[TType]['output']> {
+  async create<T extends Requests['type']>(type: T, data: DataType<T>): Promise<ResolveType<T>> {
     if (this.request) {
       throw new Error('Request already exists')
     }
@@ -53,14 +57,14 @@ class RequestService {
       throw new Error('Failed to create request window')
     }
 
-    return new Promise<RequestTypeMap[TType]['output']>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       this.request = {
         data,
         id,
         reject,
         resolve,
         type,
-      }
+      } as Requests
     })
   }
 
@@ -79,13 +83,18 @@ class RequestService {
     browser.windows.remove(id)
   }
 
-  resolve<TType extends keyof RequestTypeMap>(data: RequestTypeMap[TType]['output']) {
+  resolve(data: SolanaSignMessageOutput[] | StandardConnectOutput) {
     if (!this.request) {
       throw new Error('No request to resolve')
     }
 
     const id = this.request.id
-    this.request.resolve(data)
+    if (this.request.type === 'connect') {
+      this.request.resolve(data as StandardConnectOutput)
+    } else if (this.request.type === 'signMessage') {
+      this.request.resolve(data as SolanaSignMessageOutput[])
+    }
+
     this.request = undefined
     browser.windows.remove(id)
   }

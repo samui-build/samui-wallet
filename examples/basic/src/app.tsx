@@ -11,20 +11,31 @@ import {
 import {
   StandardConnect,
   StandardDisconnect,
-  StandardEvents,
   type StandardConnectFeature,
   type StandardDisconnectFeature,
-  type StandardEventsFeature,
 } from '@wallet-standard/core'
 import { isSolanaChain } from '@solana/wallet-standard-chains'
-import { getWalletFeature, useWallets, type UiWallet } from '@wallet-standard/react'
+import { getWalletFeature, useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
 import { useState } from 'react'
 import { Button } from './components/ui/button'
+import {
+  getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+  getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+} from '@wallet-standard/ui-registry'
+import {
+  address,
+  getBase58Decoder,
+  getPublicKeyFromAddress,
+  getUtf8Encoder,
+  signatureBytes,
+  verifySignature,
+} from '@solana/kit'
 
 export function App() {
   const wallets = useWallets()
   const solanaWallets = wallets.filter(({ chains }) => chains.some((chain) => isSolanaChain(chain)))
   const [wallet, setWallet] = useState<UiWallet | undefined>(undefined)
+  const [account, setAccount] = useState<UiWalletAccount | undefined>(undefined)
 
   return (
     <div className="min-h-screen bg-black p-8 text-white">
@@ -33,22 +44,48 @@ export function App() {
 
         {wallet ? (
           <div className="flex flex-col gap-4">
+            {account ? (
+              <div>
+                <p>Wallet: {wallet.name}</p>
+                <p>Account Address: {account.address}</p>
+              </div>
+            ) : null}
             {wallet.features.map((feature) => {
               switch (feature) {
                 case StandardConnect: {
+                  if (account) {
+                    return null
+                  }
+
                   const { connect } = getWalletFeature(
                     wallet,
                     StandardConnect,
                   ) as StandardConnectFeature[typeof StandardConnect]
 
                   return (
-                    <Button key={feature} onClick={() => connect()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        const response = await connect()
+
+                        setAccount(
+                          getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(
+                            getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(wallet),
+                            response.accounts[0],
+                          ),
+                        )
+                      }}
+                    >
                       Connect
                     </Button>
                   )
                 }
 
                 case StandardDisconnect: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { disconnect } = getWalletFeature(
                     wallet,
                     StandardDisconnect,
@@ -61,20 +98,11 @@ export function App() {
                   )
                 }
 
-                case StandardEvents: {
-                  const { on } = getWalletFeature(
-                    wallet,
-                    StandardEvents,
-                  ) as StandardEventsFeature[typeof StandardEvents]
-
-                  return (
-                    <Button key={feature} onClick={() => on('change', console.log)}>
-                      On
-                    </Button>
-                  )
-                }
-
                 case SolanaSignAndSendTransaction: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signAndSendTransaction } = getWalletFeature(
                     wallet,
                     SolanaSignAndSendTransaction,
@@ -88,6 +116,10 @@ export function App() {
                 }
 
                 case SolanaSignTransaction: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signTransaction } = getWalletFeature(
                     wallet,
                     SolanaSignTransaction,
@@ -101,19 +133,44 @@ export function App() {
                 }
 
                 case SolanaSignMessage: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signMessage } = getWalletFeature(
                     wallet,
                     SolanaSignMessage,
                   ) as SolanaSignMessageFeature[typeof SolanaSignMessage]
 
                   return (
-                    <Button key={feature} onClick={() => signMessage()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        const message = new Uint8Array(getUtf8Encoder().encode('Hello, World!'))
+                        const [response] = await signMessage({
+                          account,
+                          message,
+                        })
+                        console.log('Signed Message:', response)
+
+                        const decoded = getBase58Decoder().decode(response.signature)
+                        console.log('Signature:', decoded)
+
+                        const key = await getPublicKeyFromAddress(address(account.address))
+                        const verified = await verifySignature(key, signatureBytes(response.signature), message)
+                        console.log('Verified:', verified)
+                      }}
+                    >
                       Sign Message
                     </Button>
                   )
                 }
 
                 case SolanaSignIn: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signIn } = getWalletFeature(wallet, SolanaSignIn) as SolanaSignInFeature[typeof SolanaSignIn]
 
                   return (
