@@ -22,6 +22,14 @@ import {
   getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
   getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
 } from '@wallet-standard/ui-registry'
+import {
+  address,
+  getBase58Decoder,
+  getPublicKeyFromAddress,
+  getUtf8Encoder,
+  signatureBytes,
+  verifySignature,
+} from '@solana/kit'
 
 export function App() {
   const wallets = useWallets()
@@ -135,7 +143,24 @@ export function App() {
                   ) as SolanaSignMessageFeature[typeof SolanaSignMessage]
 
                   return (
-                    <Button key={feature} onClick={() => signMessage()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        const message = new Uint8Array(getUtf8Encoder().encode('Hello, World!'))
+                        const [response] = await signMessage({
+                          account,
+                          message,
+                        })
+                        console.log('Signed Message:', response)
+
+                        const decoded = getBase58Decoder().decode(response.signature)
+                        console.log('Signature:', decoded)
+
+                        const key = await getPublicKeyFromAddress(address(account.address))
+                        const verified = await verifySignature(key, signatureBytes(response.signature), message)
+                        console.log('Verified:', verified)
+                      }}
+                    >
                       Sign Message
                     </Button>
                   )
