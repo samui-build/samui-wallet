@@ -29,8 +29,6 @@ export interface TokenMetadata {
 }
 
 export function useGetTokenBalances(props: { cluster: Cluster; wallet: Wallet }) {
-  //
-
   const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance(props)
   const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
 
