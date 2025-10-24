@@ -8,7 +8,7 @@ export function App() {
   const queryClient = useQueryClient()
   const { mutateAsync } = useMutation({
     mutationFn: async () => {
-      await getDbService().account.createWithWallet({
+      const result = await getDbService().account.createWithWallet({
         derivationPath: derivationPaths.default,
         mnemonic: generateMnemonic(),
         name: 'My Account',
@@ -16,6 +16,7 @@ export function App() {
       })
       queryClient.invalidateQueries({ queryKey: ['preferences', 'activeWalletId'] })
       queryClient.invalidateQueries({ queryKey: ['preferences', 'activeAccountId'] })
+      return result
     },
   })
   const { data: activeWalletId } = useQuery({
