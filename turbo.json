@@ -1,6 +1,6 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "stream",
+  "ui": "tui",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
@@ -21,7 +21,7 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^test", "@workspace/config-vitest#build"]
+      "dependsOn": ["^test"]
     },
     "test:watch": {
       "cache": false,
