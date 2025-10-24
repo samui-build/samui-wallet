@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { getDbService } from '@workspace/background/services/db'
 import { getRequestService } from '@workspace/background/services/request'
 import { Button } from '@workspace/ui/components/button'
 
@@ -19,20 +20,7 @@ export function App() {
           <h1 className="text-2xl font-bold text-center">Connect</h1>
           <div className="flex flex-col gap-2">
             <Button
-              onClick={async () =>
-                getRequestService().resolve({
-                  accounts: [
-                    {
-                      address: '0x1234567890abcdef',
-                      chains: [],
-                      features: [],
-                      // icon: '',
-                      // label: 'My Account',
-                      publicKey: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-                    },
-                  ],
-                })
-              }
+              onClick={async () => getRequestService().resolve(await getDbService().wallet.walletAccounts())}
               variant="destructive"
             >
               Approve
