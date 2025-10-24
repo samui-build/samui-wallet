@@ -18,7 +18,23 @@ export function App() {
         <div className="p-4 flex flex-col gap-4">
           <h1 className="text-2xl font-bold text-center">Connect</h1>
           <div className="flex flex-col gap-2">
-            <Button onClick={async () => getRequestService().resolve({ accounts: [] })} variant="destructive">
+            <Button
+              onClick={async () =>
+                getRequestService().resolve({
+                  accounts: [
+                    {
+                      address: '0x1234567890abcdef',
+                      chains: [],
+                      features: [],
+                      // icon: '',
+                      // label: 'My Account',
+                      publicKey: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
+                    },
+                  ],
+                })
+              }
+              variant="destructive"
+            >
               Approve
             </Button>
             <Button onClick={async () => getRequestService().reject()}>Reject</Button>

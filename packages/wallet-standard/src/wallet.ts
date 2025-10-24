@@ -1,3 +1,5 @@
+import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
+
 import { SOLANA_CHAINS } from '@solana/wallet-standard-chains'
 import {
   SolanaSignAndSendTransaction,
@@ -22,8 +24,8 @@ import {
   type WalletIcon,
   type WalletVersion,
 } from '@wallet-standard/core'
+import { sendMessage } from '@workspace/background/window'
 
-import { connect } from './features/connect'
 import { disconnect } from './features/disconnect'
 import { on } from './features/events'
 import { signAndSendTransaction } from './features/sign-and-send-transaction'
@@ -42,7 +44,7 @@ type WalletFeatures = SolanaSignAndSendTransactionFeature &
 
 export class SamuiWallet implements Wallet {
   get accounts(): readonly WalletAccount[] {
-    return []
+    return this.#accounts
   }
 
   get chains(): IdentifierArray {
@@ -70,7 +72,12 @@ export class SamuiWallet implements Wallet {
         version: this.version,
       },
       [StandardConnect]: {
-        connect,
+        connect: async (input?: StandardConnectInput): Promise<StandardConnectOutput> => {
+          const response = await sendMessage('connect', input)
+          this.#accounts = response.accounts
+
+          return response
+        },
         version: this.version,
       },
       [StandardDisconnect]: {
@@ -95,4 +102,6 @@ export class SamuiWallet implements Wallet {
   get version(): WalletVersion {
     return '1.0.0'
   }
+
+  #accounts: readonly WalletAccount[] = []
 }
