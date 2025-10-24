@@ -18,6 +18,8 @@ import { Input } from '@workspace/ui/components/input'
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
 import { useForm } from 'react-hook-form'
 
+import { SettingsUiClusterWarningMainnet } from './settings-ui-cluster-warning-mainnet.js'
+
 export function SettingsUiClusterFormUpdate({
   item,
   submit,
@@ -33,6 +35,27 @@ export function SettingsUiClusterFormUpdate({
   return (
     <Form {...form}>
       <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+        <FormItem className="flex flex-col gap-2 w-full py-1">
+          <FormLabel>Cluster</FormLabel>
+          <FormControl>
+            <ToggleGroup
+              className="flex justify-start items-center flex-wrap"
+              defaultValue={item.type}
+              disabled
+              type="single"
+              variant="outline"
+            >
+              {dbClusterTypeOptions.map(({ label, value }) => (
+                <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
+                  {label.replace('Solana ', '')}
+                </ToggleGroupItem>
+              ))}
+            </ToggleGroup>
+          </FormControl>
+          <FormDescription>You can&#39;t change the type of cluster after you created it.</FormDescription>
+          <FormMessage />
+          <SettingsUiClusterWarningMainnet type={item.type} />
+        </FormItem>
         <FormField
           control={form.control}
           name="endpoint"
@@ -52,32 +75,6 @@ export function SettingsUiClusterFormUpdate({
             </FormItem>
           )}
           rules={{ required: true }}
-        />
-        <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem className="flex flex-col gap-2 w-full py-1">
-              <FormLabel>Cluster *</FormLabel>
-              <FormControl>
-                <ToggleGroup
-                  className="flex justify-start items-center flex-wrap"
-                  onValueChange={field.onChange}
-                  type="single"
-                  value={field.value}
-                  variant="outline"
-                >
-                  {dbClusterTypeOptions.map(({ label, value }) => (
-                    <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
-                      {label}
-                    </ToggleGroupItem>
-                  ))}
-                </ToggleGroup>
-              </FormControl>
-              <FormDescription>Select the type of cluster</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
         />
         <FormField
           control={form.control}
