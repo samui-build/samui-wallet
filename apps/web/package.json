@@ -4,6 +4,7 @@
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.14",
     "@tailwindcss/vite": "catalog:",
+    "@workspace/env": "workspace:*",
     "@workspace/shell": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",

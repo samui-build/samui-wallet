@@ -269,6 +269,9 @@ importers:
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.16(vite@7.1.12(@types/node@24.9.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1))
+      '@workspace/env':
+        specifier: workspace:*
+        version: link:../../packages/env
       '@workspace/shell':
         specifier: workspace:*
         version: link:../../packages/shell
@@ -460,6 +463,9 @@ importers:
       '@workspace/core':
         specifier: workspace:*
         version: link:../core
+      '@workspace/env':
+        specifier: workspace:*
+        version: link:../env
       dexie:
         specifier: ^4.2.1
         version: 4.2.1
@@ -592,6 +598,28 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.2(@types/react@19.2.2)
+      '@workspace/config-eslint':
+        specifier: workspace:*
+        version: link:../config-eslint
+      '@workspace/config-typescript':
+        specifier: workspace:*
+        version: link:../config-typescript
+      eslint:
+        specifier: 'catalog:'
+        version: 9.38.0(jiti@2.6.1)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  packages/env:
+    dependencies:
+      zod:
+        specifier: 'catalog:'
+        version: 4.1.12
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 24.9.1
       '@workspace/config-eslint':
         specifier: workspace:*
         version: link:../config-eslint

@@ -1,3 +1,5 @@
+import { env } from '@workspace/env/env'
+
 import type { Database } from './database'
 
 export async function dbPopulate(db: Database) {
@@ -36,6 +38,13 @@ export async function dbPopulate(db: Database) {
       key: 'activeClusterId',
       updatedAt: now,
       value: activeClusterId,
+    },
+    {
+      createdAt: now,
+      id: crypto.randomUUID(),
+      key: 'apiEndpoint',
+      updatedAt: now,
+      value: env('apiEndpoint'),
     },
   ])
 }

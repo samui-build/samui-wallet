@@ -17,6 +17,7 @@ Open Source Solana wallet and toolbox for builders 🏟 Cypherpunk Hackathon
 git clone git@github.com:samui-build/samui-wallet.git
 cd samui-wallet
 pnpm install
+cp apps/web/.env.example apps/web/.env
 pnpm dev
 ```
 

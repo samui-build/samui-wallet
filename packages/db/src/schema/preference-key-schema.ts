@@ -4,6 +4,7 @@ export const preferenceKeySchema = z.enum([
   'activeAccountId',
   'activeClusterId',
   'activeWalletId',
+  'apiEndpoint',
   'developerModeEnabled',
   'warningAcceptExperimental',
 ])

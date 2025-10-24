@@ -1,19 +1,14 @@
 {
-  "name": "@workspace/db",
+  "name": "@workspace/env",
   "version": "0.0.0",
   "dependencies": {
-    "@workspace/core": "workspace:*",
-    "@workspace/env": "workspace:*",
-    "dexie": "^4.2.1",
     "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
-    "fake-indexeddb": "^6.2.4",
     "typescript": "catalog:"
   },
   "exports": {
@@ -21,14 +16,9 @@
   },
   "license": "MIT",
   "private": false,
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
-    "test": "vitest run",
-    "test:watch": "vitest --watch"
+    "lint:fix": "eslint . --max-warnings=0 --fix"
   }
 }
