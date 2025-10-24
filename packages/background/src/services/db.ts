@@ -1,6 +1,5 @@
 import type { StandardConnectOutput } from '@wallet-standard/core'
 import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
-import type { PreferenceKey } from '@workspace/db/entity/preference-key'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { address, getAddressEncoder } from '@solana/kit'
@@ -10,7 +9,6 @@ import { defineProxyService } from '@webext-core/proxy-service'
 import { db } from '@workspace/db/db'
 import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbPreferenceGetValue } from '@workspace/db/db-preference-get-value'
-import { dbPreferenceSetValue } from '@workspace/db/db-preference-set-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
@@ -33,10 +31,6 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
       })
       return accountId
     },
-  },
-  preferences: {
-    get: async (key: PreferenceKey) => dbPreferenceGetValue(db, key),
-    set: async (key: PreferenceKey, value: string) => await dbPreferenceSetValue(db, key, value),
   },
   wallet: {
     active: async (): Promise<Wallet> => {
