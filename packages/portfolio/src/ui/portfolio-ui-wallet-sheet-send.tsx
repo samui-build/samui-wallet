@@ -2,7 +2,17 @@ import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { LucideArrowUp } from 'lucide-react'
 
-export function PortfolioUiWalletSheetSend() {
+import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+
+import { PortfolioUiWalletFormSend } from './portfolio-ui-wallet-form-send.js'
+
+export function PortfolioUiWalletSheetSend({
+  balances,
+  send,
+}: {
+  balances: TokenBalance[]
+  send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
+}) {
   return (
     <UiBottomSheet
       description="Selecting the token, enter the destination public key and the amount."
@@ -13,7 +23,7 @@ export function PortfolioUiWalletSheetSend() {
         </Button>
       }
     >
-      <div>Placeholder for Send Form</div>
+      <PortfolioUiWalletFormSend balances={balances} send={send} />
     </UiBottomSheet>
   )
 }

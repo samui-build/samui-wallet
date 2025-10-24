@@ -12,6 +12,9 @@ catalogs:
     '@hookform/resolvers':
       specifier: ^5.2.2
       version: 5.2.2
+    '@solana-program/system':
+      specifier: 0.9.0
+      version: 0.9.0
     '@solana-program/token':
       specifier: 0.7.0
       version: 0.7.0
@@ -687,6 +690,9 @@ importers:
       '@workspace/db-react':
         specifier: workspace:*
         version: link:../db-react
+      '@workspace/keypair':
+        specifier: workspace:*
+        version: link:../keypair
       '@workspace/solana-client':
         specifier: workspace:*
         version: link:../solana-client
@@ -864,6 +870,9 @@ importers:
 
   packages/solana-client:
     dependencies:
+      '@solana-program/system':
+        specifier: 'catalog:'
+        version: 0.9.0(@solana/kit@4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
       '@solana-program/token':
         specifier: 'catalog:'
         version: 0.7.0(@solana/kit@4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))
@@ -3709,6 +3718,11 @@ packages:
 
   '@sinonjs/fake-timers@10.3.0':
     resolution: {integrity: sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA==}
+
+  '@solana-program/system@0.9.0':
+    resolution: {integrity: sha512-yu+i0SZ+c+0E9Cy+btoMiCbxRnP/FLQuv/Ba8l2klZApAiOX1Ja/2IGkctFV36fglsI7PwD9czkSkHm8og+QeA==}
+    peerDependencies:
+      '@solana/kit': ^4.0
 
   '@solana-program/token-2022@0.6.0':
     resolution: {integrity: sha512-PHBkmAvzt4NKFSZB0toFkQ4iQE0KZIaOIDpDLfBbD0TaePA1LqG8i8Rb2zsav42g/xzL35dAw0kLzwB45O1alQ==}
@@ -13052,6 +13066,10 @@ snapshots:
   '@sinonjs/fake-timers@10.3.0':
     dependencies:
       '@sinonjs/commons': 3.0.1
+
+  '@solana-program/system@0.9.0(@solana/kit@4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))':
+    dependencies:
+      '@solana/kit': 4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3)
 
   '@solana-program/token-2022@0.6.0(@solana/kit@4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.18.3))(@solana/sysvars@4.0.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))':
     dependencies:

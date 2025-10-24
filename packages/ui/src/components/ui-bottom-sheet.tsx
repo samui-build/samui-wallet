@@ -21,7 +21,7 @@ export function UiBottomSheet({
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col gap-6 pb-10 items-center aspect-square">{children}</div>
+        <div className="flex flex-col gap-6 pb-10 items-center md:aspect-square">{children}</div>
       </SheetContent>
     </Sheet>
   )

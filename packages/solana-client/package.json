@@ -2,6 +2,7 @@
   "name": "@workspace/solana-client",
   "version": "0.0.0",
   "dependencies": {
+    "@solana-program/system": "catalog:",
     "@solana-program/token": "catalog:",
     "@solana-program/token-2022": "catalog:",
     "@solana/kit": "catalog:",
