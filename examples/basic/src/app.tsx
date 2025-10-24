@@ -47,6 +47,10 @@ export function App() {
             {wallet.features.map((feature) => {
               switch (feature) {
                 case StandardConnect: {
+                  if (account) {
+                    return null
+                  }
+
                   const { connect } = getWalletFeature(
                     wallet,
                     StandardConnect,
@@ -72,6 +76,10 @@ export function App() {
                 }
 
                 case StandardDisconnect: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { disconnect } = getWalletFeature(
                     wallet,
                     StandardDisconnect,
@@ -84,20 +92,11 @@ export function App() {
                   )
                 }
 
-                case StandardEvents: {
-                  const { on } = getWalletFeature(
-                    wallet,
-                    StandardEvents,
-                  ) as StandardEventsFeature[typeof StandardEvents]
-
-                  return (
-                    <Button key={feature} onClick={() => on('change', console.log)}>
-                      On
-                    </Button>
-                  )
-                }
-
                 case SolanaSignAndSendTransaction: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signAndSendTransaction } = getWalletFeature(
                     wallet,
                     SolanaSignAndSendTransaction,
@@ -111,6 +110,10 @@ export function App() {
                 }
 
                 case SolanaSignTransaction: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signTransaction } = getWalletFeature(
                     wallet,
                     SolanaSignTransaction,
@@ -124,6 +127,10 @@ export function App() {
                 }
 
                 case SolanaSignMessage: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signMessage } = getWalletFeature(
                     wallet,
                     SolanaSignMessage,
@@ -137,6 +144,10 @@ export function App() {
                 }
 
                 case SolanaSignIn: {
+                  if (!account) {
+                    return null
+                  }
+
                   const { signIn } = getWalletFeature(wallet, SolanaSignIn) as SolanaSignInFeature[typeof SolanaSignIn]
 
                   return (
