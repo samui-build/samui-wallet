@@ -17,14 +17,19 @@ import {
   type StandardEventsFeature,
 } from '@wallet-standard/core'
 import { isSolanaChain } from '@solana/wallet-standard-chains'
-import { getWalletFeature, useWallets, type UiWallet } from '@wallet-standard/react'
+import { getWalletFeature, useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
 import { useState } from 'react'
 import { Button } from './components/ui/button'
+import {
+  getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+  getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
+} from '@wallet-standard/ui-registry'
 
 export function App() {
   const wallets = useWallets()
   const solanaWallets = wallets.filter(({ chains }) => chains.some((chain) => isSolanaChain(chain)))
   const [wallet, setWallet] = useState<UiWallet | undefined>(undefined)
+  const [account, setAccount] = useState<UiWalletAccount | undefined>(undefined)
 
   return (
     <div className="min-h-screen bg-black p-8 text-white">
@@ -33,6 +38,12 @@ export function App() {
 
         {wallet ? (
           <div className="flex flex-col gap-4">
+            {account ? (
+              <div>
+                <p>Wallet: {wallet.name}</p>
+                <p>Account Address: {account.address}</p>
+              </div>
+            ) : null}
             {wallet.features.map((feature) => {
               switch (feature) {
                 case StandardConnect: {
@@ -42,7 +53,19 @@ export function App() {
                   ) as StandardConnectFeature[typeof StandardConnect]
 
                   return (
-                    <Button key={feature} onClick={() => connect()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        const response = await connect()
+
+                        setAccount(
+                          getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(
+                            getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(wallet),
+                            response.accounts[0],
+                          ),
+                        )
+                      }}
+                    >
                       Connect
                     </Button>
                   )

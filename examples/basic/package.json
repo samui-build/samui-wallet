@@ -16,6 +16,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@wallet-standard/core": "^1.1.1",
     "@wallet-standard/react": "^1.0.1",
+    "@wallet-standard/ui-registry": "^1.0.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.546.0",
