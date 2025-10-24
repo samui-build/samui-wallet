@@ -11,10 +11,8 @@ import {
 import {
   StandardConnect,
   StandardDisconnect,
-  StandardEvents,
   type StandardConnectFeature,
   type StandardDisconnectFeature,
-  type StandardEventsFeature,
 } from '@wallet-standard/core'
 import { isSolanaChain } from '@solana/wallet-standard-chains'
 import { getWalletFeature, useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
