@@ -1,6 +1,9 @@
+import type { StandardConnectOutput } from '@wallet-standard/core'
 import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
 import type { PreferenceKey } from '@workspace/db/entity/preference-key'
+import type { Wallet } from '@workspace/db/entity/wallet'
 
+import { address, getAddressEncoder } from '@solana/kit'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from '@webext-core/proxy-service'
@@ -9,6 +12,7 @@ import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbPreferenceGetValue } from '@workspace/db/db-preference-get-value'
 import { dbPreferenceSetValue } from '@workspace/db/db-preference-set-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
+import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
@@ -33,5 +37,36 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
   preferences: {
     get: async (key: PreferenceKey) => dbPreferenceGetValue(db, key),
     set: async (key: PreferenceKey, value: string) => await dbPreferenceSetValue(db, key, value),
+  },
+  wallet: {
+    active: async (): Promise<Wallet> => {
+      const walletId = await dbPreferenceGetValue(db, 'activeWalletId')
+      if (!walletId) {
+        throw new Error('No active wallet set')
+      }
+
+      const wallet = await dbWalletFindUnique(db, walletId)
+      if (!wallet) {
+        throw new Error('Active wallet not found')
+      }
+
+      return wallet
+    },
+    walletAccounts: async (): Promise<StandardConnectOutput> => {
+      const wallet = await getDbService().wallet.active()
+
+      return {
+        accounts: [
+          {
+            address: wallet.publicKey,
+            chains: [],
+            features: [],
+            // icon: '',
+            label: wallet.name,
+            publicKey: getAddressEncoder().encode(address(wallet.publicKey)),
+          },
+        ],
+      }
+    },
   },
 }))
