@@ -10,11 +10,15 @@
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
     "tsx": "^4.7.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "wrangler": "^4.4.0"
   },
   "private": true,
   "scripts": {
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "check-types": "tsc --noEmit",
+    "deploy": "wrangler deploy --minify",
+    "dev": "wrangler dev",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },

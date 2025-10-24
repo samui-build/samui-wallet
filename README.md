@@ -22,11 +22,11 @@ pnpm dev
 
 ## Commands
 
-- [https://github.com/samui-build/samui-wallet/blob/main/package.json#L32](https://github.com/samui-build/samui-wallet/blob/main/package.json#L32)
+- [https://github.com/samui-build/samui-wallet/blob/main/package.json](https://github.com/samui-build/samui-wallet/blob/main/package.json)
 
 ## Development
 
-- API: TBD
+- API: [http://localhost:8787](http://localhost:8787)
 - CLI: TBD
 - Extension: TBD
 - Mobile: TBD
