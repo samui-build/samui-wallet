@@ -1,6 +1,18 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "api",
+  "name": "samui-wallet-api",
   "main": "src/index.ts",
-  "compatibility_date": "2025-10-24"
+  "compatibility_date": "2025-10-24",
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  },
+  "preview_urls": true,
+  "routes": [
+    {
+      "pattern": "api.samui.build",
+      "custom_domain": true
+    }
+  ],
+  "send_metrics": false
 }
