@@ -7,6 +7,7 @@ import { db } from '@workspace/db/db'
 import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbAccountDelete } from '@workspace/db/db-account-delete'
 import { dbAccountFindMany } from '@workspace/db/db-account-find-many'
+import { dbAccountFindManyWithWallets } from '@workspace/db/db-account-find-many-with-wallets'
 import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
 import { dbAccountSetActive } from '@workspace/db/db-account-set-active'
 import { dbAccountUpdate } from '@workspace/db/db-account-update'
@@ -31,6 +32,11 @@ export const dbAccountOptions = {
     queryOptions({
       queryFn: () => dbAccountFindMany(db, input),
       queryKey: ['dbAccountFindMany', input],
+    }),
+  findManyWithWallets: (input: AccountInputFindMany) =>
+    queryOptions({
+      queryFn: () => dbAccountFindManyWithWallets(db, input),
+      queryKey: ['dbAccountFindManyWithWallets', input],
     }),
   findUnique: (id: string) =>
     queryOptions({
