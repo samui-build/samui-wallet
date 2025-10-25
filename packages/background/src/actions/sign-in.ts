@@ -1,7 +1,7 @@
 import type { SolanaSignInInput, SolanaSignInOutput } from '@solana/wallet-standard-features'
 
-export async function signIn(inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> {
-  console.log('Sign In', inputs)
+import { getRequestService } from '../services/request'
 
-  return Promise.resolve([])
+export async function signIn(inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> {
+  return await getRequestService().create('signIn', inputs)
 }
