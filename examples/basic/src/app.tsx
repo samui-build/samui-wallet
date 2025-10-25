@@ -31,6 +31,7 @@ import {
   verifySignature,
 } from '@solana/kit'
 
+// TODO: Split each feature into its own component
 export function App() {
   const wallets = useWallets()
   const solanaWallets = wallets.filter(({ chains }) => chains.some((chain) => isSolanaChain(chain)))
@@ -174,7 +175,37 @@ export function App() {
                   const { signIn } = getWalletFeature(wallet, SolanaSignIn) as SolanaSignInFeature[typeof SolanaSignIn]
 
                   return (
-                    <Button key={feature} onClick={() => signIn()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        const [response] = await signIn({
+                          domain: 'example.com',
+                          address: account.address,
+                          statement: 'Sign in to Example App',
+                          uri: 'https://example.com',
+                          version: '1',
+                          chainId: 'solana:mainnet',
+                          nonce: '1234567890',
+                          issuedAt: '2023-10-25T12:00:00Z',
+                          expirationTime: '2023-10-25T13:00:00Z',
+                          notBefore: '2023-10-25T11:00:00Z',
+                          requestId: 'req-12345',
+                          resources: ['https://example.com/resource1', 'https://example.com/resource2'],
+                        })
+                        console.log('Signed Message:', response)
+
+                        const decoded = getBase58Decoder().decode(response.signature)
+                        console.log('Signature:', decoded)
+
+                        const key = await getPublicKeyFromAddress(address(account.address))
+                        const verified = await verifySignature(
+                          key,
+                          signatureBytes(response.signature),
+                          response.signedMessage,
+                        )
+                        console.log('Verified:', verified)
+                      }}
+                    >
                       Sign In
                     </Button>
                   )

@@ -7,8 +7,8 @@ export async function signMessage(...inputs: SolanaSignMessageInput[]): Promise<
   const outputs = await sendMessage('signMessage', inputs)
 
   return outputs.map((output) => ({
+    ...output,
     signature: ensureUint8Array(output.signature),
-    signatureType: output.signatureType,
     signedMessage: ensureUint8Array(output.signedMessage),
   }))
 }

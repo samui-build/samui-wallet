@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRequestService } from '@workspace/background/services/request'
 
-import { SignMessage } from '@/components/sign-message'
-
 import { Connect } from '../../components/connect'
+import { SignIn } from '../../components/sign-in'
+import { SignMessage } from '../../components/sign-message'
 
 export function App() {
   const { data, isLoading } = useQuery({
@@ -18,6 +18,9 @@ export function App() {
   switch (data.type) {
     case 'connect':
       return <Connect />
+
+    case 'signIn':
+      return <SignIn data={data.data} />
 
     case 'signMessage':
       return <SignMessage data={data.data} />
