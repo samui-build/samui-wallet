@@ -3,6 +3,7 @@ import { lazy } from 'react'
 
 const DevFeatureDb = lazy(() => import('./dev-feature-db.js'))
 const DevFeatureScratchPad = lazy(() => import('./dev-feature-scratch-pad.js'))
+const DevFeatureSdk = lazy(() => import('./dev-feature-sdk.js'))
 const DevFeatureSolana = lazy(() => import('./dev-feature-solana.js'))
 const DevFeatureUi = lazy(() => import('./dev-feature-ui.js'))
 
@@ -14,6 +15,7 @@ export default function DevRoutes() {
       tabs={[
         { element: <DevFeatureScratchPad />, label: 'Scratch Pad', path: 'scratch-pad' },
         { element: <DevFeatureDb />, label: 'DB', path: 'db' },
+        { element: <DevFeatureSdk />, label: 'SDK', path: 'sdk' },
         { element: <DevFeatureSolana />, label: 'Solana', path: 'solana' },
         { element: <DevFeatureUi />, label: 'UI', path: 'ui' },
       ]}

@@ -2,6 +2,9 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "samui-wallet-api",
   "main": "src/index.ts",
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "compatibility_date": "2025-10-24",
   "observability": {
     "enabled": true,
