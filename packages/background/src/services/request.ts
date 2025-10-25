@@ -1,4 +1,9 @@
-import type { SolanaSignMessageInput, SolanaSignMessageOutput } from '@solana/wallet-standard-features'
+import type {
+  SolanaSignInInput,
+  SolanaSignInOutput,
+  SolanaSignMessageInput,
+  SolanaSignMessageOutput,
+} from '@solana/wallet-standard-features'
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -9,6 +14,13 @@ import { browser } from 'wxt/browser'
 type DataType<T extends Requests['type']> = Extract<Requests, { type: T }>['data']
 
 type Requests =
+  | {
+      data: SolanaSignInInput[]
+      id: number
+      reject: (reason?: Error) => void
+      resolve: (data: SolanaSignInOutput[]) => void
+      type: 'signIn'
+    }
   | {
       data: SolanaSignMessageInput[]
       id: number
@@ -93,6 +105,8 @@ class RequestService {
       this.request.resolve(data as StandardConnectOutput)
     } else if (this.request.type === 'signMessage') {
       this.request.resolve(data as SolanaSignMessageOutput[])
+    } else if (this.request.type === 'signIn') {
+      this.request.resolve(data as SolanaSignInOutput[])
     }
 
     this.request = undefined
