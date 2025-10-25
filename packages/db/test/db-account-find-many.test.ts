@@ -6,7 +6,8 @@ import type { Account } from '../src/entity/account'
 
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindMany } from '../src/db-account-find-many'
-import { createDbTest, testAccountInputCreate } from './test-helpers'
+import { dbWalletCreate } from '../src/db-wallet-create'
+import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers'
 
 const db = createDbTest()
 
@@ -16,15 +17,48 @@ describe('db-account-find-many', () => {
   })
 
   describe('expected behavior', () => {
+    it('should find many accounts with wallets', async () => {
+      // ARRANGE
+      expect.assertions(2)
+      const account1 = testAccountInputCreate({ name: 'Alpha' })
+      const account2 = testAccountInputCreate({ name: 'Beta' })
+      const account3 = testAccountInputCreate({ name: 'Charlie' })
+      const account1Id = await dbAccountCreate(db, account1)
+      const account2Id = await dbAccountCreate(db, account2)
+      const account3Id = await dbAccountCreate(db, account3)
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account1Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account1Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account2Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account3Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account3Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account3Id }))
+
+      // ACT
+      const items = await dbAccountFindMany(db)
+
+      // ASSERT
+      expect(items).toHaveLength(3)
+      expect(items.map((i) => ({ id: i.id, walletsLength: i.wallets.length }))).toEqual(
+        expect.arrayContaining([
+          { id: account1Id, walletsLength: 2 },
+          { id: account2Id, walletsLength: 1 },
+          { id: account3Id, walletsLength: 3 },
+        ]),
+      )
+    })
+
     it('should find many accounts by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
       const account1 = testAccountInputCreate({ name: 'Test Account Alpha' })
       const account2 = testAccountInputCreate({ name: 'Test Account Beta' })
       const account3 = testAccountInputCreate({ name: 'Another One' })
-      await dbAccountCreate(db, account1)
-      await dbAccountCreate(db, account2)
-      await dbAccountCreate(db, account3)
+      const account1Id = await dbAccountCreate(db, account1)
+      const account2Id = await dbAccountCreate(db, account2)
+      const account3Id = await dbAccountCreate(db, account3)
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account1Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account2Id }))
+      await dbWalletCreate(db, testWalletInputCreate({ accountId: account3Id }))
 
       // ACT
       const items = await dbAccountFindMany(db, { name: 'Test Account' })
