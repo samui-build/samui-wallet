@@ -16,6 +16,7 @@ export async function dbAccountCreate(db: Database, input: AccountInputCreate): 
       createdAt: now,
       id: crypto.randomUUID(),
       updatedAt: now,
+      wallets: [],
     }),
   )
   if (error) {

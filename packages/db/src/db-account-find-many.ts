@@ -8,20 +8,38 @@ import { accountSchemaFindMany } from './schema/account-schema-find-many'
 
 export async function dbAccountFindMany(db: Database, input: AccountInputFindMany = {}): Promise<Account[]> {
   const parsedInput = accountSchemaFindMany.parse(input)
-  const { data, error } = await tryCatch(
-    db.accounts
-      .orderBy('name')
-      .filter((item) => {
-        const matchId = !parsedInput.id || item.id === parsedInput.id
-        const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+  return db.transaction('r', db.accounts, db.wallets, async () => {
+    const [{ data: dataAccounts, error: accountsError }, { data: dataWallets, error: errorWallets }] =
+      await Promise.all([
+        tryCatch(
+          db.accounts
+            .orderBy('name')
+            .filter((item) => {
+              const matchId = !parsedInput.id || item.id === parsedInput.id
+              const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
 
-        return matchId && matchName
-      })
-      .toArray(),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding accounts`)
-  }
-  return data
+              return matchId && matchName
+            })
+            .toArray(),
+        ),
+        tryCatch(db.wallets.toArray()),
+      ])
+
+    if (accountsError) {
+      console.log(accountsError)
+      throw new Error(`Error finding accounts`)
+    }
+    if (errorWallets) {
+      console.log(errorWallets)
+      throw new Error(`Error finding wallets`)
+    }
+    return [
+      ...dataAccounts.map((account) => {
+        return {
+          ...account,
+          wallets: [...dataWallets.filter((wallet) => wallet.accountId === account.id)],
+        }
+      }),
+    ]
+  })
 }
