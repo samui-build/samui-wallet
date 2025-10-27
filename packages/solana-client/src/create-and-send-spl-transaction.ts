@@ -31,7 +31,6 @@ export async function createAndSendSplTransaction(
   },
 ): Promise<string> {
   const mintInfo = await fetchMint(client.rpc, address(mint))
-
   const tokenProgram = mintInfo.programAddress
   const [sourceTokenAccount] = await findAssociatedTokenPda({
     mint: address(mint),
