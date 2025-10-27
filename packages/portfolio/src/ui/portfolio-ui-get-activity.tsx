@@ -4,6 +4,7 @@ import type { GetActivityResult } from '@workspace/solana-client/get-activity'
 import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import { Link } from 'react-router'
 
 import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.js'
 
@@ -26,11 +27,7 @@ export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; i
             {items?.map((item) => (
               <TableRow key={item.signature}>
                 <TableCell className="font-mono">
-                  <PortfolioUiExplorerLink
-                    cluster={cluster}
-                    label={ellipsify(item.signature, 8)}
-                    path={`/tx/${item.signature}`}
-                  />
+                  <Link to={`/portfolio/tx/${item.signature}`}>{ellipsify(item.signature, 8)}</Link>
                 </TableCell>
                 <TableCell className="font-mono text-right">
                   <PortfolioUiExplorerLink
