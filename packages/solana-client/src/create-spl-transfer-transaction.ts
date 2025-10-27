@@ -1,10 +1,12 @@
+import type { ExtensionType } from '@solana-program/token-2022'
 import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
 
+import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import {
   getCreateAssociatedTokenInstruction,
+  getReallocateInstruction,
   getTransferCheckedInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from '@solana-program/token'
+} from '@solana-program/token-2022'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -32,6 +34,7 @@ export function createSplTransferTransaction({
   sender,
   source,
   sourceTokenAccount,
+  tokenAccountExtensions,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: {
   amount: string
@@ -44,6 +47,7 @@ export function createSplTransferTransaction({
   sender: TransactionSigner
   source?: TransactionSigner
   sourceTokenAccount: Address | string
+  tokenAccountExtensions: ExtensionType[]
   tokenProgram?: Address | string
 }) {
   assertIsAddress(mint)
@@ -57,15 +61,42 @@ export function createSplTransferTransaction({
 
   const ixs: Instruction[] = []
   if (!destinationTokenAccountExists) {
-    ixs.push(
-      getCreateAssociatedTokenInstruction({
-        ata: address(destinationTokenAccount),
-        mint: address(mint),
-        owner: address(destination),
-        payer: sender,
-        tokenProgram: address(tokenProgram),
-      }),
-    )
+    if (tokenProgram === TOKEN_PROGRAM_ADDRESS) {
+      ixs.push(
+        getCreateAssociatedTokenInstruction({
+          ata: address(destinationTokenAccount),
+          mint: address(mint),
+          owner: address(destination),
+          payer: sender,
+          tokenProgram: address(tokenProgram),
+        }),
+      )
+    } else {
+      ixs.push(
+        getCreateAssociatedTokenInstruction({
+          ata: address(destinationTokenAccount),
+          mint: address(mint),
+          owner: address(destination),
+          payer: sender,
+          tokenProgram: address(tokenProgram),
+        }),
+      )
+      if (tokenAccountExtensions.length > 0) {
+        ixs.push(
+          getReallocateInstruction(
+            {
+              newExtensionTypes: tokenAccountExtensions,
+              owner: address(sender.address),
+              payer: sender,
+              token: address(sourceTokenAccount),
+            },
+            {
+              programAddress: address(tokenProgram),
+            },
+          ),
+        )
+      }
+    }
   }
 
   const transferInstruction = getTransferCheckedInstruction(
