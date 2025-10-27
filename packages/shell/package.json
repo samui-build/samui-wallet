@@ -9,6 +9,7 @@
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "dexie-react-hooks": "^4.2.0",
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

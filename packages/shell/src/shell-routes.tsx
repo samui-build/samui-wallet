@@ -1,9 +1,10 @@
 import type { Preference } from '@workspace/db/entity/preference'
 import type { PreferenceKey } from '@workspace/db/entity/preference-key'
 
-import { type QueryClient, queryOptions, useMutation, useQuery } from '@tanstack/react-query'
+import { type QueryClient, queryOptions, useMutation } from '@tanstack/react-query'
 import { db } from '@workspace/db/db'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { useLiveQuery } from 'dexie-react-hooks'
 import { LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider, useRouteLoaderData } from 'react-router'
@@ -34,16 +35,16 @@ export const loader = (queryClient: QueryClient) => async (): Promise<Preference
 
 const useSetting = <K extends PreferenceKey>(key: K) => {
   const initialData = useRouteLoaderData('root') as Awaited<Promise<Preference[]>>
-  const { data } = useQuery({
-    initialData: initialData?.find((preference) => preference.key === key),
-    queryFn: async () => db.preferences.where('key').equals(key).first(),
-    queryKey: ['settings', key],
-  })
+  const setting = useLiveQuery(
+    () => db.preferences.get({ key }),
+    [key],
+    initialData.find((p) => p.key === key),
+  )
+  const value = setting?.value
   const { mutate: setValue } = useMutation({
     mutationFn: async (newValue: string) => await db.preferences.where('key').equals(key).modify({ value: newValue }),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['settings', key] }),
   })
-  const value = data?.value
+
   return [value, setValue] as const
 }
 
