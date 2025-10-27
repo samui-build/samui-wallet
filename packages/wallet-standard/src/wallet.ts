@@ -26,7 +26,6 @@ import {
 } from '@wallet-standard/core'
 import { sendMessage } from '@workspace/background/window'
 
-import { disconnect } from './features/disconnect'
 import { on } from './features/events'
 import { signAndSendTransaction } from './features/sign-and-send-transaction'
 import { signIn } from './features/sign-in'
@@ -81,7 +80,10 @@ export class SamuiWallet implements Wallet {
         version: this.version,
       },
       [StandardDisconnect]: {
-        disconnect,
+        disconnect: async (): Promise<void> => {
+          await sendMessage('disconnect')
+          this.#accounts = []
+        },
         version: this.version,
       },
       [StandardEvents]: {
