@@ -8,9 +8,11 @@ import { PortfolioUiWalletFormSend } from './portfolio-ui-wallet-form-send.js'
 
 export function PortfolioUiWalletSheetSend({
   balances,
+  isLoading,
   send,
 }: {
   balances: TokenBalance[]
+  isLoading?: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
   return (
@@ -23,7 +25,7 @@ export function PortfolioUiWalletSheetSend({
         </Button>
       }
     >
-      <PortfolioUiWalletFormSend balances={balances} send={send} />
+      <PortfolioUiWalletFormSend balances={balances} isLoading={isLoading} send={send} />
     </UiBottomSheet>
   )
 }

@@ -11,12 +11,14 @@ import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.js'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.js'
 import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.js'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.js'
+import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.js'
 
 export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const balances = useGetTokenBalances(props)
   const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
+  const sendSplMutation = useCreateAndSendSplTransaction(props)
 
   const totalBalance = useMemo(() => {
     const balance = balances.reduce((acc, item) => {
@@ -43,7 +45,22 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
       <PortfolioUiWalletButtons
         balances={balances}
         {...props}
+        isLoading={isLoadingAccountInfo}
         send={async (input) => {
+          if (input.mint.mint !== 'So11111111111111111111111111111111111111112') {
+            const done = await sendSplMutation.mutateAsync({
+              ...input,
+              decimals: input.mint.decimals,
+              mint: input.mint.mint,
+              wallet: props.wallet,
+            })
+            if (done) {
+              toastSuccess(`${input.mint.metadata?.symbol ?? 'Token'} has been sent!`)
+            } else {
+              toastError(`Error sending ${input.mint.metadata?.symbol ?? 'token'}`)
+            }
+            return
+          }
           const done = await sendSolMutation.mutateAsync({ ...input, wallet: props.wallet })
           if (done) {
             toastSuccess('Sol has been sent!')
