@@ -9,6 +9,7 @@ import { loaderPortfolio } from './data-access/loader-portfolio.js'
 import { ShellUiLayout } from './ui/shell-ui-layout.js'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
+const OnboardingRoutes = lazy(() => import('@workspace/onboarding/onboarding-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
@@ -33,6 +34,7 @@ const router = createHashRouter([
     ],
     element: <ShellUiLayout links={links} />,
   },
+  { element: <OnboardingRoutes />, path: 'onboarding/*' },
 ])
 
 export function ShellRoutes() {

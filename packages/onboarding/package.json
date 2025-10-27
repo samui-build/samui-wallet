@@ -1,16 +1,14 @@
 {
-  "name": "@workspace/shell",
+  "name": "@workspace/onboarding",
   "version": "0.0.0",
   "dependencies": {
-    "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
-    "@workspace/dev": "workspace:*",
-    "@workspace/onboarding": "workspace:*",
-    "@workspace/portfolio": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/settings": "workspace:*",
+    "@workspace/solana-client": "workspace:*",
+    "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router": "catalog:"
