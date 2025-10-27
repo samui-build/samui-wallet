@@ -1,6 +1,7 @@
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
+import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { useMemo, useState } from 'react'
 
 import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
@@ -9,9 +10,11 @@ import { PortfolioUiWalletFormTokenDropdown } from './portfolio-ui-wallet-form-t
 
 export function PortfolioUiWalletFormSend({
   balances,
+  isLoading = false,
   send,
 }: {
   balances: TokenBalance[]
+  isLoading?: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
   const [mintAddress, setMintAddress] = useState('So11111111111111111111111111111111111111112')
@@ -61,7 +64,7 @@ export function PortfolioUiWalletFormSend({
           </FieldSet>
           <Field className="flex justify-end" orientation="horizontal">
             <Button
-              disabled={!mint || !amount || !destination}
+              disabled={!mint || !amount || !destination || isLoading}
               onClick={async (e) => {
                 e.preventDefault()
                 if (!mint) {
@@ -71,6 +74,7 @@ export function PortfolioUiWalletFormSend({
               }}
               type="button"
             >
+              {isLoading ? <UiLoader className="size-4" /> : null}
               Submit
             </Button>
           </Field>
