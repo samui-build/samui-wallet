@@ -2,7 +2,6 @@ import { tryCatch } from '@workspace/core/try-catch'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { isTokenNonTransferable } from '@workspace/solana-client/utils'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -29,7 +28,6 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const client = useSolanaClient({ cluster: props.cluster })
   const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
 
-  const client = useSolanaClient({ cluster: props.cluster })
   const sendSolMutation = useCreateAndSendSolTransaction(props)
   const sendSplMutation = useCreateAndSendSplTransaction(props)
 
@@ -53,14 +51,6 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const handleSendSplToken = useCallback(
     async (input: SendTokenInput): Promise<void> => {
       const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-
-      // Check if token is non-transferable
-      const isNonTransferable = await isTokenNonTransferable(client, input.mint.mint)
-
-      if (isNonTransferable) {
-        toastError(`${tokenSymbol} is non-transferable`)
-        return
-      }
 
       // Send SPL token
       const { data: result, error: sendError } = await tryCatch(
@@ -119,73 +109,6 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   if (isLoadingAccountInfo) {
     return <Spinner />
   }
-
-  const handleSendSplToken = useCallback(
-    async (input: SendTokenInput): Promise<void> => {
-      const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-
-      // Check if token is non-transferable
-      const isNonTransferable = await isTokenNonTransferable(client, input.mint.mint)
-
-      if (isNonTransferable) {
-        toastError(`${tokenSymbol} is non-transferable`)
-        return
-      }
-
-      // Send SPL token
-      const { data: result, error: sendError } = await tryCatch(
-        sendSplMutation.mutateAsync({
-          ...input,
-          decimals: input.mint.decimals,
-          mint: input.mint.mint,
-          wallet: props.wallet,
-        }),
-      )
-
-      if (sendError) {
-        toastError(`Error sending ${tokenSymbol}`)
-        return
-      }
-
-      if (result) {
-        toastSuccess(`${tokenSymbol} has been sent!`)
-      } else {
-        toastError(`Failed to send ${tokenSymbol}`)
-      }
-    },
-    [client, props.wallet, sendSplMutation],
-  )
-
-  const handleSendSol = useCallback(
-    async (input: SendTokenInput): Promise<void> => {
-      const { data: result, error: sendError } = await tryCatch(
-        sendSolMutation.mutateAsync({ ...input, wallet: props.wallet }),
-      )
-
-      if (sendError) {
-        toastError('Error sending SOL')
-        return
-      }
-
-      if (result) {
-        toastSuccess('SOL has been sent!')
-      } else {
-        toastError('Failed to send SOL')
-      }
-    },
-    [props.wallet, sendSolMutation],
-  )
-
-  const handleSendToken = useCallback(
-    async (input: SendTokenInput): Promise<void> => {
-      if (input.mint.mint !== NATIVE_MINT) {
-        await handleSendSplToken(input)
-      } else {
-        await handleSendSol(input)
-      }
-    },
-    [handleSendSol, handleSendSplToken],
-  )
 
   return (
     <div className="p-4 space-y-6">
