@@ -93,7 +93,13 @@ export function App() {
                   ) as StandardDisconnectFeature[typeof StandardDisconnect]
 
                   return (
-                    <Button key={feature} onClick={() => disconnect()}>
+                    <Button
+                      key={feature}
+                      onClick={async () => {
+                        await disconnect()
+                        setAccount(undefined)
+                      }}
+                    >
                       Disconnect
                     </Button>
                   )
