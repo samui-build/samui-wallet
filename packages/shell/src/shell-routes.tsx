@@ -1,11 +1,17 @@
+import type { Preference } from '@workspace/db/entity/preference'
+import type { PreferenceKey } from '@workspace/db/entity/preference-key'
+
+import { type QueryClient, queryOptions, useMutation, useQuery } from '@tanstack/react-query'
+import { db } from '@workspace/db/db'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
-import { createHashRouter, Navigate, RouterProvider } from 'react-router'
+import { createHashRouter, Navigate, RouterProvider, useRouteLoaderData } from 'react-router'
 
 import type { ShellLayoutLink } from './ui/shell-ui-layout.js'
 
 import { loaderPortfolio } from './data-access/loader-portfolio.js'
+import { queryClient } from './data-access/shell-providers.js'
 import { ShellUiLayout } from './ui/shell-ui-layout.js'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
@@ -17,9 +23,34 @@ const links: ShellLayoutLink[] = [
   { icon: LucideSettings, label: 'Settings', to: '/settings' },
 ]
 
+const settingsQuery = queryOptions({
+  queryFn: async () => db.preferences.toArray(),
+  queryKey: ['settings'],
+})
+
+export const loader = (queryClient: QueryClient) => async (): Promise<Preference[]> => {
+  return queryClient.getQueryData(settingsQuery.queryKey) ?? (await queryClient.fetchQuery(settingsQuery))
+}
+
+const useSetting = <K extends PreferenceKey>(key: K) => {
+  const initialData = useRouteLoaderData('root') as Awaited<Promise<Preference[]>>
+  const { data } = useQuery({
+    initialData: initialData?.find((preference) => preference.key === key),
+    queryFn: async () => db.preferences.where('key').equals(key).first(),
+    queryKey: ['settings', key],
+  })
+  const { mutate: setValue } = useMutation({
+    mutationFn: async (newValue: string) => await db.preferences.where('key').equals(key).modify({ value: newValue }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['settings', key] }),
+  })
+  const value = data?.value
+  return [value, setValue] as const
+}
+
 const router = createHashRouter([
   {
     children: [
+      { element: <Test />, id: 'test', path: 'test' },
       { element: <Navigate replace to="/portfolio" />, index: true },
       {
         element: <PortfolioRoutes />,
@@ -32,9 +63,42 @@ const router = createHashRouter([
       { element: <UiNotFound />, path: '*' },
     ],
     element: <ShellUiLayout links={links} />,
+    id: 'root',
+    loader: loader(queryClient),
   },
 ])
 
 export function ShellRoutes() {
   return <RouterProvider router={router} />
+}
+
+function ActiveCluster() {
+  const [value, setValue] = useSetting('activeClusterId')
+
+  return (
+    <div>
+      <div>{value}</div>
+      <button onClick={() => setValue('new-value-' + Date.now())}>Set Value</button>
+    </div>
+  )
+}
+
+function ActiveWalletId() {
+  const [value, setValue] = useSetting('activeWalletId')
+
+  return (
+    <div>
+      <div>{value}</div>
+      <button onClick={() => setValue('new-value-' + Date.now())}>Set Value</button>
+    </div>
+  )
+}
+
+function Test() {
+  return (
+    <>
+      <ActiveCluster />
+      <ActiveWalletId />
+    </>
+  )
 }
