@@ -1,3 +1,4 @@
+import { usePreference, usePreferenceValue } from '@workspace/settings/data-access/settings-provider'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
@@ -30,6 +31,7 @@ const router = createHashRouter([
       },
       { element: <DevRoutes />, path: 'dev/*' },
       { element: <SettingsRoutes />, path: 'settings/*' },
+      { element: <Demo />, path: 'demo/*' },
       { element: <UiNotFound />, path: '*' },
     ],
     element: <ShellUiLayout links={links} />,
@@ -39,4 +41,15 @@ const router = createHashRouter([
 
 export function ShellRoutes() {
   return <RouterProvider router={router} />
+}
+
+function Demo() {
+  const apiEndpointPref = usePreference('apiEndpoint')
+  const apiEndpoint = usePreferenceValue('apiEndpoint')
+
+  return (
+    <div>
+      <pre>{JSON.stringify({ apiEndpoint, apiEndpointPref }, null, 2)}</pre>
+    </div>
+  )
 }

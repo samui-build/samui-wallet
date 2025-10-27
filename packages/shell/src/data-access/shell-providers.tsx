@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { PreferencesProvider } from '@workspace/settings/data-access/settings-provider'
 import { Toaster } from '@workspace/ui/components/sonner'
 
 const queryClient = new QueryClient()
@@ -8,7 +9,7 @@ const queryClient = new QueryClient()
 export function ShellProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
-      {children}
+      <PreferencesProvider>{children}</PreferencesProvider>
       <Toaster richColors />
     </QueryClientProvider>
   )
