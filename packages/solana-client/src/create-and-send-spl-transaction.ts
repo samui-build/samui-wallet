@@ -1,7 +1,7 @@
 import type { Address, KeyPairSigner } from '@solana/kit'
 
 import { findAssociatedTokenPda } from '@solana-program/token'
-import { fetchMint } from '@solana-program/token-2022'
+import { fetchMint } from '@solana-program/token'
 
 import type { SolanaClient } from './solana-client'
 
@@ -31,6 +31,7 @@ export async function createAndSendSplTransaction(
   },
 ): Promise<string> {
   const mintInfo = await fetchMint(client.rpc, address(mint))
+
   const tokenProgram = mintInfo.programAddress
   const [sourceTokenAccount] = await findAssociatedTokenPda({
     mint: address(mint),
