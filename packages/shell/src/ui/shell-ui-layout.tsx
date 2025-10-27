@@ -3,7 +3,6 @@ import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 import { SettingsFeatureAccountDropdown } from '@workspace/settings/settings-feature-account-dropdown'
 import { SettingsFeatureClusterDropdown } from '@workspace/settings/settings-feature-cluster-dropdown'
 import { SettingsFeatureWalletDropdown } from '@workspace/settings/settings-feature-wallet-dropdown'
-import { Toaster } from '@workspace/ui/components/sonner'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
 
@@ -50,7 +49,6 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
           </NavLink>
         ))}
       </footer>
-      <Toaster richColors />
     </div>
   )
 }
