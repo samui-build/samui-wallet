@@ -6,7 +6,7 @@ import { redirect } from 'react-router'
 export async function loaderPortfolio() {
   const [accounts, clusters] = await Promise.all([dbAccountFindMany(db), dbClusterFindMany(db)])
   if (!accounts.length) {
-    return redirect('/settings/accounts')
+    return redirect('/onboarding')
   }
   if (!clusters.length) {
     return redirect('/settings/clusters')
