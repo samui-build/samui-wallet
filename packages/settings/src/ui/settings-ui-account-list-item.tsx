@@ -30,7 +30,7 @@ export function SettingsUiAccountListItem({
       </ItemContent>
       <ItemActions>
         {active?.id === item.id ? null : (
-          <UiTooltip content="Set as active">
+          <UiTooltip content="Set account as active">
             <Button
               onClick={async () => {
                 await setActive(item.id)
@@ -42,14 +42,14 @@ export function SettingsUiAccountListItem({
             </Button>
           </UiTooltip>
         )}
-        <UiTooltip content="Edit">
+        <UiTooltip content="Edit account">
           <Button asChild size="icon" variant="outline">
-            <Link to={`./${item.id}`}>
+            <Link to={`./${item.id}/edit`}>
               <LucidePencil className="size-4" />
             </Link>
           </Button>
         </UiTooltip>
-        <UiTooltip content="Delete">
+        <UiTooltip content="Delete account">
           <Button
             onClick={async (e) => {
               e.preventDefault()

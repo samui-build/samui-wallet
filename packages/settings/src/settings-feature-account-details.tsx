@@ -3,13 +3,16 @@ import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
 import { assertIsAddress } from '@workspace/solana-client'
+import { Button } from '@workspace/ui/components/button'
 import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { useParams } from 'react-router'
+import { LucidePencil } from 'lucide-react'
+import { Link, useParams } from 'react-router'
 
 import { useActiveWallet } from './data-access/use-active-wallet.js'
 import { useDeriveAndCreateWallet } from './data-access/use-derive-and-create-wallet.js'
@@ -62,9 +65,18 @@ export function SettingsFeatureAccountDetails() {
   return (
     <UiCard
       title={
-        <div className="flex items-center gap-2">
-          <UiBack />
-          <SettingsUiAccountItem item={item} />
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <UiBack />
+            <SettingsUiAccountItem item={item} />
+          </div>
+          <UiTooltip content="Edit account">
+            <Button asChild size="icon" variant="outline">
+              <Link to={`./edit`}>
+                <LucidePencil className="size-4" />
+              </Link>
+            </Button>
+          </UiTooltip>
         </div>
       }
     >
