@@ -45,11 +45,10 @@ export async function createAndSendSplTransaction(
     tokenProgram,
   })
 
-  const destinationTokenAccountInfo = await client.rpc
-    .getAccountInfo(destinationTokenAccount, { encoding: 'base64' })
-    .send()
-
-  const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
+  const [destinationTokenAccountInfo, { value: latestBlockhash }] = await Promise.all([
+    client.rpc.getAccountInfo(destinationTokenAccount, { encoding: 'base64' }).send(),
+    client.rpc.getLatestBlockhash().send(),
+  ])
   const transactionMessage = createSplTransferTransaction({
     amount: tokenAmountToTransferAmount(amount, decimals).toString(),
     decimals,

@@ -6,6 +6,7 @@ import {
   getCreateAssociatedTokenInstruction,
   getReallocateInstruction,
   getTransferCheckedInstruction,
+  TOKEN_2022_PROGRAM_ADDRESS,
 } from '@solana-program/token-2022'
 import {
   address,
@@ -28,7 +29,7 @@ export function createSplTransferTransaction({
   decimals,
   destination,
   destinationTokenAccount,
-  destinationTokenAccountExists = false,
+  destinationTokenAccountExists,
   latestBlockhash,
   mint,
   sender,
@@ -59,31 +60,20 @@ export function createSplTransferTransaction({
     assertIsKeyPairSigner(source)
   }
 
-  const ixs: Instruction[] = []
+  const instructions: Instruction[] = []
   if (!destinationTokenAccountExists) {
-    // Create associated token account instruction for TOKEN_PROGRAM_ADDRESS
-    if (tokenProgram === TOKEN_PROGRAM_ADDRESS) {
-      ixs.push(
-        getCreateAssociatedTokenInstruction({
-          ata: address(destinationTokenAccount),
-          mint: address(mint),
-          owner: address(destination),
-          payer: sender,
-          tokenProgram: address(tokenProgram),
-        }),
-      )
-    } else {
-      ixs.push(
-        getCreateAssociatedTokenInstruction({
-          ata: address(destinationTokenAccount),
-          mint: address(mint),
-          owner: address(destination),
-          payer: sender,
-          tokenProgram: address(tokenProgram),
-        }),
-      )
+    instructions.push(
+      getCreateAssociatedTokenInstruction({
+        ata: address(destinationTokenAccount),
+        mint: address(mint),
+        owner: address(destination),
+        payer: sender,
+        tokenProgram: address(tokenProgram),
+      }),
+    )
+    if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
       if (tokenAccountExtensions.length > 0) {
-        ixs.push(
+        instructions.push(
           getReallocateInstruction(
             {
               newExtensionTypes: tokenAccountExtensions,
@@ -114,12 +104,12 @@ export function createSplTransferTransaction({
     },
   )
 
-  ixs.push(transferInstruction)
+  instructions.push(transferInstruction)
 
   return pipe(
     createTransactionMessage({ version: 0 }),
     (tx) => setTransactionMessageFeePayerSigner(sender, tx),
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-    (tx) => appendTransactionMessageInstructions(ixs, tx),
+    (tx) => appendTransactionMessageInstructions(instructions, tx),
   )
 }
