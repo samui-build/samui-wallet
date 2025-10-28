@@ -12,7 +12,7 @@ export function PortfolioUiWalletSheetSend({
   send,
 }: {
   balances: TokenBalance[]
-  isLoading?: boolean
+  isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
   return (
