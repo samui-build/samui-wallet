@@ -21,14 +21,16 @@ interface SignTransactionProps {
   account: UiWalletAccount
 }
 
+const rpc = createSolanaRpc('https://api.devnet.solana.com')
+
+const rpcSubscriptions = createSolanaRpcSubscriptions('ws://api.devnet.solana.com')
+
 export function SignTransaction({ account }: SignTransactionProps) {
   const sender = useWalletAccountTransactionSigner(account, 'solana:devnet')
 
   return (
     <Button
       onClick={async () => {
-        const rpc = createSolanaRpc('https://api.devnet.solana.com')
-        const rpcSubscriptions = createSolanaRpcSubscriptions('ws://api.devnet.solana.com')
         const { value: latestBlockhash } = await rpc.getLatestBlockhash().send()
         const LAMPORTS_PER_SOL = 1_000_000_000n
         const transferAmount = lamports(LAMPORTS_PER_SOL / 100n) // 0.01 SOL
