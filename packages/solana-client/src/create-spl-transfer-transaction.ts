@@ -28,7 +28,7 @@ export function createSplTransferTransaction({
   decimals,
   destination,
   destinationTokenAccount,
-  destinationTokenAccountIsExisted = false,
+  destinationTokenAccountExists = false,
   latestBlockhash,
   mint,
   sender,
@@ -41,7 +41,7 @@ export function createSplTransferTransaction({
   decimals: number
   destination: Address | string
   destinationTokenAccount: Address | string
-  destinationTokenAccountIsExisted?: boolean
+  destinationTokenAccountExists?: boolean
   latestBlockhash: LatestBlockhash
   mint: Address | string
   sender: TransactionSigner
@@ -60,7 +60,7 @@ export function createSplTransferTransaction({
   }
 
   const ixs: Instruction[] = []
-  if (!destinationTokenAccountIsExisted) {
+  if (!destinationTokenAccountExists) {
     // Create associated token account instruction for TOKEN_PROGRAM_ADDRESS
     if (tokenProgram === TOKEN_PROGRAM_ADDRESS) {
       ixs.push(

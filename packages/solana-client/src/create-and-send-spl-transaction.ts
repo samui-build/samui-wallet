@@ -13,6 +13,7 @@ import {
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from './index'
+import { tokenAmountToTransferAmount } from './utils'
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,
@@ -50,11 +51,11 @@ export async function createAndSendSplTransaction(
 
   const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
   const transactionMessage = createSplTransferTransaction({
-    amount: (Number(amount) * 10 ** decimals).toString(),
+    amount: tokenAmountToTransferAmount(amount, decimals).toString(),
     decimals,
     destination,
     destinationTokenAccount,
-    destinationTokenAccountIsExisted: destinationTokenAccountInfo.value !== null,
+    destinationTokenAccountExists: destinationTokenAccountInfo.value !== null,
     latestBlockhash,
     mint,
     sender,
