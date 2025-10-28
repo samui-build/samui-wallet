@@ -7,6 +7,7 @@ import { getTokenSize as getTokenSizeWithExtensions } from '@solana-program/toke
 import { getAccountExtensions } from './get-account-extentions'
 
 /**
+ * Source: https://github.com/orca-so/whirlpools/blob/main/ts-sdk/whirlpool/src/token.ts#L388
  * Returns the token size for a given mint account.
  *
  * @param {Account<Mint>} mint - The mint account to get the token size for.
