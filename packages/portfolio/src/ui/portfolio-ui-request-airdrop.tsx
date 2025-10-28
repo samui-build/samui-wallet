@@ -24,7 +24,10 @@ export function PortfolioUiRequestAirdrop({
   wallet: Wallet
 }) {
   const { isPending, mutateAsync } = useRequestAirdrop(cluster)
-  if ((lamports && lamports > 0) || cluster.type === 'solana:mainnet') {
+  const hasBalance = lamports && lamports > 0
+  const isMainnet = cluster.type === 'solana:mainnet'
+  const isLocalnet = cluster.type === 'solana:localnet'
+  if (hasBalance || isMainnet) {
     return null
   }
 
@@ -42,11 +45,13 @@ export function PortfolioUiRequestAirdrop({
           <Coins /> Confirm Airdrop
         </Button>
       </EmptyContent>
-      <Button asChild className="text-muted-foreground" size="sm" variant="link">
-        <a href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
-          Use Faucet <ArrowUpRightIcon />
-        </a>
-      </Button>
+      {isLocalnet ? null : (
+        <Button asChild className="text-muted-foreground" size="sm" variant="link">
+          <a href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
+            Use Faucet <ArrowUpRightIcon />
+          </a>
+        </Button>
+      )}
     </Empty>
   )
 }
