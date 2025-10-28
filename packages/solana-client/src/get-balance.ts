@@ -2,7 +2,7 @@ import type { GetBalanceApi } from '@solana/kit'
 
 import { address as addressFn } from '@solana/kit'
 
-import type { SolanaClient } from './solana-client'
+import type { SolanaClient } from './solana-client.js'
 
 export type GetBalanceResult = ReturnType<GetBalanceApi['getBalance']>
 
