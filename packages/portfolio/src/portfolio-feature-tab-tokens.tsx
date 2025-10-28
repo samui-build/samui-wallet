@@ -2,6 +2,8 @@ import { tryCatch } from '@workspace/core/try-catch'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { isTokenNonTransferable } from '@workspace/solana-client/utils'
+import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
+import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
@@ -10,6 +12,7 @@ import type { TokenBalance } from './data-access/use-get-token-metadata.js'
 import type { ClusterWallet } from './portfolio-routes-loaded.js'
 
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.js'
+import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.js'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.js'
 import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.js'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.js'
@@ -24,6 +27,8 @@ interface SendTokenInput {
 export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const balances = useGetTokenBalances(props)
   const client = useSolanaClient({ cluster: props.cluster })
+  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
+
   const sendSolMutation = useCreateAndSendSolTransaction(props)
   const sendSplMutation = useCreateAndSendSplTransaction(props)
 
@@ -110,11 +115,19 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
     },
     [handleSendSol, handleSendSplToken],
   )
+  if (isLoadingAccountInfo) {
+    return <Spinner />
+  }
 
   return (
     <div className="p-4 space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
       <PortfolioUiWalletButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
+      <PortfolioUiRequestAirdrop
+        cluster={props.cluster}
+        lamports={dataAccountInfo?.value?.lamports}
+        wallet={props.wallet}
+      />
       <PortfolioUiTokenBalances items={balances} />
     </div>
   )
