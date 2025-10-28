@@ -15,6 +15,7 @@ export function getDefaultClusters(): Cluster[] {
     .map(({ endpoint, key }) => ({
       createdAt: now,
       endpoint,
+      endpointSubscriptions: env(getEndpointSubscriptionsTypeFromEnv(key)),
       id: key,
       name: key.replace('cluster', ''),
       type: getClusterTypeFromEnv(key),
@@ -34,5 +35,19 @@ function getClusterTypeFromEnv(env: keyof Env): ClusterType {
       return 'solana:testnet'
     default:
       throw new Error(`Cannot get cluster type from ${env}`)
+  }
+}
+function getEndpointSubscriptionsTypeFromEnv(env: keyof Env): keyof Env {
+  switch (env) {
+    case 'clusterDevnet':
+      return 'clusterDevnetSubscriptions'
+    case 'clusterLocalnet':
+      return 'clusterLocalnetSubscriptions'
+    case 'clusterMainnet':
+      return 'clusterMainnetSubscriptions'
+    case 'clusterTestnet':
+      return 'clusterTestnetSubscriptions'
+    default:
+      throw new Error(`Cannot get subscriptions endpoint from ${env}`)
   }
 }
