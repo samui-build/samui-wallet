@@ -1,3 +1,4 @@
+import { NATIVE_MINT } from '@workspace/solana-client'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
@@ -17,7 +18,7 @@ export function PortfolioUiWalletFormSend({
   isLoading?: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
-  const [mintAddress, setMintAddress] = useState('So11111111111111111111111111111111111111112')
+  const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
   const [amount, setAmount] = useState('0')
   const [destination, setDestination] = useState('')
   const mint = useMemo(() => {

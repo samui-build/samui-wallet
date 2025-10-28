@@ -3,6 +3,7 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 
 import { useQuery } from '@tanstack/react-query'
+import { NATIVE_MINT } from '@workspace/solana-client'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
 import { useMemo } from 'react'
@@ -33,10 +34,7 @@ export function useGetTokenBalances(props: { cluster: Cluster; wallet: Wallet })
   const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
 
   const mints = useMemo(() => {
-    return [
-      'So11111111111111111111111111111111111111112',
-      ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint),
-    ]
+    return [NATIVE_MINT, ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint)]
   }, [dataTokenAccounts])
 
   const metadata = useGetTokenMetadata(mints)
@@ -71,7 +69,7 @@ async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {
         decimals: i.decimals,
         icon: i.icon,
         id: i.id,
-        name: i.id === 'So11111111111111111111111111111111111111112' ? 'Solana' : i.name,
+        name: i.id === NATIVE_MINT ? 'Solana' : i.name,
         symbol: i.symbol,
         usdPrice: i.usdPrice,
       })),
@@ -87,7 +85,7 @@ function mergeData({
   metadata: TokenMetadata[]
   tokenAccounts: GetTokenAccountsResult
 }): TokenBalance[] {
-  const solMint = 'So11111111111111111111111111111111111111112'
+  const solMint = NATIVE_MINT
   const solMetadata = metadata.find((m) => m.id === solMint)
   const solDecimals = solMetadata?.decimals ?? 9
   const solBalance: TokenBalance = {

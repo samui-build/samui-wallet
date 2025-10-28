@@ -1,3 +1,4 @@
+import { NATIVE_MINT } from '@workspace/solana-client'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -47,7 +48,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         {...props}
         isLoading={isLoadingAccountInfo}
         send={async (input) => {
-          if (input.mint.mint !== 'So11111111111111111111111111111111111111112') {
+          if (input.mint.mint !== NATIVE_MINT) {
             const done = await sendSplMutation.mutateAsync({
               ...input,
               decimals: input.mint.decimals,
