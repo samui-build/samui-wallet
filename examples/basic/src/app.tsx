@@ -6,7 +6,6 @@ import {
   type SolanaSignAndSendTransactionFeature,
   type SolanaSignInFeature,
   type SolanaSignMessageFeature,
-  type SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features'
 import {
   StandardConnect,
@@ -30,6 +29,7 @@ import {
   signatureBytes,
   verifySignature,
 } from '@solana/kit'
+import { SignTransaction } from './components/sign-transaction'
 
 // TODO: Split each feature into its own component
 export function App() {
@@ -127,16 +127,7 @@ export function App() {
                     return null
                   }
 
-                  const { signTransaction } = getWalletFeature(
-                    wallet,
-                    SolanaSignTransaction,
-                  ) as SolanaSignTransactionFeature[typeof SolanaSignTransaction]
-
-                  return (
-                    <Button key={feature} onClick={() => signTransaction()}>
-                      Sign Transaction
-                    </Button>
-                  )
+                  return <SignTransaction key={feature} account={account} />
                 }
 
                 case SolanaSignMessage: {

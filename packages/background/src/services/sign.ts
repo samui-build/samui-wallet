@@ -3,9 +3,17 @@ import type {
   SolanaSignInOutput,
   SolanaSignMessageInput,
   SolanaSignMessageOutput,
+  SolanaSignTransactionInput,
+  SolanaSignTransactionOutput,
 } from '@solana/wallet-standard-features'
 
-import { createKeyPairFromBytes, signBytes } from '@solana/kit'
+import {
+  createKeyPairFromBytes,
+  getTransactionDecoder,
+  getTransactionEncoder,
+  signBytes,
+  signTransaction,
+} from '@solana/kit'
 import { createSignInMessage } from '@solana/wallet-standard-util'
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
@@ -70,6 +78,27 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
         signature,
         signatureType: 'ed25519',
         signedMessage,
+      })
+    }
+
+    return results
+  },
+  signTransaction: async (inputs: SolanaSignTransactionInput[]): Promise<SolanaSignTransactionOutput[]> => {
+    const results: SolanaSignTransactionOutput[] = []
+    const active = await getDbService().wallet.active()
+    if (!active.secretKey) {
+      throw new Error('Active wallet has no secret key')
+    }
+
+    const bytes = new Uint8Array(JSON.parse(active.secretKey))
+    const key = await createKeyPairFromBytes(bytes)
+
+    for (const input of inputs) {
+      const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
+      // @ts-expect-error TODO: Figure out "Property 'lifetimeConstraint' is missing in type 'Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }>' but required in type 'TransactionWithLifetime'."
+      const signed = await signTransaction([key], decoded)
+      results.push({
+        signedTransaction: new Uint8Array(getTransactionEncoder().encode(signed)),
       })
     }
 
