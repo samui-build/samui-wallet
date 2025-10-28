@@ -9,10 +9,10 @@ export function SettingsFeatureGeneralDeveloperModeEnable() {
     <div className="flex items-center space-x-2">
       <Switch
         checked={enabled === 'true'}
-        id="warning-accept-experimental"
+        id="enable-developer-mode"
         onCheckedChange={(checked) => setEnabled(`${checked}`)}
       />
-      <Label htmlFor="warning-accept-experimental">Enable developer mode</Label>
+      <Label htmlFor="enable-developer-mode">Enable developer mode</Label>
     </div>
   )
 }
