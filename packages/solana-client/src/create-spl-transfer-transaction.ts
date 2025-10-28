@@ -1,13 +1,7 @@
-import type { ExtensionType } from '@solana-program/token-2022'
 import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
 
 import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-import {
-  getCreateAssociatedTokenInstruction,
-  getReallocateInstruction,
-  getTransferCheckedInstruction,
-  TOKEN_2022_PROGRAM_ADDRESS,
-} from '@solana-program/token-2022'
+import { getCreateAssociatedTokenInstruction, getTransferCheckedInstruction } from '@solana-program/token-2022'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -35,7 +29,6 @@ export function createSplTransferTransaction({
   sender,
   source,
   sourceTokenAccount,
-  tokenAccountExtensions,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: {
   amount: string
@@ -48,7 +41,6 @@ export function createSplTransferTransaction({
   sender: TransactionSigner
   source?: TransactionSigner
   sourceTokenAccount: Address | string
-  tokenAccountExtensions: ExtensionType[]
   tokenProgram?: Address | string
 }) {
   assertIsAddress(mint)
@@ -71,23 +63,6 @@ export function createSplTransferTransaction({
         tokenProgram: address(tokenProgram),
       }),
     )
-    if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
-      if (tokenAccountExtensions.length > 0) {
-        instructions.push(
-          getReallocateInstruction(
-            {
-              newExtensionTypes: tokenAccountExtensions,
-              owner: address(sender.address),
-              payer: sender,
-              token: address(sourceTokenAccount),
-            },
-            {
-              programAddress: address(tokenProgram),
-            },
-          ),
-        )
-      }
-    }
   }
 
   const transferInstruction = getTransferCheckedInstruction(
