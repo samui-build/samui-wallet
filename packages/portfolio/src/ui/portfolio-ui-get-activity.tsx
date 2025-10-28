@@ -1,53 +1,50 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
-import type { GetActivityResult } from '@workspace/solana-client/get-activity'
+import type { GetActivityItems } from '@workspace/solana-client/get-activity'
 
-import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
-import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { Link } from 'react-router'
+import { UiTime } from '@workspace/ui/components/ui-time'
+import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
+import { LucideCalendar } from 'lucide-react'
 
-import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.js'
+import { groupActivityItems } from './group-activity-items.js'
+import { PortfolioUiTxExplorer } from './portfolio-ui-tx-explorer.js'
+import { PortfolioUiTxLink } from './portfolio-ui-tx-link.js'
+import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.js'
+import { PortfolioUiTxTimestamp } from './portfolio-ui-tx-timestamp.js'
 
-export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; items: GetActivityResult }) {
+export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; items: GetActivityItems }) {
+  const grouped = groupActivityItems(items)
   return (
     <div>
       {items.length === 0 ? (
         <div>No transactions found.</div>
       ) : (
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Signature</TableHead>
-              <TableHead className="text-right">Slot</TableHead>
-              <TableHead>Block Time</TableHead>
-              <TableHead className="text-right">Status</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {items?.map((item) => (
-              <TableRow key={item.signature}>
-                <TableCell className="font-mono">
-                  <Link to={`/portfolio/tx/${item.signature}`}>{ellipsify(item.signature, 8)}</Link>
-                </TableCell>
-                <TableCell className="font-mono text-right">
-                  <PortfolioUiExplorerLink
-                    cluster={cluster}
-                    label={item.slot.toString()}
-                    path={`/block/${item.slot}`}
-                  />
-                </TableCell>
-                <TableCell>{unixTimestampToDate(item.blockTime)?.toISOString()}</TableCell>
-                <TableCell className="text-right">
-                  {item.err ? (
-                    <span className="text-red-500">Failed</span>
-                  ) : (
-                    <span className="text-green-500">Success</span>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+        <div className="space-y-4">
+          {grouped.map(({ date, transactions }) => (
+            <div className="space-y-4" key={date.getTime()}>
+              <div className="flex text-muted-foreground text-xs font-mono gap-2">
+                <LucideCalendar className="size-4" />
+                <UiTooltip content={`${date.toLocaleDateString()}`}>
+                  <UiTime time={date.getTime()}></UiTime>
+                </UiTooltip>
+              </div>
+
+              <div className="space-y-2">
+                {transactions?.map((tx) => (
+                  <div className="flex items-center justify-between" key={tx.signature}>
+                    <div className="flex items-center gap-2">
+                      <PortfolioUiTxStatus tx={tx} />
+                      <PortfolioUiTxLink tx={tx} />
+                      <PortfolioUiTxExplorer cluster={cluster} tx={tx} />
+                    </div>
+                    <div className="font-mono text-xs text-muted-foreground">
+                      <PortfolioUiTxTimestamp tx={tx} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   )

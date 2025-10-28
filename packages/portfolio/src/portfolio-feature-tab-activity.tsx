@@ -1,11 +1,30 @@
-import type { ClusterWallet } from './portfolio-routes-loaded.js'
+import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { PortfolioFeatureGetActivity } from './portfolio-feature-get-activity.js'
+import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
+import { Button } from '@workspace/ui/components/button'
+import { Spinner } from '@workspace/ui/components/spinner'
+import { UiLoader } from '@workspace/ui/components/ui-loader'
+import { LucideRefreshCw } from 'lucide-react'
 
-export function PortfolioFeatureTabActivity(props: ClusterWallet) {
+import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.js'
+
+export function PortfolioFeatureTabActivity(props: { cluster: Cluster; wallet: Wallet }) {
+  const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity(props)
+
   return (
-    <div className="p-4 space-y-6">
-      <PortfolioFeatureGetActivity {...props} />
+    <div className="space-y-2">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-bold">Activity</h2>
+        <div className="space-x-2">
+          <Button disabled={isLoading} onClick={() => refetch()} size="icon" variant="outline">
+            {isLoading ? <Spinner /> : <LucideRefreshCw />}
+          </Button>
+        </div>
+      </div>
+      {isLoading ? <UiLoader /> : null}
+      {isError ? <pre className="alert alert-error">Error: {error?.message.toString() ?? 'Unknown error'}</pre> : null}
+      {isSuccess ? <PortfolioUiGetActivity cluster={props.cluster} items={data} /> : null}
     </div>
   )
 }
