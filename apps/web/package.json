@@ -2,7 +2,7 @@
   "name": "web",
   "version": "0.0.0",
   "dependencies": {
-    "@cloudflare/vite-plugin": "^1.13.14",
+    "@cloudflare/vite-plugin": "^1.13.15",
     "@tailwindcss/vite": "catalog:",
     "@workspace/env": "workspace:*",
     "@workspace/shell": "workspace:*",
@@ -16,7 +16,7 @@
     "@eslint/js": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-react": "^5.1.0",
     "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
@@ -27,7 +27,7 @@
     "typescript-eslint": "catalog:",
     "vite": "^7.1.12",
     "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^4.44.0"
+    "wrangler": "^4.45.0"
   },
   "private": true,
   "scripts": {

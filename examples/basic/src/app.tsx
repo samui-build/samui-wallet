@@ -58,7 +58,7 @@ export function App() {
                     return null
                   }
 
-                  return <SignAndSendTransaction key={feature} wallet={wallet} />
+                  return <SignAndSendTransaction key={feature} account={account} />
                 }
 
                 case SolanaSignTransaction: {

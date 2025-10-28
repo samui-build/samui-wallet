@@ -1,4 +1,6 @@
 import type {
+  SolanaSignAndSendTransactionInput,
+  SolanaSignAndSendTransactionOutput,
   SolanaSignInInput,
   SolanaSignInOutput,
   SolanaSignMessageInput,
@@ -9,8 +11,12 @@ import type {
 
 import {
   createKeyPairFromBytes,
+  createSolanaRpc,
+  getBase58Encoder,
+  getSignatureFromTransaction,
   getTransactionDecoder,
   getTransactionEncoder,
+  sendTransactionWithoutConfirmingFactory,
   signBytes,
   signTransaction,
 } from '@solana/kit'
@@ -22,6 +28,8 @@ import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 
 import { getDbService } from './db'
 
+const rpc = createSolanaRpc('https://api.devnet.solana.com')
+
 // TODO: None of this code is safe for production use.
 // Private keys should not be handled in this way.
 // We are not verifying any input.
@@ -31,6 +39,33 @@ import { getDbService } from './db'
 // This is acceptable for a POC
 // This will be improved post-hackathon.
 export const [registerSignService, getSignService] = defineProxyService('SignService', () => ({
+  signAndSendTransaction: async (
+    inputs: SolanaSignAndSendTransactionInput[],
+  ): Promise<SolanaSignAndSendTransactionOutput[]> => {
+    const results: SolanaSignAndSendTransactionOutput[] = []
+    const active = await getDbService().wallet.active()
+    if (!active.secretKey) {
+      throw new Error('Active wallet has no secret key')
+    }
+
+    const bytes = new Uint8Array(JSON.parse(active.secretKey))
+    const key = await createKeyPairFromBytes(bytes)
+
+    for (const input of inputs) {
+      const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
+      // @ts-expect-error TODO: Figure out "Property 'lifetimeConstraint' is missing in type 'Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }>' but required in type 'TransactionWithLifetime'."
+      const transaction = await signTransaction([key], decoded)
+      const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
+      // @ts-expect-error TODO: Figure out "Type 'FullySignedTransaction & Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }> & TransactionWithLifetime' is missing the following properties from type 'Readonly<{ instructions: readonly Instruction<string, readonly (AccountLookupMeta<string, string> | AccountMeta<string>)[]>[]; version: TransactionVersion; }>': instructions, version"
+      await sendTransaction(transaction, { commitment: 'confirmed' })
+
+      results.push({
+        signature: new Uint8Array(getBase58Encoder().encode(getSignatureFromTransaction(transaction))),
+      })
+    }
+
+    return results
+  },
   signIn: async (inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> => {
     const results: SolanaSignInOutput[] = []
     const active = await getDbService().wallet.active()

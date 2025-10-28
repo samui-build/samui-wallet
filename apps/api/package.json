@@ -2,7 +2,7 @@
   "name": "api",
   "version": "0.0.0",
   "dependencies": {
-    "hono": "^4.10.2"
+    "hono": "^4.10.3"
   },
   "devDependencies": {
     "@types/node": "catalog:",
@@ -11,7 +11,7 @@
     "eslint": "catalog:",
     "tsx": "^4.7.1",
     "typescript": "catalog:",
-    "wrangler": "^4.4.0"
+    "wrangler": "^4.45.0"
   },
   "private": true,
   "scripts": {

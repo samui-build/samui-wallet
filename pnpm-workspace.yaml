@@ -8,7 +8,7 @@ catalog:
   '@solana-program/system': 0.9.0
   '@solana-program/token': 0.7.0
   '@solana-program/token-2022': 0.6.0
-  '@solana/kit': 4.0.0
+  '@solana/kit': 5.0.0
   '@tailwindcss/postcss': 4.1.16
   '@tailwindcss/vite': 4.1.16
   '@tanstack/react-query': 5.90.5

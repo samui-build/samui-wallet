@@ -1,4 +1,6 @@
 import type {
+  SolanaSignAndSendTransactionInput,
+  SolanaSignAndSendTransactionOutput,
   SolanaSignInInput,
   SolanaSignInOutput,
   SolanaSignMessageInput,
@@ -16,6 +18,13 @@ import { browser } from 'wxt/browser'
 type DataType<T extends Requests['type']> = Extract<Requests, { type: T }>['data']
 
 type Requests =
+  | {
+      data: SolanaSignAndSendTransactionInput[]
+      id: number
+      reject: (reason?: Error) => void
+      resolve: (data: SolanaSignAndSendTransactionOutput[]) => void
+      type: 'signAndSendTransaction'
+    }
   | {
       data: SolanaSignInInput[]
       id: number
@@ -105,7 +114,12 @@ class RequestService {
   }
 
   resolve(
-    data: SolanaSignInOutput[] | SolanaSignMessageOutput[] | SolanaSignTransactionOutput[] | StandardConnectOutput,
+    data:
+      | SolanaSignAndSendTransactionOutput[]
+      | SolanaSignInOutput[]
+      | SolanaSignMessageOutput[]
+      | SolanaSignTransactionOutput[]
+      | StandardConnectOutput,
   ) {
     if (!this.request) {
       throw new Error('No request to resolve')
@@ -120,6 +134,8 @@ class RequestService {
       this.request.resolve(data as SolanaSignInOutput[])
     } else if (this.request.type === 'signTransaction') {
       this.request.resolve(data as SolanaSignTransactionOutput[])
+    } else if (this.request.type === 'signAndSendTransaction') {
+      this.request.resolve(data as SolanaSignAndSendTransactionOutput[])
     }
 
     this.request = undefined
