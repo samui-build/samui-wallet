@@ -14,14 +14,19 @@ export default defineConfig({
       },
       social: [
         {
+          icon: 'discord',
+          label: 'Discord',
+          href: 'https://samui.build/go/discord',
+        },
+        {
           icon: 'x.com',
           label: 'X / Twitter',
-          href: 'https://x.com/SamuiBuild',
+          href: 'https://samui.build/go/x',
         },
         {
           icon: 'github',
           label: 'GitHub',
-          href: 'https://github.com/samui-build/samui-wallet',
+          href: 'https://samui.build/go/github',
         },
       ],
 
