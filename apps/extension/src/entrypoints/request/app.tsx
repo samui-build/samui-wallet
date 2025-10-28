@@ -25,6 +25,9 @@ export function App() {
     case 'signMessage':
       return <SignMessage data={data.data} />
 
+    case 'signTransaction':
+      return <SignTransaction data={data.data} />
+
     default:
       throw new Error('Unknown request type')
   }

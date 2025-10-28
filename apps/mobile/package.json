@@ -2,7 +2,7 @@
   "name": "mobile",
   "version": "1.0.0",
   "dependencies": {
-    "expo": "~54.0.13",
+    "expo": "~54.0.20",
     "expo-status-bar": "~3.0.8",
     "react": "catalog:",
     "react-native": "0.82.1"

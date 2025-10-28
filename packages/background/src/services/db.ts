@@ -53,8 +53,8 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
         accounts: [
           {
             address: wallet.publicKey,
-            chains: [],
-            features: [],
+            chains: ['solana:devnet'],
+            features: ['solana:signTransaction'],
             // icon: '',
             label: wallet.name,
             publicKey: getAddressEncoder().encode(address(wallet.publicKey)),
