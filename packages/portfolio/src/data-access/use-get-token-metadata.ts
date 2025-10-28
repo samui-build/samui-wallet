@@ -3,7 +3,6 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 
 import { useQuery } from '@tanstack/react-query'
-import { NATIVE_MINT } from '@workspace/solana-client'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
