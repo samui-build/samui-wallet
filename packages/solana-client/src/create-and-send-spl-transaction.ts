@@ -1,12 +1,11 @@
 import type { Address, KeyPairSigner } from '@solana/kit'
 
 import { findAssociatedTokenPda } from '@solana-program/token'
-import { fetchMint, TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
+import { fetchMint } from '@solana-program/token-2022'
 
 import type { SolanaClient } from './solana-client'
 
 import { createSplTransferTransaction } from './create-spl-transfer-transaction'
-import { getTokenAccountExtensionType } from './get-account-extentions'
 import {
   address,
   getSignatureFromTransaction,
@@ -59,8 +58,6 @@ export async function createAndSendSplTransaction(
     mint,
     sender,
     sourceTokenAccount,
-    tokenAccountExtensions:
-      tokenProgram === TOKEN_2022_PROGRAM_ADDRESS ? getTokenAccountExtensionType(mintInfo.data) : [],
     tokenProgram,
   })
 

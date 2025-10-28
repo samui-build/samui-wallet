@@ -3,6 +3,7 @@ import type { ExtensionArgs, Mint } from '@solana-program/token-2022'
 import { ExtensionType } from '@solana-program/token-2022'
 
 /**
+ * Source: https://github.com/orca-so/whirlpools/blob/main/ts-sdk/whirlpool/src/token.ts#L332
  * Builds the required account extensions for a given mint. This should only be used
  * for non-ATA token accounts since ATA accounts should also add the ImmutableOwner extension.
  *
