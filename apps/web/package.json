@@ -16,7 +16,7 @@
     "@eslint/js": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-react": "^5.1.0",
     "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
