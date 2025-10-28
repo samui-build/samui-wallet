@@ -13,6 +13,7 @@ export function UiTextCopyButton({ text, toast = 'Copied to clipboard' }: { text
           toastSuccess(toast)
         }
       }}
+      type="button"
       variant="secondary"
     >
       <LucideCopy />

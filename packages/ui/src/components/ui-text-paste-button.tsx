@@ -12,6 +12,7 @@ export function UiTextPasteButton({ onPaste }: { onPaste: (text: string) => void
           onPaste(result)
         }
       }}
+      type="button"
       variant="secondary"
     >
       <LucideCopy />
