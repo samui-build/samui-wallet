@@ -3,6 +3,8 @@ import type {
   SolanaSignInOutput,
   SolanaSignMessageInput,
   SolanaSignMessageOutput,
+  SolanaSignTransactionInput,
+  SolanaSignTransactionOutput,
 } from '@solana/wallet-standard-features'
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 
@@ -27,6 +29,13 @@ type Requests =
       reject: (reason?: Error) => void
       resolve: (data: SolanaSignMessageOutput[]) => void
       type: 'signMessage'
+    }
+  | {
+      data: SolanaSignTransactionInput[]
+      id: number
+      reject: (reason?: Error) => void
+      resolve: (data: SolanaSignTransactionOutput[]) => void
+      type: 'signTransaction'
     }
   | {
       data: StandardConnectInput | undefined
@@ -95,7 +104,9 @@ class RequestService {
     browser.windows.remove(id)
   }
 
-  resolve(data: SolanaSignMessageOutput[] | StandardConnectOutput) {
+  resolve(
+    data: SolanaSignInOutput[] | SolanaSignMessageOutput[] | SolanaSignTransactionOutput[] | StandardConnectOutput,
+  ) {
     if (!this.request) {
       throw new Error('No request to resolve')
     }
@@ -107,6 +118,8 @@ class RequestService {
       this.request.resolve(data as SolanaSignMessageOutput[])
     } else if (this.request.type === 'signIn') {
       this.request.resolve(data as SolanaSignInOutput[])
+    } else if (this.request.type === 'signTransaction') {
+      this.request.resolve(data as SolanaSignTransactionOutput[])
     }
 
     this.request = undefined
