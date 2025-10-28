@@ -1,20 +1,22 @@
 {
-  "name": "@workspace/shell",
+  "name": "@workspace/tools",
   "version": "0.0.0",
   "dependencies": {
+    "@hookform/resolvers": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
-    "@workspace/dev": "workspace:*",
-    "@workspace/onboarding": "workspace:*",
+    "@workspace/keypair": "workspace:*",
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
-    "@workspace/tools": "workspace:*",
+    "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "catalog:"
+    "react-hook-form": "catalog:",
+    "react-router": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/node": "catalog:",
