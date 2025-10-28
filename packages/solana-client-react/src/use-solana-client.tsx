@@ -4,5 +4,8 @@ import { createSolanaClient } from '@workspace/solana-client/create-solana-clien
 import { useMemo } from 'react'
 
 export function useSolanaClient({ cluster }: { cluster: Cluster }) {
-  return useMemo(() => createSolanaClient({ url: cluster.endpoint }), [cluster.endpoint])
+  return useMemo(
+    () => createSolanaClient({ url: cluster.endpoint, urlSubscriptions: cluster.endpointSubscriptions }),
+    [cluster.endpoint, cluster.endpointSubscriptions],
+  )
 }

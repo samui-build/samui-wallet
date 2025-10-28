@@ -78,6 +78,26 @@ export function SettingsUiClusterFormCreate({ submit }: { submit: (input: Cluste
         />
         <FormField
           control={form.control}
+          name="endpointSubscriptions"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Subscriptions Endpoint</FormLabel>
+              <FormControl>
+                <Input
+                  onChange={(e) => field.onChange(e.target.value)}
+                  placeholder="Cluster Endpoint for Subscriptions"
+                  type="url"
+                  value={field.value}
+                />
+              </FormControl>
+              <FormDescription>Provide the cluster endpoint for subscriptions</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+          rules={{ required: false }}
+        />
+        <FormField
+          control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem className="w-full">

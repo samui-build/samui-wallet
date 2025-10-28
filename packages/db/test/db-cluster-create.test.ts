@@ -26,6 +26,18 @@ describe('db-cluster-create', () => {
       const items = await dbClusterFindMany(db)
       expect(items.map((i) => i.name)).toContain(input.name)
     })
+    it('should create a cluster with a subscription endpoint', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testClusterInputCreate({ endpointSubscriptions: 'ws://127.0.0.1:8900' })
+
+      // ACT
+      await dbClusterCreate(db, input)
+
+      // ASSERT
+      const items = await dbClusterFindMany(db)
+      expect(items.map((i) => i.endpointSubscriptions)).toContain(input.endpointSubscriptions)
+    })
   })
 
   describe('unexpected behavior', () => {
