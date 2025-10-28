@@ -19,6 +19,9 @@ export function App() {
     case 'connect':
       return <Connect />
 
+    case 'signAndSendTransaction':
+      return <SignAndSendTransaction data={data.data} />
+
     case 'signIn':
       return <SignIn data={data.data} />
 

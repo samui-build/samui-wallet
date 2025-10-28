@@ -1,19 +1,57 @@
+import { useWalletAccountTransactionSendingSigner } from '@solana/react'
+import { type UiWalletAccount } from '@wallet-standard/react'
 import { Button } from './ui/button'
-import { getWalletFeature, type UiWallet } from '@wallet-standard/react'
 import {
-  SolanaSignAndSendTransaction,
-  type SolanaSignAndSendTransactionFeature,
-} from '@solana/wallet-standard-features'
+  address,
+  appendTransactionMessageInstructions,
+  createSolanaRpc,
+  createTransactionMessage,
+  getBase58Decoder,
+  lamports,
+  pipe,
+  setTransactionMessageFeePayerSigner,
+  setTransactionMessageLifetimeUsingBlockhash,
+  signAndSendTransactionMessageWithSigners,
+} from '@solana/kit'
+import { getTransferSolInstruction } from '@solana-program/system'
 
 interface SignAndSendTransactionProps {
-  wallet: UiWallet
+  account: UiWalletAccount
 }
 
-export function SignAndSendTransaction({ wallet }: SignAndSendTransactionProps) {
-  const { signAndSendTransaction } = getWalletFeature(
-    wallet,
-    SolanaSignAndSendTransaction,
-  ) as SolanaSignAndSendTransactionFeature[typeof SolanaSignAndSendTransaction]
+const rpc = createSolanaRpc('https://api.devnet.solana.com')
 
-  return <Button onClick={() => signAndSendTransaction()}>Sign & Send Transaction</Button>
+export function SignAndSendTransaction({ account }: SignAndSendTransactionProps) {
+  const sender = useWalletAccountTransactionSendingSigner(account, 'solana:devnet')
+
+  return (
+    <Button
+      onClick={async () => {
+        const { value: latestBlockhash } = await rpc.getLatestBlockhash().send()
+        const LAMPORTS_PER_SOL = 1_000_000_000n
+        const transferAmount = lamports(LAMPORTS_PER_SOL / 100n) // 0.01 SOL
+        const transferInstruction = getTransferSolInstruction({
+          source: sender,
+          destination: address('H2S3PxG5jtpJt6MCUyqbrz5TigW5M7zQgkEMmLsyacaT'),
+          amount: transferAmount,
+        })
+
+        const transactionMessage = pipe(
+          createTransactionMessage({ version: 0 }),
+          (tx) => setTransactionMessageFeePayerSigner(sender, tx),
+          (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
+          (tx) => appendTransactionMessageInstructions([transferInstruction], tx),
+        )
+        console.log('Transaction Message:', transactionMessage)
+
+        const signature = await signAndSendTransactionMessageWithSigners(transactionMessage)
+        console.log('Transaction Signature:', signature)
+
+        const decodedSignature = getBase58Decoder().decode(signature)
+        console.log('Decoded Signature:', decodedSignature)
+      }}
+    >
+      Sign and Send Transaction
+    </Button>
+  )
 }

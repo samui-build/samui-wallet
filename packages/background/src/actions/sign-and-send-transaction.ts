@@ -3,10 +3,10 @@ import type {
   SolanaSignAndSendTransactionOutput,
 } from '@solana/wallet-standard-features'
 
+import { getRequestService } from '../services/request'
+
 export async function signAndSendTransaction(
   inputs: SolanaSignAndSendTransactionInput[],
 ): Promise<SolanaSignAndSendTransactionOutput[]> {
-  console.log('Sign and Send Transaction', inputs)
-
-  return Promise.resolve([])
+  return await getRequestService().create('signAndSendTransaction', inputs)
 }
