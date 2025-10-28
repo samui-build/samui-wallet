@@ -1,6 +1,7 @@
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
 
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
+import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
@@ -26,29 +27,40 @@ export function OnboardingFeatureGenerate() {
   }
 
   return (
-    <UiCard
-      description="This seed phrase is the ONLY way to recover your wallet. Don't share it with anyone!"
-      footer={
-        <div className="flex w-full justify-between">
-          <UiTextCopyButton text={mnemonic} toast="Mnemonic copied to clipboard" />
-          <OnboardingUiMnemonicSave label="Create wallet" onClick={handleSubmit} />
-        </div>
-      }
-      title={
-        <div>
-          <UiBackButton className="mr-2" />
-          Generate Recovery Phrase
-        </div>
-      }
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        await handleSubmit()
+      }}
     >
-      <div className="space-y-6">
-        <div className="flex justify-between">
-          <div>
-            <OnboardingUiMnemonicSelectStrength setStrength={setStrength} strength={strength} />
+      <UiCard
+        description="This seed phrase is the ONLY way to recover your wallet. Don't share it with anyone!"
+        footer={
+          <div className="flex w-full justify-between">
+            <UiTextCopyButton text={mnemonic} toast="Mnemonic copied to clipboard" />
+            <OnboardingUiMnemonicSave
+              disabled={!validateMnemonic({ mnemonic })}
+              label="Create wallet"
+              onClick={handleSubmit}
+            />
           </div>
+        }
+        title={
+          <div>
+            <UiBackButton className="mr-2" />
+            Generate Recovery Phrase
+          </div>
+        }
+      >
+        <div className="space-y-6">
+          <div className="flex justify-between">
+            <div>
+              <OnboardingUiMnemonicSelectStrength setStrength={setStrength} strength={strength} />
+            </div>
+          </div>
+          <OnboardingUiMnemonicShow mnemonic={mnemonic} />
         </div>
-        <OnboardingUiMnemonicShow mnemonic={mnemonic} />
-      </div>
-    </UiCard>
+      </UiCard>
+    </form>
   )
 }
