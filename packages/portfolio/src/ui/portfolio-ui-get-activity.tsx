@@ -6,7 +6,7 @@ import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { LucideCalendar } from 'lucide-react'
 
 import { groupActivityItems } from './group-activity-items.js'
-import { PortfolioUiTxExplorer } from './portfolio-ui-tx-explorer.js'
+import { PortfolioUiTxExplorerIcon } from './portfolio-ui-tx-explorer-icon.js'
 import { PortfolioUiTxLink } from './portfolio-ui-tx-link.js'
 import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.js'
 import { PortfolioUiTxTimestamp } from './portfolio-ui-tx-timestamp.js'
@@ -34,10 +34,10 @@ export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; i
                     <div className="flex items-center gap-2">
                       <PortfolioUiTxStatus tx={tx} />
                       <PortfolioUiTxLink tx={tx} />
-                      <PortfolioUiTxExplorer cluster={cluster} tx={tx} />
+                      <PortfolioUiTxExplorerIcon cluster={cluster} signature={tx.signature} />
                     </div>
                     <div className="font-mono text-xs text-muted-foreground">
-                      <PortfolioUiTxTimestamp tx={tx} />
+                      <PortfolioUiTxTimestamp blockTime={tx.blockTime} />
                     </div>
                   </div>
                 ))}
