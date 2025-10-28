@@ -1,9 +1,9 @@
-import type { GetActivityItem } from '@workspace/solana-client/get-activity'
+import type { UnixTimestamp } from '@workspace/solana-client'
 
 import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
 
-export function PortfolioUiTxTimestamp({ tx }: { tx: GetActivityItem }) {
-  const date = unixTimestampToDate(tx.blockTime)
+export function PortfolioUiTxTimestamp({ blockTime }: { blockTime: null | UnixTimestamp }) {
+  const date = unixTimestampToDate(blockTime)
   if (!date) {
     return null
   }
