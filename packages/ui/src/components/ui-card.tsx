@@ -9,10 +9,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@workspace/ui/components/card'
+import { UiBack } from '@workspace/ui/components/ui-back'
+import { cn } from '@workspace/ui/lib/utils'
 
 export function UiCard({
   action,
   actionProps,
+  backButtonTo,
   cardProps,
   children,
   contentProps,
@@ -26,6 +29,7 @@ export function UiCard({
 }: {
   action?: ReactNode
   actionProps?: Omit<ComponentProps<typeof CardAction>, 'children'>
+  backButtonTo?: string
   cardProps?: Omit<ComponentProps<typeof Card>, 'children'>
   children: ReactNode
   contentProps?: Omit<ComponentProps<typeof CardContent>, 'children'>
@@ -41,7 +45,12 @@ export function UiCard({
     <Card {...cardProps}>
       {action || description || title ? (
         <CardHeader {...headerProps}>
-          {title ? <CardTitle {...titleProps}>{title}</CardTitle> : null}
+          {title ? (
+            <CardTitle className={cn('flex items-center gap-2', titleProps?.className)} {...titleProps}>
+              {backButtonTo ? <UiBack to={backButtonTo} /> : null}
+              {title}
+            </CardTitle>
+          ) : null}
           {description ? <CardDescription {...descriptionProps}>{description}</CardDescription> : null}
           {action ? <CardAction {...actionProps}>{action}</CardAction> : null}
         </CardHeader>
