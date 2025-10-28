@@ -30,4 +30,4 @@ catalog:
   ws: 8.18.3
   zod: ^4.1.12
 
-minimumReleaseAge: 1440
+minimumReleaseAge: 10080
