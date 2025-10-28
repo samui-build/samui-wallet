@@ -1,3 +1,5 @@
+import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
+import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useMemo } from 'react'
@@ -5,12 +7,14 @@ import { useMemo } from 'react'
 import type { ClusterWallet } from './portfolio-routes-loaded.js'
 
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.js'
+import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.js'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.js'
 import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.js'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.js'
 
 export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const balances = useGetTokenBalances(props)
+  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
 
@@ -29,6 +33,10 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
     }).format(balance)
   }, [balances])
 
+  if (isLoadingAccountInfo) {
+    return <Spinner />
+  }
+
   return (
     <div className="p-4 space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
@@ -43,6 +51,11 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
             toastError(`Error sending SOL`)
           }
         }}
+      />
+      <PortfolioUiRequestAirdrop
+        cluster={props.cluster}
+        lamports={dataAccountInfo?.value?.lamports}
+        wallet={props.wallet}
       />
       <PortfolioUiTokenBalances items={balances} />
     </div>
