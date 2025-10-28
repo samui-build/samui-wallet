@@ -15,3 +15,11 @@
 Add additional Tailwind styles to this file:
 https://tailwindcss.com/docs/adding-custom-styles#using-custom-css
 */
+
+.sl-markdown-content #samui-wallet-public-roadmap {
+  display: none;
+}
+
+.sl-markdown-content #samui-wallet-public-roadmap + p {
+  margin-top: 0;
+}
