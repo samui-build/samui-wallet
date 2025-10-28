@@ -3,35 +3,19 @@ import {
   SolanaSignIn,
   SolanaSignMessage,
   SolanaSignTransaction,
-  type SolanaSignAndSendTransactionFeature,
-  type SolanaSignInFeature,
-  type SolanaSignMessageFeature,
 } from '@solana/wallet-standard-features'
-import {
-  StandardConnect,
-  StandardDisconnect,
-  type StandardConnectFeature,
-  type StandardDisconnectFeature,
-} from '@wallet-standard/core'
+import { StandardConnect, StandardDisconnect } from '@wallet-standard/core'
 import { isSolanaChain } from '@solana/wallet-standard-chains'
-import { getWalletFeature, useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
+import { useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
 import { useState } from 'react'
 import { Button } from './components/ui/button'
-import {
-  getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
-  getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
-} from '@wallet-standard/ui-registry'
-import {
-  address,
-  getBase58Decoder,
-  getPublicKeyFromAddress,
-  getUtf8Encoder,
-  signatureBytes,
-  verifySignature,
-} from '@solana/kit'
 import { SignTransaction } from './components/sign-transaction'
+import { Connect } from './components/connect'
+import { Disconnect } from './components/disconnect'
+import { SignAndSendTransaction } from './components/sign-and-send-transaction'
+import { SignMessage } from './components/sign-message'
+import { SignIn } from './components/sign-in'
 
-// TODO: Split each feature into its own component
 export function App() {
   const wallets = useWallets()
   const solanaWallets = wallets.filter(({ chains }) => chains.some((chain) => isSolanaChain(chain)))
@@ -58,28 +42,7 @@ export function App() {
                     return null
                   }
 
-                  const { connect } = getWalletFeature(
-                    wallet,
-                    StandardConnect,
-                  ) as StandardConnectFeature[typeof StandardConnect]
-
-                  return (
-                    <Button
-                      key={feature}
-                      onClick={async () => {
-                        const response = await connect()
-
-                        setAccount(
-                          getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(
-                            getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(wallet),
-                            response.accounts[0],
-                          ),
-                        )
-                      }}
-                    >
-                      Connect
-                    </Button>
-                  )
+                  return <Connect key={feature} wallet={wallet} setAccount={setAccount} />
                 }
 
                 case StandardDisconnect: {
@@ -87,22 +50,7 @@ export function App() {
                     return null
                   }
 
-                  const { disconnect } = getWalletFeature(
-                    wallet,
-                    StandardDisconnect,
-                  ) as StandardDisconnectFeature[typeof StandardDisconnect]
-
-                  return (
-                    <Button
-                      key={feature}
-                      onClick={async () => {
-                        await disconnect()
-                        setAccount(undefined)
-                      }}
-                    >
-                      Disconnect
-                    </Button>
-                  )
+                  return <Disconnect key={feature} wallet={wallet} setAccount={setAccount} />
                 }
 
                 case SolanaSignAndSendTransaction: {
@@ -110,16 +58,7 @@ export function App() {
                     return null
                   }
 
-                  const { signAndSendTransaction } = getWalletFeature(
-                    wallet,
-                    SolanaSignAndSendTransaction,
-                  ) as SolanaSignAndSendTransactionFeature[typeof SolanaSignAndSendTransaction]
-
-                  return (
-                    <Button key={feature} onClick={() => signAndSendTransaction()}>
-                      Sign & Send Transaction
-                    </Button>
-                  )
+                  return <SignAndSendTransaction key={feature} wallet={wallet} />
                 }
 
                 case SolanaSignTransaction: {
@@ -135,33 +74,7 @@ export function App() {
                     return null
                   }
 
-                  const { signMessage } = getWalletFeature(
-                    wallet,
-                    SolanaSignMessage,
-                  ) as SolanaSignMessageFeature[typeof SolanaSignMessage]
-
-                  return (
-                    <Button
-                      key={feature}
-                      onClick={async () => {
-                        const message = new Uint8Array(getUtf8Encoder().encode('Hello, World!'))
-                        const [response] = await signMessage({
-                          account,
-                          message,
-                        })
-                        console.log('Signed Message:', response)
-
-                        const decoded = getBase58Decoder().decode(response.signature)
-                        console.log('Signature:', decoded)
-
-                        const key = await getPublicKeyFromAddress(address(account.address))
-                        const verified = await verifySignature(key, signatureBytes(response.signature), message)
-                        console.log('Verified:', verified)
-                      }}
-                    >
-                      Sign Message
-                    </Button>
-                  )
+                  return <SignMessage key={feature} wallet={wallet} account={account} />
                 }
 
                 case SolanaSignIn: {
@@ -169,43 +82,7 @@ export function App() {
                     return null
                   }
 
-                  const { signIn } = getWalletFeature(wallet, SolanaSignIn) as SolanaSignInFeature[typeof SolanaSignIn]
-
-                  return (
-                    <Button
-                      key={feature}
-                      onClick={async () => {
-                        const [response] = await signIn({
-                          domain: 'example.com',
-                          address: account.address,
-                          statement: 'Sign in to Example App',
-                          uri: 'https://example.com',
-                          version: '1',
-                          chainId: 'solana:mainnet',
-                          nonce: '1234567890',
-                          issuedAt: '2023-10-25T12:00:00Z',
-                          expirationTime: '2023-10-25T13:00:00Z',
-                          notBefore: '2023-10-25T11:00:00Z',
-                          requestId: 'req-12345',
-                          resources: ['https://example.com/resource1', 'https://example.com/resource2'],
-                        })
-                        console.log('Signed Message:', response)
-
-                        const decoded = getBase58Decoder().decode(response.signature)
-                        console.log('Signature:', decoded)
-
-                        const key = await getPublicKeyFromAddress(address(account.address))
-                        const verified = await verifySignature(
-                          key,
-                          signatureBytes(response.signature),
-                          response.signedMessage,
-                        )
-                        console.log('Verified:', verified)
-                      }}
-                    >
-                      Sign In
-                    </Button>
-                  )
+                  return <SignIn key={feature} wallet={wallet} account={account} />
                 }
 
                 default:
