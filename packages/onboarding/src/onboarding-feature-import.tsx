@@ -72,13 +72,18 @@ export function OnboardingFeatureImport() {
   }
 
   return (
-    <div className="space-y-2">
+    <form
+      onSubmit={async (e) => {
+        e.preventDefault()
+        await handleSubmit()
+      }}
+    >
       <UiCard
         description="Enter the seed phrase you stored when you created your wallet."
         footer={
           <div className="flex w-full justify-between">
             <UiTextPasteButton onPaste={handlePaste} />
-            <OnboardingUiMnemonicSave label="Import wallet" onClick={handleSubmit} />
+            <OnboardingUiMnemonicSave disabled={!isFormComplete} label="Import wallet" onClick={handleSubmit} />
           </div>
         }
         title={
@@ -115,7 +120,7 @@ export function OnboardingFeatureImport() {
           {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
         </div>
       </UiCard>
-    </div>
+    </form>
   )
 }
 
