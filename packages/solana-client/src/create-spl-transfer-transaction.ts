@@ -1,10 +1,13 @@
+import type { ExtensionType } from '@solana-program/token-2022'
 import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
 
+import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import {
   getCreateAssociatedTokenInstruction,
+  getReallocateInstruction,
   getTransferCheckedInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from '@solana-program/token'
+  TOKEN_2022_PROGRAM_ADDRESS,
+} from '@solana-program/token-2022'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -26,12 +29,13 @@ export function createSplTransferTransaction({
   decimals,
   destination,
   destinationTokenAccount,
-  destinationTokenAccountExists = false,
+  destinationTokenAccountExists,
   latestBlockhash,
   mint,
   sender,
   source,
   sourceTokenAccount,
+  tokenAccountExtensions,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: {
   amount: string
@@ -44,6 +48,7 @@ export function createSplTransferTransaction({
   sender: TransactionSigner
   source?: TransactionSigner
   sourceTokenAccount: Address | string
+  tokenAccountExtensions: ExtensionType[]
   tokenProgram?: Address | string
 }) {
   assertIsAddress(mint)
@@ -55,9 +60,9 @@ export function createSplTransferTransaction({
     assertIsKeyPairSigner(source)
   }
 
-  const ixs: Instruction[] = []
+  const instructions: Instruction[] = []
   if (!destinationTokenAccountExists) {
-    ixs.push(
+    instructions.push(
       getCreateAssociatedTokenInstruction({
         ata: address(destinationTokenAccount),
         mint: address(mint),
@@ -66,6 +71,23 @@ export function createSplTransferTransaction({
         tokenProgram: address(tokenProgram),
       }),
     )
+    if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
+      if (tokenAccountExtensions.length > 0) {
+        instructions.push(
+          getReallocateInstruction(
+            {
+              newExtensionTypes: tokenAccountExtensions,
+              owner: address(sender.address),
+              payer: sender,
+              token: address(sourceTokenAccount),
+            },
+            {
+              programAddress: address(tokenProgram),
+            },
+          ),
+        )
+      }
+    }
   }
 
   const transferInstruction = getTransferCheckedInstruction(
@@ -82,12 +104,12 @@ export function createSplTransferTransaction({
     },
   )
 
-  ixs.push(transferInstruction)
+  instructions.push(transferInstruction)
 
   return pipe(
     createTransactionMessage({ version: 0 }),
     (tx) => setTransactionMessageFeePayerSigner(sender, tx),
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-    (tx) => appendTransactionMessageInstructions(ixs, tx),
+    (tx) => appendTransactionMessageInstructions(instructions, tx),
   )
 }

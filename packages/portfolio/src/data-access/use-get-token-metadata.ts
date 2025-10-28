@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { NATIVE_MINT } from '@workspace/solana-client'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useMemo } from 'react'
 
 import { formatBalanceUsd } from './format-balance-usd.js'

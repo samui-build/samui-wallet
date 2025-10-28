@@ -6,12 +6,12 @@ import { PortfolioUiWalletSheetSend } from './portfolio-ui-wallet-sheet-send.js'
 
 export function PortfolioUiWalletButtons({
   balances,
-  isLoading = false,
+  isLoading,
   send,
   wallet,
 }: {
   balances: TokenBalance[]
-  isLoading?: boolean
+  isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 } & ClusterWallet) {
   return wallet ? (

@@ -1,10 +1,12 @@
 import type { Address, KeyPairSigner } from '@solana/kit'
 
-import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
+import { findAssociatedTokenPda } from '@solana-program/token'
+import { fetchMint, TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
 
 import type { SolanaClient } from './solana-client'
 
 import { createSplTransferTransaction } from './create-spl-transfer-transaction'
+import { getTokenAccountExtensionType } from './get-account-extentions'
 import {
   address,
   getSignatureFromTransaction,
@@ -30,6 +32,7 @@ export async function createAndSendSplTransaction(
   },
 ): Promise<string> {
   const mintInfo = await fetchMint(client.rpc, address(mint))
+
   const tokenProgram = mintInfo.programAddress
   const [sourceTokenAccount] = await findAssociatedTokenPda({
     mint: address(mint),
@@ -42,12 +45,10 @@ export async function createAndSendSplTransaction(
     tokenProgram,
   })
 
-  const destinationTokenAccountInfo = await client.rpc
-    .getAccountInfo(destinationTokenAccount, { encoding: 'base64' })
-    .send()
-
-  const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
-
+  const [destinationTokenAccountInfo, { value: latestBlockhash }] = await Promise.all([
+    client.rpc.getAccountInfo(destinationTokenAccount, { encoding: 'base64' }).send(),
+    client.rpc.getLatestBlockhash().send(),
+  ])
   const transactionMessage = createSplTransferTransaction({
     amount: tokenAmountToTransferAmount(amount, decimals).toString(),
     decimals,
@@ -58,6 +59,8 @@ export async function createAndSendSplTransaction(
     mint,
     sender,
     sourceTokenAccount,
+    tokenAccountExtensions:
+      tokenProgram === TOKEN_2022_PROGRAM_ADDRESS ? getTokenAccountExtensionType(mintInfo.data) : [],
     tokenProgram,
   })
 

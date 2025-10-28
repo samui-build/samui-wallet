@@ -1,4 +1,4 @@
-import { NATIVE_MINT } from '@workspace/solana-client'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
@@ -11,11 +11,11 @@ import { PortfolioUiWalletFormTokenDropdown } from './portfolio-ui-wallet-form-t
 
 export function PortfolioUiWalletFormSend({
   balances,
-  isLoading = false,
+  isLoading,
   send,
 }: {
   balances: TokenBalance[]
-  isLoading?: boolean
+  isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
   const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
