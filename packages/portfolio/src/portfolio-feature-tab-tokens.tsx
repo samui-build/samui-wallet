@@ -119,6 +119,11 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         lamports={dataAccountInfo?.value?.lamports}
         wallet={props.wallet}
       />
+      <PortfolioUiRequestAirdrop
+        cluster={props.cluster}
+        lamports={dataAccountInfo?.value?.lamports}
+        wallet={props.wallet}
+      />
       <PortfolioUiTokenBalances items={balances} />
     </div>
   )
