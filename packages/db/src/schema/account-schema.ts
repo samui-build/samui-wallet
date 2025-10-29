@@ -8,6 +8,7 @@ export const accountSchema = z.object({
   id: z.string(),
   mnemonic: z.string(),
   name: z.string(),
+  order: z.number(),
   secret: z.string(),
   updatedAt: z.date(),
   wallets: z.array(walletSchema).optional().default([]),
