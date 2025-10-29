@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { dbAccountCreate } from '../src/db-account-create'
 import { dbAccountFindMany } from '../src/db-account-find-many'
+import { dbAccountFindUnique } from '../src/db-account-find-unique'
 import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
 import { createDbTest, testAccountInputCreate } from './test-helpers'
 
@@ -18,15 +19,17 @@ describe('db-account-create', () => {
   describe('expected behavior', () => {
     it('should create an account', async () => {
       // ARRANGE
-      expect.assertions(1)
+      expect.assertions(3)
       const input = testAccountInputCreate()
 
       // ACT
-      await dbAccountCreate(db, input)
+      const result = await dbAccountCreate(db, input)
 
       // ASSERT
-      const items = await dbAccountFindMany(db)
-      expect(items.map((i) => i.name)).toContain(input.name)
+      const item = await dbAccountFindUnique(db, result)
+      expect(item?.mnemonic).toBe(input.mnemonic)
+      expect(item?.name).toBe(input.name)
+      expect(item?.order).toBe(0)
     })
 
     it('should create an account and set activeAccountId preference', async () => {

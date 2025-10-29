@@ -20,7 +20,7 @@ export class Database extends Dexie {
   constructor(config: DatabaseConfig) {
     super(config.name)
     this.version(1).stores({
-      accounts: 'id, name',
+      accounts: 'id, name, order',
       clusters: 'id, name, type',
       preferences: 'id, &key',
       wallets: 'id, accountId, derivationIndex, publicKey, type',
