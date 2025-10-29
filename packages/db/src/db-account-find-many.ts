@@ -13,7 +13,7 @@ export async function dbAccountFindMany(db: Database, input: AccountInputFindMan
       await Promise.all([
         tryCatch(
           db.accounts
-            .orderBy('name')
+            .orderBy('order')
             .filter((item) => {
               const matchId = !parsedInput.id || item.id === parsedInput.id
               const matchName = !parsedInput.name || item.name.includes(parsedInput.name)

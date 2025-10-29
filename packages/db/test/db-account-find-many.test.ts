@@ -38,11 +38,11 @@ describe('db-account-find-many', () => {
 
       // ASSERT
       expect(items).toHaveLength(3)
-      expect(items.map((i) => ({ id: i.id, walletsLength: i.wallets.length }))).toEqual(
+      expect(items.map((i) => ({ id: i.id, order: i.order, walletsLength: i.wallets.length }))).toEqual(
         expect.arrayContaining([
-          { id: account1Id, walletsLength: 2 },
-          { id: account2Id, walletsLength: 1 },
-          { id: account3Id, walletsLength: 3 },
+          { id: account1Id, order: 0, walletsLength: 2 },
+          { id: account2Id, order: 1, walletsLength: 1 },
+          { id: account3Id, order: 2, walletsLength: 3 },
         ]),
       )
     })
