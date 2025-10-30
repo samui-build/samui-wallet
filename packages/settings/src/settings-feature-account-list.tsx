@@ -16,7 +16,7 @@ export function SettingsFeatureAccountList() {
     onError: () => toastError('Error deleting account'),
     onSuccess: () => toastSuccess('Account deleted'),
   })
-  const { accounts, active, setActive } = useActiveAccount()
+  const { accounts, active } = useActiveAccount()
 
   return accounts.length ? (
     <UiCard
@@ -32,7 +32,6 @@ export function SettingsFeatureAccountList() {
         active={active}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={accounts}
-        setActive={setActive}
       />
     </UiCard>
   ) : (
