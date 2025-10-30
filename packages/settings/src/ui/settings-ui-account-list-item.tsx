@@ -3,7 +3,7 @@ import type { Account } from '@workspace/db/entity/account'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/components/item'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
-import { LucideCheck, LucidePencil, LucideTrash } from 'lucide-react'
+import { LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
 
 import { SettingsUiAccountItem } from './settings-ui-account-item.js'
@@ -12,12 +12,10 @@ export function SettingsUiAccountListItem({
   active,
   deleteItem,
   item,
-  setActive,
 }: {
   active: Account | null
   deleteItem: (item: Account) => Promise<void>
   item: Account
-  setActive: (id: string) => Promise<void>
 }) {
   return (
     <Item key={item.id} role="listitem" variant={active?.id === item.id ? 'muted' : 'outline'}>
@@ -29,19 +27,6 @@ export function SettingsUiAccountListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
-        {active?.id === item.id ? null : (
-          <UiTooltip content="Set account as active">
-            <Button
-              onClick={async () => {
-                await setActive(item.id)
-              }}
-              size="icon"
-              variant="outline"
-            >
-              <LucideCheck className="text-green-500 size-4" />
-            </Button>
-          </UiTooltip>
-        )}
         <UiTooltip content="Edit account">
           <Button asChild size="icon" variant="outline">
             <Link to={`./${item.id}/edit`}>

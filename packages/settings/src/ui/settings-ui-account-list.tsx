@@ -9,23 +9,15 @@ export function SettingsUiAccountList({
   active,
   deleteItem,
   items,
-  setActive,
 }: {
   active: Account | null
   deleteItem: (item: Account) => Promise<void>
   items: Array<{ wallets?: Wallet[] } & Account>
-  setActive: (id: string) => Promise<void>
 }) {
   return (
     <ItemGroup className="gap-4">
       {items.map((item) => (
-        <SettingsUiAccountListItem
-          active={active}
-          deleteItem={deleteItem}
-          item={item}
-          key={item.id}
-          setActive={setActive}
-        />
+        <SettingsUiAccountListItem active={active} deleteItem={deleteItem} item={item} key={item.id} />
       ))}
     </ItemGroup>
   )
