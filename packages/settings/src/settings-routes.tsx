@@ -1,5 +1,6 @@
 import { Navigate, useRoutes } from 'react-router'
 
+import { SettingsFeatureAccountAddWallet } from './settings-feature-account-add-wallet.js'
 import { SettingsFeatureAccountCreate } from './settings-feature-account-create.js'
 import { SettingsFeatureAccountDetails } from './settings-feature-account-details.js'
 import { SettingsFeatureAccountGenerate } from './settings-feature-account-generate.js'
@@ -24,6 +25,7 @@ export default function SettingsRoutes() {
             { element: <SettingsFeatureAccountGenerate />, path: 'generate' },
             { element: <SettingsFeatureAccountImport />, path: 'import' },
             { element: <SettingsFeatureAccountDetails />, path: ':accountId' },
+            { element: <SettingsFeatureAccountAddWallet />, path: ':accountId/add' },
             { element: <SettingsFeatureAccountUpdate />, path: ':accountId/edit' },
           ],
           path: 'accounts',
