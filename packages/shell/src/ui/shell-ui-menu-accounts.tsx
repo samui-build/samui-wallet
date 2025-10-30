@@ -14,7 +14,8 @@ import {
   MenubarTrigger,
 } from '@workspace/ui/components/menubar'
 import { UiAvatar } from '@workspace/ui/components/ui-avatar'
-import { LucideSettings } from 'lucide-react'
+import { cn } from '@workspace/ui/lib/utils'
+import { LucidePencil, LucidePlus, LucideSettings } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function ShellUiMenuAccounts({
@@ -45,11 +46,30 @@ export function ShellUiMenuAccounts({
               <MenubarSubContent>
                 <MenubarRadioGroup onValueChange={(id) => setActiveWallet(id)} value={activeWallet?.id ?? ''}>
                   {account.wallets.map((wallet) => (
-                    <MenubarRadioItem key={wallet.id} value={wallet.id}>
+                    <MenubarRadioItem
+                      className={cn('font-mono', {
+                        'font-bold': wallet.id === activeWallet?.id,
+                      })}
+                      key={wallet.id}
+                      value={wallet.id}
+                    >
                       {wallet.name}
                     </MenubarRadioItem>
                   ))}
                 </MenubarRadioGroup>
+                <MenubarSeparator />
+                <MenubarItem asChild>
+                  <Link to={`/settings/accounts/${account.id}/add`}>
+                    <LucidePlus />
+                    Add wallet
+                  </Link>
+                </MenubarItem>
+                <MenubarItem asChild>
+                  <Link to={`/settings/accounts/${account.id}/edit`}>
+                    <LucidePencil />
+                    Edit wallet
+                  </Link>
+                </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
           )
