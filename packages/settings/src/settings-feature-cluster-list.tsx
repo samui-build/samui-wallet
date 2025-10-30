@@ -17,7 +17,7 @@ export function SettingsFeatureClusterList() {
     onSuccess: () => toastSuccess('Cluster deleted'),
   })
   const items = useDbClusterLive()
-  const [activeId, setActiveId] = useDbPreference('activeClusterId')
+  const [activeId] = useDbPreference('activeClusterId')
   return (
     <UiCard
       action={
@@ -32,7 +32,6 @@ export function SettingsFeatureClusterList() {
         activeId={activeId}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={items}
-        setActive={setActiveId}
       />
     </UiCard>
   )
