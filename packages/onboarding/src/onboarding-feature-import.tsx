@@ -83,7 +83,7 @@ export function OnboardingFeatureImport() {
         footer={
           <div className="flex w-full justify-between">
             <UiTextPasteButton onPaste={handlePaste} />
-            <OnboardingUiMnemonicSave disabled={!isFormComplete} label="Import wallet" onClick={handleSubmit} />
+            <OnboardingUiMnemonicSave disabled={!isFormComplete} label="Import wallet" />
           </div>
         }
         title={
