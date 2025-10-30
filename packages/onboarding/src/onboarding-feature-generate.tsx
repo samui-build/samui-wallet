@@ -38,11 +38,7 @@ export function OnboardingFeatureGenerate() {
         footer={
           <div className="flex w-full justify-between">
             <UiTextCopyButton text={mnemonic} toast="Mnemonic copied to clipboard" />
-            <OnboardingUiMnemonicSave
-              disabled={!validateMnemonic({ mnemonic })}
-              label="Create wallet"
-              onClick={handleSubmit}
-            />
+            <OnboardingUiMnemonicSave disabled={!validateMnemonic({ mnemonic })} label="Create wallet" />
           </div>
         }
         title={
