@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 export function OnboardingFeatureIndex() {
   const [accepted, setAccepted] = useState(false)
   return (
-    <div className="flex flex-col gap-6 items-center min-w-[400px]">
+    <div className="flex flex-col gap-6 items-center min-w-[400px] p-5">
       <div className="flex flex-col items-center space-y-2">
         <div className="text-2xl">Welcome to 🏝️ Samui Wallet</div>
         <div className="text-lg text-muted-foreground">We hope you enjoy your stay!</div>
