@@ -1,6 +1,4 @@
-import type { Account } from '@workspace/db/entity/account'
-
-import { useDbAccountFindMany } from '@workspace/db-react/use-db-account-find-many'
+import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
 import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { getDevOptions } from '@workspace/dev/dev-features'
@@ -16,12 +14,10 @@ import { ShellUiMenuDevelopment } from './shell-ui-menu-development.js'
 export function ShellUiMenu() {
   const { active: activeAccount } = useActiveAccount()
   const { active: activeWallet, setActive: setActiveWalletId } = useActiveWallet()
-  const accountsQuery = useDbAccountFindMany({ input: {} })
+  const accounts = useDbAccountLive()
   const items = useDbClusterLive()
   const [activeId, setActiveClusterId] = useDbPreference('activeClusterId')
   const activeCluster = useMemo(() => items.find((c) => c.id === activeId), [items, activeId])
-
-  const accounts: Account[] = accountsQuery.data ?? []
 
   return (
     <Menubar className="py-2 h-10 md:h-14 bg-transparent border-none">
