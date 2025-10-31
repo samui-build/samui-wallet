@@ -31,3 +31,5 @@ catalog:
   zod: ^4.1.12
 
 minimumReleaseAge: 10080
+
+engineStrict: true
