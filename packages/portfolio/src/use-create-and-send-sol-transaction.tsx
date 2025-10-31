@@ -1,13 +1,17 @@
 import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
+import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
+import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 
 import type { ClusterWallet } from './portfolio-routes-loaded.js'
 
 export function useCreateAndSendSolTransaction(props: ClusterWallet) {
+  const { cluster, wallet } = props
+  const queryClient = useQueryClient()
   const client = useSolanaClient({ cluster: props.cluster })
 
   return useMutation({
@@ -18,6 +22,14 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
       const sender = await createKeyPairSignerFromJson({ json: wallet.secretKey })
 
       return createAndSendSolTransaction(client, { amount, destination, sender })
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: getBalanceQueryOptions({ client, cluster, wallet }).queryKey,
+      })
+      queryClient.invalidateQueries({
+        queryKey: getAccountInfoQueryOptions({ client, cluster, wallet }).queryKey,
+      })
     },
   })
 }
