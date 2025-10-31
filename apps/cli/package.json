@@ -1,0 +1,23 @@
+{
+  "name": "cli",
+  "version": "0.0.0",
+  "dependencies": {
+    "@effect/cli": "^0.71.0",
+    "@effect/platform-node": "^0.98.4",
+    "effect": "^3.18.4"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  },
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix"
+  }
+}
