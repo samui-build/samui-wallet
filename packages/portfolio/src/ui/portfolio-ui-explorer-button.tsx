@@ -1,5 +1,4 @@
 import type { GetExplorerUrlProps } from '@workspace/solana-client/get-explorer-url'
-
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { Button } from '@workspace/ui/components/button'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'

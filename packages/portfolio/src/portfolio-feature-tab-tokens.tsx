@@ -24,8 +24,8 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const { cluster, wallet } = props
   const balances = useGetTokenBalances({ address: wallet.publicKey, cluster })
   const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo({
-    address: wallet.publicKey,
-    cluster,
+    address: props.wallet.publicKey,
+    cluster: props.cluster,
   })
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)

@@ -1,4 +1,4 @@
-import type { Tool } from './tools-feature-overview.tsx'
+import type { Tool } from '../tools.tsx'
 
 import { ToolsUiOverviewItem } from './tools-ui-overview-item.tsx'
 

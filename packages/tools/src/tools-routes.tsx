@@ -13,7 +13,7 @@ const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
 export function Router(props: { cluster: Cluster; wallet: Wallet }) {
   return useRoutes([
     { element: <ToolsFeatureOverview />, index: true },
-    { element: <ToolsFeatureAirdrop />, path: 'airdrop' },
+    { element: <ToolsFeatureAirdrop {...props} />, path: 'airdrop' },
     { element: <ToolsFeatureCreateToken {...props} />, path: 'create-token' },
     { element: <ToolsFeatureMintToken />, path: 'mint-token' },
     { element: <ToolsFeatureMintToken />, path: 'create-nft' },
