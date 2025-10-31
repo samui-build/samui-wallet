@@ -1,0 +1,36 @@
+---
+import StarlightFooter from '@astrojs/starlight/components/Footer.astro';
+
+const isHomepage = Astro.locals.starlightRoute.id === '';
+
+---
+{
+  isHomepage ? (
+    <StarlightFooter />
+    <div class="site-legal-links">
+      <a href="/privacy-policy">Privacy Policy</a>
+      <span>·</span>
+      <a href="/terms-of-service">Terms of Service</a>
+    </div>
+
+    <style>
+      .site-legal-links {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: center;
+        padding: 1.5rem 0 1rem;
+        font-size: 0.9rem;
+        color: var(--sl-color-gray-4);
+      }
+      .site-legal-links a {
+        text-decoration: underline;
+        text-underline-offset: 0.125em;
+      }
+      .site-legal-links a:hover {
+        color: var(--sl-color-white); /* Or your theme's hover color */
+      }
+    </style>
+  ) : (
+    <StarlightFooter />
+  )
+}

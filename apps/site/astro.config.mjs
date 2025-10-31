@@ -7,7 +7,10 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   integrations: [
     starlight({
-      title: 'Samui',
+      components: {
+        Footer: './src/components/SiteFooter.astro',
+      },
+      customCss: ['./src/styles/global.css'],
       favicon: '/favicon.svg',
       logo: {
         src: './src/assets/logo.svg',
@@ -29,8 +32,7 @@ export default defineConfig({
           href: 'https://samui.build/go/github',
         },
       ],
-
-      customCss: ['./src/styles/global.css'],
+      title: 'Samui',
     }),
   ],
   redirects: {
