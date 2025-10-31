@@ -1,24 +1,31 @@
 {
-  "name": "cli",
+  "name": "@workspace/tui",
   "version": "0.0.0",
   "dependencies": {
-    "@effect/cli": "^0.71.0",
-    "@effect/platform-node": "^0.98.4",
-    "@workspace/tui": "workspace:*",
-    "effect": "^3.18.4"
+    "@opentui/core": "^0.1.31",
+    "@opentui/react": "^0.1.31",
+    "react": "catalog:"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "@types/node": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
     "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "eslint": "catalog:",
     "typescript": "catalog:"
   },
+  "exports": {
+    ".": "./src/index.tsx",
+    "./*": "./src/*.tsx"
+  },
   "license": "MIT",
+  "module": "src/index.tsx",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "dev": "bun run --watch src/index.ts",
+    "dev": "bun run --watch src/index.tsx",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
