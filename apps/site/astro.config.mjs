@@ -11,9 +11,14 @@ export default defineConfig({
         Footer: './src/components/SiteFooter.astro',
       },
       customCss: ['./src/styles/global.css'],
+      editLink: {
+        baseUrl: 'https://github.com/samui-build/samui-wallet/edit/main/apps/site'
+      },
       favicon: '/favicon.svg',
       logo: {
-        src: './src/assets/logo.svg',
+        dark: './src/assets/logo-dark.svg',
+        light: './src/assets/logo-light.svg',
+        replacesTitle: true,
       },
       social: [
         {
@@ -22,14 +27,14 @@ export default defineConfig({
           href: 'https://samui.build/go/discord',
         },
         {
-          icon: 'x.com',
-          label: 'X / Twitter',
-          href: 'https://samui.build/go/x',
-        },
-        {
           icon: 'github',
           label: 'GitHub',
           href: 'https://samui.build/go/github',
+        },
+        {
+          icon: 'x.com',
+          label: 'X / Twitter',
+          href: 'https://samui.build/go/x',
         },
       ],
       title: 'Samui',
@@ -50,6 +55,7 @@ export default defineConfig({
       status: 302,
     }
   },
+  site: 'https://samui.build',
   vite: {
     // @ts-expect-error Astro 5 uses Vite 6, we use Vite 7 in our monorepo
     plugins: [tailwindcss()],

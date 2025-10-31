@@ -7,36 +7,50 @@ banner:
     We participated in the Cypherpunk Hackathon.
     <a href="/cypherpunk">Check out our submission!</a>
 hero:
-  title: |
-    <span
-      class="font-black text-transparent
-        bg-clip-text bg-gradient-to-b
-        from-accent-700 to-accent-400
-        dark:from-accent-500 dark:to-accent-200"
-    >
-      Samui
-    </span>
-  tagline: Open Source Solana wallet and toolbox for builders.
+  actions:
+    - text: Follow on X
+      icon: x.com
+      variant: minimal
+      link: https://samui.build/go/x
+      attrs:
+        target: _blank
+    - text: Fork on GitHub
+      icon: github
+      variant: minimal
+      link: https://samui.build/go/github
+      attrs:
+        target: _blank
+    - text: Chat on Discord
+      icon: discord
+      variant: minimal
+      link: https://samui.build/go/discord
+      attrs:
+        target: _blank
   image:
-    file: ../../assets/logo.svg
+    file: ../../assets/icon.svg
+  tagline: Open Source wallet and toolbox for Solana builders.
+  title: Samui Wallet
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components'
 
 <CardGrid>
-  <a href="/go/github" target="_blank" style={{ textDecoration: 'none' }}>
-    <Card title="Star our repo on GitHub" icon="github">
-      Star and fork our repo on GitHub and start contributing!
-    </Card>
-  </a>
-  <a href="/go/discord" target="_blank" style={{ textDecoration: 'none' }}>
-    <Card title="Join our Discord" icon="discord">
-      Join our Discord to talk about Samui Wallet development.
-    </Card>
-  </a>
-  <a href="/go/x" target="_blank" style={{ textDecoration: 'none' }}>
-    <Card title="Follow us on X" icon="x.com">
-      Follow us on X to stay up to date with the project!
-    </Card>
-  </a>
+  <Card title="Open Source" icon="github">
+    Fully auditable and verifiable by the community, eliminating the "black box" problem.
+  </Card>
+  <Card title="Professional Toolbox" icon="seti:config">
+    Built-in tools for airdropping SOL, creating tokens, and managing NFTs.
+  </Card>
+  <Card title="Developer First" icon="seti:json">
+    Devnet and localnet as priorities and fast switching between key pairs and clusters.
+  </Card>
+  <Card title="High-Detail Transactions" icon="document">
+    In-wallet transaction views save developers time-wasting trips to an explorer.
+  </Card>
+  <Card title="Extensible" icon="puzzle">
+    Highly customizable out of the box and built to be extended.
+  </Card>
+  <Card title="Cross-platform" icon="laptop">
+    Web to start, extension, cli, mobile, desktop to follow
+  </Card>
 </CardGrid>
