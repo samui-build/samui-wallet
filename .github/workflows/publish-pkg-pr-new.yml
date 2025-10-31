@@ -24,4 +24,4 @@ jobs:
         run: pnpm build
 
       - name: Publish to pkg.pr.new
-        run: pnpm pkg-pr-new publish --pnpm --packageManager=pnpm './packages/*'
+        run: pnpm pkg-pr-new publish --pnpm --packageManager=pnpm './packages/*' --comment=off
