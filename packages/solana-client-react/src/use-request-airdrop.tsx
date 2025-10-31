@@ -1,6 +1,6 @@
-import type { Address } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Cluster } from '@workspace/db/entity/cluster'
+import type { RequestAirdropOption } from '@workspace/solana-client/request-airdrop'
 import { requestAirdrop } from '@workspace/solana-client/request-airdrop'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -14,8 +14,8 @@ export function useRequestAirdrop(cluster: Cluster) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async ({ address }: { address: Address }) => {
-      return requestAirdrop(client, address)
+    mutationFn: async (input: Omit<RequestAirdropOption, 'client'>) => {
+      return requestAirdrop({ ...input, client })
     },
     onError: () => {
       toastError('Failed to request airdrop. Please try the faucet directly.')

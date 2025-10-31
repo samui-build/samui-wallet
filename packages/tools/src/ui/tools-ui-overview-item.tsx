@@ -5,7 +5,7 @@ import { cn } from '@workspace/ui/lib/utils'
 import { ChevronRightIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
-import type { Tool } from './tools-feature-overview.tsx'
+import type { Tool } from '../tools.tsx'
 
 export function ToolsUiOverviewItem({ tool }: { tool: Tool }) {
   return (
