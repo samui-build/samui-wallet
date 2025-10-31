@@ -30,7 +30,10 @@ export interface TokenMetadata {
 }
 
 export function useGetTokenBalances(props: { cluster: Cluster; wallet: Wallet }) {
-  const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance(props)
+  const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance({
+    address: props.wallet.publicKey,
+    cluster: props.cluster,
+  })
   const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
 
   const mints = useMemo(() => {

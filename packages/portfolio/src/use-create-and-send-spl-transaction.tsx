@@ -38,10 +38,10 @@ export function useCreateAndSendSplTransaction(props: ClusterWallet) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getBalanceQueryOptions({ address: wallet.publicKey, client, cluster }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address: wallet.publicKey, client, cluster }).queryKey,
       })
       queryClient.invalidateQueries({
         queryKey: getTokenAccountsQueryOptions({ client, cluster, wallet }).queryKey,

@@ -24,7 +24,10 @@ interface SendTokenInput {
 
 export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const balances = useGetTokenBalances(props)
-  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
+  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo({
+    address: props.wallet.publicKey,
+    cluster: props.cluster,
+  })
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
   const sendSplMutation = useCreateAndSendSplTransaction(props)
