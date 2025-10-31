@@ -10,12 +10,14 @@ Open Source Solana wallet and toolbox for builders 🏟 Cypherpunk Hackathon
 
 - [Node](https://github.com/samui-build/samui-wallet/blob/main/package.json#L20)
 - [PNPM](https://github.com/samui-build/samui-wallet/blob/main/package.json#L22)
+- [FNM](https://github.com/Schniz/fnm) or [NVM](https://github.com/nvm-sh/nvm)
 
 ## Installation
 
 ```bash
 git clone git@github.com:samui-build/samui-wallet.git
 cd samui-wallet
+fnm use # or nvm use
 pnpm install
 cp apps/web/.env.example apps/web/.env
 pnpm dev
