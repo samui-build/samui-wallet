@@ -16,7 +16,10 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
   const balances = useGetTokenBalances(props)
   const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
 
-  const sendSolMutation = useCreateAndSendSolTransaction(props)
+  const sendSolMutation = useCreateAndSendSolTransaction({
+    ...props,
+    onError: (err) => toastError(err.message),
+  })
 
   const totalBalance = useMemo(() => {
     const balance = balances.reduce((acc, item) => {
@@ -44,11 +47,23 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         balances={balances}
         {...props}
         send={async (input) => {
-          const done = await sendSolMutation.mutateAsync({ ...input, wallet: props.wallet })
-          if (done) {
-            toastSuccess('Sol has been sent!')
-          } else {
-            toastError(`Error sending SOL`)
+          if (!dataAccountInfo?.value?.lamports) {
+            toastError('Account balance is not available. Please wait.')
+            return
+          }
+
+          try {
+            const signature = await sendSolMutation.mutateAsync({
+              ...input,
+              balance: dataAccountInfo.value.lamports,
+              wallet: props.wallet,
+            })
+
+            if (signature) {
+              toastSuccess('Sol has been sent!')
+            }
+          } catch (err) {
+            console.error('Send failed:', err)
           }
         }}
       />
