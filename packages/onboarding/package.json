@@ -4,6 +4,7 @@
   "dependencies": {
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/i18n": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/solana-client": "workspace:*",
