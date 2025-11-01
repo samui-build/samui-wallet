@@ -1,9 +1,11 @@
+import type { Address } from '@solana/kit'
+
 import { getAddressFromPublicKey } from '@solana/kit'
 
 import { convertKeyPairToJson } from './convert-key-pair-to-json'
 
 export interface PublicKeySecretKey {
-  publicKey: string
+  publicKey: Address
   secretKey: string
 }
 

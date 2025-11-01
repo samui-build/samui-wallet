@@ -2,6 +2,7 @@
   "name": "@workspace/db",
   "version": "0.0.0",
   "dependencies": {
+    "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
     "dexie": "^4.2.1",

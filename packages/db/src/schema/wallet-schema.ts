@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { solanaAddressSchema } from './solana-address-schema'
 import { walletTypeSchema } from './wallet-type-schema'
 
 export const walletSchema = z.object({
@@ -8,7 +9,7 @@ export const walletSchema = z.object({
   derivationIndex: z.number(),
   id: z.string(),
   name: z.string(),
-  publicKey: z.string(),
+  publicKey: solanaAddressSchema,
   secretKey: z.string().optional(),
   type: walletTypeSchema,
   updatedAt: z.date(),
