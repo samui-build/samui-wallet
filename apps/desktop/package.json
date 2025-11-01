@@ -4,16 +4,19 @@
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
+    "@workspace/shell": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "catalog:",
     "@tauri-apps/cli": "^2",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.6.0",
     "@workspace/config-eslint": "workspace:*",
     "eslint": "catalog:",
+    "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "^7.0.4"
   },
