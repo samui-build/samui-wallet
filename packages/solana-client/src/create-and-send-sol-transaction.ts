@@ -20,26 +20,23 @@ export async function createAndSendSolTransaction(
     sender,
     senderBalance,
   }: {
-    amount: string
+    amount: bigint
     destination: string
     sender: KeyPairSigner
-    senderBalance: string
+    senderBalance: bigint
   },
 ): Promise<string> {
-  const amountBigInt = BigInt(amount)
-  const senderBalanceBigInt = BigInt(senderBalance)
+  const maxAvailable = maxAvailableSolAmount(senderBalance, amount)
 
-  const maxAvailable = maxAvailableSolAmount(senderBalanceBigInt, amountBigInt)
-
-  if (amountBigInt > maxAvailable) {
+  if (amount > maxAvailable) {
     throw new Error(
-      `Insufficient balance. Available: ${lamportsToSol(senderBalanceBigInt)} SOL, Requested: ${lamportsToSol(amountBigInt)} SOL, Max sendable (after fees): ${lamportsToSol(maxAvailable)} SOL`,
+      `Insufficient balance. Available: ${lamportsToSol(senderBalance)} SOL, Requested: ${lamportsToSol(amount)} SOL, Max sendable (after fees): ${lamportsToSol(maxAvailable)} SOL`,
     )
   }
 
   const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
   const transactionMessage = createSolTransferTransaction({
-    amount,
+    amount: amount.toString(),
     destination,
     latestBlockhash,
     sender,
