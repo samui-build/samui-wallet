@@ -5,14 +5,14 @@
   "compatibility_date": "2025-10-24",
   "observability": {
     "enabled": true,
-    "head_sampling_rate": 1
+    "head_sampling_rate": 1,
   },
   "preview_urls": true,
   "routes": [
     {
       "pattern": "api.samui.build",
-      "custom_domain": true
-    }
+      "custom_domain": true,
+    },
   ],
-  "send_metrics": false
+  "send_metrics": false,
 }
