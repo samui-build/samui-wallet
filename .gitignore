@@ -25,11 +25,14 @@ coverage
 .wrangler
 
 # Build Outputs
-.next/
-out/
+.next
+out
 build
 dist
-
+.output
+.wxt
+.astro
+.expo
 
 # Debug
 npm-debug.log*
