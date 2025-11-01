@@ -1,0 +1,32 @@
+{
+  "name": "desktop",
+  "version": "0.0.0",
+  "dependencies": {
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-opener": "^2",
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "^4.6.0",
+    "@workspace/config-eslint": "workspace:*",
+    "eslint": "catalog:",
+    "typescript": "catalog:",
+    "vite": "^7.0.4"
+  },
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc && vite build",
+    "check-types": "tsc --noEmit",
+    "dev": "vite",
+    "lint": "eslint . --max-warnings=0",
+    "lint:fix": "eslint . --max-warnings=0 --fix",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "type": "module"
+}
