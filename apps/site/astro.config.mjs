@@ -12,7 +12,7 @@ export default defineConfig({
       },
       customCss: ['./src/styles/global.css'],
       editLink: {
-        baseUrl: 'https://github.com/samui-build/samui-wallet/edit/main/apps/site'
+        baseUrl: 'https://github.com/samui-build/samui-wallet/edit/main/apps/site',
       },
       favicon: '/favicon.svg',
       logo: {
@@ -53,7 +53,7 @@ export default defineConfig({
     '/go/x': {
       destination: 'https://x.com/SamuiBuild',
       status: 302,
-    }
+    },
   },
   site: 'https://samui.build',
   vite: {

@@ -1,5 +1,5 @@
-import { config } from "@workspace/config-eslint/base";
-import { defineConfig, globalIgnores } from "eslint/config";
+import { config } from '@workspace/config-eslint/base'
+import { defineConfig, globalIgnores } from 'eslint/config'
 
 /** @type {import("eslint").Linter.Config} */
-export default defineConfig([config, globalIgnores(['.output/', '.wxt/'])]);
+export default defineConfig([config, globalIgnores(['.output/', '.wxt/'])])
