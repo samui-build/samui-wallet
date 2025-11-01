@@ -1,4 +1,4 @@
-import type { UnixTimestamp } from '@workspace/solana-client'
+import type { UnixTimestamp } from '@solana/kit'
 
 import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
 

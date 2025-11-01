@@ -1,7 +1,7 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { type Lamports } from '@workspace/solana-client'
+import { type Lamports } from '@solana/kit'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import {

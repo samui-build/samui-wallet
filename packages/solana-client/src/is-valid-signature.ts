@@ -1,4 +1,4 @@
-import { assertIsSignature } from './index'
+import { assertIsSignature } from '@solana/kit'
 
 export function isValidSignature(signature: string) {
   try {

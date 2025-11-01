@@ -1,8 +1,8 @@
+import type { UnixTimestamp } from '@solana/kit'
 import type { Cluster } from '@workspace/db/entity/cluster'
-import type { UnixTimestamp } from '@workspace/solana-client'
 
+import { assertIsSignature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import { assertIsSignature } from '@workspace/solana-client'
 import { isValidSignature } from '@workspace/solana-client/is-valid-signature'
 
 import { useSolanaClient } from './use-solana-client'

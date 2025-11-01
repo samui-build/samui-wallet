@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {
     "@hookform/resolvers": "catalog:",
+    "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
