@@ -1,4 +1,4 @@
-import type { Lamports } from '@workspace/solana-client'
+import type { Lamports } from '@solana/kit'
 
 import { lamportsToSol } from '@workspace/solana-client/lamports-to-sol'
 

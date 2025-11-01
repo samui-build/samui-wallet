@@ -1,10 +1,10 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
+import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
 import { getClusterLabel } from '@workspace/settings/ui/get-cluster-label'
-import { generateKeyPairSigner } from '@workspace/solana-client'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { Button } from '@workspace/ui/components/button'

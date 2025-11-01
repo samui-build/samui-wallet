@@ -1,10 +1,10 @@
 import type { Account } from '@workspace/db/entity/account'
 
+import { assertIsAddress } from '@solana/kit'
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
-import { assertIsAddress } from '@workspace/solana-client'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'

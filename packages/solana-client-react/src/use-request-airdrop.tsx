@@ -1,8 +1,8 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
+import { address } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { address } from '@workspace/solana-client'
 import { requestAirdrop } from '@workspace/solana-client/request-airdrop'
 
 import { toastError } from '../../ui/src/lib/toast-error'
