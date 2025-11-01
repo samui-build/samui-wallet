@@ -1,3 +1,5 @@
+import type { Address } from '@solana/kit'
+
 import { tryCatch } from '@workspace/core/try-catch'
 
 import { convertKeyPairToJson } from './convert-key-pair-to-json'
@@ -5,7 +7,7 @@ import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip4
 import { derivationPaths } from './derivation-paths'
 
 export interface DerivedWallet {
-  publicKey: string
+  publicKey: Address
   secretKey: string
 }
 export interface DeriveFromMnemonicAtIndexProps {
@@ -42,7 +44,7 @@ export async function deriveFromMnemonicAtIndex({
   const secretKey = await convertKeyPairToJson(signer.keyPair)
 
   return {
-    publicKey: signer.address.toString(),
+    publicKey: signer.address,
     secretKey,
   }
 }

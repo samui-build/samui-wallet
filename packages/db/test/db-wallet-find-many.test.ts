@@ -1,5 +1,6 @@
 import type { PromiseExtended } from 'dexie'
 
+import { address } from '@solana/kit'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import type { Wallet } from '../src/entity/wallet'
@@ -116,8 +117,17 @@ describe('db-wallet-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const accountId = crypto.randomUUID()
-      const wallet1 = testWalletInputCreate({ accountId, name: 'Wallet 1' })
-      const wallet2 = testWalletInputCreate({ accountId, name: 'Wallet 2', type: 'Imported' })
+      const wallet1 = testWalletInputCreate({
+        accountId,
+        name: 'Wallet 1',
+        publicKey: address('So11111111111111111111111111111111111111112'),
+      })
+      const wallet2 = testWalletInputCreate({
+        accountId,
+        name: 'Wallet 2',
+        publicKey: address('So11111111111111111111111111111111111111113'),
+        type: 'Imported',
+      })
       await dbWalletCreate(db, wallet1)
       await dbWalletCreate(db, wallet2)
 

@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto'
+import { address } from '@solana/kit'
 
 import type { Database } from '../src/database'
 import type { AccountInputCreate } from '../src/dto/account-input-create'
@@ -42,7 +43,7 @@ export function testPreferenceInputSet(value?: string): [PreferenceKey, string] 
 export function testWalletInputCreate(input: { accountId: string } & Partial<WalletInputCreate>): WalletInputCreate {
   return {
     name: randomName('wallet'),
-    publicKey: crypto.randomUUID(),
+    publicKey: address('So11111111111111111111111111111111111111112'),
     type: 'Derived',
     ...input,
   }
