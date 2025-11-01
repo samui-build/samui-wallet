@@ -1,5 +1,5 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { RequestAirdropOption } from '@workspace/solana-client/request-airdrop'
 
 import { address } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
@@ -16,18 +16,18 @@ export function useRequestAirdrop(cluster: Cluster) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (wallet: Wallet) => {
-      return requestAirdrop(client, address(wallet.publicKey))
+    mutationFn: async (input: Omit<RequestAirdropOption, 'client'>) => {
+      return requestAirdrop({ ...input, client })
     },
     onError: () => {
       toastError('Failed to request airdrop. Please try the faucet directly.')
     },
-    onSuccess: (_, wallet) => {
+    onSuccess: (_, { address }) => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
       })
 
       toastSuccess('Airdrop requested successfully')

@@ -1,4 +1,4 @@
-import type { Tool } from './tools-feature-overview.js'
+import type { Tool } from '../tools.js'
 
 import { ToolsUiOverviewItem } from './tools-ui-overview-item.js'
 

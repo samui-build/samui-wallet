@@ -10,7 +10,10 @@ import { createAndSendSolTransaction } from '@workspace/solana-client/create-and
 import type { ClusterWallet } from './portfolio-routes-loaded.js'
 
 export function useCreateAndSendSolTransaction(props: ClusterWallet) {
-  const { cluster, wallet } = props
+  const {
+    cluster,
+    wallet: { publicKey: address },
+  } = props
   const queryClient = useQueryClient()
   const client = useSolanaClient({ cluster: props.cluster })
 
@@ -25,10 +28,10 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
       })
     },
   })

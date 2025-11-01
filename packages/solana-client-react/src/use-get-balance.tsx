@@ -1,5 +1,4 @@
 import type { Cluster } from '@workspace/db/entity/cluster'
-import type { Wallet } from '@workspace/db/entity/wallet'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 
 import { queryOptions, useQuery } from '@tanstack/react-query'
@@ -8,22 +7,22 @@ import { getBalance } from '@workspace/solana-client/get-balance'
 import { useSolanaClient } from './use-solana-client'
 
 export function getBalanceQueryOptions({
+  address,
   client,
   cluster,
-  wallet,
 }: {
+  address: string
   client: SolanaClient
   cluster: Cluster
-  wallet: Wallet
 }) {
   return queryOptions({
-    queryFn: () => getBalance(client, { address: wallet.publicKey }),
-    queryKey: ['get-balance', { cluster, publicKey: wallet.publicKey }],
+    queryFn: () => getBalance(client, { address }),
+    queryKey: ['get-balance', { address, cluster }],
   })
 }
 
-export function useGetBalance({ cluster, wallet }: { cluster: Cluster; wallet: Wallet }) {
+export function useGetBalance({ address, cluster }: { address: string; cluster: Cluster }) {
   const client = useSolanaClient({ cluster })
 
-  return useQuery(getBalanceQueryOptions({ client, cluster, wallet }))
+  return useQuery(getBalanceQueryOptions({ address, client, cluster }))
 }
