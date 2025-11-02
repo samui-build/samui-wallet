@@ -25,7 +25,6 @@
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "dev": "bun run --watch src/index.tsx",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
