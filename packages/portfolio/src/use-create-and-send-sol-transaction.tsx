@@ -21,7 +21,15 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
       }
       const sender = await createKeyPairSignerFromJson({ json: wallet.secretKey })
 
-      return createAndSendSolTransaction(client, { amount, destination, sender })
+      const balance = await client.rpc.getBalance(sender.address).send()
+      const senderBalance = balance.value
+
+      return createAndSendSolTransaction(client, {
+        amount: BigInt(amount),
+        destination,
+        sender,
+        senderBalance,
+      })
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
