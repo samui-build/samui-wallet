@@ -42,7 +42,7 @@
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",
     "@turbo/gen": "^2.5.8",
-    "@types/node": "catalog:",
+    "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-typescript": "workspace:*",

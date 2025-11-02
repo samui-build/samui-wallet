@@ -6,7 +6,7 @@
     "effect": "^3.18.4"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
+    "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },

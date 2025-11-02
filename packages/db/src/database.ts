@@ -1,4 +1,4 @@
-import Dexie, { type Table } from 'dexie'
+import { Dexie, type Table } from 'dexie'
 import { dbPopulate } from './db-populate.ts'
 import type { Account } from './entity/account.ts'
 import type { Cluster } from './entity/cluster.ts'

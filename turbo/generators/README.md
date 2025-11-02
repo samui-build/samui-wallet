@@ -8,7 +8,7 @@ generate new packages.
 You can run the generator in interactive mode:
 
 ```shell
-pnpm turbo gen
+bun turbo gen
 ```
 
 ### Generating a package
@@ -16,14 +16,14 @@ pnpm turbo gen
 Or you can run pass the parameters and automate the generation:
 
 ```shell
-pnpm turbo gen pkg --args base i18n
-#              ^          ^    ^
-#              |          |    |
-#              |          |    + - - the name of the package
-#              |          |
-#              |          + - - the type of package you want to generate
-#              |
-#              + - - the generator you want to invoke
+bun turbo gen pkg --args base i18n
+#             ^          ^    ^
+#             |          |    |
+#             |          |    + - - the name of the package
+#             |          |
+#             |          + - - the type of package you want to generate
+#             |
+#             + - - the generator you want to invoke
 ```
 
 ## Adding a new generator

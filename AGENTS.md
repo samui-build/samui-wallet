@@ -2,12 +2,12 @@
 
 ## Commands
 
-- **Build**: `pnpm build`
-- **Lint**: `pnpm lint` / `pnpm lint:fix`
-- **Type Check**: `pnpm check-types`
-- **Test All**: `pnpm test` / `pnpm test:watch`
-- **Single Test**: `vitest run <path/to/test.ts>`
-- **Format**: `pnpm format` / `pnpm format:check`
+- **Build**: `bun run build`
+- **Lint**: `bun lint` / `bun lint:fix`
+- **Type Check**: `bun check-types`
+- **Test All**: `bun run test` / `bun run test:watch`
+- **Single Test**: `bun run test <path/to/test.ts>`
+- **Format**: `bun format` / `bun format:check`
 
 ## Code Style
 

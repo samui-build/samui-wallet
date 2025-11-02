@@ -4,6 +4,7 @@
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },
+  "name": "generators",
   "scripts": {
     "check-types": "tsc --noEmit"
   },
