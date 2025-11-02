@@ -1,4 +1,4 @@
-import { TextAttributes } from '@opentui/core'
+import { TextAttributes } from "@opentui/core";
 
 export function App() {
   return (
@@ -8,5 +8,5 @@ export function App() {
         <text attributes={TextAttributes.DIM}>Are you ready?</text>
       </box>
     </box>
-  )
+  );
 }

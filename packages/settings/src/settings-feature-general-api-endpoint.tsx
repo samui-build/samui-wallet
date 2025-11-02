@@ -1,9 +1,9 @@
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
-import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
+import { useDbPreference } from "@workspace/db-react/use-db-preference";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 
 export function SettingsFeatureGeneralApiEndpoint() {
-  const [apiEndpoint, setApiEndpoint] = useDbPreference('apiEndpoint')
+  const [apiEndpoint, setApiEndpoint] = useDbPreference("apiEndpoint");
 
   return (
     <div className="space-y-2">
@@ -12,8 +12,8 @@ export function SettingsFeatureGeneralApiEndpoint() {
         id="api-endpoint"
         onChange={(e) => setApiEndpoint(e.target.value)}
         placeholder="https://api.samui.build"
-        value={apiEndpoint ?? ''}
+        value={apiEndpoint ?? ""}
       />
     </div>
-  )
+  );
 }

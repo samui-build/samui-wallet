@@ -1,14 +1,14 @@
 export function handleCopyText(text?: string) {
   if (!text) {
-    return
+    return;
   }
   if (
-    typeof globalThis === 'undefined' ||
+    typeof globalThis === "undefined" ||
     !globalThis.navigator ||
     !globalThis.navigator.clipboard ||
     !globalThis.navigator.clipboard.writeText
   ) {
-    return
+    return;
   }
-  void globalThis.navigator.clipboard.writeText(text)
+  void globalThis.navigator.clipboard.writeText(text);
 }

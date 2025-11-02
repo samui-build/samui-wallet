@@ -1,19 +1,23 @@
-import { Button } from '@workspace/ui/components/button'
-import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
-import { LucideArrowUp } from 'lucide-react'
+import { Button } from "@workspace/ui/components/button";
+import { UiBottomSheet } from "@workspace/ui/components/ui-bottom-sheet";
+import { LucideArrowUp } from "lucide-react";
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from "../data-access/use-get-token-metadata.js";
 
-import { PortfolioUiWalletFormSend } from './portfolio-ui-wallet-form-send.js'
+import { PortfolioUiWalletFormSend } from "./portfolio-ui-wallet-form-send.js";
 
 export function PortfolioUiWalletSheetSend({
   balances,
   isLoading,
   send,
 }: {
-  balances: TokenBalance[]
-  isLoading: boolean
-  send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
+  balances: TokenBalance[];
+  isLoading: boolean;
+  send: (input: {
+    amount: string;
+    destination: string;
+    mint: TokenBalance;
+  }) => Promise<void>;
 }) {
   return (
     <UiBottomSheet
@@ -25,7 +29,11 @@ export function PortfolioUiWalletSheetSend({
         </Button>
       }
     >
-      <PortfolioUiWalletFormSend balances={balances} isLoading={isLoading} send={send} />
+      <PortfolioUiWalletFormSend
+        balances={balances}
+        isLoading={isLoading}
+        send={send}
+      />
     </UiBottomSheet>
-  )
+  );
 }

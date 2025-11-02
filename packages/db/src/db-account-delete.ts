@@ -1,12 +1,12 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatch } from "@workspace/core/try-catch";
 
-import type { Database } from './database'
+import type { Database } from "./database";
 
 export async function dbAccountDelete(db: Database, id: string): Promise<void> {
-  const { data, error } = await tryCatch(db.accounts.delete(id))
+  const { data, error } = await tryCatch(db.accounts.delete(id));
   if (error) {
-    console.log(error)
-    throw new Error(`Error deleting account with id ${id}`)
+    console.log(error);
+    throw new Error(`Error deleting account with id ${id}`);
   }
-  return data
+  return data;
 }

@@ -1,12 +1,12 @@
-import { handlers } from '@workspace/background/content'
+import { handlers } from "@workspace/background/content";
 
 export default defineContentScript({
   async main() {
-    handlers()
+    handlers();
 
-    await injectScript('/injected.js', {
+    await injectScript("/injected.js", {
       keepInDom: true,
-    })
+    });
   },
-  matches: ['<all_urls>'],
-})
+  matches: ["<all_urls>"],
+});

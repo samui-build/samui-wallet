@@ -1,5 +1,5 @@
-import { DevFeatureDbClusterFindMany } from './dev-feature-db-cluster-find-many.js'
-import { DevFeatureDbTables } from './dev-feature-db-tables.js'
+import { DevFeatureDbClusterFindMany } from "./dev-feature-db-cluster-find-many.js";
+import { DevFeatureDbTables } from "./dev-feature-db-tables.js";
 
 export default function DevFeatureDb() {
   return (
@@ -7,5 +7,5 @@ export default function DevFeatureDb() {
       <DevFeatureDbTables />
       <DevFeatureDbClusterFindMany />
     </div>
-  )
+  );
 }

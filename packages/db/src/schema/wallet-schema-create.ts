@@ -1,4 +1,4 @@
-import { walletSchema } from './wallet-schema'
+import { walletSchema } from "./wallet-schema";
 
 export const walletSchemaCreate = walletSchema
   .omit({
@@ -8,4 +8,4 @@ export const walletSchemaCreate = walletSchema
   })
   .partial({
     derivationIndex: true,
-  })
+  });

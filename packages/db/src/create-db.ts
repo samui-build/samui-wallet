@@ -1,5 +1,5 @@
-import { Database, type DatabaseConfig } from './database'
+import { Database, type DatabaseConfig } from "./database";
 
 export function createDb(config: DatabaseConfig) {
-  return new Database(config)
+  return new Database(config);
 }

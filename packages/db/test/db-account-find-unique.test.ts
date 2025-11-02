@@ -1,55 +1,60 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Account } from '../src/entity/account'
+import type { Account } from "../src/entity/account";
 
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, testAccountInputCreate } from './test-helpers'
+import { dbAccountCreate } from "../src/db-account-create";
+import { dbAccountFindUnique } from "../src/db-account-find-unique";
+import { createDbTest, testAccountInputCreate } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-account-find-unique', () => {
+describe("db-account-find-unique", () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-  })
+    await db.accounts.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should find a unique account', async () => {
+  describe("expected behavior", () => {
+    it("should find a unique account", async () => {
       // ARRANGE
-      expect.assertions(2)
-      const input = testAccountInputCreate()
-      const id = await dbAccountCreate(db, input)
+      expect.assertions(2);
+      const input = testAccountInputCreate();
+      const id = await dbAccountCreate(db, input);
 
       // ACT
-      const item = await dbAccountFindUnique(db, id)
+      const item = await dbAccountFindUnique(db, id);
 
       // ASSERT
-      expect(item).toBeDefined()
-      expect(item?.name).toBe(input.name)
-    })
-  })
+      expect(item).toBeDefined();
+      expect(item?.name).toBe(input.name);
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when finding a unique account fails', async () => {
+    it("should throw an error when finding a unique account fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.accounts, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Account | undefined>,
-      )
+      expect.assertions(1);
+      const id = "test-id";
+      vi.spyOn(db.accounts, "get").mockImplementationOnce(
+        () =>
+          Promise.reject(new Error("Test error")) as PromiseExtended<
+            Account | undefined
+          >,
+      );
 
       // ACT & ASSERT
-      await expect(dbAccountFindUnique(db, id)).rejects.toThrow(`Error finding account with id ${id}`)
-    })
-  })
-})
+      await expect(dbAccountFindUnique(db, id)).rejects.toThrow(
+        `Error finding account with id ${id}`,
+      );
+    });
+  });
+});

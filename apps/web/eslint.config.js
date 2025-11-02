@@ -1,4 +1,4 @@
-import { viteConfig } from '@workspace/config-eslint/vite'
+import { viteConfig } from "@workspace/config-eslint/vite";
 
 /** @type {import("eslint").Linter.Config} */
-export default viteConfig
+export default viteConfig;

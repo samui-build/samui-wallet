@@ -1,5 +1,5 @@
-import { setup } from '@workspace/wallet-standard'
+import { setup } from "@workspace/wallet-standard";
 
 export default defineUnlistedScript(() => {
-  setup()
-})
+  setup();
+});

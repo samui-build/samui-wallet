@@ -1,7 +1,7 @@
-import { UiBack } from '@workspace/ui/components/ui-back'
-import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiBack } from "@workspace/ui/components/ui-back";
+import { UiCard } from "@workspace/ui/components/ui-card";
 
-import { SettingsUiAccountCreateOptions } from './ui/settings-ui-account-create-options.js'
+import { SettingsUiAccountCreateOptions } from "./ui/settings-ui-account-create-options.js";
 
 export function SettingsFeatureAccountCreate() {
   return (
@@ -15,5 +15,5 @@ export function SettingsFeatureAccountCreate() {
     >
       <SettingsUiAccountCreateOptions />
     </UiCard>
-  )
+  );
 }

@@ -1,15 +1,21 @@
-import { Badge } from '@workspace/ui/components/badge'
-import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
-import { Link } from 'react-router'
+import { Badge } from "@workspace/ui/components/badge";
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import { Link } from "react-router";
 
 export function SettingsUiAccountCreateComingSoon({
   description,
   title,
-  to = '#',
+  to = "#",
 }: {
-  description: string
-  title: string
-  to?: string
+  description: string;
+  title: string;
+  to?: string;
 }) {
   return (
     <Item asChild className="cursor-not-allowed" variant="muted">
@@ -23,5 +29,5 @@ export function SettingsUiAccountCreateComingSoon({
         </ItemActions>
       </Link>
     </Item>
-  )
+  );
 }

@@ -1,9 +1,9 @@
-import type { AccountInputUpdate } from '@workspace/db/dto/account-input-update'
-import type { Account } from '@workspace/db/entity/account'
+import type { AccountInputUpdate } from "@workspace/db/dto/account-input-update";
+import type { Account } from "@workspace/db/entity/account";
 
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { accountSchemaUpdate } from '@workspace/db/schema/account-schema-update'
-import { Button } from '@workspace/ui/components/button'
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { accountSchemaUpdate } from "@workspace/db/schema/account-schema-update";
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,25 +12,28 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@workspace/ui/components/form'
-import { Input } from '@workspace/ui/components/input'
-import { useForm } from 'react-hook-form'
+} from "@workspace/ui/components/form";
+import { Input } from "@workspace/ui/components/input";
+import { useForm } from "react-hook-form";
 
 export function SettingsUiAccountFormUpdate({
   item,
   submit,
 }: {
-  item: Account
-  submit: (input: AccountInputUpdate) => Promise<void>
+  item: Account;
+  submit: (input: AccountInputUpdate) => Promise<void>;
 }) {
   const form = useForm<AccountInputUpdate>({
     resolver: standardSchemaResolver(accountSchemaUpdate),
     values: item,
-  })
+  });
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={form.handleSubmit((input) => submit(input))}
+      >
         <FormField
           control={form.control}
           name="name"
@@ -58,5 +61,5 @@ export function SettingsUiAccountFormUpdate({
         </div>
       </form>
     </Form>
-  )
+  );
 }

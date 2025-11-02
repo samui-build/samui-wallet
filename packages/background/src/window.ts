@@ -1,7 +1,7 @@
-import { defineCustomEventMessaging } from '@webext-core/messaging/page'
+import { defineCustomEventMessaging } from "@webext-core/messaging/page";
 
-import type { Schema } from './schema'
+import type { Schema } from "./schema";
 
 export const { onMessage, sendMessage } = defineCustomEventMessaging<Schema>({
-  namespace: 'samui-wallet',
-})
+  namespace: "samui-wallet",
+});

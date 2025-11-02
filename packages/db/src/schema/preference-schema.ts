@@ -1,6 +1,6 @@
-import { z } from 'zod'
+import { z } from "zod";
 
-import { preferenceKeySchema } from './preference-key-schema'
+import { preferenceKeySchema } from "./preference-key-schema";
 
 export const preferenceSchema = z.object({
   createdAt: z.date(),
@@ -8,4 +8,4 @@ export const preferenceSchema = z.object({
   key: preferenceKeySchema,
   updatedAt: z.date(),
   value: z.string(),
-})
+});

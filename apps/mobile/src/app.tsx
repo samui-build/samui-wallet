@@ -1,5 +1,5 @@
-import { StatusBar } from 'expo-status-bar'
-import { Text, View } from 'react-native'
+import { StatusBar } from "expo-status-bar";
+import { Text, View } from "react-native";
 
 export function App() {
   return (
@@ -7,5 +7,5 @@ export function App() {
       <Text>Samui Wallet</Text>
       <StatusBar style="auto" />
     </View>
-  )
+  );
 }

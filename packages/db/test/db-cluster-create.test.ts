@@ -1,73 +1,80 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { dbClusterCreate } from '../src/db-cluster-create'
-import { dbClusterFindMany } from '../src/db-cluster-find-many'
-import { createDbTest, testClusterInputCreate } from './test-helpers'
+import { dbClusterCreate } from "../src/db-cluster-create";
+import { dbClusterFindMany } from "../src/db-cluster-find-many";
+import { createDbTest, testClusterInputCreate } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-cluster-create', () => {
+describe("db-cluster-create", () => {
   beforeEach(async () => {
-    await db.clusters.clear()
-  })
+    await db.clusters.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should create a cluster', async () => {
+  describe("expected behavior", () => {
+    it("should create a cluster", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testClusterInputCreate()
+      expect.assertions(1);
+      const input = testClusterInputCreate();
 
       // ACT
-      await dbClusterCreate(db, input)
+      await dbClusterCreate(db, input);
 
       // ASSERT
-      const items = await dbClusterFindMany(db)
-      expect(items.map((i) => i.name)).toContain(input.name)
-    })
-    it('should create a cluster with a subscription endpoint', async () => {
+      const items = await dbClusterFindMany(db);
+      expect(items.map((i) => i.name)).toContain(input.name);
+    });
+    it("should create a cluster with a subscription endpoint", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testClusterInputCreate({ endpointSubscriptions: 'ws://127.0.0.1:8900' })
+      expect.assertions(1);
+      const input = testClusterInputCreate({
+        endpointSubscriptions: "ws://127.0.0.1:8900",
+      });
 
       // ACT
-      await dbClusterCreate(db, input)
+      await dbClusterCreate(db, input);
 
       // ASSERT
-      const items = await dbClusterFindMany(db)
-      expect(items.map((i) => i.endpointSubscriptions)).toContain(input.endpointSubscriptions)
-    })
-  })
+      const items = await dbClusterFindMany(db);
+      expect(items.map((i) => i.endpointSubscriptions)).toContain(
+        input.endpointSubscriptions,
+      );
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when creating a cluster fails', async () => {
+    it("should throw an error when creating a cluster fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testClusterInputCreate()
-      vi.spyOn(db.clusters, 'add').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
-      )
+      expect.assertions(1);
+      const input = testClusterInputCreate();
+      vi.spyOn(db.clusters, "add").mockImplementationOnce(
+        () =>
+          Promise.reject(new Error("Test error")) as PromiseExtended<string>,
+      );
 
       // ACT & ASSERT
-      await expect(dbClusterCreate(db, input)).rejects.toThrow('Error creating cluster')
-    })
+      await expect(dbClusterCreate(db, input)).rejects.toThrow(
+        "Error creating cluster",
+      );
+    });
 
-    it('should throw an error with an invalid endpoint', async () => {
+    it("should throw an error with an invalid endpoint", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testClusterInputCreate({ endpoint: 'not-a-url' })
+      expect.assertions(1);
+      const input = testClusterInputCreate({ endpoint: "not-a-url" });
 
       // ACT & ASSERT
-      await expect(dbClusterCreate(db, input)).rejects.toThrow()
-    })
-  })
-})
+      await expect(dbClusterCreate(db, input)).rejects.toThrow();
+    });
+  });
+});

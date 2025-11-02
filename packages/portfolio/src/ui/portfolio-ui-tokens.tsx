@@ -1,12 +1,25 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
+import type { Cluster } from "@workspace/db/entity/cluster";
+import type { GetTokenAccountsResult } from "@workspace/solana-client/get-token-accounts";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
-import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table";
+import { ellipsify } from "@workspace/ui/lib/ellipsify";
 
-import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.js'
+import { PortfolioUiExplorerLink } from "./portfolio-ui-explorer-link.js";
 
-export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: GetTokenAccountsResult }) {
+export function AccountUiTokens({
+  cluster,
+  items,
+}: {
+  cluster: Cluster;
+  items: GetTokenAccountsResult;
+}) {
   return items.length === 0 ? (
     <div>No token accounts found.</div>
   ) : (
@@ -44,11 +57,13 @@ export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: G
               </div>
             </TableCell>
             <TableCell className="text-right">
-              <span className="font-mono">{account.data.parsed.info.tokenAmount.uiAmount}</span>
+              <span className="font-mono">
+                {account.data.parsed.info.tokenAmount.uiAmount}
+              </span>
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { config } from '@workspace/config-eslint/react-internal'
-import { defineConfig } from 'eslint/config'
+import { config } from "@workspace/config-eslint/react-internal";
+import { defineConfig } from "eslint/config";
 
 /** @type {import("eslint").Linter.Config} */
 export default defineConfig([
@@ -7,7 +7,7 @@ export default defineConfig([
   {
     rules: {
       // @opentui/react properties not recognised by eslint-plugin-react
-      'react/no-unknown-property': 'off',
+      "react/no-unknown-property": "off",
     },
   },
-])
+]);

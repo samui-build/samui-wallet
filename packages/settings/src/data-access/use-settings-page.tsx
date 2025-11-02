@@ -1,10 +1,10 @@
-import { useSettingsPages } from './use-settings-pages.js'
+import { useSettingsPages } from "./use-settings-pages.js";
 
 export function useSettingsPage({ pageId }: { pageId: string }) {
-  const pages = useSettingsPages()
-  const found = pages.find((item) => item.id === pageId)
+  const pages = useSettingsPages();
+  const found = pages.find((item) => item.id === pageId);
   if (!found) {
-    throw new Error('Page not found')
+    throw new Error("Page not found");
   }
-  return found
+  return found;
 }

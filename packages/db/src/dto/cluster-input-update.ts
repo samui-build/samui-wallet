@@ -1,5 +1,5 @@
-import type { z } from 'zod'
+import type { z } from "zod";
 
-import type { clusterSchemaUpdate } from '../schema/cluster-schema-update'
+import type { clusterSchemaUpdate } from "../schema/cluster-schema-update";
 
-export type ClusterInputUpdate = z.infer<typeof clusterSchemaUpdate>
+export type ClusterInputUpdate = z.infer<typeof clusterSchemaUpdate>;

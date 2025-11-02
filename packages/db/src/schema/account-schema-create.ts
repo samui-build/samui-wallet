@@ -1,4 +1,4 @@
-import { accountSchema } from './account-schema'
+import { accountSchema } from "./account-schema";
 
 export const accountSchemaCreate = accountSchema.omit({
   createdAt: true,
@@ -6,4 +6,4 @@ export const accountSchemaCreate = accountSchema.omit({
   order: true,
   updatedAt: true,
   wallets: true,
-})
+});

@@ -1,5 +1,5 @@
-import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 
 export function OnboardingUiMnemonicWordInput({
   index,
@@ -7,10 +7,10 @@ export function OnboardingUiMnemonicWordInput({
   onPaste,
   value,
 }: {
-  index: number
-  onChange: (index: number, word: string) => void
-  onPaste: (e: DataTransfer, index: number) => void
-  value: string
+  index: number;
+  onChange: (index: number, word: string) => void;
+  onPaste: (e: DataTransfer, index: number) => void;
+  value: string;
 }) {
   return (
     <div className="relative">
@@ -27,13 +27,13 @@ export function OnboardingUiMnemonicWordInput({
         id={`word-${index}`}
         onChange={(event) => onChange(index - 1, event.target.value)}
         onPaste={(event) => {
-          event.preventDefault()
-          onPaste(event.clipboardData, index - 1)
+          event.preventDefault();
+          onPaste(event.clipboardData, index - 1);
         }}
         spellCheck="false"
         type="text"
         value={value}
       />
     </div>
-  )
+  );
 }

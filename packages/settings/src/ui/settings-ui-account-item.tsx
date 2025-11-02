@@ -1,6 +1,6 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from "@workspace/db/entity/account";
 
-import { UiAvatar } from '@workspace/ui/components/ui-avatar'
+import { UiAvatar } from "@workspace/ui/components/ui-avatar";
 
 export function SettingsUiAccountItem({ item }: { item: Account }) {
   return (
@@ -8,5 +8,5 @@ export function SettingsUiAccountItem({ item }: { item: Account }) {
       <UiAvatar label={item.name} />
       {item.name}
     </div>
-  )
+  );
 }

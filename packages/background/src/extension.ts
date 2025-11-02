@@ -1,5 +1,5 @@
-import { defineExtensionMessaging } from '@webext-core/messaging'
+import { defineExtensionMessaging } from "@webext-core/messaging";
 
-import type { Schema } from './schema'
+import type { Schema } from "./schema";
 
-export const { onMessage, sendMessage } = defineExtensionMessaging<Schema>()
+export const { onMessage, sendMessage } = defineExtensionMessaging<Schema>();

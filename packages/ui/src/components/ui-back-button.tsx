@@ -1,8 +1,8 @@
-import { LucideArrowLeft } from 'lucide-react'
-import React from 'react'
-import { Link } from 'react-router'
+import { LucideArrowLeft } from "lucide-react";
+import React from "react";
+import { Link } from "react-router";
 
-import { Button } from './button.js'
+import { Button } from "./button.js";
 
 export function UiBackButton(props: React.ComponentProps<typeof Button>) {
   return (
@@ -11,5 +11,5 @@ export function UiBackButton(props: React.ComponentProps<typeof Button>) {
         <LucideArrowLeft />
       </Link>
     </Button>
-  )
+  );
 }

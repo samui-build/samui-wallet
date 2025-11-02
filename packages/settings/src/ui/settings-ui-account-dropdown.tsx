@@ -1,30 +1,30 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from "@workspace/db/entity/account";
 
-import { Button } from '@workspace/ui/components/button'
+import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@workspace/ui/components/dropdown-menu'
-import { UiAvatar } from '@workspace/ui/components/ui-avatar'
-import { LucideWallet2 } from 'lucide-react'
-import { Link } from 'react-router'
+} from "@workspace/ui/components/dropdown-menu";
+import { UiAvatar } from "@workspace/ui/components/ui-avatar";
+import { LucideWallet2 } from "lucide-react";
+import { Link } from "react-router";
 
-import { SettingsUiAccountItem } from './settings-ui-account-item.js'
+import { SettingsUiAccountItem } from "./settings-ui-account-item.js";
 
 export function SettingsUiAccountDropdown({
   active,
   items,
   setActive,
 }: {
-  active: Account | null
-  items: Account[]
-  setActive: (id: string) => Promise<void>
+  active: Account | null;
+  items: Account[];
+  setActive: (id: string) => Promise<void>;
 }) {
   if (!active) {
-    return null
+    return null;
   }
   return (
     <DropdownMenu>
@@ -39,7 +39,7 @@ export function SettingsUiAccountDropdown({
             disabled={item.id === active?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item.id)
+              await setActive(item.id);
             }}
           >
             <SettingsUiAccountItem item={item} />
@@ -54,5 +54,5 @@ export function SettingsUiAccountDropdown({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

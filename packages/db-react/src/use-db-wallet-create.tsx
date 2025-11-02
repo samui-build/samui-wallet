@@ -1,9 +1,9 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation } from "@tanstack/react-query";
 
-import type { DbWalletCreateMutateOptions } from './db-wallet-options'
+import type { DbWalletCreateMutateOptions } from "./db-wallet-options";
 
-import { dbWalletOptions } from './db-wallet-options'
+import { dbWalletOptions } from "./db-wallet-options";
 
 export function useDbWalletCreate(props: DbWalletCreateMutateOptions = {}) {
-  return useMutation(dbWalletOptions.create(props))
+  return useMutation(dbWalletOptions.create(props));
 }

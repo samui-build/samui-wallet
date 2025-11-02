@@ -1,43 +1,51 @@
-import type { Address } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
+import type { Address } from "@solana/kit";
+import type { Cluster } from "@workspace/db/entity/cluster";
+import type { GetTokenAccountsResult } from "@workspace/solana-client/get-token-accounts";
 
-import { useQuery } from '@tanstack/react-query'
-import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
-import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
-import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { useMemo } from 'react'
+import { useQuery } from "@tanstack/react-query";
+import { useGetBalance } from "@workspace/solana-client-react/use-get-balance";
+import { useGetTokenAccounts } from "@workspace/solana-client-react/use-get-token-accounts";
+import { NATIVE_MINT } from "@workspace/solana-client/constants";
+import { useMemo } from "react";
 
-import { formatBalanceUsd } from './format-balance-usd.js'
-import { formatBalance } from './format-balance.js'
+import { formatBalanceUsd } from "./format-balance-usd.js";
+import { formatBalance } from "./format-balance.js";
 
 export interface TokenBalance {
-  balance: bigint
-  balanceToken?: string
-  balanceUsd?: string
-  decimals: number
-  metadata?: TokenMetadata
-  mint: string
+  balance: bigint;
+  balanceToken?: string;
+  balanceUsd?: string;
+  decimals: number;
+  metadata?: TokenMetadata;
+  mint: string;
 }
 
 export interface TokenMetadata {
-  decimals: number
-  icon: string
-  id: string
-  name: string
-  symbol: string
-  usdPrice: number
+  decimals: number;
+  icon: string;
+  id: string;
+  name: string;
+  symbol: string;
+  usdPrice: number;
 }
 
-export function useGetTokenBalances(props: { address: Address; cluster: Cluster }) {
-  const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance(props)
-  const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
+export function useGetTokenBalances(props: {
+  address: Address;
+  cluster: Cluster;
+}) {
+  const { data: dataBalance, isLoading: isLoadingBalance } =
+    useGetBalance(props);
+  const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } =
+    useGetTokenAccounts(props);
 
   const mints = useMemo(() => {
-    return [NATIVE_MINT, ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint)]
-  }, [dataTokenAccounts])
+    return [
+      NATIVE_MINT,
+      ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint),
+    ];
+  }, [dataTokenAccounts]);
 
-  const metadata = useGetTokenMetadata(mints)
+  const metadata = useGetTokenMetadata(mints);
 
   return isLoadingBalance || isLoadingTokenAccounts
     ? []
@@ -45,23 +53,23 @@ export function useGetTokenBalances(props: { address: Address; cluster: Cluster 
         balance: dataBalance?.value ?? 0n,
         metadata: metadata.data ?? [],
         tokenAccounts: dataTokenAccounts ?? [],
-      })
+      });
 }
 
 export function useGetTokenMetadata(mints: string[]) {
   return useQuery({
     enabled: !!mints.length,
-    networkMode: 'offlineFirst',
+    networkMode: "offlineFirst",
     queryFn: () => getTokenMetadata(mints),
-    queryKey: ['getTokenMetadata', mints],
+    queryKey: ["getTokenMetadata", mints],
     retry: false,
     staleTime: Infinity,
-  })
+  });
 }
 
 async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {
-  const url = new URL('https://lite-api.jup.ag/tokens/v2/search')
-  url.searchParams.append('query', mints.join(','))
+  const url = new URL("https://lite-api.jup.ag/tokens/v2/search");
+  url.searchParams.append("query", mints.join(","));
   return fetch(url)
     .then((res) => res.json())
     .then((items) =>
@@ -69,11 +77,11 @@ async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {
         decimals: i.decimals,
         icon: i.icon,
         id: i.id,
-        name: i.id === NATIVE_MINT ? 'Solana' : i.name,
+        name: i.id === NATIVE_MINT ? "Solana" : i.name,
         symbol: i.symbol,
         usdPrice: i.usdPrice,
       })),
-    )
+    );
 }
 
 function mergeData({
@@ -81,13 +89,13 @@ function mergeData({
   metadata,
   tokenAccounts,
 }: {
-  balance: bigint
-  metadata: TokenMetadata[]
-  tokenAccounts: GetTokenAccountsResult
+  balance: bigint;
+  metadata: TokenMetadata[];
+  tokenAccounts: GetTokenAccountsResult;
 }): TokenBalance[] {
-  const solMint = NATIVE_MINT
-  const solMetadata = metadata.find((m) => m.id === solMint)
-  const solDecimals = solMetadata?.decimals ?? 9
+  const solMint = NATIVE_MINT;
+  const solMetadata = metadata.find((m) => m.id === solMint);
+  const solDecimals = solMetadata?.decimals ?? 9;
   const solBalance: TokenBalance = {
     balance,
     balanceToken: formatBalance({ balance, decimals: solDecimals }),
@@ -99,13 +107,13 @@ function mergeData({
     decimals: solDecimals,
     metadata: solMetadata,
     mint: solMint,
-  }
+  };
 
   const tokenBalances: TokenBalance[] = tokenAccounts.map((account) => {
-    const mint = account.account.data.parsed.info.mint
-    const tokenMetadata = metadata.find((m) => m.id === mint)
-    const balance = BigInt(account.account.data.parsed.info.tokenAmount.amount)
-    const decimals = account.account.data.parsed.info.tokenAmount.decimals
+    const mint = account.account.data.parsed.info.mint;
+    const tokenMetadata = metadata.find((m) => m.id === mint);
+    const balance = BigInt(account.account.data.parsed.info.tokenAmount.amount);
+    const decimals = account.account.data.parsed.info.tokenAmount.decimals;
 
     return {
       balance,
@@ -118,17 +126,19 @@ function mergeData({
       decimals,
       metadata: tokenMetadata,
       mint,
-    }
-  })
+    };
+  });
 
   return [solBalance, ...tokenBalances].sort((a, b) => {
-    const metadataSort = (b.metadata ? 1 : 0) - (a.metadata ? 1 : 0)
+    const metadataSort = (b.metadata ? 1 : 0) - (a.metadata ? 1 : 0);
     if (metadataSort !== 0) {
-      return metadataSort
+      return metadataSort;
     }
-    const aValue = (Number(a.balance) / 10 ** a.decimals) * (a.metadata?.usdPrice ?? 0)
-    const bValue = (Number(b.balance) / 10 ** b.decimals) * (b.metadata?.usdPrice ?? 0)
+    const aValue =
+      (Number(a.balance) / 10 ** a.decimals) * (a.metadata?.usdPrice ?? 0);
+    const bValue =
+      (Number(b.balance) / 10 ** b.decimals) * (b.metadata?.usdPrice ?? 0);
 
-    return bValue - aValue
-  })
+    return bValue - aValue;
+  });
 }

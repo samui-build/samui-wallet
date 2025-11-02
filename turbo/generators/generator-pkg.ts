@@ -1,34 +1,34 @@
-import { PlopTypes } from '@turbo/gen'
-import { validateName } from './helpers'
+import { PlopTypes } from "@turbo/gen";
+import { validateName } from "./helpers";
 
-const TARGET_DIR = 'packages'
-const TEMPLATE_ROOT = 'templates/pkg'
+const TARGET_DIR = "packages";
+const TEMPLATE_ROOT = "templates/pkg";
 
 export const generatorPkg: PlopTypes.PlopGeneratorConfig = {
   description: `Generate a package in the ${TARGET_DIR} directory`,
   prompts: [
     {
-      type: 'list',
-      name: 'type',
-      message: 'What type of package should be created?',
-      choices: ['base', 'react-ui'],
+      type: "list",
+      name: "type",
+      message: "What type of package should be created?",
+      choices: ["base", "react-ui"],
     },
     {
-      type: 'input',
-      name: 'name',
+      type: "input",
+      name: "name",
       default: ({ type }) => type,
-      message: 'What is the name of the package?',
+      message: "What is the name of the package?",
       validate: (input: string) => {
-        return validateName(input)
+        return validateName(input);
       },
     },
   ],
   actions: [
     {
-      type: 'addMany',
+      type: "addMany",
       destination: `{{turbo.paths.root}}/${TARGET_DIR}/{{ dashCase name }}`,
       base: `./${TEMPLATE_ROOT}/{{type}}`,
       templateFiles: `./${TEMPLATE_ROOT}/{{type}}/**/*`,
     },
   ],
-}
+};

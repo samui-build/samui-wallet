@@ -3,24 +3,32 @@ import {
   SolanaSignIn,
   SolanaSignMessage,
   SolanaSignTransaction,
-} from '@solana/wallet-standard-features'
-import { StandardConnect, StandardDisconnect } from '@wallet-standard/core'
-import { isSolanaChain } from '@solana/wallet-standard-chains'
-import { useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
-import { useState } from 'react'
-import { Button } from './components/ui/button'
-import { SignTransaction } from './components/sign-transaction'
-import { Connect } from './components/connect'
-import { Disconnect } from './components/disconnect'
-import { SignAndSendTransaction } from './components/sign-and-send-transaction'
-import { SignMessage } from './components/sign-message'
-import { SignIn } from './components/sign-in'
+} from "@solana/wallet-standard-features";
+import { StandardConnect, StandardDisconnect } from "@wallet-standard/core";
+import { isSolanaChain } from "@solana/wallet-standard-chains";
+import {
+  useWallets,
+  type UiWallet,
+  type UiWalletAccount,
+} from "@wallet-standard/react";
+import { useState } from "react";
+import { Button } from "./components/ui/button";
+import { SignTransaction } from "./components/sign-transaction";
+import { Connect } from "./components/connect";
+import { Disconnect } from "./components/disconnect";
+import { SignAndSendTransaction } from "./components/sign-and-send-transaction";
+import { SignMessage } from "./components/sign-message";
+import { SignIn } from "./components/sign-in";
 
 export function App() {
-  const wallets = useWallets()
-  const solanaWallets = wallets.filter(({ chains }) => chains.some((chain) => isSolanaChain(chain)))
-  const [wallet, setWallet] = useState<UiWallet | undefined>(undefined)
-  const [account, setAccount] = useState<UiWalletAccount | undefined>(undefined)
+  const wallets = useWallets();
+  const solanaWallets = wallets.filter(({ chains }) =>
+    chains.some((chain) => isSolanaChain(chain)),
+  );
+  const [wallet, setWallet] = useState<UiWallet | undefined>(undefined);
+  const [account, setAccount] = useState<UiWalletAccount | undefined>(
+    undefined,
+  );
 
   return (
     <div className="min-h-screen bg-black p-8 text-white">
@@ -39,54 +47,76 @@ export function App() {
               switch (feature) {
                 case StandardConnect: {
                   if (account) {
-                    return null
+                    return null;
                   }
 
-                  return <Connect key={feature} wallet={wallet} setAccount={setAccount} />
+                  return (
+                    <Connect
+                      key={feature}
+                      wallet={wallet}
+                      setAccount={setAccount}
+                    />
+                  );
                 }
 
                 case StandardDisconnect: {
                   if (!account) {
-                    return null
+                    return null;
                   }
 
-                  return <Disconnect key={feature} wallet={wallet} setAccount={setAccount} />
+                  return (
+                    <Disconnect
+                      key={feature}
+                      wallet={wallet}
+                      setAccount={setAccount}
+                    />
+                  );
                 }
 
                 case SolanaSignAndSendTransaction: {
                   if (!account) {
-                    return null
+                    return null;
                   }
 
-                  return <SignAndSendTransaction key={feature} account={account} />
+                  return (
+                    <SignAndSendTransaction key={feature} account={account} />
+                  );
                 }
 
                 case SolanaSignTransaction: {
                   if (!account) {
-                    return null
+                    return null;
                   }
 
-                  return <SignTransaction key={feature} account={account} />
+                  return <SignTransaction key={feature} account={account} />;
                 }
 
                 case SolanaSignMessage: {
                   if (!account) {
-                    return null
+                    return null;
                   }
 
-                  return <SignMessage key={feature} wallet={wallet} account={account} />
+                  return (
+                    <SignMessage
+                      key={feature}
+                      wallet={wallet}
+                      account={account}
+                    />
+                  );
                 }
 
                 case SolanaSignIn: {
                   if (!account) {
-                    return null
+                    return null;
                   }
 
-                  return <SignIn key={feature} wallet={wallet} account={account} />
+                  return (
+                    <SignIn key={feature} wallet={wallet} account={account} />
+                  );
                 }
 
                 default:
-                  return null
+                  return null;
               }
             })}
           </div>
@@ -96,7 +126,13 @@ export function App() {
               <div className="flex flex-col gap-4">
                 {solanaWallets.map((wallet) => (
                   <Button key={wallet.name} onClick={() => setWallet(wallet)}>
-                    {wallet.icon && <img src={wallet.icon} alt={wallet.name} className="size-5" />}
+                    {wallet.icon && (
+                      <img
+                        src={wallet.icon}
+                        alt={wallet.name}
+                        className="size-5"
+                      />
+                    )}
                     <span className="text-left">{wallet.name}</span>
                   </Button>
                 ))}
@@ -108,5 +144,5 @@ export function App() {
         )}
       </div>
     </div>
-  )
+  );
 }

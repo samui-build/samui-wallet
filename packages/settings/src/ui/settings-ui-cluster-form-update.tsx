@@ -1,10 +1,10 @@
-import type { ClusterInputUpdate } from '@workspace/db/dto/cluster-input-update'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { ClusterInputUpdate } from "@workspace/db/dto/cluster-input-update";
+import type { Cluster } from "@workspace/db/entity/cluster";
 
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { dbClusterTypeOptions } from '@workspace/db/db-cluster-type-options'
-import { clusterSchemaUpdate } from '@workspace/db/schema/cluster-schema-update'
-import { Button } from '@workspace/ui/components/button'
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { dbClusterTypeOptions } from "@workspace/db/db-cluster-type-options";
+import { clusterSchemaUpdate } from "@workspace/db/schema/cluster-schema-update";
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -13,28 +13,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@workspace/ui/components/form'
-import { Input } from '@workspace/ui/components/input'
-import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
-import { useForm } from 'react-hook-form'
+} from "@workspace/ui/components/form";
+import { Input } from "@workspace/ui/components/input";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@workspace/ui/components/toggle-group";
+import { useForm } from "react-hook-form";
 
-import { SettingsUiClusterWarningMainnet } from './settings-ui-cluster-warning-mainnet.js'
+import { SettingsUiClusterWarningMainnet } from "./settings-ui-cluster-warning-mainnet.js";
 
 export function SettingsUiClusterFormUpdate({
   item,
   submit,
 }: {
-  item: Cluster
-  submit: (input: ClusterInputUpdate) => Promise<void>
+  item: Cluster;
+  submit: (input: ClusterInputUpdate) => Promise<void>;
 }) {
   const form = useForm<ClusterInputUpdate>({
     resolver: standardSchemaResolver(clusterSchemaUpdate),
     values: item,
-  })
+  });
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={form.handleSubmit((input) => submit(input))}
+      >
         <FormItem className="flex flex-col gap-2 w-full py-1">
           <FormLabel>Cluster</FormLabel>
           <FormControl>
@@ -46,13 +52,19 @@ export function SettingsUiClusterFormUpdate({
               variant="outline"
             >
               {dbClusterTypeOptions.map(({ label, value }) => (
-                <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
-                  {label.replace('Solana ', '')}
+                <ToggleGroupItem
+                  className="flex items-center gap-x-2"
+                  key={value}
+                  value={value}
+                >
+                  {label.replace("Solana ", "")}
                 </ToggleGroupItem>
               ))}
             </ToggleGroup>
           </FormControl>
-          <FormDescription>You can&#39;t change the type of cluster after you created it.</FormDescription>
+          <FormDescription>
+            You can&#39;t change the type of cluster after you created it.
+          </FormDescription>
           <FormMessage />
           <SettingsUiClusterWarningMainnet type={item.type} />
         </FormItem>
@@ -90,7 +102,9 @@ export function SettingsUiClusterFormUpdate({
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the cluster endpoint for subscriptions</FormDescription>
+              <FormDescription>
+                Provide the cluster endpoint for subscriptions
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -123,5 +137,5 @@ export function SettingsUiClusterFormUpdate({
         </div>
       </form>
     </Form>
-  )
+  );
 }

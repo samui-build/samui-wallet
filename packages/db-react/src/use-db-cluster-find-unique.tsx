@@ -1,7 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from "@tanstack/react-query";
 
-import { dbClusterOptions } from './db-cluster-options'
+import { dbClusterOptions } from "./db-cluster-options";
 
 export function useDbClusterFindUnique({ id }: { id: string }) {
-  return useQuery(dbClusterOptions.findUnique(id))
+  return useQuery(dbClusterOptions.findUnique(id));
 }

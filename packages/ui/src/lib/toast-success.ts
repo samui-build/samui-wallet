@@ -1,5 +1,5 @@
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 export function toastSuccess(message: string) {
-  toast.success(message)
+  toast.success(message);
 }

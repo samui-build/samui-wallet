@@ -1,6 +1,6 @@
-import { Button } from '@workspace/ui/components/button'
-import { UiCard } from '@workspace/ui/components/ui-card'
-import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { Button } from "@workspace/ui/components/button";
+import { UiCard } from "@workspace/ui/components/ui-card";
+import { toastSuccess } from "@workspace/ui/lib/toast-success";
 
 export default function DevFeatureScratchPad() {
   return (
@@ -8,7 +8,7 @@ export default function DevFeatureScratchPad() {
       action={
         <Button
           onClick={() => {
-            toastSuccess('Success')
+            toastSuccess("Success");
           }}
           variant="outline"
         >
@@ -20,5 +20,5 @@ export default function DevFeatureScratchPad() {
     >
       <div className="space-y-6">Start here</div>
     </UiCard>
-  )
+  );
 }

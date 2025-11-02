@@ -1,10 +1,10 @@
-import { cn } from '@workspace/ui/lib/utils'
-import { LucideChevronRight } from 'lucide-react'
-import { NavLink } from 'react-router'
+import { cn } from "@workspace/ui/lib/utils";
+import { LucideChevronRight } from "lucide-react";
+import { NavLink } from "react-router";
 
-import type { SettingsPage } from '../data-access/settings-page.js'
+import type { SettingsPage } from "../data-access/settings-page.js";
 
-import { SettingsUiPageHeader } from './settings-ui-page-header.js'
+import { SettingsUiPageHeader } from "./settings-ui-page-header.js";
 
 export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
   return (
@@ -12,8 +12,8 @@ export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
       <NavLink
         className={({ isActive }) =>
           cn(`p-4 flex justify-between rounded-xl border border-primary/10`, {
-            'font-bold text-white': isActive,
-            'text-muted-foreground': !isActive,
+            "font-bold text-white": isActive,
+            "text-muted-foreground": !isActive,
           })
         }
         to={`/settings/${page.id}`}
@@ -22,5 +22,5 @@ export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
         <LucideChevronRight />
       </NavLink>
     </div>
-  )
+  );
 }

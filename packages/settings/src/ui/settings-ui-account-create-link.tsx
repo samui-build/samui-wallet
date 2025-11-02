@@ -1,15 +1,21 @@
-import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
-import { ChevronRightIcon } from 'lucide-react'
-import { Link } from 'react-router'
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@workspace/ui/components/item";
+import { ChevronRightIcon } from "lucide-react";
+import { Link } from "react-router";
 
 export function SettingsUiAccountCreateLink({
   description,
   title,
   to,
 }: {
-  description: string
-  title: string
-  to: string
+  description: string;
+  title: string;
+  to: string;
 }) {
   return (
     <Item asChild variant="outline">
@@ -23,5 +29,5 @@ export function SettingsUiAccountCreateLink({
         </ItemActions>
       </Link>
     </Item>
-  )
+  );
 }

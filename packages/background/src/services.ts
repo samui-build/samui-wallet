@@ -1,9 +1,9 @@
-import { registerDbService } from './services/db'
-import { registerRequestService } from './services/request'
-import { registerSignService } from './services/sign'
+import { registerDbService } from "./services/db";
+import { registerRequestService } from "./services/request";
+import { registerSignService } from "./services/sign";
 
 export function services() {
-  registerDbService()
-  registerRequestService()
-  registerSignService()
+  registerDbService();
+  registerRequestService();
+  registerSignService();
 }

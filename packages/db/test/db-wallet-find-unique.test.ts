@@ -1,55 +1,60 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type { Wallet } from '../src/entity/wallet'
+import type { Wallet } from "../src/entity/wallet";
 
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { createDbTest, testWalletInputCreate } from './test-helpers'
+import { dbWalletCreate } from "../src/db-wallet-create";
+import { dbWalletFindUnique } from "../src/db-wallet-find-unique";
+import { createDbTest, testWalletInputCreate } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-wallet-find-unique', () => {
+describe("db-wallet-find-unique", () => {
   beforeEach(async () => {
-    await db.wallets.clear()
-  })
+    await db.wallets.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should find a unique wallet', async () => {
+  describe("expected behavior", () => {
+    it("should find a unique wallet", async () => {
       // ARRANGE
-      expect.assertions(2)
-      const input = testWalletInputCreate({ accountId: crypto.randomUUID() })
-      const id = await dbWalletCreate(db, input)
+      expect.assertions(2);
+      const input = testWalletInputCreate({ accountId: crypto.randomUUID() });
+      const id = await dbWalletCreate(db, input);
 
       // ACT
-      const item = await dbWalletFindUnique(db, id)
+      const item = await dbWalletFindUnique(db, id);
 
       // ASSERT
-      expect(item).toBeDefined()
-      expect(item?.name).toBe(input.name)
-    })
-  })
+      expect(item).toBeDefined();
+      expect(item?.name).toBe(input.name);
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when finding a unique wallet fails', async () => {
+    it("should throw an error when finding a unique wallet fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.wallets, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<undefined | Wallet>,
-      )
+      expect.assertions(1);
+      const id = "test-id";
+      vi.spyOn(db.wallets, "get").mockImplementationOnce(
+        () =>
+          Promise.reject(new Error("Test error")) as PromiseExtended<
+            undefined | Wallet
+          >,
+      );
 
       // ACT & ASSERT
-      await expect(dbWalletFindUnique(db, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
-    })
-  })
-})
+      await expect(dbWalletFindUnique(db, id)).rejects.toThrow(
+        `Error finding wallet with id ${id}`,
+      );
+    });
+  });
+});

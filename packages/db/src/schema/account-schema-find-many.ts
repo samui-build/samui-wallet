@@ -1,3 +1,5 @@
-import { accountSchema } from './account-schema'
+import { accountSchema } from "./account-schema";
 
-export const accountSchemaFindMany = accountSchema.pick({ id: true, name: true }).partial()
+export const accountSchemaFindMany = accountSchema
+  .pick({ id: true, name: true })
+  .partial();

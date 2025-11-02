@@ -1,34 +1,34 @@
-import { useGetSolanaClusterFromGenesisHash } from '@workspace/solana-client-react/use-get-solana-cluster-from-genesis-hash'
-import { Button } from '@workspace/ui/components/button'
-import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
-import { UiCard } from '@workspace/ui/components/ui-card'
-import { useState } from 'react'
+import { useGetSolanaClusterFromGenesisHash } from "@workspace/solana-client-react/use-get-solana-cluster-from-genesis-hash";
+import { Button } from "@workspace/ui/components/button";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import { UiCard } from "@workspace/ui/components/ui-card";
+import { useState } from "react";
 
 export default function DevFeatureSolana() {
   return (
     <div className="space-y-6">
       <DevGenesisHash />
     </div>
-  )
+  );
 }
 
 function DevGenesisHash() {
-  const mutation = useGetSolanaClusterFromGenesisHash()
-  const [endpoint, setEndpoint] = useState<string>('')
+  const mutation = useGetSolanaClusterFromGenesisHash();
+  const [endpoint, setEndpoint] = useState<string>("");
 
   const options = [
-    'https://api.devnet.solana.com',
-    'http://localhost:8899',
-    'https://api.mainnet-beta.solana.com',
-    'https://api.testnet.solana.com',
-  ]
+    "https://api.devnet.solana.com",
+    "http://localhost:8899",
+    "https://api.mainnet-beta.solana.com",
+    "https://api.testnet.solana.com",
+  ];
 
   async function submit() {
     if (!endpoint.length) {
-      return
+      return;
     }
-    await mutation.mutateAsync(endpoint)
+    await mutation.mutateAsync(endpoint);
   }
 
   return (
@@ -36,7 +36,11 @@ function DevGenesisHash() {
       <div className="space-y-2">
         <div className="space-x-2 space-y-2">
           {options.map((option) => (
-            <Button key={option} onClick={() => setEndpoint(option)} variant="outline">
+            <Button
+              key={option}
+              onClick={() => setEndpoint(option)}
+              variant="outline"
+            >
               {option}
             </Button>
           ))}
@@ -47,7 +51,7 @@ function DevGenesisHash() {
             disabled={mutation.isPending}
             id="endpoint"
             onChange={(e) => {
-              setEndpoint(e.target.value)
+              setEndpoint(e.target.value);
             }}
             type="url"
             value={endpoint}
@@ -69,5 +73,5 @@ function DevGenesisHash() {
         )}
       </pre>
     </UiCard>
-  )
+  );
 }

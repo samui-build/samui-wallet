@@ -1,29 +1,38 @@
-import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { Button } from '@workspace/ui/components/button'
-import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
-import { Input } from '@workspace/ui/components/input'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
-import { useMemo, useState } from 'react'
+import { NATIVE_MINT } from "@workspace/solana-client/constants";
+import { Button } from "@workspace/ui/components/button";
+import {
+  Field,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@workspace/ui/components/field";
+import { Input } from "@workspace/ui/components/input";
+import { UiLoader } from "@workspace/ui/components/ui-loader";
+import { useMemo, useState } from "react";
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from "../data-access/use-get-token-metadata.js";
 
-import { PortfolioUiWalletFormTokenDropdown } from './portfolio-ui-wallet-form-token-dropdown.js'
+import { PortfolioUiWalletFormTokenDropdown } from "./portfolio-ui-wallet-form-token-dropdown.js";
 
 export function PortfolioUiWalletFormSend({
   balances,
   isLoading,
   send,
 }: {
-  balances: TokenBalance[]
-  isLoading: boolean
-  send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
+  balances: TokenBalance[];
+  isLoading: boolean;
+  send: (input: {
+    amount: string;
+    destination: string;
+    mint: TokenBalance;
+  }) => Promise<void>;
 }) {
-  const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
-  const [amount, setAmount] = useState('0')
-  const [destination, setDestination] = useState('')
+  const [mintAddress, setMintAddress] = useState(NATIVE_MINT);
+  const [amount, setAmount] = useState("0");
+  const [destination, setDestination] = useState("");
   const mint = useMemo(() => {
-    return balances.find((item) => item.mint === mintAddress)
-  }, [balances, mintAddress])
+    return balances.find((item) => item.mint === mintAddress);
+  }, [balances, mintAddress]);
 
   return (
     <div className="w-full max-w-md md:px-4">
@@ -67,11 +76,11 @@ export function PortfolioUiWalletFormSend({
             <Button
               disabled={!mint || !amount || !destination || isLoading}
               onClick={async (e) => {
-                e.preventDefault()
+                e.preventDefault();
                 if (!mint) {
-                  return
+                  return;
                 }
-                await send({ amount, destination, mint })
+                await send({ amount, destination, mint });
               }}
               type="button"
             >
@@ -82,5 +91,5 @@ export function PortfolioUiWalletFormSend({
         </FieldGroup>
       </form>
     </div>
-  )
+  );
 }

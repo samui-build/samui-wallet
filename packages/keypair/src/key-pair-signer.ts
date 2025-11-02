@@ -1,3 +1,3 @@
-import type { KeyPairSigner } from '@solana/kit'
+import type { KeyPairSigner } from "@solana/kit";
 
-export type { KeyPairSigner }
+export type { KeyPairSigner };

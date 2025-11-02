@@ -1,54 +1,56 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountDelete } from '../src/db-account-delete'
-import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, testAccountInputCreate } from './test-helpers'
+import { dbAccountCreate } from "../src/db-account-create";
+import { dbAccountDelete } from "../src/db-account-delete";
+import { dbAccountFindUnique } from "../src/db-account-find-unique";
+import { createDbTest, testAccountInputCreate } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-account-delete', () => {
+describe("db-account-delete", () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-  })
+    await db.accounts.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should delete an account', async () => {
+  describe("expected behavior", () => {
+    it("should delete an account", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testAccountInputCreate()
-      const id = await dbAccountCreate(db, input)
+      expect.assertions(1);
+      const input = testAccountInputCreate();
+      const id = await dbAccountCreate(db, input);
 
       // ACT
-      await dbAccountDelete(db, id)
+      await dbAccountDelete(db, id);
 
       // ASSERT
-      const deletedItem = await dbAccountFindUnique(db, id)
-      expect(deletedItem).toBeNull()
-    })
-  })
+      const deletedItem = await dbAccountFindUnique(db, id);
+      expect(deletedItem).toBeNull();
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when deleting an account fails', async () => {
+    it("should throw an error when deleting an account fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.accounts, 'delete').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<void>,
-      )
+      expect.assertions(1);
+      const id = "test-id";
+      vi.spyOn(db.accounts, "delete").mockImplementationOnce(
+        () => Promise.reject(new Error("Test error")) as PromiseExtended<void>,
+      );
 
       // ACT & ASSERT
-      await expect(dbAccountDelete(db, id)).rejects.toThrow(`Error deleting account with id ${id}`)
-    })
-  })
-})
+      await expect(dbAccountDelete(db, id)).rejects.toThrow(
+        `Error deleting account with id ${id}`,
+      );
+    });
+  });
+});

@@ -1,30 +1,30 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Cluster } from "@workspace/db/entity/cluster";
 
-import { Button } from '@workspace/ui/components/button'
+import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@workspace/ui/components/dropdown-menu'
-import { LucideNetwork } from 'lucide-react'
-import { Link } from 'react-router'
+} from "@workspace/ui/components/dropdown-menu";
+import { LucideNetwork } from "lucide-react";
+import { Link } from "react-router";
 
 export function SettingsUiClusterDropdown({
   activeCluster,
   items,
   setActive,
 }: {
-  activeCluster: Cluster | undefined
-  items: Cluster[]
-  setActive: (id: string) => Promise<void>
+  activeCluster: Cluster | undefined;
+  items: Cluster[];
+  setActive: (id: string) => Promise<void>;
 }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <LucideNetwork /> {activeCluster?.name ?? 'Select Cluster'}
+          <LucideNetwork /> {activeCluster?.name ?? "Select Cluster"}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">
@@ -33,7 +33,7 @@ export function SettingsUiClusterDropdown({
             disabled={item.id === activeCluster?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item.id)
+              await setActive(item.id);
             }}
           >
             {item.name}
@@ -45,5 +45,5 @@ export function SettingsUiClusterDropdown({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

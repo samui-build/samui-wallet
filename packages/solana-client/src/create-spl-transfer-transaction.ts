@@ -1,7 +1,15 @@
-import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
+import type {
+  Address,
+  Blockhash,
+  Instruction,
+  TransactionSigner,
+} from "@solana/kit";
 
-import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-import { getCreateAssociatedTokenInstruction, getTransferCheckedInstruction } from '@solana-program/token'
+import { TOKEN_PROGRAM_ADDRESS } from "@solana-program/token";
+import {
+  getCreateAssociatedTokenInstruction,
+  getTransferCheckedInstruction,
+} from "@solana-program/token";
 import {
   address,
   appendTransactionMessageInstructions,
@@ -11,11 +19,11 @@ import {
   pipe,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
-} from '@solana/kit'
+} from "@solana/kit";
 
 export interface LatestBlockhash {
-  blockhash: Blockhash
-  lastValidBlockHeight: bigint
+  blockhash: Blockhash;
+  lastValidBlockHeight: bigint;
 }
 
 export function createSplTransferTransaction({
@@ -31,28 +39,28 @@ export function createSplTransferTransaction({
   sourceTokenAccount,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: {
-  amount: string
-  decimals: number
-  destination: Address | string
-  destinationTokenAccount: Address | string
-  destinationTokenAccountExists?: boolean
-  latestBlockhash: LatestBlockhash
-  mint: Address | string
-  sender: TransactionSigner
-  source?: TransactionSigner
-  sourceTokenAccount: Address | string
-  tokenProgram?: Address | string
+  amount: string;
+  decimals: number;
+  destination: Address | string;
+  destinationTokenAccount: Address | string;
+  destinationTokenAccountExists?: boolean;
+  latestBlockhash: LatestBlockhash;
+  mint: Address | string;
+  sender: TransactionSigner;
+  source?: TransactionSigner;
+  sourceTokenAccount: Address | string;
+  tokenProgram?: Address | string;
 }) {
-  assertIsAddress(mint)
-  assertIsAddress(sourceTokenAccount)
-  assertIsAddress(destinationTokenAccount)
-  assertIsAddress(destination)
-  assertIsKeyPairSigner(sender)
+  assertIsAddress(mint);
+  assertIsAddress(sourceTokenAccount);
+  assertIsAddress(destinationTokenAccount);
+  assertIsAddress(destination);
+  assertIsKeyPairSigner(sender);
   if (source) {
-    assertIsKeyPairSigner(source)
+    assertIsKeyPairSigner(source);
   }
 
-  const instructions: Instruction[] = []
+  const instructions: Instruction[] = [];
   if (!destinationTokenAccountExists) {
     instructions.push(
       getCreateAssociatedTokenInstruction({
@@ -62,7 +70,7 @@ export function createSplTransferTransaction({
         payer: sender,
         tokenProgram: address(tokenProgram),
       }),
-    )
+    );
   }
 
   const transferInstruction = getTransferCheckedInstruction(
@@ -77,14 +85,14 @@ export function createSplTransferTransaction({
     {
       programAddress: address(tokenProgram),
     },
-  )
+  );
 
-  instructions.push(transferInstruction)
+  instructions.push(transferInstruction);
 
   return pipe(
     createTransactionMessage({ version: 0 }),
     (tx) => setTransactionMessageFeePayerSigner(sender, tx),
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
     (tx) => appendTransactionMessageInstructions(instructions, tx),
-  )
+  );
 }

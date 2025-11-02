@@ -1,15 +1,21 @@
-import type { ComponentProps, ReactElement, ReactNode } from 'react'
+import type { ComponentProps, ReactElement, ReactNode } from "react";
 
-import { Suspense } from 'react'
-import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
+import { Suspense } from "react";
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router";
 
-import { Tabs, TabsList, TabsTrigger } from './tabs.js'
-import { UiLoader } from './ui-loader.js'
+import { Tabs, TabsList, TabsTrigger } from "./tabs.js";
+import { UiLoader } from "./ui-loader.js";
 
 export interface UiTabRoute {
-  element: ReactNode
-  label: ReactElement | string
-  path: string
+  element: ReactNode;
+  label: ReactElement | string;
+  path: string;
 }
 
 export function UiTabRoutes({
@@ -17,15 +23,20 @@ export function UiTabRoutes({
   tabs,
   ...props
 }: {
-  basePath: string
-  tabs: UiTabRoute[]
-} & Omit<ComponentProps<typeof Tabs>, 'activationMode' | 'children' | 'onValueChange' | 'value'>) {
-  const navigate = useNavigate()
-  const location = useLocation()
+  basePath: string;
+  tabs: UiTabRoute[];
+} & Omit<
+  ComponentProps<typeof Tabs>,
+  "activationMode" | "children" | "onValueChange" | "value"
+>) {
+  const navigate = useNavigate();
+  const location = useLocation();
   // Set the active tab based on matching the location pathname with the tab path
-  const activeTab = tabs.find((tab) => location.pathname.startsWith(`${basePath}/${tab.path}`))?.path
+  const activeTab = tabs.find((tab) =>
+    location.pathname.startsWith(`${basePath}/${tab.path}`),
+  )?.path;
   // Set default redirect route to the first tab
-  const redirect = tabs[0]?.path !== '' ? tabs[0]?.path : undefined
+  const redirect = tabs[0]?.path !== "" ? tabs[0]?.path : undefined;
 
   return (
     <>
@@ -45,13 +56,19 @@ export function UiTabRoutes({
       </Tabs>
       <Suspense fallback={<UiLoader />}>
         <Routes>
-          {redirect ? <Route element={<Navigate replace to={`./${redirect}`} />} index /> : null}
+          {redirect ? (
+            <Route element={<Navigate replace to={`./${redirect}`} />} index />
+          ) : null}
           {tabs.map((tab) => (
-            <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
+            <Route
+              element={tab.element}
+              key={tab.path}
+              path={`${tab.path}/*`}
+            />
           ))}
           <Route element={<Navigate replace to={`./${redirect}`} />} path="*" />
         </Routes>
       </Suspense>
     </>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-import { z } from 'zod'
+import { z } from "zod";
 
-import { clusterTypeSchema } from './cluster-type-schema'
+import { clusterTypeSchema } from "./cluster-type-schema";
 
 export const clusterSchema = z.object({
   createdAt: z.date(),
@@ -10,4 +10,4 @@ export const clusterSchema = z.object({
   name: z.string(),
   type: clusterTypeSchema,
   updatedAt: z.date(),
-})
+});

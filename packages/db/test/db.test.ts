@@ -1,16 +1,16 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from "vitest";
 
-import { createDbTest } from './test-helpers'
+import { createDbTest } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db', () => {
-  it('should have the expected tables', () => {
+describe("db", () => {
+  it("should have the expected tables", () => {
     // ARRANGE
-    expect.assertions(1)
+    expect.assertions(1);
     // ACT
-    const results = db.tables.map((t) => t.name)
+    const results = db.tables.map((t) => t.name);
     // ASSERT
-    expect(results).toEqual(['accounts', 'clusters', 'preferences', 'wallets'])
-  })
-})
+    expect(results).toEqual(["accounts", "clusters", "preferences", "wallets"]);
+  });
+});

@@ -1,9 +1,9 @@
-import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
+import type { AccountInputCreate } from "@workspace/db/dto/account-input-create";
 
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { accountSchemaCreate } from '@workspace/db/schema/account-schema-create'
-import { derivationPaths } from '@workspace/keypair/derivation-paths'
-import { Button } from '@workspace/ui/components/button'
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { accountSchemaCreate } from "@workspace/db/schema/account-schema-create";
+import { derivationPaths } from "@workspace/keypair/derivation-paths";
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,18 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@workspace/ui/components/form'
-import { Input } from '@workspace/ui/components/input'
-import { useForm } from 'react-hook-form'
+} from "@workspace/ui/components/form";
+import { Input } from "@workspace/ui/components/input";
+import { useForm } from "react-hook-form";
 
 export function SettingsUiAccountFormGenerate({
   mnemonic,
   name,
   submit,
 }: {
-  mnemonic: string
-  name: string
-  submit: (input: AccountInputCreate) => Promise<void>
+  mnemonic: string;
+  name: string;
+  submit: (input: AccountInputCreate) => Promise<void>;
 }) {
   const form = useForm<AccountInputCreate>({
     resolver: standardSchemaResolver(accountSchemaCreate),
@@ -31,13 +31,16 @@ export function SettingsUiAccountFormGenerate({
       derivationPath: derivationPaths.default,
       mnemonic,
       name,
-      secret: '',
+      secret: "",
     },
-  })
+  });
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={form.handleSubmit((input) => submit(input))}
+      >
         <FormField
           control={form.control}
           name="name"
@@ -73,7 +76,9 @@ export function SettingsUiAccountFormGenerate({
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the derivation path of the account</FormDescription>
+              <FormDescription>
+                Provide the derivation path of the account
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -93,7 +98,9 @@ export function SettingsUiAccountFormGenerate({
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the mnemonic of the account</FormDescription>
+              <FormDescription>
+                Provide the mnemonic of the account
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -104,5 +111,5 @@ export function SettingsUiAccountFormGenerate({
         </div>
       </form>
     </Form>
-  )
+  );
 }

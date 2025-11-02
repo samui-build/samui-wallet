@@ -1,9 +1,9 @@
-import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
+import type { AccountInputCreate } from "@workspace/db/dto/account-input-create";
 
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { accountSchemaCreate } from '@workspace/db/schema/account-schema-create'
-import { derivationPaths } from '@workspace/keypair/derivation-paths'
-import { Button } from '@workspace/ui/components/button'
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { accountSchemaCreate } from "@workspace/db/schema/account-schema-create";
+import { derivationPaths } from "@workspace/keypair/derivation-paths";
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,34 +12,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@workspace/ui/components/form'
-import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
-import { Switch } from '@workspace/ui/components/switch'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+} from "@workspace/ui/components/form";
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
+import { Switch } from "@workspace/ui/components/switch";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 export function SettingsUiAccountFormImport({
   name,
   submit,
 }: {
-  name: string
-  submit: (input: AccountInputCreate, redirect: boolean) => Promise<void>
+  name: string;
+  submit: (input: AccountInputCreate, redirect: boolean) => Promise<void>;
 }) {
-  const [redirect, setRedirect] = useState(true)
+  const [redirect, setRedirect] = useState(true);
   const form = useForm<AccountInputCreate>({
     resolver: standardSchemaResolver(accountSchemaCreate),
     values: {
       derivationPath: derivationPaths.default,
-      mnemonic: '',
+      mnemonic: "",
       name,
-      secret: '',
+      secret: "",
     },
-  })
+  });
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input, redirect))}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={form.handleSubmit((input) => submit(input, redirect))}
+      >
         <FormField
           control={form.control}
           name="name"
@@ -74,7 +77,9 @@ export function SettingsUiAccountFormImport({
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the mnemonic of the account</FormDescription>
+              <FormDescription>
+                Provide the mnemonic of the account
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -82,12 +87,16 @@ export function SettingsUiAccountFormImport({
         />
         <div className="flex justify-end items-center w-full pt-3 gap-4">
           <div className="flex items-center space-x-2">
-            <Switch checked={redirect} id="redirect" onCheckedChange={setRedirect} />
+            <Switch
+              checked={redirect}
+              id="redirect"
+              onCheckedChange={setRedirect}
+            />
             <Label htmlFor="redirect">Redirect after import</Label>
           </div>
           <Button size="lg">Import</Button>
         </div>
       </form>
     </Form>
-  )
+  );
 }

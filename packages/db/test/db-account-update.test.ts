@@ -1,56 +1,63 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { dbAccountUpdate } from '../src/db-account-update'
-import { createDbTest, randomName, testAccountInputCreate } from './test-helpers'
+import { dbAccountCreate } from "../src/db-account-create";
+import { dbAccountFindUnique } from "../src/db-account-find-unique";
+import { dbAccountUpdate } from "../src/db-account-update";
+import {
+  createDbTest,
+  randomName,
+  testAccountInputCreate,
+} from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-account-update', () => {
+describe("db-account-update", () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-  })
+    await db.accounts.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should update an account', async () => {
+  describe("expected behavior", () => {
+    it("should update an account", async () => {
       // ARRANGE
-      expect.assertions(2)
-      const input = testAccountInputCreate()
-      const id = await dbAccountCreate(db, input)
-      const newName = randomName('newName')
+      expect.assertions(2);
+      const input = testAccountInputCreate();
+      const id = await dbAccountCreate(db, input);
+      const newName = randomName("newName");
 
       // ACT
-      await dbAccountUpdate(db, id, { name: newName })
+      await dbAccountUpdate(db, id, { name: newName });
 
       // ASSERT
-      const updatedItem = await dbAccountFindUnique(db, id)
-      expect(updatedItem).toBeDefined()
-      expect(updatedItem?.name).toBe(newName)
-    })
-  })
+      const updatedItem = await dbAccountFindUnique(db, id);
+      expect(updatedItem).toBeDefined();
+      expect(updatedItem?.name).toBe(newName);
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when updating an account fails', async () => {
+    it("should throw an error when updating an account fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.accounts, 'update').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<number>,
-      )
+      expect.assertions(1);
+      const id = "test-id";
+      vi.spyOn(db.accounts, "update").mockImplementationOnce(
+        () =>
+          Promise.reject(new Error("Test error")) as PromiseExtended<number>,
+      );
 
       // ACT & ASSERT
-      await expect(dbAccountUpdate(db, id, {})).rejects.toThrow(`Error updating account with id ${id}`)
-    })
-  })
-})
+      await expect(dbAccountUpdate(db, id, {})).rejects.toThrow(
+        `Error updating account with id ${id}`,
+      );
+    });
+  });
+});

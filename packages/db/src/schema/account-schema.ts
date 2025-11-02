@@ -1,6 +1,6 @@
-import { z } from 'zod'
+import { z } from "zod";
 
-import { walletSchema } from './wallet-schema'
+import { walletSchema } from "./wallet-schema";
 
 export const accountSchema = z.object({
   createdAt: z.date(),
@@ -12,4 +12,4 @@ export const accountSchema = z.object({
   secret: z.string(),
   updatedAt: z.date(),
   wallets: z.array(walletSchema).optional().default([]),
-})
+});

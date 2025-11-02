@@ -1,12 +1,13 @@
-import { UiAvatar } from '@workspace/ui/components/ui-avatar'
-import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import { UiAvatar } from "@workspace/ui/components/ui-avatar";
+import { ellipsify } from "@workspace/ui/lib/ellipsify";
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from "../data-access/use-get-token-metadata.js";
 
 export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
-  const name = item.metadata?.name ?? ellipsify(item.mint)
-  const symbol = item.metadata?.symbol ?? ellipsify(item.mint, 2, '').toLocaleUpperCase()
-  const icon = item.metadata?.icon
+  const name = item.metadata?.name ?? ellipsify(item.mint);
+  const symbol =
+    item.metadata?.symbol ?? ellipsify(item.mint, 2, "").toLocaleUpperCase();
+  const icon = item.metadata?.icon;
   return (
     <div className="flex justify-between items-center w-full" key={item.mint}>
       <div className="flex items-center gap-2">
@@ -27,5 +28,5 @@ export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
         <div className="text-muted-foreground text-sm">{item.balanceToken}</div>
       </div>
     </div>
-  )
+  );
 }

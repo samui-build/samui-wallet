@@ -1,19 +1,19 @@
-import type { Address } from '@solana/kit'
+import type { Address } from "@solana/kit";
 
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatch } from "@workspace/core/try-catch";
 
-import { convertKeyPairToJson } from './convert-key-pair-to-json'
-import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44'
-import { derivationPaths } from './derivation-paths'
+import { convertKeyPairToJson } from "./convert-key-pair-to-json";
+import { createKeyPairSignerFromBip44 } from "./create-key-pair-signer-from-bip44";
+import { derivationPaths } from "./derivation-paths";
 
 export interface DerivedWallet {
-  publicKey: Address
-  secretKey: string
+  publicKey: Address;
+  secretKey: string;
 }
 export interface DeriveFromMnemonicAtIndexProps {
-  derivationIndex?: number
-  derivationPath?: string
-  mnemonic: string
+  derivationIndex?: number;
+  derivationPath?: string;
+  mnemonic: string;
 }
 
 export async function deriveFromMnemonicAtIndex({
@@ -29,22 +29,22 @@ export async function deriveFromMnemonicAtIndex({
       mnemonic,
       to: derivationIndex + 1,
     }),
-  )
+  );
   if (error) {
-    if (error instanceof Error && error.message.includes('Invalid mnemonic')) {
-      throw error
+    if (error instanceof Error && error.message.includes("Invalid mnemonic")) {
+      throw error;
     }
-    throw new Error(`Error creating KeyPair signer from mnemonic`)
+    throw new Error(`Error creating KeyPair signer from mnemonic`);
   }
-  const signer = signers.length ? signers[0] : undefined
+  const signer = signers.length ? signers[0] : undefined;
   if (!signer) {
-    throw new Error(`Error creating KeyPair signer from mnemonic`)
+    throw new Error(`Error creating KeyPair signer from mnemonic`);
   }
 
-  const secretKey = await convertKeyPairToJson(signer.keyPair)
+  const secretKey = await convertKeyPairToJson(signer.keyPair);
 
   return {
     publicKey: signer.address,
     secretKey,
-  }
+  };
 }

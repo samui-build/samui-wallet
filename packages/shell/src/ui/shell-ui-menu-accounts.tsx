@@ -1,5 +1,5 @@
-import type { Account } from '@workspace/db/entity/account'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Account } from "@workspace/db/entity/account";
+import type { Wallet } from "@workspace/db/entity/wallet";
 
 import {
   MenubarContent,
@@ -12,11 +12,11 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from '@workspace/ui/components/menubar'
-import { UiAvatar } from '@workspace/ui/components/ui-avatar'
-import { cn } from '@workspace/ui/lib/utils'
-import { LucidePencil, LucidePlus, LucideSettings } from 'lucide-react'
-import { Link } from 'react-router'
+} from "@workspace/ui/components/menubar";
+import { UiAvatar } from "@workspace/ui/components/ui-avatar";
+import { cn } from "@workspace/ui/lib/utils";
+import { LucidePencil, LucidePlus, LucideSettings } from "lucide-react";
+import { Link } from "react-router";
 
 export function ShellUiMenuAccounts({
   accounts,
@@ -24,16 +24,19 @@ export function ShellUiMenuAccounts({
   activeWallet,
   setActiveWallet,
 }: {
-  accounts: Account[]
-  activeAccount: Account | null
-  activeWallet: null | Wallet
-  setActiveWallet: (id: string) => Promise<void>
+  accounts: Account[];
+  activeAccount: Account | null;
+  activeWallet: null | Wallet;
+  setActiveWallet: (id: string) => Promise<void>;
 }) {
   return (
     <MenubarMenu>
       <MenubarTrigger className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
-        <UiAvatar className="size-6 md:size-8" label={activeAccount?.name ?? ''} />
-        {activeWallet?.name ?? ''}
+        <UiAvatar
+          className="size-6 md:size-8"
+          label={activeAccount?.name ?? ""}
+        />
+        {activeWallet?.name ?? ""}
       </MenubarTrigger>
       <MenubarContent>
         {accounts.map((account) => {
@@ -44,11 +47,14 @@ export function ShellUiMenuAccounts({
                 {account.name}
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarRadioGroup onValueChange={(id) => setActiveWallet(id)} value={activeWallet?.id ?? ''}>
+                <MenubarRadioGroup
+                  onValueChange={(id) => setActiveWallet(id)}
+                  value={activeWallet?.id ?? ""}
+                >
                   {account.wallets.map((wallet) => (
                     <MenubarRadioItem
-                      className={cn('font-mono', {
-                        'font-bold': wallet.id === activeWallet?.id,
+                      className={cn("font-mono", {
+                        "font-bold": wallet.id === activeWallet?.id,
                       })}
                       key={wallet.id}
                       value={wallet.id}
@@ -72,7 +78,7 @@ export function ShellUiMenuAccounts({
                 </MenubarItem>
               </MenubarSubContent>
             </MenubarSub>
-          )
+          );
         })}
 
         <MenubarSeparator />
@@ -84,5 +90,5 @@ export function ShellUiMenuAccounts({
         </MenubarItem>
       </MenubarContent>
     </MenubarMenu>
-  )
+  );
 }

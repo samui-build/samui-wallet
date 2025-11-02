@@ -1,29 +1,29 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from "@workspace/db/entity/wallet";
 
-import { Button } from '@workspace/ui/components/button'
+import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@workspace/ui/components/dropdown-menu'
-import { LucideWallet2 } from 'lucide-react'
-import { Link } from 'react-router'
+} from "@workspace/ui/components/dropdown-menu";
+import { LucideWallet2 } from "lucide-react";
+import { Link } from "react-router";
 
-import { WalletUiItem } from './wallet-ui-item.js'
+import { WalletUiItem } from "./wallet-ui-item.js";
 
 export function SettingsUiWalletDropdown({
   active,
   items,
   setActive,
 }: {
-  active: null | Wallet
-  items: Wallet[]
-  setActive: (id: string) => Promise<void>
+  active: null | Wallet;
+  items: Wallet[];
+  setActive: (id: string) => Promise<void>;
 }) {
   if (!active) {
-    return null
+    return null;
   }
   return (
     <DropdownMenu>
@@ -38,7 +38,7 @@ export function SettingsUiWalletDropdown({
             disabled={item.id === active?.id}
             key={item.id}
             onClick={async () => {
-              await setActive(item.id)
+              await setActive(item.id);
             }}
           >
             <WalletUiItem wallet={item} />
@@ -53,5 +53,5 @@ export function SettingsUiWalletDropdown({
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

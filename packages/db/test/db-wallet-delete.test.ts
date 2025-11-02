@@ -1,54 +1,56 @@
-import type { PromiseExtended } from 'dexie'
+import type { PromiseExtended } from "dexie";
 
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletDelete } from '../src/db-wallet-delete'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { createDbTest, testWalletInputCreate } from './test-helpers'
+import { dbWalletCreate } from "../src/db-wallet-create";
+import { dbWalletDelete } from "../src/db-wallet-delete";
+import { dbWalletFindUnique } from "../src/db-wallet-find-unique";
+import { createDbTest, testWalletInputCreate } from "./test-helpers";
 
-const db = createDbTest()
+const db = createDbTest();
 
-describe('db-wallet-delete', () => {
+describe("db-wallet-delete", () => {
   beforeEach(async () => {
-    await db.wallets.clear()
-  })
+    await db.wallets.clear();
+  });
 
-  describe('expected behavior', () => {
-    it('should delete a wallet', async () => {
+  describe("expected behavior", () => {
+    it("should delete a wallet", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const input = testWalletInputCreate({ accountId: crypto.randomUUID() })
-      const id = await dbWalletCreate(db, input)
+      expect.assertions(1);
+      const input = testWalletInputCreate({ accountId: crypto.randomUUID() });
+      const id = await dbWalletCreate(db, input);
 
       // ACT
-      await dbWalletDelete(db, id)
+      await dbWalletDelete(db, id);
 
       // ASSERT
-      const deletedItem = await dbWalletFindUnique(db, id)
-      expect(deletedItem).toBeNull()
-    })
-  })
+      const deletedItem = await dbWalletFindUnique(db, id);
+      expect(deletedItem).toBeNull();
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when deleting a wallet fails', async () => {
+    it("should throw an error when deleting a wallet fails", async () => {
       // ARRANGE
-      expect.assertions(1)
-      const id = 'test-id'
-      vi.spyOn(db.wallets, 'delete').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<void>,
-      )
+      expect.assertions(1);
+      const id = "test-id";
+      vi.spyOn(db.wallets, "delete").mockImplementationOnce(
+        () => Promise.reject(new Error("Test error")) as PromiseExtended<void>,
+      );
 
       // ACT & ASSERT
-      await expect(dbWalletDelete(db, id)).rejects.toThrow(`Error deleting wallet with id ${id}`)
-    })
-  })
-})
+      await expect(dbWalletDelete(db, id)).rejects.toThrow(
+        `Error deleting wallet with id ${id}`,
+      );
+    });
+  });
+});

@@ -1,7 +1,13 @@
-import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
+import { Input } from "@workspace/ui/components/input";
+import { Label } from "@workspace/ui/components/label";
 
-export function OnboardingUiMnemonicWordReadonly({ index, word }: { index: number; word: string }) {
+export function OnboardingUiMnemonicWordReadonly({
+  index,
+  word,
+}: {
+  index: number;
+  word: string;
+}) {
   return (
     <div className="relative">
       <Label
@@ -21,5 +27,5 @@ export function OnboardingUiMnemonicWordReadonly({ index, word }: { index: numbe
         type="text"
       />
     </div>
-  )
+  );
 }

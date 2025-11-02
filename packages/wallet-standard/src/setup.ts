@@ -1,7 +1,7 @@
-import { registerWallet } from '@wallet-standard/core'
+import { registerWallet } from "@wallet-standard/core";
 
-import { SamuiWallet } from './wallet'
+import { SamuiWallet } from "./wallet";
 
 export function setup() {
-  registerWallet(new SamuiWallet())
+  registerWallet(new SamuiWallet());
 }

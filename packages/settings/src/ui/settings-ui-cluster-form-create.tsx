@@ -1,9 +1,9 @@
-import type { ClusterInputCreate } from '@workspace/db/dto/cluster-input-create'
+import type { ClusterInputCreate } from "@workspace/db/dto/cluster-input-create";
 
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { dbClusterTypeOptions } from '@workspace/db/db-cluster-type-options'
-import { clusterSchemaCreate } from '@workspace/db/schema/cluster-schema-create'
-import { Button } from '@workspace/ui/components/button'
+import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
+import { dbClusterTypeOptions } from "@workspace/db/db-cluster-type-options";
+import { clusterSchemaCreate } from "@workspace/db/schema/cluster-schema-create";
+import { Button } from "@workspace/ui/components/button";
 import {
   Form,
   FormControl,
@@ -12,23 +12,33 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@workspace/ui/components/form'
-import { Input } from '@workspace/ui/components/input'
-import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
-import { useForm } from 'react-hook-form'
+} from "@workspace/ui/components/form";
+import { Input } from "@workspace/ui/components/input";
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@workspace/ui/components/toggle-group";
+import { useForm } from "react-hook-form";
 
-import { SettingsUiClusterWarningMainnet } from './settings-ui-cluster-warning-mainnet.js'
+import { SettingsUiClusterWarningMainnet } from "./settings-ui-cluster-warning-mainnet.js";
 
-export function SettingsUiClusterFormCreate({ submit }: { submit: (input: ClusterInputCreate) => Promise<void> }) {
+export function SettingsUiClusterFormCreate({
+  submit,
+}: {
+  submit: (input: ClusterInputCreate) => Promise<void>;
+}) {
   const form = useForm<ClusterInputCreate>({
     resolver: standardSchemaResolver(clusterSchemaCreate),
-  })
+  });
 
-  const watchType = form.watch('type')
+  const watchType = form.watch("type");
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form
+        className="flex flex-col gap-6"
+        onSubmit={form.handleSubmit((input) => submit(input))}
+      >
         <FormField
           control={form.control}
           name="type"
@@ -44,8 +54,12 @@ export function SettingsUiClusterFormCreate({ submit }: { submit: (input: Cluste
                   variant="outline"
                 >
                   {dbClusterTypeOptions.map(({ label, value }) => (
-                    <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
-                      {label.replace('Solana ', '')}
+                    <ToggleGroupItem
+                      className="flex items-center gap-x-2"
+                      key={value}
+                      value={value}
+                    >
+                      {label.replace("Solana ", "")}
                     </ToggleGroupItem>
                   ))}
                 </ToggleGroup>
@@ -90,7 +104,9 @@ export function SettingsUiClusterFormCreate({ submit }: { submit: (input: Cluste
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the cluster endpoint for subscriptions</FormDescription>
+              <FormDescription>
+                Provide the cluster endpoint for subscriptions
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -123,5 +139,5 @@ export function SettingsUiClusterFormCreate({ submit }: { submit: (input: Cluste
         </div>
       </form>
     </Form>
-  )
+  );
 }

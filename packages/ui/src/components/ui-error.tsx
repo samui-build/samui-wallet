@@ -1,6 +1,6 @@
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from './empty.js'
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "./empty.js";
 
-export function UiError({ message = '' }: { message?: unknown }) {
+export function UiError({ message = "" }: { message?: unknown }) {
   return (
     <Empty className="border border-dashed">
       <EmptyHeader>
@@ -8,5 +8,5 @@ export function UiError({ message = '' }: { message?: unknown }) {
         <EmptyDescription>{`${message}`}</EmptyDescription>
       </EmptyHeader>
     </Empty>
-  )
+  );
 }

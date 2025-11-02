@@ -1,5 +1,5 @@
-import { toast } from 'sonner'
+import { toast } from "sonner";
 
 export function toastError(message: string) {
-  toast.error(message)
+  toast.error(message);
 }

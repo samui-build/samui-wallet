@@ -1,4 +1,4 @@
-import { walletSchema } from './wallet-schema'
+import { walletSchema } from "./wallet-schema";
 
 export const walletSchemaFindMany = walletSchema
   .pick({
@@ -10,4 +10,4 @@ export const walletSchemaFindMany = walletSchema
   .partial()
   .extend({
     accountId: walletSchema.shape.accountId,
-  })
+  });

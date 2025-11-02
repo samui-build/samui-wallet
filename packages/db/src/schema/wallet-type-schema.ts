@@ -1,3 +1,3 @@
-import { z } from 'zod'
+import { z } from "zod";
 
-export const walletTypeSchema = z.enum(['Derived', 'Imported', 'Watched'])
+export const walletTypeSchema = z.enum(["Derived", "Imported", "Watched"]);

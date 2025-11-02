@@ -1,6 +1,6 @@
-import type { Address, Blockhash, TransactionSigner } from '@solana/kit'
+import type { Address, Blockhash, TransactionSigner } from "@solana/kit";
 
-import { getTransferSolInstruction } from '@solana-program/system'
+import { getTransferSolInstruction } from "@solana-program/system";
 import {
   address,
   appendTransactionMessageInstructions,
@@ -10,13 +10,13 @@ import {
   pipe,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
-} from '@solana/kit'
+} from "@solana/kit";
 
-import { solToLamports } from './sol-to-lamports'
+import { solToLamports } from "./sol-to-lamports";
 
 export interface LatestBlockhash {
-  blockhash: Blockhash
-  lastValidBlockHeight: bigint
+  blockhash: Blockhash;
+  lastValidBlockHeight: bigint;
 }
 
 export function createSolTransferTransaction({
@@ -26,27 +26,27 @@ export function createSolTransferTransaction({
   sender,
   source,
 }: {
-  amount: string
-  destination: Address | string
-  latestBlockhash: LatestBlockhash
-  sender: TransactionSigner
-  source?: TransactionSigner
+  amount: string;
+  destination: Address | string;
+  latestBlockhash: LatestBlockhash;
+  sender: TransactionSigner;
+  source?: TransactionSigner;
 }) {
-  assertIsAddress(destination)
-  assertIsKeyPairSigner(sender)
+  assertIsAddress(destination);
+  assertIsKeyPairSigner(sender);
   if (source) {
-    assertIsKeyPairSigner(source)
+    assertIsKeyPairSigner(source);
   }
   const transferInstruction = getTransferSolInstruction({
     amount: solToLamports(amount),
     destination: address(destination),
     source: source ?? sender,
-  })
+  });
 
   return pipe(
     createTransactionMessage({ version: 0 }),
     (tx) => setTransactionMessageFeePayerSigner(sender, tx),
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
     (tx) => appendTransactionMessageInstructions([transferInstruction], tx),
-  )
+  );
 }

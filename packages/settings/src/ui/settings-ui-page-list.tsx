@@ -1,6 +1,6 @@
-import type { SettingsPage } from '../data-access/settings-page.js'
+import type { SettingsPage } from "../data-access/settings-page.js";
 
-import { SettingsUiPageItem } from './settings-ui-page-item.js'
+import { SettingsUiPageItem } from "./settings-ui-page-item.js";
 
 export function SettingsUiPageList({ pages }: { pages: SettingsPage[] }) {
   return (
@@ -9,5 +9,5 @@ export function SettingsUiPageList({ pages }: { pages: SettingsPage[] }) {
         <SettingsUiPageItem key={page.id} page={page} />
       ))}
     </div>
-  )
+  );
 }

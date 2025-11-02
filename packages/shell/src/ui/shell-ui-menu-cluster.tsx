@@ -1,4 +1,4 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Cluster } from "@workspace/db/entity/cluster";
 
 import {
   MenubarContent,
@@ -8,27 +8,30 @@ import {
   MenubarRadioItem,
   MenubarSeparator,
   MenubarTrigger,
-} from '@workspace/ui/components/menubar'
-import { LucideNetwork, LucideSettings } from 'lucide-react'
-import { Link } from 'react-router'
+} from "@workspace/ui/components/menubar";
+import { LucideNetwork, LucideSettings } from "lucide-react";
+import { Link } from "react-router";
 
 export function ShellUiMenuCluster({
   active,
   clusters,
   setActive,
 }: {
-  active: Cluster | undefined
-  clusters: Cluster[]
-  setActive: (id: string) => Promise<void>
+  active: Cluster | undefined;
+  clusters: Cluster[];
+  setActive: (id: string) => Promise<void>;
 }) {
   return (
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
         <LucideNetwork className="size-4 md:size-6" />
-        {active?.name ?? 'Select Cluster'}
+        {active?.name ?? "Select Cluster"}
       </MenubarTrigger>
       <MenubarContent>
-        <MenubarRadioGroup onValueChange={(id) => setActive(id)} value={active?.id ?? ''}>
+        <MenubarRadioGroup
+          onValueChange={(id) => setActive(id)}
+          value={active?.id ?? ""}
+        >
           {clusters
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((cluster) => (
@@ -46,5 +49,5 @@ export function ShellUiMenuCluster({
         </MenubarItem>
       </MenubarContent>
     </MenubarMenu>
-  )
+  );
 }

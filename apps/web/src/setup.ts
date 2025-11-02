@@ -1,3 +1,3 @@
-import { setup } from '@workspace/wallet-standard'
+import { setup } from "@workspace/wallet-standard";
 
-setup()
+setup();

@@ -1,15 +1,18 @@
-import type { Address } from '@solana/kit'
+import type { Address } from "@solana/kit";
 
-import type { SolanaClient } from './solana-client'
+import type { SolanaClient } from "./solana-client";
 
 export interface SplTokenCreateTokenAccountOptions {
-  mint: Address
+  mint: Address;
 }
 
-export async function splTokenCreateTokenAccount(client: SolanaClient, options: SplTokenCreateTokenAccountOptions) {
+export async function splTokenCreateTokenAccount(
+  client: SolanaClient,
+  options: SplTokenCreateTokenAccountOptions,
+) {
   //
   console.log({
     client,
     options,
-  })
+  });
 }

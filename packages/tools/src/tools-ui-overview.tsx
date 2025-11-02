@@ -1,6 +1,6 @@
-import type { Tool } from './tools-feature-overview.js'
+import type { Tool } from "./tools-feature-overview.js";
 
-import { ToolsUiOverviewItem } from './tools-ui-overview-item.js'
+import { ToolsUiOverviewItem } from "./tools-ui-overview-item.js";
 
 export function ToolsUiOverview({ tools }: { tools: Tool[] }) {
   return (
@@ -9,5 +9,5 @@ export function ToolsUiOverview({ tools }: { tools: Tool[] }) {
         <ToolsUiOverviewItem key={tool.path} tool={tool} />
       ))}
     </div>
-  )
+  );
 }

@@ -1,15 +1,15 @@
-import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
+import type { UiIconLucide } from "@workspace/ui/components/ui-icon";
 
-import { cn } from '@workspace/ui/lib/utils'
-import { NavLink, Outlet } from 'react-router'
+import { cn } from "@workspace/ui/lib/utils";
+import { NavLink, Outlet } from "react-router";
 
-import { ShellUiMenu } from './shell-ui-menu.js'
-import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.js'
+import { ShellUiMenu } from "./shell-ui-menu.js";
+import { ShellUiWarningExperimental } from "./shell-ui-warning-experimental.js";
 
 export interface ShellLayoutLink {
-  icon: UiIconLucide
-  label: string
-  to: string
+  icon: UiIconLucide;
+  label: string;
+  to: string;
 }
 
 export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
@@ -26,8 +26,8 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
         {links.map(({ icon: Icon, label, to }) => (
           <NavLink
             className={({ isActive }) =>
-              cn('items-center gap-2 py-2 flex flex-col flex-1', {
-                'font-bold bg-secondary/60': isActive,
+              cn("items-center gap-2 py-2 flex flex-col flex-1", {
+                "font-bold bg-secondary/60": isActive,
               })
             }
             key={to}
@@ -39,5 +39,5 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
         ))}
       </footer>
     </div>
-  )
+  );
 }

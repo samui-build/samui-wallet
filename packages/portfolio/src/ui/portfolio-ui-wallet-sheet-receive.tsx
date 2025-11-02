@@ -1,11 +1,11 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from "@workspace/db/entity/wallet";
 
-import { Button } from '@workspace/ui/components/button'
-import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
-import { UiQrCode } from '@workspace/ui/components/ui-qr-code'
-import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
-import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { LucideArrowDown, LucideCopyCheck } from 'lucide-react'
+import { Button } from "@workspace/ui/components/button";
+import { UiBottomSheet } from "@workspace/ui/components/ui-bottom-sheet";
+import { UiQrCode } from "@workspace/ui/components/ui-qr-code";
+import { handleCopyText } from "@workspace/ui/lib/handle-copy-text";
+import { toastSuccess } from "@workspace/ui/lib/toast-success";
+import { LucideArrowDown, LucideCopyCheck } from "lucide-react";
 
 export function PortfolioUiWalletSheetReceive({ wallet }: { wallet: Wallet }) {
   return (
@@ -20,8 +20,8 @@ export function PortfolioUiWalletSheetReceive({ wallet }: { wallet: Wallet }) {
     >
       <Button
         onClick={() => {
-          handleCopyText(wallet.publicKey)
-          toastSuccess('Copied Public Key')
+          handleCopyText(wallet.publicKey);
+          toastSuccess("Copied Public Key");
         }}
         variant="outline"
       >
@@ -32,5 +32,5 @@ export function PortfolioUiWalletSheetReceive({ wallet }: { wallet: Wallet }) {
         <UiQrCode content={wallet.publicKey} />
       </div>
     </UiBottomSheet>
-  )
+  );
 }

@@ -1,15 +1,19 @@
-import { LucideCopy } from 'lucide-react'
+import { LucideCopy } from "lucide-react";
 
-import { handleTextPaste } from '../lib/handle-text-paste.js'
-import { Button } from './button.js'
+import { handleTextPaste } from "../lib/handle-text-paste.js";
+import { Button } from "./button.js";
 
-export function UiTextPasteButton({ onPaste }: { onPaste: (text: string) => void }) {
+export function UiTextPasteButton({
+  onPaste,
+}: {
+  onPaste: (text: string) => void;
+}) {
   return (
     <Button
       onClick={async () => {
-        const result = await handleTextPaste()
+        const result = await handleTextPaste();
         if (result?.length) {
-          onPaste(result)
+          onPaste(result);
         }
       }}
       type="button"
@@ -18,5 +22,5 @@ export function UiTextPasteButton({ onPaste }: { onPaste: (text: string) => void
       <LucideCopy />
       Paste
     </Button>
-  )
+  );
 }

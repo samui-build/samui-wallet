@@ -1,10 +1,17 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from "@workspace/db/entity/wallet";
 
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
-import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@workspace/ui/components/table";
+import { UiTooltip } from "@workspace/ui/components/ui-tooltip";
+import { ellipsify } from "@workspace/ui/lib/ellipsify";
 
-import { WalletUiItem } from './wallet-ui-item.js'
+import { WalletUiItem } from "./wallet-ui-item.js";
 
 export function SettingsUiWalletTable({ items }: { items: Wallet[] }) {
   return (
@@ -25,7 +32,9 @@ export function SettingsUiWalletTable({ items }: { items: Wallet[] }) {
             <TableCell className="font-mono text-xs">
               <span className="hidden lg:block">{item.publicKey}</span>
               <span className="lg:hidden">
-                <UiTooltip content={item.publicKey}>{ellipsify(item.publicKey, 6, '...')}</UiTooltip>
+                <UiTooltip content={item.publicKey}>
+                  {ellipsify(item.publicKey, 6, "...")}
+                </UiTooltip>
               </span>
             </TableCell>
             <TableCell className="font-mono text-xs">{item.type}</TableCell>
@@ -33,5 +42,5 @@ export function SettingsUiWalletTable({ items }: { items: Wallet[] }) {
         ))}
       </TableBody>
     </Table>
-  )
+  );
 }

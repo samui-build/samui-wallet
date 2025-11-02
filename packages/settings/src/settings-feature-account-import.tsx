@@ -1,15 +1,16 @@
-import { UiBack } from '@workspace/ui/components/ui-back'
-import { UiCard } from '@workspace/ui/components/ui-card'
-import { useNavigate } from 'react-router'
+import { UiBack } from "@workspace/ui/components/ui-back";
+import { UiCard } from "@workspace/ui/components/ui-card";
+import { useNavigate } from "react-router";
 
-import { useDetermineAccountName } from './data-access/use-determine-account-name.js'
-import { useGenerateAccountWithWalletMutation } from './data-access/use-generate-account-with-wallet-mutation.js'
-import { SettingsUiAccountFormImport } from './ui/settings-ui-account-form-import.js'
+import { useDetermineAccountName } from "./data-access/use-determine-account-name.js";
+import { useGenerateAccountWithWalletMutation } from "./data-access/use-generate-account-with-wallet-mutation.js";
+import { SettingsUiAccountFormImport } from "./ui/settings-ui-account-form-import.js";
 
 export function SettingsFeatureAccountImport() {
-  const generateAccountWithWalletMutation = useGenerateAccountWithWalletMutation()
-  const navigate = useNavigate()
-  const name = useDetermineAccountName()
+  const generateAccountWithWalletMutation =
+    useGenerateAccountWithWalletMutation();
+  const navigate = useNavigate();
+  const name = useDetermineAccountName();
   return (
     <UiCard
       title={
@@ -22,13 +23,15 @@ export function SettingsFeatureAccountImport() {
       <SettingsUiAccountFormImport
         name={name}
         submit={async (input, redirect) => {
-          generateAccountWithWalletMutation.mutateAsync(input).then((accountId) => {
-            if (redirect) {
-              navigate(`/settings/accounts/${accountId}`)
-            }
-          })
+          generateAccountWithWalletMutation
+            .mutateAsync(input)
+            .then((accountId) => {
+              if (redirect) {
+                navigate(`/settings/accounts/${accountId}`);
+              }
+            });
         }}
       />
     </UiCard>
-  )
+  );
 }

@@ -1,5 +1,5 @@
-import { DevFeatureUiAvatars } from './dev-feature-ui-avatars.js'
-import { DevFeatureUiColors } from './dev-feature-ui-colors.js'
+import { DevFeatureUiAvatars } from "./dev-feature-ui-avatars.js";
+import { DevFeatureUiColors } from "./dev-feature-ui-colors.js";
 
 export default function DevFeatureUi() {
   return (
@@ -7,5 +7,5 @@ export default function DevFeatureUi() {
       <DevFeatureUiAvatars />
       <DevFeatureUiColors />
     </div>
-  )
+  );
 }

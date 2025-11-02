@@ -1,10 +1,10 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 export const preferenceKeySchema = z.enum([
-  'activeAccountId',
-  'activeClusterId',
-  'activeWalletId',
-  'apiEndpoint',
-  'developerModeEnabled',
-  'warningAcceptExperimental',
-])
+  "activeAccountId",
+  "activeClusterId",
+  "activeWalletId",
+  "apiEndpoint",
+  "developerModeEnabled",
+  "warningAcceptExperimental",
+]);
