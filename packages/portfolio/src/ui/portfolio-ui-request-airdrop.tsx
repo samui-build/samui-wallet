@@ -41,7 +41,7 @@ export function PortfolioUiRequestAirdrop({
         <EmptyDescription>Request your airdrop to get started.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button disabled={isPending} onClick={() => mutateAsync(wallet)}>
+        <Button disabled={isPending} onClick={() => mutateAsync({ address: wallet.publicKey })}>
           <Coins /> Confirm Airdrop
         </Button>
       </EmptyContent>
