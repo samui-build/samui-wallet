@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { clusterSchema } from './cluster-schema'
+import { clusterSchema } from './cluster-schema.js'
 
 export const clusterSchemaFindMany = clusterSchema
   .pick({ endpoint: true, id: true, name: true, type: true })

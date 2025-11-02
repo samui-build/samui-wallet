@@ -3,11 +3,11 @@ import type { PromiseExtended } from 'dexie'
 import { address } from '@solana/kit'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { Wallet } from '../src/entity/wallet'
+import type { Wallet } from '../src/entity/wallet.js'
 
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletFindMany } from '../src/db-wallet-find-many'
-import { createDbTest, testWalletInputCreate } from './test-helpers'
+import { dbWalletCreate } from '../src/db-wallet-create.js'
+import { dbWalletFindMany } from '../src/db-wallet-find-many.js'
+import { createDbTest, testWalletInputCreate } from './test-helpers.js'
 
 const db = createDbTest()
 

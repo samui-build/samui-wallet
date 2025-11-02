@@ -1,9 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { WalletInputUpdate } from './dto/wallet-input-update'
+import type { Database } from './database.js'
+import type { WalletInputUpdate } from './dto/wallet-input-update.js'
 
-import { walletSchemaUpdate } from './schema/wallet-schema-update'
+import { walletSchemaUpdate } from './schema/wallet-schema-update.js'
 
 export async function dbWalletUpdate(db: Database, id: string, input: WalletInputUpdate): Promise<number> {
   const parsedInput = walletSchemaUpdate.parse(input)

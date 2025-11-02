@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key'
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletSetActive } from '../src/db-wallet-set-active'
-import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers'
+import { dbAccountCreate } from '../src/db-account-create.js'
+import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key.js'
+import { dbWalletCreate } from '../src/db-wallet-create.js'
+import { dbWalletSetActive } from '../src/db-wallet-set-active.js'
+import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers.js'
 
 const db = createDbTest()
 

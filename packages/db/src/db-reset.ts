@@ -1,6 +1,6 @@
-import type { Database } from './database'
+import type { Database } from './database.js'
 
-import { dbPopulate } from './db-populate'
+import { dbPopulate } from './db-populate.js'
 
 export async function dbReset(db: Database) {
   await Promise.all(db.tables.map((table) => table.clear()))

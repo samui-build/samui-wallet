@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
-import { solanaAddressSchema } from './solana-address-schema'
-import { walletTypeSchema } from './wallet-type-schema'
+import { solanaAddressSchema } from './solana-address-schema.js'
+import { walletTypeSchema } from './wallet-type-schema.js'
 
 export const walletSchema = z.object({
   accountId: z.string(),

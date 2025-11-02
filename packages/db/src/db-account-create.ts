@@ -1,12 +1,12 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { AccountInputCreate } from './dto/account-input-create'
+import type { Database } from './database.js'
+import type { AccountInputCreate } from './dto/account-input-create.js'
 
-import { dbAccountCreateDetermineOrder } from './db-account-create-determine-order'
-import { dbPreferenceGetValue } from './db-preference-get-value'
-import { dbPreferenceSetValue } from './db-preference-set-value'
-import { accountSchemaCreate } from './schema/account-schema-create'
+import { dbAccountCreateDetermineOrder } from './db-account-create-determine-order.js'
+import { dbPreferenceGetValue } from './db-preference-get-value.js'
+import { dbPreferenceSetValue } from './db-preference-set-value.js'
+import { accountSchemaCreate } from './schema/account-schema-create.js'
 
 export async function dbAccountCreate(db: Database, input: AccountInputCreate): Promise<string> {
   const now = new Date()

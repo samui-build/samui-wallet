@@ -1,9 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { AccountInputUpdate } from './dto/account-input-update'
+import type { Database } from './database.js'
+import type { AccountInputUpdate } from './dto/account-input-update.js'
 
-import { accountSchemaUpdate } from './schema/account-schema-update'
+import { accountSchemaUpdate } from './schema/account-schema-update.js'
 
 export async function dbAccountUpdate(db: Database, id: string, input: AccountInputUpdate): Promise<number> {
   const parsedInput = accountSchemaUpdate.parse(input)

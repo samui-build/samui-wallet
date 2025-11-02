@@ -2,11 +2,11 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import type { Wallet } from '../src/entity/wallet'
+import type { Wallet } from '../src/entity/wallet.js'
 
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { createDbTest, testWalletInputCreate } from './test-helpers'
+import { dbWalletCreate } from '../src/db-wallet-create.js'
+import { dbWalletFindUnique } from '../src/db-wallet-find-unique.js'
+import { createDbTest, testWalletInputCreate } from './test-helpers.js'
 
 const db = createDbTest()
 

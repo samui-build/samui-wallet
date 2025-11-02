@@ -1,13 +1,13 @@
 import 'fake-indexeddb/auto'
 import { address } from '@solana/kit'
 
-import type { Database } from '../src/database'
-import type { AccountInputCreate } from '../src/dto/account-input-create'
-import type { ClusterInputCreate } from '../src/dto/cluster-input-create'
-import type { WalletInputCreate } from '../src/dto/wallet-input-create'
-import type { PreferenceKey } from '../src/entity/preference-key'
+import type { Database } from '../src/database.js'
+import type { AccountInputCreate } from '../src/dto/account-input-create.js'
+import type { ClusterInputCreate } from '../src/dto/cluster-input-create.js'
+import type { WalletInputCreate } from '../src/dto/wallet-input-create.js'
+import type { PreferenceKey } from '../src/entity/preference-key.js'
 
-import { createDb } from '../src/create-db'
+import { createDb } from '../src/create-db.js'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })

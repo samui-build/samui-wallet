@@ -2,8 +2,8 @@ import type { Env } from '@workspace/env/env'
 
 import { env } from '@workspace/env/env'
 
-import type { Cluster } from './entity/cluster'
-import type { ClusterType } from './entity/cluster-type'
+import type { ClusterType } from './entity/cluster-type.js'
+import type { Cluster } from './entity/cluster.js'
 
 const clusterEnvVars: (keyof Env)[] = ['clusterDevnet', 'clusterLocalnet', 'clusterMainnet', 'clusterTestnet']
 

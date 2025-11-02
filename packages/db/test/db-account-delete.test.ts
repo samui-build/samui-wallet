@@ -2,10 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountDelete } from '../src/db-account-delete'
-import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, testAccountInputCreate } from './test-helpers'
+import { dbAccountCreate } from '../src/db-account-create.js'
+import { dbAccountDelete } from '../src/db-account-delete.js'
+import { dbAccountFindUnique } from '../src/db-account-find-unique.js'
+import { createDbTest, testAccountInputCreate } from './test-helpers.js'
 
 const db = createDbTest()
 

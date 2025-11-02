@@ -1,11 +1,11 @@
-import Dexie, { type Table } from 'dexie'
+import { Dexie, type Table } from 'dexie'
 
-import type { Account } from './entity/account'
-import type { Cluster } from './entity/cluster'
-import type { Preference } from './entity/preference'
-import type { Wallet } from './entity/wallet'
+import type { Account } from './entity/account.js'
+import type { Cluster } from './entity/cluster.js'
+import type { Preference } from './entity/preference.js'
+import type { Wallet } from './entity/wallet.js'
 
-import { dbPopulate } from './db-populate'
+import { dbPopulate } from './db-populate.js'
 
 export interface DatabaseConfig {
   name: string

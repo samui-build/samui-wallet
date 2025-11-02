@@ -1,8 +1,8 @@
 import { env } from '@workspace/env/env'
 
-import type { Database } from './database'
+import type { Database } from './database.js'
 
-import { getDefaultClusters } from './get-default-clusters'
+import { getDefaultClusters } from './get-default-clusters.js'
 
 export async function dbPopulate(db: Database) {
   const now = new Date()

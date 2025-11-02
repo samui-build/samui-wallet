@@ -1,9 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { ClusterInputUpdate } from './dto/cluster-input-update'
+import type { Database } from './database.js'
+import type { ClusterInputUpdate } from './dto/cluster-input-update.js'
 
-import { clusterSchemaUpdate } from './schema/cluster-schema-update'
+import { clusterSchemaUpdate } from './schema/cluster-schema-update.js'
 
 export async function dbClusterUpdate(db: Database, id: string, input: ClusterInputUpdate): Promise<number> {
   const parsedInput = clusterSchemaUpdate.parse(input)

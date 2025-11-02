@@ -1,9 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { ClusterInputCreate } from './dto/cluster-input-create'
+import type { Database } from './database.js'
+import type { ClusterInputCreate } from './dto/cluster-input-create.js'
 
-import { clusterSchemaCreate } from './schema/cluster-schema-create'
+import { clusterSchemaCreate } from './schema/cluster-schema-create.js'
 
 export async function dbClusterCreate(db: Database, input: ClusterInputCreate): Promise<string> {
   const now = new Date()

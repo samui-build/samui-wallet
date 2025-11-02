@@ -2,10 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbClusterCreate } from '../src/db-cluster-create'
-import { dbClusterFindUnique } from '../src/db-cluster-find-unique'
-import { dbClusterUpdate } from '../src/db-cluster-update'
-import { createDbTest, randomName, testClusterInputCreate } from './test-helpers'
+import { dbClusterCreate } from '../src/db-cluster-create.js'
+import { dbClusterFindUnique } from '../src/db-cluster-find-unique.js'
+import { dbClusterUpdate } from '../src/db-cluster-update.js'
+import { createDbTest, randomName, testClusterInputCreate } from './test-helpers.js'
 
 const db = createDbTest()
 
