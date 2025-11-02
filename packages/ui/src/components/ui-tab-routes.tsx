@@ -28,7 +28,7 @@ export function UiTabRoutes({
   const redirect = tabs[0]?.path !== '' ? tabs[0]?.path : undefined
 
   return (
-    <>
+    <div className="h-full flex flex-col justify-between">
       <Tabs
         activationMode="manual"
         onValueChange={(value) => navigate(`${basePath}/${value}`)}
@@ -43,15 +43,17 @@ export function UiTabRoutes({
           ))}
         </TabsList>
       </Tabs>
-      <Suspense fallback={<UiLoader />}>
-        <Routes>
-          {redirect ? <Route element={<Navigate replace to={`./${redirect}`} />} index /> : null}
-          {tabs.map((tab) => (
-            <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
-          ))}
-          <Route element={<Navigate replace to={`./${redirect}`} />} path="*" />
-        </Routes>
-      </Suspense>
-    </>
+      <div className="flex-1 h-full overflow-auto">
+        <Suspense fallback={<UiLoader />}>
+          <Routes>
+            {redirect ? <Route element={<Navigate replace to={`./${redirect}`} />} index /> : null}
+            {tabs.map((tab) => (
+              <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
+            ))}
+            <Route element={<Navigate replace to={`./${redirect}`} />} path="*" />
+          </Routes>
+        </Suspense>
+      </div>
+    </div>
   )
 }
