@@ -12,4 +12,3 @@ setEnv({
   clusterTestnet: import.meta.env.VITE_CLUSTER_TESTNET,
   clusterTestnetSubscriptions: import.meta.env.VITE_CLUSTER_TESTNET_SUBSCRIPTIONS,
 })
-
