@@ -12,7 +12,7 @@
     "@wxt-dev/browser": "^0.1.4"
   },
   "devDependencies": {
-    "@types/node": "catalog:",
+    "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },

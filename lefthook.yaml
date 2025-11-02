@@ -2,11 +2,11 @@ pre-commit:
   parallel: true
   jobs:
     - name: lint
-      run: pnpm lint
+      run: bun lint
       glob: "*"
 
 commit-msg:
   parallel: true
   commands:
     commitlint:
-      run: pnpm commitlint --edit {1}
+      run: bun commitlint --edit {1}

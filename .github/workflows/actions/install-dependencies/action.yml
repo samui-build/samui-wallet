@@ -1,18 +1,19 @@
 name: Install Dependencies
-description: Sets up Node and its package manager, then installs all dependencies
+description: Sets up Bun, then installs all dependencies
 
 runs:
   using: composite
   steps:
-    - name: Install pnpm
-      uses: pnpm/action-setup@v4
-
     - name: Install Node.js
       uses: actions/setup-node@v5
       with:
-        node-version: 24
-        cache: 'pnpm'
+        node-version: lts/krypton
+
+    - name: Install bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        bun-version-file: '.bun-version'
 
     - name: Install dependencies
       shell: bash
-      run: pnpm install
+      run: bun ci
