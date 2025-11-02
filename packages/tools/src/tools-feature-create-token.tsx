@@ -26,7 +26,7 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
 
   const queryKeypair = useQuery({
     queryFn: () => generateKeyPairSigner(),
-    queryKey: ['keypair'],
+    queryKey: ['generateKeyPairSigner'],
     refetchOnWindowFocus: false,
   })
 

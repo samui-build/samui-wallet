@@ -23,8 +23,12 @@ interface SendTokenInput {
 }
 
 export function PortfolioFeatureTabTokens(props: ClusterWallet) {
-  const balances = useGetTokenBalances(props)
-  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo(props)
+  const { cluster, wallet } = props
+  const balances = useGetTokenBalances({ address: wallet.publicKey, cluster })
+  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo({
+    address: wallet.publicKey,
+    cluster,
+  })
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
   const sendSplMutation = useCreateAndSendSplTransaction(props)
@@ -56,7 +60,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
           ...input,
           decimals: input.mint.decimals,
           mint: input.mint.mint,
-          wallet: props.wallet,
+          wallet: wallet,
         }),
       )
 
@@ -71,13 +75,13 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         toastError(`Failed to send ${tokenSymbol}`)
       }
     },
-    [props.wallet, sendSplMutation],
+    [wallet, sendSplMutation],
   )
 
   const handleSendSol = useCallback(
     async (input: SendTokenInput): Promise<void> => {
       const { data: result, error: sendError } = await tryCatch(
-        sendSolMutation.mutateAsync({ ...input, wallet: props.wallet }),
+        sendSolMutation.mutateAsync({ ...input, wallet: wallet }),
       )
 
       if (sendError) {
@@ -91,7 +95,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         toastError('Failed to send SOL')
       }
     },
-    [props.wallet, sendSolMutation],
+    [wallet, sendSolMutation],
   )
 
   const handleSendToken = useCallback(
@@ -112,11 +116,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
     <div className="p-4 space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
       <PortfolioUiWalletButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
-      <PortfolioUiRequestAirdrop
-        cluster={props.cluster}
-        lamports={dataAccountInfo?.value?.lamports}
-        wallet={props.wallet}
-      />
+      <PortfolioUiRequestAirdrop cluster={cluster} lamports={dataAccountInfo?.value?.lamports} wallet={wallet} />
       <PortfolioUiTokenBalances items={balances} />
     </div>
   )

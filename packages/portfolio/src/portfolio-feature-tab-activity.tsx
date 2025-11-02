@@ -10,7 +10,10 @@ import { LucideRefreshCw } from 'lucide-react'
 import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.js'
 
 export function PortfolioFeatureTabActivity(props: { cluster: Cluster; wallet: Wallet }) {
-  const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity(props)
+  const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
+    address: props.wallet.publicKey,
+    cluster: props.cluster,
+  })
 
   return (
     <div className="space-y-2">

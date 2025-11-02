@@ -1,6 +1,4 @@
-import type { Commitment, Signature, Slot, TransactionError, UnixTimestamp } from '@solana/kit'
-
-import { address as addressFn } from '@solana/kit'
+import type { Address, Commitment, Signature, Slot, TransactionError, UnixTimestamp } from '@solana/kit'
 
 import type { SolanaClient } from './solana-client'
 
@@ -15,6 +13,6 @@ export type GetActivityItem = Readonly<{
 
 export type GetActivityItems = Readonly<GetActivityItem[]>
 
-export function getActivity(client: SolanaClient, { address }: { address: string }): Promise<GetActivityItems> {
-  return client.rpc.getSignaturesForAddress(addressFn(address)).send()
+export function getActivity(client: SolanaClient, { address }: { address: Address }): Promise<GetActivityItems> {
+  return client.rpc.getSignaturesForAddress(address).send()
 }
