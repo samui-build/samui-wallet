@@ -1,28 +1,59 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "ui": "stream",
-  "globalEnv": ["TAURI_DEV_HOST"],
+  "globalEnv": [
+    "TAURI_DEV_HOST",
+    "VITE_ACTIVE_CLUSTER_ID",
+    "VITE_API_ENDPOINT",
+    "VITE_CLUSTER_DEVNET",
+    "VITE_CLUSTER_DEVNET_SUBSCRIPTIONS",
+    "VITE_CLUSTER_LOCALNET",
+    "VITE_CLUSTER_LOCALNET_SUBSCRIPTIONS",
+    "VITE_CLUSTER_MAINNET",
+    "VITE_CLUSTER_MAINNET_SUBSCRIPTIONS",
+    "VITE_CLUSTER_TESTNET",
+    "VITE_CLUSTER_TESTNET_SUBSCRIPTIONS"
+  ],
   "tasks": {
     "build": {
-      "dependsOn": ["^build"],
-      "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**", ".output", ".wxt"]
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "$TURBO_DEFAULT$",
+        ".env*"
+      ],
+      "outputs": [
+        ".next/**",
+        "!.next/cache/**",
+        "dist/**",
+        ".output",
+        ".wxt"
+      ]
     },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": [
+        "^lint"
+      ]
     },
     "lint:fix": {
-      "dependsOn": ["^lint:fix"]
+      "dependsOn": [
+        "^lint:fix"
+      ]
     },
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     },
     "dev": {
       "cache": false,
       "persistent": true
     },
     "test": {
-      "dependsOn": ["^test"]
+      "dependsOn": [
+        "^test"
+      ]
     },
     "test:watch": {
       "cache": false,

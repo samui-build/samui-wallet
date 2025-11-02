@@ -1,3 +1,5 @@
+import { ShellFeature } from '@workspace/shell/shell-feature'
+
 export function App() {
-  return <div>Popup</div>
+  return <ShellFeature />
 }

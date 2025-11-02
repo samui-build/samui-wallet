@@ -6,9 +6,26 @@
     <title>Samui</title>
     <meta name="manifest.open_at_install" content="true" />
     <meta name="manifest.browser_style" content="true" />
+    <style>
+      html,
+      body {
+        width: 375px;
+        height: 600px;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      #root {
+        width: 100%;
+        height: 100%;
+        overflow-y: auto;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="../../env.ts"></script>
+    <script type="module" src="../../setup.ts"></script>
     <script type="module" src="./main.tsx"></script>
   </body>
 </html>

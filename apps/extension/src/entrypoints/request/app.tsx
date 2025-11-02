@@ -2,8 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { getRequestService } from '@workspace/background/services/request'
 
 import { Connect } from '../../components/connect'
+import { SignAndSendTransaction } from '../../components/sign-and-send-transaction'
 import { SignIn } from '../../components/sign-in'
 import { SignMessage } from '../../components/sign-message'
+import { SignTransaction } from '../../components/sign-transaction'
 
 export function App() {
   const { data, isLoading } = useQuery({
