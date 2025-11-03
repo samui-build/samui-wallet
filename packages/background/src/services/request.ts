@@ -54,8 +54,11 @@ type Requests =
       type: 'connect'
     }
 
-type ResolveType<T extends Requests['type']> =
-  Extract<Requests, { type: T }> extends { resolve: (data: infer R) => void } ? R : never
+type ResolveType<T extends Requests['type']> = Extract<Requests, { type: T }> extends {
+  resolve: (data: infer R) => void
+}
+  ? R
+  : never
 
 class RequestService {
   private request?: Requests
