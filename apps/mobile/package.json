@@ -7,10 +7,7 @@
   },
   "devDependencies": {
     "@types/react": "catalog:",
-    "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
-    "eslint-config-expo": "~10.0.0",
     "typescript": "catalog:"
   },
   "main": "index.ts",
@@ -19,8 +16,7 @@
   "scripts": {
     "android": "expo start --android",
     "dev": "expo start",
-    "ios": "expo start --ios",
-    "lint": "expo lint"
+    "ios": "expo start --ios"
   },
   "version": "1.0.0"
 }

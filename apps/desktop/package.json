@@ -12,8 +12,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^4.6.0",
-    "@workspace/config-eslint": "workspace:*",
-    "eslint": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "^7.0.4"
@@ -25,8 +23,6 @@
     "build": "tsc && vite build",
     "check-types": "tsc --noEmit",
     "dev": "vite",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "preview": "vite preview",
     "tauri": "tauri"
   },

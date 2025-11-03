@@ -1,7 +1,5 @@
 import { address, getAddressEncoder } from "@solana/kit";
 import type { StandardConnectOutput } from "@wallet-standard/core";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-expect-error -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from "@webext-core/proxy-service";
 import { db } from "@workspace/db/db";
 import { dbAccountCreate } from "@workspace/db/db-account-create";

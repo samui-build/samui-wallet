@@ -12,8 +12,7 @@
 ## Code Style
 
 - **TypeScript**: Strict mode, consistent type definitions/imports
-- **Formatting**: Prettier (single quotes, 120 width, no semicolons, trailing commas)
-- **Linting**: ESLint with perfectionist (alphabetical imports/sorting)
+- **Formatting / Linting**: Biome
 - **Naming**: camelCase variables/functions, PascalCase types
 - **Error Handling**: Use `tryCatch` from `@workspace/core`
 - **Testing**: Vitest globals, jsdom env, ARRANGE/ACT/ASSERT pattern
@@ -26,31 +25,31 @@
 All tests must follow this strict structure:
 
 ```typescript
-describe('function-name', () => {
+describe("function-name", () => {
   beforeEach(async () => {
     // Clear database or reset state
-  })
+  });
 
-  describe('expected behavior', () => {
-    it('should do something when condition is met', async () => {
+  describe("expected behavior", () => {
+    it("should do something when condition is met", async () => {
       // Test implementation
-    })
-  })
+    });
+  });
 
-  describe('unexpected behavior', () => {
+  describe("unexpected behavior", () => {
     beforeEach(() => {
-      vi.spyOn(console, 'log').mockImplementation(() => {})
-    })
+      vi.spyOn(console, "log").mockImplementation(() => {});
+    });
 
     afterEach(() => {
-      vi.restoreAllMocks()
-    })
+      vi.restoreAllMocks();
+    });
 
-    it('should throw an error when something fails', async () => {
+    it("should throw an error when something fails", async () => {
       // Test implementation
-    })
-  })
-})
+    });
+  });
+});
 ```
 
 ### Test Sections
@@ -65,18 +64,18 @@ describe('function-name', () => {
 Every test must follow the ARRANGE/ACT/ASSERT pattern with explicit comments:
 
 ```typescript
-it('should create a cluster', async () => {
+it("should create a cluster", async () => {
   // ARRANGE
-  expect.assertions(2) // REQUIRED: Explicit assertion count
-  const input = testClusterInputCreate()
+  expect.assertions(2); // REQUIRED: Explicit assertion count
+  const input = testClusterInputCreate();
 
   // ACT
-  const result = await dbClusterCreate(db, input) // REQUIRED: Results must be called result, result1, etc...
+  const result = await dbClusterCreate(db, input); // REQUIRED: Results must be called result, result1, etc...
 
   // ASSERT
-  expect(result).toBeDefined()
-  expect(result?.name).toBe(input.name)
-})
+  expect(result).toBeDefined();
+  expect(result?.name).toBe(input.name);
+});
 ```
 
 ### Combined ACT & ASSERT
@@ -84,17 +83,17 @@ it('should create a cluster', async () => {
 For error testing, ACT & ASSERT can be combined:
 
 ```typescript
-it('should throw an error with an invalid key', async () => {
+it("should throw an error with an invalid key", async () => {
   // ARRANGE
-  expect.assertions(1) // REQUIRED: Explicit assertion count
+  expect.assertions(1); // REQUIRED: Explicit assertion count
   const input = testClusterInputCreate({
     // @ts-expect-error: Testing invalid input
-    type: 'invalid-type',
-  })
+    type: "invalid-type",
+  });
 
   // ACT & ASSERT
-  await expect(dbClusterCreate(db, input)).rejects.toThrow()
-})
+  await expect(dbClusterCreate(db, input)).rejects.toThrow();
+});
 ```
 
 ### Key Requirements

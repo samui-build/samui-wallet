@@ -43,18 +43,6 @@ jobs:
       - name: Check Types
         run: pnpm check-types
 
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v5
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Format
-        run: pnpm format:check
-
   lint:
     runs-on: ubuntu-latest
     steps:
