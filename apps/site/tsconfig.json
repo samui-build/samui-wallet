@@ -1,5 +1,6 @@
 {
-  "extends": "astro/tsconfigs/strict",
-  "include": [".astro/types.d.ts", "**/*"],
-  "exclude": ["dist"]
+  "extends": ["@workspace/config-typescript/react-library.json", "astro/tsconfigs/strict"],
+  "compilerOptions": {
+    "outDir": "dist"
+  }
 }

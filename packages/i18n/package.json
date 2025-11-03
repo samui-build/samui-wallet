@@ -25,5 +25,6 @@
     "i18n:lint": "i18next-cli lint",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+  },
+  "type": "module"
 }

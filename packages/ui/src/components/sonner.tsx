@@ -18,7 +18,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
           '--normal-text': 'var(--popover-foreground)',
         } as React.CSSProperties
       }
-      theme={theme as ToasterProps['theme']}
+      theme={theme as NonNullable<ToasterProps['theme']>}
       {...props}
     />
   )

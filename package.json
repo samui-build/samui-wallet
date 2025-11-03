@@ -6,14 +6,13 @@
     "@commitlint/config-conventional": "^20.0.0",
     "@commitlint/types": "^20.0.0",
     "@radix-ui/react-select": "^2.2.6",
+    "@turbo/gen": "^2.5.8",
     "@workspace/config-eslint": "workspace:*",
-    "@workspace/config-typescript": "workspace:*",
     "lefthook": "^2.0.1",
     "pkg-pr-new": "^0.0.60",
     "prettier": "^3.6.2",
     "syncpack": "14.0.0-alpha.23",
     "turbo": "^2.5.8",
-    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "engines": {
@@ -42,5 +41,6 @@
     "prepare": "lefthook install",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  }
+  },
+  "type": "module"
 }

@@ -31,6 +31,10 @@ export function SignMessage({ wallet, account }: SignMessageProps) {
         })
         console.log('Signed Message:', response)
 
+        if (!response?.signature) {
+          throw new Error('No signature returned from signMessage')
+        }
+
         const decoded = getBase58Decoder().decode(response.signature)
         console.log('Signature:', decoded)
 

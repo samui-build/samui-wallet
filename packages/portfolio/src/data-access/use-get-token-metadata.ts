@@ -16,7 +16,7 @@ export interface TokenBalance {
   balanceToken?: string
   balanceUsd?: string
   decimals: number
-  metadata?: TokenMetadata
+  metadata?: TokenMetadata | undefined
   mint: string
 }
 

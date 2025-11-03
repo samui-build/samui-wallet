@@ -2,7 +2,5 @@
   "extends": "@workspace/config-typescript/react-library.json",
   "compilerOptions": {
     "outDir": "dist"
-  },
-  "include": ["src", "test"],
-  "exclude": ["node_modules", "dist"]
+  }
 }

@@ -30,5 +30,6 @@
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  }
+  },
+  "type": "module"
 }
