@@ -4,11 +4,10 @@ import './i18next.d.ts'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
-import enTranslations from '../locales/en/translation.json' with { type: 'json' }
-import esTranslations from '../locales/es/translation.json' with { type: 'json' }
+import enOnboarding from '../locales/en/onboarding.json' with { type: 'json' }
+import esOnboarding from '../locales/es/onboarding.json' with { type: 'json' }
 
 i18n.use(initReactI18next).init({
-  defaultNS: 'translation',
   fallbackLng: 'en',
   interpolation: {
     escapeValue: false,
@@ -16,10 +15,10 @@ i18n.use(initReactI18next).init({
   lng: 'en',
   resources: {
     en: {
-      translation: enTranslations,
+      onboarding: enOnboarding,
     },
     es: {
-      translation: esTranslations,
+      onboarding: esOnboarding,
     },
   },
 })
