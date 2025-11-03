@@ -12,7 +12,7 @@
 ## Code Style
 
 - **TypeScript**: Strict mode, consistent type definitions/imports
-- **Formatting**: Prettier (single quotes, 120 width, no semicolons, trailing commas)
+- **Formatting**: Biome (single quotes, 120 width, no semicolons, trailing commas)
 - **Linting**: ESLint with perfectionist (alphabetical imports/sorting)
 - **Naming**: camelCase variables/functions, PascalCase types
 - **Error Handling**: Use `tryCatch` from `@workspace/core`
