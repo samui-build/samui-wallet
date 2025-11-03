@@ -1,4 +1,4 @@
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from './empty.js'
+import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from './empty.tsx'
 
 export function UiError({ message = '' }: { message?: unknown }) {
   return (

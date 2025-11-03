@@ -1,16 +1,8 @@
 import type { ComponentProps, ReactNode } from 'react'
 
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card'
-import { UiBack } from '@workspace/ui/components/ui-back'
-import { cn } from '@workspace/ui/lib/utils'
+import { cn } from '../lib/utils.ts'
+import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card.tsx'
+import { UiBack } from './ui-back.tsx'
 
 export function UiCard({
   action,

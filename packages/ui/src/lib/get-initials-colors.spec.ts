@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
-import { getInitialsColor } from './get-initials-colors.js'
+import { getInitialsColor } from './get-initials-colors.ts'
 
 describe('get-initials-color', () => {
   it('should return color based on initials', () => {

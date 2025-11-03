@@ -1,5 +1,5 @@
-import { cn } from '../lib/utils.js'
-import { UiLoader } from './ui-loader.js'
+import { cn } from '../lib/utils.ts'
+import { UiLoader } from './ui-loader.tsx'
 
 export function UiLoaderFull({ className, classNameSpinner }: { className?: string; classNameSpinner?: string }) {
   return (

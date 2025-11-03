@@ -1,8 +1,8 @@
 import { useMemo } from 'react'
 
-import { getInitialsColor } from '../lib/get-initials-colors.js'
-import { getInitials } from '../lib/get-initials.js'
-import { Avatar, AvatarFallback, AvatarImage } from './avatar.js'
+import { getInitialsColor } from '../lib/get-initials-colors.ts'
+import { getInitials } from '../lib/get-initials.ts'
+import { Avatar, AvatarFallback, AvatarImage } from './avatar.tsx'
 
 export function UiAvatar({ className, label, src }: { className?: string; label: string; src?: string }) {
   const initials = useMemo(() => getInitials(label), [label])
