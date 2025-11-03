@@ -1,10 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { ClusterInputFindMany } from './dto/cluster-input-find-many'
-import type { Cluster } from './entity/cluster'
+import type { Database } from './database.ts'
+import type { ClusterInputFindMany } from './dto/cluster-input-find-many.ts'
+import type { Cluster } from './entity/cluster.ts'
 
-import { clusterSchemaFindMany } from './schema/cluster-schema-find-many'
+import { clusterSchemaFindMany } from './schema/cluster-schema-find-many.ts'
 
 export async function dbClusterFindMany(db: Database, input: ClusterInputFindMany = {}): Promise<Cluster[]> {
   const parsedInput = clusterSchemaFindMany.parse(input)

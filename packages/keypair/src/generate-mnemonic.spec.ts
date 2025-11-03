@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { generateMnemonic } from './generate-mnemonic'
-import { getMnemonicWordlist } from './get-mnemonic-wordlist'
+import { generateMnemonic } from './generate-mnemonic.ts'
+import { getMnemonicWordlist } from './get-mnemonic-wordlist.ts'
 
 describe('generate-mnemonic', () => {
   describe('expected behavior', () => {

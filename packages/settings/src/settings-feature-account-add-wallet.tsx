@@ -1,6 +1,5 @@
-import type { Account } from '@workspace/db/entity/account'
-
 import { assertIsAddress } from '@solana/kit'
+import type { Account } from '@workspace/db/entity/account'
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
@@ -16,9 +15,9 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useParams } from 'react-router'
 
-import { useDeriveAndCreateWallet } from './data-access/use-derive-and-create-wallet.js'
-import { SettingsUiAccountItem } from './ui/settings-ui-account-item.js'
-import { WalletUiIcon } from './ui/wallet-ui-icon.js'
+import { useDeriveAndCreateWallet } from './data-access/use-derive-and-create-wallet.tsx'
+import { SettingsUiAccountItem } from './ui/settings-ui-account-item.tsx'
+import { WalletUiIcon } from './ui/wallet-ui-icon.tsx'
 
 export function SettingsFeatureAccountAddWallet() {
   const { accountId } = useParams() as { accountId: string }

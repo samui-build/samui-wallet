@@ -1,9 +1,7 @@
 import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
-
-import type { ClusterWallet } from './portfolio-routes-loaded.js'
-
-import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.js'
-import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.js'
+import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.tsx'
+import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.tsx'
+import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
 
 export function PortfolioFeatureIndex(props: ClusterWallet) {
   return (

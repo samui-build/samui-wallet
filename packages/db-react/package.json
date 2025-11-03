@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/db-react",
-  "version": "0.0.0",
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
@@ -21,11 +19,13 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/db-react",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

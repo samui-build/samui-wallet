@@ -1,6 +1,3 @@
-import { useWalletAccountTransactionSigner } from '@solana/react'
-import { type UiWalletAccount } from '@wallet-standard/react'
-import { Button } from './ui/button'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -15,7 +12,10 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
+import { useWalletAccountTransactionSigner } from '@solana/react'
 import { getTransferSolInstruction } from '@solana-program/system'
+import type { UiWalletAccount } from '@wallet-standard/react'
+import { Button } from './ui/button.tsx'
 
 interface SignTransactionProps {
   account: UiWalletAccount
@@ -35,9 +35,9 @@ export function SignTransaction({ account }: SignTransactionProps) {
         const LAMPORTS_PER_SOL = 1_000_000_000n
         const transferAmount = lamports(LAMPORTS_PER_SOL / 100n) // 0.01 SOL
         const transferInstruction = getTransferSolInstruction({
-          source: sender,
-          destination: address('H2S3PxG5jtpJt6MCUyqbrz5TigW5M7zQgkEMmLsyacaT'),
           amount: transferAmount,
+          destination: address('H2S3PxG5jtpJt6MCUyqbrz5TigW5M7zQgkEMmLsyacaT'),
+          source: sender,
         })
 
         const transactionMessage = pipe(

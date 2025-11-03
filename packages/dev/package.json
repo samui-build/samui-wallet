@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/dev",
-  "version": "0.0.0",
   "dependencies": {
     "@hookform/resolvers": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -29,9 +27,11 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/dev",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

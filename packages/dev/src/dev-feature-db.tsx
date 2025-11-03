@@ -1,5 +1,5 @@
-import { DevFeatureDbClusterFindMany } from './dev-feature-db-cluster-find-many.js'
-import { DevFeatureDbTables } from './dev-feature-db-tables.js'
+import { DevFeatureDbClusterFindMany } from './dev-feature-db-cluster-find-many.tsx'
+import { DevFeatureDbTables } from './dev-feature-db-tables.tsx'
 
 export default function DevFeatureDb() {
   return (

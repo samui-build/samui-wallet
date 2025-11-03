@@ -1,7 +1,6 @@
-import type { ComponentProps } from 'react'
-
 import { Button } from '@workspace/ui/components/button'
 import { LucideSave } from 'lucide-react'
+import type { ComponentProps } from 'react'
 
 export function OnboardingUiMnemonicSave({
   label,

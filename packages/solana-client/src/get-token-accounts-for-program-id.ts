@@ -2,7 +2,7 @@ import type { Address } from '@solana/kit'
 
 import { address as addressFn } from '@solana/kit'
 
-import type { SolanaClient } from './solana-client'
+import type { SolanaClient } from './solana-client.ts'
 
 export async function getTokenAccountsForProgramId(
   client: SolanaClient,

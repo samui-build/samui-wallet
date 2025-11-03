@@ -1,11 +1,10 @@
 'use client'
 
-import type { DayButton } from 'react-day-picker'
-
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
-import * as React from 'react'
+import type { ComponentProps } from 'react'
+import { useEffect, useRef } from 'react'
+import type { DayButton } from 'react-day-picker'
 import { DayPicker, getDefaultClassNames } from 'react-day-picker'
-
 import { cn } from '../lib/utils.ts'
 import { Button, buttonVariants } from './button.tsx'
 
@@ -19,8 +18,8 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant']
-} & React.ComponentProps<typeof DayPicker>) {
+  buttonVariant?: ComponentProps<typeof Button>['variant']
+} & ComponentProps<typeof DayPicker>) {
   const defaultClassNames = getDefaultClassNames()
 
   return (
@@ -127,11 +126,11 @@ function Calendar({
   )
 }
 
-function CalendarDayButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
+function CalendarDayButton({ className, day, modifiers, ...props }: ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames()
 
-  const ref = React.useRef<HTMLButtonElement>(null)
-  React.useEffect(() => {
+  const ref = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
     if (modifiers['focused']) ref.current?.focus()
   }, [modifiers['focused']])
 

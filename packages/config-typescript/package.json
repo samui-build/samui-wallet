@@ -1,7 +1,7 @@
 {
-  "name": "@workspace/config-typescript",
-  "version": "0.0.0",
   "license": "MIT",
+  "name": "@workspace/config-typescript",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

@@ -1,4 +1,4 @@
-import { walletSchema } from './wallet-schema'
+import { walletSchema } from './wallet-schema.ts'
 
 export const walletSchemaCreate = walletSchema
   .omit({

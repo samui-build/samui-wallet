@@ -1,11 +1,11 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "samui-wallet-web",
-  "compatibility_date": "2025-10-17",
   "assets": {
     "directory": "./dist",
     "not_found_handling": "single-page-application"
   },
+  "compatibility_date": "2025-10-17",
+  "name": "samui-wallet-web",
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
@@ -13,8 +13,8 @@
   "preview_urls": true,
   "routes": [
     {
-      "pattern": "wallet.samui.build",
-      "custom_domain": true
+      "custom_domain": true,
+      "pattern": "wallet.samui.build"
     }
   ],
   "send_metrics": false

@@ -3,7 +3,7 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { ItemGroup } from '@workspace/ui/components/item'
 
-import { SettingsUiAccountListItem } from './settings-ui-account-list-item.js'
+import { SettingsUiAccountListItem } from './settings-ui-account-list-item.tsx'
 
 export function SettingsUiAccountList({
   active,

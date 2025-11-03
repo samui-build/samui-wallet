@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39'
 
-import { getMnemonicWordlist } from './get-mnemonic-wordlist'
+import { getMnemonicWordlist } from './get-mnemonic-wordlist.ts'
 
 export function validateMnemonic({ mnemonic }: { mnemonic: string }) {
   const wordlist = getMnemonicWordlist()

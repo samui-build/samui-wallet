@@ -1,6 +1,6 @@
-import type { Tool } from './tools-feature-overview.js'
+import type { Tool } from './tools-feature-overview.tsx'
 
-import { ToolsUiOverviewItem } from './tools-ui-overview-item.js'
+import { ToolsUiOverviewItem } from './tools-ui-overview-item.tsx'
 
 export function ToolsUiOverview({ tools }: { tools: Tool[] }) {
   return (

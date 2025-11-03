@@ -1,7 +1,7 @@
 import { UiAvatar } from '@workspace/ui/components/ui-avatar'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
 export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
   const name = item.metadata?.name ?? ellipsify(item.mint)

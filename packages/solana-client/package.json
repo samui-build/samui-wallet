@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/solana-client",
-  "version": "0.0.0",
   "dependencies": {
     "@solana-program/system": "catalog:",
     "@solana-program/token": "catalog:",
@@ -19,11 +17,13 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/solana-client",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

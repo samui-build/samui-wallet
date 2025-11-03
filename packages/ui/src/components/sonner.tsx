@@ -1,8 +1,8 @@
 'use client'
 
-import type { ToasterProps } from 'sonner'
-
 import { useTheme } from 'next-themes'
+import type { CSSProperties } from 'react'
+import type { ToasterProps } from 'sonner'
 import { Toaster as Sonner } from 'sonner'
 
 function Toaster({ ...props }: ToasterProps) {
@@ -16,7 +16,7 @@ function Toaster({ ...props }: ToasterProps) {
           '--normal-bg': 'var(--popover)',
           '--normal-border': 'var(--border)',
           '--normal-text': 'var(--popover-foreground)',
-        } as React.CSSProperties
+        } as CSSProperties
       }
       theme={theme as NonNullable<ToasterProps['theme']>}
       {...props}

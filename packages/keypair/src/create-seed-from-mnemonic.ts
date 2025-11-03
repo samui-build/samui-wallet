@@ -1,7 +1,7 @@
 import * as bip39 from '@scure/bip39'
 import { tryCatch } from '@workspace/core/try-catch'
 
-import { validateMnemonic } from './validate-mnemonic'
+import { validateMnemonic } from './validate-mnemonic.ts'
 
 export async function createSeedFromMnemonic({
   mnemonic,

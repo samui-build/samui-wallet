@@ -5,10 +5,10 @@ import { PortfolioUiClusterWalletGuard } from '@workspace/portfolio/ui/portfolio
 import { lazy } from 'react'
 import { useRoutes } from 'react-router'
 
-const ToolsFeatureAirdrop = lazy(() => import('./tools-feature-airdrop.js'))
-const ToolsFeatureCreateToken = lazy(() => import('./tools-feature-create-token.js'))
-const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.js'))
-const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.js'))
+const ToolsFeatureAirdrop = lazy(() => import('./tools-feature-airdrop.tsx'))
+const ToolsFeatureCreateToken = lazy(() => import('./tools-feature-create-token.tsx'))
+const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.tsx'))
+const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
 
 export function Router(props: { cluster: Cluster; wallet: Wallet }) {
   return useRoutes([

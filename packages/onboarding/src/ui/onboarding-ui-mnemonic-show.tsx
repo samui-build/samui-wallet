@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/al
 import { AlertCircleIcon } from 'lucide-react'
 import { useMemo } from 'react'
 
-import { OnboardingUiMnemonicWordReadonly } from './onboarding-ui-mnemonic-word-readonly.js'
+import { OnboardingUiMnemonicWordReadonly } from './onboarding-ui-mnemonic-word-readonly.tsx'
 
 export function OnboardingUiMnemonicShow({ mnemonic }: { mnemonic: string }) {
   const expected = [12, 24]

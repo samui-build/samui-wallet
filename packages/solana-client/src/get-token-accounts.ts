@@ -1,9 +1,7 @@
 import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'
-
-import type { SolanaClient } from './solana-client'
-
-import { getTokenAccountsForProgramId } from './get-token-accounts-for-program-id'
+import { getTokenAccountsForProgramId } from './get-token-accounts-for-program-id.ts'
+import type { SolanaClient } from './solana-client.ts'
 
 export type GetTokenAccountsResult = Awaited<ReturnType<typeof getTokenAccounts>>
 

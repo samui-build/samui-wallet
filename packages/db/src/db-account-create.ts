@@ -1,12 +1,11 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { AccountInputCreate } from './dto/account-input-create'
-
-import { dbAccountCreateDetermineOrder } from './db-account-create-determine-order'
-import { dbPreferenceGetValue } from './db-preference-get-value'
-import { dbPreferenceSetValue } from './db-preference-set-value'
-import { accountSchemaCreate } from './schema/account-schema-create'
+import type { Database } from './database.ts'
+import { dbAccountCreateDetermineOrder } from './db-account-create-determine-order.ts'
+import { dbPreferenceGetValue } from './db-preference-get-value.ts'
+import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import type { AccountInputCreate } from './dto/account-input-create.ts'
+import { accountSchemaCreate } from './schema/account-schema-create.ts'
 
 export async function dbAccountCreate(db: Database, input: AccountInputCreate): Promise<string> {
   const now = new Date()

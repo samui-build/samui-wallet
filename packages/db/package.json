@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/db",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
@@ -19,6 +17,7 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/db",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -28,5 +27,6 @@
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

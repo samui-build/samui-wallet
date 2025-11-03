@@ -2,7 +2,7 @@ import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
 import { useDbPreference } from '@workspace/db-react/use-db-preference'
 import { useMemo } from 'react'
 
-import { SettingsUiClusterDropdown } from './ui/settings-ui-cluster-dropdown.js'
+import { SettingsUiClusterDropdown } from './ui/settings-ui-cluster-dropdown.tsx'
 
 export function SettingsFeatureClusterDropdown() {
   const items = useDbClusterLive()

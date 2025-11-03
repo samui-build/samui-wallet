@@ -3,8 +3,8 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useRoutes } from 'react-router'
 
-import { PortfolioFeatureIndex } from './portfolio-feature-index.js'
-import { PortfolioFeatureTx } from './portfolio-feature-tx.js'
+import { PortfolioFeatureIndex } from './portfolio-feature-index.tsx'
+import { PortfolioFeatureTx } from './portfolio-feature-tx.tsx'
 
 export interface ClusterWallet {
   cluster: Cluster

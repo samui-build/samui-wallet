@@ -1,6 +1,6 @@
 import { LucideNetwork, LucideSettings, LucideWallet2 } from 'lucide-react'
 
-import type { SettingsPage } from './settings-page.js'
+import type { SettingsPage } from './settings-page.ts'
 
 export function useSettingsPages(): SettingsPage[] {
   return [

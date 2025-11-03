@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRequestService } from '@workspace/background/services/request'
 
-import { Connect } from '../../components/connect'
-import { SignIn } from '../../components/sign-in'
-import { SignMessage } from '../../components/sign-message'
+import { Connect } from '../../components/connect.tsx'
+import { SignIn } from '../../components/sign-in.tsx'
+import { SignMessage } from '../../components/sign-message.tsx'
 
 export function App() {
   const { data, isLoading } = useQuery({

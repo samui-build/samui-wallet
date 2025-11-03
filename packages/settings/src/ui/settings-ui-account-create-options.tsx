@@ -1,8 +1,8 @@
 import { LucideHardDrive, LucideNotepadText } from 'lucide-react'
 
-import { SettingsUiAccountCreateComingSoon } from './settings-ui-account-create-coming-soon.js'
-import { SettingsUiAccountCreateHeader } from './settings-ui-account-create-header.js'
-import { SettingsUiAccountCreateLink } from './settings-ui-account-create-link.js'
+import { SettingsUiAccountCreateComingSoon } from './settings-ui-account-create-coming-soon.tsx'
+import { SettingsUiAccountCreateHeader } from './settings-ui-account-create-header.tsx'
+import { SettingsUiAccountCreateLink } from './settings-ui-account-create-link.tsx'
 
 export function SettingsUiAccountCreateOptions() {
   return (

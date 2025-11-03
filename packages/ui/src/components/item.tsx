@@ -1,17 +1,17 @@
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
-import * as React from 'react'
+import type { ComponentProps } from 'react'
 
 import { cn } from '../lib/utils.ts'
 import { Separator } from './separator.tsx'
 
-function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemGroup({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div className={cn('group/item-group flex flex-col', className)} data-slot="item-group" role="list" {...props} />
   )
 }
 
-function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
+function ItemSeparator({ className, ...props }: ComponentProps<typeof Separator>) {
   return <Separator className={cn('my-0', className)} data-slot="item-separator" orientation="horizontal" {...props} />
 }
 
@@ -42,7 +42,7 @@ function Item({
   size = 'default',
   variant = 'default',
   ...props
-}: { asChild?: boolean } & React.ComponentProps<'div'> & VariantProps<typeof itemVariants>) {
+}: { asChild?: boolean } & ComponentProps<'div'> & VariantProps<typeof itemVariants>) {
   const Comp = asChild ? Slot : 'div'
   return (
     <Comp
@@ -71,11 +71,11 @@ const itemMediaVariants = cva(
   },
 )
 
-function ItemActions({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemActions({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('flex items-center gap-2', className)} data-slot="item-actions" {...props} />
 }
 
-function ItemContent({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemContent({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none', className)}
@@ -85,7 +85,7 @@ function ItemContent({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function ItemDescription({ className, ...props }: React.ComponentProps<'p'>) {
+function ItemDescription({ className, ...props }: ComponentProps<'p'>) {
   return (
     <p
       className={cn(
@@ -99,7 +99,7 @@ function ItemDescription({ className, ...props }: React.ComponentProps<'p'>) {
   )
 }
 
-function ItemFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemFooter({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex basis-full items-center justify-between gap-2', className)}
@@ -109,7 +109,7 @@ function ItemFooter({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function ItemHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemHeader({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex basis-full items-center justify-between gap-2', className)}
@@ -123,7 +123,7 @@ function ItemMedia({
   className,
   variant = 'default',
   ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof itemMediaVariants>) {
+}: ComponentProps<'div'> & VariantProps<typeof itemMediaVariants>) {
   return (
     <div
       className={cn(itemMediaVariants({ className, variant }))}
@@ -134,7 +134,7 @@ function ItemMedia({
   )
 }
 
-function ItemTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function ItemTitle({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex w-fit items-center gap-2 text-sm leading-snug font-medium', className)}

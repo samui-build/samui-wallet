@@ -1,10 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { PreferenceKey } from './entity/preference-key'
-
-import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key'
-import { preferenceKeySchema } from './schema/preference-key-schema'
+import type { Database } from './database.ts'
+import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key.ts'
+import type { PreferenceKey } from './entity/preference-key.ts'
+import { preferenceKeySchema } from './schema/preference-key-schema.ts'
 
 export async function dbPreferenceSetValue(db: Database, key: PreferenceKey, value: string): Promise<void> {
   if (!preferenceKeySchema.safeParse(key).success) {

@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { convertByteArrayToJson } from './convert-byte-array-to-json'
-import { createKeyPairSignerFromBip39 } from './create-key-pair-signer-from-bip39'
-import { extractByteArrayFromCryptoKeyPair } from './extract-byte-array-from-crypto-key-pair'
+import { convertByteArrayToJson } from './convert-byte-array-to-json.ts'
+import { createKeyPairSignerFromBip39 } from './create-key-pair-signer-from-bip39.ts'
+import { extractByteArrayFromCryptoKeyPair } from './extract-byte-array-from-crypto-key-pair.ts'
 
 describe('extract-byte-array-from-crypto-key-pair', () => {
   describe('expected behavior', () => {

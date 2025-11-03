@@ -4,7 +4,7 @@ import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
-import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.js'
+import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.tsx'
 
 export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: GetTokenAccountsResult }) {
   return items.length === 0 ? (

@@ -1,7 +1,4 @@
 import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
-
-import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-import { getCreateAssociatedTokenInstruction, getTransferCheckedInstruction } from '@solana-program/token'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -12,6 +9,11 @@ import {
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
 } from '@solana/kit'
+import {
+  getCreateAssociatedTokenInstruction,
+  getTransferCheckedInstruction,
+  TOKEN_PROGRAM_ADDRESS,
+} from '@solana-program/token'
 
 export interface LatestBlockhash {
   blockhash: Blockhash
