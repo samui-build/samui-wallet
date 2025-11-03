@@ -2,7 +2,5 @@
   "compilerOptions": {
     "outDir": "dist"
   },
-  "exclude": ["node_modules", "dist"],
-  "extends": ["@workspace/config-typescript/react-library.json", "./.wxt/tsconfig.json"],
-  "include": ["src", "./.wxt/wxt.d.ts"]
+  "extends": ["@workspace/config-typescript/react-library.json", "./.wxt/tsconfig.json"]
 }
