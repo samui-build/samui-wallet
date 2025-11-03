@@ -1,9 +1,8 @@
-import type { Database } from './database'
-import type { PreferenceKey } from './entity/preference-key'
-
-import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key'
-import { dbPreferenceSetValue } from './db-preference-set-value'
-import { dbWalletFindUnique } from './db-wallet-find-unique'
+import type { Database } from './database.ts'
+import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key.ts'
+import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbWalletFindUnique } from './db-wallet-find-unique.ts'
+import type { PreferenceKey } from './entity/preference-key.ts'
 
 export async function dbWalletSetActive(db: Database, id: string) {
   return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {

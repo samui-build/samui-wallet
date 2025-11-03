@@ -1,15 +1,13 @@
 import type { Address } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
-
 import { useQuery } from '@tanstack/react-query'
+import type { Cluster } from '@workspace/db/entity/cluster'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
-import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useMemo } from 'react'
-
-import { formatBalanceUsd } from './format-balance-usd.js'
-import { formatBalance } from './format-balance.js'
+import { formatBalance } from './format-balance.ts'
+import { formatBalanceUsd } from './format-balance-usd.ts'
 
 export interface TokenBalance {
   balance: bigint

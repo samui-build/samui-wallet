@@ -1,18 +1,14 @@
 import type { Address, KeyPairSigner } from '@solana/kit'
-
-import { findAssociatedTokenPda } from '@solana-program/token'
-import { fetchMint } from '@solana-program/token'
 import {
   address,
   getSignatureFromTransaction,
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
-
-import type { SolanaClient } from './solana-client'
-
-import { createSplTransferTransaction } from './create-spl-transfer-transaction'
-import { tokenAmountToTransferAmount } from './utils'
+import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
+import { createSplTransferTransaction } from './create-spl-transfer-transaction.ts'
+import type { SolanaClient } from './solana-client.ts'
+import { tokenAmountToTransferAmount } from './utils.ts'
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,

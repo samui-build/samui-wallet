@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/solana-client-react",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
@@ -24,9 +22,11 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/solana-client-react",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

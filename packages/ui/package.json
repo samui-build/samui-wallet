@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/ui",
-  "version": "0.0.0",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@nkzw/use-relative-time": "^1.2.1",
@@ -54,11 +52,12 @@
     "typescript": "catalog:"
   },
   "exports": {
-    "./globals.css": "./src/styles/globals.css",
-    "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./globals.css": "./src/styles/globals.css",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts"
   },
+  "name": "@workspace/ui",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -68,5 +67,6 @@
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

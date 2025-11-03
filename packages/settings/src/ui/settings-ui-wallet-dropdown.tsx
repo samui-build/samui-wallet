@@ -11,7 +11,7 @@ import {
 import { LucideWallet2 } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { WalletUiItem } from './wallet-ui-item.js'
+import { WalletUiItem } from './wallet-ui-item.tsx'
 
 export function SettingsUiWalletDropdown({
   active,

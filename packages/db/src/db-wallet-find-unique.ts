@@ -1,7 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { Wallet } from './entity/wallet'
+import type { Database } from './database.ts'
+import type { Wallet } from './entity/wallet.ts'
 
 export async function dbWalletFindUnique(db: Database, id: string): Promise<null | Wallet> {
   const { data, error } = await tryCatch(db.wallets.get(id))

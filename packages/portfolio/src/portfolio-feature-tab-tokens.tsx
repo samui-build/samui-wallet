@@ -1,20 +1,18 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
-
-import type { TokenBalance } from './data-access/use-get-token-metadata.js'
-import type { ClusterWallet } from './portfolio-routes-loaded.js'
-
-import { useGetTokenBalances } from './data-access/use-get-token-metadata.js'
-import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.js'
-import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.js'
-import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.js'
-import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.js'
-import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.js'
+import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
+import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
+import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
+import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
+import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
+import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.tsx'
+import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
+import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
 
 interface SendTokenInput {
   amount: string

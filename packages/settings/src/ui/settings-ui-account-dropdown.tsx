@@ -12,7 +12,7 @@ import { UiAvatar } from '@workspace/ui/components/ui-avatar'
 import { LucideWallet2 } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { SettingsUiAccountItem } from './settings-ui-account-item.js'
+import { SettingsUiAccountItem } from './settings-ui-account-item.tsx'
 
 export function SettingsUiAccountDropdown({
   active,

@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/tui",
-  "version": "0.0.0",
   "dependencies": {
     "@opentui/core": "^0.1.31",
     "@opentui/react": "^0.1.31",
@@ -20,9 +18,11 @@
   },
   "license": "MIT",
   "module": "src/index.tsx",
+  "name": "@workspace/tui",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

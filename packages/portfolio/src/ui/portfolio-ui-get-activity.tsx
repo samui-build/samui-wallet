@@ -5,11 +5,11 @@ import { UiTime } from '@workspace/ui/components/ui-time'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { LucideCalendar } from 'lucide-react'
 
-import { groupActivityItems } from './group-activity-items.js'
-import { PortfolioUiTxExplorerIcon } from './portfolio-ui-tx-explorer-icon.js'
-import { PortfolioUiTxLink } from './portfolio-ui-tx-link.js'
-import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.js'
-import { PortfolioUiTxTimestamp } from './portfolio-ui-tx-timestamp.js'
+import { groupActivityItems } from './group-activity-items.tsx'
+import { PortfolioUiTxExplorerIcon } from './portfolio-ui-tx-explorer-icon.tsx'
+import { PortfolioUiTxLink } from './portfolio-ui-tx-link.tsx'
+import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.tsx'
+import { PortfolioUiTxTimestamp } from './portfolio-ui-tx-timestamp.tsx'
 
 export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; items: GetActivityItems }) {
   const grouped = groupActivityItems(items)

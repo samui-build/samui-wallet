@@ -1,10 +1,10 @@
-import { connect } from './actions/connect'
-import { disconnect } from './actions/disconnect'
-import { signAndSendTransaction } from './actions/sign-and-send-transaction'
-import { signIn } from './actions/sign-in'
-import { signMessage } from './actions/sign-message'
-import { signTransaction } from './actions/sign-transaction'
-import { onMessage } from './extension'
+import { connect } from './actions/connect.ts'
+import { disconnect } from './actions/disconnect.ts'
+import { signAndSendTransaction } from './actions/sign-and-send-transaction.ts'
+import { signIn } from './actions/sign-in.ts'
+import { signMessage } from './actions/sign-message.ts'
+import { signTransaction } from './actions/sign-transaction.ts'
+import { onMessage } from './extension.ts'
 
 export function handlers() {
   onMessage('connect', async ({ data }) => await connect(data))

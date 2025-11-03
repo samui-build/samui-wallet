@@ -1,6 +1,3 @@
-import { Button } from './ui/button'
-import { getWalletFeature, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
-import { SolanaSignMessage, type SolanaSignMessageFeature } from '@solana/wallet-standard-features'
 import {
   address,
   getBase58Decoder,
@@ -9,6 +6,9 @@ import {
   signatureBytes,
   verifySignature,
 } from '@solana/kit'
+import { SolanaSignMessage, type SolanaSignMessageFeature } from '@solana/wallet-standard-features'
+import { getWalletFeature, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
+import { Button } from './ui/button.tsx'
 
 interface SignMessageProps {
   wallet: UiWallet

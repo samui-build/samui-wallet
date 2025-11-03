@@ -4,10 +4,10 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 
-import { useDetermineAccountName } from './data-access/use-determine-account-name.js'
-import { useGenerateAccountWithWalletMutation } from './data-access/use-generate-account-with-wallet-mutation.js'
-import { SettingsUiAccountFormGenerate } from './ui/settings-ui-account-form-generate.js'
-import { SettingsUiAccountMnemonicStrength } from './ui/settings-ui-account-mnemonic-strength.js'
+import { useDetermineAccountName } from './data-access/use-determine-account-name.tsx'
+import { useGenerateAccountWithWalletMutation } from './data-access/use-generate-account-with-wallet-mutation.tsx'
+import { SettingsUiAccountFormGenerate } from './ui/settings-ui-account-form-generate.tsx'
+import { SettingsUiAccountMnemonicStrength } from './ui/settings-ui-account-mnemonic-strength.tsx'
 
 export function SettingsFeatureAccountGenerate() {
   const generateAccountWithWalletMutation = useGenerateAccountWithWalletMutation()

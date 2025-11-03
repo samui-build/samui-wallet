@@ -1,7 +1,6 @@
-import type { PublicKeySecretKey } from './convert-key-pair-to-public-key-secret-key'
-
-import { convertKeyPairToPublicKeySecretKey } from './convert-key-pair-to-public-key-secret-key'
-import { importKeyPair } from './import-key-pair'
+import type { PublicKeySecretKey } from './convert-key-pair-to-public-key-secret-key.ts'
+import { convertKeyPairToPublicKeySecretKey } from './convert-key-pair-to-public-key-secret-key.ts'
+import { importKeyPair } from './import-key-pair.ts'
 
 export async function importKeyPairToPublicKeySecretKey(
   input: string,

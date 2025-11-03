@@ -1,13 +1,11 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import type { Account } from '../src/entity/account'
-
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountFindMany } from '../src/db-account-find-many'
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers'
+import { dbAccountCreate } from '../src/db-account-create.ts'
+import { dbAccountFindMany } from '../src/db-account-find-many.ts'
+import { dbWalletCreate } from '../src/db-wallet-create.ts'
+import type { Account } from '../src/entity/account.ts'
+import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 

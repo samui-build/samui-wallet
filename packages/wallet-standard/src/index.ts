@@ -1,1 +1,1 @@
-export { setup } from './setup'
+export { setup } from './setup.ts'

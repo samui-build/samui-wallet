@@ -1,7 +1,7 @@
 import { HDKey } from 'micro-key-producer/slip10.js'
 import { describe, expect, it } from 'vitest'
 
-import { createHDKeyFromMnemonic } from './create-hdkey-from-mnemonic'
+import { createHDKeyFromMnemonic } from './create-hdkey-from-mnemonic.ts'
 
 describe('create-hdkey-from-mnemonic', () => {
   describe('expected behavior', () => {

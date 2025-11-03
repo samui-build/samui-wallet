@@ -2,7 +2,7 @@ import type { Address } from '@solana/kit'
 
 import { airdropFactory, lamports } from '@solana/kit'
 
-import type { SolanaClient } from './solana-client'
+import type { SolanaClient } from './solana-client.ts'
 
 const LAMPORTS_PER_SOL = 1_000_000_000n
 

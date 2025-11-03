@@ -1,6 +1,4 @@
 {
-  "name": "extension",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/wallet-standard-features": "^1.3.0",
     "@tanstack/react-query": "catalog:",
@@ -21,6 +19,7 @@
     "typescript": "catalog:",
     "wxt": "^0.20.6"
   },
+  "name": "extension",
   "private": true,
   "scripts": {
     "build": "wxt build",
@@ -30,5 +29,6 @@
     "postinstall": "wxt prepare",
     "zip": "wxt zip"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

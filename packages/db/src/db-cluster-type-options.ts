@@ -1,4 +1,4 @@
-import type { ClusterType } from './entity/cluster-type'
+import type { ClusterType } from './entity/cluster-type.ts'
 
 export const dbClusterTypeOptions: { label: string; value: ClusterType }[] = [
   { label: 'Solana Devnet', value: 'solana:devnet' },

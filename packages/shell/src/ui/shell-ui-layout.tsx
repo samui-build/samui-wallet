@@ -3,8 +3,8 @@ import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
 
-import { ShellUiMenu } from './shell-ui-menu.js'
-import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.js'
+import { ShellUiMenu } from './shell-ui-menu.tsx'
+import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.tsx'
 
 export interface ShellLayoutLink {
   icon: UiIconLucide

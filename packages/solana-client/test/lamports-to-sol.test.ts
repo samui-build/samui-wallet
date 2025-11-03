@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { lamportsToSol } from '../src/lamports-to-sol'
+import { lamportsToSol } from '../src/lamports-to-sol.ts'
 
 describe('lamports-to-sol', () => {
   describe('expected behavior', () => {

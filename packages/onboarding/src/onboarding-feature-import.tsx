@@ -7,10 +7,10 @@ import { UiTextPasteButton } from '@workspace/ui/components/ui-text-paste-button
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
 
-import { useCreateNewAccount } from './data-access/use-create-new-account.js'
-import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.js'
-import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.js'
-import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.js'
+import { useCreateNewAccount } from './data-access/use-create-new-account.tsx'
+import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.tsx'
+import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
+import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 
 export function OnboardingFeatureImport() {
   const create = useCreateNewAccount()

@@ -1,3 +1,4 @@
+import { isSolanaChain } from '@solana/wallet-standard-chains'
 import {
   SolanaSignAndSendTransaction,
   SolanaSignIn,
@@ -5,16 +6,15 @@ import {
   SolanaSignTransaction,
 } from '@solana/wallet-standard-features'
 import { StandardConnect, StandardDisconnect } from '@wallet-standard/core'
-import { isSolanaChain } from '@solana/wallet-standard-chains'
-import { useWallets, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
+import { type UiWallet, type UiWalletAccount, useWallets } from '@wallet-standard/react'
 import { useState } from 'react'
-import { Button } from './components/ui/button'
-import { SignTransaction } from './components/sign-transaction'
-import { Connect } from './components/connect'
-import { Disconnect } from './components/disconnect'
-import { SignAndSendTransaction } from './components/sign-and-send-transaction'
-import { SignMessage } from './components/sign-message'
-import { SignIn } from './components/sign-in'
+import { Connect } from './components/connect.tsx'
+import { Disconnect } from './components/disconnect.tsx'
+import { SignAndSendTransaction } from './components/sign-and-send-transaction.tsx'
+import { SignIn } from './components/sign-in.tsx'
+import { SignMessage } from './components/sign-message.tsx'
+import { SignTransaction } from './components/sign-transaction.tsx'
+import { Button } from './components/ui/button.tsx'
 
 export function App() {
   const wallets = useWallets()
@@ -42,7 +42,7 @@ export function App() {
                     return null
                   }
 
-                  return <Connect key={feature} wallet={wallet} setAccount={setAccount} />
+                  return <Connect key={feature} setAccount={setAccount} wallet={wallet} />
                 }
 
                 case StandardDisconnect: {
@@ -50,7 +50,7 @@ export function App() {
                     return null
                   }
 
-                  return <Disconnect key={feature} wallet={wallet} setAccount={setAccount} />
+                  return <Disconnect key={feature} setAccount={setAccount} wallet={wallet} />
                 }
 
                 case SolanaSignAndSendTransaction: {
@@ -58,7 +58,7 @@ export function App() {
                     return null
                   }
 
-                  return <SignAndSendTransaction key={feature} account={account} />
+                  return <SignAndSendTransaction account={account} key={feature} />
                 }
 
                 case SolanaSignTransaction: {
@@ -66,7 +66,7 @@ export function App() {
                     return null
                   }
 
-                  return <SignTransaction key={feature} account={account} />
+                  return <SignTransaction account={account} key={feature} />
                 }
 
                 case SolanaSignMessage: {
@@ -74,7 +74,7 @@ export function App() {
                     return null
                   }
 
-                  return <SignMessage key={feature} wallet={wallet} account={account} />
+                  return <SignMessage account={account} key={feature} wallet={wallet} />
                 }
 
                 case SolanaSignIn: {
@@ -82,7 +82,7 @@ export function App() {
                     return null
                   }
 
-                  return <SignIn key={feature} wallet={wallet} account={account} />
+                  return <SignIn account={account} key={feature} wallet={wallet} />
                 }
 
                 default:
@@ -96,7 +96,7 @@ export function App() {
               <div className="flex flex-col gap-4">
                 {solanaWallets.map((wallet) => (
                   <Button key={wallet.name} onClick={() => setWallet(wallet)}>
-                    {wallet.icon && <img src={wallet.icon} alt={wallet.name} className="size-5" />}
+                    {wallet.icon && <img alt={wallet.name} className="size-5" src={wallet.icon} />}
                     <span className="text-left">{wallet.name}</span>
                   </Button>
                 ))}

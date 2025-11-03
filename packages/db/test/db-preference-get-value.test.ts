@@ -1,12 +1,10 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import type { Preference } from '../src/entity/preference'
-
-import { dbPreferenceGetValue } from '../src/db-preference-get-value'
-import { dbPreferenceSetValue } from '../src/db-preference-set-value'
-import { createDbTest, testPreferenceInputSet } from './test-helpers'
+import { dbPreferenceGetValue } from '../src/db-preference-get-value.ts'
+import { dbPreferenceSetValue } from '../src/db-preference-set-value.ts'
+import type { Preference } from '../src/entity/preference.ts'
+import { createDbTest, testPreferenceInputSet } from './test-helpers.ts'
 
 const db = createDbTest()
 

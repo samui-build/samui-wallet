@@ -6,7 +6,7 @@ import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { SettingsUiAccountItem } from './settings-ui-account-item.js'
+import { SettingsUiAccountItem } from './settings-ui-account-item.tsx'
 
 export function SettingsUiAccountListItem({
   active,

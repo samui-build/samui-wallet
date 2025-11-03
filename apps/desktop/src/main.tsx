@@ -1,9 +1,9 @@
 import { ShellFeature } from '@workspace/shell/shell-feature'
-import React from 'react'
+import { StrictMode } from 'react'
 import ReactDOM from 'react-dom/client'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
+  <StrictMode>
     <ShellFeature />
-  </React.StrictMode>,
+  </StrictMode>,
 )

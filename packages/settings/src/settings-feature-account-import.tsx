@@ -2,9 +2,9 @@ import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { useNavigate } from 'react-router'
 
-import { useDetermineAccountName } from './data-access/use-determine-account-name.js'
-import { useGenerateAccountWithWalletMutation } from './data-access/use-generate-account-with-wallet-mutation.js'
-import { SettingsUiAccountFormImport } from './ui/settings-ui-account-form-import.js'
+import { useDetermineAccountName } from './data-access/use-determine-account-name.tsx'
+import { useGenerateAccountWithWalletMutation } from './data-access/use-generate-account-with-wallet-mutation.tsx'
+import { SettingsUiAccountFormImport } from './ui/settings-ui-account-form-import.tsx'
 
 export function SettingsFeatureAccountImport() {
   const generateAccountWithWalletMutation = useGenerateAccountWithWalletMutation()

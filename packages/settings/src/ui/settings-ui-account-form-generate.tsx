@@ -1,6 +1,5 @@
-import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
-
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
+import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
 import { accountSchemaCreate } from '@workspace/db/schema/account-schema-create'
 import { derivationPaths } from '@workspace/keypair/derivation-paths'
 import { Button } from '@workspace/ui/components/button'

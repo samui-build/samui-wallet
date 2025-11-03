@@ -1,8 +1,8 @@
-import type { Database } from './database'
+import type { Database } from './database.ts'
 
-import { dbAccountFindUnique } from './db-account-find-unique'
-import { dbPreferenceSetValue } from './db-preference-set-value'
-import { dbWalletFindMany } from './db-wallet-find-many'
+import { dbAccountFindUnique } from './db-account-find-unique.ts'
+import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbWalletFindMany } from './db-wallet-find-many.ts'
 
 export async function dbAccountSetActive(db: Database, id: string) {
   return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {

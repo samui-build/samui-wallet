@@ -5,9 +5,9 @@ import { Input } from '@workspace/ui/components/input'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { useMemo, useState } from 'react'
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
-import { PortfolioUiWalletFormTokenDropdown } from './portfolio-ui-wallet-form-token-dropdown.js'
+import { PortfolioUiWalletFormTokenDropdown } from './portfolio-ui-wallet-form-token-dropdown.tsx'
 
 export function PortfolioUiWalletFormSend({
   balances,

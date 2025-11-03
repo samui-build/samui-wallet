@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/tools",
-  "version": "0.0.0",
   "dependencies": {
     "@hookform/resolvers": "catalog:",
     "@solana/kit": "catalog:",
@@ -31,9 +29,11 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/tools",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

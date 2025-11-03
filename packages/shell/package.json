@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/shell",
-  "version": "0.0.0",
   "dependencies": {
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
@@ -27,9 +25,11 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/shell",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

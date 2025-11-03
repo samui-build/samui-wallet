@@ -9,7 +9,7 @@ import {
   LucideUploadCloud,
 } from 'lucide-react'
 
-import { ToolsUiOverview } from './tools-ui-overview.js'
+import { ToolsUiOverview } from './tools-ui-overview.tsx'
 
 export interface Tool {
   comingSoon?: boolean

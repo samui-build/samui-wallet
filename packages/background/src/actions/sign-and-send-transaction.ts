@@ -3,7 +3,7 @@ import type {
   SolanaSignAndSendTransactionOutput,
 } from '@solana/wallet-standard-features'
 
-import { getRequestService } from '../services/request'
+import { getRequestService } from '../services/request.ts'
 
 export async function signAndSendTransaction(
   inputs: SolanaSignAndSendTransactionInput[],

@@ -1,6 +1,6 @@
 {
-  "extends": "@workspace/config-typescript/react-tui.json",
   "compilerOptions": {
     "outDir": "dist"
-  }
+  },
+  "extends": "@workspace/config-typescript/react-tui.json"
 }

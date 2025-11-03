@@ -2,7 +2,7 @@ import type { GetAccountInfoApi } from '@solana/kit'
 
 import { address as addressFn } from '@solana/kit'
 
-import type { SolanaClient } from './solana-client.js'
+import type { SolanaClient } from './solana-client.ts'
 
 export type GetAccountInfoResult = ReturnType<GetAccountInfoApi['getAccountInfo']>
 

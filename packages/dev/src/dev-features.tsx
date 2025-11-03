@@ -2,10 +2,10 @@ import type { UiTabRoute } from '@workspace/ui/components/ui-tab-routes'
 
 import { lazy } from 'react'
 
-const DevFeatureDb = lazy(() => import('./dev-feature-db.js'))
-const DevFeatureScratchPad = lazy(() => import('./dev-feature-scratch-pad.js'))
-const DevFeatureSolana = lazy(() => import('./dev-feature-solana.js'))
-const DevFeatureUi = lazy(() => import('./dev-feature-ui.js'))
+const DevFeatureDb = lazy(() => import('./dev-feature-db.tsx'))
+const DevFeatureScratchPad = lazy(() => import('./dev-feature-scratch-pad.tsx'))
+const DevFeatureSolana = lazy(() => import('./dev-feature-solana.tsx'))
+const DevFeatureUi = lazy(() => import('./dev-feature-ui.tsx'))
 
 export const devFeatures: UiTabRoute[] = [
   { element: <DevFeatureScratchPad />, label: 'Scratch Pad', path: 'scratch-pad' },

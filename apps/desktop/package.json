@@ -1,6 +1,4 @@
 {
-  "name": "desktop",
-  "version": "0.0.0",
   "dependencies": {
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
@@ -20,6 +18,7 @@
     "vite": "^7.0.4"
   },
   "license": "MIT",
+  "name": "desktop",
   "private": true,
   "scripts": {
     "build": "tsc && vite build",
@@ -28,5 +27,6 @@
     "preview": "vite preview",
     "tauri": "tauri"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

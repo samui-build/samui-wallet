@@ -1,6 +1,4 @@
 {
-  "name": "api",
-  "version": "0.0.0",
   "dependencies": {
     "hono": "^4.10.3"
   },
@@ -11,6 +9,7 @@
     "typescript": "catalog:",
     "wrangler": "^4.45.0"
   },
+  "name": "api",
   "private": true,
   "scripts": {
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
@@ -18,5 +17,6 @@
     "deploy": "wrangler deploy --minify",
     "dev": "wrangler dev"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

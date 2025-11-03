@@ -1,6 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
+import type { Database } from './database.ts'
 
 export async function dbAccountCreateDetermineOrder(db: Database): Promise<number> {
   const { data, error } = await tryCatch(db.accounts.orderBy('order').last())

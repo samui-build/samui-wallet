@@ -1,10 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { WalletInputUpdate } from './dto/wallet-input-update'
+import type { Database } from './database.ts'
+import type { WalletInputUpdate } from './dto/wallet-input-update.ts'
 
-import { parseStrict } from './parse-strict'
-import { walletSchemaUpdate } from './schema/wallet-schema-update'
+import { parseStrict } from './parse-strict.ts'
+import { walletSchemaUpdate } from './schema/wallet-schema-update.ts'
 
 export async function dbWalletUpdate(db: Database, id: string, input: WalletInputUpdate): Promise<number> {
   const parsedInput = parseStrict(walletSchemaUpdate.parse(input))

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
-import { convertKeyPairToJson } from './convert-key-pair-to-json'
-import { createKeyPairSignerFromBip39 } from './create-key-pair-signer-from-bip39'
+import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
+import { createKeyPairSignerFromBip39 } from './create-key-pair-signer-from-bip39.ts'
 
 describe('convert-key-pair-to-json', () => {
   describe('expected behavior', () => {

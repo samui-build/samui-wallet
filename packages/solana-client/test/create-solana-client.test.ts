@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSolanaClient } from '../src/create-solana-client'
+import { createSolanaClient } from '../src/create-solana-client.ts'
 
 describe('create-solana-client', () => {
   describe('expected behavior', () => {

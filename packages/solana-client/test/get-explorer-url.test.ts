@@ -1,8 +1,6 @@
 import { describe, expect, it } from 'vitest'
-
-import type { GetExplorerUrlProps } from '../src/get-explorer-url'
-
-import { getExplorerUrl } from '../src/get-explorer-url'
+import type { GetExplorerUrlProps } from '../src/get-explorer-url.ts'
+import { getExplorerUrl } from '../src/get-explorer-url.ts'
 
 describe('get-explorer-url', () => {
   const address = 'GNJq3_8_1bA3e1B3a1B3a1B3a1B3a1B3a1B3a1B3a1B3a'

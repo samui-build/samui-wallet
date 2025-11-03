@@ -7,9 +7,9 @@ import { useActiveWallet } from '@workspace/settings/data-access/use-active-wall
 import { Menubar } from '@workspace/ui/components/menubar'
 import { useMemo } from 'react'
 
-import { ShellUiMenuAccounts } from './shell-ui-menu-accounts.js'
-import { ShellUiMenuCluster } from './shell-ui-menu-cluster.js'
-import { ShellUiMenuDevelopment } from './shell-ui-menu-development.js'
+import { ShellUiMenuAccounts } from './shell-ui-menu-accounts.tsx'
+import { ShellUiMenuCluster } from './shell-ui-menu-cluster.tsx'
+import { ShellUiMenuDevelopment } from './shell-ui-menu-development.tsx'
 
 export function ShellUiMenu() {
   const { active: activeAccount } = useActiveAccount()

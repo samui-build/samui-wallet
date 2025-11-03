@@ -1,6 +1,4 @@
 import type { Address, Blockhash, TransactionSigner } from '@solana/kit'
-
-import { getTransferSolInstruction } from '@solana-program/system'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -11,8 +9,9 @@ import {
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
 } from '@solana/kit'
+import { getTransferSolInstruction } from '@solana-program/system'
 
-import { solToLamports } from './sol-to-lamports'
+import { solToLamports } from './sol-to-lamports.ts'
 
 export interface LatestBlockhash {
   blockhash: Blockhash
