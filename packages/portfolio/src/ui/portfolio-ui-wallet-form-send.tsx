@@ -3,7 +3,7 @@ import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
-import { useMemo, useState } from 'react'
+import { useId, useMemo, useState } from 'react'
 
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
@@ -18,6 +18,8 @@ export function PortfolioUiWalletFormSend({
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
+  const destinationId = useId()
+  const amountId = useId()
   const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
   const [amount, setAmount] = useState('0')
   const [destination, setDestination] = useState('')
@@ -39,9 +41,9 @@ export function PortfolioUiWalletFormSend({
 
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor="destination">Destination</FieldLabel>
+                <FieldLabel htmlFor={destinationId}>Destination</FieldLabel>
                 <Input
-                  id="destination"
+                  id={destinationId}
                   onChange={(e) => setDestination(e.target.value)}
                   placeholder="Destination"
                   type="text"
@@ -49,9 +51,9 @@ export function PortfolioUiWalletFormSend({
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor="amount">Amount</FieldLabel>
+                <FieldLabel htmlFor={amountId}>Amount</FieldLabel>
                 <Input
-                  id="amount"
+                  id={amountId}
                   min="1"
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="Amount"

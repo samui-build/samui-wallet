@@ -10,7 +10,8 @@
     "@types/node": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": "./src/*.ts"

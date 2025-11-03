@@ -3,10 +3,35 @@
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import type { ComponentProps } from 'react'
 import { useEffect, useRef } from 'react'
-import type { DayButton } from 'react-day-picker'
+import type { CustomComponents, DayButton } from 'react-day-picker'
 import { DayPicker, getDefaultClassNames } from 'react-day-picker'
 import { cn } from '../lib/utils.ts'
 import { Button, buttonVariants } from './button.tsx'
+
+const baseComponents: Partial<CustomComponents> = {
+  Chevron: ({ className, orientation, ...props }) => {
+    if (orientation === 'left') {
+      return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+    }
+
+    if (orientation === 'right') {
+      return <ChevronRightIcon className={cn('size-4', className)} {...props} />
+    }
+
+    return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+  },
+  DayButton: CalendarDayButton,
+  Root: ({ className, rootRef, ...props }) => {
+    return <div className={cn(className)} data-slot="calendar" ref={rootRef} {...props} />
+  },
+  WeekNumber: ({ children, ...props }) => {
+    return (
+      <td {...props}>
+        <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
+      </td>
+    )
+  },
+}
 
 function Calendar({
   buttonVariant = 'ghost',
@@ -92,28 +117,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === 'left') {
-            return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
-          }
-
-          if (orientation === 'right') {
-            return <ChevronRightIcon className={cn('size-4', className)} {...props} />
-          }
-
-          return <ChevronDownIcon className={cn('size-4', className)} {...props} />
-        },
-        DayButton: CalendarDayButton,
-        Root: ({ className, rootRef, ...props }) => {
-          return <div className={cn(className)} data-slot="calendar" ref={rootRef} {...props} />
-        },
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
-            </td>
-          )
-        },
+        ...baseComponents,
         ...components,
       }}
       formatters={{

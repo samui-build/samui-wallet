@@ -1,6 +1,6 @@
 export function tokenAmountToTransferAmount(amount: string, decimals: number): bigint {
   if (Number.isNaN(parseFloat(amount))) {
-    throw new Error('Could not parse token quantity: ' + String(amount))
+    throw new Error(`Could not parse token quantity: ${String(amount)}`)
   }
   const formatter = new Intl.NumberFormat('en-US', { useGrouping: false })
   const bigIntAmount = BigInt(

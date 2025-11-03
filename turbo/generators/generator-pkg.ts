@@ -22,7 +22,7 @@ export const generatorPkg: PlopTypes.PlopGeneratorConfig = {
       type: 'list',
     },
     {
-      default: ({ type }) => type,
+      default: ({ type }: { type: string }) => type,
       message: 'What is the name of the package?',
       name: 'name',
       type: 'input',
