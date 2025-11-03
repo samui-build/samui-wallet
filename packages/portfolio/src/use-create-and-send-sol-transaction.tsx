@@ -13,7 +13,7 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
   const { cluster, wallet } = props
   const queryClient = useQueryClient()
   const client = useSolanaClient({ cluster: props.cluster })
-  const { data: balanceData } = useGetBalance({ cluster, wallet })
+  const { data: balanceData } = useGetBalance({ address: wallet.publicKey, cluster })
 
   return useMutation({
     mutationFn: async ({ amount, destination, wallet }: { amount: string; destination: string; wallet: Wallet }) => {
@@ -34,12 +34,12 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
         senderBalance: balanceData.value,
       })
     },
-    onSuccess: () => {
+    onSuccess: (_, { wallet: { publicKey: address } }) => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ client, cluster, wallet }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
       })
     },
   })

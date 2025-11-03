@@ -19,9 +19,8 @@
   "private": true,
   "scripts": {
     "android": "expo start --android",
+    "dev": "expo start",
     "ios": "expo start --ios",
-    "lint": "expo lint",
-    "start": "expo start",
-    "web": "expo start --web"
+    "lint": "expo lint"
   }
 }

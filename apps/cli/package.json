@@ -18,9 +18,9 @@
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "dev": "bun run --watch src/index.ts",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+    "lint:fix": "eslint . --max-warnings=0 --fix",
+    "watch": "bun run --watch src/index.ts"
   },
   "type": "module"
 }

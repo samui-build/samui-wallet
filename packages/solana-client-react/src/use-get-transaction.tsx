@@ -70,6 +70,6 @@ export function useGetTransaction({ cluster, signature }: { cluster: Cluster; si
       assertIsSignature(signature)
       return client.rpc.getTransaction(signature).send()
     },
-    queryKey: ['get-transaction', { cluster, signature }],
+    queryKey: ['getTransaction', cluster.endpoint, signature],
   })
 }
