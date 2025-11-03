@@ -3,7 +3,6 @@ import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { address, getAddressEncoder } from '@solana/kit'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from '@webext-core/proxy-service'
 import { db } from '@workspace/db/db'

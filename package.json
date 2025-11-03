@@ -8,10 +8,8 @@
     "@commitlint/types": "^20.0.0",
     "@radix-ui/react-select": "^2.2.6",
     "@turbo/gen": "^2.5.8",
-    "@workspace/config-eslint": "workspace:*",
     "lefthook": "^2.0.1",
     "pkg-pr-new": "^0.0.60",
-    "syncpack": "14.0.0-alpha.23",
     "turbo": "^2.5.8",
     "vitest": "catalog:"
   },
@@ -21,17 +19,20 @@
   },
   "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd",
   "pnpm": {
-    "onlyBuiltDependencies": ["@tailwindcss/oxide", "esbuild", "lefthook", "sharp"]
+    "onlyBuiltDependencies": [
+      "@tailwindcss/oxide",
+      "esbuild",
+      "lefthook",
+      "sharp"
+    ]
   },
   "private": true,
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
     "dev": "turbo run dev",
-    "format": "syncpack format && biome format --write",
-    "format:check": "syncpack format --check && biome format",
-    "lint": "turbo run lint",
-    "lint:fix": "turbo run lint:fix",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
     "preinstall": "npx only-allow pnpm",
     "prepare": "lefthook install",
     "test": "vitest run",

@@ -6,9 +6,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "tsx": "^4.7.1",
     "typescript": "catalog:",
     "wrangler": "^4.45.0"
@@ -18,9 +16,7 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "check-types": "tsc --noEmit",
     "deploy": "wrangler deploy --minify",
-    "dev": "wrangler dev",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+    "dev": "wrangler dev"
   },
   "type": "module"
 }

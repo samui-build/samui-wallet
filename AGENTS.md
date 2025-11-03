@@ -13,11 +13,11 @@
 
 - **TypeScript**: Strict mode, consistent type definitions/imports
 - **Formatting**: Biome (single quotes, 120 width, no semicolons, trailing commas)
-- **Linting**: ESLint with perfectionist (alphabetical imports/sorting)
+- **Linting**: Biome
 - **Naming**: camelCase variables/functions, PascalCase types
 - **Error Handling**: Use `tryCatch` from `@workspace/core`
 - **Testing**: Vitest globals, jsdom env, ARRANGE/ACT/ASSERT pattern
-- **Imports**: Type imports separate, alphabetical perfectionist sorting
+- **Imports**: Type imports separate, alphabetical sorting
 
 ## Testing Guidelines
 
