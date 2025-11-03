@@ -10,7 +10,6 @@ import type {
 } from '@solana/wallet-standard-features'
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from '@webext-core/proxy-service'
 import { browser } from '@wxt-dev/browser'

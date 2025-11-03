@@ -10,10 +10,8 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
@@ -24,8 +22,6 @@
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },

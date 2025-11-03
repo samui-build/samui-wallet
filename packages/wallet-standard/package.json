@@ -10,9 +10,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
@@ -22,9 +20,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+    "check-types": "tsc --noEmit"
   },
   "type": "module"
 }

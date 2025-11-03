@@ -8,9 +8,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
@@ -22,9 +20,7 @@
   "scripts": {
     "check-types": "tsc --noEmit",
     "i18n:extract": "i18next-cli extract && i18next-cli types",
-    "i18n:lint": "i18next-cli lint",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+    "i18n:lint": "i18next-cli lint"
   },
   "type": "module"
 }
