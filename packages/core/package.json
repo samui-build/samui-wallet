@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/core",
-  "version": "0.0.0",
   "devDependencies": {
     "@types/node": "catalog:",
     "@workspace/config-eslint": "workspace:*",
@@ -12,6 +10,7 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/core",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -20,5 +19,6 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+  },
+  "version": "0.0.0"
 }

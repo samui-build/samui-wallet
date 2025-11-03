@@ -1,7 +1,3 @@
-import type { WalletInputCreate } from "@workspace/db/dto/wallet-input-create";
-import type { WalletInputFindMany } from "@workspace/db/dto/wallet-input-find-many";
-import type { WalletInputUpdate } from "@workspace/db/dto/wallet-input-update";
-
 import {
   type MutateOptions,
   mutationOptions,
@@ -14,6 +10,9 @@ import { dbWalletFindMany } from "@workspace/db/db-wallet-find-many";
 import { dbWalletFindUnique } from "@workspace/db/db-wallet-find-unique";
 import { dbWalletSetActive } from "@workspace/db/db-wallet-set-active";
 import { dbWalletUpdate } from "@workspace/db/db-wallet-update";
+import type { WalletInputCreate } from "@workspace/db/dto/wallet-input-create";
+import type { WalletInputFindMany } from "@workspace/db/dto/wallet-input-find-many";
+import type { WalletInputUpdate } from "@workspace/db/dto/wallet-input-update";
 
 export type DbWalletCreateMutateOptions = MutateOptions<
   string,

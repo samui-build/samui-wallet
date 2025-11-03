@@ -1,8 +1,8 @@
 "use client";
 
 import * as SwitchPrimitive from "@radix-ui/react-switch";
-import { cn } from "@workspace/ui/lib/utils";
-import * as React from "react";
+import { cn } from "@workspace/ui/lib/utils.ts";
+import type * as React from "react";
 
 function Switch({
   className,

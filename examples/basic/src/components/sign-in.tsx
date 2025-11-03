@@ -1,13 +1,3 @@
-import { Button } from "./ui/button";
-import {
-  getWalletFeature,
-  type UiWallet,
-  type UiWalletAccount,
-} from "@wallet-standard/react";
-import {
-  SolanaSignIn,
-  type SolanaSignInFeature,
-} from "@solana/wallet-standard-features";
 import {
   address,
   getBase58Decoder,
@@ -15,6 +5,16 @@ import {
   signatureBytes,
   verifySignature,
 } from "@solana/kit";
+import {
+  SolanaSignIn,
+  type SolanaSignInFeature,
+} from "@solana/wallet-standard-features";
+import {
+  getWalletFeature,
+  type UiWallet,
+  type UiWalletAccount,
+} from "@wallet-standard/react";
+import { Button } from "./ui/button.tsx";
 
 interface SignInProps {
   wallet: UiWallet;
@@ -31,21 +31,21 @@ export function SignIn({ wallet, account }: SignInProps) {
     <Button
       onClick={async () => {
         const [response] = await signIn({
-          domain: "example.com",
           address: account.address,
-          statement: "Sign in to Example App",
-          uri: "https://example.com",
-          version: "1",
           chainId: "solana:mainnet",
-          nonce: "1234567890",
-          issuedAt: "2023-10-25T12:00:00Z",
+          domain: "example.com",
           expirationTime: "2023-10-25T13:00:00Z",
+          issuedAt: "2023-10-25T12:00:00Z",
+          nonce: "1234567890",
           notBefore: "2023-10-25T11:00:00Z",
           requestId: "req-12345",
           resources: [
             "https://example.com/resource1",
             "https://example.com/resource2",
           ],
+          statement: "Sign in to Example App",
+          uri: "https://example.com",
+          version: "1",
         });
         console.log("Signed Message:", response);
 

@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/config-eslint",
-  "version": "0.0.0",
   "devDependencies": {
     "@eslint/js": "catalog:",
     "@typescript-eslint/eslint-plugin": "^8.46.2",
@@ -21,6 +19,8 @@
     "./react-internal": "./react-internal.js",
     "./vite": "./vite.js"
   },
+  "name": "@workspace/config-eslint",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

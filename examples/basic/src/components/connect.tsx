@@ -2,7 +2,6 @@ import {
   StandardConnect,
   type StandardConnectFeature,
 } from "@wallet-standard/core";
-import { Button } from "./ui/button";
 import {
   getWalletFeature,
   type UiWallet,
@@ -12,6 +11,7 @@ import {
   getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
   getWalletForHandle_DO_NOT_USE_OR_YOU_WILL_BE_FIRED,
 } from "@wallet-standard/ui-registry";
+import { Button } from "./ui/button.tsx";
 
 interface ConnectProps {
   wallet: UiWallet;

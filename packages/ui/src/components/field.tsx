@@ -1,8 +1,8 @@
 "use client";
 
-import { Label } from "@workspace/ui/components/label";
-import { Separator } from "@workspace/ui/components/separator";
-import { cn } from "@workspace/ui/lib/utils";
+import { Label } from "@workspace/ui/components/label.tsx";
+import { Separator } from "@workspace/ui/components/separator.tsx";
+import { cn } from "@workspace/ui/lib/utils.ts";
 import { cva, type VariantProps } from "class-variance-authority";
 import { useMemo } from "react";
 
@@ -87,7 +87,6 @@ function Field({
       className={cn(fieldVariants({ orientation }), className)}
       data-orientation={orientation}
       data-slot="field"
-      role="group"
       {...props}
     />
   );
@@ -142,15 +141,15 @@ function FieldError({
       ...new Map(errors.map((error) => [error?.message, error])).values(),
     ];
 
-    if (uniqueErrors?.length == 1) {
+    if (uniqueErrors?.length === 1) {
       return uniqueErrors[0]?.message;
     }
 
     return (
       <ul className="ml-4 flex list-disc flex-col gap-1">
         {uniqueErrors.map(
-          (error, index) =>
-            error?.message && <li key={index}>{error.message}</li>,
+          (error) =>
+            error?.message && <li key={error.message}>{error.message}</li>,
         )}
       </ul>
     );

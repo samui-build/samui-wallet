@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/ui",
-  "version": "0.0.0",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@nkzw/use-relative-time": "^1.2.1",
@@ -43,7 +41,6 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "catalog:",
-    "@turbo/gen": "^2.5.8",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -53,15 +50,17 @@
     "eslint": "catalog:",
     "jsdom": "catalog:",
     "tailwindcss": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
-    "./globals.css": "./src/styles/globals.css",
-    "./postcss.config": "./postcss.config.mjs",
-    "./lib/*": "./src/lib/*.ts",
     "./components/*": "./src/components/*.tsx",
-    "./hooks/*": "./src/hooks/*.ts"
+    "./globals.css": "./src/styles/globals.css",
+    "./hooks/*": "./src/hooks/*.ts",
+    "./lib/*": "./src/lib/*.ts",
+    "./postcss.config": "./postcss.config.mjs"
   },
+  "name": "@workspace/ui",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -73,5 +72,6 @@
     "test": "vitest run",
     "test:watch": "vitest --watch"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

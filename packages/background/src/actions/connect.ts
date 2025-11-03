@@ -3,7 +3,7 @@ import type {
   StandardConnectOutput,
 } from "@wallet-standard/core";
 
-import { getRequestService } from "../services/request";
+import { getRequestService } from "../services/request.ts";
 
 export async function connect(
   input?: StandardConnectInput,

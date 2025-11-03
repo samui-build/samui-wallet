@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/background",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/kit": "catalog:",
     "@solana/wallet-standard-features": "^1.3.0",
@@ -25,10 +23,12 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/background",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+  },
+  "version": "0.0.0"
 }

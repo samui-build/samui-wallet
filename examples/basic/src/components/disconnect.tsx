@@ -2,12 +2,12 @@ import {
   StandardDisconnect,
   type StandardDisconnectFeature,
 } from "@wallet-standard/core";
-import { Button } from "./ui/button";
 import {
   getWalletFeature,
   type UiWallet,
   type UiWalletAccount,
 } from "@wallet-standard/react";
+import { Button } from "./ui/button.tsx";
 
 interface DisconnectProps {
   wallet: UiWallet;

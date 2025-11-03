@@ -30,12 +30,12 @@ export const viteConfig = [
     plugins: {
       "react-hooks": pluginReactHooks,
     },
-    settings: { react: { version: "detect" } },
     rules: {
       ...pluginReactHooks.configs.recommended.rules,
+      "react/prop-types": "off",
       // React scope no longer necessary with new JSX transform.
       "react/react-in-jsx-scope": "off",
-      "react/prop-types": "off",
     },
+    settings: { react: { version: "detect" } },
   },
 ];

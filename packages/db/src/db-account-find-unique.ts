@@ -1,7 +1,7 @@
 import { tryCatch } from "@workspace/core/try-catch";
 
-import type { Database } from "./database";
-import type { Account } from "./entity/account";
+import type { Database } from "./database.ts";
+import type { Account } from "./entity/account.ts";
 
 export async function dbAccountFindUnique(
   db: Database,

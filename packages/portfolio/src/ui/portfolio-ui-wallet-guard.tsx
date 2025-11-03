@@ -2,7 +2,8 @@ import type { Wallet } from "@workspace/db/entity/wallet";
 
 import { useDbPreference } from "@workspace/db-react/use-db-preference";
 import { useDbWalletLive } from "@workspace/db-react/use-db-wallet-live";
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 
 export interface PortfolioUiWalletGuardProps {
   fallback?: React.ReactNode;

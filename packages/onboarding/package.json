@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/onboarding",
-  "version": "0.0.0",
   "dependencies": {
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
@@ -28,11 +26,13 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
+  "name": "@workspace/onboarding",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

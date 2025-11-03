@@ -3,8 +3,8 @@
 import type * as LabelPrimitive from "@radix-ui/react-label";
 
 import { Slot } from "@radix-ui/react-slot";
-import { Label } from "@workspace/ui/components/label";
-import { cn } from "@workspace/ui/lib/utils";
+import { Label } from "@workspace/ui/components/label.tsx";
+import { cn } from "@workspace/ui/lib/utils.ts";
 import * as React from "react";
 import {
   Controller,

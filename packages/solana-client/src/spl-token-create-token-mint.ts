@@ -1,11 +1,4 @@
 import type { KeyPairSigner } from "@solana/kit";
-
-import { getCreateAccountInstruction } from "@solana-program/system";
-import {
-  getInitializeMintInstruction,
-  getMintSize,
-  TOKEN_PROGRAM_ADDRESS,
-} from "@solana-program/token";
 import {
   appendTransactionMessageInstructions,
   createTransactionMessage,
@@ -16,8 +9,14 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
 } from "@solana/kit";
+import { getCreateAccountInstruction } from "@solana-program/system";
+import {
+  getInitializeMintInstruction,
+  getMintSize,
+  TOKEN_PROGRAM_ADDRESS,
+} from "@solana-program/token";
 
-import type { SolanaClient } from "./solana-client";
+import type { SolanaClient } from "./solana-client.ts";
 
 export interface SplTokenCreateTokenMintOptions {
   decimals: number;

@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/env",
-  "version": "0.0.0",
   "dependencies": {
     "zod": "catalog:"
   },
@@ -15,10 +13,12 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/env",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+  },
+  "version": "0.0.0"
 }

@@ -1,7 +1,6 @@
-import type { ClusterInputCreate } from "@workspace/db/dto/cluster-input-create";
-
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { dbClusterTypeOptions } from "@workspace/db/db-cluster-type-options";
+import type { ClusterInputCreate } from "@workspace/db/dto/cluster-input-create";
 import { clusterSchemaCreate } from "@workspace/db/schema/cluster-schema-create";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -20,7 +19,7 @@ import {
 } from "@workspace/ui/components/toggle-group";
 import { useForm } from "react-hook-form";
 
-import { SettingsUiClusterWarningMainnet } from "./settings-ui-cluster-warning-mainnet.js";
+import { SettingsUiClusterWarningMainnet } from "./settings-ui-cluster-warning-mainnet.tsx";
 
 export function SettingsUiClusterFormCreate({
   submit,

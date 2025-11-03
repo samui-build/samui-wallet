@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/config-vitest",
-  "version": "0.0.0",
   "dependencies": {
     "vitest": "catalog:"
   },
@@ -12,10 +10,12 @@
     ".": "./src/index.ts",
     "./*": "./src/*.tsx"
   },
+  "name": "@workspace/config-vitest",
   "private": true,
   "scripts": {
     "build": "tsc",
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

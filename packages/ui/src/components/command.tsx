@@ -6,11 +6,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@workspace/ui/components/dialog";
-import { cn } from "@workspace/ui/lib/utils";
+} from "@workspace/ui/components/dialog.tsx";
+import { cn } from "@workspace/ui/lib/utils.ts";
 import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
-import * as React from "react";
+import type * as React from "react";
 
 function Command({
   className,

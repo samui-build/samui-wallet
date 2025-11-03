@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/keypair",
-  "version": "0.0.0",
   "dependencies": {
     "@noble/hashes": "^2.0.1",
     "@scure/bip39": "^2.0.1",
@@ -14,12 +12,14 @@
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/keypair",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
@@ -27,5 +27,6 @@
     "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  }
+  },
+  "version": "0.0.0"
 }

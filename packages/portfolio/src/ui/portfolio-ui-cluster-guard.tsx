@@ -3,9 +3,10 @@ import type { Wallet } from "@workspace/db/entity/wallet";
 
 import { useDbClusterLive } from "@workspace/db-react/use-db-cluster-live";
 import { useDbPreference } from "@workspace/db-react/use-db-preference";
-import React, { useMemo } from "react";
+import type React from "react";
+import { useMemo } from "react";
 
-import { PortfolioUiWalletGuard } from "./portfolio-ui-wallet-guard.js";
+import { PortfolioUiWalletGuard } from "./portfolio-ui-wallet-guard.tsx";
 
 export interface PortfolioUiClusterGuardProps {
   fallback?: React.ReactNode;

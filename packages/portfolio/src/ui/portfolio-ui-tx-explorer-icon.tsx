@@ -1,6 +1,6 @@
 import type { Cluster } from "@workspace/db/entity/cluster";
 
-import { PortfolioUiExplorerIcon } from "./portfolio-ui-explorer-icon.js";
+import { PortfolioUiExplorerIcon } from "./portfolio-ui-explorer-icon.tsx";
 
 export function PortfolioUiTxExplorerIcon({
   cluster,

@@ -1,8 +1,8 @@
 import { LucideArrowLeft } from "lucide-react";
-import React from "react";
+import type React from "react";
 import { Link } from "react-router";
 
-import { Button } from "./button.js";
+import { Button } from "./button.tsx";
 
 export function UiBackButton(props: React.ComponentProps<typeof Button>) {
   return (

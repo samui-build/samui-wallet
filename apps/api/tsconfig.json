@@ -1,5 +1,5 @@
 {
+  "exclude": ["node_modules"],
   "extends": "@workspace/config-typescript/base.json",
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

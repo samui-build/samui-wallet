@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/db",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
@@ -15,12 +13,14 @@
     "@workspace/config-vitest": "workspace:*",
     "eslint": "catalog:",
     "fake-indexeddb": "^6.2.4",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/db",
   "private": false,
   "publishConfig": {
     "access": "public"
@@ -31,5 +31,6 @@
     "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  }
+  },
+  "version": "0.0.0"
 }

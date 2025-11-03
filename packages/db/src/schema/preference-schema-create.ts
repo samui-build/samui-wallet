@@ -1,4 +1,4 @@
-import { preferenceSchema } from "./preference-schema";
+import { preferenceSchema } from "./preference-schema.ts";
 
 export const preferenceSchemaCreate = preferenceSchema.omit({
   createdAt: true,

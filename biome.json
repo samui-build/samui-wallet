@@ -1,10 +1,20 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.3.2/schema.json",
-  "vcs": {
-    "enabled": true,
-    "clientKind": "git",
-    "useIgnoreFile": true,
-    "defaultBranch": "main"
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on",
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on"
+      }
+    },
+    "enabled": true
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
   },
   "files": {
     "ignoreUnknown": false
@@ -14,30 +24,40 @@
     "useEditorconfig": true
   },
   "linter": {
-    "enabled": true,
-    "rules": {
-      "recommended": true
-    },
     "domains": {
       "project": "all",
       "react": "all",
       "test": "all"
-    }
-  },
-  "css": {
-    "parser": {
-      "tailwindDirectives": true
-    }
-  },
-  "assist": {
+    },
     "enabled": true,
-    "actions": {
-      "source": {
-        "organizeImports": "on",
-        "useSortedAttributes": "on",
-        "useSortedKeys": "on",
-        "useSortedProperties": "on"
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useComponentExportOnlyModules": {
+          "options": {
+            "allowConstantExport": true
+          }
+        }
       }
     }
+  },
+  "overrides": [
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnusedImports": "off",
+            "noUnusedVariables": "off"
+          }
+        }
+      }
+    }
+  ],
+  "vcs": {
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "enabled": true,
+    "useIgnoreFile": true
   }
 }

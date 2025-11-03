@@ -1,5 +1,3 @@
-import type { ComponentProps, ReactNode } from "react";
-
 import {
   Card,
   CardAction,
@@ -8,9 +6,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@workspace/ui/components/card";
-import { UiBack } from "@workspace/ui/components/ui-back";
-import { cn } from "@workspace/ui/lib/utils";
+} from "@workspace/ui/components/card.tsx";
+import { UiBack } from "@workspace/ui/components/ui-back.tsx";
+import { cn } from "@workspace/ui/lib/utils.ts";
+import type { ComponentProps, ReactNode } from "react";
 
 export function UiCard({
   action,

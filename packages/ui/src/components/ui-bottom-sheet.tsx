@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "./sheet.js";
+} from "./sheet.tsx";
 
 export function UiBottomSheet({
   children,

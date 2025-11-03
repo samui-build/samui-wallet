@@ -11,7 +11,7 @@ import {
 } from "@workspace/ui/components/table";
 import { ellipsify } from "@workspace/ui/lib/ellipsify";
 
-import { PortfolioUiExplorerLink } from "./portfolio-ui-explorer-link.js";
+import { PortfolioUiExplorerLink } from "./portfolio-ui-explorer-link.tsx";
 
 export function AccountUiTokens({
   cluster,
