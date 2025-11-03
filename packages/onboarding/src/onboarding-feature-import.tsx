@@ -101,7 +101,7 @@ export function OnboardingFeatureImport() {
           </div>
 
           <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4`}>
-            {Array.from({ length: wordCount }, (_, i) => i + 1).map((index) => (
+            {Array.from({ length: wordCount }, (_, i) => i).map((index) => (
               <OnboardingUiMnemonicWordInput
                 index={index + 1}
                 key={index}
