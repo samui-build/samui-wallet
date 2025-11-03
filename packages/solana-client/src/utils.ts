@@ -1,4 +1,4 @@
-export const tokenAmountToTransferAmount = (amount: string, decimals: number): bigint => {
+export function tokenAmountToTransferAmount(amount: string, decimals: number): bigint {
   if (Number.isNaN(parseFloat(amount))) {
     throw new Error('Could not parse token quantity: ' + String(amount))
   }
