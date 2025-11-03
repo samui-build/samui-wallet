@@ -13,7 +13,7 @@ import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standa
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from '@webext-core/proxy-service'
-import { browser } from 'wxt/browser'
+import { browser } from '@wxt-dev/browser'
 
 type DataType<T extends Requests['type']> = Extract<Requests, { type: T }>['data']
 
@@ -61,7 +61,7 @@ type ResolveType<T extends Requests['type']> = Extract<Requests, { type: T }> ex
   : never
 
 class RequestService {
-  private request?: Requests
+  private request?: Requests | undefined
 
   constructor() {
     browser.windows.onRemoved.addListener((windowId: number) => {

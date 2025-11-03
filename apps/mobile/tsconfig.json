@@ -1,6 +1,6 @@
 {
-  "extends": "expo/tsconfig.base",
+  "extends": ["@workspace/config-typescript/react-library.json", "expo/tsconfig.base"],
   "compilerOptions": {
-    "strict": true
+    "outDir": "dist"
   }
 }

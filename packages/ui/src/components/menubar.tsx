@@ -17,7 +17,7 @@ function Menubar({ className, ...props }: React.ComponentProps<typeof MenubarPri
 }
 
 function MenubarCheckboxItem({
-  checked,
+  checked = false,
   children,
   className,
   ...props

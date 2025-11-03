@@ -11,7 +11,7 @@
     "@workspace/db": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "wxt": "^0.20.11"
+    "@wxt-dev/browser": "^0.1.4"
   },
   "devDependencies": {
     "@types/node": "catalog:",
@@ -30,5 +30,6 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+  },
+  "type": "module"
 }

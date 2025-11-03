@@ -1,4 +1,6 @@
 {
-  "files": [],
-  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
+  "extends": "@workspace/config-typescript/react-library.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  }
 }

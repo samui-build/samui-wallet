@@ -18,6 +18,9 @@ export function Connect({ wallet, setAccount }: ConnectProps) {
     <Button
       onClick={async () => {
         const response = await connect()
+        if (response.accounts[0] === undefined) {
+          throw new Error('No account returned from connect')
+        }
 
         setAccount(
           getOrCreateUiWalletAccountForStandardWalletAccount_DO_NOT_USE_OR_YOU_WILL_BE_FIRED(

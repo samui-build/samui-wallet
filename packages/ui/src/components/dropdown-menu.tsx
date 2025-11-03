@@ -11,7 +11,7 @@ function DropdownMenu({ ...props }: React.ComponentProps<typeof DropdownMenuPrim
 }
 
 function DropdownMenuCheckboxItem({
-  checked,
+  checked = false,
   children,
   className,
   ...props

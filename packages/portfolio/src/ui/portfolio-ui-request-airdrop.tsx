@@ -20,7 +20,7 @@ export function PortfolioUiRequestAirdrop({
   wallet,
 }: {
   cluster: Cluster
-  lamports?: Lamports
+  lamports?: Lamports | undefined
   wallet: Wallet
 }) {
   const { isPending, mutateAsync } = useRequestAirdrop(cluster)

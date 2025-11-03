@@ -22,5 +22,6 @@
     "dev": "expo start",
     "ios": "expo start --ios",
     "lint": "expo lint"
-  }
+  },
+  "type": "module"
 }

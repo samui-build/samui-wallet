@@ -11,7 +11,7 @@ function ContextMenu({ ...props }: React.ComponentProps<typeof ContextMenuPrimit
 }
 
 function ContextMenuCheckboxItem({
-  checked,
+  checked = false,
   children,
   className,
   ...props

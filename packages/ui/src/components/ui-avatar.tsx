@@ -10,9 +10,7 @@ export function UiAvatar({ className, label, src }: { className?: string; label:
   return (
     <Avatar className={className}>
       {src ? <AvatarImage src={src} /> : null}
-      <AvatarFallback className={`${bg} ${text}`} delayMs={src ? 600 : undefined}>
-        {initials}
-      </AvatarFallback>
+      <AvatarFallback className={`${bg} ${text}`}>{initials}</AvatarFallback>
     </Avatar>
   )
 }

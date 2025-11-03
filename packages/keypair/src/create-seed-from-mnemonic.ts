@@ -8,7 +8,7 @@ export async function createSeedFromMnemonic({
   passphrase,
 }: {
   mnemonic: string
-  passphrase?: string
+  passphrase?: string | undefined
 }): Promise<Uint8Array> {
   validateMnemonic({ mnemonic })
 

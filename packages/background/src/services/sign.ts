@@ -74,6 +74,10 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
       throw new Error('Active wallet has no secret key')
     }
 
+    if (wallets.accounts[0] === undefined) {
+      throw new Error('No wallet account found')
+    }
+
     const bytes = new Uint8Array(JSON.parse(active.secretKey))
     const { privateKey } = await createKeyPairFromBytes(bytes)
 
