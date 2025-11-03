@@ -2,11 +2,12 @@
 
 import type { DayButton } from 'react-day-picker'
 
-import { Button, buttonVariants } from '@workspace/ui/components/button'
-import { cn } from '@workspace/ui/lib/utils'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { DayPicker, getDefaultClassNames } from 'react-day-picker'
+
+import { cn } from '../lib/utils.ts'
+import { Button, buttonVariants } from './button.tsx'
 
 function Calendar({
   buttonVariant = 'ghost',

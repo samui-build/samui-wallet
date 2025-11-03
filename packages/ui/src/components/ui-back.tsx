@@ -1,7 +1,7 @@
 import { LucideArrowLeft } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { Button } from './button.js'
+import { Button } from './button.tsx'
 
 export function UiBack({ to = '..' }: { to?: string }) {
   return (

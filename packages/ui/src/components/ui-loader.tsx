@@ -1,5 +1,5 @@
-import { cn } from '../lib/utils.js'
-import { Spinner } from './spinner.js'
+import { cn } from '../lib/utils.ts'
+import { Spinner } from './spinner.tsx'
 
 export function UiLoader({ className }: { className?: string }) {
   return <Spinner className={cn('size-12', className)} />

@@ -1,10 +1,11 @@
 'use client'
 
-import { Label } from '@workspace/ui/components/label'
-import { Separator } from '@workspace/ui/components/separator'
-import { cn } from '@workspace/ui/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { useMemo } from 'react'
+
+import { cn } from '../lib/utils.ts'
+import { Label } from './label.tsx'
+import { Separator } from './separator.tsx'
 
 function FieldGroup({ className, ...props }: React.ComponentProps<'div'>) {
   return (

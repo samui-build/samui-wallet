@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './sheet.js'
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from './sheet.tsx'
 
 export function UiBottomSheet({
   children,
