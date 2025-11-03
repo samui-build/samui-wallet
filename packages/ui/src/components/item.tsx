@@ -7,6 +7,7 @@ import { Separator } from './separator.tsx'
 
 function ItemGroup({ className, ...props }: ComponentProps<'div'>) {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: this should not be a ul/ol
     <div className={cn('group/item-group flex flex-col', className)} data-slot="item-group" role="list" {...props} />
   )
 }

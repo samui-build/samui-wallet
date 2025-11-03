@@ -1,6 +1,7 @@
 packages:
   - apps/*
   - packages/*
+  - turbo/*
 
 catalog:
   "@hookform/resolvers": ^5.2.2

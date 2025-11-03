@@ -9,7 +9,7 @@ import { lamports } from '@solana/kit'
 
 export function solToLamports(amount: string): Lamports {
   if (Number.isNaN(parseFloat(amount))) {
-    throw new Error('Could not parse token quantity: ' + String(amount))
+    throw new Error(`Could not parse token quantity: ${String(amount)}`)
   }
   const formatter = new Intl.NumberFormat('en-US', { useGrouping: false })
   const bigIntLamports = BigInt(

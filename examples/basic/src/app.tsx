@@ -90,21 +90,17 @@ export function App() {
               }
             })}
           </div>
+        ) : solanaWallets.length ? (
+          <div className="flex flex-col gap-4">
+            {solanaWallets.map((wallet) => (
+              <Button key={wallet.name} onClick={() => setWallet(wallet)}>
+                {wallet.icon && <img alt={wallet.name} className="size-5" src={wallet.icon} />}
+                <span className="text-left">{wallet.name}</span>
+              </Button>
+            ))}
+          </div>
         ) : (
-          <>
-            {solanaWallets.length ? (
-              <div className="flex flex-col gap-4">
-                {solanaWallets.map((wallet) => (
-                  <Button key={wallet.name} onClick={() => setWallet(wallet)}>
-                    {wallet.icon && <img alt={wallet.name} className="size-5" src={wallet.icon} />}
-                    <span className="text-left">{wallet.name}</span>
-                  </Button>
-                ))}
-              </div>
-            ) : (
-              <p className="text-xl text-white/70">No wallets found</p>
-            )}
-          </>
+          <p className="text-xl text-white/70">No wallets found</p>
         )}
       </div>
     </div>

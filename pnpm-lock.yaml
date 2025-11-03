@@ -95,9 +95,6 @@ importers:
       '@radix-ui/react-select':
         specifier: ^2.2.6
         version: 2.2.6(@types/react-dom@19.2.2(@types/react@19.2.2))(@types/react@19.2.2)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
-      '@turbo/gen':
-        specifier: ^2.5.8
-        version: 2.5.8(@swc/core@1.13.19(@swc/helpers@0.5.17))(@types/node@24.9.1)(typescript@5.9.3)
       lefthook:
         specifier: ^2.0.1
         version: 2.0.1
@@ -476,6 +473,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/db-react:
     dependencies:
@@ -516,6 +516,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/dev:
     dependencies:
@@ -649,6 +652,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/onboarding:
     dependencies:
@@ -924,6 +930,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/solana-client-react:
     dependencies:
@@ -1219,6 +1228,9 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.0.4(@types/debug@4.1.12)(@types/node@24.9.1)(jiti@2.6.1)(jsdom@27.0.1(postcss@8.5.6))(lightningcss@1.30.2)(terser@5.44.0)(tsx@4.20.6)(yaml@2.8.1)
 
   packages/wallet-standard:
     dependencies:
@@ -1244,6 +1256,18 @@ importers:
       '@workspace/config-typescript':
         specifier: workspace:*
         version: link:../config-typescript
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
+  turbo/generators:
+    devDependencies:
+      '@turbo/gen':
+        specifier: ^2.5.8
+        version: 2.5.8(@swc/core@1.13.19(@swc/helpers@0.5.17))(@types/node@24.9.1)(typescript@5.9.3)
+      '@workspace/config-typescript':
+        specifier: workspace:*
+        version: link:../../packages/config-typescript
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -14420,7 +14444,7 @@ snapshots:
 
   '@types/minimatch@6.0.0':
     dependencies:
-      minimatch: 10.1.1
+      minimatch: 10.0.3
 
   '@types/ms@2.1.0': {}
 

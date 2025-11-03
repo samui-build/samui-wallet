@@ -15,7 +15,7 @@ import {
 import { Input } from '@workspace/ui/components/input'
 import { Label } from '@workspace/ui/components/label'
 import { Switch } from '@workspace/ui/components/switch'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export function SettingsUiAccountFormImport({
@@ -25,6 +25,7 @@ export function SettingsUiAccountFormImport({
   name: string
   submit: (input: AccountInputCreate, redirect: boolean) => Promise<void>
 }) {
+  const redirectId = useId()
   const [redirect, setRedirect] = useState(true)
   const form = useForm<AccountInputCreate>({
     resolver: standardSchemaResolver(accountSchemaCreate),
@@ -81,8 +82,8 @@ export function SettingsUiAccountFormImport({
         />
         <div className="flex justify-end items-center w-full pt-3 gap-4">
           <div className="flex items-center space-x-2">
-            <Switch checked={redirect} id="redirect" onCheckedChange={setRedirect} />
-            <Label htmlFor="redirect">Redirect after import</Label>
+            <Switch checked={redirect} id={redirectId} onCheckedChange={setRedirect} />
+            <Label htmlFor={redirectId}>Redirect after import</Label>
           </div>
           <Button size="lg">Import</Button>
         </div>

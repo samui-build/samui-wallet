@@ -28,6 +28,7 @@ function ButtonGroup({
   ...props
 }: ComponentProps<'div'> & VariantProps<typeof buttonGroupVariants>) {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: this should not be a fieldset
     <div
       className={cn(buttonGroupVariants({ orientation }), className)}
       data-orientation={orientation}
