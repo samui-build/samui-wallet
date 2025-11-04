@@ -1,11 +1,9 @@
 import Dexie, { type Table } from 'dexie'
-
-import type { Account } from './entity/account'
-import type { Cluster } from './entity/cluster'
-import type { Preference } from './entity/preference'
-import type { Wallet } from './entity/wallet'
-
-import { dbPopulate } from './db-populate'
+import { dbPopulate } from './db-populate.ts'
+import type { Account } from './entity/account.ts'
+import type { Cluster } from './entity/cluster.ts'
+import type { Preference } from './entity/preference.ts'
+import type { Wallet } from './entity/wallet.ts'
 
 export interface DatabaseConfig {
   name: string

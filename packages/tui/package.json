@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/tui",
-  "version": "0.0.0",
   "dependencies": {
     "@opentui/core": "^0.1.31",
     "@opentui/react": "^0.1.31",
@@ -11,9 +9,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
@@ -22,11 +18,11 @@
   },
   "license": "MIT",
   "module": "src/index.tsx",
+  "name": "@workspace/tui",
   "private": false,
   "scripts": {
-    "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
+    "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

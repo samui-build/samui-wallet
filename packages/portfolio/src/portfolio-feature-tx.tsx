@@ -8,7 +8,7 @@ import { UiBack } from '@workspace/ui/components/ui-back'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useParams } from 'react-router'
 
-import { PortfolioUiTxDetails } from './portfolio-ui-tx-details.js'
+import { PortfolioUiTxDetails } from './portfolio-ui-tx-details.tsx'
 
 export function PortfolioFeatureTx({ cluster }: { cluster: Cluster }) {
   const { signature } = useParams() as { signature: string }

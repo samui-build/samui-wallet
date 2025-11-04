@@ -1,6 +1,5 @@
-import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
-
 import { Item, ItemContent, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
+import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 
 export function SettingsUiAccountCreateHeader({ icon, label }: { icon: UiIconLucide; label: string }) {

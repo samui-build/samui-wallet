@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
-import { WalletUiItem } from './wallet-ui-item.js'
+import { WalletUiItem } from './wallet-ui-item.tsx'
 
 export function SettingsUiWalletTable({ items }: { items: Wallet[] }) {
   return (

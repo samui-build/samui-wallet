@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/i18n",
-  "version": "0.0.0",
   "dependencies": {
     "i18next": "^25.6.0",
     "i18next-cli": "^1.19.1",
@@ -8,9 +6,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "exports": {
@@ -18,12 +14,13 @@
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/i18n",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
     "i18n:extract": "i18next-cli extract && i18next-cli types",
-    "i18n:lint": "i18next-cli lint",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix"
-  }
+    "i18n:lint": "i18next-cli lint"
+  },
+  "type": "module",
+  "version": "0.0.0"
 }

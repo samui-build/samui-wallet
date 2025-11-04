@@ -1,8 +1,8 @@
 import { getAddressFromPublicKey } from '@solana/kit'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { convertKeyPairToJson } from './convert-key-pair-to-json'
-import { importKeyPair } from './import-key-pair'
+import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
+import { importKeyPair } from './import-key-pair.ts'
 
 describe('import-key-pair', () => {
   const inputByteArray =

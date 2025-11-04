@@ -1,6 +1,4 @@
 {
-  "name": "site",
-  "version": "0.0.1",
   "dependencies": {
     "@astrojs/starlight": "^0.36.1",
     "@astrojs/starlight-tailwind": "^4.0.1",
@@ -9,6 +7,11 @@
     "sharp": "^0.34.2",
     "tailwindcss": "catalog:"
   },
+  "devDependencies": {
+    "@workspace/config-typescript": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "name": "site",
   "scripts": {
     "astro": "astro",
     "build": "astro build",
@@ -16,5 +19,6 @@
     "preview": "astro preview",
     "start": "astro dev"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.1"
 }

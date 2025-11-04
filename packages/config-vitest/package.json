@@ -1,21 +1,20 @@
 {
-  "name": "@workspace/config-vitest",
-  "version": "0.0.0",
-  "dependencies": {
-    "vitest": "catalog:"
-  },
   "devDependencies": {
+    "@types/node": "catalog:",
     "@workspace/config-typescript": "workspace:*",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     ".": "./src/index.ts",
     "./*": "./src/*.tsx"
   },
+  "name": "@workspace/config-vitest",
   "private": true,
   "scripts": {
     "build": "tsc",
     "check-types": "tsc --noEmit"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

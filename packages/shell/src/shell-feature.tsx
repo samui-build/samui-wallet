@@ -1,5 +1,5 @@
-import { ShellProviders } from './data-access/shell-providers.js'
-import { ShellRoutes } from './shell-routes.js'
+import { ShellProviders } from './data-access/shell-providers.tsx'
+import { ShellRoutes } from './shell-routes.tsx'
 import '@workspace/ui/globals.css'
 
 export function ShellFeature() {

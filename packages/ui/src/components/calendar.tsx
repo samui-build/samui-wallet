@@ -1,12 +1,37 @@
 'use client'
 
-import type { DayButton } from 'react-day-picker'
-
-import { Button, buttonVariants } from '@workspace/ui/components/button'
-import { cn } from '@workspace/ui/lib/utils'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
-import * as React from 'react'
+import type { ComponentProps } from 'react'
+import { useEffect, useRef } from 'react'
+import type { CustomComponents, DayButton } from 'react-day-picker'
 import { DayPicker, getDefaultClassNames } from 'react-day-picker'
+import { cn } from '../lib/utils.ts'
+import { Button, buttonVariants } from './button.tsx'
+
+const baseComponents: Partial<CustomComponents> = {
+  Chevron: ({ className, orientation, ...props }) => {
+    if (orientation === 'left') {
+      return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+    }
+
+    if (orientation === 'right') {
+      return <ChevronRightIcon className={cn('size-4', className)} {...props} />
+    }
+
+    return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+  },
+  DayButton: CalendarDayButton,
+  Root: ({ className, rootRef, ...props }) => {
+    return <div className={cn(className)} data-slot="calendar" ref={rootRef} {...props} />
+  },
+  WeekNumber: ({ children, ...props }) => {
+    return (
+      <td {...props}>
+        <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
+      </td>
+    )
+  },
+}
 
 function Calendar({
   buttonVariant = 'ghost',
@@ -18,8 +43,8 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: {
-  buttonVariant?: React.ComponentProps<typeof Button>['variant']
-} & React.ComponentProps<typeof DayPicker>) {
+  buttonVariant?: ComponentProps<typeof Button>['variant']
+} & ComponentProps<typeof DayPicker>) {
   const defaultClassNames = getDefaultClassNames()
 
   return (
@@ -92,28 +117,7 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === 'left') {
-            return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
-          }
-
-          if (orientation === 'right') {
-            return <ChevronRightIcon className={cn('size-4', className)} {...props} />
-          }
-
-          return <ChevronDownIcon className={cn('size-4', className)} {...props} />
-        },
-        DayButton: CalendarDayButton,
-        Root: ({ className, rootRef, ...props }) => {
-          return <div className={cn(className)} data-slot="calendar" ref={rootRef} {...props} />
-        },
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
-            </td>
-          )
-        },
+        ...baseComponents,
         ...components,
       }}
       formatters={{
@@ -126,13 +130,13 @@ function Calendar({
   )
 }
 
-function CalendarDayButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
+function CalendarDayButton({ className, day, modifiers, ...props }: ComponentProps<typeof DayButton>) {
   const defaultClassNames = getDefaultClassNames()
 
-  const ref = React.useRef<HTMLButtonElement>(null)
-  React.useEffect(() => {
-    if (modifiers.focused) ref.current?.focus()
-  }, [modifiers.focused])
+  const ref = useRef<HTMLButtonElement>(null)
+  useEffect(() => {
+    if (modifiers['focused']) ref.current?.focus()
+  }, [modifiers['focused']])
 
   return (
     <Button
@@ -142,11 +146,11 @@ function CalendarDayButton({ className, day, modifiers, ...props }: React.Compon
         className,
       )}
       data-day={day.date.toLocaleDateString()}
-      data-range-end={modifiers.range_end}
-      data-range-middle={modifiers.range_middle}
-      data-range-start={modifiers.range_start}
+      data-range-end={modifiers['range_end']}
+      data-range-middle={modifiers['range_middle']}
+      data-range-start={modifiers['range_start']}
       data-selected-single={
-        modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle
+        modifiers['selected'] && !modifiers['range_start'] && !modifiers['range_end'] && !modifiers['range_middle']
       }
       ref={ref}
       size="icon"

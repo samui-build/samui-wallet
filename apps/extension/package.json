@@ -1,6 +1,4 @@
 {
-  "name": "extension",
-  "version": "0.0.0",
   "dependencies": {
     "@solana/wallet-standard-features": "^1.3.0",
     "@tanstack/react-query": "catalog:",
@@ -15,23 +13,22 @@
     "@tailwindcss/vite": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
+    "@workspace/config-typescript": "workspace:*",
     "@wxt-dev/auto-icons": "^1.1.0",
     "@wxt-dev/module-react": "^1.1.3",
-    "eslint": "catalog:",
     "typescript": "catalog:",
     "wxt": "^0.20.6"
   },
+  "name": "extension",
   "private": true,
   "scripts": {
     "build": "wxt build",
     "check-types": "tsc --noEmit",
     "compile": "tsc --noEmit",
     "dev": "wxt",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "postinstall": "wxt prepare",
     "zip": "wxt zip"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

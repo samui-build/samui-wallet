@@ -3,10 +3,10 @@ import type { TransactionData } from '@workspace/solana-client-react/use-get-tra
 
 import { Separator } from '@workspace/ui/components/separator'
 
-import { getTxStatus } from './get-tx-status.js'
-import { PortfolioUiTxDetailRow } from './portfolio-ui-tx-detail-row.js'
-import { PortfolioUiExplorerButton } from './ui/portfolio-ui-explorer-button.js'
-import { PortfolioUiTxTimestamp } from './ui/portfolio-ui-tx-timestamp.js'
+import { getTxStatus } from './get-tx-status.tsx'
+import { PortfolioUiTxDetailRow } from './portfolio-ui-tx-detail-row.tsx'
+import { PortfolioUiExplorerButton } from './ui/portfolio-ui-explorer-button.tsx'
+import { PortfolioUiTxTimestamp } from './ui/portfolio-ui-tx-timestamp.tsx'
 
 export function PortfolioUiTxDetails({
   cluster,

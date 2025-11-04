@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { validateMnemonic } from './validate-mnemonic'
+import { validateMnemonic } from './validate-mnemonic.ts'
 
 describe('validate-mnemonic', () => {
   describe('expected behavior', () => {

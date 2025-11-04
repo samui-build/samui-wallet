@@ -3,13 +3,13 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
 import { useDbPreference } from '@workspace/db-react/use-db-preference'
-import React, { useMemo } from 'react'
+import { type ReactNode, useMemo } from 'react'
 
-import { PortfolioUiWalletGuard } from './portfolio-ui-wallet-guard.js'
+import { PortfolioUiWalletGuard } from './portfolio-ui-wallet-guard.tsx'
 
 export interface PortfolioUiClusterGuardProps {
-  fallback?: React.ReactNode
-  render: (props: { cluster: Cluster }) => React.ReactNode
+  fallback?: ReactNode
+  render: (props: { cluster: Cluster }) => ReactNode
 }
 
 export function PortfolioUiClusterGuard({
@@ -26,7 +26,7 @@ export function PortfolioUiClusterGuard({
 export function PortfolioUiClusterWalletGuard({
   render,
 }: {
-  render: (props: { cluster: Cluster; wallet: Wallet }) => React.ReactNode
+  render: (props: { cluster: Cluster; wallet: Wallet }) => ReactNode
 }) {
   return (
     <PortfolioUiClusterGuard

@@ -1,8 +1,8 @@
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
-import type { ClusterWallet } from '../portfolio-routes-loaded.js'
+import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { ClusterWallet } from '../portfolio-routes-loaded.tsx'
 
-import { PortfolioUiWalletSheetReceive } from './portfolio-ui-wallet-sheet-receive.js'
-import { PortfolioUiWalletSheetSend } from './portfolio-ui-wallet-sheet-send.js'
+import { PortfolioUiWalletSheetReceive } from './portfolio-ui-wallet-sheet-receive.tsx'
+import { PortfolioUiWalletSheetSend } from './portfolio-ui-wallet-sheet-send.tsx'
 
 export function PortfolioUiWalletButtons({
   balances,

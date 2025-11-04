@@ -1,6 +1,6 @@
 import { HDKey } from 'micro-key-producer/slip10.js'
 
-import { createSeedFromMnemonic } from './create-seed-from-mnemonic.js'
+import { createSeedFromMnemonic } from './create-seed-from-mnemonic.ts'
 
 export async function createHDKeyFromMnemonic({
   mnemonic,

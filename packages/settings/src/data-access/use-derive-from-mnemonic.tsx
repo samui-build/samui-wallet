@@ -1,6 +1,5 @@
-import type { DeriveFromMnemonicAtIndexProps } from '@workspace/keypair/derive-from-mnemonic-at-index'
-
 import { useMutation } from '@tanstack/react-query'
+import type { DeriveFromMnemonicAtIndexProps } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { toastError } from '@workspace/ui/lib/toast-error'
 

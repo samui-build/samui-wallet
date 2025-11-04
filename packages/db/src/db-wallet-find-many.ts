@@ -1,10 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { WalletInputFindMany } from './dto/wallet-input-find-many'
-import type { Wallet } from './entity/wallet'
+import type { Database } from './database.ts'
+import type { WalletInputFindMany } from './dto/wallet-input-find-many.ts'
+import type { Wallet } from './entity/wallet.ts'
 
-import { walletSchemaFindMany } from './schema/wallet-schema-find-many'
+import { walletSchemaFindMany } from './schema/wallet-schema-find-many.ts'
 
 export async function dbWalletFindMany(db: Database, input: WalletInputFindMany): Promise<Wallet[]> {
   const parsedInput = walletSchemaFindMany.parse(input)

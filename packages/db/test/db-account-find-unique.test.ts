@@ -1,12 +1,10 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import type { Account } from '../src/entity/account'
-
-import { dbAccountCreate } from '../src/db-account-create'
-import { dbAccountFindUnique } from '../src/db-account-find-unique'
-import { createDbTest, testAccountInputCreate } from './test-helpers'
+import { dbAccountCreate } from '../src/db-account-create.ts'
+import { dbAccountFindUnique } from '../src/db-account-find-unique.ts'
+import type { Account } from '../src/entity/account.ts'
+import { createDbTest, testAccountInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 

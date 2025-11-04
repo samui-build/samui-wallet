@@ -1,6 +1,6 @@
 import type { Address, Commitment, Signature, Slot, TransactionError, UnixTimestamp } from '@solana/kit'
 
-import type { SolanaClient } from './solana-client'
+import type { SolanaClient } from './solana-client.ts'
 
 export type GetActivityItem = Readonly<{
   blockTime: null | UnixTimestamp

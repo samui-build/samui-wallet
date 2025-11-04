@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { deriveFromMnemonicAtIndex } from './derive-from-mnemonic-at-index'
+import { deriveFromMnemonicAtIndex } from './derive-from-mnemonic-at-index.ts'
 
 describe('derive-from-mnemonic-at-index', () => {
   describe('expected behavior', () => {

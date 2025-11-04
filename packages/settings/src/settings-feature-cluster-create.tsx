@@ -3,7 +3,7 @@ import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { useNavigate } from 'react-router'
 
-import { SettingsUiClusterFormCreate } from './ui/settings-ui-cluster-form-create.js'
+import { SettingsUiClusterFormCreate } from './ui/settings-ui-cluster-form-create.tsx'
 
 export function SettingsFeatureClusterCreate() {
   const createMutation = useDbClusterCreate()

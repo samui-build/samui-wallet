@@ -1,10 +1,10 @@
 import { UiCard } from '@workspace/ui/components/ui-card'
 
-import { useSettingsPage } from './data-access/use-settings-page.js'
-import { SettingsFeatureGeneralApiEndpoint } from './settings-feature-general-api-endpoint.js'
-import { SettingsFeatureGeneralDangerDeleteDatabase } from './settings-feature-general-danger-delete-database.js'
-import { SettingsFeatureGeneralDeveloperModeEnable } from './settings-feature-general-developer-mode-enable.js'
-import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feature-general-warning-accept-experimental.js'
+import { useSettingsPage } from './data-access/use-settings-page.tsx'
+import { SettingsFeatureGeneralApiEndpoint } from './settings-feature-general-api-endpoint.tsx'
+import { SettingsFeatureGeneralDangerDeleteDatabase } from './settings-feature-general-danger-delete-database.tsx'
+import { SettingsFeatureGeneralDeveloperModeEnable } from './settings-feature-general-developer-mode-enable.tsx'
+import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feature-general-warning-accept-experimental.tsx'
 
 export function SettingsFeatureGeneral() {
   const page = useSettingsPage({ pageId: 'general' })

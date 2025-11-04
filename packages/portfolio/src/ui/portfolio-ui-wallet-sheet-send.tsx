@@ -2,9 +2,9 @@ import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { LucideArrowUp } from 'lucide-react'
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
-import { PortfolioUiWalletFormSend } from './portfolio-ui-wallet-form-send.js'
+import { PortfolioUiWalletFormSend } from './portfolio-ui-wallet-form-send.tsx'
 
 export function PortfolioUiWalletSheetSend({
   balances,

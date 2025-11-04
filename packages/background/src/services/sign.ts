@@ -1,14 +1,3 @@
-import type {
-  SolanaSignAndSendTransactionInput,
-  SolanaSignAndSendTransactionOutput,
-  SolanaSignInInput,
-  SolanaSignInOutput,
-  SolanaSignMessageInput,
-  SolanaSignMessageOutput,
-  SolanaSignTransactionInput,
-  SolanaSignTransactionOutput,
-} from '@solana/wallet-standard-features'
-
 import {
   createKeyPairFromBytes,
   createSolanaRpc,
@@ -20,13 +9,21 @@ import {
   signBytes,
   signTransaction,
 } from '@solana/kit'
+import type {
+  SolanaSignAndSendTransactionInput,
+  SolanaSignAndSendTransactionOutput,
+  SolanaSignInInput,
+  SolanaSignInOutput,
+  SolanaSignMessageInput,
+  SolanaSignMessageOutput,
+  SolanaSignTransactionInput,
+  SolanaSignTransactionOutput,
+} from '@solana/wallet-standard-features'
 import { createSignInMessage } from '@solana/wallet-standard-util'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
 import { defineProxyService } from '@webext-core/proxy-service'
 import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 
-import { getDbService } from './db'
+import { getDbService } from './db.ts'
 
 const rpc = createSolanaRpc('https://api.devnet.solana.com')
 
@@ -72,6 +69,10 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
     const wallets = await getDbService().wallet.walletAccounts()
     if (!active.secretKey) {
       throw new Error('Active wallet has no secret key')
+    }
+
+    if (wallets.accounts[0] === undefined) {
+      throw new Error('No wallet account found')
     }
 
     const bytes = new Uint8Array(JSON.parse(active.secretKey))

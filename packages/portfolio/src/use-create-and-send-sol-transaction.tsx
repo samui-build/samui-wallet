@@ -1,13 +1,12 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { Wallet } from '@workspace/db/entity/wallet'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
+import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
 import { getBalanceQueryOptions, useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
-import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 
-import type { ClusterWallet } from './portfolio-routes-loaded.js'
+import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
 
 export function useCreateAndSendSolTransaction(props: ClusterWallet) {
   const { cluster, wallet } = props

@@ -7,8 +7,8 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { Link } from 'react-router'
 
-import { useSettingsPage } from './data-access/use-settings-page.js'
-import { SettingsUiClusterList } from './ui/settings-ui-cluster-list.js'
+import { useSettingsPage } from './data-access/use-settings-page.tsx'
+import { SettingsUiClusterList } from './ui/settings-ui-cluster-list.tsx'
 
 export function SettingsFeatureClusterList() {
   const page = useSettingsPage({ pageId: 'clusters' })

@@ -7,7 +7,7 @@ import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useNavigate, useParams } from 'react-router'
 
-import { SettingsUiAccountFormUpdate } from './ui/settings-ui-account-form-update.js'
+import { SettingsUiAccountFormUpdate } from './ui/settings-ui-account-form-update.tsx'
 
 export function SettingsFeatureAccountUpdate() {
   const navigate = useNavigate()

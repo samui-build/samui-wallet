@@ -1,10 +1,11 @@
 import { StandardDisconnect, type StandardDisconnectFeature } from '@wallet-standard/core'
-import { Button } from './ui/button'
 import { getWalletFeature, type UiWallet, type UiWalletAccount } from '@wallet-standard/react'
+import type { Dispatch, SetStateAction } from 'react'
+import { Button } from './ui/button.tsx'
 
 interface DisconnectProps {
   wallet: UiWallet
-  setAccount: React.Dispatch<React.SetStateAction<UiWalletAccount | undefined>>
+  setAccount: Dispatch<SetStateAction<UiWalletAccount | undefined>>
 }
 
 export function Disconnect({ wallet, setAccount }: DisconnectProps) {

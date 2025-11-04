@@ -7,7 +7,6 @@ import {
 } from '@solana/kit'
 
 import type { SolanaClient } from './solana-client'
-
 import { createSolTransferTransaction } from './create-sol-transfer-transaction'
 import { lamportsToSol } from './lamports-to-sol'
 import { maxAvailableSolAmount } from './max-available-sol-amount'

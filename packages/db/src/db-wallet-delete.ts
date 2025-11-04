@@ -1,6 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
+import type { Database } from './database.ts'
 
 export async function dbWalletDelete(db: Database, id: string): Promise<void> {
   const { data, error } = await tryCatch(db.wallets.delete(id))

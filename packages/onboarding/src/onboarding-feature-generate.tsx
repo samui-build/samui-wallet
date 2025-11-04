@@ -8,10 +8,10 @@ import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
 
-import { useCreateNewAccount } from './data-access/use-create-new-account.js'
-import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.js'
-import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.js'
-import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.js'
+import { useCreateNewAccount } from './data-access/use-create-new-account.tsx'
+import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
+import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
+import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.tsx'
 
 export function OnboardingFeatureGenerate() {
   const create = useCreateNewAccount()

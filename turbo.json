@@ -1,18 +1,11 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "ui": "stream",
   "globalEnv": ["TAURI_DEV_HOST"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**", "dist/**", ".output", ".wxt"]
-    },
-    "lint": {
-      "dependsOn": ["^lint"]
-    },
-    "lint:fix": {
-      "dependsOn": ["^lint:fix"]
     },
     "check-types": {
       "dependsOn": ["^check-types"]
@@ -28,5 +21,6 @@
       "cache": false,
       "persistent": true
     }
-  }
+  },
+  "ui": "stream"
 }

@@ -1,6 +1,5 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
-
 import { db } from '@workspace/db/db'
+import type { Wallet } from '@workspace/db/entity/wallet'
 import { useLiveQuery } from 'dexie-react-hooks'
 
 export function useDbWalletLive({ accountId }: { accountId: null | string }) {

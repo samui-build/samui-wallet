@@ -1,6 +1,6 @@
-import { registerDbService } from './services/db'
-import { registerRequestService } from './services/request'
-import { registerSignService } from './services/sign'
+import { registerDbService } from './services/db.ts'
+import { registerRequestService } from './services/request.ts'
+import { registerSignService } from './services/sign.ts'
 
 export function services() {
   registerDbService()

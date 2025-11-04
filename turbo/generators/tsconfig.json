@@ -1,3 +1,6 @@
 {
+  "compilerOptions": {
+    "outDir": "dist"
+  },
   "extends": "@workspace/config-typescript/base.json"
 }

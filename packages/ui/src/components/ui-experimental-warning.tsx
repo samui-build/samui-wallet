@@ -1,7 +1,7 @@
 import { AlertTriangle, LucideX } from 'lucide-react'
 
-import { Alert, AlertDescription, AlertTitle } from './alert.js'
-import { Button } from './button.js'
+import { Alert, AlertDescription, AlertTitle } from './alert.tsx'
+import { Button } from './button.tsx'
 
 export function UiExperimentalWarning({ close }: { close?: () => void }) {
   return (

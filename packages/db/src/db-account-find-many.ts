@@ -1,10 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { AccountInputFindMany } from './dto/account-input-find-many'
-import type { Account } from './entity/account'
+import type { Database } from './database.ts'
+import type { AccountInputFindMany } from './dto/account-input-find-many.ts'
+import type { Account } from './entity/account.ts'
 
-import { accountSchemaFindMany } from './schema/account-schema-find-many'
+import { accountSchemaFindMany } from './schema/account-schema-find-many.ts'
 
 export async function dbAccountFindMany(db: Database, input: AccountInputFindMany = {}): Promise<Account[]> {
   const parsedInput = accountSchemaFindMany.parse(input)

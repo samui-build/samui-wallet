@@ -7,10 +7,10 @@ import { UiTextPasteButton } from '@workspace/ui/components/ui-text-paste-button
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
 
-import { useCreateNewAccount } from './data-access/use-create-new-account.js'
-import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.js'
-import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.js'
-import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.js'
+import { useCreateNewAccount } from './data-access/use-create-new-account.tsx'
+import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.tsx'
+import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
+import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 
 export function OnboardingFeatureImport() {
   const create = useCreateNewAccount()
@@ -101,7 +101,7 @@ export function OnboardingFeatureImport() {
           </div>
 
           <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4`}>
-            {Array.from({ length: wordCount }).map((_, index) => (
+            {Array.from({ length: wordCount }, (_, i) => i).map((index) => (
               <OnboardingUiMnemonicWordInput
                 index={index + 1}
                 key={index}

@@ -1,8 +1,7 @@
 {
-  "extends": "@workspace/config-typescript/base.json",
   "compilerOptions": {
     "outDir": "dist"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/config-typescript/base.json",
+  "files": ["locales/en/translation.json", "locales/es/translation.json"]
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44'
+import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44.ts'
 
 describe('create-key-pair-signer-from-bip44', () => {
   describe('expected behavior', () => {

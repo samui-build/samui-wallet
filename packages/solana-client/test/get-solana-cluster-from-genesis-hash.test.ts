@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { GENESIS_HASH, getSolanaClusterFromGenesisHash } from '../src/get-solana-cluster-from-genesis-hash'
+import { GENESIS_HASH, getSolanaClusterFromGenesisHash } from '../src/get-solana-cluster-from-genesis-hash.ts'
 
 describe('get-solana-cluster-from-genesis-hash', () => {
   describe('expected behavior', () => {

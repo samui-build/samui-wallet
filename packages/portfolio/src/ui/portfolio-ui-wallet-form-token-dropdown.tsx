@@ -12,9 +12,9 @@ import { cn } from '@workspace/ui/lib/utils'
 import { ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
 
-import type { TokenBalance } from '../data-access/use-get-token-metadata.js'
+import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
-import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.js'
+import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
 export function PortfolioUiWalletFormTokenDropdown({
   mint,

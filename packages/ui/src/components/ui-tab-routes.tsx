@@ -3,8 +3,8 @@ import type { ComponentProps, ReactElement, ReactNode } from 'react'
 import { Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 
-import { Tabs, TabsList, TabsTrigger } from './tabs.js'
-import { UiLoader } from './ui-loader.js'
+import { Tabs, TabsList, TabsTrigger } from './tabs.tsx'
+import { UiLoader } from './ui-loader.tsx'
 
 export interface UiTabRoute {
   element: ReactNode
@@ -26,6 +26,10 @@ export function UiTabRoutes({
   const activeTab = tabs.find((tab) => location.pathname.startsWith(`${basePath}/${tab.path}`))?.path
   // Set default redirect route to the first tab
   const redirect = tabs[0]?.path !== '' ? tabs[0]?.path : undefined
+
+  if (!activeTab) {
+    return null
+  }
 
   return (
     <>

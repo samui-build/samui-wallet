@@ -9,9 +9,9 @@ import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { LucidePencil, LucidePlus } from 'lucide-react'
 import { Link, useParams } from 'react-router'
 
-import { useSortWallets } from './data-access/use-sort-wallets.js'
-import { SettingsUiAccountItem } from './ui/settings-ui-account-item.js'
-import { SettingsUiWalletTable } from './ui/settings-ui-wallet-table.js'
+import { useSortWallets } from './data-access/use-sort-wallets.tsx'
+import { SettingsUiAccountItem } from './ui/settings-ui-account-item.tsx'
+import { SettingsUiWalletTable } from './ui/settings-ui-wallet-table.tsx'
 
 export function SettingsFeatureAccountDetails() {
   const { accountId } = useParams() as { accountId: string }

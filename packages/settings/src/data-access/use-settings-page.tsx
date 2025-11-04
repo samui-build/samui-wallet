@@ -1,4 +1,4 @@
-import { useSettingsPages } from './use-settings-pages.js'
+import { useSettingsPages } from './use-settings-pages.tsx'
 
 export function useSettingsPage({ pageId }: { pageId: string }) {
   const pages = useSettingsPages()

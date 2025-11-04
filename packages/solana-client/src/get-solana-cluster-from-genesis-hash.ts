@@ -3,7 +3,7 @@
  * MIT License
  * Copyright (c) 2023 Solana Foundation
  */
-import type { SolanaCluster } from './solana-cluster'
+import type { SolanaCluster } from './solana-cluster.ts'
 
 export const GENESIS_HASH = {
   devnet: 'EtWTRABZaYq6iMfeYKouRu166VU2xqa1wcaWoxPkrZBG',

@@ -2,7 +2,7 @@ import type { KeyPairSigner } from '@solana/kit'
 
 import { createKeyPairSignerFromPrivateKeyBytes } from '@solana/kit'
 
-import { createSeedFromMnemonic } from './create-seed-from-mnemonic'
+import { createSeedFromMnemonic } from './create-seed-from-mnemonic.ts'
 
 export async function createKeyPairSignerFromBip39({
   extractable = false,

@@ -1,14 +1,13 @@
 import type { Address } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
-
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import type { Cluster } from '@workspace/db/entity/cluster'
 import { requestAirdrop } from '@workspace/solana-client/request-airdrop'
+import { toastError } from '@workspace/ui/lib/toast-error'
+import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
-import { toastError } from '../../ui/src/lib/toast-error'
-import { toastSuccess } from '../../ui/src/lib/toast-success'
-import { getAccountInfoQueryOptions } from './use-get-account-info'
-import { getBalanceQueryOptions } from './use-get-balance'
-import { useSolanaClient } from './use-solana-client'
+import { getAccountInfoQueryOptions } from './use-get-account-info.tsx'
+import { getBalanceQueryOptions } from './use-get-balance.tsx'
+import { useSolanaClient } from './use-solana-client.tsx'
 
 export function useRequestAirdrop(cluster: Cluster) {
   const client = useSolanaClient({ cluster })

@@ -2,7 +2,7 @@ import type { Address } from '@solana/kit'
 
 import { getAddressFromPublicKey } from '@solana/kit'
 
-import { convertKeyPairToJson } from './convert-key-pair-to-json'
+import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
 
 export interface PublicKeySecretKey {
   publicKey: Address

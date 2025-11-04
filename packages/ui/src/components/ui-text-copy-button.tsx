@@ -1,8 +1,8 @@
 import { LucideCopy } from 'lucide-react'
 
-import { handleCopyText } from '../lib/handle-copy-text.js'
-import { toastSuccess } from '../lib/toast-success.js'
-import { Button } from './button.js'
+import { handleCopyText } from '../lib/handle-copy-text.ts'
+import { toastSuccess } from '../lib/toast-success.ts'
+import { Button } from './button.tsx'
 
 export function UiTextCopyButton({ text, toast = 'Copied to clipboard' }: { text: string; toast?: string }) {
   return (

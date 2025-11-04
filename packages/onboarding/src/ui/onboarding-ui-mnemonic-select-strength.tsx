@@ -12,7 +12,7 @@ export function OnboardingUiMnemonicSelectStrength({
   return (
     <ToggleGroup
       className="w-full"
-      onValueChange={(s) => setStrength(parseInt(s) as MnemonicStrength)}
+      onValueChange={(s) => setStrength(parseInt(s, 10) as MnemonicStrength)}
       type="single"
       value={strength.toString()}
       variant="outline"

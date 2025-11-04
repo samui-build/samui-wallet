@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createDbTest } from './test-helpers'
+import { createDbTest } from './test-helpers.ts'
 
 const db = createDbTest()
 

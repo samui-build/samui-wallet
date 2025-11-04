@@ -1,4 +1,4 @@
-import { accountSchema } from './account-schema'
+import { accountSchema } from './account-schema.ts'
 
 export const accountSchemaCreate = accountSchema.omit({
   createdAt: true,

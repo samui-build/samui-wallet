@@ -1,6 +1,4 @@
 {
-  "name": "cli",
-  "version": "0.0.0",
   "dependencies": {
     "@effect/cli": "^0.71.0",
     "@effect/platform-node": "^0.98.4",
@@ -9,18 +7,16 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
     "typescript": "catalog:"
   },
   "license": "MIT",
+  "name": "cli",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "watch": "bun run --watch src/index.ts"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }
