@@ -2,10 +2,10 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbWalletCreate } from '../src/db-wallet-create'
-import { dbWalletDelete } from '../src/db-wallet-delete'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique'
-import { createDbTest, testWalletInputCreate } from './test-helpers'
+import { dbWalletCreate } from '../src/db-wallet-create.ts'
+import { dbWalletDelete } from '../src/db-wallet-delete.ts'
+import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
+import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 

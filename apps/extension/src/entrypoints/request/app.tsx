@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query'
 import { getRequestService } from '@workspace/background/services/request'
 
-import { Connect } from '../../components/connect'
-import { SignAndSendTransaction } from '../../components/sign-and-send-transaction'
-import { SignIn } from '../../components/sign-in'
-import { SignMessage } from '../../components/sign-message'
-import { SignTransaction } from '../../components/sign-transaction'
+import { Connect } from '../../components/connect.tsx'
+import { SignAndSendTransaction } from '../../components/sign-and-send-transaction.tsx'
+import { SignIn } from '../../components/sign-in.tsx'
+import { SignMessage } from '../../components/sign-message.tsx'
+import { SignTransaction } from '../../components/sign-transaction.tsx'
 
 export function App() {
   const { data, isLoading } = useQuery({

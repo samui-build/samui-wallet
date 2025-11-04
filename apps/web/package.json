@@ -1,6 +1,4 @@
 {
-  "name": "web",
-  "version": "0.0.0",
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.15",
     "@tailwindcss/vite": "catalog:",
@@ -14,30 +12,24 @@
     "react-router": "catalog:"
   },
   "devDependencies": {
-    "@eslint/js": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^5.1.0",
-    "@workspace/config-eslint": "workspace:^",
     "@workspace/config-typescript": "workspace:*",
-    "eslint": "catalog:",
-    "eslint-plugin-react-hooks": "^6.1.1",
-    "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "catalog:",
     "typescript": "catalog:",
-    "typescript-eslint": "catalog:",
     "vite": "^7.1.12",
     "vite-bundle-analyzer": "^1.2.3",
     "vite-tsconfig-paths": "^5.1.4",
     "wrangler": "^4.45.0"
   },
+  "name": "web",
   "private": true,
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "preview": "vite preview"
   },
-  "type": "module"
+  "type": "module",
+  "version": "0.0.0"
 }

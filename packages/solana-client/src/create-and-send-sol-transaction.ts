@@ -5,10 +5,8 @@ import {
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
-
-import type { SolanaClient } from './solana-client'
-
-import { createSolTransferTransaction } from './create-sol-transfer-transaction'
+import { createSolTransferTransaction } from './create-sol-transfer-transaction.ts'
+import type { SolanaClient } from './solana-client.ts'
 
 export async function createAndSendSolTransaction(
   client: SolanaClient,

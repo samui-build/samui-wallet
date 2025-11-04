@@ -1,7 +1,8 @@
 // @ts-check
-import { defineConfig } from 'astro/config'
+
 import starlight from '@astrojs/starlight'
 import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from 'astro/config'
 
 // https://astro.build/config
 export default defineConfig({
@@ -22,19 +23,19 @@ export default defineConfig({
       },
       social: [
         {
+          href: 'https://samui.build/go/discord',
           icon: 'discord',
           label: 'Discord',
-          href: 'https://samui.build/go/discord',
         },
         {
+          href: 'https://samui.build/go/github',
           icon: 'github',
           label: 'GitHub',
-          href: 'https://samui.build/go/github',
         },
         {
+          href: 'https://samui.build/go/x',
           icon: 'x.com',
           label: 'X / Twitter',
-          href: 'https://samui.build/go/x',
         },
       ],
       title: 'Samui',

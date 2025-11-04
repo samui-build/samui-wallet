@@ -2,8 +2,8 @@ import type { KeyPairSigner } from '@solana/kit'
 
 import { createKeyPairSignerFromPrivateKeyBytes } from '@solana/kit'
 
-import { createHDKeyFromMnemonic } from './create-hdkey-from-mnemonic'
-import { derivationPaths } from './derivation-paths'
+import { createHDKeyFromMnemonic } from './create-hdkey-from-mnemonic.ts'
+import { derivationPaths } from './derivation-paths.ts'
 
 export async function createKeyPairSignerFromBip44({
   derivationPath = derivationPaths.default,

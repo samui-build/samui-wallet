@@ -1,10 +1,6 @@
 {
-  "extends": "@workspace/config-typescript/base.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "ESNext",
-    "moduleResolution": "Bundler"
+    "outDir": "dist"
   },
-  "include": ["src", "test"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/config-typescript/base.json"
 }

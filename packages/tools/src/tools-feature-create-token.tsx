@@ -1,12 +1,11 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { Wallet } from '@workspace/db/entity/wallet'
-
 import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
+import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Wallet } from '@workspace/db/entity/wallet'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
 import { getClusterLabel } from '@workspace/settings/ui/get-cluster-label'
-import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
+import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldDescription, FieldLabel } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
@@ -14,9 +13,12 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@wor
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { LucideRefreshCcw } from 'lucide-react'
-import { useCallback, useState } from 'react'
+import { useCallback, useId, useState } from 'react'
 
 export default function ToolsFeatureCreateToken(props: { cluster: Cluster; wallet: Wallet }) {
+  const addressId = useId()
+  const decimalsId = useId()
+  const supplyId = useId()
   const [decimals, setDecimals] = useState<number>(9)
   const [supply, setSupply] = useState<number>(0)
   const [resultMint, setResultMint] = useState<null | string>(null)
@@ -44,7 +46,7 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
     setResultTx(res.signature)
     console.log('Mint', getExplorerUrl({ cluster: props.cluster, path: `/address/${res.mint}` }))
     console.log('TX', getExplorerUrl({ cluster: props.cluster, path: `/tx/${res.signature}` }))
-  }, [props.wallet, mutation, props.cluster, queryKeypair])
+  }, [mutation, props.cluster, queryKeypair, decimals, supply])
 
   return (
     <UiCard backButtonTo="/tools" title="Create Token">
@@ -80,10 +82,10 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
       ) : props.wallet.type === 'Derived' ? (
         <div className="flex flex-col gap-6">
           <Field>
-            <FieldLabel htmlFor="address">Mint Address</FieldLabel>
+            <FieldLabel htmlFor={addressId}>Mint Address</FieldLabel>
             <FieldDescription>The address of the mint</FieldDescription>
             <div className="flex items-center gap-2">
-              <Input id="address" readOnly required value={queryKeypair.data?.address} />
+              <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
               <Button onClick={() => queryKeypair.refetch()} size="icon" variant="outline">
                 <LucideRefreshCcw />
               </Button>
@@ -91,10 +93,10 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
           </Field>
 
           <Field>
-            <FieldLabel htmlFor="decimals">Decimals</FieldLabel>
+            <FieldLabel htmlFor={decimalsId}>Decimals</FieldLabel>
             <FieldDescription>The number of decimals for the token</FieldDescription>
             <Input
-              id="decimals"
+              id={decimalsId}
               max={9}
               min={0}
               onChange={(e) => {
@@ -117,10 +119,10 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
             />
           </Field>
           <Field>
-            <FieldLabel htmlFor="supply">Mint Supply</FieldLabel>
+            <FieldLabel htmlFor={supplyId}>Mint Supply</FieldLabel>
             <FieldDescription>The amount of tokens to mint after creation</FieldDescription>
             <Input
-              id="supply"
+              id={supplyId}
               min={0}
               onChange={(e) => setSupply(Number(e.target.value))}
               placeholder="Supply"

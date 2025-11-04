@@ -1,11 +1,10 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database'
-import type { WalletInputCreate } from './dto/wallet-input-create'
-
-import { dbPreferenceGetValue } from './db-preference-get-value'
-import { dbPreferenceSetValue } from './db-preference-set-value'
-import { walletSchemaCreate } from './schema/wallet-schema-create'
+import type { Database } from './database.ts'
+import { dbPreferenceGetValue } from './db-preference-get-value.ts'
+import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import type { WalletInputCreate } from './dto/wallet-input-create.ts'
+import { walletSchemaCreate } from './schema/wallet-schema-create.ts'
 
 export async function dbWalletCreate(db: Database, input: WalletInputCreate): Promise<string> {
   const now = new Date()

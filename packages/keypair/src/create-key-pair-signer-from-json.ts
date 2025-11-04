@@ -2,7 +2,7 @@ import type { KeyPairSigner } from '@solana/kit'
 
 import { createKeyPairSignerFromPrivateKeyBytes } from '@solana/kit'
 
-import { convertJsonToByteArray } from './convert-json-to-byte-array'
+import { convertJsonToByteArray } from './convert-json-to-byte-array.ts'
 
 export async function createKeyPairSignerFromJson({
   extractable = false,

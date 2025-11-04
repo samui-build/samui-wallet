@@ -1,6 +1,6 @@
 import * as bip39 from '@scure/bip39'
 
-import { getMnemonicWordlist } from './get-mnemonic-wordlist'
+import { getMnemonicWordlist } from './get-mnemonic-wordlist.ts'
 
 export const MnemonicStrength = [128, 256] as const
 

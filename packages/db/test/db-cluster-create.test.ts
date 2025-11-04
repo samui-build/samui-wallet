@@ -2,9 +2,9 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbClusterCreate } from '../src/db-cluster-create'
-import { dbClusterFindMany } from '../src/db-cluster-find-many'
-import { createDbTest, testClusterInputCreate } from './test-helpers'
+import { dbClusterCreate } from '../src/db-cluster-create.ts'
+import { dbClusterFindMany } from '../src/db-cluster-find-many.ts'
+import { createDbTest, testClusterInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 

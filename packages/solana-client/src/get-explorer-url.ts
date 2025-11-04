@@ -1,4 +1,4 @@
-import type { SolanaCluster } from './solana-cluster'
+import type { SolanaCluster } from './solana-cluster.ts'
 
 export type ExplorerProvider = 'orb' | 'solana' | 'solscan'
 export const explorerProviders: ExplorerProvider[] = ['solana', 'solscan', 'orb'] as const

@@ -5,7 +5,7 @@
  */
 import { describe, expect, it } from 'vitest'
 
-import { getInitials } from './get-initials.js'
+import { getInitials } from './get-initials.ts'
 
 describe('get-initials', () => {
   it('should return initials', () => {

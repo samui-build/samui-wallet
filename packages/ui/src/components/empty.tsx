@@ -1,7 +1,8 @@
-import { cn } from '@workspace/ui/lib/utils'
 import { cva, type VariantProps } from 'class-variance-authority'
+import type { ComponentProps } from 'react'
+import { cn } from '../lib/utils.ts'
 
-function Empty({ className, ...props }: React.ComponentProps<'div'>) {
+function Empty({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(
@@ -14,7 +15,7 @@ function Empty({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function EmptyHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function EmptyHeader({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex max-w-sm flex-col items-center gap-2 text-center', className)}
@@ -39,7 +40,7 @@ const emptyMediaVariants = cva(
   },
 )
 
-function EmptyContent({ className, ...props }: React.ComponentProps<'div'>) {
+function EmptyContent({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance', className)}
@@ -49,7 +50,7 @@ function EmptyContent({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function EmptyDescription({ className, ...props }: React.ComponentProps<'p'>) {
+function EmptyDescription({ className, ...props }: ComponentProps<'p'>) {
   return (
     <div
       className={cn(
@@ -66,7 +67,7 @@ function EmptyMedia({
   className,
   variant = 'default',
   ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>) {
+}: ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>) {
   return (
     <div
       className={cn(emptyMediaVariants({ className, variant }))}
@@ -77,7 +78,7 @@ function EmptyMedia({
   )
 }
 
-function EmptyTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function EmptyTitle({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('text-lg font-medium tracking-tight', className)} data-slot="empty-title" {...props} />
 }
 

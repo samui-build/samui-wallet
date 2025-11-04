@@ -2,11 +2,9 @@ import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { LucideHammer, LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider } from 'react-router'
-
-import type { ShellLayoutLink } from './ui/shell-ui-layout.js'
-
-import { loaderPortfolio } from './data-access/loader-portfolio.js'
-import { ShellUiLayout } from './ui/shell-ui-layout.js'
+import { loaderPortfolio } from './data-access/loader-portfolio.tsx'
+import type { ShellLayoutLink } from './ui/shell-ui-layout.tsx'
+import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
 const OnboardingRoutes = lazy(() => import('@workspace/onboarding/onboarding-routes'))

@@ -1,6 +1,5 @@
-import type { ClusterType } from '@workspace/db/entity/cluster-type'
-
 import { dbClusterTypeOptions } from '@workspace/db/db-cluster-type-options'
+import type { ClusterType } from '@workspace/db/entity/cluster-type'
 
 export function getClusterLabel(type: ClusterType): string {
   const found = dbClusterTypeOptions.find((item) => item.value === type)

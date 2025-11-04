@@ -1,5 +1,3 @@
-import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
-
 import { SOLANA_CHAINS } from '@solana/wallet-standard-chains'
 import {
   SolanaSignAndSendTransaction,
@@ -11,6 +9,7 @@ import {
   SolanaSignTransaction,
   type SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features'
+import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
 import {
   type IdentifierArray,
   StandardConnect,
@@ -26,12 +25,12 @@ import {
 } from '@wallet-standard/core'
 import { sendMessage } from '@workspace/background/window'
 
-import { on } from './features/events'
-import { signAndSendTransaction } from './features/sign-and-send-transaction'
-import { signIn } from './features/sign-in'
-import { signMessage } from './features/sign-message'
-import { signTransaction } from './features/sign-transaction'
-import { icon } from './icon'
+import { on } from './features/events.ts'
+import { signAndSendTransaction } from './features/sign-and-send-transaction.ts'
+import { signIn } from './features/sign-in.ts'
+import { signMessage } from './features/sign-message.ts'
+import { signTransaction } from './features/sign-transaction.ts'
+import { icon } from './icon.ts'
 
 type WalletFeatures = SolanaSignAndSendTransactionFeature &
   SolanaSignInFeature &

@@ -3,8 +3,8 @@ import type { ComponentProps, ReactElement, ReactNode } from 'react'
 import { Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 
-import { Tabs, TabsList, TabsTrigger } from './tabs.js'
-import { UiLoader } from './ui-loader.js'
+import { Tabs, TabsList, TabsTrigger } from './tabs.tsx'
+import { UiLoader } from './ui-loader.tsx'
 
 export interface UiTabRoute {
   element: ReactNode
@@ -32,7 +32,7 @@ export function UiTabRoutes({
       <Tabs
         activationMode="manual"
         onValueChange={(value) => navigate(`${basePath}/${value}`)}
-        value={activeTab}
+        value={activeTab ?? ''}
         {...props}
       >
         <TabsList>

@@ -3,7 +3,7 @@ import { Button } from '@workspace/ui/components/button'
 import { Input } from '@workspace/ui/components/input'
 import { Label } from '@workspace/ui/components/label'
 import { UiCard } from '@workspace/ui/components/ui-card'
-import { useState } from 'react'
+import { useId, useState } from 'react'
 
 export default function DevFeatureSolana() {
   return (
@@ -14,6 +14,7 @@ export default function DevFeatureSolana() {
 }
 
 function DevGenesisHash() {
+  const endpointId = useId()
   const mutation = useGetSolanaClusterFromGenesisHash()
   const [endpoint, setEndpoint] = useState<string>('')
 
@@ -42,10 +43,10 @@ function DevGenesisHash() {
           ))}
         </div>
         <div>
-          <Label htmlFor="endpoint">Endpoint</Label>
+          <Label htmlFor={endpointId}>Endpoint</Label>
           <Input
             disabled={mutation.isPending}
-            id="endpoint"
+            id={endpointId}
             onChange={(e) => {
               setEndpoint(e.target.value)
             }}

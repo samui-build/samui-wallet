@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router'
 
-import { useSettingsPages } from '../data-access/use-settings-pages.js'
-import { SettingsUiPageList } from './settings-ui-page-list.js'
+import { useSettingsPages } from '../data-access/use-settings-pages.tsx'
+import { SettingsUiPageList } from './settings-ui-page-list.tsx'
 
 export function SettingsUiLayout() {
   const pages = useSettingsPages()

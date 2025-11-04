@@ -1,10 +1,9 @@
-import type { Account } from '@workspace/db/entity/account'
-
 import { useMutation } from '@tanstack/react-query'
+import type { Account } from '@workspace/db/entity/account'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
-import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.js'
+import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.tsx'
 
 export function useDeriveAndCreateWallet() {
   const createWalletMutation = useDbWalletCreate()

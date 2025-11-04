@@ -7,7 +7,7 @@ import { Spinner } from '@workspace/ui/components/spinner'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { LucideRefreshCw } from 'lucide-react'
 
-import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.js'
+import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.tsx'
 
 export function PortfolioFeatureTabActivity(props: { cluster: Cluster; wallet: Wallet }) {
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({

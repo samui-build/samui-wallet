@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { createSeedFromMnemonic } from './create-seed-from-mnemonic'
+import { createSeedFromMnemonic } from './create-seed-from-mnemonic.ts'
 
 describe('create-seed-from-mnemonic', () => {
   describe('expected behavior', () => {

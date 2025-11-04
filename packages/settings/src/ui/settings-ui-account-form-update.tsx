@@ -1,7 +1,6 @@
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import type { AccountInputUpdate } from '@workspace/db/dto/account-input-update'
 import type { Account } from '@workspace/db/entity/account'
-
-import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { accountSchemaUpdate } from '@workspace/db/schema/account-schema-update'
 import { Button } from '@workspace/ui/components/button'
 import {

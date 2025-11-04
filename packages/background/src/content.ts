@@ -1,5 +1,5 @@
-import { sendMessage } from './extension'
-import { onMessage } from './window'
+import { sendMessage } from './extension.ts'
+import { onMessage } from './window.ts'
 
 export function handlers() {
   onMessage('connect', async ({ data }) => await sendMessage('connect', data))

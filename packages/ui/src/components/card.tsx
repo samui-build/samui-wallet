@@ -1,7 +1,7 @@
-import { cn } from '@workspace/ui/lib/utils'
-import * as React from 'react'
+import type { ComponentProps } from 'react'
+import { cn } from '../lib/utils.ts'
 
-function Card({ className, ...props }: React.ComponentProps<'div'>) {
+function Card({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm', className)}
@@ -11,7 +11,7 @@ function Card({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
+function CardAction({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn('col-start-2 row-span-2 row-start-1 self-start justify-self-end', className)}
@@ -21,19 +21,19 @@ function CardAction({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardContent({ className, ...props }: React.ComponentProps<'div'>) {
+function CardContent({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('px-6', className)} data-slot="card-content" {...props} />
 }
 
-function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {
+function CardDescription({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('text-muted-foreground text-sm', className)} data-slot="card-description" {...props} />
 }
 
-function CardFooter({ className, ...props }: React.ComponentProps<'div'>) {
+function CardFooter({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('flex items-center px-6 [.border-t]:pt-6', className)} data-slot="card-footer" {...props} />
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
+function CardHeader({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(
@@ -46,7 +46,7 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   )
 }
 
-function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
+function CardTitle({ className, ...props }: ComponentProps<'div'>) {
   return <div className={cn('leading-none font-semibold', className)} data-slot="card-title" {...props} />
 }
 

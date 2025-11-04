@@ -1,11 +1,10 @@
 import type { UnixTimestamp } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
-
 import { assertIsSignature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
+import type { Cluster } from '@workspace/db/entity/cluster'
 import { isValidSignature } from '@workspace/solana-client/is-valid-signature'
 
-import { useSolanaClient } from './use-solana-client'
+import { useSolanaClient } from './use-solana-client.tsx'
 
 export interface Header {
   numReadonlySignedAccounts: number

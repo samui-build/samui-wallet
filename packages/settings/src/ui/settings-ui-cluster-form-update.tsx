@@ -1,8 +1,7 @@
-import type { ClusterInputUpdate } from '@workspace/db/dto/cluster-input-update'
-import type { Cluster } from '@workspace/db/entity/cluster'
-
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { dbClusterTypeOptions } from '@workspace/db/db-cluster-type-options'
+import type { ClusterInputUpdate } from '@workspace/db/dto/cluster-input-update'
+import type { Cluster } from '@workspace/db/entity/cluster'
 import { clusterSchemaUpdate } from '@workspace/db/schema/cluster-schema-update'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -18,7 +17,7 @@ import { Input } from '@workspace/ui/components/input'
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
 import { useForm } from 'react-hook-form'
 
-import { SettingsUiClusterWarningMainnet } from './settings-ui-cluster-warning-mainnet.js'
+import { SettingsUiClusterWarningMainnet } from './settings-ui-cluster-warning-mainnet.tsx'
 
 export function SettingsUiClusterFormUpdate({
   item,

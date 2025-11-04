@@ -1,6 +1,6 @@
 import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { WalletUiIcon } from './wallet-ui-icon.js'
+import { WalletUiIcon } from './wallet-ui-icon.tsx'
 
 export function WalletUiItem({ wallet }: { wallet: Wallet }) {
   return (

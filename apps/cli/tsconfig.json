@@ -1,15 +1,6 @@
 {
-  "extends": "@workspace/config-typescript/react-library.json",
   "compilerOptions": {
-    "outDir": "dist",
-    "lib": ["ESNext"],
-    "target": "ESNext",
-    "module": "Preserve",
-    "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "jsx": "react-jsx",
-    "jsxImportSource": "@opentui/react"
+    "outDir": "dist"
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/config-typescript/react-tui.json"
 }

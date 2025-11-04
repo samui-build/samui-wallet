@@ -1,16 +1,13 @@
-import type { StandardConnectOutput } from '@wallet-standard/core'
-import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
-import type { Wallet } from '@workspace/db/entity/wallet'
-
 import { address, getAddressEncoder } from '@solana/kit'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore -- https://github.com/aklinker1/webext-core/pull/117
+import type { StandardConnectOutput } from '@wallet-standard/core'
 import { defineProxyService } from '@webext-core/proxy-service'
 import { db } from '@workspace/db/db'
 import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbPreferenceGetValue } from '@workspace/db/db-preference-get-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
+import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
+import type { Wallet } from '@workspace/db/entity/wallet'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 

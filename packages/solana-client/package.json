@@ -1,6 +1,4 @@
 {
-  "name": "@workspace/solana-client",
-  "version": "0.0.0",
   "dependencies": {
     "@solana-program/system": "catalog:",
     "@solana-program/token": "catalog:",
@@ -10,23 +8,23 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "@workspace/config-eslint": "workspace:*",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "eslint": "catalog:",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     ".": "./src/index.ts",
     "./*": "./src/*.ts"
   },
   "license": "MIT",
+  "name": "@workspace/solana-client",
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
-    "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --max-warnings=0 --fix",
     "test": "vitest run",
     "test:watch": "vitest --watch"
-  }
+  },
+  "type": "module",
+  "version": "0.0.0"
 }

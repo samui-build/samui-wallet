@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { walletSchema } from './wallet-schema'
+import { walletSchema } from './wallet-schema.ts'
 
 export const accountSchema = z.object({
   createdAt: z.date(),

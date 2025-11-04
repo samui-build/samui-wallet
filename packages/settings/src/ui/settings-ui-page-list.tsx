@@ -1,6 +1,6 @@
-import type { SettingsPage } from '../data-access/settings-page.js'
+import type { SettingsPage } from '../data-access/settings-page.ts'
 
-import { SettingsUiPageItem } from './settings-ui-page-item.js'
+import { SettingsUiPageItem } from './settings-ui-page-item.tsx'
 
 export function SettingsUiPageList({ pages }: { pages: SettingsPage[] }) {
   return (

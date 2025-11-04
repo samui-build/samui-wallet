@@ -7,7 +7,7 @@ import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useNavigate, useParams } from 'react-router'
 
-import { SettingsUiClusterFormUpdate } from './ui/settings-ui-cluster-form-update.js'
+import { SettingsUiClusterFormUpdate } from './ui/settings-ui-cluster-form-update.tsx'
 
 export function SettingsFeatureClusterUpdate() {
   const navigate = useNavigate()

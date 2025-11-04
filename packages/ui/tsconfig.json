@@ -1,11 +1,10 @@
 {
-  "extends": "@workspace/config-typescript/react-library.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "outDir": "dist",
     "paths": {
-      "@workspace/ui/*": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   },
-  "include": ["."],
-  "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/config-typescript/react-library.json"
 }

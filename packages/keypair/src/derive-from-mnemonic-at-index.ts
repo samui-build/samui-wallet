@@ -2,9 +2,9 @@ import type { Address } from '@solana/kit'
 
 import { tryCatch } from '@workspace/core/try-catch'
 
-import { convertKeyPairToJson } from './convert-key-pair-to-json'
-import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44'
-import { derivationPaths } from './derivation-paths'
+import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
+import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44.ts'
+import { derivationPaths } from './derivation-paths.ts'
 
 export interface DerivedWallet {
   publicKey: Address

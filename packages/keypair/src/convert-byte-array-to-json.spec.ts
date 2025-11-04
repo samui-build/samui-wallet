@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { convertByteArrayToJson } from './convert-byte-array-to-json'
+import { convertByteArrayToJson } from './convert-byte-array-to-json.ts'
 
 describe('convert-byte-array-to-json', () => {
   describe('expected behavior', () => {
