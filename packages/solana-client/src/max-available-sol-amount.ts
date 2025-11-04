@@ -1,4 +1,4 @@
-import { TRANSACTION_FEE_LAMPORTS } from './constants'
+import { TRANSACTION_FEE_LAMPORTS } from './constants.ts'
 
 export function maxAvailableSolAmount(available: bigint, requested: bigint): bigint {
   if (available < TRANSACTION_FEE_LAMPORTS) {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { maxAvailableSolAmount } from '../src/max-available-sol-amount'
+import { maxAvailableSolAmount } from '../src/max-available-sol-amount.ts'
 
 describe('max-available-sol-amount', () => {
   describe('expected behavior', () => {
