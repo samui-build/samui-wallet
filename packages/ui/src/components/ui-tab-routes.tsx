@@ -27,16 +27,12 @@ export function UiTabRoutes({
   // Set default redirect route to the first tab
   const redirect = tabs[0]?.path !== '' ? tabs[0]?.path : undefined
 
-  if (!activeTab) {
-    return null
-  }
-
   return (
     <>
       <Tabs
         activationMode="manual"
         onValueChange={(value) => navigate(`${basePath}/${value}`)}
-        value={activeTab}
+        value={activeTab ?? ''}
         {...props}
       >
         <TabsList>
