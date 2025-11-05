@@ -254,6 +254,21 @@ describe('formatBalanceUsd', () => {
       expect(result2).toBe('$0.01')
       expect(result3).toBe('$1.00')
     })
+
+    it('should handle number balance input without precision loss', () => {
+      // ARRANGE
+      expect.assertions(3)
+
+      // ACT
+      const result1 = formatBalanceUsd({ balance: 123.45, decimals: 9, usdPrice: 2 })
+      const result2 = formatBalanceUsd({ balance: 0.5, decimals: 9, usdPrice: 100 })
+      const result3 = formatBalanceUsd({ balance: 1000.123, decimals: 9, usdPrice: 1.5 })
+
+      // ASSERT
+      expect(result1).toBe('$246.90')
+      expect(result2).toBe('$50.00')
+      expect(result3).toBe('$1,500.18')
+    })
   })
 
   describe('unexpected behavior', () => {
