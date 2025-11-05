@@ -1,20 +1,29 @@
-# Samui Wallet
+<h1 align="center">
+  Samui Wallet
+</h1>
 
-Open Source Solana wallet and toolbox for builders 🏟 Cypherpunk Hackathon
+<p align="center">
+  Open Source Solana wallet and toolbox for builders 🏟 Cypherpunk Hackathon
+</p>
 
-[Read more about the project](https://x.com/SamuiBuild/status/1972798359024066578)
+<p align="center">
+  <a href="https://x.com/SamuiBuild/status/1972798359024066578">Read more about the project</a>
+</p>
 
-![Samui Wallet Screenshot](screenshot.png)
+![Samui Wallet Demo](demo.gif)
 
-## Requirements
+## Development
 
-- [Bun](https://github.com/samui-build/samui-wallet/blob/main/.bun-version)
-- [FNM](https://github.com/Schniz/fnm) or [NVM](https://github.com/nvm-sh/nvm)
+### Environment setup
 
-## Installation
+1. Install [NodeJS](https://nodejs.org/en)
+2. Install [Bun](https://bun.com/docs/installation)
+3. Install [FNM](https://github.com/Schniz/fnm#installation) or [NVM](https://github.com/nvm-sh/nvm#installing-and-updating)
 
-```bash
-git clone git@github.com:samui-build/samui-wallet.git
+Clone and prepare this repo locally:
+
+```shell
+git clone https://github.com/samui-build/samui-wallet/
 cd samui-wallet
 fnm use # or nvm use
 bun install
@@ -22,26 +31,28 @@ cp apps/web/.env.example apps/web/.env
 bun dev
 ```
 
-## Commands
+### Apps
 
-- [https://github.com/samui-build/samui-wallet/blob/main/package.json#L32](https://github.com/samui-build/samui-wallet/blob/main/package.json#L32)
+The `bun dev` command above starts all apps. To run individual apps: `cd apps/<app-name> && bun dev`
 
-## Development
-
-- API: [http://localhost:8787](http://localhost:8787)
-- CLI: `bun watch` will run the CLI
-- Desktop: [http://localhost:1420](http://localhost:1420)
-- Extension: `bun dev` will automatically open a browser window with the extension installed.
-- Mobile: `bun dev` will build and deploy the app to your chosen device
-- Web: [http://localhost:5173](http://localhost:5173)
-- Site: [http://localhost:4321](http://localhost:4321)
+| App       | Local URL                               | Notes                   |
+| --------- | --------------------------------------- | ----------------------- |
+| Web       | [localhost:5173](http://localhost:5173) | Main wallet interface   |
+| Desktop   | [localhost:1420](http://localhost:1420) | Tauri desktop app       |
+| Extension | Opens automatically                     | Browser extension       |
+| Mobile    | Device/emulator                         | React Native app        |
+| API       | [localhost:8787](http://localhost:8787) | Cloudflare Worker       |
+| Site      | [localhost:4321](http://localhost:4321) | Documentation site      |
+| CLI       | N/A                                     | Use `bun watch` instead |
 
 ## Production
 
-- API: [https://api.samui.build](https://api.samui.build)
-- CLI: Coming soon
-- Desktop: Coming soon
-- Extension: Coming soon
-- Mobile: Coming soon
-- Web: [https://wallet.samui.build](https://wallet.samui.build)
-- Site: [https://samui.build](https://samui.build)
+| App       | URL                                              | Status      |
+| --------- | ------------------------------------------------ | ----------- |
+| Web       | [wallet.samui.build](https://wallet.samui.build) | Live        |
+| API       | [api.samui.build](https://api.samui.build)       | Live        |
+| Site      | [samui.build](https://samui.build)               | Live        |
+| Desktop   | —                                                | Coming soon |
+| Extension | —                                                | Coming soon |
+| Mobile    | —                                                | Coming soon |
+| CLI       | —                                                | Coming soon |
