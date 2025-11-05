@@ -14,7 +14,7 @@ export async function dbWalletSetActive(db: Database, id: string) {
     }
     const walletId = found.id
 
-    // // set the `activeWalletId` preference to the new value
+    // set the `activeWalletId` preference to the new value
     const keyAccount: PreferenceKey = 'activeAccountId'
     const keyWallet: PreferenceKey = 'activeWalletId'
     // get the `activeAccountId` preference
