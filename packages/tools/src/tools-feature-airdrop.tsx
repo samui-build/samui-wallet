@@ -6,7 +6,7 @@ import { PortfolioUiExplorerLink } from '@workspace/portfolio/ui/portfolio-ui-ex
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { ToolsUiAirdropForm } from './ui/tools-ui-aidrop-form.tsx'
+import { ToolsUiAirdropForm } from './ui/tools-ui-airdrop-form.js'
 
 export default function ToolsFeatureAirdrop(props: { cluster: Cluster; wallet: Wallet }) {
   const wallets = useWalletOptions()
