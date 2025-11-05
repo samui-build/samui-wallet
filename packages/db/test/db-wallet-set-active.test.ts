@@ -16,7 +16,7 @@ describe('db-wallet-set-active', () => {
   })
 
   describe('expected behavior', () => {
-    it('should set an wallet and its related account to active', async () => {
+    it('should set a wallet and its related account to active', async () => {
       // ARRANGE
       expect.assertions(4)
       const inputAccount1 = testAccountInputCreate()

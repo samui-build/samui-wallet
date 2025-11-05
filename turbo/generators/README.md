@@ -13,7 +13,7 @@ bun turbo gen
 
 ### Generating a package
 
-Or you can run pass the parameters and automate the generation:
+Or you can pass the parameters and automate the generation:
 
 ```shell
 bun turbo gen pkg --args base i18n
