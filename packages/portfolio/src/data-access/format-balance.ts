@@ -1,3 +1,5 @@
+import { balanceToNumber } from './utils.ts'
+
 const tokenFormatters = new Map<string, Intl.NumberFormat>()
 
 export function formatBalance({ balance, decimals }: { balance: bigint; decimals: number }): string {
@@ -37,27 +39,6 @@ export function formatBalance({ balance, decimals }: { balance: bigint; decimals
     maximumFractionDigits: 5,
     minimumFractionDigits: 0,
   }).format(value)
-}
-
-// Convert balance from raw units to decimal number with precision handling
-function balanceToNumber(balance: bigint, decimals: number): number {
-  // Use string manipulation for large bigints to avoid precision loss
-  const balanceStr = balance.toString()
-  const isNegative = balance < 0n
-  const absStr = isNegative ? balanceStr.slice(1) : balanceStr
-
-  if (absStr.length <= decimals) {
-    // Small number, pad with zeros
-    const padded = absStr.padStart(decimals, '0')
-    const result = `0.${padded}`
-    return Number(isNegative ? `-${result}` : result)
-  }
-
-  // Split into integer and fractional parts
-  const intPart = absStr.slice(0, absStr.length - decimals) || '0'
-  const fracPart = absStr.slice(absStr.length - decimals)
-  const result = `${intPart}.${fracPart}`
-  return Number(isNegative ? `-${result}` : result)
 }
 
 function getTokenFormatter(options: Intl.NumberFormatOptions): Intl.NumberFormat {
