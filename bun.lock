@@ -358,6 +358,7 @@
         "@workspace/config-typescript": "workspace:*",
         "@workspace/config-vitest": "workspace:*",
         "typescript": "catalog:",
+        "vitest": "catalog:",
       },
     },
     "packages/settings": {
