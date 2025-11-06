@@ -10,9 +10,8 @@ export function formatBalance({ balance, decimals }: { balance: bigint; decimals
     return `-${formatBalance({ balance: -balance, decimals })}`
   }
 
-  const value = balanceToNumber(balance, decimals)
+  const value = balanceToNumber({ balance, decimals })
 
-  // Show threshold for very small amounts instead of 0
   if (value < 0.00001 && value > 0) {
     return '<0.00001'
   }

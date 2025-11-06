@@ -1,7 +1,6 @@
 const tokenFormatters = new Map<string, Intl.NumberFormat>()
 
 export function getTokenFormatter(options: Intl.NumberFormatOptions): Intl.NumberFormat {
-  // Build efficient cache key from the options we actually use
   const key = `${options.maximumFractionDigits ?? ''}-${options.minimumFractionDigits ?? ''}`
   let formatter = tokenFormatters.get(key)
   if (!formatter) {
