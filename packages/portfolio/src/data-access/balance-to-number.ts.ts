@@ -1,4 +1,4 @@
-export function balanceToNumber(balance: bigint, decimals: number): number {
+export function balanceToNumber({ balance, decimals }: { balance: bigint; decimals: number }): number {
   // Convert bigint to string for manipulation
   const balanceString = balance.toString()
   const isNegative = balance < 0n

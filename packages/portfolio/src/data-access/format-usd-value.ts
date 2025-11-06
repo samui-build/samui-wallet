@@ -5,8 +5,6 @@ export function formatUsdValue(usdValue: number): string {
     return '$0.00'
   }
 
-  // Handle negative values by working with absolute amount then applying sign
-  const isNegative = usdValue < 0
   const absoluteValue = Math.abs(usdValue)
 
   // Show threshold for sub-cent amounts instead of $0.00
@@ -20,5 +18,5 @@ export function formatUsdValue(usdValue: number): string {
     minimumFractionDigits: 2,
   }).format(absoluteValue)
 
-  return isNegative ? `-${formatted}` : formatted
+  return usdValue < 0 ? `-${formatted}` : formatted
 }
