@@ -3,11 +3,12 @@
     "hono": "^4.10.3"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251014.0",
     "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "tsx": "^4.7.1",
     "typescript": "catalog:",
-    "wrangler": "^4.45.0"
+    "wrangler": "^4.45.4"
   },
   "name": "api",
   "private": true,
@@ -15,7 +16,8 @@
     "cf-typegen": "wrangler types --env-interface CloudflareBindings",
     "check-types": "tsc --noEmit",
     "deploy": "wrangler deploy --minify",
-    "dev": "wrangler dev"
+    "dev": "wrangler dev",
+    "postinstall": "bun run cf-typegen"
   },
   "type": "module",
   "version": "0.0.0"

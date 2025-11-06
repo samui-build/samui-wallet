@@ -28,7 +28,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.3",
+    "@biomejs/biome": "2.3.4",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@commitlint/types": "^20.0.0",
@@ -51,6 +51,7 @@
   "scripts": {
     "build": "turbo run build",
     "check-types": "turbo run check-types",
+    "clean": "find . -type d \\( -name 'node_modules' -o -name 'build' -o -name 'dist' -o -name '.turbo' -o -name '.wxt' -o -name '.expo' -o -name '.astro' -o -name '.wrangler' \\) -prune -exec rm -rf '{}' +",
     "dev": "turbo run dev",
     "format": "syncpack format && prettier --write .",
     "format:check": "syncpack format --check && prettier --check .",
