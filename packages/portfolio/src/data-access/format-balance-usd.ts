@@ -10,14 +10,7 @@ export function formatBalanceUsd({
   decimals: number
   usdPrice: number | undefined
 }) {
-  if (
-    balance === undefined ||
-    balance === null ||
-    (typeof balance === 'bigint' && balance === 0n) ||
-    (typeof balance === 'number' && balance === 0) ||
-    usdPrice === undefined ||
-    usdPrice === null
-  ) {
+  if (!balance || balance === 0n || balance === 0 || !usdPrice) {
     return '$0.00'
   }
 
