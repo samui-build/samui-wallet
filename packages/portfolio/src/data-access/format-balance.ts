@@ -1,6 +1,5 @@
-import { balanceToNumber } from './utils.ts'
-
-const tokenFormatters = new Map<string, Intl.NumberFormat>()
+import { balanceToNumber } from './balance-to-number.ts'
+import { getTokenFormatter } from './get-token-formatter.ts'
 
 export function formatBalance({ balance, decimals }: { balance: bigint; decimals: number }): string {
   if (balance === 0n) {
@@ -39,15 +38,4 @@ export function formatBalance({ balance, decimals }: { balance: bigint; decimals
     maximumFractionDigits: 5,
     minimumFractionDigits: 0,
   }).format(value)
-}
-
-function getTokenFormatter(options: Intl.NumberFormatOptions): Intl.NumberFormat {
-  // Build efficient cache key from the options we actually use
-  const key = `${options.maximumFractionDigits ?? ''}-${options.minimumFractionDigits ?? ''}`
-  let formatter = tokenFormatters.get(key)
-  if (!formatter) {
-    formatter = new Intl.NumberFormat('en-US', options)
-    tokenFormatters.set(key, formatter)
-  }
-  return formatter
 }

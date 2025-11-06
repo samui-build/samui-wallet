@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { formatBalance } from '../data-access/format-balance.ts'
-import { formatBalanceUsd, formatUsdValue } from '../data-access/format-balance-usd.ts'
+import { formatBalanceUsd } from '../data-access/format-balance-usd.ts'
+import { formatUsdValue } from '../data-access/format-usd-value.ts'
 
 describe('formatBalance', () => {
   describe('expected behavior', () => {
