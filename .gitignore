@@ -23,6 +23,7 @@ coverage
 
 # CloudFlare
 .wrangler
+worker-configuration.d.ts
 
 # Build Outputs
 .next

@@ -14,5 +14,8 @@
       "pattern": "api.samui.build"
     }
   ],
-  "send_metrics": false
+  "send_metrics": false,
+  "vars": {
+    "CORS_ORIGINS": "https://wallet.samui.build"
+  }
 }
