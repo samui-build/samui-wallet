@@ -57,7 +57,6 @@
     "format:check": "syncpack format --check && prettier --check .",
     "lint": "biome check --error-on-warnings",
     "lint:fix": "biome check --error-on-warnings --write",
-    "postinstall": "bun run setup.js",
     "preinstall": "npx only-allow bun",
     "prepare": "lefthook install",
     "test": "vitest",

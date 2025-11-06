@@ -28,6 +28,7 @@
   "scripts": {
     "build": "tsc -b && vite build",
     "dev": "vite",
+    "postinstall": "[ -f .env.example ] && [ ! -f .env ] && cp .env.example .env || true",
     "preview": "vite preview"
   },
   "type": "module",
