@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@effect/cli": "^0.71.0",
+    "@effect/cli": "^0.72.0",
     "@effect/platform-node": "^0.98.4",
     "@workspace/tui": "workspace:*",
     "effect": "^3.18.4"
