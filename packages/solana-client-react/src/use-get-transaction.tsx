@@ -67,7 +67,13 @@ export function useGetTransaction({ cluster, signature }: { cluster: Cluster; si
     enabled: isValidSignature(signature),
     queryFn: () => {
       assertIsSignature(signature)
-      return client.rpc.getTransaction(signature).send()
+      return client.rpc
+        .getTransaction(signature, {
+          commitment: 'confirmed',
+          encoding: 'json',
+          maxSupportedTransactionVersion: 0,
+        })
+        .send()
     },
     queryKey: ['getTransaction', cluster.endpoint, signature],
   })
