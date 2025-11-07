@@ -1,5 +1,4 @@
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
-import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -18,13 +17,9 @@ export function SettingsFeatureAccountGenerate() {
 
   return (
     <UiCard
+      backButtonTo="/settings/accounts/create"
       contentProps={{ className: 'grid gap-6' }}
-      title={
-        <div className="flex items-center gap-2">
-          <UiBack />
-          Generate Account
-        </div>
-      }
+      title="Generate Account"
     >
       <SettingsUiAccountMnemonicStrength setStrength={setStrength} strength={strength} />
       <SettingsUiAccountFormGenerate

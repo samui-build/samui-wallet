@@ -1,6 +1,5 @@
 import { useDbClusterFindUnique } from '@workspace/db-react/use-db-cluster-find-unique'
 import { useDbClusterUpdate } from '@workspace/db-react/use-db-cluster-update'
-import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
@@ -26,14 +25,7 @@ export function SettingsFeatureClusterUpdate() {
   }
 
   return (
-    <UiCard
-      title={
-        <div className="flex items-center gap-2">
-          <UiBack />
-          Edit Cluster
-        </div>
-      }
-    >
+    <UiCard backButtonTo=".." title="Edit Cluster">
       <SettingsUiClusterFormUpdate
         item={item}
         submit={async (input) => {
