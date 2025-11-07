@@ -1,8 +1,8 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database.ts'
-import { dbPreferenceGetValue } from './db-preference-get-value.ts'
-import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbSettingGetValue } from './db-setting-get-value.ts'
+import { dbSettingSetValue } from './db-setting-set-value.ts'
 import type { WalletInputCreate } from './dto/wallet-input-create.ts'
 import { walletSchemaCreate } from './schema/wallet-schema-create.ts'
 
@@ -23,9 +23,9 @@ export async function dbWalletCreate(db: Database, input: WalletInputCreate): Pr
     throw new Error(`Error creating wallet`)
   }
 
-  const activeWalletId = await dbPreferenceGetValue(db, 'activeWalletId')
+  const activeWalletId = await dbSettingGetValue(db, 'activeWalletId')
   if (!activeWalletId) {
-    await dbPreferenceSetValue(db, 'activeWalletId', data)
+    await dbSettingSetValue(db, 'activeWalletId', data)
   }
 
   return data

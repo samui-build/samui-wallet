@@ -30,9 +30,9 @@ In addition, please take a look at our [open GitHub issues](https://github.com/s
 
 ## Now
 
-* ### User Preferences
+* ### User Settings
   - **Why**: DECIDE ON THE WHY.
-  - **What**: Preferences need to be loaded at boot time so that they are available.
+  - **What**: Settings need to be loaded at boot time so that they are available.
   - **Status/Target**: **Scoping** → **Before Breakpoint** (next major release); \~2 weeks dev + spec approval + \~3 weeks audit.
   - **Issue/PR**: https://github.com/samui-build/samui-wallet/issues/342
   - **Community**: Work will be done by the core team.

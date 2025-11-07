@@ -1,4 +1,4 @@
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiExperimentalWarning } from '@workspace/ui/components/ui-experimental-warning'
@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 
 export function OnboardingFeatureIndex() {
   const { t } = useTranslation()
-  const [accepted, setAccepted] = useDbPreference('warningAcceptExperimental')
+  const [accepted, setAccepted] = useDbSetting('warningAcceptExperimental')
   return (
     <div className="flex flex-col gap-6 items-center min-w-[400px]">
       <div className="flex flex-col items-center space-y-2">

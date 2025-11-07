@@ -1,11 +1,11 @@
 import type { Database } from './database.ts'
-import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key.ts'
-import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbSettingFindUniqueByKey } from './db-setting-find-unique-by-key.ts'
+import { dbSettingSetValue } from './db-setting-set-value.ts'
 import { dbWalletFindUnique } from './db-wallet-find-unique.ts'
-import type { PreferenceKey } from './entity/preference-key.ts'
+import type { SettingKey } from './entity/setting-key.ts'
 
 export async function dbWalletSetActive(db: Database, id: string) {
-  return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {
+  return db.transaction('rw', db.accounts, db.settings, db.wallets, async () => {
     // get the requested wallet from the database
     const found = await dbWalletFindUnique(db, id)
     if (!found) {
@@ -14,17 +14,17 @@ export async function dbWalletSetActive(db: Database, id: string) {
     }
     const walletId = found.id
 
-    // set the `activeWalletId` preference to the new value
-    const keyAccount: PreferenceKey = 'activeAccountId'
-    const keyWallet: PreferenceKey = 'activeWalletId'
-    // get the `activeAccountId` preference
-    const activeAccount = await dbPreferenceFindUniqueByKey(db, keyAccount)
+    // set the `activeWalletId` setting to the new value
+    const keyAccount: SettingKey = 'activeAccountId'
+    const keyWallet: SettingKey = 'activeWalletId'
+    // get the `activeAccountId` setting
+    const activeAccount = await dbSettingFindUniqueByKey(db, keyAccount)
 
     // ensure that the request `Wallet.accountId` is equal to `activeAccountId`
     if (found.accountId !== activeAccount?.value) {
-      await dbPreferenceSetValue(db, keyAccount, found.accountId)
+      await dbSettingSetValue(db, keyAccount, found.accountId)
     }
 
-    await dbPreferenceSetValue(db, keyWallet, walletId)
+    await dbSettingSetValue(db, keyWallet, walletId)
   })
 }
