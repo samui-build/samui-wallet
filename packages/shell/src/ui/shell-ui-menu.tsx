@@ -1,6 +1,6 @@
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { getDevOptions } from '@workspace/dev/dev-features'
 import { useActiveAccount } from '@workspace/settings/data-access/use-active-account'
 import { useActiveWallet } from '@workspace/settings/data-access/use-active-wallet'
@@ -16,7 +16,7 @@ export function ShellUiMenu() {
   const { active: activeWallet, setActive: setActiveWalletId } = useActiveWallet()
   const accounts = useDbAccountLive()
   const items = useDbClusterLive()
-  const [activeId, setActiveClusterId] = useDbPreference('activeClusterId')
+  const [activeId, setActiveClusterId] = useDbSetting('activeClusterId')
   const activeCluster = useMemo(() => items.find((c) => c.id === activeId), [items, activeId])
 
   return (

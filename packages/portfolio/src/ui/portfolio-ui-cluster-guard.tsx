@@ -2,7 +2,7 @@ import type { Cluster } from '@workspace/db/entity/cluster'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { type ReactNode, useMemo } from 'react'
 
 import { PortfolioUiWalletGuard } from './portfolio-ui-wallet-guard.tsx'
@@ -17,7 +17,7 @@ export function PortfolioUiClusterGuard({
   render,
 }: PortfolioUiClusterGuardProps) {
   const clusterLive = useDbClusterLive()
-  const [activeId] = useDbPreference('activeClusterId')
+  const [activeId] = useDbSetting('activeClusterId')
   const cluster = useMemo(() => clusterLive.find((item) => item.id === activeId), [activeId, clusterLive])
 
   return cluster ? render({ cluster }) : fallback

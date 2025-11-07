@@ -1,11 +1,11 @@
 import type { Database } from './database.ts'
 
 import { dbAccountFindUnique } from './db-account-find-unique.ts'
-import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbSettingSetValue } from './db-setting-set-value.ts'
 import { dbWalletFindMany } from './db-wallet-find-many.ts'
 
 export async function dbAccountSetActive(db: Database, id: string) {
-  return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {
+  return db.transaction('rw', db.accounts, db.settings, db.wallets, async () => {
     const found = await dbAccountFindUnique(db, id)
     if (!found) {
       // TODO: Use Effect
@@ -13,8 +13,8 @@ export async function dbAccountSetActive(db: Database, id: string) {
     }
     const accountId = found.id
 
-    // set the `activeAccountId` preference to the new value
-    await dbPreferenceSetValue(db, 'activeAccountId', accountId)
+    // set the `activeAccountId` setting to the new value
+    await dbSettingSetValue(db, 'activeAccountId', accountId)
 
     // get the list of wallets for `activeAccountId`
     const wallets = await dbWalletFindMany(db, { accountId })
@@ -23,7 +23,7 @@ export async function dbAccountSetActive(db: Database, id: string) {
       console.warn(`There are no wallets in account ${accountId}`)
       return
     }
-    // set the `activeWalletId` preference to the first one of the list of wallets
-    await dbPreferenceSetValue(db, 'activeWalletId', first.id)
+    // set the `activeWalletId` setting to the first one of the list of wallets
+    await dbSettingSetValue(db, 'activeWalletId', first.id)
   })
 }

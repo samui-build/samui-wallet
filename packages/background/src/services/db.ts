@@ -3,7 +3,7 @@ import type { StandardConnectOutput } from '@wallet-standard/core'
 import { defineProxyService } from '@webext-core/proxy-service'
 import { db } from '@workspace/db/db'
 import { dbAccountCreate } from '@workspace/db/db-account-create'
-import { dbPreferenceGetValue } from '@workspace/db/db-preference-get-value'
+import { dbSettingGetValue } from '@workspace/db/db-setting-get-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import { dbWalletFindUnique } from '@workspace/db/db-wallet-find-unique'
 import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
@@ -31,7 +31,7 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
   },
   wallet: {
     active: async (): Promise<Wallet> => {
-      const walletId = await dbPreferenceGetValue(db, 'activeWalletId')
+      const walletId = await dbSettingGetValue(db, 'activeWalletId')
       if (!walletId) {
         throw new Error('No active wallet set')
       }

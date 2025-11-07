@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const preferenceKeySchema = z.enum([
+export const settingKeySchema = z.enum([
   'activeAccountId',
   'activeClusterId',
   'activeWalletId',
