@@ -17,10 +17,10 @@ export function useSettingsPages(): SettingsPage[] {
       name: 'Accounts',
     },
     {
-      description: 'Manage clusters and endpoints',
+      description: 'Manage networks and endpoints',
       icon: LucideNetwork,
-      id: 'clusters',
-      name: 'Clusters',
+      id: 'networks',
+      name: 'Networks',
     },
   ]
 }

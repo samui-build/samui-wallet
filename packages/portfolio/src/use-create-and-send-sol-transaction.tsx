@@ -7,13 +7,13 @@ import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-g
 import { getBalanceQueryOptions, useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
+import type { NetworkWallet } from './portfolio-routes-loaded.tsx'
 
-export function useCreateAndSendSolTransaction(props: ClusterWallet) {
-  const { cluster, wallet } = props
+export function useCreateAndSendSolTransaction(props: NetworkWallet) {
+  const { network, wallet } = props
   const queryClient = useQueryClient()
-  const client = useSolanaClient({ cluster: props.cluster })
-  const { data: balanceData } = useGetBalance({ address: wallet.publicKey, cluster })
+  const client = useSolanaClient({ network: props.network })
+  const { data: balanceData } = useGetBalance({ address: wallet.publicKey, network })
 
   return useMutation({
     mutationFn: async ({ amount, destination, wallet }: { amount: string; destination: string; wallet: Wallet }) => {
@@ -36,10 +36,10 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
     },
     onSuccess: (_, { wallet: { publicKey: address } }) => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
       })
     },
   })

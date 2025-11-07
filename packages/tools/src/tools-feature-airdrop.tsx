@@ -1,5 +1,5 @@
 import { address } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { Wallet } from '@workspace/db/entity/wallet'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { PortfolioUiExplorerLink } from '@workspace/portfolio/ui/portfolio-ui-explorer-link'
@@ -8,9 +8,9 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { ToolsUiAirdropForm } from './ui/tools-ui-airdrop-form.tsx'
 
-export default function ToolsFeatureAirdrop(props: { cluster: Cluster; wallet: Wallet }) {
+export default function ToolsFeatureAirdrop(props: { network: Network; wallet: Wallet }) {
   const wallets = useWalletOptions()
-  const { isPending, mutateAsync } = useRequestAirdrop(props.cluster)
+  const { isPending, mutateAsync } = useRequestAirdrop(props.network)
   return (
     <UiCard backButtonTo="/tools" title="Airdrop">
       <ToolsUiAirdropForm
@@ -18,7 +18,7 @@ export default function ToolsFeatureAirdrop(props: { cluster: Cluster; wallet: W
         submit={async (input) => {
           const signature = await mutateAsync({ ...input, address: address(input.address) })
           toastSuccess(
-            <PortfolioUiExplorerLink cluster={props.cluster} label="View on explorer" path={`/tx/${signature}`} />,
+            <PortfolioUiExplorerLink label="View on explorer" network={props.network} path={`/tx/${signature}`} />,
           )
         }}
         wallets={wallets}

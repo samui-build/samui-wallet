@@ -1,4 +1,4 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'
 
 import { UiTime } from '@workspace/ui/components/ui-time'
@@ -11,7 +11,7 @@ import { PortfolioUiTxLink } from './portfolio-ui-tx-link.tsx'
 import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.tsx'
 import { PortfolioUiTxTimestamp } from './portfolio-ui-tx-timestamp.tsx'
 
-export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; items: GetActivityItems }) {
+export function PortfolioUiGetActivity({ network, items }: { network: Network; items: GetActivityItems }) {
   const grouped = groupActivityItems(items)
   return (
     <div>
@@ -34,7 +34,7 @@ export function PortfolioUiGetActivity({ cluster, items }: { cluster: Cluster; i
                     <div className="flex items-center gap-2">
                       <PortfolioUiTxStatus tx={tx} />
                       <PortfolioUiTxLink tx={tx} />
-                      <PortfolioUiTxExplorerIcon cluster={cluster} signature={tx.signature} />
+                      <PortfolioUiTxExplorerIcon network={network} signature={tx.signature} />
                     </div>
                     <div className="font-mono text-xs text-muted-foreground">
                       <PortfolioUiTxTimestamp blockTime={tx.blockTime} />

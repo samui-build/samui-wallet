@@ -1,5 +1,5 @@
 import type { Lamports } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { Wallet } from '@workspace/db/entity/wallet'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
@@ -14,18 +14,18 @@ import {
 import { ArrowUpRightIcon, Coins, Umbrella } from 'lucide-react'
 
 export function PortfolioUiRequestAirdrop({
-  cluster,
+  network,
   lamports,
   wallet,
 }: {
-  cluster: Cluster
+  network: Network
   lamports?: Lamports | undefined
   wallet: Wallet
 }) {
-  const { isPending, mutateAsync } = useRequestAirdrop(cluster)
+  const { isPending, mutateAsync } = useRequestAirdrop(network)
   const hasBalance = lamports && lamports > 0
-  const isMainnet = cluster.type === 'solana:mainnet'
-  const isLocalnet = cluster.type === 'solana:localnet'
+  const isMainnet = network.type === 'solana:mainnet'
+  const isLocalnet = network.type === 'solana:localnet'
   if (hasBalance || isMainnet) {
     return null
   }

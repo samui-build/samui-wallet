@@ -1,7 +1,7 @@
 import { Dexie, type Table } from 'dexie'
 import { dbPopulate } from './db-populate.ts'
 import type { Account } from './entity/account.ts'
-import type { Cluster } from './entity/cluster.ts'
+import type { Network } from './entity/network.ts'
 import type { Setting } from './entity/setting.ts'
 import type { Wallet } from './entity/wallet.ts'
 
@@ -11,7 +11,7 @@ export interface DatabaseConfig {
 
 export class Database extends Dexie {
   accounts!: Table<Account>
-  clusters!: Table<Cluster>
+  networks!: Table<Network>
   settings!: Table<Setting>
   wallets!: Table<Wallet>
 
@@ -19,7 +19,7 @@ export class Database extends Dexie {
     super(config.name)
     this.version(1).stores({
       accounts: 'id, name, order',
-      clusters: 'id, name, type',
+      networks: 'id, name, type',
       settings: 'id, &key',
       wallets: 'id, accountId, derivationIndex, publicKey, type',
     })

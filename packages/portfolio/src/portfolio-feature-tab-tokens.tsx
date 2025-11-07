@@ -7,7 +7,7 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
-import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
+import type { NetworkWallet } from './portfolio-routes-loaded.tsx'
 import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.tsx'
@@ -20,12 +20,12 @@ interface SendTokenInput {
   mint: TokenBalance
 }
 
-export function PortfolioFeatureTabTokens(props: ClusterWallet) {
-  const { cluster, wallet } = props
-  const balances = useGetTokenBalances({ address: wallet.publicKey, cluster })
+export function PortfolioFeatureTabTokens(props: NetworkWallet) {
+  const { network, wallet } = props
+  const balances = useGetTokenBalances({ address: wallet.publicKey, network })
   const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo({
     address: props.wallet.publicKey,
-    cluster: props.cluster,
+    network: props.network,
   })
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
@@ -114,7 +114,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
     <div className="p-4 space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
       <PortfolioUiWalletButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
-      <PortfolioUiRequestAirdrop cluster={cluster} lamports={dataAccountInfo?.value?.lamports} wallet={wallet} />
+      <PortfolioUiRequestAirdrop lamports={dataAccountInfo?.value?.lamports} network={network} wallet={wallet} />
       <PortfolioUiTokenBalances items={balances} />
     </div>
   )

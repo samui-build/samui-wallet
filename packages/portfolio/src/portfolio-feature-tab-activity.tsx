@@ -1,4 +1,4 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
@@ -9,10 +9,10 @@ import { LucideRefreshCw } from 'lucide-react'
 
 import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.tsx'
 
-export function PortfolioFeatureTabActivity(props: { cluster: Cluster; wallet: Wallet }) {
+export function PortfolioFeatureTabActivity(props: { network: Network; wallet: Wallet }) {
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
     address: props.wallet.publicKey,
-    cluster: props.cluster,
+    network: props.network,
   })
 
   return (
@@ -27,7 +27,7 @@ export function PortfolioFeatureTabActivity(props: { cluster: Cluster; wallet: W
       </div>
       {isLoading ? <UiLoader /> : null}
       {isError ? <pre className="alert alert-error">Error: {error?.message.toString() ?? 'Unknown error'}</pre> : null}
-      {isSuccess ? <PortfolioUiGetActivity cluster={props.cluster} items={data} /> : null}
+      {isSuccess ? <PortfolioUiGetActivity items={data} network={props.network} /> : null}
     </div>
   )
 }

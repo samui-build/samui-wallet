@@ -42,7 +42,7 @@ describe('create-solana-client', () => {
         createSolanaClient({
           url: 'not-a-url',
         }),
-      ).toThrow('Invalid cluster url')
+      ).toThrow('Invalid url')
     })
 
     it('should throw an error if an invalid subscriptions url is passed', () => {
@@ -55,7 +55,7 @@ describe('create-solana-client', () => {
           url: 'http://localhost:8899',
           urlSubscriptions: 'not-a-url',
         }),
-      ).toThrow('Invalid cluster subscription url')
+      ).toThrow('Invalid subscription url')
     })
   })
 })

@@ -1,20 +1,20 @@
-import type { SolanaCluster } from './solana-cluster.ts'
+import type { SolanaNetwork } from './solana-network.ts'
 
 export type ExplorerProvider = 'orb' | 'solana' | 'solscan'
 export const explorerProviders: ExplorerProvider[] = ['solana', 'solscan', 'orb'] as const
 
-export interface GetClusterSuffixProps {
+export interface GetNetworkSuffixProps {
   endpoint: string
-  type: SolanaCluster
+  type: SolanaNetwork
 }
 
 export interface GetExplorerUrlProps {
-  cluster: GetClusterSuffixProps
+  network: GetNetworkSuffixProps
   path: `/address/${string}` | `/block/${string}` | `/tx/${string}`
   provider?: ExplorerProvider
 }
 
-export function getExplorerUrl({ cluster, path, provider = 'solana' }: GetExplorerUrlProps) {
+export function getExplorerUrl({ network, path, provider = 'solana' }: GetExplorerUrlProps) {
   if (!(path.startsWith('/address') || path.startsWith('/block') || path.startsWith('/tx'))) {
     throw new Error('Invalid path. Must be /address, /block, or /tx.')
   }
@@ -23,7 +23,7 @@ export function getExplorerUrl({ cluster, path, provider = 'solana' }: GetExplor
   }
   const url = new URL(getExplorerBaseUrl(provider))
   url.pathname = path
-  const params = getExplorerClusterSuffix(cluster)
+  const params = getExplorerSuffix(network)
   if (params.cluster.length) {
     url.searchParams.set('cluster', params.cluster)
   }
@@ -44,7 +44,7 @@ function getExplorerBaseUrl(provider: ExplorerProvider = 'solana') {
   }
 }
 
-function getExplorerClusterSuffix(props: GetClusterSuffixProps): {
+function getExplorerSuffix(props: GetNetworkSuffixProps): {
   cluster: string
   customUrl: string
 } {
