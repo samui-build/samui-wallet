@@ -1,6 +1,6 @@
 import type { Wallet } from '@workspace/db/entity/wallet'
 
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { type ReactNode, useMemo } from 'react'
 
@@ -13,8 +13,8 @@ export function PortfolioUiWalletGuard({
   fallback = <div>Wallet not selected</div>,
   render,
 }: PortfolioUiWalletGuardProps) {
-  const [walletId] = useDbPreference('activeWalletId')
-  const [accountId] = useDbPreference('activeAccountId')
+  const [walletId] = useDbSetting('activeWalletId')
+  const [accountId] = useDbSetting('activeAccountId')
   const walletLive = useDbWalletLive({ accountId: accountId })
 
   const wallet = useMemo(() => walletLive.find((item) => item.id === walletId), [walletId, walletLive])

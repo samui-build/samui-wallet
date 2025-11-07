@@ -5,7 +5,7 @@ import type { Database } from '../src/database.ts'
 import type { AccountInputCreate } from '../src/dto/account-input-create.ts'
 import type { ClusterInputCreate } from '../src/dto/cluster-input-create.ts'
 import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
-import type { PreferenceKey } from '../src/entity/preference-key.ts'
+import type { SettingKey } from '../src/entity/setting-key.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
@@ -34,8 +34,8 @@ export function testClusterInputCreate(input: Partial<ClusterInputCreate> = {}):
   }
 }
 
-export function testPreferenceInputSet(value?: string): [PreferenceKey, string] {
-  return ['activeClusterId', value ?? randomName('preference')]
+export function testSettingInputSet(value?: string): [SettingKey, string] {
+  return ['activeClusterId', value ?? randomName('setting')]
 }
 
 export function testWalletInputCreate(input: { accountId: string } & Partial<WalletInputCreate>): WalletInputCreate {

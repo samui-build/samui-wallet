@@ -1,6 +1,6 @@
 import { useDbClusterDelete } from '@workspace/db-react/use-db-cluster-delete'
 import { useDbClusterLive } from '@workspace/db-react/use-db-cluster-live'
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -17,7 +17,7 @@ export function SettingsFeatureClusterList() {
     onSuccess: () => toastSuccess('Cluster deleted'),
   })
   const items = useDbClusterLive()
-  const [activeId] = useDbPreference('activeClusterId')
+  const [activeId] = useDbSetting('activeClusterId')
   return (
     <UiCard
       action={
