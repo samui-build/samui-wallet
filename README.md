@@ -36,7 +36,6 @@ git clone git@github.com:samui-build/samui-wallet.git
 cd samui-wallet
 fnm use # or nvm use
 bun install
-cp apps/web/.env.example apps/web/.env
 bun dev # or bun --filter=<app-name> dev
 ```
 

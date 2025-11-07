@@ -17,7 +17,7 @@
     "check-types": "tsc --noEmit",
     "deploy": "wrangler deploy --minify",
     "dev": "wrangler dev",
-    "postinstall": "bun run cf-typegen"
+    "postinstall": "[ -f .env.example ] && [ ! -f .env ] && cp -v .env.example .env || true; bun run cf-typegen"
   },
   "type": "module",
   "version": "0.0.0"
