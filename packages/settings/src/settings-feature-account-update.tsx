@@ -1,6 +1,5 @@
 import { useDbAccountFindUnique } from '@workspace/db-react/use-db-account-find-unique'
 import { useDbAccountUpdate } from '@workspace/db-react/use-db-account-update'
-import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
@@ -26,14 +25,7 @@ export function SettingsFeatureAccountUpdate() {
   }
 
   return (
-    <UiCard
-      title={
-        <div className="flex items-center gap-2">
-          <UiBack />
-          Edit Account
-        </div>
-      }
-    >
+    <UiCard backButtonTo={`/settings/accounts/${item.id}`} title="Edit Account">
       <SettingsUiAccountFormUpdate
         item={item}
         submit={async (input) =>

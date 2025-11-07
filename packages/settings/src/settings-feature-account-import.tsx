@@ -1,4 +1,3 @@
-import { UiBack } from '@workspace/ui/components/ui-back'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { useNavigate } from 'react-router'
 
@@ -11,14 +10,7 @@ export function SettingsFeatureAccountImport() {
   const navigate = useNavigate()
   const name = useDetermineAccountName()
   return (
-    <UiCard
-      title={
-        <div className="flex items-center gap-2">
-          <UiBack />
-          Import Account
-        </div>
-      }
-    >
+    <UiCard backButtonTo="/settings/accounts/create" title="Import Account">
       <SettingsUiAccountFormImport
         name={name}
         submit={async (input, redirect) => {
