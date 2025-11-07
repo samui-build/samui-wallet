@@ -69,7 +69,6 @@ export function useGetTransaction({ cluster, signature }: { cluster: Cluster; si
       assertIsSignature(signature)
       return client.rpc
         .getTransaction(signature, {
-          commitment: 'confirmed',
           encoding: 'json',
           maxSupportedTransactionVersion: 0,
         })
