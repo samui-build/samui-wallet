@@ -2,26 +2,37 @@
   "expo": {
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#ffffff",
+        "backgroundColor": "#000000",
         "foregroundImage": "./assets/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
+      "package": "build.samui.mobile",
       "predictiveBackGestureEnabled": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": "369d1618-712d-42e0-a8eb-cdaab1f562cd"
+      }
     },
     "icon": "./assets/icon.png",
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "build.samui.mobile",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "supportsTablet": false
     },
-    "name": "mobile",
+    "name": "Samui Wallet",
     "newArchEnabled": true,
     "orientation": "portrait",
-    "slug": "mobile",
+    "owner": "samui-build",
+    "slug": "samui-wallet",
     "splash": {
-      "backgroundColor": "#ffffff",
+      "backgroundColor": "#000000",
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain"
     },
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
     "version": "0.0.0",
     "web": {
       "favicon": "./assets/favicon.png"
