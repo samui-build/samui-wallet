@@ -1,7 +1,7 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 
 import { PortfolioUiExplorerIcon } from './portfolio-ui-explorer-icon.tsx'
 
-export function PortfolioUiTxExplorerIcon({ cluster, signature }: { cluster: Cluster; signature: string }) {
-  return <PortfolioUiExplorerIcon cluster={cluster} path={`/tx/${signature}`} />
+export function PortfolioUiTxExplorerIcon({ network, signature }: { network: Network; signature: string }) {
+  return <PortfolioUiExplorerIcon network={network} path={`/tx/${signature}`} />
 }

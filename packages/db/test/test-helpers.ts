@@ -3,7 +3,7 @@ import { address } from '@solana/kit'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { AccountInputCreate } from '../src/dto/account-input-create.ts'
-import type { ClusterInputCreate } from '../src/dto/cluster-input-create.ts'
+import type { NetworkInputCreate } from '../src/dto/network-input-create.ts'
 import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
 import type { SettingKey } from '../src/entity/setting-key.ts'
 
@@ -25,17 +25,17 @@ export function testAccountInputCreate(input: Partial<AccountInputCreate> = {}):
   }
 }
 
-export function testClusterInputCreate(input: Partial<ClusterInputCreate> = {}): ClusterInputCreate {
+export function testNetworkInputCreate(input: Partial<NetworkInputCreate> = {}): NetworkInputCreate {
   return {
     endpoint: 'http://localhost:8899',
-    name: randomName('cluster'),
+    name: randomName('network'),
     type: 'solana:localnet',
     ...input,
   }
 }
 
 export function testSettingInputSet(value?: string): [SettingKey, string] {
-  return ['activeClusterId', value ?? randomName('setting')]
+  return ['activeNetworkId', value ?? randomName('setting')]
 }
 
 export function testWalletInputCreate(input: { accountId: string } & Partial<WalletInputCreate>): WalletInputCreate {

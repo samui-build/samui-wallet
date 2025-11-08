@@ -42,7 +42,7 @@ describe('db-setting-find-unique-by-key', () => {
     it('should throw an error when finding a unique setting fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const key: SettingKey = 'activeClusterId'
+      const key: SettingKey = 'activeNetworkId'
       vi.spyOn(db.settings, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<Setting | undefined>,
       )

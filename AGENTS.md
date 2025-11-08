@@ -65,13 +65,13 @@ describe('function-name', () => {
 Every test must follow the ARRANGE/ACT/ASSERT pattern with explicit comments:
 
 ```typescript
-it('should create a cluster', async () => {
+it('should create a network', async () => {
   // ARRANGE
   expect.assertions(2) // REQUIRED: Explicit assertion count
-  const input = testClusterInputCreate()
+  const input = testNetworkInputCreate()
 
   // ACT
-  const result = await dbClusterCreate(db, input) // REQUIRED: Results must be called result, result1, etc...
+  const result = await dbNetworkCreate(db, input) // REQUIRED: Results must be called result, result1, etc...
 
   // ASSERT
   expect(result).toBeDefined()
@@ -87,13 +87,13 @@ For error testing, ACT & ASSERT can be combined:
 it('should throw an error with an invalid key', async () => {
   // ARRANGE
   expect.assertions(1) // REQUIRED: Explicit assertion count
-  const input = testClusterInputCreate({
+  const input = testNetworkInputCreate({
     // @ts-expect-error: Testing invalid input
     type: 'invalid-type',
   })
 
   // ACT & ASSERT
-  await expect(dbClusterCreate(db, input)).rejects.toThrow()
+  await expect(dbNetworkCreate(db, input)).rejects.toThrow()
 })
 ```
 

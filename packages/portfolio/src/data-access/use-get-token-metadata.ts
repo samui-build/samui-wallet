@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
@@ -27,7 +27,7 @@ export interface TokenMetadata {
   usdPrice: number
 }
 
-export function useGetTokenBalances(props: { address: Address; cluster: Cluster }) {
+export function useGetTokenBalances(props: { address: Address; network: Network }) {
   const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance(props)
   const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
 
