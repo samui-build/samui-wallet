@@ -1,7 +1,6 @@
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
-
-import { PortfolioUiNetworkWalletGuard } from '@workspace/portfolio/ui/portfolio-ui-network-guard'
+import { PortfolioUiNetworkAccountGuard } from '@workspace/portfolio/ui/portfolio-ui-network-guard'
 import { lazy } from 'react'
 import { useRoutes } from 'react-router'
 
@@ -10,7 +9,7 @@ const ToolsFeatureCreateToken = lazy(() => import('./tools-feature-create-token.
 const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.tsx'))
 const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
 
-export function Router(props: { network: Network; wallet: Wallet }) {
+export function Router(props: { account: Account; network: Network }) {
   return useRoutes([
     { element: <ToolsFeatureOverview />, index: true },
     { element: <ToolsFeatureAirdrop {...props} />, path: 'airdrop' },
@@ -21,5 +20,5 @@ export function Router(props: { network: Network; wallet: Wallet }) {
 }
 
 export default function ToolsRoutes() {
-  return <PortfolioUiNetworkWalletGuard render={(props) => <Router {...props} />} />
+  return <PortfolioUiNetworkAccountGuard render={(props) => <Router {...props} />} />
 }

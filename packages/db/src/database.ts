@@ -18,10 +18,10 @@ export class Database extends Dexie {
   constructor(config: DatabaseConfig) {
     super(config.name)
     this.version(1).stores({
-      accounts: 'id, name, order',
+      accounts: 'id, [order+walletId], derivationIndex, order, publicKey, type, walletId',
       networks: 'id, name, type',
       settings: 'id, &key',
-      wallets: 'id, accountId, derivationIndex, publicKey, type',
+      wallets: 'id, name, order',
     })
 
     this.on('populate', async () => {

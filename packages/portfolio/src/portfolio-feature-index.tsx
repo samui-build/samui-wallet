@@ -1,9 +1,9 @@
 import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.tsx'
 import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.tsx'
-import type { NetworkWallet } from './portfolio-routes-loaded.tsx'
+import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
 
-export function PortfolioFeatureIndex(props: NetworkWallet) {
+export function PortfolioFeatureIndex(props: AccountNetwork) {
   return (
     <UiTabRoutes
       basePath="/portfolio"

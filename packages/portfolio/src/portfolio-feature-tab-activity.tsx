@@ -1,5 +1,5 @@
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
 import { Button } from '@workspace/ui/components/button'
@@ -9,9 +9,9 @@ import { LucideRefreshCw } from 'lucide-react'
 
 import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.tsx'
 
-export function PortfolioFeatureTabActivity(props: { network: Network; wallet: Wallet }) {
+export function PortfolioFeatureTabActivity(props: { account: Account; network: Network }) {
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
-    address: props.wallet.publicKey,
+    address: props.account.publicKey,
     network: props.network,
   })
 

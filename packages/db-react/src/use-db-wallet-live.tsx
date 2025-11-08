@@ -1,15 +1,8 @@
 import { db } from '@workspace/db/db'
+import { dbWalletFindMany } from '@workspace/db/db-wallet-find-many'
 import type { Wallet } from '@workspace/db/entity/wallet'
 import { useLiveQuery } from 'dexie-react-hooks'
 
-export function useDbWalletLive({ accountId }: { accountId?: null | string } = {}) {
-  return useLiveQuery<Wallet[], Wallet[]>(
-    () =>
-      db.wallets
-        .orderBy('derivationIndex')
-        .filter((item) => (accountId ? item.accountId === accountId : true))
-        .toArray(),
-    [accountId],
-    [],
-  )
+export function useDbWalletLive() {
+  return useLiveQuery<Wallet[], Wallet[]>(() => dbWalletFindMany(db), [], [])
 }

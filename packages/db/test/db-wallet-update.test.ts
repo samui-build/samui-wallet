@@ -18,7 +18,7 @@ describe('db-wallet-update', () => {
     it('should update a wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testWalletInputCreate({ accountId: crypto.randomUUID(), name: randomName('wallet') })
+      const input = testWalletInputCreate()
       const id = await dbWalletCreate(db, input)
       const newName = randomName('newName')
 

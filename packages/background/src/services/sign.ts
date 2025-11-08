@@ -40,9 +40,9 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
     inputs: SolanaSignAndSendTransactionInput[],
   ): Promise<SolanaSignAndSendTransactionOutput[]> => {
     const results: SolanaSignAndSendTransactionOutput[] = []
-    const active = await getDbService().wallet.active()
+    const active = await getDbService().account.active()
     if (!active.secretKey) {
-      throw new Error('Active wallet has no secret key')
+      throw new Error('Active account has no secret key')
     }
 
     const bytes = new Uint8Array(JSON.parse(active.secretKey))
@@ -65,13 +65,13 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
   },
   signIn: async (inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> => {
     const results: SolanaSignInOutput[] = []
-    const active = await getDbService().wallet.active()
-    const wallets = await getDbService().wallet.walletAccounts()
+    const active = await getDbService().account.active()
+    const accounts = await getDbService().account.walletAccounts()
     if (!active.secretKey) {
-      throw new Error('Active wallet has no secret key')
+      throw new Error('Active account has no secret key')
     }
 
-    if (wallets.accounts[0] === undefined) {
+    if (accounts.accounts[0] === undefined) {
       throw new Error('No wallet account found')
     }
 
@@ -87,7 +87,7 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
       const signature = await signBytes(privateKey, signedMessage)
 
       results.push({
-        account: wallets.accounts[0],
+        account: accounts.accounts[0],
         signature,
         signatureType: 'ed25519',
         signedMessage,
@@ -98,9 +98,9 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
   },
   signMessage: async (inputs: SolanaSignMessageInput[]): Promise<SolanaSignMessageOutput[]> => {
     const results: SolanaSignMessageOutput[] = []
-    const active = await getDbService().wallet.active()
+    const active = await getDbService().account.active()
     if (!active.secretKey) {
-      throw new Error('Active wallet has no secret key')
+      throw new Error('Active account has no secret key')
     }
 
     const bytes = new Uint8Array(JSON.parse(active.secretKey))
@@ -121,9 +121,9 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
   },
   signTransaction: async (inputs: SolanaSignTransactionInput[]): Promise<SolanaSignTransactionOutput[]> => {
     const results: SolanaSignTransactionOutput[] = []
-    const active = await getDbService().wallet.active()
+    const active = await getDbService().account.active()
     if (!active.secretKey) {
-      throw new Error('Active wallet has no secret key')
+      throw new Error('Active account has no secret key')
     }
 
     const bytes = new Uint8Array(JSON.parse(active.secretKey))

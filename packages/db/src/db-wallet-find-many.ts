@@ -6,25 +6,40 @@ import type { Wallet } from './entity/wallet.ts'
 
 import { walletSchemaFindMany } from './schema/wallet-schema-find-many.ts'
 
-export async function dbWalletFindMany(db: Database, input: WalletInputFindMany): Promise<Wallet[]> {
+export async function dbWalletFindMany(db: Database, input: WalletInputFindMany = {}): Promise<Wallet[]> {
   const parsedInput = walletSchemaFindMany.parse(input)
-  const { data, error } = await tryCatch(
-    db.wallets
-      .orderBy('derivationIndex')
-      .filter((item) => {
-        const matchAccountId = item.accountId === parsedInput.accountId
-        const matchId = !parsedInput.id || item.id === parsedInput.id
-        const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
-        const matchPublicKey = !parsedInput.publicKey || item.publicKey === parsedInput.publicKey
-        const matchType = !parsedInput.type || item.type === parsedInput.type
+  return db.transaction('r', db.wallets, db.accounts, async () => {
+    const [{ data: dataWallets, error: walletsError }, { data: dataAccounts, error: errorAccounts }] =
+      await Promise.all([
+        tryCatch(
+          db.wallets
+            .orderBy('order')
+            .filter((item) => {
+              const matchId = !parsedInput.id || item.id === parsedInput.id
+              const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
 
-        return matchAccountId && matchId && matchName && matchPublicKey && matchType
-      })
-      .toArray(),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding wallets for account id ${parsedInput.accountId}`)
-  }
-  return data
+              return matchId && matchName
+            })
+            .toArray(),
+        ),
+        tryCatch(db.accounts.orderBy('order').toArray()),
+      ])
+
+    if (walletsError) {
+      console.log(walletsError)
+      throw new Error(`Error finding wallets`)
+    }
+    if (errorAccounts) {
+      console.log(errorAccounts)
+      throw new Error(`Error finding accounts`)
+    }
+    return [
+      ...dataWallets.map((wallet) => {
+        return {
+          ...wallet,
+          accounts: [...dataAccounts.filter((account) => account.walletId === wallet.id)],
+        }
+      }),
+    ]
+  })
 }

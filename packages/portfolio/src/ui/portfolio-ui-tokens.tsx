@@ -6,7 +6,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.tsx'
 
-export function AccountUiTokens({ network, items }: { network: Network; items: GetTokenAccountsResult }) {
+export function WalletUiTokens({ network, items }: { network: Network; items: GetTokenAccountsResult }) {
   return items.length === 0 ? (
     <div>No token accounts found.</div>
   ) : (

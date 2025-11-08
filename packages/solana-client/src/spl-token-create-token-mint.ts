@@ -77,7 +77,7 @@ export async function splTokenCreateTokenMint(client: SolanaClient, options: Spl
   const transactionSignature = getSignatureFromTransaction(signedTransaction)
 
   if (options.supply > 0) {
-    // We must mint this amount into feePayer.address' wallet.
+    // We must mint this amount into feePayer's account.
     const supply = await Promise.resolve('tbd')
 
     return {
