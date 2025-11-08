@@ -1,11 +1,11 @@
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useDbNetworkLive } from '@workspace/db-react/use-db-network-live'
 import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { type ReactNode, useMemo } from 'react'
 
-import { PortfolioUiWalletGuard } from './portfolio-ui-wallet-guard.tsx'
+import { PortfolioUiAccountGuard } from './portfolio-ui-account-guard.tsx'
 
 export interface PortfolioUiNetworkGuardProps {
   fallback?: ReactNode
@@ -23,14 +23,14 @@ export function PortfolioUiNetworkGuard({
   return network ? render({ network }) : fallback
 }
 
-export function PortfolioUiNetworkWalletGuard({
+export function PortfolioUiNetworkAccountGuard({
   render,
 }: {
-  render: (props: { network: Network; wallet: Wallet }) => ReactNode
+  render: (props: { account: Account; network: Network }) => ReactNode
 }) {
   return (
     <PortfolioUiNetworkGuard
-      render={({ network }) => <PortfolioUiWalletGuard render={({ wallet }) => render({ network, wallet })} />}
+      render={({ network }) => <PortfolioUiAccountGuard render={({ account }) => render({ account, network })} />}
     />
   )
 }

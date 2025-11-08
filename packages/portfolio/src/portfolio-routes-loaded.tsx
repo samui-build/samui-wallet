@@ -1,17 +1,17 @@
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { useRoutes } from 'react-router'
 
 import { PortfolioFeatureIndex } from './portfolio-feature-index.tsx'
 import { PortfolioFeatureTx } from './portfolio-feature-tx.tsx'
 
-export interface NetworkWallet {
+export interface AccountNetwork {
+  account: Account
   network: Network
-  wallet: Wallet
 }
 
-export function PortfolioRoutesLoaded(props: NetworkWallet) {
+export function PortfolioRoutesLoaded(props: AccountNetwork) {
   return useRoutes([
     { element: <PortfolioFeatureIndex {...props} />, path: '*' },
     { element: <PortfolioFeatureTx {...props} />, path: 'tx/:signature' },

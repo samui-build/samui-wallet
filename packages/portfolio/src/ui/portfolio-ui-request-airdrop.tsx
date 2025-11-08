@@ -1,6 +1,6 @@
 import type { Lamports } from '@solana/kit'
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -14,13 +14,13 @@ import {
 import { ArrowUpRightIcon, Coins, Umbrella } from 'lucide-react'
 
 export function PortfolioUiRequestAirdrop({
-  network,
+  account,
   lamports,
-  wallet,
+  network,
 }: {
-  network: Network
+  account: Account
   lamports?: Lamports | undefined
-  wallet: Wallet
+  network: Network
 }) {
   const { isPending, mutateAsync } = useRequestAirdrop(network)
   const hasBalance = lamports && lamports > 0
@@ -40,7 +40,7 @@ export function PortfolioUiRequestAirdrop({
         <EmptyDescription>Request your airdrop to get started.</EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button disabled={isPending} onClick={() => mutateAsync({ address: wallet.publicKey, amount: 1 })}>
+        <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
           <Coins /> Request Airdrop
         </Button>
       </EmptyContent>

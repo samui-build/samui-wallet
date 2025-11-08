@@ -15,11 +15,11 @@ export function randomName(prefix: string): string {
   return `${prefix}-${Math.random().toString(36).substring(2, 9)}`
 }
 
-export function testAccountInputCreate(input: Partial<AccountInputCreate> = {}): AccountInputCreate {
+export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
   return {
     derivationPath: 'd',
     mnemonic: 'baz',
-    name: randomName('account'),
+    name: randomName('wallet'),
     secret: 'bar',
     ...input,
   }
@@ -38,9 +38,9 @@ export function testSettingInputSet(value?: string): [SettingKey, string] {
   return ['activeNetworkId', value ?? randomName('setting')]
 }
 
-export function testWalletInputCreate(input: { accountId: string } & Partial<WalletInputCreate>): WalletInputCreate {
+export function testAccountInputCreate(input: { walletId: string } & Partial<AccountInputCreate>): AccountInputCreate {
   return {
-    name: randomName('wallet'),
+    name: randomName('account'),
     publicKey: address('So11111111111111111111111111111111111111112'),
     type: 'Derived',
     ...input,

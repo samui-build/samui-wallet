@@ -1,7 +1,7 @@
 import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
+import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
-import type { Wallet } from '@workspace/db/entity/wallet'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
@@ -15,7 +15,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { LucideRefreshCcw } from 'lucide-react'
 import { useCallback, useId, useState } from 'react'
 
-export default function ToolsFeatureCreateToken(props: { network: Network; wallet: Wallet }) {
+export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
@@ -79,7 +79,7 @@ export default function ToolsFeatureCreateToken(props: { network: Network; walle
             Done
           </Button>
         </div>
-      ) : props.wallet.type === 'Derived' ? (
+      ) : props.account.type === 'Derived' ? (
         <div className="flex flex-col gap-6">
           <Field>
             <FieldLabel htmlFor={addressId}>Mint Address</FieldLabel>
@@ -141,7 +141,7 @@ export default function ToolsFeatureCreateToken(props: { network: Network; walle
               <ItemTitle>Summary</ItemTitle>
               <ItemDescription className="font-mono">Network: {getNetworkLabel(props.network.type)}</ItemDescription>
               <ItemDescription className="font-mono">
-                Owner: {ellipsify(props.wallet.publicKey, 6, '...')}
+                Owner: {ellipsify(props.account.publicKey, 6, '...')}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -153,8 +153,8 @@ export default function ToolsFeatureCreateToken(props: { network: Network; walle
         </div>
       ) : (
         <div>
-          <p>You can&#39;t mint a token while wallet {props.wallet.name}</p>
-          <p>Wallet of type {props.wallet.type} is not derived.</p>
+          <p>You can&#39;t mint a token while account {props.account.name}</p>
+          <p>Account of type {props.account.type} is not derived.</p>
         </div>
       )}
     </UiCard>

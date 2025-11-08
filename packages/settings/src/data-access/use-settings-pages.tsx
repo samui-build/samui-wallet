@@ -5,22 +5,22 @@ import type { SettingsPage } from './settings-page.ts'
 export function useSettingsPages(): SettingsPage[] {
   return [
     {
-      description: 'General settings for the wallet',
+      description: 'General settings for the app',
       icon: LucideSettings,
       id: 'general',
       name: 'General',
-    },
-    {
-      description: 'Manage accounts and wallets',
-      icon: LucideWallet2,
-      id: 'accounts',
-      name: 'Accounts',
     },
     {
       description: 'Manage networks and endpoints',
       icon: LucideNetwork,
       id: 'networks',
       name: 'Networks',
+    },
+    {
+      description: 'Manage wallets and accounts',
+      icon: LucideWallet2,
+      id: 'wallets',
+      name: 'Wallets',
     },
   ]
 }

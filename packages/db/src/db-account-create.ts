@@ -12,16 +12,15 @@ export async function dbAccountCreate(db: Database, input: AccountInputCreate): 
   const parsedInput = accountSchemaCreate.parse(input)
 
   return db.transaction('rw', db.accounts, db.settings, db.wallets, async () => {
-    const order = await dbAccountCreateDetermineOrder(db)
-
+    const order = await dbAccountCreateDetermineOrder(db, parsedInput.walletId)
     const { data, error } = await tryCatch(
       db.accounts.add({
         ...parsedInput,
         createdAt: now,
+        derivationIndex: parsedInput.derivationIndex ?? 0,
         id: crypto.randomUUID(),
-        order,
+        order: order,
         updatedAt: now,
-        wallets: [],
       }),
     )
     if (error) {
@@ -33,6 +32,7 @@ export async function dbAccountCreate(db: Database, input: AccountInputCreate): 
     if (!activeAccountId) {
       await dbSettingSetValue(db, 'activeAccountId', data)
     }
+
     return data
   })
 }
