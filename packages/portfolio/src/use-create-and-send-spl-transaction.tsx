@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { Wallet } from '@workspace/db/entity/wallet'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSplTransaction } from '@workspace/solana-client/create-and-send-spl-transaction'
@@ -8,10 +8,10 @@ import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-b
 import { getTokenAccountsQueryOptions } from '@workspace/solana-client-react/use-get-token-accounts'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function useCreateAndSendSplTransaction(props: { cluster: Cluster }) {
-  const { cluster } = props
+export function useCreateAndSendSplTransaction(props: { network: Network }) {
+  const { network } = props
   const queryClient = useQueryClient()
-  const client = useSolanaClient({ cluster })
+  const client = useSolanaClient({ network })
 
   return useMutation({
     mutationFn: async ({
@@ -36,13 +36,13 @@ export function useCreateAndSendSplTransaction(props: { cluster: Cluster }) {
     },
     onSuccess: (_, { wallet: { publicKey: address } }) => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getTokenAccountsQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getTokenAccountsQueryOptions({ address, client, network }).queryKey,
       })
     },
   })

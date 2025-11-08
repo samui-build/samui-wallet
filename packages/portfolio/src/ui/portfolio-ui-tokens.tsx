@@ -1,4 +1,4 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
@@ -6,7 +6,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 import { PortfolioUiExplorerLink } from './portfolio-ui-explorer-link.tsx'
 
-export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: GetTokenAccountsResult }) {
+export function AccountUiTokens({ network, items }: { network: Network; items: GetTokenAccountsResult }) {
   return items.length === 0 ? (
     <div>No token accounts found.</div>
   ) : (
@@ -25,8 +25,8 @@ export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: G
               <div className="flex space-x-2">
                 <span className="font-mono">
                   <PortfolioUiExplorerLink
-                    cluster={cluster}
                     label={ellipsify(pubkey.toString())}
+                    network={network}
                     path={`/address/${pubkey.toString()}`}
                   />
                 </span>
@@ -36,8 +36,8 @@ export function AccountUiTokens({ cluster, items }: { cluster: Cluster; items: G
               <div className="flex space-x-2">
                 <span className="font-mono">
                   <PortfolioUiExplorerLink
-                    cluster={cluster}
                     label={ellipsify(account.data.parsed.info.mint)}
+                    network={network}
                     path={`/address/${account.data.parsed.info.mint.toString()}`}
                   />
                 </span>

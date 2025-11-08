@@ -1,7 +1,7 @@
 import type { UnixTimestamp } from '@solana/kit'
 import { assertIsSignature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import { isValidSignature } from '@workspace/solana-client/is-valid-signature'
 
 import { useSolanaClient } from './use-solana-client.tsx'
@@ -61,8 +61,8 @@ export interface TransactionMessage {
   recentBlockhash: string
 }
 
-export function useGetTransaction({ cluster, signature }: { cluster: Cluster; signature: string }) {
-  const client = useSolanaClient({ cluster })
+export function useGetTransaction({ network, signature }: { network: Network; signature: string }) {
+  const client = useSolanaClient({ network })
   return useQuery({
     enabled: isValidSignature(signature),
     queryFn: () => {
@@ -74,6 +74,6 @@ export function useGetTransaction({ cluster, signature }: { cluster: Cluster; si
         })
         .send()
     },
-    queryKey: ['getTransaction', cluster.endpoint, signature],
+    queryKey: ['getTransaction', network.endpoint, signature],
   })
 }

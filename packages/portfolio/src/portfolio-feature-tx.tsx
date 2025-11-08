@@ -1,4 +1,4 @@
-import type { Cluster } from '@workspace/db/entity/cluster'
+import type { Network } from '@workspace/db/entity/network'
 import type { TransactionData } from '@workspace/solana-client-react/use-get-transaction'
 
 import { useGetTransaction } from '@workspace/solana-client-react/use-get-transaction'
@@ -10,9 +10,9 @@ import { useParams } from 'react-router'
 
 import { PortfolioUiTxDetails } from './portfolio-ui-tx-details.tsx'
 
-export function PortfolioFeatureTx({ cluster }: { cluster: Cluster }) {
+export function PortfolioFeatureTx({ network }: { network: Network }) {
   const { signature } = useParams() as { signature: string }
-  const query = useGetTransaction({ cluster, signature })
+  const query = useGetTransaction({ network, signature })
 
   if (query.isLoading) {
     return <Spinner />
@@ -36,7 +36,7 @@ export function PortfolioFeatureTx({ cluster }: { cluster: Cluster }) {
         Transaction : {ellipsify(signature, 8)}
       </div>
 
-      <PortfolioUiTxDetails cluster={cluster} signature={signature} tx={tx} />
+      <PortfolioUiTxDetails network={network} signature={signature} tx={tx} />
     </div>
   )
 }

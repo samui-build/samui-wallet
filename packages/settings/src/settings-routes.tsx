@@ -7,10 +7,10 @@ import { SettingsFeatureAccountGenerate } from './settings-feature-account-gener
 import { SettingsFeatureAccountImport } from './settings-feature-account-import.tsx'
 import { SettingsFeatureAccountList } from './settings-feature-account-list.tsx'
 import { SettingsFeatureAccountUpdate } from './settings-feature-account-update.tsx'
-import { SettingsFeatureClusterCreate } from './settings-feature-cluster-create.tsx'
-import { SettingsFeatureClusterList } from './settings-feature-cluster-list.tsx'
-import { SettingsFeatureClusterUpdate } from './settings-feature-cluster-update.tsx'
 import { SettingsFeatureGeneral } from './settings-feature-general.tsx'
+import { SettingsFeatureNetworkCreate } from './settings-feature-network-create.tsx'
+import { SettingsFeatureNetworkList } from './settings-feature-network-list.tsx'
+import { SettingsFeatureNetworkUpdate } from './settings-feature-network-update.tsx'
 import { SettingsUiLayout } from './ui/settings-ui-layout.tsx'
 
 export default function SettingsRoutes() {
@@ -32,11 +32,11 @@ export default function SettingsRoutes() {
         },
         {
           children: [
-            { element: <SettingsFeatureClusterList />, index: true },
-            { element: <SettingsFeatureClusterCreate />, path: 'create' },
-            { element: <SettingsFeatureClusterUpdate />, path: ':clusterId' },
+            { element: <SettingsFeatureNetworkList />, index: true },
+            { element: <SettingsFeatureNetworkCreate />, path: 'create' },
+            { element: <SettingsFeatureNetworkUpdate />, path: ':networkId' },
           ],
-          path: 'clusters',
+          path: 'networks',
         },
         {
           children: [{ element: <SettingsFeatureGeneral />, index: true }],

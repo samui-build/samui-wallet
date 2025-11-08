@@ -1,5 +1,5 @@
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import type { ClusterWallet } from '../portfolio-routes-loaded.tsx'
+import type { NetworkWallet } from '../portfolio-routes-loaded.tsx'
 
 import { PortfolioUiWalletSheetReceive } from './portfolio-ui-wallet-sheet-receive.tsx'
 import { PortfolioUiWalletSheetSend } from './portfolio-ui-wallet-sheet-send.tsx'
@@ -13,7 +13,7 @@ export function PortfolioUiWalletButtons({
   balances: TokenBalance[]
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
-} & ClusterWallet) {
+} & NetworkWallet) {
   return wallet ? (
     <div className="gap-2 flex justify-center">
       <PortfolioUiWalletSheetReceive wallet={wallet} />
