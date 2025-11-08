@@ -83,7 +83,7 @@ export function PortfolioFeatureTabTokens(props: AccountNetwork) {
       )
 
       if (sendError) {
-        toastError('Error sending SOL')
+        toastError(`Error sending SOL: ${sendError}`)
         return
       }
 

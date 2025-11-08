@@ -33,7 +33,7 @@ export async function createAndSendSolTransaction(
 
   const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
   const transactionMessage = createSolTransferTransaction({
-    amount: amount.toString(),
+    amount,
     destination,
     latestBlockhash,
     sender,

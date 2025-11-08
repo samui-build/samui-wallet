@@ -11,8 +11,6 @@ import {
 } from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
 
-import { solToLamports } from './sol-to-lamports.ts'
-
 export interface LatestBlockhash {
   blockhash: Blockhash
   lastValidBlockHeight: bigint
@@ -25,7 +23,7 @@ export function createSolTransferTransaction({
   sender,
   source,
 }: {
-  amount: string
+  amount: bigint
   destination: Address | string
   latestBlockhash: LatestBlockhash
   sender: TransactionSigner
@@ -37,7 +35,7 @@ export function createSolTransferTransaction({
     assertIsKeyPairSigner(source)
   }
   const transferInstruction = getTransferSolInstruction({
-    amount: solToLamports(amount),
+    amount,
     destination: address(destination),
     source: source ?? sender,
   })
