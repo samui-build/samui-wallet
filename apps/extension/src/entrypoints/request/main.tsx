@@ -3,7 +3,8 @@ import { createRoot } from 'react-dom/client'
 import '@workspace/ui/globals.css'
 
 import { StrictMode } from 'react'
-import { App } from './app.tsx'
+import { RequestFeature } from '@/features/request/request-feature.tsx'
+import { ExtensionProviders } from '@/features/shell/extension-providers.tsx'
 
 const queryClient = new QueryClient()
 
@@ -15,7 +16,9 @@ if (!root) {
 createRoot(root).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <App />
+      <ExtensionProviders>
+        <RequestFeature />
+      </ExtensionProviders>
     </QueryClientProvider>
   </StrictMode>,
 )

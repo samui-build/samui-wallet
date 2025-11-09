@@ -1,11 +1,9 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import '@workspace/ui/globals.css'
 
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { App } from './app.tsx'
-
-const queryClient = new QueryClient()
+import { ExtensionProviders } from '@/features/shell/extension-providers.tsx'
+import { ExtensionShell } from '@/features/shell/extension-shell.tsx'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -14,8 +12,8 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ExtensionProviders>
+      <ExtensionShell mode="Sidebar" />
+    </ExtensionProviders>
   </StrictMode>,
 )

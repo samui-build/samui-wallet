@@ -56,9 +56,7 @@ export function SettingsFeatureWalletDetails() {
         </div>
       }
     >
-      <div className="space-y-6">
-        <SettingsUiAccountTable items={sorted} />
-      </div>
+      <SettingsUiAccountTable items={sorted} />
     </UiCard>
   )
 }

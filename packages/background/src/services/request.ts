@@ -13,9 +13,11 @@ import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standa
 import { defineProxyService } from '@webext-core/proxy-service'
 import { browser } from '@wxt-dev/browser'
 
+export type RequestType = 'connect' | 'signAndSendTransaction' | 'signIn' | 'signMessage' | 'signTransaction'
+
 type DataType<T extends Requests['type']> = Extract<Requests, { type: T }>['data']
 
-type Requests =
+export type Requests =
   | {
       data: SolanaSignAndSendTransactionInput[]
       id: number

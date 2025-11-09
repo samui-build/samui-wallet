@@ -16,7 +16,7 @@ export function SettingsUiNetworkList({
   items: Network[]
 }) {
   return (
-    <ItemGroup className="gap-4">
+    <ItemGroup className="gap-2">
       {items.map((item) => (
         <Item
           className="items-stretch flex-row items-center"
