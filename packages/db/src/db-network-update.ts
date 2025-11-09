@@ -11,7 +11,7 @@ export async function dbNetworkUpdate(db: Database, id: string, input: NetworkIn
   const result = Effect.tryPromise({
     catch: (error) => {
       console.log(error)
-      throw new Error(`Error getting network with id ${id}`)
+      throw new Error(`Error updating network with id ${id}`)
     },
     try: () =>
       db.networks.update(id, {
