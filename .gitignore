@@ -37,6 +37,10 @@ dist
 target
 schemas
 
+# Validators
+.surfpool
+test-ledger
+
 # Debug
 npm-debug.log*
 

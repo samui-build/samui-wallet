@@ -54,6 +54,7 @@ const config: CSpellSettings = {
     'samui',
     'seti',
     'solscan',
+    'surfpool',
     'testnet',
     'tobeycodes',
     'unruggable',
