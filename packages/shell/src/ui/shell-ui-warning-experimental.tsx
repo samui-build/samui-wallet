@@ -1,7 +1,7 @@
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { UiExperimentalWarning } from '@workspace/ui/components/ui-experimental-warning'
 
 export function ShellUiWarningExperimental() {
-  const [accepted, setAccepted] = useDbPreference('warningAcceptExperimental')
+  const [accepted, setAccepted] = useDbSetting('warningAcceptExperimental')
   return accepted !== 'true' ? <UiExperimentalWarning close={() => setAccepted('true')} /> : null
 }

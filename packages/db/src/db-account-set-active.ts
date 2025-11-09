@@ -1,11 +1,12 @@
 import type { Database } from './database.ts'
-
 import { dbAccountFindUnique } from './db-account-find-unique.ts'
-import { dbPreferenceSetValue } from './db-preference-set-value.ts'
-import { dbWalletFindMany } from './db-wallet-find-many.ts'
+import { dbSettingFindUniqueByKey } from './db-setting-find-unique-by-key.ts'
+import { dbSettingSetValue } from './db-setting-set-value.ts'
+import type { SettingKey } from './entity/setting-key.ts'
 
 export async function dbAccountSetActive(db: Database, id: string) {
-  return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {
+  return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
+    // get the requested account from the database
     const found = await dbAccountFindUnique(db, id)
     if (!found) {
       // TODO: Use Effect
@@ -13,17 +14,17 @@ export async function dbAccountSetActive(db: Database, id: string) {
     }
     const accountId = found.id
 
-    // set the `activeAccountId` preference to the new value
-    await dbPreferenceSetValue(db, 'activeAccountId', accountId)
+    // set the `activeAccountId` setting to the new value
+    const keyWallet: SettingKey = 'activeWalletId'
+    const keyAccount: SettingKey = 'activeAccountId'
+    // get the `activeWalletId` setting
+    const activeWallet = await dbSettingFindUniqueByKey(db, keyWallet)
 
-    // get the list of wallets for `activeAccountId`
-    const wallets = await dbWalletFindMany(db, { accountId })
-    const first = wallets[0]
-    if (!first) {
-      console.warn(`There are no wallets in account ${accountId}`)
-      return
+    // ensure that the request `Account.walletId` is equal to `activeWalletId`
+    if (found.walletId !== activeWallet?.value) {
+      await dbSettingSetValue(db, keyWallet, found.walletId)
     }
-    // set the `activeWalletId` preference to the first one of the list of wallets
-    await dbPreferenceSetValue(db, 'activeWalletId', first.id)
+
+    await dbSettingSetValue(db, keyAccount, accountId)
   })
 }

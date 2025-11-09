@@ -9,31 +9,31 @@ export function App() {
   const queryClient = useQueryClient()
   const { mutateAsync } = useMutation({
     mutationFn: async () => {
-      const result = await getDbService().account.createWithWallet({
+      const result = await getDbService().wallet.createWithAccount({
         derivationPath: derivationPaths.default,
         mnemonic: generateMnemonic(),
-        name: 'My Account',
+        name: 'My Wallet',
         secret: '',
       })
-      await queryClient.invalidateQueries({ queryKey: ['wallet', 'active'] })
+      await queryClient.invalidateQueries({ queryKey: ['account', 'active'] })
       return result
     },
   })
 
   const { data: active } = useQuery({
-    queryFn: async () => await getDbService().wallet.active(),
-    queryKey: ['wallet', 'active'],
+    queryFn: async () => await getDbService().account.active(),
+    queryKey: ['account', 'active'],
   })
 
   return (
     <div className="p-4">
       {active ? (
         <div className="flex flex-col gap-2">
-          <h1 className="text-2xl font-bold">Active Account</h1>
+          <h1 className="text-2xl font-bold">Active Wallet</h1>
           <div className="text-sm text-gray-500">{ellipsify(active.publicKey)}</div>
         </div>
       ) : (
-        <Button onClick={async () => await mutateAsync()}>Create Account</Button>
+        <Button onClick={async () => await mutateAsync()}>Create Wallet</Button>
       )}
     </div>
   )

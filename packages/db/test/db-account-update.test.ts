@@ -18,7 +18,7 @@ describe('db-account-update', () => {
     it('should update an account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testAccountInputCreate()
+      const input = testAccountInputCreate({ name: randomName('account'), walletId: crypto.randomUUID() })
       const id = await dbAccountCreate(db, input)
       const newName = randomName('newName')
 

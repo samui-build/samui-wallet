@@ -34,18 +34,18 @@ const formSchema = z.object({
 export type AirdropFormSchema = z.infer<typeof formSchema>
 
 export function ToolsUiAirdropForm({
+  accounts,
   disabled,
   submit,
-  wallets,
 }: {
+  accounts: { label: string; value: string }[]
   disabled: boolean
   submit: (input: AirdropFormSchema) => Promise<void>
-  wallets: { label: string; value: string }[]
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: standardSchemaResolver(formSchema),
     values: {
-      address: wallets[0]?.value ?? '',
+      address: accounts[0]?.value ?? '',
       amount: 1,
     },
   })
@@ -77,18 +77,18 @@ export function ToolsUiAirdropForm({
                       role="combobox"
                       variant="outline"
                     >
-                      {field.value ? wallets.find((item) => item.value === field.value)?.label : 'Select wallet'}
+                      {field.value ? accounts.find((item) => item.value === field.value)?.label : 'Select account'}
                       <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search wallet..." />
+                    <CommandInput placeholder="Search account..." />
                     <CommandList>
-                      <CommandEmpty>No wallets found.</CommandEmpty>
+                      <CommandEmpty>No accounts found.</CommandEmpty>
                       <CommandGroup>
-                        {wallets.map((item) => (
+                        {accounts.map((item) => (
                           <CommandItem
                             key={item.value}
                             onSelect={() => {
@@ -107,7 +107,7 @@ export function ToolsUiAirdropForm({
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>The public key of the wallet you want to airdrop to</FormDescription>
+              <FormDescription>The public key of the account you want to airdrop to</FormDescription>
               <FormMessage />
             </FormItem>
           )}

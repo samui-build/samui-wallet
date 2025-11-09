@@ -1,5 +1,3 @@
 import { accountSchema } from './account-schema.ts'
 
-export const accountSchemaUpdate = accountSchema
-  .omit({ createdAt: true, derivationPath: true, id: true, updatedAt: true, wallets: true })
-  .partial()
+export const accountSchemaUpdate = accountSchema.omit({ createdAt: true, id: true, updatedAt: true }).partial()

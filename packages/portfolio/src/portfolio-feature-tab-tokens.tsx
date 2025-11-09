@@ -7,10 +7,10 @@ import { Effect } from 'effect'
 import { useCallback, useMemo } from 'react'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
-import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
+import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
+import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
 import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
-import { PortfolioUiWalletButtons } from './ui/portfolio-ui-wallet-buttons.tsx'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
 import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
 
@@ -20,12 +20,12 @@ interface SendTokenInput {
   mint: TokenBalance
 }
 
-export function PortfolioFeatureTabTokens(props: ClusterWallet) {
-  const { cluster, wallet } = props
-  const balances = useGetTokenBalances({ address: wallet.publicKey, cluster })
-  const { data: dataAccountInfo, isLoading: isLoadingAccountInfo } = useGetAccountInfo({
-    address: props.wallet.publicKey,
-    cluster: props.cluster,
+export function PortfolioFeatureTabTokens(props: AccountNetwork) {
+  const { account, network } = props
+  const balances = useGetTokenBalances({ address: account.publicKey, network })
+  const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({
+    address: props.account.publicKey,
+    network: props.network,
   })
 
   const sendSolMutation = useCreateAndSendSolTransaction(props)
@@ -58,9 +58,9 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         try: () =>
           sendSplMutation.mutateAsync({
             ...input,
+            account: account,
             decimals: input.mint.decimals,
             mint: input.mint.mint,
-            wallet: wallet,
           }),
       }).pipe(
         Effect.flatMap((result) =>
@@ -72,7 +72,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
       )
       await Effect.runPromise(sendEffect)
     },
-    [wallet, sendSplMutation],
+    [account, sendSplMutation],
   )
 
   const handleSendSol = useCallback(
@@ -81,7 +81,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
         catch: (error) => {
           return Effect.fail(error)
         },
-        try: () => sendSolMutation.mutateAsync({ ...input, wallet: wallet }),
+        try: () => sendSolMutation.mutateAsync({ ...input, account: account }),
       }).pipe(
         Effect.flatMap((result) =>
           result
@@ -92,7 +92,7 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
       )
       await Effect.runPromise(sendEffect)
     },
-    [wallet, sendSolMutation],
+    [account, sendSolMutation],
   )
 
   const handleSendToken = useCallback(
@@ -105,15 +105,15 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
     },
     [handleSendSol, handleSendSplToken],
   )
-  if (isLoadingAccountInfo) {
+  if (isLoadingWalletInfo) {
     return <Spinner />
   }
 
   return (
     <div className="p-4 space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
-      <PortfolioUiWalletButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
-      <PortfolioUiRequestAirdrop cluster={cluster} lamports={dataAccountInfo?.value?.lamports} wallet={wallet} />
+      <PortfolioUiAccountButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
+      <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
       <PortfolioUiTokenBalances items={balances} />
     </div>
   )

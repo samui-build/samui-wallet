@@ -1,0 +1,14 @@
+import { tryCatch } from '@workspace/core/try-catch'
+
+import type { Database } from './database.ts'
+import type { Setting } from './entity/setting.ts'
+import type { SettingKey } from './entity/setting-key.ts'
+
+export async function dbSettingFindUniqueByKey(db: Database, key: SettingKey): Promise<null | Setting> {
+  const { data, error } = await tryCatch(db.settings.get({ key }))
+  if (error) {
+    console.log(error)
+    throw new Error(`Error finding setting with key ${key}`)
+  }
+  return data ?? null
+}

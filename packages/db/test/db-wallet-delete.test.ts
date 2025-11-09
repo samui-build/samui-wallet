@@ -18,7 +18,7 @@ describe('db-wallet-delete', () => {
     it('should delete a wallet', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testWalletInputCreate({ accountId: crypto.randomUUID() })
+      const input = testWalletInputCreate()
       const id = await dbWalletCreate(db, input)
 
       // ACT

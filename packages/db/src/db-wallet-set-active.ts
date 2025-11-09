@@ -1,12 +1,10 @@
 import type { Database } from './database.ts'
-import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key.ts'
-import { dbPreferenceSetValue } from './db-preference-set-value.ts'
+import { dbAccountFindMany } from './db-account-find-many.ts'
+import { dbSettingSetValue } from './db-setting-set-value.ts'
 import { dbWalletFindUnique } from './db-wallet-find-unique.ts'
-import type { PreferenceKey } from './entity/preference-key.ts'
 
 export async function dbWalletSetActive(db: Database, id: string) {
-  return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {
-    // get the requested wallet from the database
+  return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
     const found = await dbWalletFindUnique(db, id)
     if (!found) {
       // TODO: Use Effect
@@ -14,17 +12,17 @@ export async function dbWalletSetActive(db: Database, id: string) {
     }
     const walletId = found.id
 
-    // set the `activeWalletId` preference to the new value
-    const keyAccount: PreferenceKey = 'activeAccountId'
-    const keyWallet: PreferenceKey = 'activeWalletId'
-    // get the `activeAccountId` preference
-    const activeAccount = await dbPreferenceFindUniqueByKey(db, keyAccount)
+    // set the `activeWalletId` setting to the new value
+    await dbSettingSetValue(db, 'activeWalletId', walletId)
 
-    // ensure that the request `Wallet.accountId` is equal to `activeAccountId`
-    if (found.accountId !== activeAccount?.value) {
-      await dbPreferenceSetValue(db, keyAccount, found.accountId)
+    // get the list of accounts for `activeWalletId`
+    const accounts = await dbAccountFindMany(db, { walletId })
+    const first = accounts[0]
+    if (!first) {
+      console.warn(`There are no accounts in wallet ${walletId}`)
+      return
     }
-
-    await dbPreferenceSetValue(db, keyWallet, walletId)
+    // set the `activeAccountId` setting to the first one of the list of accounts
+    await dbSettingSetValue(db, 'activeAccountId', first.id)
   })
 }

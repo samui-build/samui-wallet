@@ -1,4 +1,4 @@
-import { useGetSolanaClusterFromGenesisHash } from '@workspace/solana-client-react/use-get-solana-cluster-from-genesis-hash'
+import { useGetSolanaNetworkFromGenesisHash } from '@workspace/solana-client-react/use-get-solana-network-from-genesis-hash'
 import { Button } from '@workspace/ui/components/button'
 import { Input } from '@workspace/ui/components/input'
 import { Label } from '@workspace/ui/components/label'
@@ -15,7 +15,7 @@ export default function DevFeatureSolana() {
 
 function DevGenesisHash() {
   const endpointId = useId()
-  const mutation = useGetSolanaClusterFromGenesisHash()
+  const mutation = useGetSolanaNetworkFromGenesisHash()
   const [endpoint, setEndpoint] = useState<string>('')
 
   const options = [
@@ -33,7 +33,7 @@ function DevGenesisHash() {
   }
 
   return (
-    <UiCard title="getClusterFromGenesisHash">
+    <UiCard title="getNetworkFromGenesisHash">
       <div className="space-y-2">
         <div className="space-x-2 space-y-2">
           {options.map((option) => (

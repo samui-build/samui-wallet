@@ -1,5 +1,4 @@
 import type { ClusterUrl } from '@solana/kit'
-
 import { createSolanaRpc, createSolanaRpcSubscriptions } from '@solana/kit'
 
 export function createSolanaClient({
@@ -10,10 +9,10 @@ export function createSolanaClient({
   urlSubscriptions?: ClusterUrl | undefined
 }) {
   if (!url.startsWith('http')) {
-    throw new Error('Invalid cluster url')
+    throw new Error('Invalid url')
   }
   if (urlSubscriptions?.trim().length && !urlSubscriptions.startsWith('ws')) {
-    throw new Error('Invalid cluster subscription url')
+    throw new Error('Invalid subscription url')
   }
   return {
     rpc: createSolanaRpc(url),
