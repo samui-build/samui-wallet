@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import { dbSettingFindUniqueByKey } from './db-setting-find-unique-by-key.ts'
@@ -18,19 +18,19 @@ export async function dbSettingSetValue(db: Database, key: SettingKey, value: st
     const setting = await dbSettingFindUniqueByKey(db, key)
     // Update the setting if it's already set
     if (setting) {
-      const { error } = await tryCatch(db.settings.update(setting.id, { updatedAt: now, value }))
-      if (error) {
-        throw new Error(`Error updating setting`)
-      }
+      const result = Effect.tryPromise({
+        catch: () => new Error(`Error updating setting`),
+        try: () => db.settings.update(setting.id, { updatedAt: now, value }),
+      })
+      await Effect.runPromise(result)
       return
     }
     // Create the setting if it's not set
-    const { error } = await tryCatch(
-      db.settings.add({ createdAt: now, id: crypto.randomUUID(), key, updatedAt: now, value }),
-    )
-    if (error) {
-      throw new Error(`Error creating setting`)
-    }
+    const result = Effect.tryPromise({
+      catch: () => new Error(`Error creating setting`),
+      try: () => db.settings.add({ createdAt: now, id: crypto.randomUUID(), key, updatedAt: now, value }),
+    })
+    await Effect.runPromise(result)
     return
   })
 }

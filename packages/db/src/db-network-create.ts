@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import type { NetworkInputCreate } from './dto/network-input-create.ts'
@@ -9,17 +9,19 @@ export async function dbNetworkCreate(db: Database, input: NetworkInputCreate): 
   const now = new Date()
   // TODO: Add runtime check to ensure Network.type is valid
   const parsedInput = networkSchemaCreate.parse(input)
-  const { data, error } = await tryCatch(
-    db.networks.add({
-      ...parsedInput,
-      createdAt: now,
-      id: crypto.randomUUID(),
-      updatedAt: now,
-    }),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error creating network`)
-  }
+  const result = Effect.tryPromise({
+    catch: (error) => {
+      console.log(error)
+      throw new Error(`Error creating network`)
+    },
+    try: () =>
+      db.networks.add({
+        ...parsedInput,
+        createdAt: now,
+        id: crypto.randomUUID(),
+        updatedAt: now,
+      }),
+  })
+  const data = await Effect.runPromise(result)
   return data
 }
