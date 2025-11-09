@@ -13,7 +13,7 @@ export default defineConfig({
 
       '../../examples/**',
     ],
-    ignoredAttributes: [],
+    ignoredAttributes: ['to', 'variant'],
     input: '../../**/*.{js,jsx,ts,tsx}',
     output: 'locales/{{language}}/{{namespace}}.json',
   },
