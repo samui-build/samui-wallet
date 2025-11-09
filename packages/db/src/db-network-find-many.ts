@@ -12,7 +12,7 @@ export async function dbNetworkFindMany(db: Database, input: NetworkInputFindMan
   const result = Effect.tryPromise({
     catch: (error) => {
       console.log(error)
-      throw new Error(`Error finding clusters`)
+      throw new Error(`Error finding networks`)
     },
     try: async () => {
       const result = await db.networks
