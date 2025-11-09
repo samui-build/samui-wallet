@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import { dbPreferenceFindUniqueByKey } from './db-preference-find-unique-by-key.ts'
@@ -18,19 +18,21 @@ export async function dbPreferenceSetValue(db: Database, key: PreferenceKey, val
     const preference = await dbPreferenceFindUniqueByKey(db, key)
     // Update the preference if it's already set
     if (preference) {
-      const { error } = await tryCatch(db.preferences.update(preference.id, { updatedAt: now, value }))
-      if (error) {
-        throw new Error(`Error updating preference`)
-      }
+      await Effect.runPromise(
+        Effect.tryPromise({
+          catch: () => new Error(`Error updating preference`),
+          try: () => db.preferences.update(preference.id, { updatedAt: now, value }),
+        }),
+      )
       return
     }
     // Create the preference if it's not set
-    const { error } = await tryCatch(
-      db.preferences.add({ createdAt: now, id: crypto.randomUUID(), key, updatedAt: now, value }),
+    await Effect.runPromise(
+      Effect.tryPromise({
+        catch: () => new Error(`Error creating preference`),
+        try: () => db.preferences.add({ createdAt: now, id: crypto.randomUUID(), key, updatedAt: now, value }),
+      }),
     )
-    if (error) {
-      throw new Error(`Error creating preference`)
-    }
     return
   })
 }

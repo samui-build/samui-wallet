@@ -10,6 +10,7 @@
     "@workspace/solana-client": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "effect": "^3.19.2",
     "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

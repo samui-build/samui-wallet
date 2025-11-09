@@ -1,5 +1,5 @@
 import * as bip39 from '@scure/bip39'
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import { validateMnemonic } from './validate-mnemonic.ts'
 
@@ -12,10 +12,10 @@ export async function createSeedFromMnemonic({
 }): Promise<Uint8Array> {
   validateMnemonic({ mnemonic })
 
-  const { data, error } = await tryCatch(bip39.mnemonicToSeed(mnemonic, passphrase))
-
-  if (error) {
-    throw new Error('Error creating seed from mnemonic')
-  }
+  const result = Effect.tryPromise({
+    catch: () => new Error('Error creating seed from mnemonic'),
+    try: () => bip39.mnemonicToSeed(mnemonic, passphrase),
+  })
+  const data = await Effect.runPromise(result)
   return data
 }

@@ -1,9 +1,9 @@
-import { tryCatch } from '@workspace/core/try-catch'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { Effect } from 'effect'
 import { useCallback, useMemo } from 'react'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
@@ -53,45 +53,44 @@ export function PortfolioFeatureTabTokens(props: ClusterWallet) {
       const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
 
       // Send SPL token
-      const { data: result, error: sendError } = await tryCatch(
-        sendSplMutation.mutateAsync({
-          ...input,
-          decimals: input.mint.decimals,
-          mint: input.mint.mint,
-          wallet: wallet,
-        }),
+      const sendEffect = Effect.tryPromise({
+        catch: (error) => new Error(`Error sending ${tokenSymbol}: ${error}`),
+        try: () =>
+          sendSplMutation.mutateAsync({
+            ...input,
+            decimals: input.mint.decimals,
+            mint: input.mint.mint,
+            wallet: wallet,
+          }),
+      }).pipe(
+        Effect.flatMap((result) =>
+          result
+            ? Effect.sync(() => toastSuccess(`${tokenSymbol} has been sent!`))
+            : Effect.sync(() => toastError(`Failed to send ${tokenSymbol}`)),
+        ),
+        Effect.catchAll(() => Effect.sync(() => toastError(`Error sending ${tokenSymbol}`))),
       )
-
-      if (sendError) {
-        toastError(`Error sending ${tokenSymbol}`)
-        return
-      }
-
-      if (result) {
-        toastSuccess(`${tokenSymbol} has been sent!`)
-      } else {
-        toastError(`Failed to send ${tokenSymbol}`)
-      }
+      await Effect.runPromise(sendEffect)
     },
     [wallet, sendSplMutation],
   )
 
   const handleSendSol = useCallback(
     async (input: SendTokenInput): Promise<void> => {
-      const { data: result, error: sendError } = await tryCatch(
-        sendSolMutation.mutateAsync({ ...input, wallet: wallet }),
+      const sendEffect = Effect.tryPromise({
+        catch: (error) => {
+          return Effect.fail(error)
+        },
+        try: () => sendSolMutation.mutateAsync({ ...input, wallet: wallet }),
+      }).pipe(
+        Effect.flatMap((result) =>
+          result
+            ? Effect.sync(() => toastSuccess('SOL has been sent!'))
+            : Effect.sync(() => toastError('Failed to send SOL')),
+        ),
+        Effect.catchAll(() => Effect.sync(() => toastError('Error sending SOL'))),
       )
-
-      if (sendError) {
-        toastError('Error sending SOL')
-        return
-      }
-
-      if (result) {
-        toastSuccess('SOL has been sent!')
-      } else {
-        toastError('Failed to send SOL')
-      }
+      await Effect.runPromise(sendEffect)
     },
     [wallet, sendSolMutation],
   )

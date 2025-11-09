@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import type { ClusterInputFindMany } from './dto/cluster-input-find-many.ts'
@@ -8,22 +8,26 @@ import { clusterSchemaFindMany } from './schema/cluster-schema-find-many.ts'
 
 export async function dbClusterFindMany(db: Database, input: ClusterInputFindMany = {}): Promise<Cluster[]> {
   const parsedInput = clusterSchemaFindMany.parse(input)
-  const { data, error } = await tryCatch(
-    db.clusters
-      .orderBy('name')
-      .filter((item) => {
-        const matchEndpoint = !parsedInput.endpoint || item.endpoint.includes(parsedInput.endpoint)
-        const matchId = !parsedInput.id || item.id === parsedInput.id
-        const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
-        const matchType = !parsedInput.type || item.type === parsedInput.type
 
-        return matchName && matchType && matchEndpoint && matchId
-      })
-      .toArray(),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding clusters`)
-  }
+  const result = Effect.tryPromise({
+    catch: (error) => {
+      console.log(error)
+      throw new Error(`Error finding clusters`)
+    },
+    try: () =>
+      db.clusters
+        .orderBy('name')
+        .filter((item) => {
+          const matchEndpoint = !parsedInput.endpoint || item.endpoint.includes(parsedInput.endpoint)
+          const matchId = !parsedInput.id || item.id === parsedInput.id
+          const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+          const matchType = !parsedInput.type || item.type === parsedInput.type
+
+          return matchName && matchType && matchEndpoint && matchId
+        })
+        .toArray(),
+  })
+
+  const data = await Effect.runPromise(result)
   return data
 }

@@ -1,17 +1,13 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 
 export async function dbAccountCreateDetermineOrder(db: Database): Promise<number> {
-  const { data, error } = await tryCatch(db.accounts.orderBy('order').last())
+  const data = Effect.tryPromise({
+    catch: (error) => new Error(`Error finding last account: ${String(error)}`),
+    try: () => db.accounts.orderBy('order').last(),
+  }).pipe(Effect.map((data) => (data ? data.order + 1 : 0)))
 
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding last account`)
-  }
-
-  if (!data) {
-    return 0
-  }
-  return data.order + 1
+  const result = await Effect.runPromise(data)
+  return result
 }

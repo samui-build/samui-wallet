@@ -4,6 +4,7 @@
     "@scure/bip39": "^2.0.1",
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
+    "effect": "^3.19.2",
     "micro-key-producer": "^0.8.2"
   },
   "devDependencies": {

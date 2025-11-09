@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import { dbAccountCreateDetermineOrder } from './db-account-create-determine-order.ts'
@@ -14,20 +14,23 @@ export async function dbAccountCreate(db: Database, input: AccountInputCreate): 
   return db.transaction('rw', db.accounts, db.preferences, db.wallets, async () => {
     const order = await dbAccountCreateDetermineOrder(db)
 
-    const { data, error } = await tryCatch(
-      db.accounts.add({
-        ...parsedInput,
-        createdAt: now,
-        id: crypto.randomUUID(),
-        order,
-        updatedAt: now,
-        wallets: [],
-      }),
-    )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error creating account`)
-    }
+    const result = Effect.tryPromise({
+      catch: (error) => {
+        console.log(error)
+        throw new Error(`Error creating account`)
+      },
+      try: () =>
+        db.accounts.add({
+          ...parsedInput,
+          createdAt: now,
+          id: crypto.randomUUID(),
+          order,
+          updatedAt: now,
+          wallets: [],
+        }),
+    })
+
+    const data = await Effect.runPromise(result)
 
     const activeAccountId = await dbPreferenceGetValue(db, 'activeAccountId')
     if (!activeAccountId) {

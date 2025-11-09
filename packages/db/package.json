@@ -4,6 +4,7 @@
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
     "dexie": "^4.2.1",
+    "effect": "^3.19.2",
     "zod": "catalog:"
   },
   "devDependencies": {

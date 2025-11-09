@@ -1,12 +1,16 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 
 export async function dbClusterDelete(db: Database, id: string): Promise<void> {
-  const { data, error } = await tryCatch(db.clusters.delete(id))
-  if (error) {
-    console.log(error)
-    throw new Error(`Error deleting cluster with id ${id}`)
-  }
+  const result = Effect.tryPromise({
+    catch: (error) => {
+      console.log(error)
+      throw new Error(`Error deleting cluster with id ${id}`)
+    },
+    try: () => db.clusters.delete(id),
+  })
+
+  const data = await Effect.runPromise(result)
   return data
 }

@@ -27,6 +27,9 @@
     "ws": "8.18.3",
     "zod": "^4.1.12"
   },
+  "dependencies": {
+    "effect": "^3.19.2"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.3.4",
     "@commitlint/cli": "^20.1.0",

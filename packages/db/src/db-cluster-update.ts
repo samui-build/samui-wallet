@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Effect } from 'effect'
 
 import type { Database } from './database.ts'
 import type { ClusterInputUpdate } from './dto/cluster-input-update.ts'
@@ -8,15 +8,18 @@ import { clusterSchemaUpdate } from './schema/cluster-schema-update.ts'
 
 export async function dbClusterUpdate(db: Database, id: string, input: ClusterInputUpdate): Promise<number> {
   const parsedInput = parseStrict(clusterSchemaUpdate.parse(input))
-  const { data, error } = await tryCatch(
-    db.clusters.update(id, {
-      ...parsedInput,
-      updatedAt: new Date(),
-    }),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error updating cluster with id ${id}`)
-  }
+
+  const result = Effect.tryPromise({
+    catch: (error) => {
+      console.log(error)
+      throw new Error(`Error updating cluster with id ${id}`)
+    },
+    try: () =>
+      db.clusters.update(id, {
+        ...parsedInput,
+        updatedAt: new Date(),
+      }),
+  })
+  const data = await Effect.runPromise(result)
   return data
 }
