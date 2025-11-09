@@ -23,6 +23,8 @@
   "scripts": {
     "check-types": "tsc --noEmit",
     "test": "vitest run",
+    "test:integration": "vitest run --config=vitest.integration.config.ts",
+    "test:integration:watch": "vitest --watch --config=vitest.integration.config.ts",
     "test:watch": "vitest --watch"
   },
   "type": "module",

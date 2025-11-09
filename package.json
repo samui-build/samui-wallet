@@ -61,7 +61,9 @@
     "preinstall": "npx only-allow bun",
     "prepare": "lefthook install",
     "spell-check": "cspell -c ./cspell.config.mts .",
-    "test": "vitest",
+    "test": "vitest run",
+    "test:integration": "vitest run --config=vitest.integration.config.ts",
+    "test:integration:watch": "vitest --watch --config=vitest.integration.config.ts",
     "test:watch": "vitest --watch"
   },
   "type": "module",
