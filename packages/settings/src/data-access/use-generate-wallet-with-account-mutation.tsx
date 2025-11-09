@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
+import type { WalletInputCreate } from '@workspace/db/wallet/wallet-input-create'
 import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'

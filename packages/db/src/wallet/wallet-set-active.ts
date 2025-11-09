@@ -1,11 +1,11 @@
-import type { Database } from './database.ts'
-import { dbAccountFindMany } from './db-account-find-many.ts'
-import { dbSettingSetValue } from './db-setting-set-value.ts'
-import { dbWalletFindUnique } from './db-wallet-find-unique.ts'
+import type { Database } from '../database.ts'
+import { dbAccountFindMany } from '../db-account-find-many.ts'
+import { dbSettingSetValue } from '../db-setting-set-value.ts'
+import { walletFindUnique } from './wallet-find-unique.ts'
 
-export async function dbWalletSetActive(db: Database, id: string) {
+export async function walletSetActive(db: Database, id: string) {
   return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
-    const found = await dbWalletFindUnique(db, id)
+    const found = await walletFindUnique(db, id)
     if (!found) {
       // TODO: Use Effect
       throw new Error(`Wallet with id ${id} not found`)

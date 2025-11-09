@@ -5,9 +5,9 @@ import { db } from '@workspace/db/db'
 import { dbAccountCreate } from '@workspace/db/db-account-create'
 import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
 import { dbSettingGetValue } from '@workspace/db/db-setting-get-value'
-import { dbWalletCreate } from '@workspace/db/db-wallet-create'
-import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
 import type { Account } from '@workspace/db/entity/account'
+import { walletCreate } from '@workspace/db/wallet/wallet-create'
+import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
@@ -45,11 +45,11 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
     },
   },
   wallet: {
-    createWithAccount: async (input: WalletInputCreate) => {
+    createWithAccount: async (input: WalletCreateInput) => {
       // First, we see if we can derive the first account from this mnemonic
       const derivedAccount = await deriveFromMnemonicAtIndex({ mnemonic: input.mnemonic })
       // If so, we create the wallet
-      const walletId = await dbWalletCreate(db, input)
+      const walletId = await walletCreate(db, input)
       // After creating the wallet we can create the account
       await dbAccountCreate(db, {
         ...derivedAccount,

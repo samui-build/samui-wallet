@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import { dbAccountCreate } from '../src/db-account-create.ts'
 import { dbAccountSetActive } from '../src/db-account-set-active.ts'
 import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -20,8 +20,8 @@ describe('db-account-set-active', () => {
       expect.assertions(4)
       const inputWallet1 = testWalletInputCreate()
       const inputWallet2 = testWalletInputCreate()
-      const idWallet1 = await dbWalletCreate(db, inputWallet1)
-      const idWallet2 = await dbWalletCreate(db, inputWallet2)
+      const idWallet1 = await walletCreate(db, inputWallet1)
+      const idWallet2 = await walletCreate(db, inputWallet2)
 
       const inputAccount1 = testAccountInputCreate({ walletId: idWallet1 })
       const inputAccount2 = testAccountInputCreate({ walletId: idWallet2 })

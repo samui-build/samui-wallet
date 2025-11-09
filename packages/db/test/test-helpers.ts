@@ -4,8 +4,8 @@ import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { AccountInputCreate } from '../src/dto/account-input-create.ts'
 import type { NetworkInputCreate } from '../src/dto/network-input-create.ts'
-import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
 import type { SettingKey } from '../src/entity/setting-key.ts'
+import type { WalletCreateInput } from '../src/wallet/wallet-create-input.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
@@ -15,7 +15,7 @@ export function randomName(prefix: string): string {
   return `${prefix}-${Math.random().toString(36).substring(2, 9)}`
 }
 
-export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
+export function testWalletInputCreate(input: Partial<WalletCreateInput> = {}): WalletCreateInput {
   return {
     derivationPath: 'd',
     mnemonic: 'baz',

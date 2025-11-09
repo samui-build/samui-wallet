@@ -1,5 +1,5 @@
 import { assertIsAddress } from '@solana/kit'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
 import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'

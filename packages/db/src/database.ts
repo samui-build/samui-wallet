@@ -3,7 +3,7 @@ import { dbPopulate } from './db-populate.ts'
 import type { Account } from './entity/account.ts'
 import type { Network } from './entity/network.ts'
 import type { Setting } from './entity/setting.ts'
-import type { Wallet } from './entity/wallet.ts'
+import type { Wallet } from './wallet/wallet.ts'
 
 export interface DatabaseConfig {
   name: string

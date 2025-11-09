@@ -1,6 +1,6 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
-import { walletSchemaCreate } from '@workspace/db/schema/wallet-schema-create'
+import type { WalletInputCreate } from '@workspace/db/wallet/wallet-input-create'
+import { walletSchemaCreate } from '@workspace/db/wallet/wallet-schema-create'
 import { derivationPaths } from '@workspace/keypair/derivation-paths'
 import { Button } from '@workspace/ui/components/button'
 import {

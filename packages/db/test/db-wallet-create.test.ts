@@ -2,9 +2,9 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletFindMany } from '../src/db-wallet-find-many.ts'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
+import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
 import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -22,10 +22,10 @@ describe('db-wallet-create', () => {
       const input = testWalletInputCreate()
 
       // ACT
-      const result = await dbWalletCreate(db, input)
+      const result = await walletCreate(db, input)
 
       // ASSERT
-      const item = await dbWalletFindUnique(db, result)
+      const item = await walletFindUnique(db, result)
       expect(item?.mnemonic).toBe(input.mnemonic)
       expect(item?.name).toBe(input.name)
       expect(item?.order).toBe(0)
@@ -37,11 +37,11 @@ describe('db-wallet-create', () => {
       const input = testWalletInputCreate()
       // ACT
       const activeWalletIdBefore = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const result = await dbWalletCreate(db, input)
+      const result = await walletCreate(db, input)
       const activeWalletIdAfter = await dbSettingFindUniqueByKey(db, 'activeWalletId')
 
       // ASSERT
-      const items = await dbWalletFindMany(db)
+      const items = await walletFindMany(db)
       expect(items.map((i) => i.name)).toContain(input.name)
       expect(activeWalletIdBefore).toBeNull()
       expect(activeWalletIdAfter?.value).toBe(result)
@@ -66,7 +66,7 @@ describe('db-wallet-create', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbWalletCreate(db, input)).rejects.toThrow('Error creating wallet')
+      await expect(walletCreate(db, input)).rejects.toThrow('Error creating wallet')
     })
   })
 })

@@ -1,10 +1,9 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { dbWalletDelete } from '../src/db-wallet-delete.ts'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
 import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -19,13 +18,13 @@ describe('db-wallet-delete', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletInputCreate()
-      const id = await dbWalletCreate(db, input)
+      const id = await walletCreate(db, input)
 
       // ACT
       await dbWalletDelete(db, id)
 
       // ASSERT
-      const deletedItem = await dbWalletFindUnique(db, id)
+      const deletedItem = await walletFindUnique(db, id)
       expect(deletedItem).toBeNull()
     })
   })

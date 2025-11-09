@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import type { WalletInputFindMany } from '@workspace/db/dto/wallet-input-find-many'
+import type { WalletInputFindMany } from '@workspace/db/wallet/wallet-input-find-many'
 
 import { dbWalletOptions } from './db-wallet-options.tsx'
 

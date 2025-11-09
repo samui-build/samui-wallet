@@ -1,7 +1,7 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import type { WalletInputUpdate } from '@workspace/db/dto/wallet-input-update'
-import type { Wallet } from '@workspace/db/entity/wallet'
-import { walletSchemaUpdate } from '@workspace/db/schema/wallet-schema-update'
+import type { Wallet } from '@workspace/db/wallet/wallet'
+import type { WalletInputUpdate } from '@workspace/db/wallet/wallet-input-update'
+import { walletSchemaUpdate } from '@workspace/db/wallet/wallet-schema-update'
 import { Button } from '@workspace/ui/components/button'
 import {
   Form,
