@@ -1,5 +1,5 @@
+import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
-
 import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
 import { UiCard } from '@workspace/ui/components/ui-card'
@@ -13,6 +13,7 @@ import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 
 export function OnboardingFeatureImport() {
+  const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
 
@@ -79,17 +80,17 @@ export function OnboardingFeatureImport() {
       }}
     >
       <UiCard
-        description="Enter the seed phrase you stored when you created your account."
+        description={t(($) => $.importCardDescription)}
         footer={
           <div className="flex w-full justify-between">
             <UiTextPasteButton onPaste={handlePaste} />
-            <OnboardingUiMnemonicSave disabled={!isFormComplete} label="Import account" />
+            <OnboardingUiMnemonicSave disabled={!isFormComplete} label={t(($) => $.importButtonSubmit)} />
           </div>
         }
         title={
           <div>
             <UiBackButton className="mr-2" />
-            Import Recovery Phrase
+            {t(($) => $.importCardTitle)}
           </div>
         }
       >

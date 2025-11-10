@@ -1,5 +1,5 @@
+import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
-
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
 import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
@@ -14,6 +14,7 @@ import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-
 import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.tsx'
 
 export function OnboardingFeatureGenerate() {
+  const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
@@ -34,17 +35,20 @@ export function OnboardingFeatureGenerate() {
       }}
     >
       <UiCard
-        description="This seed phrase is the ONLY way to recover your account. Don't share it with anyone!"
+        description={t(($) => $.generateCardDescription)}
         footer={
           <div className="flex w-full justify-between">
-            <UiTextCopyButton text={mnemonic} toast="Mnemonic copied to clipboard" />
-            <OnboardingUiMnemonicSave disabled={!validateMnemonic({ mnemonic })} label="Create account" />
+            <UiTextCopyButton text={mnemonic} toast={t(($) => $.generateToastCopied)} />
+            <OnboardingUiMnemonicSave
+              disabled={!validateMnemonic({ mnemonic })}
+              label={t(($) => $.generateButtonCreate)}
+            />
           </div>
         }
         title={
           <div>
             <UiBackButton className="mr-2" />
-            Generate Recovery Phrase
+            {t(($) => $.generateCardTitle)}
           </div>
         }
       >
