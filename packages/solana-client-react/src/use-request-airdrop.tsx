@@ -18,7 +18,11 @@ export function useRequestAirdrop(network: Network) {
       return requestAirdrop({ ...input, client })
     },
     onError: () => {
-      toastError('Failed to request airdrop. Please try the faucet directly.')
+      toastError(
+        <a className="block cursor-pointer" href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
+          Failed to request airdrop. Click here to try the faucet directly.
+        </a>,
+      )
     },
     onSuccess: (_, { address }) => {
       queryClient.invalidateQueries({
