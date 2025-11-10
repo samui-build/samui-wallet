@@ -1,13 +1,14 @@
 import { Button } from '@workspace/ui/components/button'
 import { ButtonGroup } from '@workspace/ui/components/button-group'
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { LucideGlobe } from 'lucide-react'
 import { Link } from 'react-router'
-import { ExplorerUiEmpty } from './ui/explorer-ui-empty.tsx'
 import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export function ExplorerFeatureIndex() {
   return (
     <ExplorerUiPage>
-      <ExplorerUiEmpty description="Placeholder for the Explorer Index page" title="Explorer Index">
+      <UiEmpty description="Placeholder for the Explorer Index page" icon={LucideGlobe} title="Explorer Index">
         <ButtonGroup orientation="vertical">
           <Button asChild variant="outline">
             <Link to="account/So11111111111111111111111111111111111111112">Account Page</Link>
@@ -18,7 +19,7 @@ export function ExplorerFeatureIndex() {
             </Link>
           </Button>
         </ButtonGroup>
-      </ExplorerUiEmpty>
+      </UiEmpty>
     </ExplorerUiPage>
   )
 }

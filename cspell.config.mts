@@ -41,7 +41,6 @@ const config: CSpellSettings = {
     'blockhash',
     'cypherpunk',
     'devnet',
-    'doesn',
     'ellipsify',
     'hackathon',
     'hdkey',

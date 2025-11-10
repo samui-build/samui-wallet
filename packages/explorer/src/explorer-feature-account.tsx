@@ -1,5 +1,6 @@
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { LucideGlobe } from 'lucide-react'
 import { useParams } from 'react-router'
-import { ExplorerUiEmpty } from './ui/explorer-ui-empty.tsx'
 import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export function ExplorerFeatureAccount() {
@@ -7,10 +8,10 @@ export function ExplorerFeatureAccount() {
   const { address } = useParams() as { address: string }
   return (
     <ExplorerUiPage>
-      <ExplorerUiEmpty description="Placeholder for the Explorer Account page" title="Explorer Account">
+      <UiEmpty description="Placeholder for the Explorer Account page" icon={LucideGlobe} title="Explorer Account">
         <pre>Address</pre>
         <pre>{address}</pre>
-      </ExplorerUiEmpty>
+      </UiEmpty>
     </ExplorerUiPage>
   )
 }
