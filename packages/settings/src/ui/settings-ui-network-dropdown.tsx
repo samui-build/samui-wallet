@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@workspace/ui/components/dropdown-menu'
-import { LucideNetwork } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function SettingsUiNetworkDropdown({
@@ -24,7 +24,7 @@ export function SettingsUiNetworkDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline">
-          <LucideNetwork /> {activeNetwork?.name ?? 'Select Network'}
+          <UiIcon icon="network" /> {activeNetwork?.name ?? 'Select Network'}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="w-56">

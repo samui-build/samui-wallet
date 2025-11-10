@@ -1,6 +1,6 @@
 import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { Button } from '@workspace/ui/components/button'
-import { LucideBug } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiDeveloperModeLink() {
@@ -9,7 +9,7 @@ export function ShellUiDeveloperModeLink() {
   return developerMode === 'true' ? (
     <Button asChild size="icon" variant="outline">
       <Link to="/dev">
-        <LucideBug />
+        <UiIcon icon="bug" />
       </Link>
     </Button>
   ) : null

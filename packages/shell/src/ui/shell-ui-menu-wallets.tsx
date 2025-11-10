@@ -14,8 +14,8 @@ import {
   MenubarTrigger,
 } from '@workspace/ui/components/menubar'
 import { UiAvatar } from '@workspace/ui/components/ui-avatar'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { cn } from '@workspace/ui/lib/utils'
-import { LucidePencil, LucidePlus, LucideSettings } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function ShellUiMenuWallets({
@@ -60,13 +60,13 @@ export function ShellUiMenuWallets({
                 <MenubarSeparator />
                 <MenubarItem asChild>
                   <Link to={`/settings/wallets/${wallet.id}/add`}>
-                    <LucidePlus />
+                    <UiIcon icon="add" />
                     Add account
                   </Link>
                 </MenubarItem>
                 <MenubarItem asChild>
                   <Link to={`/settings/wallets/${wallet.id}/edit`}>
-                    <LucidePencil />
+                    <UiIcon icon="edit" />
                     Edit wallet
                   </Link>
                 </MenubarItem>
@@ -78,7 +78,7 @@ export function ShellUiMenuWallets({
         <MenubarSeparator />
         <MenubarItem asChild>
           <Link to="/settings/wallets">
-            <LucideSettings />
+            <UiIcon icon="settings" />
             Wallet settings
           </Link>
         </MenubarItem>

@@ -1,10 +1,8 @@
 import type { Network } from '@workspace/db/entity/network'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'
-
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTime } from '@workspace/ui/components/ui-time'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
-import { LucideCalendar } from 'lucide-react'
-
 import { groupActivityItems } from './group-activity-items.tsx'
 import { PortfolioUiTxExplorerIcon } from './portfolio-ui-tx-explorer-icon.tsx'
 import { PortfolioUiTxLink } from './portfolio-ui-tx-link.tsx'
@@ -22,7 +20,7 @@ export function PortfolioUiGetActivity({ network, items }: { network: Network; i
           {grouped.map(({ date, transactions }) => (
             <div className="space-y-4" key={date.getTime()}>
               <div className="flex text-muted-foreground text-xs font-mono gap-2">
-                <LucideCalendar className="size-4" />
+                <UiIcon className="size-4" icon="calendar" />
                 <UiTooltip content={`${date.toLocaleDateString()}`}>
                   <UiTime time={date.getTime()}></UiTime>
                 </UiTooltip>

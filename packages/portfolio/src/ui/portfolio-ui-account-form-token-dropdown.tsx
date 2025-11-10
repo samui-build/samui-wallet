@@ -8,12 +8,10 @@ import {
   CommandList,
 } from '@workspace/ui/components/command'
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { cn } from '@workspace/ui/lib/utils'
-import { ChevronsUpDown } from 'lucide-react'
 import { useState } from 'react'
-
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
 export function PortfolioUiAccountFormTokenDropdown({
@@ -34,7 +32,7 @@ export function PortfolioUiAccountFormTokenDropdown({
       <PopoverTrigger asChild>
         <Button aria-expanded={open} className="w-full h-[60px] justify-between" role="combobox" variant="outline">
           {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : 'Select token...'}
-          <ChevronsUpDown className="opacity-50" />
+          <UiIcon className="opacity-50" icon="chevronsUpDown" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">

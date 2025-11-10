@@ -2,10 +2,10 @@ import type { Account } from '@workspace/db/entity/account'
 
 import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiQrCode } from '@workspace/ui/components/ui-qr-code'
 import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { LucideArrowDown, LucideCopyCheck } from 'lucide-react'
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
   return (
@@ -14,7 +14,7 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
       title="Receive assets"
       trigger={
         <Button variant="secondary">
-          <LucideArrowDown /> Receive
+          <UiIcon icon="arrowDown" /> Receive
         </Button>
       }
     >
@@ -25,7 +25,7 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         }}
         variant="outline"
       >
-        <LucideCopyCheck />
+        <UiIcon icon="copy" />
         Copy Public Key
       </Button>
       <div className="px-6">

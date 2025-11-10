@@ -2,8 +2,8 @@ import type { Network } from '@workspace/db/entity/network'
 
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from '@workspace/ui/components/item'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
-import { LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
 
 export function SettingsUiNetworkList({
@@ -33,7 +33,7 @@ export function SettingsUiNetworkList({
             <UiTooltip content="Edit">
               <Button asChild size="icon" variant="outline">
                 <Link to={`./${item.id}`}>
-                  <LucidePencil className="size-4" />
+                  <UiIcon className="size-4" icon="edit" />
                 </Link>
               </Button>
             </UiTooltip>
@@ -49,7 +49,7 @@ export function SettingsUiNetworkList({
                 size="icon"
                 variant="outline"
               >
-                <LucideTrash className="text-red-500 size-4" />
+                <UiIcon className="text-red-500 size-4" icon="delete" />
               </Button>
             </UiTooltip>
           </ItemActions>

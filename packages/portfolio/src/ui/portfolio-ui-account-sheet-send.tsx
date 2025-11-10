@@ -1,9 +1,7 @@
 import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
-import { LucideArrowUp } from 'lucide-react'
-
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-
 import { PortfolioUiAccountFormSend } from './portfolio-ui-account-form-send.tsx'
 
 export function PortfolioUiAccountSheetSend({
@@ -21,7 +19,7 @@ export function PortfolioUiAccountSheetSend({
       title="Send assets"
       trigger={
         <Button variant="secondary">
-          <LucideArrowUp /> Send
+          <UiIcon icon="arrowUp" /> Send
         </Button>
       }
     >

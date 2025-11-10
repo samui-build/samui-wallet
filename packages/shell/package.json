@@ -10,7 +10,6 @@
     "@workspace/settings": "workspace:*",
     "@workspace/tools": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router": "catalog:"

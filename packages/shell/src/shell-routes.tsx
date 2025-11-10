@@ -1,5 +1,4 @@
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
-import { LucideGlobe, LucideHammer, LucidePieChart, LucideSettings } from 'lucide-react'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider } from 'react-router'
 import { loaderPortfolio } from './data-access/loader-portfolio.tsx'
@@ -14,10 +13,10 @@ const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
 const links: ShellLayoutLink[] = [
-  { icon: LucidePieChart, label: 'Portfolio', to: '/portfolio' },
-  { icon: LucideGlobe, label: 'Explorer', to: '/explorer' },
-  { icon: LucideHammer, label: 'Tools', to: '/tools' },
-  { icon: LucideSettings, label: 'Settings', to: '/settings' },
+  { icon: 'portfolio', label: 'Portfolio', to: '/portfolio' },
+  { icon: 'explorer', label: 'Explorer', to: '/explorer' },
+  { icon: 'tools', label: 'Tools', to: '/tools' },
+  { icon: 'settings', label: 'Settings', to: '/settings' },
 ]
 
 const router = createHashRouter([

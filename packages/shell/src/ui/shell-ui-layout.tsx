@@ -1,13 +1,12 @@
-import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
-
+import { UiIcon } from '@workspace/ui/components/ui-icon'
+import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
-
 import { ShellUiMenu } from './shell-ui-menu.tsx'
 import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.tsx'
 
 export interface ShellLayoutLink {
-  icon: UiIconLucide
+  icon: UiIconName
   label: string
   to: string
 }
@@ -23,7 +22,7 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
         <Outlet />
       </main>
       <footer className="bg-secondary/50 flex justify-between items-center">
-        {links.map(({ icon: Icon, label, to }) => (
+        {links.map(({ icon, label, to }) => (
           <NavLink
             className={({ isActive }) =>
               cn('items-center gap-2 py-2 flex flex-col flex-1', {
@@ -33,7 +32,7 @@ export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
             key={to}
             to={to}
           >
-            <Icon />
+            <UiIcon icon={icon} />
             {label}
           </NavLink>
         ))}

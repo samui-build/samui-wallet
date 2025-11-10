@@ -1,8 +1,8 @@
 import { Item, ItemContent, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
-import type { UiIconLucide } from '@workspace/ui/components/ui-icon'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
+import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 
-export function SettingsUiWalletCreateHeader({ icon, label }: { icon: UiIconLucide; label: string }) {
+export function SettingsUiWalletCreateHeader({ icon, label }: { icon: UiIconName; label: string }) {
   return (
     <Item size="sm" variant="default">
       <ItemMedia>

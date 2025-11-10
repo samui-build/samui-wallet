@@ -20,9 +20,9 @@ import {
 } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { toastLoading } from '@workspace/ui/lib/toast-loading'
 import { cn } from '@workspace/ui/lib/utils'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
@@ -79,7 +79,7 @@ export function ToolsUiAirdropForm({
                       variant="outline"
                     >
                       {field.value ? accounts.find((item) => item.value === field.value)?.label : 'Select account'}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      <UiIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" icon="chevronsUpDown" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -97,8 +97,9 @@ export function ToolsUiAirdropForm({
                             }}
                             value={item.label}
                           >
-                            <Check
+                            <UiIcon
                               className={cn('mr-2 h-4 w-4', item.value === field.value ? 'opacity-100' : 'opacity-0')}
+                              icon="check"
                             />
                             {item.label}
                           </CommandItem>
