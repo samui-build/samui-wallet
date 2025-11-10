@@ -51,12 +51,13 @@ export function ToolsUiAirdropForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const { dismiss: dismissToast } = toastLoading('Submitting...')
+    const { dismiss: dismissLoadingToast } = toastLoading('Submitting...')
     try {
       await submit(values)
     } catch (error) {
-      dismissToast()
       console.error('Form submission error', error)
+    } finally {
+      dismissLoadingToast()
     }
   }
 
