@@ -9,7 +9,7 @@ import {
   MenubarSeparator,
   MenubarTrigger,
 } from '@workspace/ui/components/menubar'
-import { LucideNetwork, LucideSettings } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiMenuNetwork({
@@ -24,7 +24,7 @@ export function ShellUiMenuNetwork({
   return (
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
-        <LucideNetwork className="size-4 md:size-6" />
+        <UiIcon className="size-4 md:size-6" icon="network" />
         {active?.name ?? 'Select Network'}
       </MenubarTrigger>
       <MenubarContent>
@@ -40,7 +40,7 @@ export function ShellUiMenuNetwork({
         <MenubarSeparator />
         <MenubarItem asChild>
           <Link to="/settings/networks">
-            <LucideSettings />
+            <UiIcon icon="settings" />
             Network settings
           </Link>
         </MenubarItem>

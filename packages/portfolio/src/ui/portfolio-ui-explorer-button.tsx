@@ -1,9 +1,9 @@
 import type { GetExplorerUrlProps } from '@workspace/solana-client/get-explorer-url'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { Button } from '@workspace/ui/components/button'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { cn } from '@workspace/ui/lib/utils'
-import { ArrowUpRightFromSquare } from 'lucide-react'
 
 export function PortfolioUiExplorerButton({
   className,
@@ -24,7 +24,7 @@ export function PortfolioUiExplorerButton({
           target="_blank"
         >
           {label}
-          <ArrowUpRightFromSquare size={12} />
+          <UiIcon icon="externalLink" />
         </a>
       </Button>
     </UiTooltip>

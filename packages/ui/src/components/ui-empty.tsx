@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from './empty.tsx'
-import { UiIcon, type UiIconLucide } from './ui-icon.tsx'
+import { UiIcon } from './ui-icon.tsx'
+import type { UiIconName } from './ui-icon-map.tsx'
 
 export function UiEmpty({
   children,
@@ -10,7 +11,7 @@ export function UiEmpty({
 }: {
   children?: ReactNode
   description: ReactNode
-  icon?: UiIconLucide
+  icon?: UiIconName
   title: ReactNode
 }) {
   return (

@@ -11,8 +11,8 @@ import { Field, FieldDescription, FieldLabel } from '@workspace/ui/components/fi
 import { Input } from '@workspace/ui/components/input'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { LucideRefreshCcw } from 'lucide-react'
 import { useCallback, useId, useState } from 'react'
 
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
@@ -87,7 +87,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             <div className="flex items-center gap-2">
               <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
               <Button onClick={() => queryKeypair.refetch()} size="icon" variant="outline">
-                <LucideRefreshCcw />
+                <UiIcon icon="refresh" />
               </Button>
             </div>
           </Field>

@@ -2,10 +2,9 @@ import type { Wallet } from '@workspace/db/entity/wallet'
 
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/components/item'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
-import { LucidePencil, LucideTrash } from 'lucide-react'
 import { Link } from 'react-router'
-
 import { SettingsUiWalletItem } from './settings-ui-wallet-item.tsx'
 
 export function SettingsUiWalletListItem({
@@ -30,7 +29,7 @@ export function SettingsUiWalletListItem({
         <UiTooltip content="Edit wallet">
           <Button asChild size="icon" variant="outline">
             <Link to={`./${item.id}/edit`}>
-              <LucidePencil className="size-4" />
+              <UiIcon className="size-4" icon="edit" />
             </Link>
           </Button>
         </UiTooltip>
@@ -46,7 +45,7 @@ export function SettingsUiWalletListItem({
             size="icon"
             variant="outline"
           >
-            <LucideTrash className="text-red-500 size-4" />
+            <UiIcon className="text-red-500 size-4" icon="delete" />
           </Button>
         </UiTooltip>
       </ItemActions>

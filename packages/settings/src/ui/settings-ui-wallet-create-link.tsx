@@ -1,5 +1,5 @@
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
-import { ChevronRightIcon } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function SettingsUiWalletCreateLink({
@@ -19,7 +19,7 @@ export function SettingsUiWalletCreateLink({
           <ItemDescription>{description}</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <ChevronRightIcon className="size-4" />
+          <UiIcon className="size-4" icon="chevronRight" />
         </ItemActions>
       </Link>
     </Item>

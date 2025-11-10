@@ -1,5 +1,3 @@
-import { LucideHardDrive, LucideNotepadText } from 'lucide-react'
-
 import { SettingsUiWalletCreateComingSoon } from './settings-ui-wallet-create-coming-soon.tsx'
 import { SettingsUiWalletCreateHeader } from './settings-ui-wallet-create-header.tsx'
 import { SettingsUiWalletCreateLink } from './settings-ui-wallet-create-link.tsx'
@@ -7,7 +5,7 @@ import { SettingsUiWalletCreateLink } from './settings-ui-wallet-create-link.tsx
 export function SettingsUiWalletCreateOptions() {
   return (
     <div className="grid gap-4">
-      <SettingsUiWalletCreateHeader icon={LucideNotepadText} label="Seed phrases" />
+      <SettingsUiWalletCreateHeader icon="mnemonic" label="Seed phrases" />
       <SettingsUiWalletCreateLink
         description="Generate a new seed phrase and derive an account"
         title="Generate a new wallet"
@@ -18,7 +16,7 @@ export function SettingsUiWalletCreateOptions() {
         title="Import an existing wallet"
         to="/settings/wallets/import"
       />
-      <SettingsUiWalletCreateHeader icon={LucideHardDrive} label="Hardware accounts" />
+      <SettingsUiWalletCreateHeader icon="hardware" label="Hardware accounts" />
       <SettingsUiWalletCreateComingSoon
         description="Unruggable is the first Solana native hardware account."
         title="Connect Unruggable"
