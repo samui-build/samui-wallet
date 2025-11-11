@@ -41,7 +41,7 @@ export function SettingsFeatureWalletAddAccount() {
       return
     }
     try {
-      const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input)
+      const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input, true)
       assertIsAddress(publicKey)
       await createAccountMutation.mutateAsync({
         input: { name: ellipsify(publicKey), publicKey, secretKey, type: 'Imported', walletId },
