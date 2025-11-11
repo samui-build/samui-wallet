@@ -1,5 +1,6 @@
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { LucideGlobe } from 'lucide-react'
 import { useParams } from 'react-router'
-import { ExplorerUiEmpty } from './ui/explorer-ui-empty.tsx'
 import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export function ExplorerFeatureTx() {
@@ -8,10 +9,14 @@ export function ExplorerFeatureTx() {
 
   return (
     <ExplorerUiPage>
-      <ExplorerUiEmpty description="Placeholder for the Explorer Transaction page" title="Explorer Transaction">
+      <UiEmpty
+        description="Placeholder for the Explorer Transaction page"
+        icon={LucideGlobe}
+        title="Explorer Transaction"
+      >
         <pre>Signature</pre>
         <pre className="max-w-full truncate">{signature}</pre>
-      </ExplorerUiEmpty>
+      </UiEmpty>
     </ExplorerUiPage>
   )
 }

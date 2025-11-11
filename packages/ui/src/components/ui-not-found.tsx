@@ -1,12 +1,5 @@
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from './empty.tsx'
+import { UiEmpty } from './ui-empty.tsx'
 
 export function UiNotFound() {
-  return (
-    <Empty className="border border-dashed">
-      <EmptyHeader>
-        <EmptyTitle>404 - Not Found</EmptyTitle>
-        <EmptyDescription>The page you&apos;re looking for doesn&apos;t exist.</EmptyDescription>
-      </EmptyHeader>
-    </Empty>
-  )
+  return <UiEmpty description="The page you're looking for doesn't exist." title="404 - Not Found" />
 }

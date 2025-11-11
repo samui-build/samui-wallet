@@ -3,15 +3,8 @@ import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@workspace/ui/components/empty'
-import { ArrowUpRightIcon, Coins, Umbrella } from 'lucide-react'
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { ArrowUpRightIcon, Coins, LucideUmbrella } from 'lucide-react'
 
 export function PortfolioUiRequestAirdrop({
   account,
@@ -31,19 +24,10 @@ export function PortfolioUiRequestAirdrop({
   }
 
   return (
-    <Empty className="border border-dashed gap-3">
-      <EmptyMedia variant="icon">
-        <Umbrella />
-      </EmptyMedia>
-      <EmptyHeader>
-        <EmptyTitle>Request Airdrop</EmptyTitle>
-        <EmptyDescription>Request your airdrop to get started.</EmptyDescription>
-      </EmptyHeader>
-      <EmptyContent>
-        <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
-          <Coins /> Request Airdrop
-        </Button>
-      </EmptyContent>
+    <UiEmpty description="Request your airdrop to get started." icon={LucideUmbrella} title="Request Airdrop">
+      <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
+        <Coins /> Request Airdrop
+      </Button>
       {isLocalnet ? null : (
         <Button asChild className="text-muted-foreground" size="sm" variant="link">
           <a href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
@@ -51,6 +35,6 @@ export function PortfolioUiRequestAirdrop({
           </a>
         </Button>
       )}
-    </Empty>
+    </UiEmpty>
   )
 }
