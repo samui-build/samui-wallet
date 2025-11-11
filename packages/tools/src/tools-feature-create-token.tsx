@@ -44,8 +44,14 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
     await queryKeypair.refetch()
     setResultMint(res.mint)
     setResultTx(res.signature)
+    if (res.supply) {
+      setResultSupply(res.supply)
+    }
     console.log('Mint', getExplorerUrl({ cluster: props.cluster, path: `/address/${res.mint}` }))
     console.log('TX', getExplorerUrl({ cluster: props.cluster, path: `/tx/${res.signature}` }))
+    if (res.supply) {
+      console.log('Supply', getExplorerUrl({ cluster: props.cluster, path: `/tx/${res.supply}` }))
+    }
   }, [mutation, props.cluster, queryKeypair, decimals, supply])
 
   return (

@@ -10,7 +10,14 @@ import {
   signTransactionMessageWithSigners,
 } from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
-import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
+import {
+  findAssociatedTokenPda,
+  getCreateAssociatedTokenInstruction,
+  getInitializeMintInstruction,
+  getMintSize,
+  getMintToInstruction,
+  TOKEN_PROGRAM_ADDRESS,
+} from '@solana-program/token'
 
 import type { SolanaClient } from './solana-client.ts'
 
@@ -21,7 +28,10 @@ export interface SplTokenCreateTokenMintOptions {
   supply: number
 }
 
-export async function splTokenCreateTokenMint(client: SolanaClient, options: SplTokenCreateTokenMintOptions) {
+export async function splTokenCreateTokenMint(
+  client: SolanaClient,
+  options: SplTokenCreateTokenMintOptions,
+): Promise<{ mint: string; signature: string; supply?: string }> {
   // TODO: Add proper validation
   if (options.decimals < 0 || options.decimals > 9) {
     throw new Error(`Decimals must be between 0 and 9`)
@@ -69,22 +79,63 @@ export async function splTokenCreateTokenMint(client: SolanaClient, options: Spl
   // Sign transaction message with required signers (fee payer and mint keypair)
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
 
-  // Send and confirm transaction
-  // @ts-expect-error some @solana/kit typing I'm not smart enough to understand
-  await sendAndConfirmTransactionFactory(client)(signedTransaction, { commitment: 'confirmed' })
+  // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
+  await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
+    // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
+    signedTransaction,
+    { commitment: 'confirmed' },
+  )
 
   // Get transaction signature
   const transactionSignature = getSignatureFromTransaction(signedTransaction)
 
   if (options.supply > 0) {
-    // We must mint this amount into feePayer.address' wallet.
-    const supply = await Promise.resolve('tbd')
+    const { value: supplyBlockhash } = await client.rpc.getLatestBlockhash().send()
+
+    const [ataAddress] = await findAssociatedTokenPda({
+      mint: mint.address,
+      owner: feePayer.address,
+      tokenProgram: TOKEN_PROGRAM_ADDRESS,
+    })
+
+    const createAtaInstruction = getCreateAssociatedTokenInstruction({
+      ata: ataAddress,
+      mint: mint.address,
+      owner: feePayer.address,
+      payer: feePayer,
+    })
+
+    const mintAmount = BigInt(options.supply) * BigInt(10 ** options.decimals)
+
+    const mintToInstruction = getMintToInstruction({
+      amount: mintAmount,
+      mint: mint.address,
+      mintAuthority: feePayer,
+      token: ataAddress,
+    })
+
+    const supplyTransactionMessage = pipe(
+      createTransactionMessage({ version: 0 }),
+      (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
+      (tx) => setTransactionMessageLifetimeUsingBlockhash(supplyBlockhash, tx),
+      (tx) => appendTransactionMessageInstructions([createAtaInstruction, mintToInstruction], tx),
+    )
+
+    const signedSupplyTransaction = await signTransactionMessageWithSigners(supplyTransactionMessage)
+
+    // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
+    await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
+      // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
+      signedSupplyTransaction,
+      { commitment: 'confirmed' },
+    )
+
+    const supplySignature = getSignatureFromTransaction(signedSupplyTransaction)
 
     return {
       mint: mint.address.toString(),
       signature: transactionSignature.toString(),
-      // TODO: Return supply tx and show it in the UI
-      supply,
+      supply: supplySignature.toString(),
     }
   }
 
