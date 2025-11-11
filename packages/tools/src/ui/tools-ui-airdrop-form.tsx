@@ -20,7 +20,7 @@ import {
 } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover'
-import { toastError } from '@workspace/ui/lib/toast-error'
+import { toastLoading } from '@workspace/ui/lib/toast-loading'
 import { cn } from '@workspace/ui/lib/utils'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { useForm } from 'react-hook-form'
@@ -28,7 +28,7 @@ import { z } from 'zod'
 
 const formSchema = z.object({
   address: z.string(),
-  amount: z.number().min(0),
+  amount: z.number().int({ message: 'Amount must be an integer' }).min(0),
 })
 
 export type AirdropFormSchema = z.infer<typeof formSchema>
@@ -51,12 +51,13 @@ export function ToolsUiAirdropForm({
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { dismiss: dismissLoadingToast } = toastLoading('Submitting...')
     try {
-      console.log(values)
       await submit(values)
     } catch (error) {
       console.error('Form submission error', error)
-      toastError('Failed to submit the form. Please try again.')
+    } finally {
+      dismissLoadingToast()
     }
   }
 
@@ -120,7 +121,14 @@ export function ToolsUiAirdropForm({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input className="w-[200px]" placeholder="1.0" type="number" {...field} />
+                <Input
+                  className="w-[200px]"
+                  placeholder="1"
+                  step="1"
+                  type="number"
+                  {...field}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                />
               </FormControl>
               <FormDescription>Amount of SOL you want to airdrop</FormDescription>
               <FormMessage />
