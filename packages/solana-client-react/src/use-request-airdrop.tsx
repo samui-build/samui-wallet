@@ -19,7 +19,12 @@ export function useRequestAirdrop(network: Network) {
     },
     onError: () => {
       toastError(
-        <a className="block cursor-pointer" href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
+        <a
+          className="block cursor-pointer underline hover:no-underline"
+          href="https://faucet.solana.com/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
           Failed to request airdrop. Click here to try the faucet directly.
         </a>,
       )
