@@ -1,5 +1,5 @@
+import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
-
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
 
 export function OnboardingUiMnemonicSelectStrength({
@@ -9,6 +9,7 @@ export function OnboardingUiMnemonicSelectStrength({
   setStrength: (value: MnemonicStrength) => void
   strength: MnemonicStrength
 }) {
+  const { t } = useTranslation('onboarding')
   return (
     <ToggleGroup
       className="w-full"
@@ -19,7 +20,7 @@ export function OnboardingUiMnemonicSelectStrength({
     >
       {[128, 256].map((value) => (
         <ToggleGroupItem key={value} value={value.toString()}>
-          {value === 128 ? '12' : '24'} words
+          {t(($) => $.uiMnemonicWords, { words: value === 128 ? 12 : 24 })}
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

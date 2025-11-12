@@ -4,7 +4,7 @@ import { handleCopyText } from '../lib/handle-copy-text.ts'
 import { toastSuccess } from '../lib/toast-success.ts'
 import { Button } from './button.tsx'
 
-export function UiTextCopyButton({ text, toast = 'Copied to clipboard' }: { text: string; toast?: string }) {
+export function UiTextCopyButton({ label, text, toast }: { label: string; text: string; toast: string }) {
   return (
     <Button
       onClick={() => {
@@ -17,7 +17,7 @@ export function UiTextCopyButton({ text, toast = 'Copied to clipboard' }: { text
       variant="secondary"
     >
       <LucideCopy />
-      Copy
+      {label}
     </Button>
   )
 }

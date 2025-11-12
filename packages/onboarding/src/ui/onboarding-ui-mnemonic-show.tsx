@@ -1,16 +1,18 @@
+import { useTranslation } from '@workspace/i18n'
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { useMemo } from 'react'
 import { OnboardingUiMnemonicWordReadonly } from './onboarding-ui-mnemonic-word-readonly.tsx'
 
 export function OnboardingUiMnemonicShow({ mnemonic }: { mnemonic: string }) {
+  const { t } = useTranslation('onboarding')
   const expected = [12, 24]
   const words = useMemo(() => mnemonic.trim().split(/\s+/), [mnemonic])
   if (!expected.includes(words.length)) {
     return (
       <Alert variant="destructive">
         <UiIcon icon="alert" />
-        <AlertTitle>Unexpected mnemonic length</AlertTitle>
+        <AlertTitle>{t(($) => $.uiMnemonicUnexpectedLength)}</AlertTitle>
         <AlertDescription>
           Mnemonic has {words.length} words, expected {expected.join(' or ')}
         </AlertDescription>
