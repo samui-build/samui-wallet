@@ -8,7 +8,7 @@ export function OnboardingFeatureIndex() {
   const { t } = useTranslation('onboarding')
   const [accepted, setAccepted] = useDbSetting('warningAcceptExperimental')
   return (
-    <div className="flex flex-col gap-6 items-center min-w-[400px]">
+    <div className="flex flex-col gap-6 items-center">
       <div className="flex flex-col items-center space-y-2">
         <div className="text-2xl">{t(($) => $.indexPageTitle)}</div>
         <div className="text-lg text-muted-foreground">{t(($) => $.indexPageDescription)}</div>
