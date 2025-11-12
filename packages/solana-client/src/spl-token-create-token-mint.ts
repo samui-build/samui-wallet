@@ -90,8 +90,6 @@ export async function splTokenCreateTokenMint(
   const transactionSignature = getSignatureFromTransaction(signedTransaction)
 
   if (options.supply > 0) {
-    const { value: supplyBlockhash } = await client.rpc.getLatestBlockhash().send()
-
     const [ataAddress] = await findAssociatedTokenPda({
       mint: mint.address,
       owner: feePayer.address,
@@ -117,7 +115,7 @@ export async function splTokenCreateTokenMint(
     const supplyTransactionMessage = pipe(
       createTransactionMessage({ version: 0 }),
       (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
-      (tx) => setTransactionMessageLifetimeUsingBlockhash(supplyBlockhash, tx),
+      (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
       (tx) => appendTransactionMessageInstructions([createAtaInstruction, mintToInstruction], tx),
     )
 
