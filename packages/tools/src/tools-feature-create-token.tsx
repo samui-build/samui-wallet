@@ -1,9 +1,9 @@
 import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
-import { getClusterLabel } from '@workspace/settings/ui/get-cluster-label'
+import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
@@ -11,11 +11,11 @@ import { Field, FieldDescription, FieldLabel } from '@workspace/ui/components/fi
 import { Input } from '@workspace/ui/components/input'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { LucideRefreshCcw } from 'lucide-react'
 import { useCallback, useId, useState } from 'react'
 
-export default function ToolsFeatureCreateToken(props: { cluster: Cluster; wallet: Wallet }) {
+export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
@@ -47,12 +47,12 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
     if (res.supply) {
       setResultSupply(res.supply)
     }
-    console.log('Mint', getExplorerUrl({ cluster: props.cluster, path: `/address/${res.mint}` }))
-    console.log('TX', getExplorerUrl({ cluster: props.cluster, path: `/tx/${res.signature}` }))
+    console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}` }))
+    console.log('TX', getExplorerUrl({ network: props.network, path: `/tx/${res.signature}` }))
     if (res.supply) {
-      console.log('Supply', getExplorerUrl({ cluster: props.cluster, path: `/tx/${res.supply}` }))
+      console.log('Supply', getExplorerUrl({ network: props.network, path: `/tx/${res.supply}` }))
     }
-  }, [mutation, props.cluster, queryKeypair, decimals, supply])
+  }, [mutation, props.network, queryKeypair, decimals, supply])
 
   return (
     <UiCard backButtonTo="/tools" title="Create Token">
@@ -60,16 +60,16 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
         <div className="flex flex-col gap-6">
           <div>Token created!</div>
           <div>
-            <PortfolioUiExplorerButton cluster={props.cluster} label="View Mint" path={`/address/${resultMint}`} />
+            <PortfolioUiExplorerButton label="View Mint" network={props.network} path={`/address/${resultMint}`} />
           </div>
           <div>
-            <PortfolioUiExplorerButton cluster={props.cluster} label="View Mint Transaction" path={`/tx/${resultTx}`} />
+            <PortfolioUiExplorerButton label="View Mint Transaction" network={props.network} path={`/tx/${resultTx}`} />
           </div>
           {resultSupply ? (
             <div>
               <PortfolioUiExplorerButton
-                cluster={props.cluster}
                 label="View Supply Transaction"
+                network={props.network}
                 path={`/tx/${resultSupply}`}
               />
             </div>
@@ -85,7 +85,7 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
             Done
           </Button>
         </div>
-      ) : props.wallet.type === 'Derived' ? (
+      ) : props.account.type === 'Derived' ? (
         <div className="flex flex-col gap-6">
           <Field>
             <FieldLabel htmlFor={addressId}>Mint Address</FieldLabel>
@@ -93,7 +93,7 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
             <div className="flex items-center gap-2">
               <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
               <Button onClick={() => queryKeypair.refetch()} size="icon" variant="outline">
-                <LucideRefreshCcw />
+                <UiIcon icon="refresh" />
               </Button>
             </div>
           </Field>
@@ -145,9 +145,9 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
           <Item variant="outline">
             <ItemContent>
               <ItemTitle>Summary</ItemTitle>
-              <ItemDescription className="font-mono">Cluster: {getClusterLabel(props.cluster.type)}</ItemDescription>
+              <ItemDescription className="font-mono">Network: {getNetworkLabel(props.network.type)}</ItemDescription>
               <ItemDescription className="font-mono">
-                Owner: {ellipsify(props.wallet.publicKey, 6, '...')}
+                Owner: {ellipsify(props.account.publicKey, 6, '...')}
               </ItemDescription>
             </ItemContent>
             <ItemActions>
@@ -159,8 +159,8 @@ export default function ToolsFeatureCreateToken(props: { cluster: Cluster; walle
         </div>
       ) : (
         <div>
-          <p>You can&#39;t mint a token while wallet {props.wallet.name}</p>
-          <p>Wallet of type {props.wallet.type} is not derived.</p>
+          <p>You can&#39;t mint a token while account {props.account.name}</p>
+          <p>Account of type {props.account.type} is not derived.</p>
         </div>
       )}
     </UiCard>

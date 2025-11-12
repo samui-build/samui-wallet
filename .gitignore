@@ -34,6 +34,12 @@ dist
 .wxt
 .astro
 .expo
+target
+schemas
+
+# Validators
+.surfpool
+test-ledger
 
 # Debug
 npm-debug.log*

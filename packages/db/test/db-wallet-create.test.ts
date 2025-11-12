@@ -1,8 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import { dbPreferenceFindUniqueByKey } from '../src/db-preference-find-unique-by-key.ts'
+import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { dbWalletFindMany } from '../src/db-wallet-find-many.ts'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
@@ -12,52 +11,37 @@ const db = createDbTest()
 
 describe('db-wallet-create', () => {
   beforeEach(async () => {
-    await db.preferences.clear()
     await db.wallets.clear()
+    await db.settings.clear()
   })
 
   describe('expected behavior', () => {
     it('should create a wallet', async () => {
       // ARRANGE
-      expect.assertions(1)
-      const accountId = crypto.randomUUID()
-      const input = testWalletInputCreate({ accountId })
-
-      // ACT
-      await dbWalletCreate(db, input)
-
-      // ASSERT
-      const items = await dbWalletFindMany(db, { accountId })
-      expect(items.map((i) => i.name)).toContain(input.name)
-    })
-
-    it('should create a wallet with a default derivationIndex of 0', async () => {
-      // ARRANGE
-      expect.assertions(1)
-      const accountId = crypto.randomUUID()
-      const input = testWalletInputCreate({ accountId })
+      expect.assertions(3)
+      const input = testWalletInputCreate()
 
       // ACT
       const result = await dbWalletCreate(db, input)
 
       // ASSERT
       const item = await dbWalletFindUnique(db, result)
-      expect(item?.derivationIndex).toBe(0)
+      expect(item?.mnemonic).toBe(input.mnemonic)
+      expect(item?.name).toBe(input.name)
+      expect(item?.order).toBe(0)
     })
 
-    it('should create a wallet and set activeWalletId preference', async () => {
+    it('should create a wallet and set activeWalletId setting', async () => {
       // ARRANGE
       expect.assertions(3)
-      const accountId = crypto.randomUUID()
-      const input = testWalletInputCreate({ accountId })
-
+      const input = testWalletInputCreate()
       // ACT
-      const activeWalletIdBefore = await dbPreferenceFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdBefore = await dbSettingFindUniqueByKey(db, 'activeWalletId')
       const result = await dbWalletCreate(db, input)
-      const activeWalletIdAfter = await dbPreferenceFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdAfter = await dbSettingFindUniqueByKey(db, 'activeWalletId')
 
       // ASSERT
-      const items = await dbWalletFindMany(db, { accountId })
+      const items = await dbWalletFindMany(db)
       expect(items.map((i) => i.name)).toContain(input.name)
       expect(activeWalletIdBefore).toBeNull()
       expect(activeWalletIdAfter?.value).toBe(result)
@@ -76,7 +60,7 @@ describe('db-wallet-create', () => {
     it('should throw an error when creating a wallet fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testWalletInputCreate({ accountId: 'test-account' })
+      const input = testWalletInputCreate()
       vi.spyOn(db.wallets, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )

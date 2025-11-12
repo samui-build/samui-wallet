@@ -3,5 +3,5 @@
     "outDir": "dist"
   },
   "extends": "@workspace/config-typescript/base.json",
-  "files": ["locales/en/translation.json", "locales/es/translation.json"]
+  "files": ["locales/en/onboarding.json", "locales/es/onboarding.json"]
 }

@@ -9,7 +9,6 @@
     "@workspace/settings": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-hook-form": "catalog:",

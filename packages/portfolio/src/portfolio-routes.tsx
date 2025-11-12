@@ -1,14 +1,14 @@
 import { PortfolioRoutesLoaded } from './portfolio-routes-loaded.tsx'
-import { PortfolioUiClusterGuard } from './ui/portfolio-ui-cluster-guard.tsx'
-import { PortfolioUiWalletGuard } from './ui/portfolio-ui-wallet-guard.tsx'
+import { PortfolioUiAccountGuard } from './ui/portfolio-ui-account-guard.tsx'
+import { PortfolioUiNetworkGuard } from './ui/portfolio-ui-network-guard.tsx'
 
 export default function PortfolioRoutes() {
   return (
-    <PortfolioUiClusterGuard
-      render={({ cluster }) => (
-        <PortfolioUiWalletGuard
-          render={({ wallet }) => {
-            return <PortfolioRoutesLoaded cluster={cluster} wallet={wallet} />
+    <PortfolioUiNetworkGuard
+      render={({ network }) => (
+        <PortfolioUiAccountGuard
+          render={({ account }) => {
+            return <PortfolioRoutesLoaded account={account} network={network} />
           }}
         />
       )}

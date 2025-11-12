@@ -1,15 +1,15 @@
 import { db } from '@workspace/db/db'
-import { dbAccountFindMany } from '@workspace/db/db-account-find-many'
-import { dbClusterFindMany } from '@workspace/db/db-cluster-find-many'
+import { dbNetworkFindMany } from '@workspace/db/db-network-find-many'
+import { dbWalletFindMany } from '@workspace/db/db-wallet-find-many'
 import { redirect } from 'react-router'
 
 export async function loaderPortfolio() {
-  const [accounts, clusters] = await Promise.all([dbAccountFindMany(db), dbClusterFindMany(db)])
-  if (!accounts.length) {
+  const [wallets, networks] = await Promise.all([dbWalletFindMany(db), dbNetworkFindMany(db)])
+  if (!wallets.length) {
     return redirect('/onboarding')
   }
-  if (!clusters.length) {
-    return redirect('/settings/clusters')
+  if (!networks.length) {
+    return redirect('/settings/networks')
   }
   return null
 }

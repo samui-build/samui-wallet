@@ -1,56 +1,40 @@
 import type { Lamports } from '@solana/kit'
-import type { Cluster } from '@workspace/db/entity/cluster'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle,
-} from '@workspace/ui/components/empty'
-import { ArrowUpRightIcon, Coins, Umbrella } from 'lucide-react'
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 
 export function PortfolioUiRequestAirdrop({
-  cluster,
+  account,
   lamports,
-  wallet,
+  network,
 }: {
-  cluster: Cluster
+  account: Account
   lamports?: Lamports | undefined
-  wallet: Wallet
+  network: Network
 }) {
-  const { isPending, mutateAsync } = useRequestAirdrop(cluster)
+  const { isPending, mutateAsync } = useRequestAirdrop(network)
   const hasBalance = lamports && lamports > 0
-  const isMainnet = cluster.type === 'solana:mainnet'
-  const isLocalnet = cluster.type === 'solana:localnet'
+  const isMainnet = network.type === 'solana:mainnet'
+  const isLocalnet = network.type === 'solana:localnet'
   if (hasBalance || isMainnet) {
     return null
   }
 
   return (
-    <Empty className="border border-dashed gap-3">
-      <EmptyMedia variant="icon">
-        <Umbrella />
-      </EmptyMedia>
-      <EmptyHeader>
-        <EmptyTitle>Request Airdrop</EmptyTitle>
-        <EmptyDescription>Request your airdrop to get started.</EmptyDescription>
-      </EmptyHeader>
-      <EmptyContent>
-        <Button disabled={isPending} onClick={() => mutateAsync({ address: wallet.publicKey, amount: 1 })}>
-          <Coins /> Request Airdrop
-        </Button>
-      </EmptyContent>
+    <UiEmpty description="Request your airdrop to get started." icon="airdrop" title="Request Airdrop">
+      <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
+        <UiIcon icon="coins" /> Request Airdrop
+      </Button>
       {isLocalnet ? null : (
         <Button asChild className="text-muted-foreground" size="sm" variant="link">
           <a href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
-            Use Faucet <ArrowUpRightIcon />
+            Use Faucet <UiIcon icon="externalLink" />
           </a>
         </Button>
       )}
-    </Empty>
+    </UiEmpty>
   )
 }

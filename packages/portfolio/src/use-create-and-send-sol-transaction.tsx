@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Account } from '@workspace/db/entity/account'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
@@ -7,21 +7,21 @@ import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-g
 import { getBalanceQueryOptions, useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-import type { ClusterWallet } from './portfolio-routes-loaded.tsx'
+import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
 
-export function useCreateAndSendSolTransaction(props: ClusterWallet) {
-  const { cluster, wallet } = props
+export function useCreateAndSendSolTransaction(props: AccountNetwork) {
+  const { account, network } = props
   const queryClient = useQueryClient()
-  const client = useSolanaClient({ cluster: props.cluster })
-  const { data: balanceData } = useGetBalance({ address: wallet.publicKey, cluster })
+  const client = useSolanaClient({ network: props.network })
+  const { data: balanceData } = useGetBalance({ address: account.publicKey, network })
 
   return useMutation({
-    mutationFn: async ({ amount, destination, wallet }: { amount: string; destination: string; wallet: Wallet }) => {
-      if (!wallet.secretKey) {
-        throw new Error(`No secret key for this wallet`)
+    mutationFn: async ({ account, amount, destination }: { account: Account; amount: string; destination: string }) => {
+      if (!account.secretKey) {
+        throw new Error(`No secret key for this account`)
       }
 
-      const sender = await createKeyPairSignerFromJson({ json: wallet.secretKey })
+      const sender = await createKeyPairSignerFromJson({ json: account.secretKey })
 
       if (!balanceData?.value) {
         throw new Error('Balance not available')
@@ -34,12 +34,12 @@ export function useCreateAndSendSolTransaction(props: ClusterWallet) {
         senderBalance: balanceData.value,
       })
     },
-    onSuccess: (_, { wallet: { publicKey: address } }) => {
+    onSuccess: (_, { account: { publicKey: address } }) => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ address, client, cluster }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
       })
     },
   })

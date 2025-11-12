@@ -1,0 +1,13 @@
+{
+  "generateButtonCreate": "Crea billetera",
+  "generateCardDescription": "Esta frase semilla es la ÚNICA forma de recuperar tu billetera. ¡No la compartas con nadie!",
+  "generateCardTitle": "Generar frase de recuperación",
+  "generateToastCopied": "Mnemónica copiada al portapapeles",
+  "importButtonSubmit": "Importar billetera",
+  "importCardDescription": "Introduce la frase semilla que guardaste cuando creaste tu billetera.",
+  "importCardTitle": "Importar frase de recuperación",
+  "indexLinkGenerate": "Crea una nueva billetera",
+  "indexLinkImport": "Ya tengo una billetera",
+  "indexPageDescription": "Esperamos que disfrutes tu estancia",
+  "indexPageTitle": "Bienvenido a 🏝 Samui Wallet"
+}

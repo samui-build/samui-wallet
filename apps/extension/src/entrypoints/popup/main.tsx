@@ -1,21 +1,16 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createRoot } from 'react-dom/client'
-import '@workspace/ui/globals.css'
-
+import { ShellFeature } from '@workspace/shell/shell-feature'
 import { StrictMode } from 'react'
-import { App } from './app.tsx'
-
-const queryClient = new QueryClient()
+import { createRoot } from 'react-dom/client'
 
 const root = document.getElementById('root')
 if (!root) {
   throw new Error('Root element not found')
 }
 
+// TODO: Extension not secure until https://github.com/samui-build/samui-wallet/issues/161 is resolved
+// Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ShellFeature />
   </StrictMode>,
 )

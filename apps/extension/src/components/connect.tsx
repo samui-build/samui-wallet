@@ -8,7 +8,7 @@ export function Connect() {
       <h1 className="text-2xl font-bold text-center">Connect</h1>
       <div className="flex flex-col gap-2">
         <Button
-          onClick={async () => await getRequestService().resolve(await getDbService().wallet.walletAccounts())}
+          onClick={async () => await getRequestService().resolve(await getDbService().account.walletAccounts())}
           variant="destructive"
         >
           Approve

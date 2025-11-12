@@ -1,5 +1,5 @@
+import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
-
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
 import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
@@ -8,13 +8,14 @@ import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
 
-import { useCreateNewAccount } from './data-access/use-create-new-account.tsx'
+import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.tsx'
 
 export function OnboardingFeatureGenerate() {
-  const create = useCreateNewAccount()
+  const { t } = useTranslation('onboarding')
+  const create = useCreateNewWallet()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
 
@@ -34,17 +35,20 @@ export function OnboardingFeatureGenerate() {
       }}
     >
       <UiCard
-        description="This seed phrase is the ONLY way to recover your wallet. Don't share it with anyone!"
+        description={t(($) => $.generateCardDescription)}
         footer={
           <div className="flex w-full justify-between">
-            <UiTextCopyButton text={mnemonic} toast="Mnemonic copied to clipboard" />
-            <OnboardingUiMnemonicSave disabled={!validateMnemonic({ mnemonic })} label="Create wallet" />
+            <UiTextCopyButton text={mnemonic} toast={t(($) => $.generateToastCopied)} />
+            <OnboardingUiMnemonicSave
+              disabled={!validateMnemonic({ mnemonic })}
+              label={t(($) => $.generateButtonCreate)}
+            />
           </div>
         }
         title={
           <div>
             <UiBackButton className="mr-2" />
-            Generate Recovery Phrase
+            {t(($) => $.generateCardTitle)}
           </div>
         }
       >

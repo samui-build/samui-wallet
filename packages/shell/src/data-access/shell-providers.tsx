@@ -8,7 +8,7 @@ export function ShellProviders({ children }: { children: ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      <Toaster richColors />
+      <Toaster closeButton richColors />
     </QueryClientProvider>
   )
 }

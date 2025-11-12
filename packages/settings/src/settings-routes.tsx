@@ -1,16 +1,15 @@
 import { Navigate, useRoutes } from 'react-router'
-
-import { SettingsFeatureAccountAddWallet } from './settings-feature-account-add-wallet.tsx'
-import { SettingsFeatureAccountCreate } from './settings-feature-account-create.tsx'
-import { SettingsFeatureAccountDetails } from './settings-feature-account-details.tsx'
-import { SettingsFeatureAccountGenerate } from './settings-feature-account-generate.tsx'
-import { SettingsFeatureAccountImport } from './settings-feature-account-import.tsx'
-import { SettingsFeatureAccountList } from './settings-feature-account-list.tsx'
-import { SettingsFeatureAccountUpdate } from './settings-feature-account-update.tsx'
-import { SettingsFeatureClusterCreate } from './settings-feature-cluster-create.tsx'
-import { SettingsFeatureClusterList } from './settings-feature-cluster-list.tsx'
-import { SettingsFeatureClusterUpdate } from './settings-feature-cluster-update.tsx'
 import { SettingsFeatureGeneral } from './settings-feature-general.tsx'
+import { SettingsFeatureNetworkCreate } from './settings-feature-network-create.tsx'
+import { SettingsFeatureNetworkList } from './settings-feature-network-list.tsx'
+import { SettingsFeatureNetworkUpdate } from './settings-feature-network-update.tsx'
+import { SettingsFeatureWalletAddAccount } from './settings-feature-wallet-add-account.tsx'
+import { SettingsFeatureWalletCreate } from './settings-feature-wallet-create.tsx'
+import { SettingsFeatureWalletDetails } from './settings-feature-wallet-details.tsx'
+import { SettingsFeatureWalletGenerate } from './settings-feature-wallet-generate.tsx'
+import { SettingsFeatureWalletImport } from './settings-feature-wallet-import.tsx'
+import { SettingsFeatureWalletList } from './settings-feature-wallet-list.tsx'
+import { SettingsFeatureWalletUpdate } from './settings-feature-wallet-update.tsx'
 import { SettingsUiLayout } from './ui/settings-ui-layout.tsx'
 
 export default function SettingsRoutes() {
@@ -20,23 +19,23 @@ export default function SettingsRoutes() {
         { element: <Navigate replace to="general" />, index: true },
         {
           children: [
-            { element: <SettingsFeatureAccountList />, index: true },
-            { element: <SettingsFeatureAccountCreate />, path: 'create' },
-            { element: <SettingsFeatureAccountGenerate />, path: 'generate' },
-            { element: <SettingsFeatureAccountImport />, path: 'import' },
-            { element: <SettingsFeatureAccountDetails />, path: ':accountId' },
-            { element: <SettingsFeatureAccountAddWallet />, path: ':accountId/add' },
-            { element: <SettingsFeatureAccountUpdate />, path: ':accountId/edit' },
+            { element: <SettingsFeatureWalletList />, index: true },
+            { element: <SettingsFeatureWalletCreate />, path: 'create' },
+            { element: <SettingsFeatureWalletGenerate />, path: 'generate' },
+            { element: <SettingsFeatureWalletImport />, path: 'import' },
+            { element: <SettingsFeatureWalletDetails />, path: ':walletId' },
+            { element: <SettingsFeatureWalletAddAccount />, path: ':walletId/add' },
+            { element: <SettingsFeatureWalletUpdate />, path: ':walletId/edit' },
           ],
-          path: 'accounts',
+          path: 'wallets',
         },
         {
           children: [
-            { element: <SettingsFeatureClusterList />, index: true },
-            { element: <SettingsFeatureClusterCreate />, path: 'create' },
-            { element: <SettingsFeatureClusterUpdate />, path: ':clusterId' },
+            { element: <SettingsFeatureNetworkList />, index: true },
+            { element: <SettingsFeatureNetworkCreate />, path: 'create' },
+            { element: <SettingsFeatureNetworkUpdate />, path: ':networkId' },
           ],
-          path: 'clusters',
+          path: 'networks',
         },
         {
           children: [{ element: <SettingsFeatureGeneral />, index: true }],

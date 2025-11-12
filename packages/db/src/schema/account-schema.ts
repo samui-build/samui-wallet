@@ -1,15 +1,16 @@
 import { z } from 'zod'
-
-import { walletSchema } from './wallet-schema.ts'
+import { accountTypeSchema } from './account-type-schema.ts'
+import { solanaAddressSchema } from './solana-address-schema.ts'
 
 export const accountSchema = z.object({
   createdAt: z.date(),
-  derivationPath: z.string(),
+  derivationIndex: z.number(),
   id: z.string(),
-  mnemonic: z.string(),
   name: z.string(),
   order: z.number(),
-  secret: z.string(),
+  publicKey: solanaAddressSchema,
+  secretKey: z.string().optional(),
+  type: accountTypeSchema,
   updatedAt: z.date(),
-  wallets: z.array(walletSchema).optional().default([]),
+  walletId: z.string(),
 })

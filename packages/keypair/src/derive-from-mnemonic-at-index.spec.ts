@@ -4,7 +4,7 @@ import { deriveFromMnemonicAtIndex } from './derive-from-mnemonic-at-index.ts'
 
 describe('derive-from-mnemonic-at-index', () => {
   describe('expected behavior', () => {
-    it('should derive a wallet at a specific index from a mnemonic', async () => {
+    it('should derive an account at a specific index from a mnemonic', async () => {
       // ARRANGE
       expect.assertions(2)
       const mnemonic = 'pill tomorrow foster begin walnut borrow virtual kick shift mutual shoe scatter'

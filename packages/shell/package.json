@@ -4,12 +4,12 @@
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/dev": "workspace:*",
+    "@workspace/explorer": "workspace:*",
     "@workspace/onboarding": "workspace:*",
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/tools": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-router": "catalog:"

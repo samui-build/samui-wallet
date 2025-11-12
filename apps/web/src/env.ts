@@ -1,14 +1,14 @@
 import { setEnv } from '@workspace/env/env'
 
 setEnv({
-  activeClusterId: import.meta.env['VITE_ACTIVE_CLUSTER_ID'],
+  activeNetworkId: import.meta.env['VITE_ACTIVE_NETWORK_ID'],
   apiEndpoint: import.meta.env['VITE_API_ENDPOINT'],
-  clusterDevnet: import.meta.env['VITE_CLUSTER_DEVNET'],
-  clusterDevnetSubscriptions: import.meta.env['VITE_CLUSTER_DEVNET_SUBSCRIPTIONS'],
-  clusterLocalnet: import.meta.env['VITE_CLUSTER_LOCALNET'],
-  clusterLocalnetSubscriptions: import.meta.env['VITE_CLUSTER_LOCALNET_SUBSCRIPTIONS'],
-  clusterMainnet: import.meta.env['VITE_CLUSTER_MAINNET'],
-  clusterMainnetSubscriptions: import.meta.env['VITE_CLUSTER_MAINNET_SUBSCRIPTIONS'],
-  clusterTestnet: import.meta.env['VITE_CLUSTER_TESTNET'],
-  clusterTestnetSubscriptions: import.meta.env['VITE_CLUSTER_TESTNET_SUBSCRIPTIONS'],
+  networkDevnet: import.meta.env['VITE_NETWORK_DEVNET'],
+  networkDevnetSubscriptions: import.meta.env['VITE_NETWORK_DEVNET_SUBSCRIPTIONS'],
+  networkLocalnet: import.meta.env['VITE_NETWORK_LOCALNET'],
+  networkLocalnetSubscriptions: import.meta.env['VITE_NETWORK_LOCALNET_SUBSCRIPTIONS'],
+  networkMainnet: import.meta.env['VITE_NETWORK_MAINNET'],
+  networkMainnetSubscriptions: import.meta.env['VITE_NETWORK_MAINNET_SUBSCRIPTIONS'],
+  networkTestnet: import.meta.env['VITE_NETWORK_TESTNET'],
+  networkTestnetSubscriptions: import.meta.env['VITE_NETWORK_TESTNET_SUBSCRIPTIONS'],
 })

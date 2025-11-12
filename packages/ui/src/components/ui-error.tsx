@@ -1,12 +1,6 @@
-import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from './empty.tsx'
+import type { ReactNode } from 'react'
+import { UiEmpty } from './ui-empty.tsx'
 
-export function UiError({ message = '' }: { message?: unknown }) {
-  return (
-    <Empty className="border border-dashed">
-      <EmptyHeader>
-        <EmptyTitle>Oops, an error occurred</EmptyTitle>
-        <EmptyDescription>{`${message}`}</EmptyDescription>
-      </EmptyHeader>
-    </Empty>
-  )
+export function UiError({ message, title = 'Oops, an error occurred' }: { message?: Error; title?: ReactNode }) {
+  return <UiEmpty description={message ? message?.message : undefined} title={title} />
 }

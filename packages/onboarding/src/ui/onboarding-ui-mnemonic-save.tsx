@@ -1,5 +1,5 @@
 import { Button } from '@workspace/ui/components/button'
-import { LucideSave } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { ComponentProps } from 'react'
 
 export function OnboardingUiMnemonicSave({
@@ -8,7 +8,7 @@ export function OnboardingUiMnemonicSave({
 }: { label: string } & Omit<ComponentProps<typeof Button>, 'onClick'>) {
   return (
     <Button type="submit" {...props}>
-      <LucideSave />
+      <UiIcon icon="save" />
       {label}
     </Button>
   )

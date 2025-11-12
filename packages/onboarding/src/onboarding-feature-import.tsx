@@ -1,5 +1,5 @@
+import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
-
 import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
 import { UiCard } from '@workspace/ui/components/ui-card'
@@ -7,13 +7,14 @@ import { UiTextPasteButton } from '@workspace/ui/components/ui-text-paste-button
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
 
-import { useCreateNewAccount } from './data-access/use-create-new-account.tsx'
+import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 
 export function OnboardingFeatureImport() {
-  const create = useCreateNewAccount()
+  const { t } = useTranslation('onboarding')
+  const create = useCreateNewWallet()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
 
   const [wordCount, setWordCount] = useState(12)
@@ -79,17 +80,17 @@ export function OnboardingFeatureImport() {
       }}
     >
       <UiCard
-        description="Enter the seed phrase you stored when you created your wallet."
+        description={t(($) => $.importCardDescription)}
         footer={
           <div className="flex w-full justify-between">
             <UiTextPasteButton onPaste={handlePaste} />
-            <OnboardingUiMnemonicSave disabled={!isFormComplete} label="Import wallet" />
+            <OnboardingUiMnemonicSave disabled={!isFormComplete} label={t(($) => $.importButtonSubmit)} />
           </div>
         }
         title={
           <div>
             <UiBackButton className="mr-2" />
-            Import Recovery Phrase
+            {t(($) => $.importCardTitle)}
           </div>
         }
       >

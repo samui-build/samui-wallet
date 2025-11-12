@@ -1,14 +1,14 @@
-import { useDbPreference } from '@workspace/db-react/use-db-preference'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar'
-import { LucideBug } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiMenuDevelopment({ items }: { items: { label: string; path: string }[] }) {
-  const [developerMode] = useDbPreference('developerModeEnabled')
+  const [developerMode] = useDbSetting('developerModeEnabled')
   return developerMode === 'true' ? (
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
-        <LucideBug className="size-4 md:size-6" />
+        <UiIcon className="size-4 md:size-6" icon="bug" />
       </MenubarTrigger>
       <MenubarContent>
         {items.map((item) => (

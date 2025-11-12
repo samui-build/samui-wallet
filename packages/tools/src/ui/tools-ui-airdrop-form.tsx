@@ -20,43 +20,44 @@ import {
 } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
 import { Popover, PopoverContent, PopoverTrigger } from '@workspace/ui/components/popover'
-import { toastError } from '@workspace/ui/lib/toast-error'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
+import { toastLoading } from '@workspace/ui/lib/toast-loading'
 import { cn } from '@workspace/ui/lib/utils'
-import { Check, ChevronsUpDown } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const formSchema = z.object({
   address: z.string(),
-  amount: z.number().min(0),
+  amount: z.number().int({ message: 'Amount must be an integer' }).min(0),
 })
 
 export type AirdropFormSchema = z.infer<typeof formSchema>
 
 export function ToolsUiAirdropForm({
+  accounts,
   disabled,
   submit,
-  wallets,
 }: {
+  accounts: { label: string; value: string }[]
   disabled: boolean
   submit: (input: AirdropFormSchema) => Promise<void>
-  wallets: { label: string; value: string }[]
 }) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: standardSchemaResolver(formSchema),
     values: {
-      address: wallets[0]?.value ?? '',
+      address: accounts[0]?.value ?? '',
       amount: 1,
     },
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { dismiss: dismissLoadingToast } = toastLoading('Submitting...')
     try {
-      console.log(values)
       await submit(values)
     } catch (error) {
       console.error('Form submission error', error)
-      toastError('Failed to submit the form. Please try again.')
+    } finally {
+      dismissLoadingToast()
     }
   }
 
@@ -77,18 +78,18 @@ export function ToolsUiAirdropForm({
                       role="combobox"
                       variant="outline"
                     >
-                      {field.value ? wallets.find((item) => item.value === field.value)?.label : 'Select wallet'}
-                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                      {field.value ? accounts.find((item) => item.value === field.value)?.label : 'Select account'}
+                      <UiIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" icon="chevronsUpDown" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-[200px] p-0">
                   <Command>
-                    <CommandInput placeholder="Search wallet..." />
+                    <CommandInput placeholder="Search account..." />
                     <CommandList>
-                      <CommandEmpty>No wallets found.</CommandEmpty>
+                      <CommandEmpty>No accounts found.</CommandEmpty>
                       <CommandGroup>
-                        {wallets.map((item) => (
+                        {accounts.map((item) => (
                           <CommandItem
                             key={item.value}
                             onSelect={() => {
@@ -96,8 +97,9 @@ export function ToolsUiAirdropForm({
                             }}
                             value={item.label}
                           >
-                            <Check
+                            <UiIcon
                               className={cn('mr-2 h-4 w-4', item.value === field.value ? 'opacity-100' : 'opacity-0')}
+                              icon="check"
                             />
                             {item.label}
                           </CommandItem>
@@ -107,7 +109,7 @@ export function ToolsUiAirdropForm({
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>The public key of the wallet you want to airdrop to</FormDescription>
+              <FormDescription>The public key of the account you want to airdrop to</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -120,7 +122,14 @@ export function ToolsUiAirdropForm({
             <FormItem>
               <FormLabel>Amount</FormLabel>
               <FormControl>
-                <Input className="w-[200px]" placeholder="1.0" type="number" {...field} />
+                <Input
+                  className="w-[200px]"
+                  placeholder="1"
+                  step="1"
+                  type="number"
+                  {...field}
+                  onChange={(e) => field.onChange(e.target.valueAsNumber)}
+                />
               </FormControl>
               <FormDescription>Amount of SOL you want to airdrop</FormDescription>
               <FormMessage />

@@ -1,9 +1,8 @@
 import type { GetExplorerUrlProps } from '@workspace/solana-client/get-explorer-url'
-
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { cn } from '@workspace/ui/lib/utils'
-import { LucideGlobe } from 'lucide-react'
 
 export function PortfolioUiExplorerIcon({
   className,
@@ -20,7 +19,7 @@ export function PortfolioUiExplorerIcon({
         rel="noopener noreferrer"
         target="_blank"
       >
-        <LucideGlobe size={12} />
+        <UiIcon className="size-3" icon="explorer" />
       </a>
     </UiTooltip>
   )

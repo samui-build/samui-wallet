@@ -17,7 +17,7 @@ describe('db-wallet-find-unique', () => {
     it('should find a unique wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testWalletInputCreate({ accountId: crypto.randomUUID() })
+      const input = testWalletInputCreate()
       const id = await dbWalletCreate(db, input)
 
       // ACT
@@ -43,7 +43,7 @@ describe('db-wallet-find-unique', () => {
       expect.assertions(1)
       const id = 'test-id'
       vi.spyOn(db.wallets, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<undefined | Wallet>,
+        () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet | undefined>,
       )
 
       // ACT & ASSERT

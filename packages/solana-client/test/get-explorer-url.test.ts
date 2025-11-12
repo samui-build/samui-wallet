@@ -13,7 +13,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: { endpoint: 'https://api.devnet.solana.com', type: 'solana:devnet' },
+          network: { endpoint: 'https://api.devnet.solana.com', type: 'solana:devnet' },
           path: `/address/${address}`,
         }
         const expected = `https://explorer.solana.com/address/${address}?cluster=devnet`
@@ -29,7 +29,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint: 'https://api.mainnet-beta.solana.com',
             type: 'solana:mainnet',
           },
@@ -49,7 +49,7 @@ describe('get-explorer-url', () => {
         expect.assertions(1)
         const endpoint = 'http://127.0.0.1:8899'
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint,
             type: 'solana:localnet',
           },
@@ -70,7 +70,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint: 'https://api.devnet.solana.com',
             type: 'solana:devnet',
           },
@@ -90,7 +90,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint: 'https://api.mainnet-beta.solana.com',
             type: 'solana:mainnet',
           },
@@ -111,7 +111,7 @@ describe('get-explorer-url', () => {
         expect.assertions(1)
         const endpoint = 'http://127.0.0.1:8899'
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint,
             type: 'solana:localnet',
           },
@@ -133,7 +133,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint: 'https://api.devnet.solana.com',
             type: 'solana:devnet',
           },
@@ -153,7 +153,7 @@ describe('get-explorer-url', () => {
         // ARRANGE
         expect.assertions(1)
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint: 'https://api.mainnet-beta.solana.com',
             type: 'solana:mainnet',
           },
@@ -174,7 +174,7 @@ describe('get-explorer-url', () => {
         expect.assertions(1)
         const endpoint = 'http://127.0.0.1:8899'
         const props: GetExplorerUrlProps = {
-          cluster: {
+          network: {
             endpoint,
             type: 'solana:localnet',
           },
@@ -197,7 +197,7 @@ describe('get-explorer-url', () => {
       // ARRANGE
       expect.assertions(1)
       const props: GetExplorerUrlProps = {
-        cluster: {
+        network: {
           endpoint: 'https://api.devnet.solana.com',
           type: 'solana:devnet',
         },
@@ -214,7 +214,7 @@ describe('get-explorer-url', () => {
       // ARRANGE
       expect.assertions(1)
       const props: GetExplorerUrlProps = {
-        cluster: {
+        network: {
           endpoint: 'https://api.devnet.solana.com',
           type: 'solana:devnet',
         },

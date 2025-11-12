@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "@effect/cli": "^0.72.0",
-    "@effect/platform-node": "^0.100.0",
+    "@effect/cli": "0.72.0",
+    "@effect/cluster": "0.52.7",
+    "@effect/platform-bun": "0.83.0",
     "@workspace/tui": "workspace:*",
-    "effect": "^3.18.4"
+    "effect": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
@@ -14,6 +15,7 @@
   "name": "cli",
   "private": false,
   "scripts": {
+    "build": "bun build --compile src/index.ts --outfile ./dist/samui-cli",
     "check-types": "tsc --noEmit",
     "watch": "bun run --watch src/index.ts"
   },

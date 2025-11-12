@@ -1,7 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
-import { AlertCircleIcon } from 'lucide-react'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { useMemo } from 'react'
-
 import { OnboardingUiMnemonicWordReadonly } from './onboarding-ui-mnemonic-word-readonly.tsx'
 
 export function OnboardingUiMnemonicShow({ mnemonic }: { mnemonic: string }) {
@@ -10,7 +9,7 @@ export function OnboardingUiMnemonicShow({ mnemonic }: { mnemonic: string }) {
   if (!expected.includes(words.length)) {
     return (
       <Alert variant="destructive">
-        <AlertCircleIcon />
+        <UiIcon icon="alert" />
         <AlertTitle>Unexpected mnemonic length</AlertTitle>
         <AlertDescription>
           Mnemonic has {words.length} words, expected {expected.join(' or ')}

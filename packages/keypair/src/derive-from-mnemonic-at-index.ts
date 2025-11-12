@@ -6,7 +6,7 @@ import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
 import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44.ts'
 import { derivationPaths } from './derivation-paths.ts'
 
-export interface DerivedWallet {
+export interface DerivedAccount {
   publicKey: Address
   secretKey: string
 }
@@ -20,7 +20,7 @@ export async function deriveFromMnemonicAtIndex({
   derivationIndex = 0,
   derivationPath = derivationPaths.default,
   mnemonic,
-}: DeriveFromMnemonicAtIndexProps): Promise<DerivedWallet> {
+}: DeriveFromMnemonicAtIndexProps): Promise<DerivedAccount> {
   const { data: signers, error } = await tryCatch(
     createKeyPairSignerFromBip44({
       derivationPath,

@@ -67,6 +67,24 @@ jobs:
       - name: Test
         run: bun run test
 
+  test-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Start Surfpool
+        run: |
+          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool start --offline --no-tui
+          bunx wait-on tcp:localhost:8899 --verbose
+          bunx wait-on tcp:localhost:8900 --verbose
+
+      - name: Test Integration
+        run: bun run test:integration
+
   commitlint:
     runs-on: ubuntu-latest
     steps:
@@ -85,3 +103,15 @@ jobs:
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
         run: bun commitlint --from ${{ github.event.pull_request.head.sha }}~${{ github.event.pull_request.commits }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  cspell:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Check Spelling
+        run: bun spell-check
