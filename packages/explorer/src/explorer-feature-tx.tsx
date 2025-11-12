@@ -1,10 +1,19 @@
+import { solanaSignatureSchema } from '@workspace/db/schema/solana-signature-schema'
 import { UiEmpty } from '@workspace/ui/components/ui-empty'
 import { useParams } from 'react-router'
+import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export function ExplorerFeatureTx() {
-  // TODO: Validate if this signature is valid
   const { signature } = useParams() as { signature: string }
+  if (!signature || !solanaSignatureSchema.safeParse(signature).success) {
+    return (
+      <ExplorerUiErrorPage
+        message="The provided signature is not a valid Solana signature."
+        title="Invalid signature"
+      />
+    )
+  }
 
   return (
     <ExplorerUiPage>
