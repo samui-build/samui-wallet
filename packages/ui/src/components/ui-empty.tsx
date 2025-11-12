@@ -11,7 +11,7 @@ export function UiEmpty({
 }: {
   children?: ReactNode
   description: ReactNode
-  icon?: UiIconName
+  icon?: UiIconName | undefined
   title: ReactNode
 }) {
   return (

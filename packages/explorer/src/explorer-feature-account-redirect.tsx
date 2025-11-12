@@ -1,8 +1,12 @@
+import { solanaAddressSchema } from '@workspace/db/schema/solana-address-schema'
 import { Navigate, useParams } from 'react-router'
+import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
 export function ExplorerFeatureAccountRedirect({ basePath }: { basePath: string }) {
-  // TODO: Validate if this address is valid
-  const { address } = useParams() as { address: string }
+  const { address } = useParams()
+  if (!address || !solanaAddressSchema.safeParse(address).success) {
+    return <ExplorerUiErrorPage message="The provided address is not a valid Solana address." title="Invalid address" />
+  }
 
   return <Navigate replace to={`${basePath}/address/${address}`} />
 }
