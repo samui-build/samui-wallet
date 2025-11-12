@@ -38,7 +38,11 @@ export function OnboardingFeatureGenerate() {
         description={t(($) => $.generateCardDescription)}
         footer={
           <div className="flex w-full justify-between">
-            <UiTextCopyButton text={mnemonic} toast={t(($) => $.generateToastCopied)} />
+            <UiTextCopyButton
+              label={t(($) => $.generateToastCopy)}
+              text={mnemonic}
+              toast={t(($) => $.generateToastCopied)}
+            />
             <OnboardingUiMnemonicSave
               disabled={!validateMnemonic({ mnemonic })}
               label={t(($) => $.generateButtonCreate)}

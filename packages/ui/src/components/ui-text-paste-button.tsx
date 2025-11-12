@@ -3,7 +3,7 @@ import { LucideCopy } from 'lucide-react'
 import { handleTextPaste } from '../lib/handle-text-paste.ts'
 import { Button } from './button.tsx'
 
-export function UiTextPasteButton({ onPaste }: { onPaste: (text: string) => void }) {
+export function UiTextPasteButton({ label, onPaste }: { label: string; onPaste: (text: string) => void }) {
   return (
     <Button
       onClick={async () => {
@@ -16,7 +16,7 @@ export function UiTextPasteButton({ onPaste }: { onPaste: (text: string) => void
       variant="secondary"
     >
       <LucideCopy />
-      Paste
+      {label}
     </Button>
   )
 }
