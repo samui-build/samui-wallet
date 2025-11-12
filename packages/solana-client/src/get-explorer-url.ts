@@ -1,5 +1,6 @@
 import type { SolanaNetwork } from './solana-network.ts'
 
+export type ExplorerPath = `/address/${string}` | `/block/${string}` | `/tx/${string}`
 export type ExplorerProvider = 'orb' | 'solana' | 'solscan'
 export const explorerProviders: ExplorerProvider[] = ['solana', 'solscan', 'orb'] as const
 
@@ -10,7 +11,7 @@ export interface GetNetworkSuffixProps {
 
 export interface GetExplorerUrlProps {
   network: GetNetworkSuffixProps
-  path: `/address/${string}` | `/block/${string}` | `/tx/${string}`
+  path: ExplorerPath
   provider?: ExplorerProvider
 }
 
@@ -57,5 +58,18 @@ function getExplorerSuffix(props: GetNetworkSuffixProps): {
       return { cluster: 'testnet', customUrl: '' }
     default:
       return { cluster: '', customUrl: '' }
+  }
+}
+
+export function getExplorerName(provider: ExplorerProvider): string {
+  switch (provider) {
+    case 'orb':
+      return 'Helius Orb'
+    case 'solana':
+      return 'Solana Explorer'
+    case 'solscan':
+      return 'Solscan'
+    default:
+      return 'Unknown'
   }
 }
