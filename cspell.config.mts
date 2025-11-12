@@ -44,6 +44,7 @@ const config: CSpellSettings = {
     'ellipsify',
     'hackathon',
     'hdkey',
+    'helius',
     'lamport',
     'lamports',
     'localnet',

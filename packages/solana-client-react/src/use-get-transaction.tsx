@@ -1,9 +1,7 @@
-import type { UnixTimestamp } from '@solana/kit'
-import { assertIsSignature } from '@solana/kit'
+import { assertIsSignature, type UnixTimestamp } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/entity/network'
 import { isValidSignature } from '@workspace/solana-client/is-valid-signature'
-
 import { useSolanaClient } from './use-solana-client.tsx'
 
 export interface Header {
