@@ -29,6 +29,7 @@ import {
   type LucideProps,
   LucideRefreshCcw,
   LucideSave,
+  LucideSearch,
   LucideSettings,
   LucideTrash,
   LucideUmbrella,
@@ -71,6 +72,7 @@ export type UiIconName =
   | 'portfolio'
   | 'refresh'
   | 'save'
+  | 'search'
   | 'settings'
   | 'tools'
   | 'upload'
@@ -108,6 +110,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('portfolio', LucidePieChart)
   .set('refresh', LucideRefreshCcw)
   .set('save', LucideSave)
+  .set('search', LucideSearch)
   .set('settings', LucideSettings)
   .set('tools', LucideHammer)
   .set('upload', LucideUploadCloud)
