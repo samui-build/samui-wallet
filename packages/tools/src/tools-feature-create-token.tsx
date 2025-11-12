@@ -44,8 +44,14 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     await queryKeypair.refetch()
     setResultMint(res.mint)
     setResultTx(res.signature)
+    if (res.supply) {
+      setResultSupply(res.supply)
+    }
     console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}` }))
     console.log('TX', getExplorerUrl({ network: props.network, path: `/tx/${res.signature}` }))
+    if (res.supply) {
+      console.log('Supply', getExplorerUrl({ network: props.network, path: `/tx/${res.supply}` }))
+    }
   }, [mutation, props.network, queryKeypair, decimals, supply])
 
   return (
