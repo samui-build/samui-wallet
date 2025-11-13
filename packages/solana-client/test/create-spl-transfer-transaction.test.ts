@@ -500,6 +500,7 @@ describe('create-spl-transfer-transaction', () => {
             lastValidBlockHeight: 408781140n,
           },
           mint,
+          // @ts-expect-error: Invalid sender
           sender: {},
           sourceTokenAccount,
         }),
@@ -529,6 +530,7 @@ describe('create-spl-transfer-transaction', () => {
           },
           mint,
           sender,
+          // @ts-expect-error: Invalid source
           source: { address: 'something' },
           sourceTokenAccount,
         }),
