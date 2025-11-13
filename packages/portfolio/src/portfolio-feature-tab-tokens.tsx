@@ -1,4 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
+import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Spinner } from '@workspace/ui/components/spinner'
@@ -7,7 +9,6 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
-import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
 import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
 import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
@@ -20,7 +21,7 @@ interface SendTokenInput {
   mint: TokenBalance
 }
 
-export function PortfolioFeatureTabTokens(props: AccountNetwork) {
+export function PortfolioFeatureTabTokens(props: { account: Account; network: Network }) {
   const { account, network } = props
   const balances = useGetTokenBalances({ address: account.publicKey, network })
   const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({

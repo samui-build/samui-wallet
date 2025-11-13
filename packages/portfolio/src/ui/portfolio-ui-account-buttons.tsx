@@ -1,5 +1,6 @@
+import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import type { AccountNetwork } from '../portfolio-routes-loaded.tsx'
 
 import { PortfolioUiAccountSheetReceive } from './portfolio-ui-account-sheet-receive.tsx'
 import { PortfolioUiAccountSheetSend } from './portfolio-ui-account-sheet-send.tsx'
@@ -13,7 +14,9 @@ export function PortfolioUiAccountButtons({
   balances: TokenBalance[]
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
-} & AccountNetwork) {
+  account: Account
+  network: Network
+}) {
   return account ? (
     <div className="gap-2 flex justify-center">
       <PortfolioUiAccountSheetReceive account={account} />

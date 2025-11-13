@@ -3,11 +3,14 @@ import { Button } from '@workspace/ui/components/button'
 import { Checkbox } from '@workspace/ui/components/checkbox'
 import { Label } from '@workspace/ui/components/label'
 import { useId, useState } from 'react'
+import { useNavigate } from 'react-router'
 
 export function SettingsFeatureGeneralDangerDeleteDatabase() {
   const mutation = useDbReset()
   const [accept, setAccept] = useState(false)
   const acceptId = useId()
+  const navigate = useNavigate()
+
   return (
     <div className="space-y-6">
       <div className="flex items-start gap-3">
@@ -27,7 +30,7 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
               return
             }
             await mutation.mutateAsync()
-            window.location.replace('/')
+            await navigate('/onboarding')
           }}
           variant="destructive"
         >

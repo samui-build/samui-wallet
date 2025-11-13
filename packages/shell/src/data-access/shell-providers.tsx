@@ -1,8 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@workspace/db-react/db-query-client'
 import { Toaster } from '@workspace/ui/components/sonner'
 import type { ReactNode } from 'react'
-
-const queryClient = new QueryClient()
 
 export function ShellProviders({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +11,7 @@ export function ShellProviders({ children }: { children: ReactNode }) {
     </QueryClientProvider>
   )
 }
+
 // Patch BigInt so we can log it using JSON.stringify without any errors
 declare global {
   interface BigInt {

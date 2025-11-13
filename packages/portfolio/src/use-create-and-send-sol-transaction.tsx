@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
@@ -7,9 +8,7 @@ import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-g
 import { getBalanceQueryOptions, useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
-
-export function useCreateAndSendSolTransaction(props: AccountNetwork) {
+export function useCreateAndSendSolTransaction(props: { account: Account; network: Network }) {
   const { account, network } = props
   const queryClient = useQueryClient()
   const client = useSolanaClient({ network: props.network })

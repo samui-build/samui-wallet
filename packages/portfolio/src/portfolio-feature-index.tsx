@@ -1,9 +1,10 @@
+import type { Account } from '@workspace/db/entity/account'
+import type { Network } from '@workspace/db/entity/network'
 import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.tsx'
 import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.tsx'
-import type { AccountNetwork } from './portfolio-routes-loaded.tsx'
 
-export function PortfolioFeatureIndex(props: AccountNetwork) {
+export function PortfolioFeatureIndex(props: { account: Account; network: Network }) {
   return (
     <UiTabRoutes
       basePath="/portfolio"
