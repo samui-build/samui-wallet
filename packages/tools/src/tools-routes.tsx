@@ -1,6 +1,7 @@
 import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
 import { PortfolioUiNetworkAccountGuard } from '@workspace/portfolio/ui/portfolio-ui-network-guard'
+import { UiPage } from '@workspace/ui/components/ui-page'
 import { lazy } from 'react'
 import { useRoutes } from 'react-router'
 
@@ -20,5 +21,9 @@ export function Router(props: { account: Account; network: Network }) {
 }
 
 export default function ToolsRoutes() {
-  return <PortfolioUiNetworkAccountGuard render={(props) => <Router {...props} />} />
+  return (
+    <UiPage>
+      <PortfolioUiNetworkAccountGuard render={(props) => <Router {...props} />} />
+    </UiPage>
+  )
 }
