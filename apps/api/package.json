@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "hono": "^4.10.3"
+    "@effect/platform": "^0.93.1",
+    "effect": "^3.19.3"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20251014.0",
