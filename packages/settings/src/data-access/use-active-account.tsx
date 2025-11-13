@@ -9,7 +9,7 @@ export function useActiveAccount() {
   const [accountId] = useDbSetting('activeAccountId')
   const [walletId] = useDbSetting('activeWalletId')
   const { mutateAsync } = useDbAccountSetActive()
-  const accounts = useDbAccountLive({ walletId: walletId })
+  const accounts = useDbAccountLive({ walletId })
   const sorted = useSortAccounts(accounts)
   const active = useMemo(() => accounts.find((c) => c.id === accountId) ?? null, [accounts, accountId])
 

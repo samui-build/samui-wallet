@@ -1,7 +1,9 @@
+import { dbLoader } from '@workspace/db-react/db-loader'
+import { queryClient } from '@workspace/db-react/db-query-client'
+import { dbSettingOptions } from '@workspace/db-react/db-setting-options'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider } from 'react-router'
-import { loaderPortfolio } from './data-access/loader-portfolio.tsx'
 import type { ShellLayoutLink } from './ui/shell-ui-layout.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
@@ -23,23 +25,31 @@ const links: ShellLayoutLink[] = [
 const router = createHashRouter([
   {
     children: [
-      { element: <Navigate replace to="/portfolio" />, index: true },
-      { element: <DevRoutes />, path: 'dev/*' },
-      { element: <ExplorerRoutes basePath="/explorer" />, path: 'explorer/*' },
       {
-        element: <PortfolioRoutes />,
-        id: 'portfolio',
-        loader: loaderPortfolio,
-        path: 'portfolio/*',
+        children: [
+          { element: <Navigate replace to="/portfolio" />, index: true },
+          { element: <DevRoutes />, path: 'dev/*' },
+          { element: <ExplorerRoutes basePath="/explorer" />, path: 'explorer/*' },
+          {
+            element: <PortfolioRoutes />,
+            path: 'portfolio/*',
+          },
+          { element: <SettingsRoutes />, path: 'settings/*' },
+          { element: <ToolsRoutes />, path: 'tools/*' },
+          { element: <UiNotFound />, path: '*' },
+        ],
+        element: <ShellUiLayout links={links} />,
       },
-      { element: <SettingsRoutes />, path: 'settings/*' },
-      { element: <ToolsRoutes />, path: 'tools/*' },
-      { element: <UiNotFound />, path: '*' },
+      { element: <OnboardingRoutes />, path: 'onboarding/*' },
+      { element: <SettingsFeatureReset />, path: 'reset' },
     ],
-    element: <ShellUiLayout links={links} />,
+    id: 'root',
+    loader: dbLoader(queryClient),
+    shouldRevalidate: () => {
+      const state = queryClient.getQueryState(dbSettingOptions.getAll().queryKey)
+      return !state || state.isInvalidated
+    },
   },
-  { element: <OnboardingRoutes />, path: 'onboarding/*' },
-  { element: <SettingsFeatureReset />, path: 'reset' },
 ])
 
 export function ShellRoutes() {

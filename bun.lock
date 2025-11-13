@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "samui",
@@ -343,6 +344,7 @@
       "name": "@workspace/onboarding",
       "version": "0.0.0",
       "dependencies": {
+        "@tanstack/react-query": "catalog:",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
         "@workspace/i18n": "workspace:*",
