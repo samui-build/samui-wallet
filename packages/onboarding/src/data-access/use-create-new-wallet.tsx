@@ -2,11 +2,9 @@ import { derivationPaths } from '@workspace/keypair/derivation-paths'
 import { useGenerateWalletWithAccountMutation } from '@workspace/settings/data-access/use-generate-wallet-with-account-mutation'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { useNavigate } from 'react-router'
 
 export function useCreateNewWallet() {
   const mutation = useGenerateWalletWithAccountMutation()
-  const navigate = useNavigate()
   return (mnemonic: string) =>
     mutation
       .mutateAsync({
@@ -16,7 +14,6 @@ export function useCreateNewWallet() {
         secret: '',
       })
       .then(() => {
-        navigate(`/portfolio`)
         toastSuccess('Wallet created!')
       })
       .catch(() => toastError(`Error creating wallet`))

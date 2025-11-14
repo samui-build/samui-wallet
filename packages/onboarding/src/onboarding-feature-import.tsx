@@ -6,15 +6,16 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiTextPasteButton } from '@workspace/ui/components/ui-text-paste-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
-
+import { useNavigate } from 'react-router'
 import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 
-export function OnboardingFeatureImport() {
+export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) {
   const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
+  const navigate = useNavigate()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
 
   const wordCount = strength === 128 ? 12 : 24
@@ -66,6 +67,7 @@ export function OnboardingFeatureImport() {
     try {
       const mnemonic = validateMnemonic({ mnemonic: words.slice(0, wordCount).join(' ') })
       await create(mnemonic)
+      await navigate(redirectTo)
     } catch (error) {
       toastError(`${error}`)
     }
