@@ -111,7 +111,7 @@ export function PortfolioFeatureTabTokens(props: AccountNetwork) {
   }
 
   return (
-    <div className="p-4 space-y-6">
+    <div className="space-y-6">
       <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
       <PortfolioUiAccountButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
       <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
