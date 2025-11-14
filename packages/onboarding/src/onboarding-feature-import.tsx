@@ -17,7 +17,7 @@ export function OnboardingFeatureImport() {
   const create = useCreateNewWallet()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
 
-  const [wordCount, setWordCount] = useState(12)
+  const wordCount = strength === 128 ? 12 : 24
   const [words, setWords] = useState(Array(24).fill(''))
   const [error, setError] = useState('')
 
@@ -33,7 +33,6 @@ export function OnboardingFeatureImport() {
 
     const len = getMnemonicStrength(pastedWords.length)
     if (len !== false) {
-      setWordCount(pastedWords.length)
       setStrength(len)
       const newWords = Array(24).fill('')
       pastedWords.forEach((word, i) => {
