@@ -1,9 +1,13 @@
 {
   "dependencies": {
+    "@hookform/resolvers": "catalog:",
+    "@workspace/db": "workspace:*",
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "catalog:"
+    "react-hook-form": "catalog:",
+    "react-router": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

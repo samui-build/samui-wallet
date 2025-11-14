@@ -8,7 +8,7 @@ import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export default function ExplorerRoutes({ basePath }: { basePath: string }) {
   return useRoutes([
-    { element: <ExplorerFeatureIndex />, index: true },
+    { element: <ExplorerFeatureIndex basePath={basePath} />, index: true },
     { element: <ExplorerFeatureAccount />, path: 'address/:address' },
     { element: <ExplorerFeatureTx />, path: 'tx/:signature' },
     // This route exists to stay compatible with other explorers in the ecosystem
