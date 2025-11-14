@@ -1,5 +1,4 @@
 import { ShellFeature } from '@workspace/shell/shell-feature'
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
@@ -12,6 +11,6 @@ if (!root) {
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Sidebar" />
+    <ShellFeature context="Onboarding" />
   </StrictMode>,
 )

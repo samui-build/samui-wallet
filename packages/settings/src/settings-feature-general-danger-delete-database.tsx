@@ -30,7 +30,7 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
               return
             }
             await mutation.mutateAsync()
-            await navigate('/onboarding')
+            await navigate('/')
           }}
           variant="destructive"
         >
