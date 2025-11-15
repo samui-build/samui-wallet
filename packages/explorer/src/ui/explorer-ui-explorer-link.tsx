@@ -16,7 +16,7 @@ export function ExplorerUiExplorerLink({
   className?: string
   provider: ExplorerProvider
 } & GetExplorerUrlProps) {
-  const href = getExplorerUrl(props)
+  const href = getExplorerUrl({ ...props, provider })
   const name = getExplorerName(provider)
   return (
     <UiTooltip content={`View in ${name}`}>
