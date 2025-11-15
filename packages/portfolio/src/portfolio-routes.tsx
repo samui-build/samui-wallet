@@ -5,7 +5,7 @@ import { PortfolioUiNetworkGuard } from './ui/portfolio-ui-network-guard.tsx'
 
 export default function PortfolioRoutes() {
   return (
-    <UiPage containerProps={{ className: 'sm:max-w-2xl' }}>
+    <UiPage className="lg:max-w-2xl md:max-w-2xl sm:max-w-2xl xl:max-w-2xl">
       <PortfolioUiNetworkGuard
         render={({ network }) => (
           <PortfolioUiAccountGuard
