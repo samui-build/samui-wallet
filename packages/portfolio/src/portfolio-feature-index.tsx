@@ -7,7 +7,7 @@ export function PortfolioFeatureIndex(props: AccountNetwork) {
   return (
     <UiTabRoutes
       basePath="/portfolio"
-      className="items-center my-6"
+      className="items-center mb-4 lg:mb-6"
       tabs={[
         { element: <PortfolioFeatureTabTokens {...props} />, label: 'Tokens', path: 'tokens' },
         { element: <PortfolioFeatureTabActivity {...props} />, label: 'Activity', path: 'activity' },
