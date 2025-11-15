@@ -28,6 +28,7 @@ export function WalletUiTokens({ network, items }: { network: Network; items: Ge
                     label={ellipsify(pubkey.toString())}
                     network={network}
                     path={`/address/${pubkey.toString()}`}
+                    provider="solana"
                   />
                 </span>
               </div>
@@ -39,6 +40,7 @@ export function WalletUiTokens({ network, items }: { network: Network; items: Ge
                     label={ellipsify(account.data.parsed.info.mint)}
                     network={network}
                     path={`/address/${account.data.parsed.info.mint.toString()}`}
+                    provider="solana"
                   />
                 </span>
               </div>

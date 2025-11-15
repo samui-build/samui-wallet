@@ -1,23 +1,16 @@
-import {
-  type ExplorerProvider,
-  type GetExplorerUrlProps,
-  getExplorerName,
-  getExplorerUrl,
-} from '@workspace/solana-client/get-explorer-url'
+import { type GetExplorerUrlProps, getExplorerName, getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { cn } from '@workspace/ui/lib/utils'
 
 export function ExplorerUiExplorerLink({
   className,
-  provider,
   ...props
 }: {
   className?: string
-  provider: ExplorerProvider
 } & GetExplorerUrlProps) {
   const href = getExplorerUrl(props)
-  const name = getExplorerName(provider)
+  const name = getExplorerName(props.provider)
   return (
     <UiTooltip content={`View in ${name}`}>
       <a

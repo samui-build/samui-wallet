@@ -15,6 +15,7 @@ describe('get-explorer-url', () => {
         const props: GetExplorerUrlProps = {
           network: { endpoint: 'https://api.devnet.solana.com', type: 'solana:devnet' },
           path: `/address/${address}`,
+          provider: 'solana',
         }
         const expected = `https://explorer.solana.com/address/${address}?cluster=devnet`
 
@@ -34,6 +35,7 @@ describe('get-explorer-url', () => {
             type: 'solana:mainnet',
           },
           path: `/tx/${signature}`,
+          provider: 'solana',
         }
         const expected = `https://explorer.solana.com/tx/${signature}`
 
@@ -54,6 +56,7 @@ describe('get-explorer-url', () => {
             type: 'solana:localnet',
           },
           path: `/block/${block}`,
+          provider: 'solana',
         }
         const expected = `https://explorer.solana.com/block/${block}?cluster=custom&customUrl=${encodeURIComponent(endpoint)}`
 
