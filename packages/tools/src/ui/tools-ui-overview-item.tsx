@@ -9,9 +9,12 @@ export function ToolsUiOverviewItem({ tool }: { tool: Tool }) {
   return (
     <Item
       asChild
-      className={cn({
-        'text-muted-foreground': tool.comingSoon,
-      })}
+      className={
+        'rounded-xl ' +
+        cn({
+          'text-muted-foreground': tool.comingSoon,
+        })
+      }
       key={tool.path}
       size="sm"
       variant="outline"
