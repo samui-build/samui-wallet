@@ -10,6 +10,7 @@ const ExplorerRoutes = lazy(() => import('@workspace/explorer/explorer-routes'))
 const OnboardingRoutes = lazy(() => import('@workspace/onboarding/onboarding-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes'))
 const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
+const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
 const links: ShellLayoutLink[] = [
@@ -38,6 +39,7 @@ const router = createHashRouter([
     element: <ShellUiLayout links={links} />,
   },
   { element: <OnboardingRoutes />, path: 'onboarding/*' },
+  { element: <SettingsFeatureReset />, path: 'reset' },
 ])
 
 export function ShellRoutes() {
