@@ -7,7 +7,12 @@ export function ExplorerFeatureIndex({ basePath }: { basePath: string }) {
   const navigate = useNavigate()
   return (
     <UiPage>
-      <UiEmpty description="Search and explore accounts or transactions" icon="explorer" title="Explorer">
+      <UiEmpty
+        className="border-solid"
+        description="Search and explore accounts or transactions"
+        icon="explorer"
+        title="Explorer"
+      >
         <div className="w-full">
           <ExplorerUiSearch
             submit={async (input) => {
