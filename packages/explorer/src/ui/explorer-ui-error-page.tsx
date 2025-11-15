@@ -1,10 +1,10 @@
 import { UiError } from '@workspace/ui/components/ui-error'
-import { ExplorerUiPage } from './explorer-ui-page.tsx'
+import { UiPage } from '@workspace/ui/components/ui-page'
 
 export function ExplorerUiErrorPage({ message, title }: { message: string; title: string }) {
   return (
-    <ExplorerUiPage>
+    <UiPage>
       <UiError icon="explorer" message={new Error(message)} title={title} />
-    </ExplorerUiPage>
+    </UiPage>
   )
 }
