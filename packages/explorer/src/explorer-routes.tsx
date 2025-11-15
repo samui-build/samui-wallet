@@ -22,7 +22,7 @@ export function Routes({ basePath, network }: { basePath: string; network: Netwo
   return useRoutes([
     { element: <ExplorerFeatureIndex basePath={basePath} />, index: true },
     { element: <ExplorerFeatureAccount basePath={basePath} network={network} />, path: 'address/:address' },
-    { element: <ExplorerFeatureTx />, path: 'tx/:signature' },
+    { element: <ExplorerFeatureTx basePath={basePath} network={network} />, path: 'tx/:signature' },
     // This route exists to stay compatible with other explorers in the ecosystem
     { element: <ExplorerFeatureAccountRedirect basePath={basePath} />, path: 'account/:address' },
     {

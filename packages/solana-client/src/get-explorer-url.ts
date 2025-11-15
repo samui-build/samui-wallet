@@ -15,6 +15,7 @@ export interface GetExplorerUrlProps {
   provider?: ExplorerProvider
 }
 
+// TODO: Create issue to make `provider` a required property of getExplorerUrl
 export function getExplorerUrl({ network, path, provider = 'solana' }: GetExplorerUrlProps) {
   if (!(path.startsWith('/address') || path.startsWith('/block') || path.startsWith('/tx'))) {
     throw new Error('Invalid path. Must be /address, /block, or /tx.')
