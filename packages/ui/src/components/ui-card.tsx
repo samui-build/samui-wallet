@@ -8,7 +8,6 @@ export function UiCard({
   action,
   actionProps,
   backButtonTo,
-  cardProps,
   children,
   contentProps,
   description,
@@ -18,6 +17,7 @@ export function UiCard({
   headerProps,
   title,
   titleProps,
+  ...cardProps
 }: {
   action?: ReactNode
   actionProps?: Omit<ComponentProps<typeof CardAction>, 'children'>
@@ -32,7 +32,7 @@ export function UiCard({
   headerProps?: Omit<ComponentProps<typeof CardHeader>, 'children'>
   title?: ReactNode
   titleProps?: Omit<ComponentProps<typeof CardTitle>, 'children'>
-}) {
+} & Omit<ComponentProps<typeof Card>, 'children' | 'title'>) {
   return (
     <Card {...cardProps}>
       {action || description || title ? (
