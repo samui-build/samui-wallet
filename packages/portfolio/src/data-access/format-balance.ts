@@ -1,6 +1,40 @@
-export function formatBalance({ balance = 0, decimals }: { balance: bigint | number | undefined; decimals: number }) {
-  const balanceString = balance.toString()
-  const integerPart = balanceString.length > decimals ? balanceString.slice(0, balanceString.length - decimals) : '0'
-  const fractionalPart = balanceString.padStart(decimals, '0').slice(-decimals)
-  return `${integerPart}.${fractionalPart}`
+import { balanceToNumber } from './balance-to-number.ts'
+import { getTokenFormatter } from './get-token-formatter.ts'
+
+export function formatBalance({ balance, decimals }: { balance: bigint; decimals: number }): string {
+  if (balance === 0n) {
+    return '0'
+  }
+
+  if (balance < 0n) {
+    return `-${formatBalance({ balance: -balance, decimals })}`
+  }
+
+  const value = balanceToNumber({ balance, decimals })
+
+  if (value < 0.00001 && value > 0) {
+    return '<0.00001'
+  }
+
+  // Use standard suffixes for large numbers eg 1.23M, 4.56B, 7.89T
+  if (value >= 1_000_000_000_000) {
+    const scaled = value / 1_000_000_000_000
+    return `${getTokenFormatter({ maximumFractionDigits: 2 }).format(scaled)}T`
+  }
+
+  if (value >= 1_000_000_000) {
+    const scaled = value / 1_000_000_000
+    return `${getTokenFormatter({ maximumFractionDigits: 2 }).format(scaled)}B`
+  }
+
+  if (value >= 1_000_000) {
+    const scaled = value / 1_000_000
+    return `${getTokenFormatter({ maximumFractionDigits: 2 }).format(scaled)}M`
+  }
+
+  // Standard token formatting with up to 5 decimals
+  return getTokenFormatter({
+    maximumFractionDigits: 5,
+    minimumFractionDigits: 0,
+  }).format(value)
 }
