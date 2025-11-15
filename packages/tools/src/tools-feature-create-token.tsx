@@ -47,10 +47,10 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     if (res.supply) {
       setResultSupply(res.supply)
     }
-    console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}` }))
-    console.log('TX', getExplorerUrl({ network: props.network, path: `/tx/${res.signature}` }))
+    console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}`, provider: 'solana' }))
+    console.log('TX', getExplorerUrl({ network: props.network, path: `/tx/${res.signature}`, provider: 'solana' }))
     if (res.supply) {
-      console.log('Supply', getExplorerUrl({ network: props.network, path: `/tx/${res.supply}` }))
+      console.log('Supply', getExplorerUrl({ network: props.network, path: `/tx/${res.supply}`, provider: 'solana' }))
     }
   }, [mutation, props.network, queryKeypair, decimals, supply])
 
@@ -60,10 +60,20 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
         <div className="flex flex-col gap-6">
           <div>Token created!</div>
           <div>
-            <PortfolioUiExplorerButton label="View Mint" network={props.network} path={`/address/${resultMint}`} />
+            <PortfolioUiExplorerButton
+              label="View Mint"
+              network={props.network}
+              path={`/address/${resultMint}`}
+              provider="solana"
+            />
           </div>
           <div>
-            <PortfolioUiExplorerButton label="View Mint Transaction" network={props.network} path={`/tx/${resultTx}`} />
+            <PortfolioUiExplorerButton
+              label="View Mint Transaction"
+              network={props.network}
+              path={`/tx/${resultTx}`}
+              provider="solana"
+            />
           </div>
           {resultSupply ? (
             <div>
@@ -71,6 +81,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
                 label="View Supply Transaction"
                 network={props.network}
                 path={`/tx/${resultSupply}`}
+                provider="solana"
               />
             </div>
           ) : null}

@@ -12,10 +12,10 @@ export interface GetNetworkSuffixProps {
 export interface GetExplorerUrlProps {
   network: GetNetworkSuffixProps
   path: ExplorerPath
-  provider?: ExplorerProvider
+  provider: ExplorerProvider
 }
 
-export function getExplorerUrl({ network, path, provider = 'solana' }: GetExplorerUrlProps) {
+export function getExplorerUrl({ network, path, provider }: GetExplorerUrlProps) {
   if (!(path.startsWith('/address') || path.startsWith('/block') || path.startsWith('/tx'))) {
     throw new Error('Invalid path. Must be /address, /block, or /tx.')
   }
@@ -34,7 +34,7 @@ export function getExplorerUrl({ network, path, provider = 'solana' }: GetExplor
   return url.toString()
 }
 
-function getExplorerBaseUrl(provider: ExplorerProvider = 'solana') {
+function getExplorerBaseUrl(provider: ExplorerProvider) {
   switch (provider) {
     case 'orb':
       return 'https://orb.helius.dev'

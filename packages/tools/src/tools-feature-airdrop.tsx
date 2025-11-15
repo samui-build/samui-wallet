@@ -19,7 +19,12 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
         submit={async (input) => {
           const signature = await mutateAsync({ ...input, address: address(input.address) })
           toastSuccess(
-            <PortfolioUiExplorerLink label="View on explorer" network={props.network} path={`/tx/${signature}`} />,
+            <PortfolioUiExplorerLink
+              label="View on explorer"
+              network={props.network}
+              path={`/tx/${signature}`}
+              provider="solana"
+            />,
           )
         }}
       />
