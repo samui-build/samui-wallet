@@ -1,12 +1,12 @@
 import { UiEmpty } from '@workspace/ui/components/ui-empty'
+import { UiPage } from '@workspace/ui/components/ui-page'
 import { useNavigate } from 'react-router'
-import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 import { ExplorerUiSearch } from './ui/explorer-ui-search.tsx'
 
 export function ExplorerFeatureIndex({ basePath }: { basePath: string }) {
   const navigate = useNavigate()
   return (
-    <ExplorerUiPage>
+    <UiPage>
       <UiEmpty description="Search and explore accounts or transactions" icon="explorer" title="Explorer">
         <div className="w-full">
           <ExplorerUiSearch
@@ -16,6 +16,6 @@ export function ExplorerFeatureIndex({ basePath }: { basePath: string }) {
           />
         </div>
       </UiEmpty>
-    </ExplorerUiPage>
+    </UiPage>
   )
 }

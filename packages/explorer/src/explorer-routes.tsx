@@ -2,13 +2,13 @@ import type { Network } from '@workspace/db/entity/network'
 import { useDbNetworkLive } from '@workspace/db-react/use-db-network-live'
 import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { UiPage } from '@workspace/ui/components/ui-page'
 import { useMemo } from 'react'
 import { useRoutes } from 'react-router'
 import { ExplorerFeatureAccount } from './explorer-feature-account.tsx'
 import { ExplorerFeatureAccountRedirect } from './explorer-feature-account-redirect.tsx'
 import { ExplorerFeatureIndex } from './explorer-feature-index.tsx'
 import { ExplorerFeatureTx } from './explorer-feature-tx.tsx'
-import { ExplorerUiPage } from './ui/explorer-ui-page.tsx'
 
 export default function ExplorerRoutes({ basePath }: { basePath: string }) {
   const networkLive = useDbNetworkLive()
@@ -27,9 +27,9 @@ export function Routes({ basePath, network }: { basePath: string; network: Netwo
     { element: <ExplorerFeatureAccountRedirect basePath={basePath} />, path: 'account/:address' },
     {
       element: (
-        <ExplorerUiPage>
+        <UiPage>
           <UiNotFound />
-        </ExplorerUiPage>
+        </UiPage>
       ),
       path: '*',
     },
