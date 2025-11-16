@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/i18n": "workspace:*",

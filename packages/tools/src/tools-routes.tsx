@@ -1,6 +1,5 @@
-import type { Account } from '@workspace/db/entity/account'
-import type { Network } from '@workspace/db/entity/network'
-import { PortfolioUiNetworkAccountGuard } from '@workspace/portfolio/ui/portfolio-ui-network-guard'
+import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
+import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
 import { lazy } from 'react'
 import { useRoutes } from 'react-router'
@@ -10,20 +9,16 @@ const ToolsFeatureCreateToken = lazy(() => import('./tools-feature-create-token.
 const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.tsx'))
 const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
 
-export function Router(props: { account: Account; network: Network }) {
-  return useRoutes([
+export default function ToolsRoutes() {
+  const account = useDbAccountActive()
+  const network = useDbNetworkActive()
+  const routes = useRoutes([
     { element: <ToolsFeatureOverview />, index: true },
-    { element: <ToolsFeatureAirdrop {...props} />, path: 'airdrop' },
-    { element: <ToolsFeatureCreateToken {...props} />, path: 'create-token' },
+    { element: <ToolsFeatureAirdrop account={account} network={network} />, path: 'airdrop' },
+    { element: <ToolsFeatureCreateToken account={account} network={network} />, path: 'create-token' },
     { element: <ToolsFeatureMintToken />, path: 'mint-token' },
     { element: <ToolsFeatureMintToken />, path: 'create-nft' },
   ])
-}
 
-export default function ToolsRoutes() {
-  return (
-    <UiPage>
-      <PortfolioUiNetworkAccountGuard render={(props) => <Router {...props} />} />
-    </UiPage>
-  )
+  return <UiPage>{routes}</UiPage>
 }

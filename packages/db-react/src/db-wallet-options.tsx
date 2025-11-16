@@ -9,6 +9,8 @@ import { dbWalletUpdate } from '@workspace/db/db-wallet-update'
 import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
 import type { WalletInputFindMany } from '@workspace/db/dto/wallet-input-find-many'
 import type { WalletInputUpdate } from '@workspace/db/dto/wallet-input-update'
+import { queryClient } from './db-query-client.tsx'
+import { dbSettingOptions } from './db-setting-options.tsx'
 
 export type DbWalletCreateMutateOptions = MutateOptions<string, Error, { input: WalletInputCreate }>
 export type DbWalletDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
@@ -19,6 +21,10 @@ export const dbWalletOptions = {
   create: (props: DbWalletCreateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: WalletInputCreate }) => dbWalletCreate(db, input),
+      onSuccess: () => {
+        queryClient.invalidateQueries(dbSettingOptions.getAll())
+        queryClient.invalidateQueries(dbSettingOptions.getValue('activeWalletId'))
+      },
       ...props,
     }),
   delete: (props: DbWalletDeleteMutateOptions = {}) =>
@@ -39,6 +45,11 @@ export const dbWalletOptions = {
   setActive: (props: DbWalletSetActiveMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => dbWalletSetActive(db, id),
+      onSuccess: () => {
+        queryClient.invalidateQueries(dbSettingOptions.getAll())
+        queryClient.invalidateQueries(dbSettingOptions.getValue('activeWalletId'))
+        queryClient.invalidateQueries(dbSettingOptions.getValue('activeAccountId'))
+      },
       ...props,
     }),
   update: (props: DbWalletUpdateMutateOptions = {}) =>
