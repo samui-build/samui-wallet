@@ -28,7 +28,7 @@ export function PortfolioUiAccountFormSend({
   }, [balances, mintAddress])
 
   return (
-    <div className="w-full max-w-md md:px-4">
+    <div className="w-full max-w-md px-4">
       <form>
         <FieldGroup>
           <FieldSet>
