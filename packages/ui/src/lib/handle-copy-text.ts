@@ -1,4 +1,4 @@
-export async function handleCopyText(text?: string) {
+export async function handleCopyText(text: string) {
   if (!text) {
     return
   }
