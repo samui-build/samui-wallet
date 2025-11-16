@@ -2,7 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStaticNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { LucideHammer, LucidePieChart, LucideSettings } from 'lucide-react-native'
-import { useAppTheme } from './app-theme.tsx'
+import { useUniwind } from 'uniwind'
+import { getNavigationTheme } from './app-theme.tsx'
 import { LoadingFeatureIndex } from './features/loading/loading-feature-index.tsx'
 import { OnboardingFeatureGenerate } from './features/onboarding/onboarding-feature-generate.tsx'
 import { OnboardingFeatureImport } from './features/onboarding/onboarding-feature-import.tsx'
@@ -129,6 +130,8 @@ const RootStack = createNativeStackNavigator({
 const AppNavigation = createStaticNavigation(RootStack)
 
 export function AppRoutes() {
-  const theme = useAppTheme()
-  return <AppNavigation theme={theme} />
+  const { theme } = useUniwind()
+  const navigationTheme = getNavigationTheme(theme)
+
+  return <AppNavigation theme={navigationTheme} />
 }

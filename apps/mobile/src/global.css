@@ -1,5 +1,54 @@
-@import "tailwindcss/theme.css" layer(theme);
-@import "tailwindcss/preflight.css" layer(base);
-@import "tailwindcss/utilities.css";
+@import "tailwindcss";
+@import "uniwind";
 
-@import "nativewind/theme";
+@source "../packages/ui/src/components/**/*.{ts,tsx}";
+
+@layer theme {
+  :root {
+    @variant dark {
+      /* Backgrounds */
+      --color-background: oklch(0.205 0 0);
+      --color-background-secondary: oklch(0.18 0 0);
+      --color-card: oklch(0.145 0 0);
+
+      /* Text colors */
+      --color-foreground: oklch(0.9225 0.0027 286.35);
+      --color-foreground-secondary: oklch(0.6483 0.0073 286.19);
+      --color-muted: oklch(0.5007 0.0047 286.23);
+
+      /* Borders */
+      --color-border: oklch(0.2735 0.0036 286.16);
+      --color-border-subtle: oklch(0.18 0 0);
+
+      /* Interactive elements */
+      --color-primary: oklch(0.6243 0.2056 255.49);
+      --color-primary-hover: oklch(0.6854 0.1699 252.99);
+      --color-danger: oklch(0.6633 0.2236 28.29);
+      --color-success: oklch(0.7556 0.2082 146.98);
+      --color-warning: oklch(0.7824 0.1711 67.22);
+    }
+
+    @variant light {
+      /* Backgrounds */
+      --color-background: oklch(0.9612 0 0);
+      --color-background-secondary: oklch(0.9612 0 0);
+      --color-card: oklch(1 0 0);
+
+      /* Text colors */
+      --color-foreground: oklch(0.2273 0.0038 286.09);
+      --color-foreground-secondary: oklch(0.6483 0.0073 286.19);
+      --color-muted: oklch(0.752 0.0057 286.26);
+
+      /* Borders */
+      --color-border: oklch(0.8822 0 0);
+      --color-border-subtle: oklch(0.9626 0.0066 286.27);
+
+      /* Interactive elements */
+      --color-primary: oklch(0.6028 0.2177 257.42);
+      --color-primary-hover: oklch(0.5296 0.1899 257.24);
+      --color-danger: oklch(0.6542 0.2321 28.66);
+      --color-success: oklch(0.7303 0.1944 147.44);
+      --color-warning: oklch(0.7824 0.1711 67.22);
+    }
+  }
+}

@@ -77,6 +77,18 @@
           }
         }
       }
+    },
+    {
+      "includes": ["**/global.css"],
+      "linter": {
+        "enabled": false
+      }
+    },
+    {
+      "includes": ["**/babel.config.cjs"],
+      "linter": {
+        "enabled": false
+      }
     }
   ],
   "vcs": {

@@ -69,6 +69,8 @@ const config: CSpellSettings = {
     'vitaly',
     'wordlist',
     'wordlists',
+    'worklets',
+    'uniwind',
     // Spanish
     'mnemónica',
   ],

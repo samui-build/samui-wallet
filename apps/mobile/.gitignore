@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+
+# Native folders
+/android/
+/ios/
+
+# Native certificates and keys
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+
+# Metro bundler
+.metro-health-check*
+
+# macOS
+.DS_Store
+
+# Bun
+.bun/
+bun-debug.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# Generated files
+expo-env.d.ts
+
+# Secrets and IDE
+.secrets
+.idea
+
+# Build artifacts
+sampling-profiler-trace*
+build-*.apk
