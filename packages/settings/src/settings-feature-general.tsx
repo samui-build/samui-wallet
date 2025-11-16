@@ -4,6 +4,7 @@ import { Link } from 'react-router'
 import { useSettingsPage } from './data-access/use-settings-page.tsx'
 import { SettingsFeatureGeneralApiEndpoint } from './settings-feature-general-api-endpoint.tsx'
 import { SettingsFeatureGeneralDeveloperModeEnable } from './settings-feature-general-developer-mode-enable.tsx'
+import { SettingsFeatureGeneralLanguage } from './settings-feature-general-language.tsx'
 import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feature-general-warning-accept-experimental.tsx'
 
 export function SettingsFeatureGeneral() {
@@ -11,6 +12,7 @@ export function SettingsFeatureGeneral() {
   return (
     <div className="space-y-6">
       <UiCard contentProps={{ className: 'grid gap-6' }} description={page.description} title={page.name}>
+        <SettingsFeatureGeneralLanguage />
         <SettingsFeatureGeneralApiEndpoint />
         <SettingsFeatureGeneralWarningAcceptExperimental />
         <SettingsFeatureGeneralDeveloperModeEnable />
