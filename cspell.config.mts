@@ -12,7 +12,14 @@ function findPackageJsonFiles(directory: string): string[] {
 
 function getAllDependencies(pkgPath: string): string[] {
   const pkg = JSON.parse(readFileSync(pkgPath, 'utf8'))
-  return [pkg.dependencies, pkg.devDependencies, pkg.peerDependencies, pkg.optionalDependencies, pkg.catalog]
+  return [
+    pkg.catalog,
+    pkg.dependencies,
+    pkg.devDependencies,
+    pkg.optionalDependencies,
+    pkg.overrides,
+    pkg.peerDependencies,
+  ]
     .flatMap((deps) => Object.keys(deps || {}))
     .flatMap((dep) => dep.replace('@', '').split(/[/-]/))
 }
@@ -39,6 +46,7 @@ const config: CSpellSettings = {
     'arweave',
     'beeman',
     'blockhash',
+    'bunx',
     'cypherpunk',
     'devnet',
     'ellipsify',

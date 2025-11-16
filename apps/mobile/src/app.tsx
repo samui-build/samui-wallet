@@ -1,11 +1,14 @@
+// @ts-expect-error css import
+import './global.css'
 import { StatusBar } from 'expo-status-bar'
-import { Text, View } from 'react-native'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { AppRoutes } from './app-routes.tsx'
 
 export function App() {
   return (
-    <View>
-      <Text>Samui Wallet</Text>
+    <SafeAreaProvider>
+      <AppRoutes />
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaProvider>
   )
 }
