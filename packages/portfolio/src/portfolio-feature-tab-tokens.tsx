@@ -3,15 +3,17 @@ import type { Account } from '@workspace/db/entity/account'
 import type { Network } from '@workspace/db/entity/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
-import { Spinner } from '@workspace/ui/components/spinner'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
 import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
+import { PortfolioUiBalance } from './ui/portfolio-ui-balance.tsx'
+import { PortfolioUiBalanceSkeleton } from './ui/portfolio-ui-balance-skeleton.tsx'
 import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
+import { PortfolioUiTokenBalancesSkeleton } from './ui/portfolio-ui-token-balances-skeleton.tsx'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
 import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
 
@@ -107,16 +109,22 @@ export function PortfolioFeatureTabTokens(props: { account: Account; network: Ne
     },
     [handleSendSol, handleSendSplToken],
   )
-  if (isLoadingWalletInfo) {
-    return <Spinner />
-  }
 
   return (
     <div className="space-y-6">
-      <div className="text-4xl font-bold text-center">$ {totalBalance}</div>
+      {isLoadingWalletInfo ? <PortfolioUiBalanceSkeleton /> : <PortfolioUiBalance balance={totalBalance} />}
+
       <PortfolioUiAccountButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
-      <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
-      <PortfolioUiTokenBalances items={balances} />
+
+      {isLoadingWalletInfo ? null : (
+        <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
+      )}
+
+      {isLoadingWalletInfo ? (
+        <PortfolioUiTokenBalancesSkeleton length={3} />
+      ) : (
+        <PortfolioUiTokenBalances items={balances} />
+      )}
     </div>
   )
 }
