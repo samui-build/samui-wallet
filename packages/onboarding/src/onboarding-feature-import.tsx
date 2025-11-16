@@ -82,7 +82,7 @@ export function OnboardingFeatureImport() {
         description={t(($) => $.importCardDescription)}
         footer={
           <div className="flex w-full justify-between">
-            <UiTextPasteButton onPaste={handlePaste} />
+            <UiTextPasteButton label={t(($) => $.importToastPaste)} onPaste={handlePaste} />
             <OnboardingUiMnemonicSave disabled={!isFormComplete} label={t(($) => $.importButtonSubmit)} />
           </div>
         }
