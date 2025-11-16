@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 import { cn } from '@workspace/ui/lib/utils'
@@ -11,7 +12,15 @@ export interface ShellLayoutLink {
   to: string
 }
 
-export function ShellUiLayout({ links }: { links: ShellLayoutLink[] }) {
+export function ShellUiLayout() {
+  const { t } = useTranslation('shell')
+  const links: ShellLayoutLink[] = [
+    { icon: 'portfolio', label: t(($) => $.portfolioLabel), to: '/portfolio' },
+    { icon: 'explorer', label: t(($) => $.explorerLabel), to: '/explorer' },
+    { icon: 'tools', label: t(($) => $.toolsLabel), to: '/tools' },
+    { icon: 'settings', label: t(($) => $.settingsLabel), to: '/settings' },
+  ]
+
   return (
     <div className="h-full flex flex-col justify-between items-stretch">
       <ShellUiWarningExperimental />
