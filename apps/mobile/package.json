@@ -1,12 +1,21 @@
 {
   "dependencies": {
-    "expo": "~54.0.20",
+    "@react-navigation/native": "^7.1.20",
+    "@react-navigation/native-stack": "^7.6.3",
+    "expo": "54.0.23",
     "expo-status-bar": "~3.0.8",
-    "react": "catalog:",
-    "react-native": "0.82.1"
+    "expo-system-ui": "~6.0.8",
+    "metro-config": "^0.83.3",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-mmkv": "^4.0.0",
+    "react-native-safe-area-context": "~5.6.0",
+    "tailwindcss": "catalog:",
+    "uniwind": "^1.0.1"
   },
   "devDependencies": {
-    "@types/react": "catalog:",
+    "@expo/metro-config": "~54.0.2",
+    "@types/react": "~19.1.10",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },
@@ -14,9 +23,9 @@
   "name": "mobile",
   "private": true,
   "scripts": {
-    "android": "expo start --android",
-    "dev": "expo start",
-    "ios": "expo start --ios"
+    "android": "expo run:android",
+    "dev": "expo start --clear --dev-client --reset-cache",
+    "ios": "expo run:ios"
   },
   "type": "module",
   "version": "1.0.0"
