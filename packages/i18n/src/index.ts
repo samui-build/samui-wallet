@@ -25,4 +25,4 @@ i18n.use(initReactI18next).init({
 
 export { useTranslation } from 'react-i18next'
 
-export default i18n
+export { i18n }
