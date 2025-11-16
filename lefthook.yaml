@@ -16,4 +16,4 @@ commit-msg:
       run: bun commitlint --edit {1}
 
     spell-check:
-      run: bun cspell --no-summary {1}
+      run: bun spell-check --no-summary {1}
