@@ -9,7 +9,7 @@ export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
     <div>
       <NavLink
         className={({ isActive }) =>
-          cn(`p-4 flex justify-between rounded-xl border border-primary/10`, {
+          cn(`p-4 flex justify-between rounded-md border border-primary/10`, {
             'font-bold text-white': isActive,
             'text-muted-foreground': !isActive,
           })
