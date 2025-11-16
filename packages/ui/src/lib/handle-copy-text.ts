@@ -1,4 +1,4 @@
-export function handleCopyText(text?: string) {
+export async function handleCopyText(text?: string) {
   if (!text) {
     return
   }
@@ -10,5 +10,5 @@ export function handleCopyText(text?: string) {
   ) {
     return
   }
-  void globalThis.navigator.clipboard.writeText(text)
+  await globalThis.navigator.clipboard.writeText(text)
 }
