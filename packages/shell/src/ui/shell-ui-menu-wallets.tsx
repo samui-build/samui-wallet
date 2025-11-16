@@ -60,7 +60,6 @@ export function ShellUiMenuWallets({
                         className={cn('font-mono', {
                           'font-bold': account.id === activeAccount?.id,
                         })}
-                        key={account.id}
                         value={account.id}
                       >
                         {account.name}
