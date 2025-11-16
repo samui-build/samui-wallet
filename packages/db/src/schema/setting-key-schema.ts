@@ -6,5 +6,6 @@ export const settingKeySchema = z.enum([
   'activeWalletId',
   'apiEndpoint',
   'developerModeEnabled',
+  'language',
   'warningAcceptExperimental',
 ])

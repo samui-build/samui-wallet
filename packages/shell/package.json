@@ -5,6 +5,7 @@
     "@workspace/db-react": "workspace:*",
     "@workspace/dev": "workspace:*",
     "@workspace/explorer": "workspace:*",
+    "@workspace/i18n": "workspace:*",
     "@workspace/onboarding": "workspace:*",
     "@workspace/portfolio": "workspace:*",
     "@workspace/settings": "workspace:*",

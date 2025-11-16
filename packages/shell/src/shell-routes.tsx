@@ -1,9 +1,10 @@
 import { dbLoader } from '@workspace/db-react/db-loader'
 import { queryClient } from '@workspace/db-react/db-query-client'
 import { dbSettingOptions } from '@workspace/db-react/db-setting-options'
+import { i18n } from '@workspace/i18n'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
-import { createHashRouter, Navigate, RouterProvider } from 'react-router'
+import { createHashRouter, Navigate, RouterProvider, redirect } from 'react-router'
 import type { ShellLayoutLink } from './ui/shell-ui-layout.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
@@ -44,7 +45,27 @@ const router = createHashRouter([
       { element: <SettingsFeatureReset />, path: 'reset' },
     ],
     id: 'root',
-    loader: dbLoader(queryClient),
+    loader: async (args) => {
+      const url = new URL(args.request.url)
+      const pathname = url.pathname
+
+      const result = await dbLoader()
+      const { settings, networks } = result
+
+      const activeWalletId = settings.find((s) => s.key === 'activeWalletId')?.value
+      if (!activeWalletId && !pathname.startsWith('/onboarding')) {
+        return redirect('/onboarding')
+      }
+
+      if (!networks.length) {
+        return redirect('/settings/networks')
+      }
+
+      const language = settings.find((s) => s.key === 'language')?.value ?? 'en'
+      i18n.changeLanguage(language)
+
+      return result
+    },
     shouldRevalidate: () => {
       const state = queryClient.getQueryState(dbSettingOptions.getAll().queryKey)
       return !state || state.isInvalidated
