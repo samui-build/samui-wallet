@@ -1,6 +1,5 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "samui",
@@ -232,6 +231,7 @@
         "dexie-react-hooks": "^4.2.0",
         "react": "catalog:",
         "react-dom": "catalog:",
+        "react-router": "catalog:",
       },
       "devDependencies": {
         "@types/bun": "catalog:",
