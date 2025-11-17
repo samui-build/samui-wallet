@@ -4,7 +4,7 @@ import { SettingsUiPageItem } from './settings-ui-page-item.tsx'
 
 export function SettingsUiPageList({ pages }: { pages: SettingsPage[] }) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-4">
       {pages.map((page) => (
         <SettingsUiPageItem key={page.id} page={page} />
       ))}
