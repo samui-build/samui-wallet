@@ -20,6 +20,7 @@ import {
   LucideHardDrive,
   LucideImage,
   LucideImport,
+  LucideKeyRound,
   LucideLetterText,
   LucideNetwork,
   LucideNotepadText,
@@ -67,6 +68,7 @@ export type UiIconName =
   | 'hardware'
   | 'image'
   | 'import'
+  | 'key'
   | 'mnemonic'
   | 'network'
   | 'portfolio'
@@ -105,6 +107,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('hardware', LucideHardDrive)
   .set('image', LucideImage)
   .set('import', LucideImport)
+  .set('key', LucideKeyRound)
   .set('mnemonic', LucideNotepadText)
   .set('network', LucideNetwork)
   .set('portfolio', LucidePieChart)
