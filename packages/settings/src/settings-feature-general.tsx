@@ -10,8 +10,8 @@ import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feat
 export function SettingsFeatureGeneral() {
   const page = useSettingsPage({ pageId: 'general' })
   return (
-    <div className="space-y-6">
-      <UiCard contentProps={{ className: 'grid gap-6' }} description={page.description} title={page.name}>
+    <div className="space-y-4">
+      <UiCard contentProps={{ className: 'grid gap-4 space-y-4' }} description={page.description} title={page.name}>
         <SettingsFeatureGeneralLanguage />
         <SettingsFeatureGeneralApiEndpoint />
         <SettingsFeatureGeneralWarningAcceptExperimental />

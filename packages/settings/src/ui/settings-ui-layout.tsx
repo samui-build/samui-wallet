@@ -8,7 +8,7 @@ export function SettingsUiLayout() {
 
   return (
     <UiPage>
-      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-2 gap-y-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 md:gap-4 gap-y-4">
         <div>
           <SettingsUiPageList pages={pages} />
         </div>

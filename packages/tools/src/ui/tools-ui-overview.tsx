@@ -4,7 +4,7 @@ import { ToolsUiOverviewItem } from './tools-ui-overview-item.tsx'
 
 export function ToolsUiOverview({ tools }: { tools: Tool[] }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {tools.map((tool) => (
         <ToolsUiOverviewItem key={tool.path} tool={tool} />
       ))}
