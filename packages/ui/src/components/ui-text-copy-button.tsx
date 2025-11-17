@@ -7,7 +7,7 @@ import { UiIcon } from './ui-icon.tsx'
 export function UiTextCopyButton({ label, text, toast }: { label: string; text: string; toast: string }) {
   return (
     <Button
-      className='cursor-pointer'
+      className="cursor-pointer"
       onClick={async () => {
         try {
           await handleCopyText(text)
