@@ -100,7 +100,7 @@ export function ShellUiMenuWallets({
 
         <MenubarSeparator />
         <MenubarItem asChild>
-          <Link to={'/settings/wallets'}>
+          <Link to="/settings/wallets">
             <UiIcon icon="settings" />
             Wallet settings
           </Link>
