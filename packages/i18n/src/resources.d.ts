@@ -16,6 +16,12 @@ interface Resources {
     uiMnemonicUnexpectedLength: 'Unexpected mnemonic length'
     uiMnemonicWords: '{{words}} words'
   }
+  shell: {
+    explorerLabel: 'Explorer'
+    portfolioLabel: 'Portfolio'
+    settingsLabel: 'Settings'
+    toolsLabel: 'Tools'
+  }
 }
 
 export default Resources

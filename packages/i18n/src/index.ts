@@ -5,7 +5,9 @@ import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
 import enOnboarding from '../locales/en/onboarding.json' with { type: 'json' }
+import enShell from '../locales/en/shell.json' with { type: 'json' }
 import esOnboarding from '../locales/es/onboarding.json' with { type: 'json' }
+import esShell from '../locales/es/shell.json' with { type: 'json' }
 
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
@@ -16,9 +18,11 @@ i18n.use(initReactI18next).init({
   resources: {
     en: {
       onboarding: enOnboarding,
+      shell: enShell,
     },
     es: {
       onboarding: esOnboarding,
+      shell: esShell,
     },
   },
 })
