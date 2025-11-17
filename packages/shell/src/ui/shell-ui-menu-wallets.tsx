@@ -39,7 +39,12 @@ export function ShellUiMenuWallets({
 
           {activeAccount?.publicKey && (
             <span onPointerDown={(e) => e.stopPropagation()}>
-              <UiTextCopyButton label={''} text={activeAccount.publicKey} toast={'Copied public key to clipboard'} />
+              <UiTextCopyButton
+                size="icon"
+                text={activeAccount.publicKey}
+                toast="Copied public key to clipboard"
+                variant="ghost"
+              />
             </span>
           )}
         </div>
@@ -66,9 +71,10 @@ export function ShellUiMenuWallets({
                       </MenubarRadioItem>
                       <div className="p-2">
                         <UiTextCopyButton
-                          label={'copy'}
+                          size="icon"
                           text={account.publicKey}
-                          toast={'Copied public key to clipboard'}
+                          toast="Copied public key to clipboard"
+                          variant="ghost"
                         />
                       </div>
                     </div>

@@ -1,10 +1,16 @@
+import type { ComponentProps } from 'react'
 import { handleCopyText } from '../lib/handle-copy-text.ts'
 import { toastError } from '../lib/toast-error.ts'
 import { toastSuccess } from '../lib/toast-success.ts'
 import { Button } from './button.tsx'
 import { UiIcon } from './ui-icon.tsx'
 
-export function UiTextCopyButton({ label, text, toast }: { label: string; text: string; toast: string }) {
+export function UiTextCopyButton({
+  label,
+  text,
+  toast,
+  ...props
+}: ComponentProps<typeof Button> & { label?: string; text: string; toast: string }) {
   return (
     <Button
       className="cursor-pointer"
@@ -20,6 +26,7 @@ export function UiTextCopyButton({ label, text, toast }: { label: string; text: 
       }}
       type="button"
       variant="secondary"
+      {...props}
     >
       <UiIcon icon="copy" />
       {label}
