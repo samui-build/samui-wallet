@@ -5,7 +5,6 @@ import { i18n } from '@workspace/i18n'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, RouterProvider, redirect } from 'react-router'
-import type { ShellLayoutLink } from './ui/shell-ui-layout.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
@@ -15,13 +14,6 @@ const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes
 const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
-
-const links: ShellLayoutLink[] = [
-  { icon: 'portfolio', label: 'Portfolio', to: '/portfolio' },
-  { icon: 'explorer', label: 'Explorer', to: '/explorer' },
-  { icon: 'tools', label: 'Tools', to: '/tools' },
-  { icon: 'settings', label: 'Settings', to: '/settings' },
-]
 
 const router = createHashRouter([
   {
@@ -39,7 +31,7 @@ const router = createHashRouter([
           { element: <ToolsRoutes />, path: 'tools/*' },
           { element: <UiNotFound />, path: '*' },
         ],
-        element: <ShellUiLayout links={links} />,
+        element: <ShellUiLayout />,
       },
       { element: <OnboardingRoutes />, path: 'onboarding/*' },
       { element: <SettingsFeatureReset />, path: 'reset' },
