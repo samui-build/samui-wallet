@@ -39,7 +39,7 @@
       "name": "cli",
       "version": "0.0.0",
       "dependencies": {
-        "@effect/cli": "0.72.0",
+        "@effect/cli": "0.72.1",
         "@effect/cluster": "0.52.7",
         "@effect/platform-bun": "0.83.0",
         "@workspace/tui": "workspace:*",
@@ -1119,7 +1119,7 @@
 
     "@dimforge/rapier2d-simd-compat": ["@dimforge/rapier2d-simd-compat@0.17.3", "", {}, "sha512-bijvwWz6NHsNj5e5i1vtd3dU2pDhthSaTUZSh14DUGGKJfw8eMnlWZsxwHBxB/a3AXVNDjL9abuHw1k9FGR+jg=="],
 
-    "@effect/cli": ["@effect/cli@0.72.0", "", { "dependencies": { "ini": "^4.1.3", "toml": "^3.0.0", "yaml": "^2.5.0" }, "peerDependencies": { "@effect/platform": "^0.93.0", "@effect/printer": "^0.47.0", "@effect/printer-ansi": "^0.47.0", "effect": "^3.19.0" } }, "sha512-shfnMTtfVaFJPn0JaCmgtVmp53dOExwoCYv2hMKidpLMrxJFm28z20VAdxYS+xIPqkYnXLbDXfVGXlQ7mQjZUA=="],
+    "@effect/cli": ["@effect/cli@0.72.1", "", { "dependencies": { "ini": "^4.1.3", "toml": "^3.0.0", "yaml": "^2.5.0" }, "peerDependencies": { "@effect/platform": "^0.93.0", "@effect/printer": "^0.47.0", "@effect/printer-ansi": "^0.47.0", "effect": "^3.19.3" } }, "sha512-HGDMGD23TxFW9tCSX6g+M2u0robikMA0mP0SqeJMj7FWXTdcQ+cQsJE99bxi9iu+5YID7MIrVJMs8TUwXUV2sg=="],
 
     "@effect/cluster": ["@effect/cluster@0.52.7", "", { "peerDependencies": { "@effect/platform": "^0.93.0", "@effect/rpc": "^0.72.1", "@effect/sql": "^0.48.0", "@effect/workflow": "^0.12.2", "effect": "^3.19.3" } }, "sha512-uxusowbcAVB6BcihQ7J5oJNbPHYZbAuAhm4Gb+boVgAWWlL9PgQaw7oFR6PYXtXaYn61QlFN8yTeXmK8kgBBZw=="],
 
