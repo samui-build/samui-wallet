@@ -1,5 +1,5 @@
 import { useDbSetting } from '@workspace/db-react/use-db-setting'
-import { i18n } from '@workspace/i18n'
+import { i18n, useTranslation } from '@workspace/i18n'
 import { Label } from '@workspace/ui/components/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select'
 import { useId } from 'react'
@@ -10,6 +10,7 @@ const SUPPORTED_LANGUAGES: Record<string, string> = {
 }
 
 export function SettingsFeatureGeneralLanguage() {
+  const { t } = useTranslation('settings')
   const languageId = useId()
   const [language, setLanguageSetting] = useDbSetting('language')
 
@@ -20,7 +21,7 @@ export function SettingsFeatureGeneralLanguage() {
 
   return (
     <div className="space-y-2">
-      <Label htmlFor={languageId}>Language</Label>
+      <Label htmlFor={languageId}>{t(($) => $.pageGeneralLanguage)}</Label>
       <Select onValueChange={handleLanguageChange} value={language ?? 'en'}>
         <SelectTrigger id={languageId}>
           <SelectValue />
