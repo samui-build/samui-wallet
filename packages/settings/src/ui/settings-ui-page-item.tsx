@@ -1,24 +1,24 @@
+import { Item, ItemActions, ItemContent, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { cn } from '@workspace/ui/lib/utils'
 import { NavLink } from 'react-router'
 import type { SettingsPage } from '../data-access/settings-page.ts'
-import { SettingsUiPageHeader } from './settings-ui-page-header.tsx'
 
 export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
   return (
-    <div>
-      <NavLink
-        className={({ isActive }) =>
-          cn(`p-4 flex justify-between rounded-md border border-primary/10`, {
-            'font-bold text-white': isActive,
-            'text-muted-foreground': !isActive,
-          })
-        }
-        to={`/settings/${page.id}`}
-      >
-        <SettingsUiPageHeader page={page} />
-        <UiIcon icon="chevronRight" />
-      </NavLink>
-    </div>
+    <NavLink to={`/settings/${page.id}`}>
+      {({ isActive }) => (
+        <Item size="sm" variant={isActive ? 'muted' : 'outline'}>
+          <ItemMedia>
+            <UiIcon icon={page.icon} />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle className="text-xl">{page.name}</ItemTitle>
+          </ItemContent>
+          <ItemActions>
+            <UiIcon className="size-4" icon="chevronRight" />
+          </ItemActions>
+        </Item>
+      )}
+    </NavLink>
   )
 }

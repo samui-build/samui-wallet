@@ -18,7 +18,7 @@ export function ToolsUiOverviewItem({ tool }: { tool: Tool }) {
     >
       <Link to={tool.comingSoon ? '#' : tool.path}>
         <ItemMedia>
-          <UiIcon className="size-8" icon={tool.icon} />
+          <UiIcon icon={tool.icon} />
         </ItemMedia>
         <ItemContent>
           <ItemTitle className="text-xl">{tool.label}</ItemTitle>
