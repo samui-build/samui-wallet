@@ -11,6 +11,6 @@ if (!root) {
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature />
+    <ShellFeature context="Popup" />
   </StrictMode>,
 )

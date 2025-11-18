@@ -7,21 +7,23 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { useMemo, useState } from 'react'
-
+import { useNavigate } from 'react-router'
 import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.tsx'
 
-export function OnboardingFeatureGenerate() {
+export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }) {
   const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
+  const navigate = useNavigate()
   const [strength, setStrength] = useState<MnemonicStrength>(128)
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
 
   async function handleSubmit() {
     try {
       await create(mnemonic)
+      await navigate(redirectTo)
     } catch (error) {
       toastError(`${error}`)
     }
