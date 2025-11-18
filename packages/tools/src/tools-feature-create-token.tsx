@@ -5,6 +5,7 @@ import type { Network } from '@workspace/db/entity/network'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
+import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldDescription, FieldLabel } from '@workspace/ui/components/field'
@@ -39,18 +40,23 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     const res = await mutation.mutateAsync({
       decimals,
       mint: queryKeypair.data,
-      supply,
+      supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
     })
     await queryKeypair.refetch()
     setResultMint(res.mint)
-    setResultTx(res.signature)
-    if (res.supply) {
-      setResultSupply(res.supply)
-    }
+    setResultTx(res.signatureCreate)
     console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}`, provider: 'solana' }))
-    console.log('TX', getExplorerUrl({ network: props.network, path: `/tx/${res.signature}`, provider: 'solana' }))
-    if (res.supply) {
-      console.log('Supply', getExplorerUrl({ network: props.network, path: `/tx/${res.supply}`, provider: 'solana' }))
+    console.log(
+      'TX',
+      getExplorerUrl({ network: props.network, path: `/tx/${res.signatureCreate}`, provider: 'solana' }),
+    )
+    if (res.signatureSupply) {
+      setResultSupply(res.signatureSupply)
+      console.log(
+        'Supply',
+        getExplorerUrl({ network: props.network, path: `/tx/${res.signatureSupply}`, provider: 'solana' }),
+      )
+      console.log('ATA', getExplorerUrl({ network: props.network, path: `/address/${res.ata}`, provider: 'solana' }))
     }
   }, [mutation, props.network, queryKeypair, decimals, supply])
 
