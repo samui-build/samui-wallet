@@ -81,7 +81,6 @@ export async function splTokenCreateTokenMint(
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
   assertIsTransactionWithBlockhashLifetime(signedTransaction)
 
-  // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
   await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
     signedTransaction,
     { commitment: 'confirmed' },
@@ -123,7 +122,6 @@ export async function splTokenCreateTokenMint(
     const signedSupplyTransaction = await signTransactionMessageWithSigners(supplyTransactionMessage)
     assertIsTransactionWithBlockhashLifetime(signedSupplyTransaction)
 
-    // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
     await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
       signedSupplyTransaction,
       { commitment: 'confirmed' },

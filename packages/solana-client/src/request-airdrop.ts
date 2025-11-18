@@ -11,7 +11,6 @@ export interface RequestAirdropOption {
 }
 
 export async function requestAirdrop(options: RequestAirdropOption) {
-  // @ts-expect-error rpc clients are scoped to their network, we need to figure out how to handle this
   return await airdropFactory(options.client)({
     commitment: 'confirmed',
     lamports: lamports(LAMPORTS_PER_SOL * BigInt(options.amount)),

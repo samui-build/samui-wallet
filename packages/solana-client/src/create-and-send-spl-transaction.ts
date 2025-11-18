@@ -62,7 +62,6 @@ export async function createAndSendSplTransaction(
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
   assertIsTransactionWithBlockhashLifetime(signedTransaction)
 
-  // @ts-expect-error rpc clients are scoped to their network, we need to figure out how to handle this
   await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
     signedTransaction,
     { commitment: 'confirmed' },
