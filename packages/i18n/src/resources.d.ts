@@ -18,6 +18,20 @@ interface Resources {
     uiMnemonicUnexpectedLength: 'Unexpected mnemonic length'
     uiMnemonicWords: '{{words}} words'
   }
+  settings: {
+    pageGeneralApiEndpoint: 'API Endpoint'
+    pageGeneralDangerZone: 'Danger zone'
+    pageGeneralDescription: 'General settings for the app'
+    pageGeneralDeveloperMode: 'Enable developer mode'
+    pageGeneralExperimentalSoftware: 'Show warning about experimental software'
+    pageGeneralLanguage: 'Language'
+    pageGeneralName: 'General'
+    pageGeneralReset: 'Reset application'
+    pageNetworkDescription: 'Manage networks and endpoints'
+    pageNetworkName: 'Networks'
+    pageWalletDescription: 'Manage wallets and accounts'
+    pageWalletName: 'Wallets'
+  }
   shell: {
     explorerLabel: 'Explorer'
     portfolioLabel: 'Portfolio'
