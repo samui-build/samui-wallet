@@ -1,6 +1,7 @@
-import type { KeyPairSigner } from '@solana/kit'
 import {
+  assertIsTransactionWithBlockhashLifetime,
   getSignatureFromTransaction,
+  type KeyPairSigner,
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
@@ -40,9 +41,10 @@ export async function createAndSendSolTransaction(
   })
 
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
+  assertIsTransactionWithBlockhashLifetime(signedTransaction)
+
   // @ts-expect-error rpc clients are scoped to their network, we need to figure out how to handle this
   await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
     signedTransaction,
     { commitment: 'confirmed' },
   )

@@ -1,9 +1,8 @@
 import type { Account } from '@workspace/db/entity/account'
-
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-
+import { AccountExportSecretButton } from './account-ui-export-secret-button.tsx'
 import { AccountUiItem } from './account-ui-item.tsx'
 
 export function SettingsUiAccountTable({ items }: { items: Account[] }) {
@@ -14,6 +13,7 @@ export function SettingsUiAccountTable({ items }: { items: Account[] }) {
           <TableHead className="w-[50px]">Name</TableHead>
           <TableHead>Public Key</TableHead>
           <TableHead className="w-[50px]">Type</TableHead>
+          <TableHead className="w-[120px] text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -29,6 +29,9 @@ export function SettingsUiAccountTable({ items }: { items: Account[] }) {
               </span>
             </TableCell>
             <TableCell className="font-mono text-xs">{item.type}</TableCell>
+            <TableCell className="text-right">
+              <AccountExportSecretButton account={item} />
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>
