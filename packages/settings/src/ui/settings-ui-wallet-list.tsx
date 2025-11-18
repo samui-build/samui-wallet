@@ -10,7 +10,7 @@ export function SettingsUiWalletList({
   deleteItem,
   items,
 }: {
-  active: Wallet | null
+  active: Wallet
   deleteItem: (item: Wallet) => Promise<void>
   items: Array<{ accounts?: Account[] } & Wallet>
 }) {

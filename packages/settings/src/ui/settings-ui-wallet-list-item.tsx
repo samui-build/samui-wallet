@@ -13,12 +13,12 @@ export function SettingsUiWalletListItem({
   deleteItem,
   item,
 }: {
-  active: Wallet | null
+  active: Wallet
   deleteItem: (item: Wallet) => Promise<void>
   item: Wallet
 }) {
   return (
-    <Item key={item.id} role="listitem" variant={active?.id === item.id ? 'muted' : 'outline'}>
+    <Item key={item.id} role="listitem" variant={active.id === item.id ? 'muted' : 'outline'}>
       <ItemContent>
         <ItemTitle className="line-clamp-1">
           <Link to={`./${item.id}`}>
