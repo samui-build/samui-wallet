@@ -78,7 +78,7 @@ jobs:
 
       - name: Start Surfpool
         run: |
-          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool start --offline --no-tui
+          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool:main start --offline --no-tui
           bunx wait-on tcp:localhost:8899 --verbose
           bunx wait-on tcp:localhost:8900 --verbose
 
