@@ -17,7 +17,7 @@ export function ShellUiMenuNetwork({
   networks,
   setActive,
 }: {
-  active: Network | undefined
+  active: Network
   networks: Network[]
   setActive: (id: string) => Promise<void>
 }) {
@@ -25,10 +25,10 @@ export function ShellUiMenuNetwork({
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
         <UiIcon className="size-4 md:size-6" icon="network" />
-        {active?.name ?? 'Select Network'}
+        {active.name}
       </MenubarTrigger>
       <MenubarContent>
-        <MenubarRadioGroup onValueChange={(id) => setActive(id)} value={active?.id ?? ''}>
+        <MenubarRadioGroup onValueChange={(id) => setActive(id)} value={active.id}>
           {networks
             .sort((a, b) => a.name.localeCompare(b.name))
             .map((network) => (

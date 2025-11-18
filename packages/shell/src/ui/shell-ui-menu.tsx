@@ -20,13 +20,17 @@ export function ShellUiMenu() {
 
   return (
     <Menubar className="py-2 h-10 md:h-14 bg-transparent border-none">
-      <ShellUiMenuWallets
-        activeAccount={activeAccount}
-        activeWallet={activeWallet}
-        setActiveAccount={setActiveAccountId}
-        wallets={wallets}
-      />
-      <ShellUiMenuNetwork active={activeNetwork} networks={items} setActive={setActiveNetworkId} />
+      {activeAccount && activeWallet ? (
+        <ShellUiMenuWallets
+          activeAccount={activeAccount}
+          activeWallet={activeWallet}
+          setActiveAccount={setActiveAccountId}
+          wallets={wallets}
+        />
+      ) : null}
+      {activeNetwork ? (
+        <ShellUiMenuNetwork active={activeNetwork} networks={items} setActive={setActiveNetworkId} />
+      ) : null}
       <ShellUiMenuDevelopment items={getDevOptions()} />
     </Menubar>
   )
