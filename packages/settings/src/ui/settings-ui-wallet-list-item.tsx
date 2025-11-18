@@ -5,6 +5,7 @@ import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/compone
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { Link } from 'react-router'
+import { SettingsUiWalletExportMnemonicButton } from './settings-ui-wallet-export-mnemonic-button.tsx'
 import { SettingsUiWalletItem } from './settings-ui-wallet-item.tsx'
 
 export function SettingsUiWalletListItem({
@@ -26,6 +27,7 @@ export function SettingsUiWalletListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
+        <SettingsUiWalletExportMnemonicButton wallet={item} />
         <UiTooltip content="Edit wallet">
           <Button asChild size="icon" variant="outline">
             <Link to={`./${item.id}/edit`}>
