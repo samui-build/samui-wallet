@@ -29,7 +29,7 @@
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.3.4",
+    "@biomejs/biome": "2.3.6",
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
     "@commitlint/types": "^20.0.0",
@@ -43,7 +43,7 @@
     "vitest": "catalog:"
   },
   "engines": {
-    "bun": ">=1.3.1",
+    "bun": ">=1.3.2",
     "node": ">=24"
   },
   "name": "samui",

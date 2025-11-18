@@ -12,6 +12,8 @@
   "indexLinkImport": "Ya tengo una billetera",
   "indexPageDescription": "Esperamos que disfrutes tu estancia",
   "indexPageTitle": "Bienvenido a 🏝 Samui Wallet",
+  "onboardingPageDescription": "¡Ya puedes empezar a usar 🏝 Samui Wallet!",
+  "onboardingPageTitle": "¡Todo listo!",
   "uiMnemonicUnexpectedLength": "Longitud mnemónica inesperada",
   "uiMnemonicWords": "{{words}} palabras"
 }

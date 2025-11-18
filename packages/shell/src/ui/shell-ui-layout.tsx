@@ -4,6 +4,7 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
+import { ShellUiCommandMenu } from './shell-ui-command-menu.tsx'
 import { ShellUiMenu } from './shell-ui-menu.tsx'
 import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.tsx'
 
@@ -30,6 +31,7 @@ export function ShellUiLayout() {
   return (
     <div className="h-full flex flex-col justify-between items-stretch">
       <ShellUiWarningExperimental />
+      <ShellUiCommandMenu />
       <header className="bg-secondary/50">
         <ShellUiMenu />
       </header>

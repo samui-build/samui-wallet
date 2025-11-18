@@ -13,6 +13,8 @@ interface Resources {
     indexLinkImport: 'I already have a wallet'
     indexPageDescription: 'We hope you enjoy your stay!'
     indexPageTitle: 'Welcome to 🏝️ Samui Wallet'
+    onboardingPageDescription: 'You can now start using 🏝️ Samui Wallet!'
+    onboardingPageTitle: "You're all set!"
     uiMnemonicUnexpectedLength: 'Unexpected mnemonic length'
     uiMnemonicWords: '{{words}} words'
   }
