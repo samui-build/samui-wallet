@@ -45,7 +45,7 @@ export function PortfolioFeatureTabTokens(props: { account: Account; network: Ne
 
     return new Intl.NumberFormat('en-US', {
       maximumFractionDigits: 2,
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
     }).format(balance)
   }, [balances])
 
