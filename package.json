@@ -43,7 +43,7 @@
     "vitest": "catalog:"
   },
   "engines": {
-    "bun": ">=1.3.1",
+    "bun": ">=1.3.2",
     "node": ">=24"
   },
   "name": "samui",
