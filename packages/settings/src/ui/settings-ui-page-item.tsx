@@ -8,7 +8,7 @@ export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
     <Item asChild key={page.id} size="sm" variant="outline">
       <Link to={`/settings/${page.id}`}>
         <ItemMedia>
-          <UiIcon className="size-8" icon={page.icon} />
+          <UiIcon icon={page.icon} />
         </ItemMedia>
         <ItemContent>
           <ItemTitle className="text-xl">{page.name}</ItemTitle>
