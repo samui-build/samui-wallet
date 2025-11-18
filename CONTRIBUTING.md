@@ -5,7 +5,7 @@ We welcome contributions to Samui Wallet. Please follow these guidelines to ensu
 ## How to Contribute
 
 1.  **Fork the Repository:** Start by forking the main repository to your own GitHub account.
-2.  **Create a Branch:** Create a new branch for your feature or bugfix, prefixed with your GitHub username. This user is the owner of the branch and the one who creates the PR. They are responsible for answering questions and following up in order to land it PR quickly. Prevent using `feat`/`fix` as a prefix, instead use the commit message to indicate the role of the commit.
+2.  **Create a Branch:** Create a new branch for your feature or bugfix, prefixed only with your GitHub username. This user is the owner of the branch and the one who creates the PR. They are responsible for answering questions and following up in order to land the PR quickly. Do not use `feat`/`fix` as a prefix for the branch name; instead, use the commit message to indicate the role of the commit.
     ```bash
     git checkout -b <your-github-username>/your-feature-name
     ```
