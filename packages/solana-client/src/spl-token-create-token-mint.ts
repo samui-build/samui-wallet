@@ -1,8 +1,9 @@
-import type { KeyPairSigner } from '@solana/kit'
 import {
   appendTransactionMessageInstructions,
+  assertIsTransactionWithBlockhashLifetime,
   createTransactionMessage,
   getSignatureFromTransaction,
+  type KeyPairSigner,
   pipe,
   sendAndConfirmTransactionFactory,
   setTransactionMessageFeePayerSigner,
@@ -78,10 +79,10 @@ export async function splTokenCreateTokenMint(
 
   // Sign transaction message with required signers (fee payer and mint keypair)
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
+  assertIsTransactionWithBlockhashLifetime(signedTransaction)
 
   // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
   await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
     signedTransaction,
     { commitment: 'confirmed' },
   )
@@ -120,10 +121,10 @@ export async function splTokenCreateTokenMint(
     )
 
     const signedSupplyTransaction = await signTransactionMessageWithSigners(supplyTransactionMessage)
+    assertIsTransactionWithBlockhashLifetime(signedSupplyTransaction)
 
     // @ts-expect-error rpc clients are scoped to their cluster, we need to figure out how to handle this
     await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-      // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
       signedSupplyTransaction,
       { commitment: 'confirmed' },
     )
