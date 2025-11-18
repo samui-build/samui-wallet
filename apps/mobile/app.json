@@ -6,6 +6,7 @@
         "foregroundImage": "./assets/adaptive-icon.png"
       },
       "edgeToEdgeEnabled": true,
+      "package": "build.samui.mobile",
       "predictiveBackGestureEnabled": false
     },
     "icon": "./assets/icon.png",
