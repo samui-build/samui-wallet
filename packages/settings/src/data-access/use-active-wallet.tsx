@@ -1,11 +1,13 @@
-import { useDbWalletActive } from '@workspace/db-react/use-db-wallet-active'
+import { useDbSetting } from '@workspace/db-react/use-db-setting'
 import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
 import { useDbWalletSetActive } from '@workspace/db-react/use-db-wallet-set-active'
+import { useMemo } from 'react'
 
 export function useActiveWallet() {
   const wallets = useDbWalletLive()
+  const [activeId] = useDbSetting('activeWalletId')
   const { mutateAsync } = useDbWalletSetActive()
-  const active = useDbWalletActive()
+  const active = useMemo(() => wallets.find((c) => c.id === activeId) ?? null, [wallets, activeId])
 
   return {
     active,

@@ -20,31 +20,33 @@ import { cn } from '@workspace/ui/lib/utils'
 import { Link } from 'react-router'
 
 export function ShellUiMenuWallets({
-  activeAccount,
-  activeWallet,
-  setActiveAccount,
   wallets,
+  activeWallet,
+  activeAccount,
+  setActiveAccount,
 }: {
-  activeAccount: Account
-  activeWallet: Wallet
-  setActiveAccount: (id: string) => Promise<void>
   wallets: Wallet[]
+  activeWallet: Wallet | null
+  activeAccount: null | Account
+  setActiveAccount: (id: string) => Promise<void>
 }) {
   return (
     <MenubarMenu>
       <MenubarTrigger className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
         <div className="flex items-center gap-2">
-          <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
-          {activeAccount.name}(
-          <span onPointerDown={(e) => e.stopPropagation()}>
-            <UiTextCopyButton
-              size="icon"
-              text={activeAccount.publicKey}
-              toast="Copied public key to clipboard"
-              variant="ghost"
-            />
-          </span>
-          )
+          <UiAvatar className="size-6 md:size-8" label={activeWallet?.name ?? ''} />
+          {activeAccount?.name ?? ''}
+
+          {activeAccount?.publicKey && (
+            <span onPointerDown={(e) => e.stopPropagation()}>
+              <UiTextCopyButton
+                size="icon"
+                text={activeAccount.publicKey}
+                toast="Copied public key to clipboard"
+                variant="ghost"
+              />
+            </span>
+          )}
         </div>
       </MenubarTrigger>
       <MenubarContent>
@@ -56,12 +58,12 @@ export function ShellUiMenuWallets({
                 {wallet.name}
               </MenubarSubTrigger>
               <MenubarSubContent>
-                <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount.id}>
+                <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount?.id ?? ''}>
                   {wallet.accounts.map((account) => (
                     <div className="flex items-center" key={account.id}>
                       <MenubarRadioItem
                         className={cn('font-mono', {
-                          'font-bold': account.id === activeAccount.id,
+                          'font-bold': account.id === activeAccount?.id,
                         })}
                         value={account.id}
                       >
