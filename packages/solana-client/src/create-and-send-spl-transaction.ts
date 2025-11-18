@@ -10,7 +10,7 @@ import {
 import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
 import { createSplTransferTransaction } from './create-spl-transfer-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
-import { tokenAmountToTransferAmount } from './utils.ts'
+import { uiAmountToBigInt } from './ui-amount-to-big-int.ts'
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,
@@ -47,7 +47,7 @@ export async function createAndSendSplTransaction(
     client.rpc.getLatestBlockhash().send(),
   ])
   const transactionMessage = createSplTransferTransaction({
-    amount: tokenAmountToTransferAmount(amount, decimals).toString(),
+    amount: uiAmountToBigInt(amount, decimals).toString(),
     decimals,
     destination,
     destinationTokenAccount,
