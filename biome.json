@@ -77,6 +77,22 @@
           }
         }
       }
+    },
+    {
+      "includes": ["apps/mobile/src/global.css"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noDuplicateCustomProperties": "off"
+          }
+        }
+      }
+    },
+    {
+      "formatter": {
+        "enabled": false
+      },
+      "includes": ["apps/mobile/src/uniwind-types.d.ts"]
     }
   ],
   "vcs": {
