@@ -1,6 +1,6 @@
 import { z } from 'zod'
+import { solanaAddressSchema } from '../schema/solana-address-schema.ts'
 import { accountTypeSchema } from './account-type-schema.ts'
-import { solanaAddressSchema } from './solana-address-schema.ts'
 
 export const accountSchema = z.object({
   createdAt: z.date(),

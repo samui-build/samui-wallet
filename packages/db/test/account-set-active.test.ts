@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { dbAccountCreate } from '../src/db-account-create.ts'
-import { dbAccountSetActive } from '../src/db-account-set-active.ts'
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountSetActive } from '../src/account/account-set-active.ts'
 import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers.ts'
+import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-account-set-active', () => {
+describe('account-set-active', () => {
   beforeEach(async () => {
     await db.accounts.clear()
     await db.settings.clear()
@@ -23,16 +23,16 @@ describe('db-account-set-active', () => {
       const idWallet1 = await dbWalletCreate(db, inputWallet1)
       const idWallet2 = await dbWalletCreate(db, inputWallet2)
 
-      const inputAccount1 = testAccountInputCreate({ walletId: idWallet1 })
-      const inputAccount2 = testAccountInputCreate({ walletId: idWallet2 })
-      const idAccount1 = await dbAccountCreate(db, inputAccount1)
-      const idAccount2 = await dbAccountCreate(db, inputAccount2)
+      const inputAccount1 = testAccountCreateInput({ walletId: idWallet1 })
+      const inputAccount2 = testAccountCreateInput({ walletId: idWallet2 })
+      const idAccount1 = await accountCreate(db, inputAccount1)
+      const idAccount2 = await accountCreate(db, inputAccount2)
 
       // ACT
       const activeWalletIdBefore = await dbSettingFindUniqueByKey(db, 'activeWalletId')
       const activeAccountIdBefore = await dbSettingFindUniqueByKey(db, 'activeAccountId')
 
-      await dbAccountSetActive(db, idAccount2)
+      await accountSetActive(db, idAccount2)
       const activeWalletIdAfter = await dbSettingFindUniqueByKey(db, 'activeWalletId')
       const activeAccountIdAfter = await dbSettingFindUniqueByKey(db, 'activeAccountId')
 
@@ -51,7 +51,7 @@ describe('db-account-set-active', () => {
       const nonExistentId = 'non-existent-account-id'
 
       // ACT & ASSERT
-      await expect(dbAccountSetActive(db, nonExistentId)).rejects.toThrow(`Account with id ${nonExistentId} not found`)
+      await expect(accountSetActive(db, nonExistentId)).rejects.toThrow(`Account with id ${nonExistentId} not found`)
     })
   })
 })

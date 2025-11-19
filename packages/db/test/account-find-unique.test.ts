@@ -1,14 +1,14 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbAccountCreate } from '../src/db-account-create.ts'
-import { dbAccountFindUnique } from '../src/db-account-find-unique.ts'
-import type { Account } from '../src/entity/account.ts'
-import { createDbTest, testAccountInputCreate } from './test-helpers.ts'
+import type { Account } from '../src/account/account.ts'
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-account-find-unique', () => {
+describe('account-find-unique', () => {
   beforeEach(async () => {
     await db.accounts.clear()
   })
@@ -17,11 +17,11 @@ describe('db-account-find-unique', () => {
     it('should find a unique account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testAccountInputCreate({ walletId: crypto.randomUUID() })
-      const id = await dbAccountCreate(db, input)
+      const input = testAccountCreateInput({ walletId: crypto.randomUUID() })
+      const id = await accountCreate(db, input)
 
       // ACT
-      const item = await dbAccountFindUnique(db, id)
+      const item = await accountFindUnique(db, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -47,7 +47,7 @@ describe('db-account-find-unique', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbAccountFindUnique(db, id)).rejects.toThrow(`Error finding account with id ${id}`)
+      await expect(accountFindUnique(db, id)).rejects.toThrow(`Error finding account with id ${id}`)
     })
   })
 })

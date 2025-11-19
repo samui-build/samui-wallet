@@ -1,13 +1,11 @@
 import { tryCatch } from '@workspace/core/try-catch'
+import type { Database } from '../database.ts'
+import type { Account } from './account.ts'
+import type { AccountFindManyInput } from './account-find-many-input.ts'
+import { accountFindManySchema } from './account-find-many-schema.ts'
 
-import type { Database } from './database.ts'
-import type { AccountInputFindMany } from './dto/account-input-find-many.ts'
-import type { Account } from './entity/account.ts'
-
-import { accountSchemaFindMany } from './schema/account-schema-find-many.ts'
-
-export async function dbAccountFindMany(db: Database, input: AccountInputFindMany): Promise<Account[]> {
-  const parsedInput = accountSchemaFindMany.parse(input)
+export async function accountFindMany(db: Database, input: AccountFindManyInput): Promise<Account[]> {
+  const parsedInput = accountFindManySchema.parse(input)
   const { data, error } = await tryCatch(
     db.accounts
       .orderBy('derivationIndex')

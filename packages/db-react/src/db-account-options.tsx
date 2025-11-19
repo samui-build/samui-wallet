@@ -1,27 +1,27 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
+import { accountCreate } from '@workspace/db/account/account-create'
+import type { AccountCreateInput } from '@workspace/db/account/account-create-input'
+import { accountDelete } from '@workspace/db/account/account-delete'
+import { accountFindByWalletId } from '@workspace/db/account/account-find-by-wallet-id'
+import { accountFindMany } from '@workspace/db/account/account-find-many'
+import type { AccountFindManyInput } from '@workspace/db/account/account-find-many-input'
+import { accountFindUnique } from '@workspace/db/account/account-find-unique'
+import { accountSetActive } from '@workspace/db/account/account-set-active'
+import { accountUpdate } from '@workspace/db/account/account-update'
+import type { AccountUpdateInput } from '@workspace/db/account/account-update-input'
 import { db } from '@workspace/db/db'
-import { dbAccountCreate } from '@workspace/db/db-account-create'
-import { dbAccountDelete } from '@workspace/db/db-account-delete'
-import { dbAccountFindByWalletId } from '@workspace/db/db-account-find-by-wallet-id'
-import { dbAccountFindMany } from '@workspace/db/db-account-find-many'
-import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
-import { dbAccountSetActive } from '@workspace/db/db-account-set-active'
-import { dbAccountUpdate } from '@workspace/db/db-account-update'
-import type { AccountInputCreate } from '@workspace/db/dto/account-input-create'
-import type { AccountInputFindMany } from '@workspace/db/dto/account-input-find-many'
-import type { AccountInputUpdate } from '@workspace/db/dto/account-input-update'
 import { queryClient } from './db-query-client.tsx'
 import { dbSettingOptions } from './db-setting-options.tsx'
 
-export type DbAccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountInputCreate }>
+export type DbAccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountCreateInput }>
 export type DbAccountDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
 export type DbAccountSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
-export type DbAccountUpdateMutateOptions = MutateOptions<number, Error, { input: AccountInputUpdate }>
+export type DbAccountUpdateMutateOptions = MutateOptions<number, Error, { input: AccountUpdateInput }>
 
 export const dbAccountOptions = {
   create: (props: DbAccountCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: AccountInputCreate }) => dbAccountCreate(db, input),
+      mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(db, input),
       onSuccess: () => {
         queryClient.invalidateQueries(dbSettingOptions.getAll())
         queryClient.invalidateQueries(dbSettingOptions.getValue('activeAccountId'))
@@ -30,27 +30,27 @@ export const dbAccountOptions = {
     }),
   delete: (props: DbAccountDeleteMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => dbAccountDelete(db, id),
+      mutationFn: ({ id }: { id: string }) => accountDelete(db, id),
       ...props,
     }),
   findByWalletId: (id: string) =>
     queryOptions({
-      queryFn: () => dbAccountFindByWalletId(db, id),
-      queryKey: ['dbAccountFindByWalletId', id],
+      queryFn: () => accountFindByWalletId(db, id),
+      queryKey: ['accountFindByWalletId', id],
     }),
-  findMany: (input: AccountInputFindMany) =>
+  findMany: (input: AccountFindManyInput) =>
     queryOptions({
-      queryFn: () => dbAccountFindMany(db, input),
-      queryKey: ['dbAccountFindMany', input],
+      queryFn: () => accountFindMany(db, input),
+      queryKey: ['accountFindMany', input],
     }),
   findUnique: (id: string) =>
     queryOptions({
-      queryFn: () => dbAccountFindUnique(db, id),
-      queryKey: ['dbAccountFindUnique', id],
+      queryFn: () => accountFindUnique(db, id),
+      queryKey: ['accountFindUnique', id],
     }),
   setActive: (props: DbAccountSetActiveMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => dbAccountSetActive(db, id),
+      mutationFn: ({ id }: { id: string }) => accountSetActive(db, id),
       onSuccess: () => {
         queryClient.invalidateQueries(dbSettingOptions.getAll())
         queryClient.invalidateQueries(dbSettingOptions.getValue('activeWalletId'))
@@ -60,7 +60,7 @@ export const dbAccountOptions = {
     }),
   update: (props: DbAccountUpdateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id, input }: { id: string; input: AccountInputUpdate }) => dbAccountUpdate(db, id, input),
+      mutationFn: ({ id, input }: { id: string; input: AccountUpdateInput }) => accountUpdate(db, id, input),
       ...props,
     }),
 }

@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbAccountCreate } from '../src/db-account-create.ts'
-import { dbAccountDelete } from '../src/db-account-delete.ts'
-import { dbAccountFindUnique } from '../src/db-account-find-unique.ts'
-import { createDbTest, testAccountInputCreate } from './test-helpers.ts'
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountDelete } from '../src/account/account-delete.ts'
+import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-account-delete', () => {
+describe('account-delete', () => {
   beforeEach(async () => {
     await db.accounts.clear()
   })
@@ -18,14 +18,14 @@ describe('db-account-delete', () => {
     it('should delete an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testAccountInputCreate({ walletId: crypto.randomUUID() })
-      const id = await dbAccountCreate(db, input)
+      const input = testAccountCreateInput({ walletId: crypto.randomUUID() })
+      const id = await accountCreate(db, input)
 
       // ACT
-      await dbAccountDelete(db, id)
+      await accountDelete(db, id)
 
       // ASSERT
-      const deletedItem = await dbAccountFindUnique(db, id)
+      const deletedItem = await accountFindUnique(db, id)
       expect(deletedItem).toBeNull()
     })
   })
@@ -48,7 +48,7 @@ describe('db-account-delete', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbAccountDelete(db, id)).rejects.toThrow(`Error deleting account with id ${id}`)
+      await expect(accountDelete(db, id)).rejects.toThrow(`Error deleting account with id ${id}`)
     })
   })
 })

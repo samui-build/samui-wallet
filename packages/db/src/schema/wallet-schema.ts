@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { accountSchema } from './account-schema.ts'
+import { accountSchema } from '../account/account-schema.ts'
 
 export const walletSchema = z.object({
   accounts: z.array(accountSchema).optional().default([]),

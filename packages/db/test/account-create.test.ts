@@ -1,15 +1,15 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbAccountCreate } from '../src/db-account-create.ts'
-import { dbAccountFindMany } from '../src/db-account-find-many.ts'
-import { dbAccountFindUnique } from '../src/db-account-find-unique.ts'
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountFindMany } from '../src/account/account-find-many.ts'
+import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
-import { createDbTest, testAccountInputCreate } from './test-helpers.ts'
+import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-account-create', () => {
+describe('account-create', () => {
   beforeEach(async () => {
     await db.accounts.clear()
     await db.settings.clear()
@@ -20,13 +20,13 @@ describe('db-account-create', () => {
       // ARRANGE
       expect.assertions(1)
       const walletId = crypto.randomUUID()
-      const input = testAccountInputCreate({ walletId })
+      const input = testAccountCreateInput({ walletId })
 
       // ACT
-      await dbAccountCreate(db, input)
+      await accountCreate(db, input)
 
       // ASSERT
-      const items = await dbAccountFindMany(db, { walletId })
+      const items = await accountFindMany(db, { walletId })
       expect(items.map((i) => i.name)).toContain(input.name)
     })
 
@@ -34,13 +34,13 @@ describe('db-account-create', () => {
       // ARRANGE
       expect.assertions(1)
       const walletId = crypto.randomUUID()
-      const input = testAccountInputCreate({ walletId })
+      const input = testAccountCreateInput({ walletId })
 
       // ACT
-      const result = await dbAccountCreate(db, input)
+      const result = await accountCreate(db, input)
 
       // ASSERT
-      const item = await dbAccountFindUnique(db, result)
+      const item = await accountFindUnique(db, result)
       expect(item?.derivationIndex).toBe(0)
     })
 
@@ -48,15 +48,15 @@ describe('db-account-create', () => {
       // ARRANGE
       expect.assertions(3)
       const walletId = crypto.randomUUID()
-      const input = testAccountInputCreate({ walletId })
+      const input = testAccountCreateInput({ walletId })
 
       // ACT
       const activeAccountIdBefore = await dbSettingFindUniqueByKey(db, 'activeAccountId')
-      const result = await dbAccountCreate(db, input)
+      const result = await accountCreate(db, input)
       const activeAccountIdAfter = await dbSettingFindUniqueByKey(db, 'activeAccountId')
 
       // ASSERT
-      const items = await dbAccountFindMany(db, { walletId })
+      const items = await accountFindMany(db, { walletId })
       expect(items.map((i) => i.name)).toContain(input.name)
       expect(activeAccountIdBefore).toBeNull()
       expect(activeAccountIdAfter?.value).toBe(result)
@@ -75,13 +75,13 @@ describe('db-account-create', () => {
     it('should throw an error when creating an account fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testAccountInputCreate({ walletId: 'test-wallet' })
+      const input = testAccountCreateInput({ walletId: 'test-wallet' })
       vi.spyOn(db.accounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(dbAccountCreate(db, input)).rejects.toThrow('Error creating account')
+      await expect(accountCreate(db, input)).rejects.toThrow('Error creating account')
     })
   })
 })
