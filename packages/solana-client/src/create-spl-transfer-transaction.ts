@@ -1,4 +1,4 @@
-import type { Address, Blockhash, Instruction, TransactionSigner } from '@solana/kit'
+import type { Address, Instruction, TransactionSigner } from '@solana/kit'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -14,11 +14,7 @@ import {
   getTransferCheckedInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from '@solana-program/token'
-
-export interface LatestBlockhash {
-  blockhash: Blockhash
-  lastValidBlockHeight: bigint
-}
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
 
 export function createSplTransferTransaction({
   amount,
@@ -33,7 +29,7 @@ export function createSplTransferTransaction({
   sourceTokenAccount,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: {
-  amount: string
+  amount: bigint
   decimals: number
   destination: Address | string
   destinationTokenAccount: Address | string
@@ -69,7 +65,7 @@ export function createSplTransferTransaction({
 
   const transferInstruction = getTransferCheckedInstruction(
     {
-      amount: BigInt(amount),
+      amount,
       authority: source ?? sender,
       decimals,
       destination: address(destinationTokenAccount),

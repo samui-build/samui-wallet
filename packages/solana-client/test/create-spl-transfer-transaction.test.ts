@@ -33,7 +33,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       const result = createSplTransferTransaction({
-        amount: '1000000',
+        amount: 1000000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
@@ -81,7 +81,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       const result = createSplTransferTransaction({
-        amount: '500000',
+        amount: 500000n,
         decimals: 9,
         destination,
         destinationTokenAccount,
@@ -133,7 +133,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       createSplTransferTransaction({
-        amount: '750000',
+        amount: 750000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
@@ -175,7 +175,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       createSplTransferTransaction({
-        amount: '1000000',
+        amount: 1000000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
@@ -212,7 +212,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       const result = createSplTransferTransaction({
-        amount: '0',
+        amount: 0n,
         decimals: 6,
         destination,
         destinationTokenAccount,
@@ -244,7 +244,7 @@ describe('create-spl-transfer-transaction', () => {
       const destination = address('So11111111111111111111111111111111111111113')
       const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
-      const largeAmount = '18446744073709551615' // Max uint64
+      const largeAmount = 18446744073709551615n // Max uint64
 
       // ACT
       createSplTransferTransaction({
@@ -282,7 +282,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       createSplTransferTransaction({
-        amount: '1000000000',
+        amount: 1000000000n,
         decimals: 9, // Wrapped SOL uses 9 decimals
         destination,
         destinationTokenAccount,
@@ -319,7 +319,7 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT
       const result = createSplTransferTransaction({
-        amount: '1000',
+        amount: 1000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
@@ -353,7 +353,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
@@ -380,7 +380,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
@@ -407,7 +407,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount: 'invalid',
@@ -434,7 +434,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination: 'bad-address',
           destinationTokenAccount,
@@ -462,7 +462,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
@@ -490,7 +490,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
@@ -519,7 +519,7 @@ describe('create-spl-transfer-transaction', () => {
       // ACT & ASSERT
       expect(() =>
         createSplTransferTransaction({
-          amount: '1000000',
+          amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,

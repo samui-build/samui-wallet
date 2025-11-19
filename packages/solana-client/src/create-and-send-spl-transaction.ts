@@ -47,7 +47,7 @@ export async function createAndSendSplTransaction(
     client.rpc.getLatestBlockhash().send(),
   ])
   const transactionMessage = createSplTransferTransaction({
-    amount: uiAmountToBigInt(amount, decimals).toString(),
+    amount: uiAmountToBigInt(amount, decimals),
     decimals,
     destination,
     destinationTokenAccount,
