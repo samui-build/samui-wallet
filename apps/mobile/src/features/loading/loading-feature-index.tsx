@@ -3,6 +3,7 @@ import { Image, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 import logo from '../../../assets/icon.png'
+import { LoadingDbTest } from './loading-db-test.tsx'
 
 export function LoadingFeatureIndex() {
   return (
@@ -21,6 +22,7 @@ export function LoadingFeatureIndex() {
               <Text className="text-lg text-neutral-900 dark:text-neutral-100">Go to the app</Text>
             </View>
           </Link>
+          <LoadingDbTest />
         </View>
       </View>
     </SafeAreaView>

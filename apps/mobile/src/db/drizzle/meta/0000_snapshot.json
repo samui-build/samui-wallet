@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  },
+  "dialect": "sqlite",
+  "enums": {},
+  "id": "3094eb41-dbd2-4ed5-b5c0-5f614effd9e2",
+  "internal": {
+    "indexes": {}
+  },
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "networks": {
+      "checkConstraints": {},
+      "columns": {
+        "createdAt": {
+          "autoincrement": false,
+          "default": "(CURRENT_DATE)",
+          "name": "createdAt",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "endpoint": {
+          "autoincrement": false,
+          "name": "endpoint",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "endpointSubscriptions": {
+          "autoincrement": false,
+          "name": "endpointSubscriptions",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "id": {
+          "autoincrement": false,
+          "name": "id",
+          "notNull": true,
+          "primaryKey": true,
+          "type": "text"
+        },
+        "name": {
+          "autoincrement": false,
+          "name": "name",
+          "notNull": true,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "type": {
+          "autoincrement": false,
+          "name": "type",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        },
+        "updatedAt": {
+          "autoincrement": false,
+          "default": "(CURRENT_DATE)",
+          "name": "updatedAt",
+          "notNull": false,
+          "primaryKey": false,
+          "type": "text"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "foreignKeys": {},
+      "indexes": {},
+      "name": "networks",
+      "uniqueConstraints": {}
+    }
+  },
+  "version": "6",
+  "views": {}
+}

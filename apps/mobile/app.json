@@ -9,13 +9,18 @@
       "package": "build.samui.mobile",
       "predictiveBackGestureEnabled": false
     },
+    "experiments": {
+      "autolinkingModuleResolution": true
+    },
     "icon": "./assets/icon.png",
     "ios": {
+      "bundleIdentifier": "build.samui.mobile",
       "supportsTablet": true
     },
     "name": "mobile",
     "newArchEnabled": true,
     "orientation": "portrait",
+    "plugins": ["expo-sqlite"],
     "slug": "mobile",
     "splash": {
       "backgroundColor": "#ffffff",

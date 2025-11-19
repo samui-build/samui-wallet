@@ -24,7 +24,7 @@ export function getPackageNames(): string[] {
 
 const config: CSpellSettings = {
   dictionaries: ['fullstack', 'html', 'css'],
-  ignorePaths: ['Cargo.toml'],
+  ignorePaths: ['Cargo.toml', 'drizzle'],
   import: ['@cspell/dict-es-es/cspell-ext.json'],
   overrides: [
     {

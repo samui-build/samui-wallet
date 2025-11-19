@@ -1,6 +1,6 @@
 import type { ColorValue } from 'react-native'
 import { withUniwind } from 'uniwind'
-import { cn } from '../ui/lib/cn.ts'
+import { cn } from './lib/cn.ts'
 import { getIcon, type UiIconName } from './ui-icon-map.tsx'
 
 export function UiIcon({

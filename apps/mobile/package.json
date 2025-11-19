@@ -6,8 +6,12 @@
     "@solana/webcrypto-ed25519-polyfill": "^5.0.0",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "babel-plugin-inline-import": "^3.0.0",
     "clsx": "^2.1.1",
+    "drizzle-orm": "^0.44.7",
     "expo": "~54.0.25",
+    "expo-dev-client": "~6.0.18",
+    "expo-sqlite": "~16.0.9",
     "expo-status-bar": "~3.0.8",
     "expo-system-ui": "~6.0.8",
     "lucide-react-native": "^0.554.0",
@@ -26,6 +30,8 @@
   "devDependencies": {
     "@types/react": "~19.1.10",
     "@workspace/config-typescript": "workspace:*",
+    "babel-preset-expo": "~54.0.0",
+    "drizzle-kit": "^0.31.7",
     "typescript": "catalog:"
   },
   "main": "index.ts",
@@ -33,12 +39,12 @@
   "private": true,
   "scripts": {
     "android": "expo run:android",
+    "db:generate": "bun x drizzle-kit generate",
     "dev": "expo start --clear --dev-client --reset-cache",
     "doctor": "bun x expo-doctor@latest",
     "install:check": "bun x expo install --check --bun",
     "install:fix": "bun x expo install --fix --bun",
     "ios": "expo run:ios"
   },
-  "type": "module",
   "version": "1.0.0"
 }
