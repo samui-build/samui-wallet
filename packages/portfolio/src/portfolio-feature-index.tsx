@@ -1,4 +1,4 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { PortfolioFeatureTabActivity } from './portfolio-feature-tab-activity.tsx'

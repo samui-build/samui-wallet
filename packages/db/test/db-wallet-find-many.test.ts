@@ -1,11 +1,11 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbAccountCreate } from '../src/db-account-create.ts'
+import { accountCreate } from '../src/account/account-create.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { dbWalletFindMany } from '../src/db-wallet-find-many.ts'
 import type { Wallet } from '../src/entity/wallet.ts'
-import { createDbTest, testAccountInputCreate, testWalletInputCreate } from './test-helpers.ts'
+import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
 
@@ -24,12 +24,12 @@ describe('db-wallet-find-many', () => {
       const wallet1Id = await dbWalletCreate(db, wallet1)
       const wallet2Id = await dbWalletCreate(db, wallet2)
       const wallet3Id = await dbWalletCreate(db, wallet3)
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet1Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet1Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet2Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet3Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet3Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet3Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
       const items = await dbWalletFindMany(db)
@@ -61,9 +61,9 @@ describe('db-wallet-find-many', () => {
       const wallet1Id = await dbWalletCreate(db, wallet1)
       const wallet2Id = await dbWalletCreate(db, wallet2)
       const wallet3Id = await dbWalletCreate(db, wallet3)
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet1Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet2Id }))
-      await dbAccountCreate(db, testAccountInputCreate({ walletId: wallet3Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
+      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
       const items = await dbWalletFindMany(db, { name: 'Test Wallet' })

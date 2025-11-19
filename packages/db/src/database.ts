@@ -1,6 +1,6 @@
 import { Dexie, type Table } from 'dexie'
+import type { Account } from './account/account.ts'
 import { dbPopulate } from './db-populate.ts'
-import type { Account } from './entity/account.ts'
 import type { Network } from './entity/network.ts'
 import type { Setting } from './entity/setting.ts'
 import type { Wallet } from './entity/wallet.ts'

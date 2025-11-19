@@ -1,13 +1,13 @@
-import type { Database } from './database.ts'
-import { dbAccountFindUnique } from './db-account-find-unique.ts'
-import { dbSettingFindUniqueByKey } from './db-setting-find-unique-by-key.ts'
-import { dbSettingSetValue } from './db-setting-set-value.ts'
-import type { SettingKey } from './entity/setting-key.ts'
+import type { Database } from '../database.ts'
+import { dbSettingFindUniqueByKey } from '../db-setting-find-unique-by-key.ts'
+import { dbSettingSetValue } from '../db-setting-set-value.ts'
+import type { SettingKey } from '../entity/setting-key.ts'
+import { accountFindUnique } from './account-find-unique.ts'
 
-export async function dbAccountSetActive(db: Database, id: string) {
+export async function accountSetActive(db: Database, id: string) {
   return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
     // get the requested account from the database
-    const found = await dbAccountFindUnique(db, id)
+    const found = await accountFindUnique(db, id)
     if (!found) {
       // TODO: Use Effect
       throw new Error(`Account with id ${id} not found`)

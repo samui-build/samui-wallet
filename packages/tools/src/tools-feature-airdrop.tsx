@@ -1,5 +1,5 @@
 import { address } from '@solana/kit'
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
 import { PortfolioUiExplorerLink } from '@workspace/portfolio/ui/portfolio-ui-explorer-link'

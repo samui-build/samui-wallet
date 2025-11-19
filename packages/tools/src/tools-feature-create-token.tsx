@@ -1,6 +1,6 @@
 import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'

@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbAccountCreate } from '../src/db-account-create.ts'
-import { dbAccountFindUnique } from '../src/db-account-find-unique.ts'
-import { dbAccountUpdate } from '../src/db-account-update.ts'
-import { createDbTest, randomName, testAccountInputCreate } from './test-helpers.ts'
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { accountUpdate } from '../src/account/account-update.ts'
+import { createDbTest, randomName, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-account-update', () => {
+describe('account-update', () => {
   beforeEach(async () => {
     await db.accounts.clear()
   })
@@ -18,15 +18,15 @@ describe('db-account-update', () => {
     it('should update an account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testAccountInputCreate({ name: randomName('account'), walletId: crypto.randomUUID() })
-      const id = await dbAccountCreate(db, input)
+      const input = testAccountCreateInput({ name: randomName('account'), walletId: crypto.randomUUID() })
+      const id = await accountCreate(db, input)
       const newName = randomName('newName')
 
       // ACT
-      await dbAccountUpdate(db, id, { name: newName })
+      await accountUpdate(db, id, { name: newName })
 
       // ASSERT
-      const updatedItem = await dbAccountFindUnique(db, id)
+      const updatedItem = await accountFindUnique(db, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.name).toBe(newName)
     })
@@ -50,7 +50,7 @@ describe('db-account-update', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbAccountUpdate(db, id, {})).rejects.toThrow(`Error updating account with id ${id}`)
+      await expect(accountUpdate(db, id, {})).rejects.toThrow(`Error updating account with id ${id}`)
     })
   })
 })

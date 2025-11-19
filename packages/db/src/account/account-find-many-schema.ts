@@ -1,6 +1,6 @@
 import { accountSchema } from './account-schema.ts'
 
-export const accountSchemaFindMany = accountSchema
+export const accountFindManySchema = accountSchema
   .pick({
     id: true,
     name: true,
