@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { Link } from 'react-router'
@@ -8,6 +9,7 @@ import { SettingsFeatureGeneralLanguage } from './settings-feature-general-langu
 import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feature-general-warning-accept-experimental.tsx'
 
 export function SettingsFeatureGeneral() {
+  const { t } = useTranslation('settings')
   const page = useSettingsPage({ pageId: 'general' })
   return (
     <div className="space-y-4">
@@ -17,9 +19,13 @@ export function SettingsFeatureGeneral() {
         <SettingsFeatureGeneralWarningAcceptExperimental />
         <SettingsFeatureGeneralDeveloperModeEnable />
       </UiCard>
-      <UiCard className="border-red-500" contentProps={{ className: 'grid gap-6' }} title="Danger zone">
+      <UiCard
+        className="border-red-500"
+        contentProps={{ className: 'grid gap-6' }}
+        title={t(($) => $.pageGeneralDangerZone)}
+      >
         <Button asChild variant="destructive">
-          <Link to="/reset">Reset application</Link>
+          <Link to="/reset">{t(($) => $.pageGeneralReset)}</Link>
         </Button>
       </UiCard>
     </div>

@@ -1,24 +1,26 @@
+import { useTranslation } from '@workspace/i18n'
 import type { SettingsPage } from './settings-page.ts'
 
 export function useSettingsPages(): SettingsPage[] {
+  const { t } = useTranslation('settings')
   return [
     {
-      description: 'General settings for the app',
+      description: t(($) => $.pageGeneralDescription),
       icon: 'settings',
       id: 'general',
-      name: 'General',
+      name: t(($) => $.pageGeneralName),
     },
     {
-      description: 'Manage networks and endpoints',
+      description: t(($) => $.pageNetworkDescription),
       icon: 'network',
       id: 'networks',
-      name: 'Networks',
+      name: t(($) => $.pageNetworkName),
     },
     {
-      description: 'Manage wallets and accounts',
+      description: t(($) => $.pageWalletDescription),
       icon: 'wallet',
       id: 'wallets',
-      name: 'Wallets',
+      name: t(($) => $.pageWalletName),
     },
   ]
 }
