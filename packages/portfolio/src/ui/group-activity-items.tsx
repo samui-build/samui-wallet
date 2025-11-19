@@ -18,7 +18,7 @@ export function groupActivityItems(txs: GetActivityItems): { date: Date; transac
   }, new Map<string, GetActivityItem[]>())
 
   return Array.from(grouped.entries()).map(([dateKey, transactions]) => ({
-    date: new Date(dateKey),
+    date: unixTimestampToDate(transactions[0]?.blockTime ?? null) ?? new Date(dateKey),
     transactions,
   }))
 }
