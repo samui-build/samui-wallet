@@ -1,8 +1,8 @@
-import { dbNetworkTypeOptions } from '@workspace/db/db-network-type-options'
-import type { NetworkType } from '@workspace/db/entity/network-type'
+import type { NetworkType } from '@workspace/db/network/network-type'
+import { networkTypeOptions } from '@workspace/db/network/network-type-options'
 
 export function getNetworkLabel(type: NetworkType): string {
-  const found = dbNetworkTypeOptions.find((item) => item.value === type)
+  const found = networkTypeOptions.find((item) => item.value === type)
   if (!found) {
     return `Unknown network ${type}`
   }

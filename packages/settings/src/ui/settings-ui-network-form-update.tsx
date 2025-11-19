@@ -1,8 +1,8 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { dbNetworkTypeOptions } from '@workspace/db/db-network-type-options'
-import type { NetworkInputUpdate } from '@workspace/db/dto/network-input-update'
-import type { Network } from '@workspace/db/entity/network'
-import { networkSchemaUpdate } from '@workspace/db/schema/network-schema-update'
+import type { Network } from '@workspace/db/network/network'
+import { networkTypeOptions } from '@workspace/db/network/network-type-options'
+import type { NetworkUpdateInput } from '@workspace/db/network/network-update-input'
+import { networkUpdateSchema } from '@workspace/db/network/network-update-schema'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -24,11 +24,11 @@ export function SettingsUiNetworkFormUpdate({
   submit,
 }: {
   item: Network
-  submit: (input: NetworkInputUpdate) => Promise<void>
+  submit: (input: NetworkUpdateInput) => Promise<void>
 }) {
   const { t } = useTranslation('settings')
-  const form = useForm<NetworkInputUpdate>({
-    resolver: standardSchemaResolver(networkSchemaUpdate),
+  const form = useForm<NetworkUpdateInput>({
+    resolver: standardSchemaResolver(networkUpdateSchema),
     values: item,
   })
 
@@ -45,7 +45,7 @@ export function SettingsUiNetworkFormUpdate({
               type="single"
               variant="outline"
             >
-              {dbNetworkTypeOptions.map(({ label, value }) => (
+              {networkTypeOptions.map(({ label, value }) => (
                 <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
                   {label.replace('Solana ', '')}
                 </ToggleGroupItem>

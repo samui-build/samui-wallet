@@ -1,6 +1,6 @@
 import type { Lamports } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import { UiEmpty } from '@workspace/ui/components/ui-empty'

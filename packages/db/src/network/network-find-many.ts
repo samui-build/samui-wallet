@@ -1,13 +1,13 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database.ts'
-import type { NetworkInputFindMany } from './dto/network-input-find-many.ts'
-import type { Network } from './entity/network.ts'
+import type { Database } from '../database.ts'
+import type { Network } from './network.ts'
+import type { NetworkFindManyInput } from './network-find-many-input.ts'
 
-import { networkSchemaFindMany } from './schema/network-schema-find-many.ts'
+import { networkFindManySchema } from './network-find-many-schema.ts'
 
-export async function dbNetworkFindMany(db: Database, input: NetworkInputFindMany = {}): Promise<Network[]> {
-  const parsedInput = networkSchemaFindMany.parse(input)
+export async function networkFindMany(db: Database, input: NetworkFindManyInput = {}): Promise<Network[]> {
+  const parsedInput = networkFindManySchema.parse(input)
   const { data, error } = await tryCatch(
     db.networks
       .orderBy('name')

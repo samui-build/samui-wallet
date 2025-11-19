@@ -1,14 +1,14 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database.ts'
-import type { NetworkInputCreate } from './dto/network-input-create.ts'
+import type { Database } from '../database.ts'
+import type { NetworkCreateInput } from './network-create-input.ts'
 
-import { networkSchemaCreate } from './schema/network-schema-create.ts'
+import { networkCreateSchema } from './network-create-schema.ts'
 
-export async function dbNetworkCreate(db: Database, input: NetworkInputCreate): Promise<string> {
+export async function networkCreate(db: Database, input: NetworkCreateInput): Promise<string> {
   const now = new Date()
   // TODO: Add runtime check to ensure Network.type is valid
-  const parsedInput = networkSchemaCreate.parse(input)
+  const parsedInput = networkCreateSchema.parse(input)
   const { data, error } = await tryCatch(
     db.networks.add({
       ...parsedInput,
