@@ -32,7 +32,7 @@ export function ShellUiMenuWallets({
 }) {
   return (
     <MenubarMenu>
-      <MenubarTrigger asChild className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
+      <MenubarTrigger className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
         <div className="flex items-center gap-2">
           <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
           {activeAccount.name}

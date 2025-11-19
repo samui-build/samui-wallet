@@ -5,7 +5,7 @@ import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-
 export function groupActivityItems(txs: GetActivityItems): { date: Date; transactions: GetActivityItems }[] {
   const grouped = txs.reduce((acc, tx) => {
     const timestamp = unixTimestampToDate(tx.blockTime) ?? new Date()
-    const dateKey = timestamp.toISOString().split('T')[0] ?? ''
+    const dateKey = timestamp.toLocaleDateString()
 
     const group = acc.get(dateKey)
     if (!group) {
@@ -18,7 +18,7 @@ export function groupActivityItems(txs: GetActivityItems): { date: Date; transac
   }, new Map<string, GetActivityItem[]>())
 
   return Array.from(grouped.entries()).map(([dateKey, transactions]) => ({
-    date: unixTimestampToDate(transactions[0]?.blockTime ?? null) ?? new Date(dateKey),
+    date: new Date(dateKey),
     transactions,
   }))
 }
