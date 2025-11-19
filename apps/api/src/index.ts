@@ -1,27 +1,32 @@
-import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpServer } from '@effect/platform'
+import { HttpApi, HttpApiBuilder, HttpApiEndpoint, HttpApiGroup, HttpServer, OpenApi } from '@effect/platform'
 import { Effect, Layer, Schema } from 'effect'
 
-const MyApi = HttpApi.make('MyApi').add(
-  HttpApiGroup.make('HelloWorld').add(HttpApiEndpoint.get('hello-world')`/`.addSuccess(Schema.String)),
+const RootApi = HttpApiGroup.make('Root').add(
+  HttpApiEndpoint.get('health-check', '/health-check')
+    .annotate(OpenApi.Summary, 'Health Check')
+    .addSuccess(Schema.String),
 )
 
-const HelloWorldLive = HttpApiBuilder.group(MyApi, 'HelloWorld', (handlers) =>
-  handlers.handle('hello-world', () => Effect.succeed('Hello, World!')),
+const Api = HttpApi.make('Samui').annotate(OpenApi.Title, 'Samui API').add(RootApi)
+
+const HttpRootLive = HttpApiBuilder.group(Api, 'Root', (handlers) =>
+  handlers.handle('health-check', () => Effect.succeed('Ok')),
 )
 
-const MyApiLive = HttpApiBuilder.api(MyApi).pipe(Layer.provide(HelloWorldLive))
+const ApiLive = HttpApiBuilder.api(Api).pipe(Layer.provide(HttpRootLive))
 
 export default {
   fetch: (request: Request, env: Cloudflare.Env) => {
-    const { handler } = HttpApiBuilder.toWebHandler(
-      Layer.mergeAll(
-        MyApiLive,
-        HttpApiBuilder.middlewareCors({
-          allowedOrigins: env.CORS_ORIGINS?.split(',').map((origin) => origin.trim()) ?? [],
-        }),
-        HttpServer.layerContext,
-      ),
+    const HttpApiLive = Layer.mergeAll(
+      ApiLive,
+      Layer.provide(HttpApiBuilder.middlewareOpenApi(), ApiLive),
+      HttpApiBuilder.middlewareCors({
+        allowedOrigins: env.CORS_ORIGINS?.split(',').map((origin) => origin.trim()) ?? [],
+      }),
+      HttpServer.layerContext,
     )
+
+    const { handler } = HttpApiBuilder.toWebHandler(HttpApiLive)
     return handler(request)
   },
 }
