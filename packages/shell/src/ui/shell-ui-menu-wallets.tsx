@@ -1,4 +1,4 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Wallet } from '@workspace/db/entity/wallet'
 
 import {
@@ -21,83 +21,74 @@ import { Link } from 'react-router'
 
 export function ShellUiMenuWallets({
   wallets,
-  activeWallet,
   activeAccount,
+  activeWallet,
   setActiveAccount,
 }: {
-  wallets: Wallet[]
-  activeWallet: Wallet | null
-  activeAccount: null | Account
+  activeAccount: Account
+  activeWallet: Wallet
   setActiveAccount: (id: string) => Promise<void>
+  wallets: Wallet[]
 }) {
   return (
     <MenubarMenu>
-      <MenubarTrigger className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
+      <MenubarTrigger asChild className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
         <div className="flex items-center gap-2">
-          <UiAvatar className="size-6 md:size-8" label={activeWallet?.name ?? ''} />
-          {activeAccount?.name ?? ''}
-
-          {activeAccount?.publicKey && (
-            <span onPointerDown={(e) => e.stopPropagation()}>
-              <UiTextCopyButton
-                size="icon"
-                text={activeAccount.publicKey}
-                toast="Copied public key to clipboard"
-                variant="ghost"
-              />
-            </span>
-          )}
+          <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
+          {activeAccount.name}
+          <UiTextCopyButton
+            onPointerDown={(e) => e.stopPropagation()}
+            size="icon"
+            text={activeAccount.publicKey}
+            toast="Copied public key to clipboard"
+            variant="ghost"
+          />
         </div>
       </MenubarTrigger>
       <MenubarContent>
-        {wallets.map((wallet) => {
-          return (
-            <MenubarSub key={wallet.id}>
-              <MenubarSubTrigger className="gap-2">
-                <UiAvatar label={wallet.name} />
-                {wallet.name}
-              </MenubarSubTrigger>
-              <MenubarSubContent>
-                <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount?.id ?? ''}>
-                  {wallet.accounts.map((account) => (
-                    <div className="flex items-center" key={account.id}>
-                      <MenubarRadioItem
-                        className={cn('font-mono', {
-                          'font-bold': account.id === activeAccount?.id,
-                        })}
-                        value={account.id}
-                      >
-                        {account.name}
-                      </MenubarRadioItem>
-                      <div className="p-2">
-                        <UiTextCopyButton
-                          size="icon"
-                          text={account.publicKey}
-                          toast="Copied public key to clipboard"
-                          variant="ghost"
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </MenubarRadioGroup>
-                <MenubarSeparator />
-                <MenubarItem asChild>
-                  <Link to={`/settings/wallets/${wallet.id}/add`}>
-                    <UiIcon icon="add" />
-                    Add account
-                  </Link>
-                </MenubarItem>
-                <MenubarItem asChild>
-                  <Link to={`/settings/wallets/${wallet.id}/edit`}>
-                    <UiIcon icon="edit" />
-                    Edit wallet
-                  </Link>
-                </MenubarItem>
-              </MenubarSubContent>
-            </MenubarSub>
-          )
-        })}
-
+        {wallets.map((wallet) => (
+          <MenubarSub key={wallet.id}>
+            <MenubarSubTrigger className="gap-2">
+              <UiAvatar label={wallet.name} />
+              {wallet.name}
+            </MenubarSubTrigger>
+            <MenubarSubContent>
+              <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount.id}>
+                {wallet.accounts.map((account) => (
+                  <div className="flex items-center" key={account.id}>
+                    <MenubarRadioItem
+                      className={cn('font-mono', {
+                        'font-bold': account.id === activeAccount.id,
+                      })}
+                      value={account.id}
+                    >
+                      {account.name}
+                    </MenubarRadioItem>
+                    <UiTextCopyButton
+                      size="icon"
+                      text={account.publicKey}
+                      toast="Copied public key to clipboard"
+                      variant="ghost"
+                    />
+                  </div>
+                ))}
+              </MenubarRadioGroup>
+              <MenubarSeparator />
+              <MenubarItem asChild>
+                <Link to={`/settings/wallets/${wallet.id}/add`}>
+                  <UiIcon icon="add" />
+                  Add account
+                </Link>
+              </MenubarItem>
+              <MenubarItem asChild>
+                <Link to={`/settings/wallets/${wallet.id}/edit`}>
+                  <UiIcon icon="edit" />
+                  Edit wallet
+                </Link>
+              </MenubarItem>
+            </MenubarSubContent>
+          </MenubarSub>
+        ))}
         <MenubarSeparator />
         <MenubarItem asChild>
           <Link to="/settings/wallets">

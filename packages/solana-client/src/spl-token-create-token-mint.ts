@@ -1,44 +1,56 @@
 import {
+  type Address,
   appendTransactionMessageInstructions,
   assertIsTransactionWithBlockhashLifetime,
   createTransactionMessage,
+  generateKeyPairSigner,
   getSignatureFromTransaction,
   type KeyPairSigner,
   pipe,
+  type Signature,
   sendAndConfirmTransactionFactory,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
-import {
-  findAssociatedTokenPda,
-  getCreateAssociatedTokenInstruction,
-  getInitializeMintInstruction,
-  getMintSize,
-  getMintToInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from '@solana-program/token'
-
+import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
+import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import type { SolanaClient } from './solana-client.ts'
+import { splTokenTransfer } from './spl-token-transfer.ts'
 
 export interface SplTokenCreateTokenMintOptions {
   decimals: number
+  latestBlockhash?: LatestBlockhash | undefined
   feePayer: KeyPairSigner
-  mint: KeyPairSigner
-  supply: number
+  mint?: KeyPairSigner
+  tokenProgram?: Address
+  supply?: bigint | undefined
+}
+
+export interface SplTokenCreateTokenMint {
+  ata?: Address
+  mint: Address
+  signatureCreate: Signature
+  signatureSupply?: Signature
 }
 
 export async function splTokenCreateTokenMint(
   client: SolanaClient,
-  options: SplTokenCreateTokenMintOptions,
-): Promise<{ mint: string; signature: string; supply?: string }> {
-  // TODO: Add proper validation
-  if (options.decimals < 0 || options.decimals > 9) {
+  {
+    latestBlockhash,
+    decimals,
+    mint,
+    feePayer,
+    tokenProgram = TOKEN_PROGRAM_ADDRESS,
+    supply = 0n,
+  }: SplTokenCreateTokenMintOptions,
+): Promise<SplTokenCreateTokenMint> {
+  if (decimals < 0 || decimals > 9) {
     throw new Error(`Decimals must be between 0 and 9`)
   }
-  const feePayer = options.feePayer
-  const mint = options.mint
+
+  mint = mint ?? (await generateKeyPairSigner())
 
   // Get default mint account size (in bytes), no extensions enabled
   const space = BigInt(getMintSize())
@@ -47,34 +59,30 @@ export async function splTokenCreateTokenMint(
   const rent = await client.rpc.getMinimumBalanceForRentExemption(space).send()
 
   // Instruction to create new account for mint (token program)
-  // Invokes the system program
   const createAccountInstruction = getCreateAccountInstruction({
     lamports: rent,
     newAccount: mint,
     payer: feePayer,
-    programAddress: TOKEN_PROGRAM_ADDRESS,
+    programAddress: tokenProgram,
     space,
   })
 
   // Instruction to initialize mint account data
-  // Invokes the token program
   const initializeMintInstruction = getInitializeMintInstruction({
-    decimals: options.decimals,
+    decimals,
     mint: mint.address,
     mintAuthority: feePayer.address,
   })
 
   const instructions = [createAccountInstruction, initializeMintInstruction]
 
-  // Get latest blockhash to include in transaction
-  const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
+  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
 
-  // Create transaction message
   const transactionMessage = pipe(
-    createTransactionMessage({ version: 0 }), // Create transaction message
-    (tx) => setTransactionMessageFeePayerSigner(feePayer, tx), // Set fee payer
-    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx), // Set transaction blockhash
-    (tx) => appendTransactionMessageInstructions(instructions, tx), // Append instructions
+    createTransactionMessage({ version: 0 }),
+    (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
+    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
+    (tx) => appendTransactionMessageInstructions(instructions, tx),
   )
 
   // Sign transaction message with required signers (fee payer and mint keypair)
@@ -87,57 +95,27 @@ export async function splTokenCreateTokenMint(
   )
 
   // Get transaction signature
-  const transactionSignature = getSignatureFromTransaction(signedTransaction)
+  const signatureCreate = getSignatureFromTransaction(signedTransaction)
 
-  if (options.supply > 0) {
-    const [ataAddress] = await findAssociatedTokenPda({
+  if (supply > 0n) {
+    const { ata, signature: signatureSupply } = await splTokenTransfer(client, {
+      amount: supply,
+      feePayer,
+      latestBlockhash,
       mint: mint.address,
-      owner: feePayer.address,
-      tokenProgram: TOKEN_PROGRAM_ADDRESS,
+      tokenProgram,
     })
-
-    const createAtaInstruction = getCreateAssociatedTokenInstruction({
-      ata: ataAddress,
-      mint: mint.address,
-      owner: feePayer.address,
-      payer: feePayer,
-    })
-
-    const mintAmount = BigInt(options.supply) * BigInt(10 ** options.decimals)
-
-    const mintToInstruction = getMintToInstruction({
-      amount: mintAmount,
-      mint: mint.address,
-      mintAuthority: feePayer,
-      token: ataAddress,
-    })
-
-    const supplyTransactionMessage = pipe(
-      createTransactionMessage({ version: 0 }),
-      (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
-      (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-      (tx) => appendTransactionMessageInstructions([createAtaInstruction, mintToInstruction], tx),
-    )
-
-    const signedSupplyTransaction = await signTransactionMessageWithSigners(supplyTransactionMessage)
-    assertIsTransactionWithBlockhashLifetime(signedSupplyTransaction)
-
-    await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-      signedSupplyTransaction,
-      { commitment: 'confirmed' },
-    )
-
-    const supplySignature = getSignatureFromTransaction(signedSupplyTransaction)
 
     return {
-      mint: mint.address.toString(),
-      signature: transactionSignature.toString(),
-      supply: supplySignature.toString(),
+      ata,
+      mint: mint.address,
+      signatureCreate,
+      signatureSupply,
     }
   }
 
   return {
-    mint: mint.address.toString(),
-    signature: transactionSignature.toString(),
+    mint: mint.address,
+    signatureCreate,
   }
 }

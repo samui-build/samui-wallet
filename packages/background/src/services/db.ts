@@ -1,13 +1,13 @@
 import { address, getAddressEncoder } from '@solana/kit'
 import type { StandardConnectOutput } from '@wallet-standard/core'
 import { defineProxyService } from '@webext-core/proxy-service'
+import type { Account } from '@workspace/db/account/account'
+import { accountCreate } from '@workspace/db/account/account-create'
+import { accountFindUnique } from '@workspace/db/account/account-find-unique'
 import { db } from '@workspace/db/db'
-import { dbAccountCreate } from '@workspace/db/db-account-create'
-import { dbAccountFindUnique } from '@workspace/db/db-account-find-unique'
 import { dbSettingGetValue } from '@workspace/db/db-setting-get-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
-import type { Account } from '@workspace/db/entity/account'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
@@ -20,7 +20,7 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
         throw new Error('No active account set')
       }
 
-      const account = await dbAccountFindUnique(db, accountId)
+      const account = await accountFindUnique(db, accountId)
       if (!account) {
         throw new Error('Active account not found')
       }
@@ -51,7 +51,7 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
       // If so, we create the wallet
       const walletId = await dbWalletCreate(db, input)
       // After creating the wallet we can create the account
-      await dbAccountCreate(db, {
+      await accountCreate(db, {
         ...derivedAccount,
         name: ellipsify(derivedAccount.publicKey),
         type: 'Derived',

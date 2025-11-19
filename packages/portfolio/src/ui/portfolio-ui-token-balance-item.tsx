@@ -23,7 +23,7 @@ export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
         </div>
       </div>
       <div className="flex flex-col items-end" style={{ flexGrow: 1 }}>
-        <div>$ {item.balanceUsd}</div>
+        <div>${item.balanceUsd}</div>
         <div className="text-muted-foreground text-sm">{item.balanceToken}</div>
       </div>
     </div>

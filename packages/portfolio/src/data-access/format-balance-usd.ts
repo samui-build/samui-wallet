@@ -9,6 +9,6 @@ export function formatBalanceUsd({
 }) {
   return new Intl.NumberFormat('en-US', {
     maximumFractionDigits: 2,
-    minimumFractionDigits: 0,
+    minimumFractionDigits: 2,
   }).format(((usdPrice ?? 0) * Number(balance)) / 10 ** decimals)
 }

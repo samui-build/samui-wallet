@@ -1,6 +1,5 @@
 import type { Network } from '@workspace/db/entity/network'
 import type { TransactionData } from '@workspace/solana-client-react/use-get-transaction'
-
 import { useGetTransaction } from '@workspace/solana-client-react/use-get-transaction'
 import { Alert, AlertTitle } from '@workspace/ui/components/alert'
 import { Spinner } from '@workspace/ui/components/spinner'

@@ -1,4 +1,4 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 
 import { useMemo } from 'react'
 

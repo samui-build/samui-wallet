@@ -1,5 +1,5 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
@@ -45,7 +45,7 @@ export function PortfolioFeatureTabTokens(props: { account: Account; network: Ne
 
     return new Intl.NumberFormat('en-US', {
       maximumFractionDigits: 2,
-      minimumFractionDigits: 0,
+      minimumFractionDigits: 2,
     }).format(balance)
   }, [balances])
 

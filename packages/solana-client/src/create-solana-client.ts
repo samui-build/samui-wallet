@@ -15,7 +15,7 @@ export function createSolanaClient<TClusterUrl extends ClusterUrl>({
   if (urlSubscriptions?.trim().length && !urlSubscriptions.startsWith('ws')) {
     throw new Error('Invalid subscription url')
   }
-  const rpcSubscriptionsUrl = urlSubscriptions ? urlSubscriptions : url.replace('http', 'ws')
+  const rpcSubscriptionsUrl = urlSubscriptions?.length ? urlSubscriptions : url.replace('http', 'ws')
   return {
     rpc: createSolanaRpc(url),
     rpcSubscriptions: createSolanaRpcSubscriptions(rpcSubscriptionsUrl),

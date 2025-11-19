@@ -1,4 +1,4 @@
-import type { AccountType } from '@workspace/db/entity/account-type'
+import type { AccountType } from '@workspace/db/account/account-type'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 

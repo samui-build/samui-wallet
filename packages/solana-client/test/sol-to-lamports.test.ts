@@ -60,7 +60,7 @@ describe('sol-to-lamports', () => {
       const sol = 'abc'
 
       // ACT & ASSERT
-      expect(() => solToLamports(sol)).toThrow('Could not parse token quantity: abc')
+      expect(() => solToLamports(sol)).toThrow('Could not parse amount: abc')
     })
 
     it('should throw an error for a negative number string', () => {

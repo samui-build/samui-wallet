@@ -1,4 +1,4 @@
-import type { Account } from '@workspace/db/entity/account'
+import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 
