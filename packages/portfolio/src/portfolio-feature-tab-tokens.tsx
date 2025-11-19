@@ -1,11 +1,13 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
+import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useMemo } from 'react'
+import { useCreateAndSendSolTransaction } from './data-access/use-create-and-send-sol-transaction.tsx'
+import { useCreateAndSendSplTransaction } from './data-access/use-create-and-send-spl-transaction.tsx'
 import type { TokenBalance } from './data-access/use-get-token-metadata.ts'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
 import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
@@ -14,8 +16,6 @@ import { PortfolioUiBalanceSkeleton } from './ui/portfolio-ui-balance-skeleton.t
 import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 import { PortfolioUiTokenBalancesSkeleton } from './ui/portfolio-ui-token-balances-skeleton.tsx'
-import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
-import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
 
 interface SendTokenInput {
   amount: string
@@ -23,16 +23,17 @@ interface SendTokenInput {
   mint: TokenBalance
 }
 
-export function PortfolioFeatureTabTokens(props: { account: Account; network: Network }) {
-  const { account, network } = props
+export function PortfolioFeatureTabTokens() {
+  const account = useDbAccountActive()
+  const network = useDbNetworkActive()
   const balances = useGetTokenBalances({ address: account.publicKey, network })
   const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({
-    address: props.account.publicKey,
-    network: props.network,
+    address: account.publicKey,
+    network,
   })
 
-  const sendSolMutation = useCreateAndSendSolTransaction(props)
-  const sendSplMutation = useCreateAndSendSplTransaction(props)
+  const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
+  const sendSplMutation = useCreateAndSendSplTransaction({ network })
 
   const totalBalance = useMemo(() => {
     const balance = balances.reduce((acc, item) => {
@@ -114,7 +115,13 @@ export function PortfolioFeatureTabTokens(props: { account: Account; network: Ne
     <div className="space-y-6">
       {isLoadingWalletInfo ? <PortfolioUiBalanceSkeleton /> : <PortfolioUiBalance balance={totalBalance} />}
 
-      <PortfolioUiAccountButtons balances={balances} {...props} isLoading={isLoading} send={handleSendToken} />
+      <PortfolioUiAccountButtons
+        account={account}
+        balances={balances}
+        isLoading={isLoading}
+        network={network}
+        send={handleSendToken}
+      />
 
       {isLoadingWalletInfo ? null : (
         <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />

@@ -5,9 +5,11 @@ import { cn } from '@workspace/ui/lib/utils'
 
 export function ExplorerUiExplorerLink({
   className,
+  label,
   ...props
 }: {
   className?: string
+  label?: string
 } & GetExplorerUrlProps) {
   const href = getExplorerUrl(props)
   const name = getExplorerName(props.provider)
@@ -19,7 +21,7 @@ export function ExplorerUiExplorerLink({
         rel="noopener noreferrer"
         target="_blank"
       >
-        {name}
+        {label ?? name}
         <UiIcon className="size-3" icon="externalLink" />
       </a>
     </UiTooltip>

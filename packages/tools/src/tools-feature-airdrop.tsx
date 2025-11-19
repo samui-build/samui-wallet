@@ -2,7 +2,7 @@ import { address } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { PortfolioUiExplorerLink } from '@workspace/portfolio/ui/portfolio-ui-explorer-link'
+import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -19,7 +19,7 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
         submit={async (input) => {
           const signature = await mutateAsync({ ...input, address: address(input.address) })
           toastSuccess(
-            <PortfolioUiExplorerLink
+            <ExplorerUiExplorerLink
               label="View on explorer"
               network={props.network}
               path={`/tx/${signature}`}

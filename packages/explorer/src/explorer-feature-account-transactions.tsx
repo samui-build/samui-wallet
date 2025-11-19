@@ -5,6 +5,7 @@ import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
+import { useLocation } from 'react-router'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiTxExplorerIcon } from './ui/explorer-ui-tx-explorer-icon.tsx'
 import { ExplorerUiTxLink } from './ui/explorer-ui-tx-link.tsx'
@@ -20,6 +21,7 @@ export function ExplorerFeatureAccountTransactions({
   basePath: string
   network: Network
 }) {
+  const { pathname: from } = useLocation()
   const query = useGetSignaturesForAddress({ address, network })
   if (query.isLoading) {
     return <UiLoader />
@@ -45,10 +47,10 @@ export function ExplorerFeatureAccountTransactions({
           <div className="flex items-center justify-between" key={tx.signature}>
             <div className="flex items-center gap-2">
               <ExplorerUiTxStatus tx={tx} />
-              <ExplorerUiTxLink basePath={basePath} from={`account/${address}`} tx={tx} />
+              <ExplorerUiTxLink basePath={basePath} from={from} tx={tx} />
               <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
             </div>
-            <div className="font-mono text-xs text-muted-foreground whitespace-nowrap text-right truncate">
+            <div className="font-mono text-xs text-muted-foreground text-right">
               <ExplorerUiTxTimestamp blockTime={tx.blockTime} />
             </div>
           </div>

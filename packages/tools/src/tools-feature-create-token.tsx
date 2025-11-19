@@ -2,7 +2,7 @@ import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/entity/network'
-import { PortfolioUiExplorerButton } from '@workspace/portfolio/ui/portfolio-ui-explorer-button'
+import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
@@ -66,7 +66,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
         <div className="flex flex-col gap-6">
           <div>Token created!</div>
           <div>
-            <PortfolioUiExplorerButton
+            <ExplorerUiExplorerLink
               label="View Mint"
               network={props.network}
               path={`/address/${resultMint}`}
@@ -74,7 +74,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             />
           </div>
           <div>
-            <PortfolioUiExplorerButton
+            <ExplorerUiExplorerLink
               label="View Mint Transaction"
               network={props.network}
               path={`/tx/${resultTx}`}
@@ -83,7 +83,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
           </div>
           {resultSupply ? (
             <div>
-              <PortfolioUiExplorerButton
+              <ExplorerUiExplorerLink
                 label="View Supply Transaction"
                 network={props.network}
                 path={`/tx/${resultSupply}`}
