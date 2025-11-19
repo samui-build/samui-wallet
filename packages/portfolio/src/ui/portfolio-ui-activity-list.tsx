@@ -1,4 +1,4 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { ExplorerUiExplorerIcon } from '@workspace/explorer/ui/explorer-ui-explorer-icon'
 import { ExplorerUiTxTimestamp } from '@workspace/explorer/ui/explorer-ui-tx-timestamp'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'

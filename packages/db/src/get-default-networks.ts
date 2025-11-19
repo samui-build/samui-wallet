@@ -2,8 +2,8 @@ import type { Env } from '@workspace/env/env'
 
 import { env } from '@workspace/env/env'
 
-import type { Network } from './entity/network.ts'
-import type { NetworkType } from './entity/network-type.ts'
+import type { Network } from './network/network.ts'
+import type { NetworkType } from './network/network-type.ts'
 
 const networkEnvVars: (keyof Env)[] = ['networkDevnet', 'networkLocalnet', 'networkMainnet', 'networkTestnet']
 

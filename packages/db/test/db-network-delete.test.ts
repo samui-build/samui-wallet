@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbNetworkCreate } from '../src/db-network-create.ts'
-import { dbNetworkDelete } from '../src/db-network-delete.ts'
-import { dbNetworkFindUnique } from '../src/db-network-find-unique.ts'
-import { createDbTest, testNetworkInputCreate } from './test-helpers.ts'
+import { networkCreate } from '../src/network/network-create.ts'
+import { networkDelete } from '../src/network/network-delete.ts'
+import { networkFindUnique } from '../src/network/network-find-unique.ts'
+import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-network-delete', () => {
+describe('network-delete', () => {
   beforeEach(async () => {
     await db.networks.clear()
   })
@@ -18,14 +18,14 @@ describe('db-network-delete', () => {
     it('should delete a network', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkInputCreate()
-      const id = await dbNetworkCreate(db, input)
+      const input = testNetworkCreateInput()
+      const id = await networkCreate(db, input)
 
       // ACT
-      await dbNetworkDelete(db, id)
+      await networkDelete(db, id)
 
       // ASSERT
-      const deletedItem = await dbNetworkFindUnique(db, id)
+      const deletedItem = await networkFindUnique(db, id)
       expect(deletedItem).toBeNull()
     })
   })
@@ -48,7 +48,7 @@ describe('db-network-delete', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbNetworkDelete(db, id)).rejects.toThrow(`Error deleting network with id ${id}`)
+      await expect(networkDelete(db, id)).rejects.toThrow(`Error deleting network with id ${id}`)
     })
   })
 })

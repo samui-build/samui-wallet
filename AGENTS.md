@@ -71,7 +71,7 @@ it('should create a network', async () => {
   const input = testNetworkInputCreate()
 
   // ACT
-  const result = await dbNetworkCreate(db, input) // REQUIRED: Results must be called result, result1, etc...
+  const result = await networkCreate(db, input) // REQUIRED: Results must be called result, result1, etc...
 
   // ASSERT
   expect(result).toBeDefined()
@@ -93,7 +93,7 @@ it('should throw an error with an invalid key', async () => {
   })
 
   // ACT & ASSERT
-  await expect(dbNetworkCreate(db, input)).rejects.toThrow()
+  await expect(networkCreate(db, input)).rejects.toThrow()
 })
 ```
 

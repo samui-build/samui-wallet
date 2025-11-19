@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbNetworkCreate } from '../src/db-network-create.ts'
-import { dbNetworkFindUnique } from '../src/db-network-find-unique.ts'
-import { dbNetworkUpdate } from '../src/db-network-update.ts'
-import { createDbTest, randomName, testNetworkInputCreate } from './test-helpers.ts'
+import { networkCreate } from '../src/network/network-create.ts'
+import { networkFindUnique } from '../src/network/network-find-unique.ts'
+import { networkUpdate } from '../src/network/network-update.ts'
+import { createDbTest, randomName, testNetworkCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-network-update', () => {
+describe('network-update', () => {
   beforeEach(async () => {
     await db.networks.clear()
   })
@@ -18,15 +18,15 @@ describe('db-network-update', () => {
     it('should update a network', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testNetworkInputCreate()
-      const id = await dbNetworkCreate(db, input)
+      const input = testNetworkCreateInput()
+      const id = await networkCreate(db, input)
       const newName = randomName('newName')
 
       // ACT
-      await dbNetworkUpdate(db, id, { name: newName })
+      await networkUpdate(db, id, { name: newName })
 
       // ASSERT
-      const updatedItem = await dbNetworkFindUnique(db, id)
+      const updatedItem = await networkFindUnique(db, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.name).toBe(newName)
     })
@@ -50,7 +50,7 @@ describe('db-network-update', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbNetworkUpdate(db, id, {})).rejects.toThrow(`Error updating network with id ${id}`)
+      await expect(networkUpdate(db, id, {})).rejects.toThrow(`Error updating network with id ${id}`)
     })
   })
 })

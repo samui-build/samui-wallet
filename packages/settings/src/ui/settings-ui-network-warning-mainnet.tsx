@@ -1,4 +1,4 @@
-import type { NetworkType } from '@workspace/db/entity/network-type'
+import type { NetworkType } from '@workspace/db/network/network-type'
 
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { UiIcon } from '@workspace/ui/components/ui-icon'

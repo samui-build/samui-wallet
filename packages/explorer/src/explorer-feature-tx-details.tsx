@@ -1,5 +1,5 @@
 import type { Signature } from '@solana/kit'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { useExplorerGetTransaction } from './data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'

@@ -3,9 +3,9 @@ import { address } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
-import type { NetworkInputCreate } from '../src/dto/network-input-create.ts'
 import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
 import type { SettingKey } from '../src/entity/setting-key.ts'
+import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
@@ -24,21 +24,21 @@ export function testAccountCreateInput(input: { walletId: string } & Partial<Acc
   }
 }
 
+export function testNetworkCreateInput(input: Partial<NetworkCreateInput> = {}): NetworkCreateInput {
+  return {
+    endpoint: 'http://localhost:8899',
+    name: randomName('network'),
+    type: 'solana:localnet',
+    ...input,
+  }
+}
+
 export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
   return {
     derivationPath: 'd',
     mnemonic: 'baz',
     name: randomName('wallet'),
     secret: 'bar',
-    ...input,
-  }
-}
-
-export function testNetworkInputCreate(input: Partial<NetworkInputCreate> = {}): NetworkInputCreate {
-  return {
-    endpoint: 'http://localhost:8899',
-    name: randomName('network'),
-    type: 'solana:localnet',
     ...input,
   }
 }

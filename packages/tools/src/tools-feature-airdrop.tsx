@@ -1,6 +1,6 @@
 import { address } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'

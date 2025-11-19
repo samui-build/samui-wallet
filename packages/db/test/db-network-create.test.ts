@@ -2,13 +2,13 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbNetworkCreate } from '../src/db-network-create.ts'
-import { dbNetworkFindMany } from '../src/db-network-find-many.ts'
-import { createDbTest, testNetworkInputCreate } from './test-helpers.ts'
+import { networkCreate } from '../src/network/network-create.ts'
+import { networkFindMany } from '../src/network/network-find-many.ts'
+import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-network-create', () => {
+describe('network-create', () => {
   beforeEach(async () => {
     await db.networks.clear()
   })
@@ -17,25 +17,25 @@ describe('db-network-create', () => {
     it('should create a network', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkInputCreate()
+      const input = testNetworkCreateInput()
 
       // ACT
-      await dbNetworkCreate(db, input)
+      await networkCreate(db, input)
 
       // ASSERT
-      const items = await dbNetworkFindMany(db)
+      const items = await networkFindMany(db)
       expect(items.map((i) => i.name)).toContain(input.name)
     })
     it('should create a network with a subscription endpoint', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkInputCreate({ endpointSubscriptions: 'ws://127.0.0.1:8900' })
+      const input = testNetworkCreateInput({ endpointSubscriptions: 'ws://127.0.0.1:8900' })
 
       // ACT
-      await dbNetworkCreate(db, input)
+      await networkCreate(db, input)
 
       // ASSERT
-      const items = await dbNetworkFindMany(db)
+      const items = await networkFindMany(db)
       expect(items.map((i) => i.endpointSubscriptions)).toContain(input.endpointSubscriptions)
     })
   })
@@ -52,22 +52,22 @@ describe('db-network-create', () => {
     it('should throw an error when creating a network fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkInputCreate()
+      const input = testNetworkCreateInput()
       vi.spyOn(db.networks, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(dbNetworkCreate(db, input)).rejects.toThrow('Error creating network')
+      await expect(networkCreate(db, input)).rejects.toThrow('Error creating network')
     })
 
     it('should throw an error with an invalid endpoint', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkInputCreate({ endpoint: 'not-a-url' })
+      const input = testNetworkCreateInput({ endpoint: 'not-a-url' })
 
       // ACT & ASSERT
-      await expect(dbNetworkCreate(db, input)).rejects.toThrow()
+      await expect(networkCreate(db, input)).rejects.toThrow()
     })
   })
 })
