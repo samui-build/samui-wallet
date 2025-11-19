@@ -1,8 +1,8 @@
 import { assertIsAddress } from '@solana/kit'
 import type { Wallet } from '@workspace/db/wallet/wallet'
-import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
+import { useAccountCreate } from '@workspace/db-react/use-account-create'
+import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
@@ -21,10 +21,10 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletAddAccount() {
   const { walletId } = useParams() as { walletId: string }
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
-  const createAccountMutation = useDbAccountCreate()
-  const accounts = useDbAccountLive({ walletId })
+  const createAccountMutation = useAccountCreate()
+  const accounts = useAccountLive({ walletId })
 
   async function createAccountDerived(wallet: Wallet) {
     try {

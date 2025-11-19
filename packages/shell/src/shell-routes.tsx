@@ -1,9 +1,9 @@
-import { queryClient } from '@workspace/db-react/db-query-client'
-import { dbSettingOptions } from '@workspace/db-react/db-setting-options'
+import { optionsSetting } from '@workspace/db-react/options-setting'
+import { queryClient } from '@workspace/db-react/query-client'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 'react-router'
-import { rootLoader } from './data-access/root-loader.tsx'
+import { rootRouteLoader } from './data-access/root-route-loader.tsx'
 import type { ShellContext } from './shell-feature.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
@@ -20,9 +20,9 @@ function createRouter(context: ShellContext) {
     {
       children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes(),
       id: 'root',
-      loader: rootLoader(context),
+      loader: rootRouteLoader(context),
       shouldRevalidate: () => {
-        const state = queryClient.getQueryState(dbSettingOptions.getAll().queryKey)
+        const state = queryClient.getQueryState(optionsSetting.getAll().queryKey)
         return !state || state.isInvalidated
       },
     },

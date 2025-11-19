@@ -1,4 +1,4 @@
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useSetting } from '@workspace/db-react/use-setting'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiExperimentalWarning } from '@workspace/ui/components/ui-experimental-warning'
@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 
 export function OnboardingFeatureIndex() {
   const { t } = useTranslation('onboarding')
-  const [accepted, setAccepted] = useDbSetting('warningAcceptExperimental')
+  const [accepted, setAccepted] = useSetting('warningAcceptExperimental')
   return (
     <div className="flex flex-col gap-6 items-center">
       <div className="flex flex-col items-center space-y-2">

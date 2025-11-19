@@ -1,4 +1,4 @@
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useSetting } from '@workspace/db-react/use-setting'
 import { i18n, useTranslation } from '@workspace/i18n'
 import { Label } from '@workspace/ui/components/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select'
@@ -12,7 +12,7 @@ const SUPPORTED_LANGUAGES: Record<string, string> = {
 export function SettingsFeatureGeneralLanguage() {
   const { t } = useTranslation('settings')
   const languageId = useId()
-  const [language, setLanguageSetting] = useDbSetting('language')
+  const [language, setLanguageSetting] = useSetting('language')
 
   async function handleLanguageChange(newLanguage: string) {
     await setLanguageSetting(newLanguage)

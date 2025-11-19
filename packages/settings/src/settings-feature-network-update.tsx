@@ -1,5 +1,5 @@
-import { useDbNetworkFindUnique } from '@workspace/db-react/use-db-network-find-unique'
-import { useDbNetworkUpdate } from '@workspace/db-react/use-db-network-update'
+import { useNetworkFindUnique } from '@workspace/db-react/use-network-find-unique'
+import { useNetworkUpdate } from '@workspace/db-react/use-network-update'
 import { useTranslation } from '@workspace/i18n'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
@@ -12,8 +12,8 @@ export function SettingsFeatureNetworkUpdate() {
   const { t } = useTranslation('settings')
   const navigate = useNavigate()
   const { networkId } = useParams() as { networkId: string }
-  const updateMutation = useDbNetworkUpdate()
-  const { data: item, error, isError, isLoading } = useDbNetworkFindUnique({ id: networkId })
+  const updateMutation = useNetworkUpdate()
+  const { data: item, error, isError, isLoading } = useNetworkFindUnique({ id: networkId })
 
   if (isLoading) {
     return <UiLoader />

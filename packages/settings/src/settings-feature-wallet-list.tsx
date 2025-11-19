@@ -1,4 +1,4 @@
-import { useDbWalletDelete } from '@workspace/db-react/use-db-wallet-delete'
+import { useWalletDelete } from '@workspace/db-react/use-wallet-delete'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -12,7 +12,7 @@ import { SettingsUiWalletList } from './ui/settings-ui-wallet-list.tsx'
 
 export function SettingsFeatureWalletList() {
   const page = useSettingsPage({ pageId: 'wallets' })
-  const deleteMutation = useDbWalletDelete({
+  const deleteMutation = useWalletDelete({
     onError: () => toastError('Error deleting wallet'),
     onSuccess: () => toastSuccess('Wallet deleted'),
   })

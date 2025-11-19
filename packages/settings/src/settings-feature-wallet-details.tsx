@@ -1,5 +1,5 @@
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
+import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
@@ -14,8 +14,8 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletDetails() {
   const { walletId } = useParams() as { walletId: string }
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
-  const accounts = useDbAccountLive({ walletId })
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
+  const accounts = useAccountLive({ walletId })
   const sorted = useSortAccounts(accounts)
 
   if (isLoading) {

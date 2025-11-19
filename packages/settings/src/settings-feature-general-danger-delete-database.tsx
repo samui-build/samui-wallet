@@ -1,4 +1,4 @@
-import { useDbReset } from '@workspace/db-react/use-db-reset'
+import { useReset } from '@workspace/db-react/use-reset'
 import { Button } from '@workspace/ui/components/button'
 import { Checkbox } from '@workspace/ui/components/checkbox'
 import { Label } from '@workspace/ui/components/label'
@@ -6,7 +6,7 @@ import { useId, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 export function SettingsFeatureGeneralDangerDeleteDatabase() {
-  const mutation = useDbReset()
+  const mutation = useReset()
   const [accept, setAccept] = useState(false)
   const acceptId = useId()
   const navigate = useNavigate()
