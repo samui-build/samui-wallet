@@ -2,6 +2,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { dbNetworkTypeOptions } from '@workspace/db/db-network-type-options'
 import type { NetworkInputCreate } from '@workspace/db/dto/network-input-create'
 import { networkSchemaCreate } from '@workspace/db/schema/network-schema-create'
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
   Form,
@@ -15,10 +16,10 @@ import {
 import { Input } from '@workspace/ui/components/input'
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
 import { useForm } from 'react-hook-form'
-
 import { SettingsUiNetworkWarningMainnet } from './settings-ui-network-warning-mainnet.tsx'
 
 export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: NetworkInputCreate) => Promise<void> }) {
+  const { t } = useTranslation('settings')
   const form = useForm<NetworkInputCreate>({
     resolver: standardSchemaResolver(networkSchemaCreate),
   })
@@ -33,7 +34,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           name="type"
           render={({ field }) => (
             <FormItem className="flex flex-col gap-2 w-full py-1">
-              <FormLabel>Network *</FormLabel>
+              <FormLabel>{t(($) => $.networkInputTypeLabel)} *</FormLabel>
               <FormControl>
                 <ToggleGroup
                   className="flex justify-start items-center flex-wrap"
@@ -49,7 +50,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
                   ))}
                 </ToggleGroup>
               </FormControl>
-              <FormDescription>Select the type of network</FormDescription>
+              <FormDescription>{t(($) => $.networkInputTypeDescription)}</FormDescription>
               <FormMessage />
               <SettingsUiNetworkWarningMainnet type={watchType} />
             </FormItem>
@@ -60,16 +61,16 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           name="endpoint"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Endpoint * </FormLabel>
+              <FormLabel>{t(($) => $.networkInputEndpointLabel)} * </FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Network Endpoint"
+                  placeholder={t(($) => $.networkInputEndpointPlaceholder)}
                   type="url"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the network endpoint</FormDescription>
+              <FormDescription>{t(($) => $.networkInputEndpointDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -80,16 +81,16 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           name="endpointSubscriptions"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subscriptions Endpoint</FormLabel>
+              <FormLabel>{t(($) => $.networkInputEndpointSubscriptionsLabel)}</FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Network Endpoint for Subscriptions"
+                  placeholder={t(($) => $.networkInputEndpointSubscriptionsPlaceholder)}
                   type="url"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the network endpoint for subscriptions</FormDescription>
+              <FormDescription>{t(($) => $.networkInputEndpointSubscriptionsDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -100,16 +101,16 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           name="name"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Name </FormLabel>
+              <FormLabel>{t(($) => $.networkInputNameLabel)} </FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Network name"
+                  placeholder={t(($) => $.networkInputNamePlaceholder)}
                   type="text"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the name of the network</FormDescription>
+              <FormDescription>{t(($) => $.networkInputNameDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -117,7 +118,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
         />
         <div className="flex justify-end items-center w-full pt-3">
           <Button className="rounded-lg" size="sm">
-            Submit
+            {t(($) => $.actionSave)}
           </Button>
         </div>
       </form>
