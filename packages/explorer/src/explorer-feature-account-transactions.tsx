@@ -45,7 +45,7 @@ export function ExplorerFeatureAccountTransactions({
           <div className="flex items-center justify-between" key={tx.signature}>
             <div className="flex items-center gap-2">
               <ExplorerUiTxStatus tx={tx} />
-              <ExplorerUiTxLink basePath={basePath} tx={tx} />
+              <ExplorerUiTxLink basePath={basePath} from={`account/${address}`} tx={tx} />
               <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
             </div>
             <div className="font-mono text-xs text-muted-foreground whitespace-nowrap text-right truncate">
