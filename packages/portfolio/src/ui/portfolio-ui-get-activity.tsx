@@ -1,7 +1,7 @@
 import type { Network } from '@workspace/db/entity/network'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiTime } from '@workspace/ui/components/ui-time'
+import { UiRelativeDate } from '@workspace/ui/components/ui-relative-date'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { groupActivityItems } from './group-activity-items.tsx'
 import { PortfolioUiTxExplorerIcon } from './portfolio-ui-tx-explorer-icon.tsx'
@@ -22,7 +22,7 @@ export function PortfolioUiGetActivity({ network, items }: { network: Network; i
               <div className="flex text-muted-foreground text-xs font-mono gap-2">
                 <UiIcon className="size-4" icon="calendar" />
                 <UiTooltip content={`${date.toLocaleDateString()}`}>
-                  <UiTime time={date.getTime()}></UiTime>
+                  <UiRelativeDate date={date} />
                 </UiTooltip>
               </div>
 
