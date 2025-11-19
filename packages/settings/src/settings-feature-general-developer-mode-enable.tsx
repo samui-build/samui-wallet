@@ -1,9 +1,11 @@
 import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useTranslation } from '@workspace/i18n'
 import { Label } from '@workspace/ui/components/label'
 import { Switch } from '@workspace/ui/components/switch'
 import { useId } from 'react'
 
 export function SettingsFeatureGeneralDeveloperModeEnable() {
+  const { t } = useTranslation('settings')
   const enableDeveloperModeId = useId()
   const [enabled, setEnabled] = useDbSetting('developerModeEnabled')
 
@@ -14,7 +16,7 @@ export function SettingsFeatureGeneralDeveloperModeEnable() {
         id={enableDeveloperModeId}
         onCheckedChange={(checked) => setEnabled(`${checked}`)}
       />
-      <Label htmlFor={enableDeveloperModeId}>Enable developer mode</Label>
+      <Label htmlFor={enableDeveloperModeId}>{t(($) => $.pageGeneralDeveloperMode)}</Label>
     </div>
   )
 }

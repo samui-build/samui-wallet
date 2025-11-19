@@ -1,0 +1,14 @@
+{
+  "pageGeneralApiEndpoint": "Endpoint de la API",
+  "pageGeneralDangerZone": "Zona de peligro",
+  "pageGeneralDescription": "Ajustes generales de la app",
+  "pageGeneralDeveloperMode": "Habilitar modo de desarrollador",
+  "pageGeneralExperimentalSoftware": "Mostrar advertencia sobre software experimental",
+  "pageGeneralLanguage": "Idioma",
+  "pageGeneralName": "General",
+  "pageGeneralReset": "Restablecer aplicación",
+  "pageNetworkDescription": "Gestionar redes y endpoints",
+  "pageNetworkName": "Redes",
+  "pageWalletDescription": "Gestionar billeteras y cuentas",
+  "pageWalletName": "Billeteras"
+}
