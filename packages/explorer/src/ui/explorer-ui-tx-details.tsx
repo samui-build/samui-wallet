@@ -1,4 +1,4 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'

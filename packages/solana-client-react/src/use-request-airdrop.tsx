@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import type { RequestAirdropOption } from '@workspace/solana-client/request-airdrop'
 import { requestAirdrop } from '@workspace/solana-client/request-airdrop'
 import { toastError } from '@workspace/ui/lib/toast-error'

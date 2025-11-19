@@ -1,5 +1,5 @@
-import type { NetworkInputFindMany } from '@workspace/db/dto/network-input-find-many'
-import type { NetworkType } from '@workspace/db/entity/network-type'
+import type { NetworkFindManyInput } from '@workspace/db/network/network-find-many-input'
+import type { NetworkType } from '@workspace/db/network/network-type'
 
 import { useDbNetworkFindMany } from '@workspace/db-react/use-db-network-find-many'
 import {
@@ -15,13 +15,13 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { useState } from 'react'
 
 export function DevFeatureDbNetworkFindMany() {
-  const [input, setInput] = useState<NetworkInputFindMany>({})
+  const [input, setInput] = useState<NetworkFindManyInput>({})
   const query = useDbNetworkFindMany({ input })
 
   return (
     <UiCard
       action={<NetworkSelect select={(type: NetworkType | undefined) => setInput({ type })} />}
-      title="dbNetworkFindMany"
+      title="networkFindMany"
     >
       <pre>{JSON.stringify({ data: query.data, input }, null, 2)}</pre>
     </UiCard>

@@ -1,14 +1,14 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbNetworkCreate } from '../src/db-network-create.ts'
-import { dbNetworkFindUnique } from '../src/db-network-find-unique.ts'
-import type { Network } from '../src/entity/network.ts'
-import { createDbTest, testNetworkInputCreate } from './test-helpers.ts'
+import type { Network } from '../src/network/network.ts'
+import { networkCreate } from '../src/network/network-create.ts'
+import { networkFindUnique } from '../src/network/network-find-unique.ts'
+import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-network-find-unique', () => {
+describe('network-find-unique', () => {
   beforeEach(async () => {
     await db.networks.clear()
   })
@@ -17,11 +17,11 @@ describe('db-network-find-unique', () => {
     it('should find a unique network', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testNetworkInputCreate()
-      const id = await dbNetworkCreate(db, input)
+      const input = testNetworkCreateInput()
+      const id = await networkCreate(db, input)
 
       // ACT
-      const item = await dbNetworkFindUnique(db, id)
+      const item = await networkFindUnique(db, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -47,7 +47,7 @@ describe('db-network-find-unique', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbNetworkFindUnique(db, id)).rejects.toThrow(`Error finding network with id ${id}`)
+      await expect(networkFindUnique(db, id)).rejects.toThrow(`Error finding network with id ${id}`)
     })
   })
 })

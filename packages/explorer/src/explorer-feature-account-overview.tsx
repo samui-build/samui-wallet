@@ -1,5 +1,5 @@
 import type { Address } from '@solana/kit'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'

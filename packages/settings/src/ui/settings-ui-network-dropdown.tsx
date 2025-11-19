@@ -1,4 +1,4 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 
 import { Button } from '@workspace/ui/components/button'
 import {

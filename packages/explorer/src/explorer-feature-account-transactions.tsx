@@ -1,5 +1,5 @@
 import type { Address } from '@solana/kit'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { useGetSignaturesForAddress } from '@workspace/solana-client-react/use-get-signatures-for-address'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'

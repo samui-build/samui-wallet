@@ -1,4 +1,4 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import type { ExplorerPath, ExplorerProvider } from '@workspace/solana-client/get-explorer-url'
 
 import { ExplorerUiExplorerLink } from './explorer-ui-explorer-link.tsx'
