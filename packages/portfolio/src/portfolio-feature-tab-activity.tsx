@@ -1,17 +1,20 @@
-import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
-
+import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
+import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
 import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
 import { Button } from '@workspace/ui/components/button'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
-import { PortfolioUiGetActivity } from './ui/portfolio-ui-get-activity.tsx'
+import { useLocation } from 'react-router'
+import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
 
-export function PortfolioFeatureTabActivity(props: { account: Account; network: Network }) {
+export function PortfolioFeatureTabActivity() {
+  const account = useDbAccountActive()
+  const network = useDbNetworkActive()
+  const { pathname: from } = useLocation()
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
-    address: props.account.publicKey,
-    network: props.network,
+    address: account.publicKey,
+    network,
   })
 
   return (
@@ -26,7 +29,7 @@ export function PortfolioFeatureTabActivity(props: { account: Account; network: 
       </div>
       {isLoading ? <UiLoader /> : null}
       {isError ? <pre className="alert alert-error">Error: {error?.message.toString() ?? 'Unknown error'}</pre> : null}
-      {isSuccess ? <PortfolioUiGetActivity items={data} network={props.network} /> : null}
+      {isSuccess ? <PortfolioUiActivityList from={from} items={data} network={network} /> : null}
     </div>
   )
 }
