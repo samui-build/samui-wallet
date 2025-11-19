@@ -16,6 +16,7 @@
     "name": "mobile",
     "newArchEnabled": true,
     "orientation": "portrait",
+    "plugins": ["expo-sqlite"],
     "slug": "mobile",
     "splash": {
       "backgroundColor": "#ffffff",
