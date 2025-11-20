@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { randomId } from '../src/random-id.ts'
 import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -17,7 +18,7 @@ describe('account-find-unique', () => {
     it('should find a unique account', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testAccountCreateInput({ walletId: crypto.randomUUID() })
+      const input = testAccountCreateInput({ walletId: randomId() })
       const id = await accountCreate(db, input)
 
       // ACT

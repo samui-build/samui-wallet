@@ -4,6 +4,7 @@ import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
+import { randomId } from '../src/random-id.ts'
 import type { SettingKey } from '../src/setting/setting-key.ts'
 import type { WalletCreateInput } from '../src/wallet/wallet-create-input.ts'
 
@@ -12,7 +13,7 @@ export function createDbTest(): Database {
 }
 
 export function randomName(prefix: string): string {
-  return `${prefix}-${Math.random().toString(36).substring(2, 9)}`
+  return `${prefix}-${randomId(8)}`
 }
 
 export function testAccountCreateInput(input: { walletId: string } & Partial<AccountCreateInput>): AccountCreateInput {
