@@ -1,5 +1,4 @@
 import type { Env } from '@workspace/env/env'
-
 import { env } from '@workspace/env/env'
 
 import type { Network } from './network/network.ts'
@@ -7,7 +6,7 @@ import type { NetworkType } from './network/network-type.ts'
 
 const networkEnvVars: (keyof Env)[] = ['networkDevnet', 'networkLocalnet', 'networkMainnet', 'networkTestnet']
 
-export function getDefaultNetworks(): Network[] {
+export function populateNetworks(): Network[] {
   const now = new Date()
   return networkEnvVars
     .map((key) => ({ endpoint: env(key), key }))
