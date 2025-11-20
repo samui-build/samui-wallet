@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { randomId } from '../src/random-id.ts'
 import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
 import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
@@ -19,7 +20,7 @@ describe('account-create', () => {
     it('should create an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const input = testAccountCreateInput({ walletId })
 
       // ACT
@@ -33,7 +34,7 @@ describe('account-create', () => {
     it('should create an account with a default derivationIndex of 0', async () => {
       // ARRANGE
       expect.assertions(1)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const input = testAccountCreateInput({ walletId })
 
       // ACT
@@ -47,7 +48,7 @@ describe('account-create', () => {
     it('should create an account and set activeAccountId setting', async () => {
       // ARRANGE
       expect.assertions(3)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const input = testAccountCreateInput({ walletId })
 
       // ACT

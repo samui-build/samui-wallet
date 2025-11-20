@@ -1,8 +1,8 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
+import { randomId } from '../random-id.ts'
 import type { NetworkCreateInput } from './network-create-input.ts'
-
 import { networkCreateSchema } from './network-create-schema.ts'
 
 export async function networkCreate(db: Database, input: NetworkCreateInput): Promise<string> {
@@ -13,7 +13,7 @@ export async function networkCreate(db: Database, input: NetworkCreateInput): Pr
     db.networks.add({
       ...parsedInput,
       createdAt: now,
-      id: crypto.randomUUID(),
+      id: randomId(),
       updatedAt: now,
     }),
   )

@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
+import { randomId } from '../random-id.ts'
 import { settingGetValue } from '../setting/setting-get-value.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { walletCreateDetermineOrder } from './wallet-create-determine-order.ts'
@@ -19,7 +20,7 @@ export async function walletCreate(db: Database, input: WalletCreateInput): Prom
         ...parsedInput,
         accounts: [],
         createdAt: now,
-        id: crypto.randomUUID(),
+        id: randomId(),
         order,
         updatedAt: now,
       }),

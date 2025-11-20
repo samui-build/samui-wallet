@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
+import { randomId } from '../random-id.ts'
 import { settingGetValue } from '../setting/setting-get-value.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { accountCreateDetermineOrder } from './account-create-determine-order.ts'
@@ -18,7 +19,7 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
         ...parsedInput,
         createdAt: now,
         derivationIndex: parsedInput.derivationIndex ?? 0,
-        id: crypto.randomUUID(),
+        id: randomId(),
         order: order,
         updatedAt: now,
       }),
