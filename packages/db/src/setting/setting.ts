@@ -1,5 +1,5 @@
 import type { z } from 'zod'
 
-import type { settingSchema } from '../schema/setting-schema.ts'
+import type { settingSchema } from './setting-schema.ts'
 
 export type Setting = z.infer<typeof settingSchema>

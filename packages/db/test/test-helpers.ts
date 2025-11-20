@@ -4,8 +4,8 @@ import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
-import type { SettingKey } from '../src/entity/setting-key.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
+import type { SettingKey } from '../src/setting/setting-key.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
@@ -32,6 +32,9 @@ export function testNetworkCreateInput(input: Partial<NetworkCreateInput> = {}):
     ...input,
   }
 }
+export function testSettingSetInput(value?: string): [SettingKey, string] {
+  return ['activeNetworkId', value ?? randomName('setting')]
+}
 
 export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
   return {
@@ -41,8 +44,4 @@ export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): W
     secret: 'bar',
     ...input,
   }
-}
-
-export function testSettingInputSet(value?: string): [SettingKey, string] {
-  return ['activeNetworkId', value ?? randomName('setting')]
 }

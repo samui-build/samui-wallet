@@ -1,8 +1,8 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
-import { dbSettingGetValue } from '../db-setting-get-value.ts'
-import { dbSettingSetValue } from '../db-setting-set-value.ts'
+import { settingGetValue } from '../setting/setting-get-value.ts'
+import { settingSetValue } from '../setting/setting-set-value.ts'
 import { accountCreateDetermineOrder } from './account-create-determine-order.ts'
 import type { AccountCreateInput } from './account-create-input.ts'
 import { accountCreateSchema } from './account-create-schema.ts'
@@ -28,9 +28,9 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
       throw new Error(`Error creating account`)
     }
 
-    const activeAccountId = await dbSettingGetValue(db, 'activeAccountId')
+    const activeAccountId = await settingGetValue(db, 'activeAccountId')
     if (!activeAccountId) {
-      await dbSettingSetValue(db, 'activeAccountId', data)
+      await settingSetValue(db, 'activeAccountId', data)
     }
 
     return data
