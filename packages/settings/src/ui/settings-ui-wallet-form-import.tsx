@@ -1,6 +1,6 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
-import { walletSchemaCreate } from '@workspace/db/schema/wallet-schema-create'
+import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
+import { walletCreateSchema } from '@workspace/db/wallet/wallet-create-schema'
 import { derivationPaths } from '@workspace/keypair/derivation-paths'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -23,12 +23,12 @@ export function SettingsUiWalletFormImport({
   submit,
 }: {
   name: string
-  submit: (input: WalletInputCreate, redirect: boolean) => Promise<void>
+  submit: (input: WalletCreateInput, redirect: boolean) => Promise<void>
 }) {
   const redirectId = useId()
   const [redirect, setRedirect] = useState(true)
-  const form = useForm<WalletInputCreate>({
-    resolver: standardSchemaResolver(walletSchemaCreate),
+  const form = useForm<WalletCreateInput>({
+    resolver: standardSchemaResolver(walletCreateSchema),
     values: {
       derivationPath: derivationPaths.default,
       mnemonic: '',

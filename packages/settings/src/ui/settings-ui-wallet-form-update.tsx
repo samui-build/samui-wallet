@@ -1,7 +1,7 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import type { WalletInputUpdate } from '@workspace/db/dto/wallet-input-update'
-import type { Wallet } from '@workspace/db/entity/wallet'
-import { walletSchemaUpdate } from '@workspace/db/schema/wallet-schema-update'
+import type { Wallet } from '@workspace/db/wallet/wallet'
+import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
+import { walletUpdateSchema } from '@workspace/db/wallet/wallet-update-schema'
 import { Button } from '@workspace/ui/components/button'
 import {
   Form,
@@ -20,10 +20,10 @@ export function SettingsUiWalletFormUpdate({
   submit,
 }: {
   item: Wallet
-  submit: (input: WalletInputUpdate) => Promise<void>
+  submit: (input: WalletUpdateInput) => Promise<void>
 }) {
-  const form = useForm<WalletInputUpdate>({
-    resolver: standardSchemaResolver(walletSchemaUpdate),
+  const form = useForm<WalletUpdateInput>({
+    resolver: standardSchemaResolver(walletUpdateSchema),
     values: item,
   })
 
