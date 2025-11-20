@@ -1,8 +1,8 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountSetActive } from '../src/account/account-set-active.ts'
-import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
+import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
 import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -29,12 +29,12 @@ describe('account-set-active', () => {
       const idAccount2 = await accountCreate(db, inputAccount2)
 
       // ACT
-      const activeWalletIdBefore = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdBefore = await dbSettingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdBefore = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeAccountIdBefore = await settingFindUniqueByKey(db, 'activeAccountId')
 
       await accountSetActive(db, idAccount2)
-      const activeWalletIdAfter = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdAfter = await dbSettingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdAfter = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeAccountIdAfter = await settingFindUniqueByKey(db, 'activeAccountId')
 
       // ASSERT
       expect(activeWalletIdBefore?.value).toBe(idWallet1)

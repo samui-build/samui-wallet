@@ -1,11 +1,11 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from './database.ts'
-import { dbSettingGetValue } from './db-setting-get-value.ts'
-import { dbSettingSetValue } from './db-setting-set-value.ts'
 import { dbWalletCreateDetermineOrder } from './db-wallet-create-determine-order.ts'
 import type { WalletInputCreate } from './dto/wallet-input-create.ts'
 import { walletSchemaCreate } from './schema/wallet-schema-create.ts'
+import { settingGetValue } from './setting/setting-get-value.ts'
+import { settingSetValue } from './setting/setting-set-value.ts'
 
 export async function dbWalletCreate(db: Database, input: WalletInputCreate): Promise<string> {
   const now = new Date()
@@ -29,9 +29,9 @@ export async function dbWalletCreate(db: Database, input: WalletInputCreate): Pr
       throw new Error(`Error creating wallet`)
     }
 
-    const activeWalletId = await dbSettingGetValue(db, 'activeWalletId')
+    const activeWalletId = await settingGetValue(db, 'activeWalletId')
     if (!activeWalletId) {
-      await dbSettingSetValue(db, 'activeWalletId', data)
+      await settingSetValue(db, 'activeWalletId', data)
     }
     return data
   })
