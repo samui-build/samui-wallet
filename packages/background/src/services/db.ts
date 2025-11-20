@@ -5,9 +5,9 @@ import type { Account } from '@workspace/db/account/account'
 import { accountCreate } from '@workspace/db/account/account-create'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
 import { db } from '@workspace/db/db'
-import { dbSettingGetValue } from '@workspace/db/db-setting-get-value'
 import { dbWalletCreate } from '@workspace/db/db-wallet-create'
 import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
+import { settingGetValue } from '@workspace/db/setting/setting-get-value'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
@@ -15,7 +15,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 export const [registerDbService, getDbService] = defineProxyService('DbService', () => ({
   account: {
     active: async (): Promise<Account> => {
-      const accountId = await dbSettingGetValue(db, 'activeAccountId')
+      const accountId = await settingGetValue(db, 'activeAccountId')
       if (!accountId) {
         throw new Error('No active account set')
       }

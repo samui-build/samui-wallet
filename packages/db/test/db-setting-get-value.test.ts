@@ -1,14 +1,14 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbSettingGetValue } from '../src/db-setting-get-value.ts'
-import { dbSettingSetValue } from '../src/db-setting-set-value.ts'
-import type { Setting } from '../src/entity/setting.ts'
-import { createDbTest, testSettingInputSet } from './test-helpers.ts'
+import type { Setting } from '../src/setting/setting.ts'
+import { settingGetValue } from '../src/setting/setting-get-value.ts'
+import { settingSetValue } from '../src/setting/setting-set-value.ts'
+import { createDbTest, testSettingSetInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-setting-get-value', () => {
+describe('setting-get-value', () => {
   beforeEach(async () => {
     await db.settings.clear()
   })
@@ -17,11 +17,11 @@ describe('db-setting-get-value', () => {
     it('should get a setting value when it exists', async () => {
       // ARRANGE
       expect.assertions(1)
-      const [key, value] = testSettingInputSet()
-      await dbSettingSetValue(db, key, value)
+      const [key, value] = testSettingSetInput()
+      await settingSetValue(db, key, value)
 
       // ACT
-      const result = await dbSettingGetValue(db, key)
+      const result = await settingGetValue(db, key)
 
       // ASSERT
       expect(value).toBe(result)
@@ -30,10 +30,10 @@ describe('db-setting-get-value', () => {
     it('should return null when setting does not exist', async () => {
       // ARRANGE
       expect.assertions(1)
-      const [key] = testSettingInputSet()
+      const [key] = testSettingSetInput()
 
       // ACT
-      const result = await dbSettingGetValue(db, key)
+      const result = await settingGetValue(db, key)
 
       // ASSERT
       expect(result).toBeNull()
@@ -52,13 +52,13 @@ describe('db-setting-get-value', () => {
     it('should throw an error when getting a setting fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const [key] = testSettingInputSet()
+      const [key] = testSettingSetInput()
       vi.spyOn(db.settings, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<Setting>,
       )
 
       // ACT & ASSERT
-      await expect(dbSettingGetValue(db, key)).rejects.toThrow(`Error getting setting with key ${key}`)
+      await expect(settingGetValue(db, key)).rejects.toThrow(`Error getting setting with key ${key}`)
     })
   })
 })

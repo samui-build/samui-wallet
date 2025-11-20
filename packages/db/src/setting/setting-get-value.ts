@@ -1,9 +1,9 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database.ts'
-import type { SettingKey } from './entity/setting-key.ts'
+import type { Database } from '../database.ts'
+import type { SettingKey } from './setting-key.ts'
 
-export async function dbSettingGetValue(db: Database, key: SettingKey): Promise<null | string> {
+export async function settingGetValue(db: Database, key: SettingKey): Promise<null | string> {
   const { data, error } = await tryCatch(db.settings.get({ key }))
   if (error) {
     console.log(error)
