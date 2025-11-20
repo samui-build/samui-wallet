@@ -1,5 +1,5 @@
 import type { Account } from '@workspace/db/account/account'
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from '@workspace/db/wallet/wallet'
 
 import { ItemGroup } from '@workspace/ui/components/item'
 

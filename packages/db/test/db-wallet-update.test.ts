@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
-import { dbWalletUpdate } from '../src/db-wallet-update.ts'
-import { createDbTest, randomName, testWalletInputCreate } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
+import { walletUpdate } from '../src/wallet/wallet-update.ts'
+import { createDbTest, randomName, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-wallet-update', () => {
+describe('wallet-update', () => {
   beforeEach(async () => {
     await db.wallets.clear()
   })
@@ -18,15 +18,15 @@ describe('db-wallet-update', () => {
     it('should update a wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testWalletInputCreate()
-      const id = await dbWalletCreate(db, input)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
       const newName = randomName('newName')
 
       // ACT
-      await dbWalletUpdate(db, id, { name: newName })
+      await walletUpdate(db, id, { name: newName })
 
       // ASSERT
-      const updatedItem = await dbWalletFindUnique(db, id)
+      const updatedItem = await walletFindUnique(db, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.name).toBe(newName)
     })
@@ -50,7 +50,7 @@ describe('db-wallet-update', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbWalletUpdate(db, id, {})).rejects.toThrow(`Error updating wallet with id ${id}`)
+      await expect(walletUpdate(db, id, {})).rejects.toThrow(`Error updating wallet with id ${id}`)
     })
   })
 })

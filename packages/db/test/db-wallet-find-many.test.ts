@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletFindMany } from '../src/db-wallet-find-many.ts'
-import type { Wallet } from '../src/entity/wallet.ts'
-import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
+import type { Wallet } from '../src/wallet/wallet.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
+import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-wallet-find-many', () => {
+describe('wallet-find-many', () => {
   beforeEach(async () => {
     await db.wallets.clear()
   })
@@ -18,12 +18,12 @@ describe('db-wallet-find-many', () => {
     it('should find many wallets with accounts', async () => {
       // ARRANGE
       expect.assertions(2)
-      const wallet1 = testWalletInputCreate({ name: 'Alpha' })
-      const wallet2 = testWalletInputCreate({ name: 'Beta' })
-      const wallet3 = testWalletInputCreate({ name: 'Charlie' })
-      const wallet1Id = await dbWalletCreate(db, wallet1)
-      const wallet2Id = await dbWalletCreate(db, wallet2)
-      const wallet3Id = await dbWalletCreate(db, wallet3)
+      const wallet1 = testWalletCreateInput({ name: 'Alpha' })
+      const wallet2 = testWalletCreateInput({ name: 'Beta' })
+      const wallet3 = testWalletCreateInput({ name: 'Charlie' })
+      const wallet1Id = await walletCreate(db, wallet1)
+      const wallet2Id = await walletCreate(db, wallet2)
+      const wallet3Id = await walletCreate(db, wallet3)
       await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
       await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
       await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
@@ -32,7 +32,7 @@ describe('db-wallet-find-many', () => {
       await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
-      const items = await dbWalletFindMany(db)
+      const items = await walletFindMany(db)
 
       // ASSERT
       expect(items).toHaveLength(3)
@@ -55,18 +55,18 @@ describe('db-wallet-find-many', () => {
     it('should find many wallets by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
-      const wallet1 = testWalletInputCreate({ name: 'Test Wallet Alpha' })
-      const wallet2 = testWalletInputCreate({ name: 'Test Wallet Beta' })
-      const wallet3 = testWalletInputCreate({ name: 'Another One' })
-      const wallet1Id = await dbWalletCreate(db, wallet1)
-      const wallet2Id = await dbWalletCreate(db, wallet2)
-      const wallet3Id = await dbWalletCreate(db, wallet3)
+      const wallet1 = testWalletCreateInput({ name: 'Test Wallet Alpha' })
+      const wallet2 = testWalletCreateInput({ name: 'Test Wallet Beta' })
+      const wallet3 = testWalletCreateInput({ name: 'Another One' })
+      const wallet1Id = await walletCreate(db, wallet1)
+      const wallet2Id = await walletCreate(db, wallet2)
+      const wallet3Id = await walletCreate(db, wallet3)
       await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
       await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
       await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
-      const items = await dbWalletFindMany(db, { name: 'Test Wallet' })
+      const items = await walletFindMany(db, { name: 'Test Wallet' })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -76,13 +76,13 @@ describe('db-wallet-find-many', () => {
     it('should find many wallets by id', async () => {
       // ARRANGE
       expect.assertions(2)
-      const wallet1 = testWalletInputCreate({ name: 'Test Wallet Alpha' })
-      const wallet2 = testWalletInputCreate({ name: 'Test Wallet Beta' })
-      const id1 = await dbWalletCreate(db, wallet1)
-      await dbWalletCreate(db, wallet2)
+      const wallet1 = testWalletCreateInput({ name: 'Test Wallet Alpha' })
+      const wallet2 = testWalletCreateInput({ name: 'Test Wallet Beta' })
+      const id1 = await walletCreate(db, wallet1)
+      await walletCreate(db, wallet2)
 
       // ACT
-      const items = await dbWalletFindMany(db, { id: id1 })
+      const items = await walletFindMany(db, { id: id1 })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -110,7 +110,7 @@ describe('db-wallet-find-many', () => {
       }))
 
       // ACT & ASSERT
-      await expect(dbWalletFindMany(db)).rejects.toThrow('Error finding wallets')
+      await expect(walletFindMany(db)).rejects.toThrow('Error finding wallets')
     })
   })
 })

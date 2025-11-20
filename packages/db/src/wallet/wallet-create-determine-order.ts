@@ -1,8 +1,8 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
-import type { Database } from './database.ts'
+import type { Database } from '../database.ts'
 
-export async function dbWalletCreateDetermineOrder(db: Database): Promise<number> {
+export async function walletCreateDetermineOrder(db: Database): Promise<number> {
   const { data, error } = await tryCatch(db.wallets.orderBy('order').last())
 
   if (error) {

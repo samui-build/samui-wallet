@@ -1,4 +1,4 @@
-import type { Wallet } from '@workspace/db/entity/wallet'
+import type { Wallet } from '@workspace/db/wallet/wallet'
 
 import { Button } from '@workspace/ui/components/button'
 import { UiIcon } from '@workspace/ui/components/ui-icon'

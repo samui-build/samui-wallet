@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import type { WalletInputCreate } from '@workspace/db/dto/wallet-input-create'
+import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
 import { useDbWalletCreate } from '@workspace/db-react/use-db-wallet-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
@@ -12,7 +12,7 @@ export function useGenerateWalletWithAccountMutation() {
   const deriveAccountMutation = useDeriveFromMnemonic()
 
   return useMutation({
-    mutationFn: async (input: WalletInputCreate) => {
+    mutationFn: async (input: WalletCreateInput) => {
       // First, we see if we can derive the first account from this mnemonic
       const derivedAccount = await deriveAccountMutation.mutateAsync({ mnemonic: input.mnemonic })
       // If so, we create the wallet

@@ -1,13 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletSetActive } from '../src/db-wallet-set-active.ts'
 import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
-import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletSetActive } from '../src/wallet/wallet-set-active.ts'
+import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-wallet-set-active', () => {
+describe('wallet-set-active', () => {
   beforeEach(async () => {
     await db.accounts.clear()
     await db.settings.clear()
@@ -18,10 +18,10 @@ describe('db-wallet-set-active', () => {
     it('should set a wallet and its first account to active', async () => {
       // ARRANGE
       expect.assertions(4)
-      const inputWallet1 = testWalletInputCreate()
-      const inputWallet2 = testWalletInputCreate()
-      const idWallet1 = await dbWalletCreate(db, inputWallet1)
-      const idWallet2 = await dbWalletCreate(db, inputWallet2)
+      const inputWallet1 = testWalletCreateInput()
+      const inputWallet2 = testWalletCreateInput()
+      const idWallet1 = await walletCreate(db, inputWallet1)
+      const idWallet2 = await walletCreate(db, inputWallet2)
 
       const inputAccount1 = testAccountCreateInput({ walletId: idWallet1 })
       const inputAccount2 = testAccountCreateInput({ walletId: idWallet2 })
@@ -32,7 +32,7 @@ describe('db-wallet-set-active', () => {
       const activeWalletIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
       const activeAccountIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
-      await dbWalletSetActive(db, idWallet2)
+      await walletSetActive(db, idWallet2)
       const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
       const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
@@ -59,17 +59,17 @@ describe('db-wallet-set-active', () => {
       const nonExistentId = 'non-existent-wallet-id'
 
       // ACT & ASSERT
-      await expect(dbWalletSetActive(db, nonExistentId)).rejects.toThrow(`Wallet with id ${nonExistentId} not found`)
+      await expect(walletSetActive(db, nonExistentId)).rejects.toThrow(`Wallet with id ${nonExistentId} not found`)
     })
 
     it('should handle wallet with no accounts gracefully', async () => {
       // ARRANGE
       expect.assertions(3)
-      const inputWallet = testWalletInputCreate()
-      const idWallet = await dbWalletCreate(db, inputWallet)
+      const inputWallet = testWalletCreateInput()
+      const idWallet = await walletCreate(db, inputWallet)
 
       // ACT
-      await dbWalletSetActive(db, idWallet)
+      await walletSetActive(db, idWallet)
       const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
       const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
