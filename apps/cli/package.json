@@ -1,8 +1,8 @@
 {
   "dependencies": {
     "@effect/cli": "0.72.1",
-    "@effect/cluster": "0.52.11",
-    "@effect/platform-bun": "0.83.0",
+    "@effect/cluster": "0.53.1",
+    "@effect/platform-bun": "0.84.0",
     "@workspace/tui": "workspace:*",
     "effect": "catalog:"
   },
