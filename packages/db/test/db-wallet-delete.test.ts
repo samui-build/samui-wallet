@@ -2,14 +2,14 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletDelete } from '../src/db-wallet-delete.ts'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
-import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletDelete } from '../src/wallet/wallet-delete.ts'
+import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
+import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-wallet-delete', () => {
+describe('wallet-delete', () => {
   beforeEach(async () => {
     await db.wallets.clear()
   })
@@ -18,14 +18,14 @@ describe('db-wallet-delete', () => {
     it('should delete a wallet', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testWalletInputCreate()
-      const id = await dbWalletCreate(db, input)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
 
       // ACT
-      await dbWalletDelete(db, id)
+      await walletDelete(db, id)
 
       // ASSERT
-      const deletedItem = await dbWalletFindUnique(db, id)
+      const deletedItem = await walletFindUnique(db, id)
       expect(deletedItem).toBeNull()
     })
   })
@@ -48,7 +48,7 @@ describe('db-wallet-delete', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbWalletDelete(db, id)).rejects.toThrow(`Error deleting wallet with id ${id}`)
+      await expect(walletDelete(db, id)).rejects.toThrow(`Error deleting wallet with id ${id}`)
     })
   })
 })

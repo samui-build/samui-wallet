@@ -3,9 +3,9 @@ import { address } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
-import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
 import type { SettingKey } from '../src/setting/setting-key.ts'
+import type { WalletCreateInput } from '../src/wallet/wallet-create-input.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
@@ -36,7 +36,7 @@ export function testSettingSetInput(value?: string): [SettingKey, string] {
   return ['activeNetworkId', value ?? randomName('setting')]
 }
 
-export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
+export function testWalletCreateInput(input: Partial<WalletCreateInput> = {}): WalletCreateInput {
   return {
     derivationPath: 'd',
     mnemonic: 'baz',

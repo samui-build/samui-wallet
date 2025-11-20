@@ -1,9 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountSetActive } from '../src/account/account-set-active.ts'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
-import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
@@ -18,10 +18,10 @@ describe('account-set-active', () => {
     it('should set an account and its related wallet to active', async () => {
       // ARRANGE
       expect.assertions(4)
-      const inputWallet1 = testWalletInputCreate()
-      const inputWallet2 = testWalletInputCreate()
-      const idWallet1 = await dbWalletCreate(db, inputWallet1)
-      const idWallet2 = await dbWalletCreate(db, inputWallet2)
+      const inputWallet1 = testWalletCreateInput()
+      const inputWallet2 = testWalletCreateInput()
+      const idWallet1 = await walletCreate(db, inputWallet1)
+      const idWallet2 = await walletCreate(db, inputWallet2)
 
       const inputAccount1 = testAccountCreateInput({ walletId: idWallet1 })
       const inputAccount2 = testAccountCreateInput({ walletId: idWallet2 })

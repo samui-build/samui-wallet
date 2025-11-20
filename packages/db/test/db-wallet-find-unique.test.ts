@@ -1,14 +1,14 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbWalletCreate } from '../src/db-wallet-create.ts'
-import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
-import type { Wallet } from '../src/entity/wallet.ts'
-import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
+import type { Wallet } from '../src/wallet/wallet.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
+import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
-describe('db-wallet-find-unique', () => {
+describe('wallet-find-unique', () => {
   beforeEach(async () => {
     await db.wallets.clear()
   })
@@ -17,11 +17,11 @@ describe('db-wallet-find-unique', () => {
     it('should find a unique wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const input = testWalletInputCreate()
-      const id = await dbWalletCreate(db, input)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
 
       // ACT
-      const item = await dbWalletFindUnique(db, id)
+      const item = await walletFindUnique(db, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -47,7 +47,7 @@ describe('db-wallet-find-unique', () => {
       )
 
       // ACT & ASSERT
-      await expect(dbWalletFindUnique(db, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
+      await expect(walletFindUnique(db, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
     })
   })
 })
