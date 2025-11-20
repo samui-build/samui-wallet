@@ -146,10 +146,10 @@ export function SettingsFeatureWalletGenerateVanity() {
                 Try Again
               </Button>
               <Button
-                onClick={() => {
-                  navigator.clipboard.writeText(result.secretKey)
+                onClick={async () => {
+                  await navigator.clipboard.writeText(result.secretKey)
                   toastSuccess('Secret key copied to clipboard')
-                  navigate('/settings/wallets/import')
+                  await navigate('/settings/wallets/import')
                 }}
               >
                 Copy & Import
