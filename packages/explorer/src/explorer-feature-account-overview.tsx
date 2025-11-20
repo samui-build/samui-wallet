@@ -8,8 +8,19 @@ import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
+import { ExplorerUiLinkAddress } from './ui/explorer-ui-link-address.tsx'
 
-export function ExplorerFeatureAccountOverview({ address, network }: { address: Address; network: Network }) {
+export function ExplorerFeatureAccountOverview({
+  backButtonTo,
+  basePath,
+  address,
+  network,
+}: {
+  backButtonTo: string
+  basePath: string
+  address: Address
+  network: Network
+}) {
   const query = useGetAccountInfo({ address, network })
   if (query.isLoading) {
     return <UiLoader />
@@ -26,13 +37,21 @@ export function ExplorerFeatureAccountOverview({ address, network }: { address: 
           Refresh
         </Button>
       }
+      backButtonTo={backButtonTo}
       description={<ExplorerUiExplorers network={network} path={`/address/${address}`} />}
       title={<div>Account Overview</div>}
     >
       <div className="space-y-2 sm:space-y-4 lg:space-y-6">
         <ExplorerUiDetailRow label="Address" value={address} />
-        <ExplorerUiDetailRow label="Owner" value={query.data?.value?.owner} />
-        <ExplorerUiDetailRow label="Lamports" value={query.data?.value?.lamports} />
+        {query.data?.value?.owner ? (
+          <ExplorerUiDetailRow
+            label="Owner"
+            value={<ExplorerUiLinkAddress address={query.data.value.owner} basePath={basePath} />}
+          />
+        ) : null}
+        {query.data?.value?.lamports !== undefined ? (
+          <ExplorerUiDetailRow label="Lamports" value={query.data.value.lamports} />
+        ) : null}
       </div>
     </UiCard>
   )

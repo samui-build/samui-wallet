@@ -5,7 +5,15 @@ import { useExplorerGetTransaction } from './data-access/use-explorer-get-transa
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiTxDetails } from './ui/explorer-ui-tx-details.tsx'
 
-export function ExplorerFeatureTxDetails({ network, signature }: { network: Network; signature: Signature }) {
+export function ExplorerFeatureTxDetails({
+  basePath,
+  network,
+  signature,
+}: {
+  basePath: string
+  network: Network
+  signature: Signature
+}) {
   const query = useExplorerGetTransaction({ network, signature })
 
   if (query.isLoading) {
@@ -16,5 +24,5 @@ export function ExplorerFeatureTxDetails({ network, signature }: { network: Netw
     return <ExplorerUiErrorPage message={query.error?.message ?? 'Unknown error'} title="Error getting transaction" />
   }
 
-  return <ExplorerUiTxDetails network={network} signature={signature} tx={query.data} />
+  return <ExplorerUiTxDetails basePath={basePath} network={network} signature={signature} tx={query.data} />
 }
