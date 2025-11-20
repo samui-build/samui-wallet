@@ -16,6 +16,11 @@ export function SettingsUiWalletCreateOptions() {
         title="Import an existing wallet"
         to="/settings/wallets/import"
       />
+      <SettingsUiWalletCreateLink
+        description="Generate a new wallet with a custom prefix or suffix"
+        title="Generate a vanity wallet"
+        to="/settings/wallets/generate-vanity"
+      />
       <SettingsUiWalletCreateHeader icon="hardware" label="Hardware accounts" />
       <SettingsUiWalletCreateComingSoon
         description="Unruggable is the first Solana native hardware account."
