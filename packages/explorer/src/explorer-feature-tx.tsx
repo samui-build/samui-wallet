@@ -26,7 +26,7 @@ export function ExplorerFeatureTx({ basePath }: { basePath: string }) {
   return (
     <UiPage>
       <UiCard backButtonTo={backButtonTo} title="Transaction">
-        <ExplorerFeatureTxDetails network={network} signature={signature} />
+        <ExplorerFeatureTxDetails basePath={basePath} network={network} signature={signature} />
       </UiCard>
     </UiPage>
   )
