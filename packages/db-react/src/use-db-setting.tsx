@@ -1,4 +1,4 @@
-import type { SettingKey } from '@workspace/db/entity/setting-key'
+import type { SettingKey } from '@workspace/db/setting/setting-key'
 
 import { useDbSettingGetValueLive } from './use-db-setting-get-value-live.tsx'
 import { useDbSettingSetValue } from './use-db-setting-set-value.tsx'

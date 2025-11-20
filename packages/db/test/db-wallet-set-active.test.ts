@@ -1,8 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
-import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { dbWalletSetActive } from '../src/db-wallet-set-active.ts'
+import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
 import { createDbTest, testAccountCreateInput, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -29,12 +29,12 @@ describe('db-wallet-set-active', () => {
       const idAccount2 = await accountCreate(db, inputAccount2)
 
       // ACT
-      const activeWalletIdBeforeSetActive = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdBeforeSetActive = await dbSettingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeAccountIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
       await dbWalletSetActive(db, idWallet2)
-      const activeWalletIdAfterSetActive = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdAfterSetActive = await dbSettingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
       // ASSERT
       expect(activeWalletIdBeforeSetActive?.value).toBe(idWallet1)
@@ -70,8 +70,8 @@ describe('db-wallet-set-active', () => {
 
       // ACT
       await dbWalletSetActive(db, idWallet)
-      const activeWalletIdAfterSetActive = await dbSettingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdAfterSetActive = await dbSettingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
 
       // ASSERT
       expect(activeWalletIdAfterSetActive?.value).toBe(idWallet)

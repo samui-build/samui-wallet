@@ -1,7 +1,7 @@
 import { accountFindMany } from './account/account-find-many.ts'
 import type { Database } from './database.ts'
-import { dbSettingSetValue } from './db-setting-set-value.ts'
 import { dbWalletFindUnique } from './db-wallet-find-unique.ts'
+import { settingSetValue } from './setting/setting-set-value.ts'
 
 export async function dbWalletSetActive(db: Database, id: string) {
   return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
@@ -13,7 +13,7 @@ export async function dbWalletSetActive(db: Database, id: string) {
     const walletId = found.id
 
     // set the `activeWalletId` setting to the new value
-    await dbSettingSetValue(db, 'activeWalletId', walletId)
+    await settingSetValue(db, 'activeWalletId', walletId)
 
     // get the list of accounts for `activeWalletId`
     const accounts = await accountFindMany(db, { walletId })
@@ -23,6 +23,6 @@ export async function dbWalletSetActive(db: Database, id: string) {
       return
     }
     // set the `activeAccountId` setting to the first one of the list of accounts
-    await dbSettingSetValue(db, 'activeAccountId', first.id)
+    await settingSetValue(db, 'activeAccountId', first.id)
   })
 }

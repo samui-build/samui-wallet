@@ -1,10 +1,10 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { dbSettingFindUniqueByKey } from '../src/db-setting-find-unique-by-key.ts'
 import { dbWalletCreate } from '../src/db-wallet-create.ts'
 import { dbWalletFindMany } from '../src/db-wallet-find-many.ts'
 import { dbWalletFindUnique } from '../src/db-wallet-find-unique.ts'
+import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
 import { createDbTest, testWalletInputCreate } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -36,9 +36,9 @@ describe('db-wallet-create', () => {
       expect.assertions(3)
       const input = testWalletInputCreate()
       // ACT
-      const activeWalletIdBefore = await dbSettingFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdBefore = await settingFindUniqueByKey(db, 'activeWalletId')
       const result = await dbWalletCreate(db, input)
-      const activeWalletIdAfter = await dbSettingFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdAfter = await settingFindUniqueByKey(db, 'activeWalletId')
 
       // ASSERT
       const items = await dbWalletFindMany(db)

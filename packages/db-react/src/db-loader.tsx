@@ -1,6 +1,6 @@
 import type { Account } from '@workspace/db/account/account'
-import type { Setting } from '@workspace/db/entity/setting'
 import type { Network } from '@workspace/db/network/network'
+import type { Setting } from '@workspace/db/setting/setting'
 import { dbAccountOptions } from './db-account-options.tsx'
 import { dbGetOrFetchQuery } from './db-get-or-fetch.tsx'
 import { dbNetworkOptions } from './db-network-options.tsx'
