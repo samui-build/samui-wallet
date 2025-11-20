@@ -2,6 +2,7 @@ import { useReset } from '@workspace/db-react/use-reset'
 import { Button } from '@workspace/ui/components/button'
 import { Checkbox } from '@workspace/ui/components/checkbox'
 import { Label } from '@workspace/ui/components/label'
+import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { useId, useState } from 'react'
 import { useNavigate } from 'react-router'
 
@@ -23,19 +24,23 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
         </div>
       </div>
       <div className="flex items-center justify-end space-x-2">
-        <Button
-          disabled={!accept}
-          onClick={async () => {
-            if (!window.confirm('Are you sure? This action can not be reversed.')) {
+        <UiConfirm
+          action={async () => {
+            if (!accept) {
               return
             }
             await mutation.mutateAsync()
             await navigate('/')
           }}
-          variant="destructive"
+          actionLabel="Delete"
+          actionVariant="destructive"
+          description="This action can not be reversed."
+          title="Are you sure you want to reset the application?"
         >
-          Delete Database
-        </Button>
+          <Button disabled={!accept} variant="destructive">
+            Delete Database
+          </Button>
+        </UiConfirm>
       </div>
     </div>
   )

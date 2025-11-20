@@ -21,7 +21,8 @@ interface Resources {
   settings: {
     accountCopySecretKey: 'Copy secret key to clipboard'
     accountCopySecretKeyBlocked: 'Clipboard copy blocked. Secret key shown for manual copy.'
-    accountCopySecretKeyConfirm: 'Exporting the secret key reveals sensitive information. Do you want to copy it to your clipboard?'
+    accountCopySecretKeyConfirmDescription: 'Do you want to copy it to your clipboard?'
+    accountCopySecretKeyConfirmTitle: 'Exporting the secret key reveals sensitive information.'
     accountCopySecretKeyCopied: 'Secret key copied to clipboard'
     accountCopySecretKeyDialog: 'Copy your secret key from this dialog:'
     accountNoSecretKey: 'Secret key is not available for this account'
@@ -43,7 +44,7 @@ interface Resources {
     actionGenerate: 'Generate'
     actionImport: 'Import'
     actionSave: 'Save'
-    actionWatch: 'actionWatch'
+    actionWatch: 'Watch'
     networkInputEndpointDescription: 'Provide the network endpoint'
     networkInputEndpointLabel: 'Endpoint'
     networkInputEndpointPlaceholder: 'Network Endpoint'
