@@ -1,15 +1,15 @@
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbAccountSetActive } from '@workspace/db-react/use-db-account-set-active'
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useAccountSetActive } from '@workspace/db-react/use-account-set-active'
+import { useSetting } from '@workspace/db-react/use-setting'
 import { useMemo } from 'react'
 
 import { useSortAccounts } from './use-sort-accounts.tsx'
 
 export function useActiveAccount() {
-  const [accountId] = useDbSetting('activeAccountId')
-  const [walletId] = useDbSetting('activeWalletId')
-  const { mutateAsync } = useDbAccountSetActive()
-  const accounts = useDbAccountLive({ walletId })
+  const [accountId] = useSetting('activeAccountId')
+  const [walletId] = useSetting('activeWalletId')
+  const { mutateAsync } = useAccountSetActive()
+  const accounts = useAccountLive({ walletId })
   const sorted = useSortAccounts(accounts)
   const active = useMemo(() => accounts.find((c) => c.id === accountId) ?? null, [accounts, accountId])
 

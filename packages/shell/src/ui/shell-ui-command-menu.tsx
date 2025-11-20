@@ -1,4 +1,4 @@
-import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
 import {
   CommandDialog,
   CommandEmpty,
@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 // TODO: Split commands into separate components/files as they grow
 export function ShellUiCommandMenu() {
   const [open, setOpen] = useState(false)
-  const { publicKey } = useDbAccountActive()
+  const { publicKey } = useAccountActive()
 
   useEffect(() => {
     function down(e: KeyboardEvent) {

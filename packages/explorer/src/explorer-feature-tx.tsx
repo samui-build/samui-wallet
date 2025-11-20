@@ -1,6 +1,6 @@
 import { assertIsSignature } from '@solana/kit'
-import { solanaSignatureSchema } from '@workspace/db/schema/solana-signature-schema'
-import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
+import { solanaSignatureSchema } from '@workspace/db/solana/solana-signature-schema'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiPage } from '@workspace/ui/components/ui-page'
 import { useLocation, useParams } from 'react-router'
@@ -8,7 +8,7 @@ import { ExplorerFeatureTxDetails } from './explorer-feature-tx-details.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
 export function ExplorerFeatureTx({ basePath }: { basePath: string }) {
-  const network = useDbNetworkActive()
+  const network = useNetworkActive()
   const location = useLocation()
   const { signature } = useParams() as { signature: string }
   if (!signature || !solanaSignatureSchema.safeParse(signature).success) {

@@ -1,4 +1,4 @@
-import { solanaAddressSchema } from '@workspace/db/schema/solana-address-schema'
+import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { Navigate, useParams } from 'react-router'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 

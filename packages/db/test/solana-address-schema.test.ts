@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { solanaAddressSchema } from '../src/schema/solana-address-schema.ts'
+import { solanaAddressSchema } from '../src/solana/solana-address-schema.ts'
 
 describe('solanaAddressSchema', () => {
   describe('expected behavior', () => {

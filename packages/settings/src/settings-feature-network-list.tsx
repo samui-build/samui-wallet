@@ -1,6 +1,6 @@
-import { useDbNetworkDelete } from '@workspace/db-react/use-db-network-delete'
-import { useDbNetworkLive } from '@workspace/db-react/use-db-network-live'
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useNetworkDelete } from '@workspace/db-react/use-network-delete'
+import { useNetworkLive } from '@workspace/db-react/use-network-live'
+import { useSetting } from '@workspace/db-react/use-setting'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
@@ -13,12 +13,12 @@ import { SettingsUiNetworkList } from './ui/settings-ui-network-list.tsx'
 export function SettingsFeatureNetworkList() {
   const { t } = useTranslation('settings')
   const page = useSettingsPage({ pageId: 'networks' })
-  const deleteMutation = useDbNetworkDelete({
+  const deleteMutation = useNetworkDelete({
     onError: () => toastError('Error deleting network'),
     onSuccess: () => toastSuccess('Network deleted'),
   })
-  const items = useDbNetworkLive()
-  const [activeId] = useDbSetting('activeNetworkId')
+  const items = useNetworkLive()
+  const [activeId] = useSetting('activeNetworkId')
   return (
     <UiCard
       action={

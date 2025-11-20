@@ -1,10 +1,10 @@
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
+import { useSetting } from '@workspace/db-react/use-setting'
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger } from '@workspace/ui/components/menubar'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiMenuDevelopment({ items }: { items: { label: string; path: string }[] }) {
-  const [developerMode] = useDbSetting('developerModeEnabled')
+  const [developerMode] = useSetting('developerModeEnabled')
   return developerMode === 'true' ? (
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">

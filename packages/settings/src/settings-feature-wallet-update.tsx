@@ -1,5 +1,5 @@
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
-import { useDbWalletUpdate } from '@workspace/db-react/use-db-wallet-update'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
+import { useWalletUpdate } from '@workspace/db-react/use-wallet-update'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
@@ -11,8 +11,8 @@ import { SettingsUiWalletFormUpdate } from './ui/settings-ui-wallet-form-update.
 export function SettingsFeatureWalletUpdate() {
   const navigate = useNavigate()
   const { walletId } = useParams() as { walletId: string }
-  const updateMutation = useDbWalletUpdate()
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
+  const updateMutation = useWalletUpdate()
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
 
   if (isLoading) {
     return <UiLoader />

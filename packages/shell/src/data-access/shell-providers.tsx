@@ -1,5 +1,5 @@
 import { QueryClientProvider } from '@tanstack/react-query'
-import { queryClient } from '@workspace/db-react/db-query-client'
+import { queryClient } from '@workspace/db-react/query-client'
 import { Toaster } from '@workspace/ui/components/sonner'
 import type { ReactNode } from 'react'
 
