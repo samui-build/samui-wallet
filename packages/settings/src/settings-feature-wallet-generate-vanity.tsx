@@ -7,6 +7,7 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 
+import { useActiveWallet } from './data-access/use-active-wallet.tsx'
 import {
   SettingsUiWalletFormGenerateVanity,
   type VanityWalletFormFields,
@@ -122,6 +123,7 @@ function useVanityGenerator() {
 export function SettingsFeatureWalletGenerateVanity() {
   const navigate = useNavigate()
   const { cancel, start, state } = useVanityGenerator()
+  const { active: activeWallet } = useActiveWallet()
   const [showSecret, setShowSecret] = useState(false)
 
   const handleGenerate = useCallback(
@@ -201,7 +203,12 @@ export function SettingsFeatureWalletGenerateVanity() {
                   try {
                     await handleCopyText(result.secretKey)
                     toastSuccess('Secret key copied to clipboard')
-                    await navigate('/settings/wallets/import')
+                    if (activeWallet) {
+                      await navigate(`/settings/wallets/${activeWallet.id}/add`)
+                      return
+                    }
+                    toastError('Select a wallet to import the account into')
+                    await navigate('/settings/wallets')
                   } catch (copyError) {
                     toastError(copyError instanceof Error ? copyError.message : 'Failed to copy secret key')
                   }
