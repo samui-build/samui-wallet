@@ -7,6 +7,7 @@ import { SettingsFeatureWalletAddAccount } from './settings-feature-wallet-add-a
 import { SettingsFeatureWalletCreate } from './settings-feature-wallet-create.tsx'
 import { SettingsFeatureWalletDetails } from './settings-feature-wallet-details.tsx'
 import { SettingsFeatureWalletGenerate } from './settings-feature-wallet-generate.tsx'
+import { SettingsFeatureWalletGenerateVanity } from './settings-feature-wallet-generate-vanity.tsx'
 import { SettingsFeatureWalletImport } from './settings-feature-wallet-import.tsx'
 import { SettingsFeatureWalletList } from './settings-feature-wallet-list.tsx'
 import { SettingsFeatureWalletUpdate } from './settings-feature-wallet-update.tsx'
@@ -22,6 +23,7 @@ export default function SettingsRoutes() {
             { element: <SettingsFeatureWalletList />, index: true },
             { element: <SettingsFeatureWalletCreate />, path: 'create' },
             { element: <SettingsFeatureWalletGenerate />, path: 'generate' },
+            { element: <SettingsFeatureWalletGenerateVanity />, path: 'generate-vanity' },
             { element: <SettingsFeatureWalletImport />, path: 'import' },
             { element: <SettingsFeatureWalletDetails />, path: ':walletId' },
             { element: <SettingsFeatureWalletAddAccount />, path: ':walletId/add' },
