@@ -4,7 +4,7 @@ import { Checkbox } from '@workspace/ui/components/checkbox'
 import { Label } from '@workspace/ui/components/label'
 import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { useId, useState } from 'react'
-import { useNavigate } from 'react-router'
+import { Link, useNavigate } from 'react-router'
 
 export function SettingsFeatureGeneralDangerDeleteDatabase() {
   const mutation = useReset()
@@ -24,6 +24,9 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
         </div>
       </div>
       <div className="flex items-center justify-end space-x-2">
+        <Button asChild variant="outline">
+          <Link to="/settings/general">Cancel</Link>
+        </Button>
         <UiConfirm
           action={async () => {
             if (!accept) {

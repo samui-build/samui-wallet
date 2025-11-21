@@ -37,6 +37,9 @@ dist
 target
 schemas
 
+# Wxt
+web-ext.config.ts
+
 # Validators
 .surfpool
 test-ledger
