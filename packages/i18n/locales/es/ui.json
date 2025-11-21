@@ -1,0 +1,10 @@
+{
+  "errorTitle": "Uy, ocurrió un error",
+  "experimentalWarningDescription": "Utilice esta billetera bajo su propio riesgo. No use fondos reales.",
+  "experimentalWarningTitle": "Este es un software experimental.",
+  "notFoundDescription": "La página que está buscando no existe.",
+  "notFoundTitle": "404 - No encontrado",
+  "relativeDateToday": "Hoy",
+  "relativeDateYesterday": "Ayer",
+  "textCopyFailed": "Error al copiar texto"
+}
