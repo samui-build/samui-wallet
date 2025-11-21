@@ -11,9 +11,11 @@ export async function generateVanityKeyPair({
   prefix = '',
   suffix = '',
 }: GenerateVanityKeyPairProps): Promise<KeyPairSigner> {
-  if (!prefix && !suffix) {
-    const privateKeyBytes = crypto.getRandomValues(new Uint8Array(32))
-    return createKeyPairSignerFromPrivateKeyBytes(privateKeyBytes, true)
+  const hasPrefix = typeof prefix === 'string' && prefix.length > 0
+  const hasSuffix = typeof suffix === 'string' && suffix.length > 0
+
+  if (!hasPrefix && !hasSuffix) {
+    throw new Error('generateVanityKeyPair requires a prefix or suffix')
   }
 
   // We can't report progress from here directly without a callback or generator
@@ -26,7 +28,7 @@ export async function generateVanityKeyPair({
     const address = signer.address
 
     let match = true
-    if (prefix) {
+    if (hasPrefix) {
       if (caseSensitive) {
         if (!address.startsWith(prefix)) match = false
       } else {
@@ -34,7 +36,7 @@ export async function generateVanityKeyPair({
       }
     }
 
-    if (match && suffix) {
+    if (match && hasSuffix) {
       if (caseSensitive) {
         if (!address.endsWith(suffix)) match = false
       } else {

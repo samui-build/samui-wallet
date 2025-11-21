@@ -17,8 +17,22 @@ const PROGRESS_INTERVAL = 1000
 
 self.onmessage = async (event: MessageEvent<VanityWorkerInput>) => {
   const { caseSensitive = true, prefix = '', suffix = '' } = event.data ?? {}
-  const normalizedPrefix = caseSensitive ? prefix : prefix.toLowerCase()
-  const normalizedSuffix = caseSensitive ? suffix : suffix.toLowerCase()
+  const sanitizedPrefix = prefix.trim()
+  const sanitizedSuffix = suffix.trim()
+  const hasPrefix = sanitizedPrefix.length > 0
+  const hasSuffix = sanitizedSuffix.length > 0
+
+  if (!hasPrefix && !hasSuffix) {
+    const errorMessage: VanityWorkerMessage = {
+      payload: 'Enter a prefix or suffix',
+      type: 'error',
+    }
+    self.postMessage(errorMessage)
+    return
+  }
+
+  const normalizedPrefix = caseSensitive ? sanitizedPrefix : sanitizedPrefix.toLowerCase()
+  const normalizedSuffix = caseSensitive ? sanitizedSuffix : sanitizedSuffix.toLowerCase()
 
   let attempts = 0
 

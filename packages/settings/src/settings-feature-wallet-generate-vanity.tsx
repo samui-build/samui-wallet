@@ -27,10 +27,12 @@ export function SettingsFeatureWalletGenerateVanity() {
   }, [])
 
   const handleGenerate = async (input: VanityWalletFormFields) => {
+    const sanitizedPrefix = input.prefix?.trim() ?? ''
+    const sanitizedSuffix = input.suffix?.trim() ?? ''
     const payload = {
       caseSensitive: input.caseSensitive ?? true,
-      prefix: input.prefix ?? '',
-      suffix: input.suffix ?? '',
+      prefix: sanitizedPrefix,
+      suffix: sanitizedSuffix,
     }
     setIsGenerating(true)
     setError(null)

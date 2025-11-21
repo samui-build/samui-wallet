@@ -58,6 +58,14 @@ describe('generateVanityKeyPair', () => {
       vi.restoreAllMocks()
     })
 
+    it('should throw when prefix and suffix are missing', async () => {
+      // ARRANGE
+      expect.assertions(1)
+
+      // ACT & ASSERT
+      await expect(generateVanityKeyPair({})).rejects.toThrow('generateVanityKeyPair requires a prefix or suffix')
+    })
+
     it('should surface failures from the underlying crypto primitive', async () => {
       // ARRANGE
       expect.assertions(1)

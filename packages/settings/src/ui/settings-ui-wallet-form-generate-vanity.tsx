@@ -14,11 +14,28 @@ import { Switch } from '@workspace/ui/components/switch'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-const schema = z.object({
-  caseSensitive: z.boolean().default(true),
-  prefix: z.string().optional().default(''),
-  suffix: z.string().optional().default(''),
-})
+const schema = z
+  .object({
+    caseSensitive: z.boolean().default(true),
+    prefix: z.string().optional().default(''),
+    suffix: z.string().optional().default(''),
+  })
+  .superRefine((data, ctx) => {
+    const prefix = data.prefix?.trim() ?? ''
+    const suffix = data.suffix?.trim() ?? ''
+    if (!prefix && !suffix) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Enter a prefix or suffix',
+        path: ['prefix'],
+      })
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Enter a prefix or suffix',
+        path: ['suffix'],
+      })
+    }
+  })
 
 export type VanityWalletFormFields = z.input<typeof schema>
 
