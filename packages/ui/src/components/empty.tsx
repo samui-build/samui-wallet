@@ -6,7 +6,7 @@ function Empty({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
       className={cn(
-        'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12',
+        'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-2 md:p-6 text-center text-balance lg:p-12',
         className,
       )}
       data-slot="empty"
@@ -18,7 +18,7 @@ function Empty({ className, ...props }: ComponentProps<'div'>) {
 function EmptyHeader({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex max-w-sm flex-col items-center gap-2 text-center', className)}
+      className={cn('flex max-w-sm flex-col items-center md:gap-2 text-center', className)}
       data-slot="empty-header"
       {...props}
     />
@@ -26,7 +26,7 @@ function EmptyHeader({ className, ...props }: ComponentProps<'div'>) {
 }
 
 const emptyMediaVariants = cva(
-  'flex shrink-0 items-center justify-center mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0',
+  'flex shrink-0 items-center justify-center md:mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0',
   {
     defaultVariants: {
       variant: 'default',
@@ -43,7 +43,7 @@ const emptyMediaVariants = cva(
 function EmptyContent({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex w-full max-w-md min-w-0 flex-col items-center gap-4 text-sm text-balance', className)}
+      className={cn('flex w-full md:max-w-md min-w-0 flex-col items-center gap-4 text-sm text-balance', className)}
       data-slot="empty-content"
       {...props}
     />

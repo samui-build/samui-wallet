@@ -35,21 +35,21 @@ export function ShellUiLayout() {
       <header className="bg-secondary/50">
         <ShellUiMenu />
       </header>
-      <main className="flex-1 overflow-y-auto p-2 lg:p-4">
+      <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
         <Outlet />
       </main>
       <footer className="bg-secondary/50 flex justify-between items-center">
         {links.map(({ icon, label, to }) => (
           <NavLink
             className={({ isActive }) =>
-              cn('items-center gap-2 py-2 flex flex-col flex-1', {
-                'font-bold bg-secondary/60': isActive,
+              cn('items-center truncate text-xs md:text-md gap-1 md:gap-2 pt-2 pb-1 flex flex-col flex-1', {
+                'font-semibold bg-secondary/60': isActive,
               })
             }
             key={to}
             to={to}
           >
-            <UiIcon icon={icon} />
+            <UiIcon className="size-4 md:size-6" icon={icon} />
             {label}
           </NavLink>
         ))}

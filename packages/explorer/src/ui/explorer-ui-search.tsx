@@ -37,7 +37,7 @@ export function ExplorerUiSearch({ submit }: { submit: (input: ExplorerSearchInp
 
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(submit)}>
+      <form className="space-y-2 md:space-y-6" onSubmit={form.handleSubmit(submit)}>
         <FormField
           control={form.control}
           name="query"

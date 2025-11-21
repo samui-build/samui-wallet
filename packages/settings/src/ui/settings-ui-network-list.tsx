@@ -18,7 +18,7 @@ export function SettingsUiNetworkList({
 }) {
   const { t } = useTranslation('settings')
   return (
-    <ItemGroup className="gap-4">
+    <ItemGroup className="gap-2 md:gap-4">
       {items.map((item) => (
         <Item
           className="items-stretch flex-row items-center"

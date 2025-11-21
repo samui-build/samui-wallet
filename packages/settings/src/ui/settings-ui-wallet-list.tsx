@@ -15,7 +15,7 @@ export function SettingsUiWalletList({
   items: Array<{ accounts?: Account[] } & Wallet>
 }) {
   return (
-    <ItemGroup className="gap-4">
+    <ItemGroup className="gap-2 md:gap-4">
       {items.map((item) => (
         <SettingsUiWalletListItem active={active} deleteItem={deleteItem} item={item} key={item.id} />
       ))}

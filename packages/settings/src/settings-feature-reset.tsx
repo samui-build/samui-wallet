@@ -4,7 +4,7 @@ import { SettingsFeatureGeneralDangerDeleteDatabase } from './settings-feature-g
 
 export default function SettingsFeatureReset() {
   return (
-    <UiPage>
+    <UiPage className="p-1 md:p-4">
       <UiCard
         contentProps={{ className: 'space-y-6' }}
         description="Make sure that you have a copy of the data."
