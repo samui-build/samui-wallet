@@ -1,6 +1,6 @@
 import type { Account } from '@workspace/db/account/account'
 import type { Wallet } from '@workspace/db/wallet/wallet'
-
+import { useTranslation } from '@workspace/i18n'
 import {
   MenubarContent,
   MenubarItem,
@@ -30,6 +30,7 @@ export function ShellUiMenuWallets({
   setActiveAccount: (id: string) => Promise<void>
   wallets: Wallet[]
 }) {
+  const { t } = useTranslation('shell')
   return (
     <MenubarMenu>
       <MenubarTrigger asChild className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
@@ -40,7 +41,9 @@ export function ShellUiMenuWallets({
             onPointerDown={(e) => e.stopPropagation()}
             size="icon"
             text={activeAccount.publicKey}
-            toast="Copied public key to clipboard"
+            title={t(($) => $.accountPublicKeyCopy)}
+            toast={t(($) => $.accountPublicKeyCopySuccess)}
+            toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
             variant="ghost"
           />
         </div>
@@ -67,7 +70,9 @@ export function ShellUiMenuWallets({
                     <UiTextCopyButton
                       size="icon"
                       text={account.publicKey}
-                      toast="Copied public key to clipboard"
+                      title={t(($) => $.accountPublicKeyCopy)}
+                      toast={t(($) => $.accountPublicKeyCopySuccess)}
+                      toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
                       variant="ghost"
                     />
                   </div>
@@ -77,13 +82,13 @@ export function ShellUiMenuWallets({
               <MenubarItem asChild>
                 <Link to={`/settings/wallets/${wallet.id}/add`}>
                   <UiIcon icon="add" />
-                  Add account
+                  {t(($) => $.accountAdd)}
                 </Link>
               </MenubarItem>
               <MenubarItem asChild>
                 <Link to={`/settings/wallets/${wallet.id}/edit`}>
                   <UiIcon icon="edit" />
-                  Edit wallet
+                  {t(($) => $.walletEdit)}
                 </Link>
               </MenubarItem>
             </MenubarSubContent>
@@ -93,7 +98,7 @@ export function ShellUiMenuWallets({
         <MenubarItem asChild>
           <Link to="/settings/wallets">
             <UiIcon icon="settings" />
-            Wallet settings
+            {t(($) => $.walletSettings)}
           </Link>
         </MenubarItem>
       </MenubarContent>

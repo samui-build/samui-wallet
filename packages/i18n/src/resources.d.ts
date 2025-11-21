@@ -100,10 +100,20 @@ interface Resources {
     walletPageImportTitle: 'Import wallet'
   }
   shell: {
-    explorerLabel: 'Explorer'
-    portfolioLabel: 'Portfolio'
-    settingsLabel: 'Settings'
-    toolsLabel: 'Tools'
+    accountAdd: 'Add account'
+    accountPublicKeyCopy: 'Copy public key'
+    accountPublicKeyCopyFailed: 'Failed to copy public key'
+    accountPublicKeyCopySuccess: 'Copied public key'
+    commandEmpty: 'No results found.'
+    commandInputPlaceholder: 'Type a command or search...'
+    commandSuggestions: 'Suggestions'
+    labelExplorer: 'Explorer'
+    labelPortfolio: 'Portfolio'
+    labelSettings: 'Settings'
+    labelTools: 'Tools'
+    networkSettings: 'Network settings'
+    walletEdit: 'Edit wallet'
+    walletSettings: 'Wallet settings'
   }
 }
 

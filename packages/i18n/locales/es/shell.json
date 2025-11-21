@@ -1,6 +1,16 @@
 {
-  "explorerLabel": "Explorador",
-  "portfolioLabel": "Portafolio",
-  "settingsLabel": "Ajustes",
-  "toolsLabel": "Herramientas"
+  "accountAdd": "Agregar cuenta",
+  "accountPublicKeyCopy": "Copiar clave pública",
+  "accountPublicKeyCopyFailed": "No se pudo copiar la clave pública",
+  "accountPublicKeyCopySuccess": "Clave pública copiada",
+  "commandEmpty": "Ningún resultado encontrado.",
+  "commandInputPlaceholder": "Escriba un comando o busque...",
+  "commandSuggestions": "Sugerencias",
+  "labelExplorer": "Explorador",
+  "labelPortfolio": "Portafolio",
+  "labelSettings": "Ajustes",
+  "labelTools": "Herramientas",
+  "networkSettings": "Ajustes de red",
+  "walletEdit": "Editar billetera",
+  "walletSettings": "Ajustes de la billetera"
 }

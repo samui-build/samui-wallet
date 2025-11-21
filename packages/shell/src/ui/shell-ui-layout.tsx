@@ -22,10 +22,10 @@ export function ShellUiLayout() {
   }
 
   const links: ShellLayoutLink[] = [
-    { icon: 'portfolio', label: t(($) => $.portfolioLabel), to: '/portfolio' },
-    { icon: 'explorer', label: t(($) => $.explorerLabel), to: '/explorer' },
-    { icon: 'tools', label: t(($) => $.toolsLabel), to: '/tools' },
-    { icon: 'settings', label: t(($) => $.settingsLabel), to: '/settings' },
+    { icon: 'portfolio', label: t(($) => $.labelPortfolio), to: '/portfolio' },
+    { icon: 'explorer', label: t(($) => $.labelExplorer), to: '/explorer' },
+    { icon: 'tools', label: t(($) => $.labelTools), to: '/tools' },
+    { icon: 'settings', label: t(($) => $.labelSettings), to: '/settings' },
   ]
 
   return (
