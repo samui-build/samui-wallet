@@ -1,5 +1,15 @@
+import type { KeyPairSigner } from '@solana/kit'
+import * as solanaKit from '@solana/kit'
 import type { MockInstance } from 'vitest'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+
+vi.mock('@solana/kit', async () => {
+  const actual = await vi.importActual<typeof import('@solana/kit')>('@solana/kit')
+  return {
+    ...actual,
+    createKeyPairSignerFromPrivateKeyBytes: vi.fn(actual.createKeyPairSignerFromPrivateKeyBytes),
+  }
+})
 
 import { generateVanityKeyPair } from './generate-vanity-key-pair.ts'
 
@@ -77,6 +87,25 @@ describe('generateVanityKeyPair', () => {
       await expect(generateVanityKeyPair({ prefix: 'X' })).rejects.toThrow('crypto failure')
 
       cryptoSpy.mockRestore()
+    })
+
+    it('should throw when the maximum attempts are exhausted without a match', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const signerStub = {
+        address: '11111111111111111111111111111111',
+        keyPair: {},
+      } as KeyPairSigner
+      const signerSpy = vi
+        .spyOn(solanaKit, 'createKeyPairSignerFromPrivateKeyBytes')
+        .mockResolvedValue(signerStub as KeyPairSigner)
+
+      // ACT & ASSERT
+      await expect(generateVanityKeyPair({ maxAttempts: 2, prefix: 'ZZZ' })).rejects.toThrow(
+        'No vanity match found within 2 attempts, try a shorter pattern',
+      )
+
+      signerSpy.mockRestore()
     })
   })
 })

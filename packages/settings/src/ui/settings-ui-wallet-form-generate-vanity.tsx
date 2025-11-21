@@ -17,8 +17,8 @@ import { z } from 'zod'
 const schema = z
   .object({
     caseSensitive: z.boolean().default(true),
-    prefix: z.string().optional().default(''),
-    suffix: z.string().optional().default(''),
+    prefix: z.string().max(4, 'Keep patterns to 4 characters max').optional().default(''),
+    suffix: z.string().max(4, 'Keep patterns to 4 characters max').optional().default(''),
   })
   .superRefine((data, ctx) => {
     const prefix = data.prefix?.trim() ?? ''
@@ -68,7 +68,7 @@ export function SettingsUiWalletFormGenerateVanity({
                 <FormControl>
                   <Input {...field} disabled={disabled} placeholder="Start with..." value={field.value || ''} />
                 </FormControl>
-                <FormDescription>Characters the address should start with</FormDescription>
+                <FormDescription>Characters the address should start with (max 4)</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -82,7 +82,7 @@ export function SettingsUiWalletFormGenerateVanity({
                 <FormControl>
                   <Input {...field} disabled={disabled} placeholder="End with..." value={field.value || ''} />
                 </FormControl>
-                <FormDescription>Characters the address should end with</FormDescription>
+                <FormDescription>Characters the address should end with (max 4)</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

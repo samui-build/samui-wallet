@@ -59,8 +59,8 @@ function useVanityGenerator() {
   }, [])
 
   const start = useCallback(async (input: VanityWalletFormFields) => {
-    const sanitizedPrefix = input.prefix?.trim() ?? ''
-    const sanitizedSuffix = input.suffix?.trim() ?? ''
+    const sanitizedPrefix = input.prefix?.trim().slice(0, 4) ?? ''
+    const sanitizedSuffix = input.suffix?.trim().slice(0, 4) ?? ''
     const payload = {
       caseSensitive: input.caseSensitive ?? true,
       prefix: sanitizedPrefix,
@@ -148,10 +148,9 @@ export function SettingsFeatureWalletGenerateVanity() {
         <Alert>
           <AlertTitle>Warning</AlertTitle>
           <AlertDescription>
-            Generating runs on the main thread for now.
-            <strong>Long prefixes/suffixes will freeze the browser!</strong>
+            Vanity searches are limited to short patterns (max 4 characters) and will stop after 20,000,000 attempts.
             <br />
-            Use short patterns (1-3 characters) for best results.
+            Use concise prefixes or suffixes for the fastest results.
           </AlertDescription>
         </Alert>
 
