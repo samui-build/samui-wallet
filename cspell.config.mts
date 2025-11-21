@@ -63,6 +63,7 @@ const config: CSpellSettings = {
     'wordlists',
     // Spanish
     'mnemónica',
+    'redirecciona',
   ],
 }
 

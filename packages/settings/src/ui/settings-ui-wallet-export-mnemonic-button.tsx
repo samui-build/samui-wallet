@@ -1,5 +1,5 @@
 import type { Wallet } from '@workspace/db/wallet/wallet'
-
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
@@ -9,6 +9,7 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import type { MouseEvent } from 'react'
 
 export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Wallet }) {
+  const { t } = useTranslation('settings')
   async function exportMnemonic(event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault()
     const confirmed = window.confirm(
@@ -29,7 +30,7 @@ export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Walle
   }
 
   return (
-    <UiTooltip content="Export mnemonic">
+    <UiTooltip content={t(($) => $.actionExportMnemonic)}>
       <Button onClick={exportMnemonic} size="icon" type="button" variant="outline">
         <UiIcon className="size-4" icon="mnemonic" />
       </Button>
