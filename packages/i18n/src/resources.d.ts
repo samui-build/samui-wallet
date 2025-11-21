@@ -115,6 +115,16 @@ interface Resources {
     walletEdit: 'Edit wallet'
     walletSettings: 'Wallet settings'
   }
+  ui: {
+    errorTitle: 'Oops, an error occurred'
+    experimentalWarningDescription: 'Use this wallet at your own risk. Do not use any real funds.'
+    experimentalWarningTitle: 'This is experimental software.'
+    notFoundDescription: "The page you're looking for doesn't exist."
+    notFoundTitle: '404 - Not Found'
+    relativeDateToday: 'Today'
+    relativeDateYesterday: 'Yesterday'
+    textCopyFailed: 'Failed to copy text'
+  }
 }
 
 export default Resources
