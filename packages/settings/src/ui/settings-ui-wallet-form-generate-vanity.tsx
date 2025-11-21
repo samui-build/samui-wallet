@@ -66,7 +66,6 @@ export function SettingsUiWalletFormGenerateVanity({
               <FormItem>
                 <FormLabel>Prefix</FormLabel>
                 <FormControl>
-                  {/* Ensure value is always a string to prevent 'value.split is not a function' error in some UI libraries */}
                   <Input {...field} disabled={disabled} placeholder="Start with..." value={field.value || ''} />
                 </FormControl>
                 <FormDescription>Characters the address should start with</FormDescription>

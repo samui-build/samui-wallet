@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/al
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
 
 import {
@@ -10,14 +10,44 @@ import {
   type VanityWalletFormFields,
 } from './ui/settings-ui-wallet-form-generate-vanity.tsx'
 
-export function SettingsFeatureWalletGenerateVanity() {
-  const navigate = useNavigate()
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [result, setResult] = useState<{ address: string; secretKey: string } | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [showSecret, setShowSecret] = useState(false)
-  const [count, setCount] = useState(0)
+type VanityGeneratorState =
+  | { attempts: number; error: string | null; result: null; status: 'idle' | 'pending' | 'error' }
+  | { attempts: number; error: null; result: { address: string; secretKey: string }; status: 'success' }
+
+type VanityGeneratorAction =
+  | { type: 'start' }
+  | { payload: number; type: 'progress' }
+  | { payload: string; type: 'error' }
+  | { payload: { address: string; attempts: number; secretKey: string }; type: 'success' }
+  | { type: 'reset' }
+
+const initialVanityGeneratorState: VanityGeneratorState = { attempts: 0, error: null, result: null, status: 'idle' }
+
+function vanityGeneratorReducer(state: VanityGeneratorState, action: VanityGeneratorAction): VanityGeneratorState {
+  switch (action.type) {
+    case 'start':
+      return { attempts: 0, error: null, result: null, status: 'pending' }
+    case 'progress':
+      return { ...state, attempts: action.payload }
+    case 'success':
+      return {
+        attempts: action.payload.attempts,
+        error: null,
+        result: { address: action.payload.address, secretKey: action.payload.secretKey },
+        status: 'success',
+      }
+    case 'error':
+      return { attempts: 0, error: action.payload, result: null, status: 'error' }
+    case 'reset':
+      return initialVanityGeneratorState
+    default:
+      return state
+  }
+}
+
+function useVanityGenerator() {
   const workerRef = useRef<Worker | null>(null)
+  const [state, dispatch] = useReducer(vanityGeneratorReducer, initialVanityGeneratorState)
 
   useEffect(() => {
     return () => {
@@ -26,7 +56,7 @@ export function SettingsFeatureWalletGenerateVanity() {
     }
   }, [])
 
-  const handleGenerate = async (input: VanityWalletFormFields) => {
+  const start = useCallback(async (input: VanityWalletFormFields) => {
     const sanitizedPrefix = input.prefix?.trim() ?? ''
     const sanitizedSuffix = input.suffix?.trim() ?? ''
     const payload = {
@@ -34,63 +64,81 @@ export function SettingsFeatureWalletGenerateVanity() {
       prefix: sanitizedPrefix,
       suffix: sanitizedSuffix,
     }
-    setIsGenerating(true)
-    setError(null)
-    setResult(null)
-    setShowSecret(false)
-    setCount(0)
 
-    try {
-      workerRef.current?.terminate()
-      const worker = new Worker(new URL('./workers/vanity-worker.ts', import.meta.url), { type: 'module' })
-      workerRef.current = worker
+    dispatch({ type: 'start' })
+    workerRef.current?.terminate()
+    const worker = new Worker(new URL('./workers/vanity-worker.ts', import.meta.url), { type: 'module' })
+    workerRef.current = worker
 
-      worker.onmessage = (event) => {
-        const { type, payload } = event.data ?? {}
-        if (type === 'progress' && typeof payload === 'number') {
-          setCount(payload)
-          return
-        }
-        if (type === 'found' && payload) {
-          setResult({
-            address: payload.address,
-            secretKey: payload.secretKey,
-          })
-          if (typeof payload.attempts === 'number') {
-            setCount(payload.attempts)
-          }
-          setIsGenerating(false)
-          workerRef.current?.terminate()
-          workerRef.current = null
-          return
-        }
-        if (type === 'error') {
-          setError(typeof payload === 'string' ? payload : 'Failed to generate vanity address')
-          setIsGenerating(false)
-          workerRef.current?.terminate()
-          workerRef.current = null
-        }
+    worker.onmessage = (event) => {
+      const { type, payload } = event.data ?? {}
+      if (type === 'progress' && typeof payload === 'number') {
+        dispatch({ payload, type: 'progress' })
+        return
       }
-
-      worker.onerror = (event) => {
-        setError(event.message ?? 'Worker error')
-        setIsGenerating(false)
+      if (type === 'found' && payload) {
+        dispatch({
+          payload: {
+            address: payload.address,
+            attempts: typeof payload.attempts === 'number' ? payload.attempts : 0,
+            secretKey: payload.secretKey,
+          },
+          type: 'success',
+        })
+        workerRef.current?.terminate()
+        workerRef.current = null
+        return
+      }
+      if (type === 'error') {
+        dispatch({
+          payload: typeof payload === 'string' ? payload : 'Failed to generate vanity address',
+          type: 'error',
+        })
         workerRef.current?.terminate()
         workerRef.current = null
       }
-
-      worker.postMessage(payload)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Failed to start worker')
-      setIsGenerating(false)
     }
-  }
 
-  const handleCancel = () => {
+    worker.onerror = (event) => {
+      dispatch({ payload: event.message ?? 'Worker error', type: 'error' })
+      workerRef.current?.terminate()
+      workerRef.current = null
+    }
+
+    worker.postMessage(payload)
+  }, [])
+
+  const cancel = useCallback(() => {
     workerRef.current?.terminate()
     workerRef.current = null
-    setIsGenerating(false)
-  }
+    dispatch({ type: 'reset' })
+  }, [])
+
+  return { cancel, start, state }
+}
+
+export function SettingsFeatureWalletGenerateVanity() {
+  const navigate = useNavigate()
+  const { cancel, start, state } = useVanityGenerator()
+  const [showSecret, setShowSecret] = useState(false)
+
+  const handleGenerate = useCallback(
+    async (input: VanityWalletFormFields) => {
+      setShowSecret(false)
+      await start(input)
+    },
+    [start],
+  )
+
+  const handleCancel = useCallback(() => {
+    setShowSecret(false)
+    cancel()
+  }, [cancel])
+
+  const isGenerating = state.status === 'pending'
+  const result = state.status === 'success' ? state.result : null
+  const error = state.error
+  const count = state.attempts
 
   return (
     <UiCard backButtonTo="/settings/wallets/create" title="Generate Vanity Wallet">
@@ -144,7 +192,7 @@ export function SettingsFeatureWalletGenerateVanity() {
             </div>
 
             <div className="flex justify-end gap-2 pt-4">
-              <Button onClick={() => setResult(null)} variant="outline">
+              <Button onClick={handleCancel} variant="outline">
                 Try Again
               </Button>
               <Button
