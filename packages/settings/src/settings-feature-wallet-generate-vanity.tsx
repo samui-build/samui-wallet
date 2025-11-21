@@ -1,6 +1,8 @@
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
+import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCallback, useEffect, useReducer, useRef, useState } from 'react'
 import { useNavigate } from 'react-router'
@@ -197,9 +199,13 @@ export function SettingsFeatureWalletGenerateVanity() {
               </Button>
               <Button
                 onClick={async () => {
-                  await navigator.clipboard.writeText(result.secretKey)
-                  toastSuccess('Secret key copied to clipboard')
-                  await navigate('/settings/wallets/import')
+                  try {
+                    await handleCopyText(result.secretKey)
+                    toastSuccess('Secret key copied to clipboard')
+                    await navigate('/settings/wallets/import')
+                  } catch (copyError) {
+                    toastError(copyError instanceof Error ? copyError.message : 'Failed to copy secret key')
+                  }
                 }}
               >
                 Copy & Import
