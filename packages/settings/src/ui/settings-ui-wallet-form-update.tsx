@@ -2,6 +2,7 @@ import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
 import { walletUpdateSchema } from '@workspace/db/wallet/wallet-update-schema'
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
   Form,
@@ -22,6 +23,7 @@ export function SettingsUiWalletFormUpdate({
   item: Wallet
   submit: (input: WalletUpdateInput) => Promise<void>
 }) {
+  const { t } = useTranslation('settings')
   const form = useForm<WalletUpdateInput>({
     resolver: standardSchemaResolver(walletUpdateSchema),
     values: item,
@@ -35,16 +37,16 @@ export function SettingsUiWalletFormUpdate({
           name="name"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Name</FormLabel>
+              <FormLabel>{t(($) => $.walletInputNameLabel)}</FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Wallet name"
+                  placeholder={t(($) => $.walletInputNamePlaceholder)}
                   type="text"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the name of the wallet</FormDescription>
+              <FormDescription>{t(($) => $.walletInputNameDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -52,7 +54,7 @@ export function SettingsUiWalletFormUpdate({
         />
         <div className="flex justify-end items-center w-full pt-3">
           <Button className="rounded-lg" size="sm">
-            Submit
+            {t(($) => $.actionSave)}
           </Button>
         </div>
       </form>

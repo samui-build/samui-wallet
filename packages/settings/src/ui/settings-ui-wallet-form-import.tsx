@@ -1,6 +1,7 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { walletCreateSchema } from '@workspace/db/wallet/wallet-create-schema'
+import { useTranslation } from '@workspace/i18n'
 import { derivationPaths } from '@workspace/keypair/derivation-paths'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -25,6 +26,7 @@ export function SettingsUiWalletFormImport({
   name: string
   submit: (input: WalletCreateInput, redirect: boolean) => Promise<void>
 }) {
+  const { t } = useTranslation('settings')
   const redirectId = useId()
   const [redirect, setRedirect] = useState(true)
   const form = useForm<WalletCreateInput>({
@@ -45,16 +47,16 @@ export function SettingsUiWalletFormImport({
           name="name"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Name</FormLabel>
+              <FormLabel>{t(($) => $.walletInputNameLabel)}</FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Wallet name"
+                  placeholder={t(($) => $.walletInputNamePlaceholder)}
                   type="text"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the name of the wallet</FormDescription>
+              <FormDescription>{t(($) => $.walletInputNameDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -65,16 +67,16 @@ export function SettingsUiWalletFormImport({
           name="mnemonic"
           render={({ field }) => (
             <FormItem className="w-full">
-              <FormLabel>Mnemonic</FormLabel>
+              <FormLabel>{t(($) => $.walletInputMnemonicLabel)}</FormLabel>
               <FormControl>
                 <Input
                   onChange={(e) => field.onChange(e.target.value)}
-                  placeholder="Wallet mnemonic"
+                  placeholder={t(($) => $.walletInputMnemonicPlaceholder)}
                   type="text"
                   value={field.value}
                 />
               </FormControl>
-              <FormDescription>Provide the mnemonic of the wallet</FormDescription>
+              <FormDescription>{t(($) => $.walletInputMnemonicDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -83,9 +85,9 @@ export function SettingsUiWalletFormImport({
         <div className="flex justify-end items-center w-full pt-3 gap-4">
           <div className="flex items-center space-x-2">
             <Switch checked={redirect} id={redirectId} onCheckedChange={setRedirect} />
-            <Label htmlFor={redirectId}>Redirect after import</Label>
+            <Label htmlFor={redirectId}>{t(($) => $.walletInputRedirectLabel)}</Label>
           </div>
-          <Button size="lg">Import</Button>
+          <Button size="lg">{t(($) => $.actionImport)}</Button>
         </div>
       </form>
     </Form>
