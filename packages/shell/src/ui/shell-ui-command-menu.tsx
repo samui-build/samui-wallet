@@ -1,4 +1,5 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useTranslation } from '@workspace/i18n'
 import {
   CommandDialog,
   CommandEmpty,
@@ -14,6 +15,7 @@ import { useEffect, useState } from 'react'
 
 // TODO: Split commands into separate components/files as they grow
 export function ShellUiCommandMenu() {
+  const { t } = useTranslation('shell')
   const [open, setOpen] = useState(false)
   const { publicKey } = useAccountActive()
 
@@ -32,23 +34,23 @@ export function ShellUiCommandMenu() {
 
   return (
     <CommandDialog onOpenChange={setOpen} open={open}>
-      <CommandInput placeholder="Type a command or search..." />
+      <CommandInput placeholder={t(($) => $.commandInputPlaceholder)} />
       <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Suggestions">
+        <CommandEmpty>{t(($) => $.commandEmpty)}</CommandEmpty>
+        <CommandGroup heading={t(($) => $.commandSuggestions)}>
           <CommandItem
             onSelect={async () => {
               try {
                 await handleCopyText(publicKey)
-                toastSuccess('Copied Public Key')
+                toastSuccess(t(($) => $.accountPublicKeyCopySuccess))
               } catch (error) {
-                toastError(error instanceof Error ? error.message : 'Failed to copy public key')
+                toastError(error instanceof Error ? error.message : t(($) => $.accountPublicKeyCopyFailed))
               } finally {
                 setOpen(false)
               }
             }}
           >
-            Copy public key
+            {t(($) => $.accountPublicKeyCopy)}
           </CommandItem>
         </CommandGroup>
       </CommandList>

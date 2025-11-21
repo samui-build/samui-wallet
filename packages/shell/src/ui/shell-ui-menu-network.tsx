@@ -1,4 +1,5 @@
 import type { Network } from '@workspace/db/network/network'
+import { useTranslation } from '@workspace/i18n'
 
 import {
   MenubarContent,
@@ -21,6 +22,7 @@ export function ShellUiMenuNetwork({
   networks: Network[]
   setActive: (id: string) => Promise<void>
 }) {
+  const { t } = useTranslation('shell')
   return (
     <MenubarMenu>
       <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
@@ -41,7 +43,7 @@ export function ShellUiMenuNetwork({
         <MenubarItem asChild>
           <Link to="/settings/networks">
             <UiIcon icon="settings" />
-            Network settings
+            {t(($) => $.networkSettings)}
           </Link>
         </MenubarItem>
       </MenubarContent>

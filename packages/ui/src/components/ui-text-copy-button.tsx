@@ -9,8 +9,9 @@ export function UiTextCopyButton({
   label,
   text,
   toast,
+  toastFailed,
   ...props
-}: ComponentProps<typeof Button> & { label?: string; text: string; toast: string }) {
+}: ComponentProps<typeof Button> & { label?: string; text: string; toast?: string; toastFailed?: string }) {
   return (
     <Button
       className="cursor-pointer"
@@ -21,7 +22,7 @@ export function UiTextCopyButton({
             toastSuccess(toast)
           }
         } catch (error) {
-          toastError(error instanceof Error ? error.message : 'Failed to copy text')
+          toastError(error instanceof Error ? error.message : (toastFailed ?? 'Failed to copy text'))
         }
       }}
       type="button"

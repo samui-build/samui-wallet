@@ -13,7 +13,7 @@ export default defineConfig({
 
       '../../examples/**',
     ],
-    ignoredAttributes: ['autoComplete', 'autoCorrect', 'spellCheck', 'to', 'variant'],
+    ignoredAttributes: ['autoComplete', 'autoCorrect', 'icon', 'size', 'spellCheck', 'to', 'variant'],
     input: '../../**/*.{js,jsx,ts,tsx}',
     output: 'locales/{{language}}/{{namespace}}.json',
   },
