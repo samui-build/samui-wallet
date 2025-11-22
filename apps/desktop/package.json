@@ -13,6 +13,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^5.0.0",
     "@workspace/config-typescript": "workspace:*",
+    "babel-plugin-react-compiler": "^1.0.0",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
     "vite": "^7.0.4"

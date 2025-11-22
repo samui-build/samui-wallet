@@ -1,4 +1,5 @@
 import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
 import { defineConfig } from 'wxt'
 
 export default defineConfig({
@@ -14,6 +15,13 @@ export default defineConfig({
   modules: ['@wxt-dev/auto-icons', '@wxt-dev/module-react'],
   srcDir: 'src',
   vite: () => ({
-    plugins: [tailwindcss()],
+    plugins: [
+      react({
+        babel: {
+          plugins: ['babel-plugin-react-compiler'],
+        },
+      }),
+      tailwindcss(),
+    ],
   }),
 })

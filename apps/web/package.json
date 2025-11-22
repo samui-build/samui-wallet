@@ -16,6 +16,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "^5.1.0",
     "@workspace/config-typescript": "workspace:*",
+    "babel-plugin-react-compiler": "^1.0.0",
     "globals": "catalog:",
     "typescript": "catalog:",
     "vite": "^7.1.12",
