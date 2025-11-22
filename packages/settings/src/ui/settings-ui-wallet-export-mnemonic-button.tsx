@@ -1,25 +1,16 @@
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
+import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import type { MouseEvent } from 'react'
 
 export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Wallet }) {
   const { t } = useTranslation('settings')
-  async function exportMnemonic(event: MouseEvent<HTMLButtonElement>) {
-    event.preventDefault()
-    const confirmed = window.confirm(
-      'Exporting the mnemonic reveals sensitive information. Do you want to copy it to your clipboard?',
-    )
-
-    if (!confirmed) {
-      return
-    }
-
+  async function exportMnemonic() {
     try {
       await handleCopyText(wallet.mnemonic)
       toastSuccess('Mnemonic copied to clipboard')
@@ -31,9 +22,16 @@ export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Walle
 
   return (
     <UiTooltip content={t(($) => $.actionExportMnemonic)}>
-      <Button onClick={exportMnemonic} size="icon" type="button" variant="outline">
-        <UiIcon className="size-4" icon="mnemonic" />
-      </Button>
+      <UiConfirm
+        action={exportMnemonic}
+        actionLabel="Export"
+        description="Do you want to copy it to your clipboard?"
+        title="Exporting the mnemonic reveals sensitive information."
+      >
+        <Button size="icon" variant="outline">
+          <UiIcon className="size-4" icon="mnemonic" />
+        </Button>
+      </UiConfirm>
     </UiTooltip>
   )
 }

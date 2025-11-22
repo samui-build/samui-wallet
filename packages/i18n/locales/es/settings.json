@@ -1,7 +1,8 @@
 {
   "accountCopySecretKey": "Copiar clave secreta al portapapeles",
   "accountCopySecretKeyBlocked": "Copia al portapapeles bloqueada. Se muestra la clave secreta para copiar manualmente.",
-  "accountCopySecretKeyConfirm": "Al exportar la clave secreta se revela información confidencial. ¿Desea copiarla en el portapapeles?",
+  "accountCopySecretKeyConfirmDescription": "¿Desea copiarla en el portapapeles?",
+  "accountCopySecretKeyConfirmTitle": "Al exportar la clave secreta se revela información confidencial.",
   "accountCopySecretKeyCopied": "Clave secreta copiada al portapapeles",
   "accountCopySecretKeyDialog": "Copie su clave secreta desde este cuadro de diálogo:",
   "accountNoSecretKey": "La clave secreta no está disponible para esta cuenta.",

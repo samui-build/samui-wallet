@@ -1,6 +1,7 @@
 import type { Account } from '@workspace/db/account/account'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
+import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
@@ -20,9 +21,6 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
   }
 
   async function exportSecret() {
-    if (!window.confirm(t(($) => $.accountCopySecretKeyConfirm))) {
-      return
-    }
     try {
       await handleCopyText(account.secretKey as string)
       toastSuccess(t(($) => $.accountCopySecretKeyCopied))
@@ -37,9 +35,16 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
 
   return (
     <UiTooltip content={t(($) => $.accountCopySecretKey)}>
-      <Button onClick={exportSecret} size="icon" type="button" variant="outline">
-        <UiIcon className="size-4" icon="key" />
-      </Button>
+      <UiConfirm
+        action={exportSecret}
+        actionLabel="Export"
+        description={t(($) => $.accountCopySecretKeyConfirmDescription)}
+        title={t(($) => $.accountCopySecretKeyConfirmTitle)}
+      >
+        <Button size="icon" variant="outline">
+          <UiIcon className="size-4" icon="key" />
+        </Button>
+      </UiConfirm>
     </UiTooltip>
   )
 }
