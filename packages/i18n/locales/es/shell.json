@@ -7,6 +7,8 @@
   "actionsSidebarShow": "Abrir barra lateral",
   "commandEmpty": "Ningún resultado encontrado.",
   "commandInputPlaceholder": "Escriba un comando o busque...",
+  "commandLanguage": "Idioma",
+  "commandLanguageChangeTo": "Cambiar a",
   "commandNavigate": "Navegar",
   "commandNavigateTo": "Navega a",
   "commandSuggestions": "Sugerencias",
