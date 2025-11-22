@@ -5,7 +5,7 @@ import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 'react-router'
 import { rootRouteLoader } from './data-access/root-route-loader.tsx'
-import type { ShellContext } from './shell-feature.tsx'
+import type { ShellFeatureProps } from './shell-feature.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
@@ -16,10 +16,10 @@ const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
-function createRouter(context: ShellContext) {
+function createRouter({ browser, context }: ShellFeatureProps) {
   return createHashRouter([
     {
-      children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes(),
+      children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes({ browser, context }),
       errorElement: <UiErrorBoundary />,
       id: 'root',
       loader: rootRouteLoader(context),
@@ -31,7 +31,7 @@ function createRouter(context: ShellContext) {
   ])
 }
 
-function getAppRoutes(): RouteObject[] {
+function getAppRoutes({ browser, context }: ShellFeatureProps): RouteObject[] {
   return [
     { element: <Navigate replace to="/portfolio" />, index: true },
     {
@@ -43,7 +43,7 @@ function getAppRoutes(): RouteObject[] {
         { element: <ToolsRoutes />, path: 'tools/*' },
         { element: <UiNotFound />, path: '*' },
       ],
-      element: <ShellUiLayout />,
+      element: <ShellUiLayout browser={browser} context={context} />,
     },
     { element: <OnboardingRoutes redirectTo="/portfolio" />, path: 'onboarding/*' },
     { element: <SettingsFeatureReset />, path: 'reset' },
@@ -58,6 +58,6 @@ function getOnboardingRoutes(): RouteObject[] {
   ]
 }
 
-export function ShellRoutes({ context }: { context: ShellContext }) {
-  return <RouterProvider router={createRouter(context)} />
+export function ShellRoutes({ browser, context }: ShellFeatureProps) {
+  return <RouterProvider router={createRouter({ browser, context })} />
 }

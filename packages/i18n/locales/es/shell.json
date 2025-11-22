@@ -3,6 +3,8 @@
   "accountPublicKeyCopy": "Copiar clave pública",
   "accountPublicKeyCopyFailed": "No se pudo copiar la clave pública",
   "accountPublicKeyCopySuccess": "Clave pública copiada",
+  "actionsSidebarHide": "Cerrar barra lateral",
+  "actionsSidebarShow": "Abrir barra lateral",
   "commandEmpty": "Ningún resultado encontrado.",
   "commandInputPlaceholder": "Escriba un comando o busque...",
   "commandSuggestions": "Sugerencias",
