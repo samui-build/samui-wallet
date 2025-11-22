@@ -134,6 +134,8 @@ interface Resources {
     actionsSidebarShow: 'Show sidebar'
     commandEmpty: 'No results found.'
     commandInputPlaceholder: 'Type a command or search...'
+    commandLanguage: 'Language'
+    commandLanguageChangeTo: 'Change to'
     commandNavigate: 'Navigate'
     commandNavigateTo: 'Navigate to'
     commandSuggestions: 'Suggestions'
@@ -144,6 +146,10 @@ interface Resources {
     networkSettings: 'Network settings'
     walletEdit: 'Edit wallet'
     walletSettings: 'Wallet settings'
+  }
+  translation: {
+    languageEnglish: 'English'
+    languageSpanish: 'Spanish'
   }
   ui: {
     errorTitle: 'Oops, an error occurred'
