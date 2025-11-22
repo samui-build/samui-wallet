@@ -5,6 +5,8 @@
   "accountPublicKeyCopySuccess": "Clave pública copiada",
   "commandEmpty": "Ningún resultado encontrado.",
   "commandInputPlaceholder": "Escriba un comando o busque...",
+  "commandNavigate": "Navegar",
+  "commandNavigateTo": "Navega a",
   "commandSuggestions": "Sugerencias",
   "labelExplorer": "Explorador",
   "labelPortfolio": "Portafolio",

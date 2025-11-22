@@ -106,6 +106,8 @@ interface Resources {
     accountPublicKeyCopySuccess: 'Copied public key'
     commandEmpty: 'No results found.'
     commandInputPlaceholder: 'Type a command or search...'
+    commandNavigate: 'Navigate'
+    commandNavigateTo: 'Navigate to'
     commandSuggestions: 'Suggestions'
     labelExplorer: 'Explorer'
     labelPortfolio: 'Portfolio'
