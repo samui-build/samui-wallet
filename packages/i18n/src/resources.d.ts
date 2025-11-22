@@ -130,6 +130,8 @@ interface Resources {
     accountPublicKeyCopy: 'Copy public key'
     accountPublicKeyCopyFailed: 'Failed to copy public key'
     accountPublicKeyCopySuccess: 'Copied public key'
+    actionsSidebarHide: 'Hide sidebar'
+    actionsSidebarShow: 'Show sidebar'
     commandEmpty: 'No results found.'
     commandInputPlaceholder: 'Type a command or search...'
     commandSuggestions: 'Suggestions'
