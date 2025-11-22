@@ -24,7 +24,7 @@
     "uniwind": "^1.0.1"
   },
   "devDependencies": {
-    "@types/react": "~19.1.10",
+    "@types/react": "19.1.17",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },
