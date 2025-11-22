@@ -59,7 +59,7 @@
   "walletCreateGenerateDescription": "Generate a new seed phrase and derive an account",
   "walletCreateGenerateTitle": "Generate a new wallet",
   "walletCreateHardwareUnruggableDescription": "Unruggable is the first Solana native hardware account.",
-  "walletCreateHardwareUnruggableTitle": " Connect Unruggable.",
+  "walletCreateHardwareUnruggableTitle": "Connect Unruggable.",
   "walletCreateHeaderHardware": "Hardware accounts",
   "walletCreateHeaderSeed": "Seed phrases",
   "walletCreateImportDescription": "Import an existing seed phrase and discover accounts",
