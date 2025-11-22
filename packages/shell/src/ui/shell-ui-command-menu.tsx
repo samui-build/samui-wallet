@@ -1,4 +1,3 @@
-import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useTranslation } from '@workspace/i18n'
 import {
   CommandDialog,
@@ -8,16 +7,13 @@ import {
   CommandItem,
   CommandList,
 } from '@workspace/ui/components/command'
-import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
-import { toastError } from '@workspace/ui/lib/toast-error'
-import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useEffect, useState } from 'react'
+import { useShellCommandGroups } from './use-shell-command-groups.tsx'
 
-// TODO: Split commands into separate components/files as they grow
 export function ShellUiCommandMenu() {
   const { t } = useTranslation('shell')
   const [open, setOpen] = useState(false)
-  const { publicKey } = useAccountActive()
+  const groups = useShellCommandGroups()
 
   useEffect(() => {
     function down(e: KeyboardEvent) {
@@ -37,22 +33,22 @@ export function ShellUiCommandMenu() {
       <CommandInput placeholder={t(($) => $.commandInputPlaceholder)} />
       <CommandList>
         <CommandEmpty>{t(($) => $.commandEmpty)}</CommandEmpty>
-        <CommandGroup heading={t(($) => $.commandSuggestions)}>
-          <CommandItem
-            onSelect={async () => {
-              try {
-                await handleCopyText(publicKey)
-                toastSuccess(t(($) => $.accountPublicKeyCopySuccess))
-              } catch (error) {
-                toastError(error instanceof Error ? error.message : t(($) => $.accountPublicKeyCopyFailed))
-              } finally {
-                setOpen(false)
-              }
-            }}
-          >
-            {t(($) => $.accountPublicKeyCopy)}
-          </CommandItem>
-        </CommandGroup>
+        {groups.map((group) => (
+          <CommandGroup heading={group.label} key={group.label}>
+            {group.commands.map((command) => (
+              <CommandItem
+                disabled={command.disabled ?? false}
+                key={command.label}
+                onSelect={async () => {
+                  await command.handler()
+                  setOpen(false)
+                }}
+              >
+                {command.label}
+              </CommandItem>
+            ))}
+          </CommandGroup>
+        ))}
       </CommandList>
     </CommandDialog>
   )
