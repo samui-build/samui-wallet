@@ -1,6 +1,7 @@
 import { optionsSetting } from '@workspace/db-react/options-setting'
 import { queryClient } from '@workspace/db-react/query-client'
 import { UiErrorBoundary } from '@workspace/ui/components/ui-error-boundary'
+import { UiLoaderFull } from '@workspace/ui/components/ui-loader-full'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 'react-router'
@@ -21,6 +22,7 @@ function createRouter({ browser, context }: ShellFeatureProps) {
     {
       children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes({ browser, context }),
       errorElement: <UiErrorBoundary />,
+      hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
       loader: rootRouteLoader(context),
       shouldRevalidate: () => {
