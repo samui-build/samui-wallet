@@ -1,5 +1,6 @@
 import { useRootLoaderData } from '@workspace/db-react/use-root-loader-data'
 import { useTranslation } from '@workspace/i18n'
+import { ThemeProvider } from '@workspace/ui/components/theme-provider'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 import { cn } from '@workspace/ui/lib/utils'
@@ -29,31 +30,33 @@ export function ShellUiLayout() {
   ]
 
   return (
-    <div className="h-full flex flex-col justify-between items-stretch">
-      <ShellUiWarningExperimental />
-      <ShellUiCommandMenu />
-      <header className="bg-secondary/50">
-        <ShellUiMenu />
-      </header>
-      <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
-        <Outlet />
-      </main>
-      <footer className="bg-secondary/50 flex justify-between items-center">
-        {links.map(({ icon, label, to }) => (
-          <NavLink
-            className={({ isActive }) =>
-              cn('items-center truncate text-xs md:text-md gap-1 md:gap-2 pt-2 pb-1 flex flex-col flex-1', {
-                'font-semibold bg-secondary/60': isActive,
-              })
-            }
-            key={to}
-            to={to}
-          >
-            <UiIcon className="size-4 md:size-6" icon={icon} />
-            {label}
-          </NavLink>
-        ))}
-      </footer>
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="h-full flex flex-col justify-between items-stretch">
+        <ShellUiWarningExperimental />
+        <ShellUiCommandMenu />
+        <header className="bg-secondary/50">
+          <ShellUiMenu />
+        </header>
+        <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
+          <Outlet />
+        </main>
+        <footer className="bg-secondary/50 flex justify-between items-center">
+          {links.map(({ icon, label, to }) => (
+            <NavLink
+              className={({ isActive }) =>
+                cn('items-center truncate text-xs md:text-md gap-1 md:gap-2 pt-2 pb-1 flex flex-col flex-1', {
+                  'font-semibold bg-secondary/60': isActive,
+                })
+              }
+              key={to}
+              to={to}
+            >
+              <UiIcon className="size-4 md:size-6" icon={icon} />
+              {label}
+            </NavLink>
+          ))}
+        </footer>
+      </div>
+    </ThemeProvider>
   )
 }

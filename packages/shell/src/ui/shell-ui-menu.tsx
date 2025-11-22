@@ -5,6 +5,7 @@ import { getDevOptions } from '@workspace/dev/dev-features'
 import { useActiveAccount } from '@workspace/settings/data-access/use-active-account'
 import { useActiveWallet } from '@workspace/settings/data-access/use-active-wallet'
 import { Menubar } from '@workspace/ui/components/menubar'
+import { ModeToggle } from '@workspace/ui/components/mode-toggle'
 import { useMemo } from 'react'
 import { ShellUiMenuDevelopment } from './shell-ui-menu-development.tsx'
 import { ShellUiMenuNetwork } from './shell-ui-menu-network.tsx'
@@ -32,6 +33,7 @@ export function ShellUiMenu() {
         <ShellUiMenuNetwork active={activeNetwork} networks={items} setActive={setActiveNetworkId} />
       ) : null}
       <ShellUiMenuDevelopment items={getDevOptions()} />
+      <ModeToggle />
     </Menubar>
   )
 }
