@@ -8,7 +8,7 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig({
   plugins: [
     analyzer({
-      enabled: process.env['ANALYZE'] === '1',
+      enabled: !!process.env['ANALYZE'],
     }),
     cloudflare(),
     react({
