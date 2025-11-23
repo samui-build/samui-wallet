@@ -8,7 +8,7 @@ export function ExplorerUiLinkAddress({ basePath, address }: { basePath: string;
   return (
     <span className="flex items-center gap-1">
       <Link
-        className="text-sm font-mono cursor-pointer"
+        className="cursor-pointer font-mono text-sm"
         state={{ from }}
         title={address}
         to={`${basePath}/address/${address}`}

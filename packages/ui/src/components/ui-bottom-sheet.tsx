@@ -16,12 +16,12 @@ export function UiBottomSheet({
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent className="w-full sm:w-[400px] sm:left-1/2 sm:-translate-x-1/2" side="bottom">
+      <SheetContent className="sm:-translate-x-1/2 w-full sm:left-1/2 sm:w-[400px]" side="bottom">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
-        <div className="flex flex-col gap-6 pb-10 items-center md:aspect-square">{children}</div>
+        <div className="flex flex-col items-center gap-6 pb-10 md:aspect-square">{children}</div>
       </SheetContent>
     </Sheet>
   )

@@ -10,8 +10,8 @@ interface SignMessageProps {
 
 export function SignMessage({ data }: SignMessageProps) {
   return (
-    <div className="p-4 flex flex-col gap-4">
-      <h1 className="text-2xl font-bold text-center">Sign Message</h1>
+    <div className="flex flex-col gap-4 p-4">
+      <h1 className="text-center font-bold text-2xl">Sign Message</h1>
       <div className="flex flex-col gap-2">
         <Button
           onClick={async () => await getRequestService().resolve(await getSignService().signMessage(data))}

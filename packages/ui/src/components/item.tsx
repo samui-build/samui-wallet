@@ -17,7 +17,7 @@ function ItemSeparator({ className, ...props }: ComponentProps<typeof Separator>
 }
 
 const itemVariants = cva(
-  'group/item flex items-center border border-transparent text-sm rounded-md transition-colors [a]:hover:bg-accent/50 [a]:transition-colors duration-100 flex-wrap outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]',
+  'group/item flex flex-wrap items-center rounded-md border border-transparent text-sm outline-none transition-colors duration-100 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-accent/50',
   {
     defaultVariants: {
       size: 'default',
@@ -25,8 +25,8 @@ const itemVariants = cva(
     },
     variants: {
       size: {
-        default: 'p-2 md:p-4 gap-2 md:gap-4',
-        sm: 'py-3 px-4 gap-2.5',
+        default: 'gap-2 p-2 md:gap-4 md:p-4',
+        sm: 'gap-2.5 px-4 py-3',
       },
       variant: {
         default: 'bg-transparent',
@@ -57,7 +57,7 @@ function Item({
 }
 
 const itemMediaVariants = cva(
-  'flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none group-has-[[data-slot=item-description]]/item:translate-y-0.5',
+  'flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:translate-y-0.5 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none',
   {
     defaultVariants: {
       variant: 'default',
@@ -65,8 +65,8 @@ const itemMediaVariants = cva(
     variants: {
       variant: {
         default: 'bg-transparent',
-        icon: "size-8 border rounded-sm bg-muted [&_svg:not([class*='size-'])]:size-4",
-        image: 'size-10 rounded-sm overflow-hidden [&_img]:size-full [&_img]:object-cover',
+        icon: "size-8 rounded-sm border bg-muted [&_svg:not([class*='size-'])]:size-4",
+        image: 'size-10 overflow-hidden rounded-sm [&_img]:size-full [&_img]:object-cover',
       },
     },
   },
@@ -90,7 +90,7 @@ function ItemDescription({ className, ...props }: ComponentProps<'p'>) {
   return (
     <p
       className={cn(
-        'text-muted-foreground line-clamp-2 text-sm leading-normal font-normal text-balance',
+        'line-clamp-2 text-balance font-normal text-muted-foreground text-sm leading-normal',
         '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
         className,
       )}
@@ -138,7 +138,7 @@ function ItemMedia({
 function ItemTitle({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      className={cn('flex w-fit items-center gap-2 text-sm leading-snug font-medium', className)}
+      className={cn('flex w-fit items-center gap-2 font-medium text-sm leading-snug', className)}
       data-slot="item-title"
       {...props}
     />

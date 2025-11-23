@@ -24,8 +24,8 @@ export function App() {
 
   return (
     <div className="min-h-screen bg-black p-8 text-white">
-      <div className="max-w-2xl mx-auto text-center">
-        <h1 className="text-4xl font-bold mb-8">Wallets</h1>
+      <div className="mx-auto max-w-2xl text-center">
+        <h1 className="mb-8 font-bold text-4xl">Wallets</h1>
 
         {wallet ? (
           <div className="flex flex-col gap-4">
@@ -100,7 +100,7 @@ export function App() {
             ))}
           </div>
         ) : (
-          <p className="text-xl text-white/70">No wallets found</p>
+          <p className="text-white/70 text-xl">No wallets found</p>
         )}
       </div>
     </div>

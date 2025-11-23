@@ -46,7 +46,7 @@ export function SettingsUiWalletListItem({
             title="Are you sure you want to delete this wallet?"
           >
             <Button size="icon" variant="outline">
-              <UiIcon className="text-red-500 size-4" icon="delete" />
+              <UiIcon className="size-4 text-red-500" icon="delete" />
             </Button>
           </UiConfirm>
         </UiTooltip>

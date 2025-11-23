@@ -25,7 +25,7 @@ export function ShellUiMenuNetwork({
   const { t } = useTranslation('shell')
   return (
     <MenubarMenu>
-      <MenubarTrigger className="gap-2 h-8 md:h-12 px-2 md:px-4">
+      <MenubarTrigger className="h-8 gap-2 px-2 md:h-12 md:px-4">
         <UiIcon className="size-4 md:size-6" icon="network" />
         {active.name}
       </MenubarTrigger>

@@ -8,7 +8,7 @@ export function ExplorerUiLinkTx({ basePath, signature }: { basePath: string; si
   return (
     <span className="flex items-center gap-1">
       <Link
-        className="text-sm font-mono cursor-pointer"
+        className="cursor-pointer font-mono text-sm"
         state={{ from }}
         title={signature}
         to={`${basePath}/tx/${signature}`}
