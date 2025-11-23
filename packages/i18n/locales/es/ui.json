@@ -1,4 +1,6 @@
 {
+  "buttonBack": "Atrás",
+  "buttonClose": "Cerrar",
   "errorTitle": "Uy, ocurrió un error",
   "experimentalWarningDescription": "Utilice esta billetera bajo su propio riesgo. No use fondos reales.",
   "experimentalWarningTitle": "Este es un software experimental.",

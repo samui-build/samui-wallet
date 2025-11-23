@@ -38,10 +38,10 @@ export function ShellUiMenuWallets({
           <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
           {activeAccount.name}
           <UiTextCopyButton
+            aria-label={t(($) => $.accountPublicKeyCopy)}
             onPointerDown={(e) => e.stopPropagation()}
             size="icon"
             text={activeAccount.publicKey}
-            title={t(($) => $.accountPublicKeyCopy)}
             toast={t(($) => $.accountPublicKeyCopySuccess)}
             toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
             variant="ghost"
@@ -68,9 +68,9 @@ export function ShellUiMenuWallets({
                       {account.name}
                     </MenubarRadioItem>
                     <UiTextCopyButton
+                      aria-label={t(($) => $.accountPublicKeyCopy)}
                       size="icon"
                       text={account.publicKey}
-                      title={t(($) => $.accountPublicKeyCopy)}
                       toast={t(($) => $.accountPublicKeyCopySuccess)}
                       toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
                       variant="ghost"

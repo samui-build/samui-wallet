@@ -24,9 +24,9 @@ export function ShellUiMenuActionsPopup({ browser }: { browser: WxtBrowser | und
 
   return (
     <Button
+      aria-label={t(($) => $.actionsSidebarShow)}
       onClick={() => openSidePanel(browser)}
       size="icon"
-      title={t(($) => $.actionsSidebarShow)}
       variant="secondary"
     >
       <UiIcon icon="sidebar" />

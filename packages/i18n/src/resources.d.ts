@@ -160,6 +160,8 @@ interface Resources {
     relativeDateToday: 'Today'
     relativeDateYesterday: 'Yesterday'
     textCopyFailed: 'Failed to copy text'
+    buttonBack: 'Back'
+    buttonClose: 'Close'
   }
 }
 

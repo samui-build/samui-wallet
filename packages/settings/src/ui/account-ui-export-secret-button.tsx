@@ -13,7 +13,7 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
   if (!account.secretKey) {
     return (
       <UiTooltip content={t(($) => $.accountNoSecretKey)}>
-        <Button disabled size="icon" type="button" variant="outline">
+        <Button aria-label={t(($) => $.accountNoSecretKey)} disabled size="icon" type="button" variant="outline">
           <UiIcon className="size-4" icon="key" />
         </Button>
       </UiTooltip>
@@ -41,7 +41,7 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
         description={t(($) => $.accountCopySecretKeyConfirmDescription)}
         title={t(($) => $.accountCopySecretKeyConfirmTitle)}
       >
-        <Button size="icon" variant="outline">
+        <Button aria-label={t(($) => $.accountCopySecretKey)} size="icon" variant="outline">
           <UiIcon className="size-4" icon="key" />
         </Button>
       </UiConfirm>
