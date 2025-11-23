@@ -2,6 +2,8 @@ import {
   LucideAlertTriangle,
   LucideArrowDown,
   LucideArrowUp,
+  LucideBookmarkMinus,
+  LucideBookmarkPlus,
   LucideBug,
   LucideCalendar,
   LucideCamera,
@@ -51,6 +53,8 @@ export type UiIconName =
   | 'alert'
   | 'arrowDown'
   | 'arrowUp'
+  | 'bookmarkAdd'
+  | 'bookmarkRemove'
   | 'bug'
   | 'calendar'
   | 'camera'
@@ -93,6 +97,8 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('alert', LucideAlertTriangle)
   .set('arrowDown', LucideArrowDown)
   .set('arrowUp', LucideArrowUp)
+  .set('bookmarkAdd', LucideBookmarkPlus)
+  .set('bookmarkRemove', LucideBookmarkMinus)
   .set('bug', LucideBug)
   .set('calendar', LucideCalendar)
   .set('camera', LucideCamera)
