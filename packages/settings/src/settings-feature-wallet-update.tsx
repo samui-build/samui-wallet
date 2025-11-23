@@ -1,18 +1,19 @@
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
-import { useDbWalletUpdate } from '@workspace/db-react/use-db-wallet-update'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
+import { useWalletUpdate } from '@workspace/db-react/use-wallet-update'
+import { useTranslation } from '@workspace/i18n'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useNavigate, useParams } from 'react-router'
-
 import { SettingsUiWalletFormUpdate } from './ui/settings-ui-wallet-form-update.tsx'
 
 export function SettingsFeatureWalletUpdate() {
+  const { t } = useTranslation('settings')
   const navigate = useNavigate()
   const { walletId } = useParams() as { walletId: string }
-  const updateMutation = useDbWalletUpdate()
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
+  const updateMutation = useWalletUpdate()
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
 
   if (isLoading) {
     return <UiLoader />
@@ -25,7 +26,7 @@ export function SettingsFeatureWalletUpdate() {
   }
 
   return (
-    <UiCard backButtonTo={`/settings/wallets/${item.id}`} title="Edit Wallet">
+    <UiCard backButtonTo={`/settings/wallets/${item.id}`} title={t(($) => $.walletPageEditTitle)}>
       <SettingsUiWalletFormUpdate
         item={item}
         submit={async (input) =>

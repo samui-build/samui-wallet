@@ -1,8 +1,9 @@
 import { assertIsAddress } from '@solana/kit'
-import type { Wallet } from '@workspace/db/entity/wallet'
-import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
+import type { Wallet } from '@workspace/db/wallet/wallet'
+import { useAccountCreate } from '@workspace/db-react/use-account-create'
+import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
+import { useTranslation } from '@workspace/i18n'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
@@ -14,19 +15,18 @@ import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { useNavigate, useParams } from 'react-router'
-
+import { Link, useParams } from 'react-router'
 import { useDeriveAndCreateAccount } from './data-access/use-derive-and-create-account.tsx'
 import { AccountUiIcon } from './ui/account-ui-icon.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletAddAccount() {
+  const { t } = useTranslation('settings')
   const { walletId } = useParams() as { walletId: string }
-  const navigate = useNavigate()
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
-  const createAccountMutation = useDbAccountCreate()
-  const accounts = useDbAccountLive({ walletId })
+  const createAccountMutation = useAccountCreate()
+  const accounts = useAccountLive({ walletId })
 
   async function createAccountDerived(wallet: Wallet) {
     try {
@@ -83,7 +83,7 @@ export function SettingsFeatureWalletAddAccount() {
   return (
     <UiCard
       backButtonTo={`/settings/wallets/${item.id}`}
-      description="Add a new account to this wallet"
+      description={t(($) => $.walletPageAddAccountDescription)}
       title={<SettingsUiWalletItem item={item} />}
     >
       <div className="space-y-6">
@@ -92,12 +92,12 @@ export function SettingsFeatureWalletAddAccount() {
             <AccountUiIcon type="Derived" />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Derive an account</ItemTitle>
-            <ItemDescription>Derive an account from the Wallet&#39;s mnemonic</ItemDescription>
+            <ItemTitle>{t(($) => $.walletAddAccountDeriveTitle)}</ItemTitle>
+            <ItemDescription>{t(($) => $.walletAddAccountDeriveDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
             <Button onClick={() => createAccountDerived(item)} size="sm" variant="outline">
-              Derive
+              {t(($) => $.actionDerive)}
             </Button>
           </ItemActions>
         </Item>
@@ -111,12 +111,8 @@ export function SettingsFeatureWalletAddAccount() {
             <ItemDescription>Find a prefix or suffix match for this wallet</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <Button
-              onClick={() => navigate(`/settings/wallets/${item.id}/add/generate-vanity`)}
-              size="sm"
-              variant="outline"
-            >
-              Generate
+            <Button asChild size="sm" variant="outline">
+              <Link to={`/settings/wallets/${item.id}/add/generate-vanity`}>Generate</Link>
             </Button>
           </ItemActions>
         </Item>
@@ -126,12 +122,12 @@ export function SettingsFeatureWalletAddAccount() {
             <AccountUiIcon type="Imported" />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Import an account</ItemTitle>
-            <ItemDescription>Import an account from a base85 secret key or byte array</ItemDescription>
+            <ItemTitle>{t(($) => $.walletAddAccountImportTitle)}</ItemTitle>
+            <ItemDescription>{t(($) => $.walletAddAccountImportDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
             <Button onClick={() => createAccountImported(item.id)} size="sm" variant="outline">
-              Import
+              {t(($) => $.actionImport)}
             </Button>
           </ItemActions>
         </Item>
@@ -141,12 +137,12 @@ export function SettingsFeatureWalletAddAccount() {
             <AccountUiIcon type="Watched" />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle>Watch an account</ItemTitle>
-            <ItemDescription>Watch an account by public key without importing a secret</ItemDescription>
+            <ItemTitle>{t(($) => $.walletAddAccountWatchTitle)}</ItemTitle>
+            <ItemDescription>{t(($) => $.walletAddAccountWatchDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
             <Button onClick={() => createAccountWatched(item.id)} size="sm" variant="outline">
-              Watch
+              {t(($) => $.actionWatch)}
             </Button>
           </ItemActions>
         </Item>

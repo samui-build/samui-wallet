@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
@@ -13,13 +14,14 @@ export function PortfolioUiAccountSheetSend({
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
+  const { t } = useTranslation('portfolio')
   return (
     <UiBottomSheet
-      description="Selecting the token, enter the destination public key and the amount."
-      title="Send assets"
+      description={t(($) => $.pageSendDescription)}
+      title={t(($) => $.pageSendTitle)}
       trigger={
         <Button variant="secondary">
-          <UiIcon icon="arrowUp" /> Send
+          <UiIcon icon="arrowUp" /> {t(($) => $.actionSend)}
         </Button>
       }
     >

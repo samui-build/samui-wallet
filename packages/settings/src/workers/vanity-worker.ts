@@ -1,7 +1,8 @@
 /// <reference lib="webworker" />
 
-import { createKeyPairSignerFromPrivateKeyBytes } from '@solana/kit'
 import { convertKeyPairToJson } from '@workspace/keypair/convert-key-pair-to-json'
+import { generateVanityKeyPair, VANITY_MAX_ATTEMPTS } from '@workspace/keypair/generate-vanity-key-pair'
+import type { VanityWorkerMessage } from './vanity-worker-message.ts'
 
 type VanityWorkerInput = {
   caseSensitive?: boolean
@@ -9,13 +10,7 @@ type VanityWorkerInput = {
   suffix?: string
 }
 
-type VanityWorkerMessage =
-  | { payload: number; type: 'progress' }
-  | { payload: { address: string; attempts: number; secretKey: string }; type: 'found' }
-  | { payload: string; type: 'error' }
-
 const PROGRESS_INTERVAL = 1000
-const MAX_ATTEMPTS = 20_000_000
 
 self.onmessage = async (event: MessageEvent<VanityWorkerInput>) => {
   const { caseSensitive = true, prefix = '', suffix = '' } = event.data ?? {}
@@ -25,65 +20,43 @@ self.onmessage = async (event: MessageEvent<VanityWorkerInput>) => {
   const hasSuffix = sanitizedSuffix.length > 0
 
   if (!hasPrefix && !hasSuffix) {
-    const errorMessage: VanityWorkerMessage = {
+    self.postMessage({
       payload: 'Enter a prefix or suffix',
       type: 'error',
-    }
-    self.postMessage(errorMessage)
+    } satisfies VanityWorkerMessage)
     return
   }
 
-  const normalizedPrefix = caseSensitive ? sanitizedPrefix : sanitizedPrefix.toLowerCase()
-  const normalizedSuffix = caseSensitive ? sanitizedSuffix : sanitizedSuffix.toLowerCase()
-
-  let attempts = 0
-
   try {
-    while (attempts < MAX_ATTEMPTS) {
-      const privateKeyBytes = crypto.getRandomValues(new Uint8Array(32))
-      const signer = await createKeyPairSignerFromPrivateKeyBytes(privateKeyBytes, true)
-      const addressToCheck = caseSensitive ? signer.address : signer.address.toLowerCase()
-
-      let match = true
-      if (normalizedPrefix) {
-        match = addressToCheck.startsWith(normalizedPrefix)
-      }
-      if (match && normalizedSuffix) {
-        match = addressToCheck.endsWith(normalizedSuffix)
-      }
-
-      attempts += 1
-
-      if (attempts === 1 || attempts % PROGRESS_INTERVAL === 0) {
-        const progressMessage: VanityWorkerMessage = { payload: attempts, type: 'progress' }
-        self.postMessage(progressMessage)
-      }
-
-      if (match) {
-        const secretKey = await convertKeyPairToJson(signer.keyPair)
-        const foundMessage: VanityWorkerMessage = {
-          payload: {
-            address: signer.address,
-            attempts,
-            secretKey,
-          },
-          type: 'found',
+    let latestAttempts = 0
+    const result = await generateVanityKeyPair({
+      caseSensitive,
+      maxAttempts: VANITY_MAX_ATTEMPTS,
+      onAttempt: (value) => {
+        latestAttempts = value
+        if (value === 1 || value % PROGRESS_INTERVAL === 0) {
+          self.postMessage({
+            payload: value,
+            type: 'progress',
+          } satisfies VanityWorkerMessage)
         }
-        self.postMessage(foundMessage)
-        return
-      }
-    }
-
-    const exhaustedMessage: VanityWorkerMessage = {
-      payload: 'No vanity match found within 20000000 attempts, try a shorter pattern',
-      type: 'error',
-    }
-    self.postMessage(exhaustedMessage)
+      },
+      prefix: caseSensitive ? sanitizedPrefix : sanitizedPrefix.toLowerCase(),
+      suffix: caseSensitive ? sanitizedSuffix : sanitizedSuffix.toLowerCase(),
+    })
+    const secretKey = await convertKeyPairToJson(result.signer.keyPair)
+    self.postMessage({
+      payload: {
+        address: result.signer.address,
+        attempts: latestAttempts || result.attempts,
+        secretKey,
+      },
+      type: 'found',
+    } satisfies VanityWorkerMessage)
   } catch (error) {
-    const errorMessage: VanityWorkerMessage = {
+    self.postMessage({
       payload: error instanceof Error ? error.message : 'Unknown worker error',
       type: 'error',
-    }
-    self.postMessage(errorMessage)
+    } satisfies VanityWorkerMessage)
   }
 }

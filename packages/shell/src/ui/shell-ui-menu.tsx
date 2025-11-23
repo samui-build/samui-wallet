@@ -1,6 +1,6 @@
-import { useDbNetworkLive } from '@workspace/db-react/use-db-network-live'
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
-import { useDbWalletLive } from '@workspace/db-react/use-db-wallet-live'
+import { useNetworkLive } from '@workspace/db-react/use-network-live'
+import { useSetting } from '@workspace/db-react/use-setting'
+import { useWalletLive } from '@workspace/db-react/use-wallet-live'
 import { getDevOptions } from '@workspace/dev/dev-features'
 import { useActiveAccount } from '@workspace/settings/data-access/use-active-account'
 import { useActiveWallet } from '@workspace/settings/data-access/use-active-wallet'
@@ -13,9 +13,9 @@ import { ShellUiMenuWallets } from './shell-ui-menu-wallets.tsx'
 export function ShellUiMenu() {
   const { active: activeWallet } = useActiveWallet()
   const { active: activeAccount, setActive: setActiveAccountId } = useActiveAccount()
-  const wallets = useDbWalletLive()
-  const items = useDbNetworkLive()
-  const [activeId, setActiveNetworkId] = useDbSetting('activeNetworkId')
+  const wallets = useWalletLive()
+  const items = useNetworkLive()
+  const [activeId, setActiveNetworkId] = useSetting('activeNetworkId')
   const activeNetwork = useMemo(() => items.find((c) => c.id === activeId), [items, activeId])
 
   return (

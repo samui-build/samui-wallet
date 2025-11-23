@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { solanaAddressSchema } from '@workspace/db/schema/solana-address-schema'
-import { solanaSignatureSchema } from '@workspace/db/schema/solana-signature-schema'
+import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
+import { solanaSignatureSchema } from '@workspace/db/solana/solana-signature-schema'
 import { Form, FormField, FormItem, FormMessage } from '@workspace/ui/components/form'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
@@ -37,7 +37,7 @@ export function ExplorerUiSearch({ submit }: { submit: (input: ExplorerSearchInp
 
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(submit)}>
+      <form className="space-y-2 md:space-y-6" onSubmit={form.handleSubmit(submit)}>
         <FormField
           control={form.control}
           name="query"

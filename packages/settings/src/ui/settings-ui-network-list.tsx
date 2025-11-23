@@ -1,7 +1,8 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from '@workspace/ui/components/item'
+import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { Link } from 'react-router'
@@ -17,7 +18,7 @@ export function SettingsUiNetworkList({
 }) {
   const { t } = useTranslation('settings')
   return (
-    <ItemGroup className="gap-4">
+    <ItemGroup className="gap-2 md:gap-4">
       {items.map((item) => (
         <Item
           className="items-stretch flex-row items-center"
@@ -39,19 +40,17 @@ export function SettingsUiNetworkList({
               </Button>
             </UiTooltip>
             <UiTooltip content={t(($) => $.actionDelete)}>
-              <Button
-                onClick={async (e) => {
-                  e.preventDefault()
-                  if (!window.confirm('Are you sure?')) {
-                    return
-                  }
-                  await deleteItem(item)
-                }}
-                size="icon"
-                variant="outline"
+              <UiConfirm
+                action={async () => await deleteItem(item)}
+                actionLabel="Delete"
+                actionVariant="destructive"
+                description="This action can not be reversed."
+                title="Are you sure you want to delete this network?"
               >
-                <UiIcon className="text-red-500 size-4" icon="delete" />
-              </Button>
+                <Button size="icon" variant="outline">
+                  <UiIcon className="text-red-500 size-4" icon="delete" />
+                </Button>
+              </UiConfirm>
             </UiTooltip>
           </ItemActions>
         </Item>

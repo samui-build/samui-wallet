@@ -1,10 +1,12 @@
-import { queryClient } from '@workspace/db-react/db-query-client'
-import { dbSettingOptions } from '@workspace/db-react/db-setting-options'
+import { optionsSetting } from '@workspace/db-react/options-setting'
+import { queryClient } from '@workspace/db-react/query-client'
+import { UiErrorBoundary } from '@workspace/ui/components/ui-error-boundary'
+import { UiLoaderFull } from '@workspace/ui/components/ui-loader-full'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
 import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 'react-router'
-import { rootLoader } from './data-access/root-loader.tsx'
-import type { ShellContext } from './shell-feature.tsx'
+import { rootRouteLoader } from './data-access/root-route-loader.tsx'
+import type { ShellFeatureProps } from './shell-feature.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
 const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
@@ -15,21 +17,23 @@ const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
 
-function createRouter(context: ShellContext) {
+function createRouter({ browser, context }: ShellFeatureProps) {
   return createHashRouter([
     {
-      children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes(),
+      children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes({ browser, context }),
+      errorElement: <UiErrorBoundary />,
+      hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
-      loader: rootLoader(context),
+      loader: rootRouteLoader(context),
       shouldRevalidate: () => {
-        const state = queryClient.getQueryState(dbSettingOptions.getAll().queryKey)
+        const state = queryClient.getQueryState(optionsSetting.getAll().queryKey)
         return !state || state.isInvalidated
       },
     },
   ])
 }
 
-function getAppRoutes(): RouteObject[] {
+function getAppRoutes({ browser, context }: ShellFeatureProps): RouteObject[] {
   return [
     { element: <Navigate replace to="/portfolio" />, index: true },
     {
@@ -41,7 +45,7 @@ function getAppRoutes(): RouteObject[] {
         { element: <ToolsRoutes />, path: 'tools/*' },
         { element: <UiNotFound />, path: '*' },
       ],
-      element: <ShellUiLayout />,
+      element: <ShellUiLayout browser={browser} context={context} />,
     },
     { element: <OnboardingRoutes redirectTo="/portfolio" />, path: 'onboarding/*' },
     { element: <SettingsFeatureReset />, path: 'reset' },
@@ -56,6 +60,6 @@ function getOnboardingRoutes(): RouteObject[] {
   ]
 }
 
-export function ShellRoutes({ context }: { context: ShellContext }) {
-  return <RouterProvider router={createRouter(context)} />
+export function ShellRoutes({ browser, context }: ShellFeatureProps) {
+  return <RouterProvider router={createRouter({ browser, context })} />
 }

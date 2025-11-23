@@ -1,7 +1,6 @@
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-
 import { PortfolioUiAccountSheetReceive } from './portfolio-ui-account-sheet-receive.tsx'
 import { PortfolioUiAccountSheetSend } from './portfolio-ui-account-sheet-send.tsx'
 

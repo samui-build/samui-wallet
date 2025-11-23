@@ -25,7 +25,7 @@ const itemVariants = cva(
     },
     variants: {
       size: {
-        default: 'p-4 gap-4 ',
+        default: 'p-2 md:p-4 gap-2 md:gap-4',
         sm: 'py-3 px-4 gap-2.5',
       },
       variant: {

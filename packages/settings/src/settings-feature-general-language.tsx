@@ -1,18 +1,14 @@
-import { useDbSetting } from '@workspace/db-react/use-db-setting'
-import { i18n, useTranslation } from '@workspace/i18n'
+import { useSetting } from '@workspace/db-react/use-setting'
+import { i18n, useSupportedLanguages, useTranslation } from '@workspace/i18n'
 import { Label } from '@workspace/ui/components/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select'
 import { useId } from 'react'
 
-const SUPPORTED_LANGUAGES: Record<string, string> = {
-  en: 'English',
-  es: 'Spanish',
-}
-
 export function SettingsFeatureGeneralLanguage() {
   const { t } = useTranslation('settings')
   const languageId = useId()
-  const [language, setLanguageSetting] = useDbSetting('language')
+  const [language, setLanguageSetting] = useSetting('language')
+  const supportedLanguages = useSupportedLanguages()
 
   async function handleLanguageChange(newLanguage: string) {
     await setLanguageSetting(newLanguage)
@@ -27,8 +23,8 @@ export function SettingsFeatureGeneralLanguage() {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          {Object.entries(SUPPORTED_LANGUAGES).map(([code, name]) => (
-            <SelectItem key={code} value={code}>
+          {Object.entries(supportedLanguages).map(([code, name]) => (
+            <SelectItem disabled={language === code} key={code} value={code}>
               {name}
             </SelectItem>
           ))}

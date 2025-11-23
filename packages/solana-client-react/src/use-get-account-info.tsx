@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 import { queryOptions, useQuery } from '@tanstack/react-query'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { getAccountInfo } from '@workspace/solana-client/get-account-info'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 

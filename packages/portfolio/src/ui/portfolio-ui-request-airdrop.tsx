@@ -1,6 +1,7 @@
 import type { Lamports } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
+import { useTranslation } from '@workspace/i18n'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import { UiEmpty } from '@workspace/ui/components/ui-empty'
@@ -15,6 +16,7 @@ export function PortfolioUiRequestAirdrop({
   lamports?: Lamports | undefined
   network: Network
 }) {
+  const { t } = useTranslation('portfolio')
   const { isPending, mutateAsync } = useRequestAirdrop(network)
   const hasBalance = lamports && lamports > 0
   const isMainnet = network.type === 'solana:mainnet'
@@ -24,14 +26,14 @@ export function PortfolioUiRequestAirdrop({
   }
 
   return (
-    <UiEmpty description="Request your airdrop to get started." icon="airdrop" title="Request Airdrop">
+    <UiEmpty description={t(($) => $.requestAirdropDescription)} icon="airdrop" title={t(($) => $.requestAirdropTitle)}>
       <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
-        <UiIcon icon="coins" /> Request Airdrop
+        <UiIcon icon="coins" /> {t(($) => $.actionRequestAirdrop)}
       </Button>
       {isLocalnet ? null : (
         <Button asChild className="text-muted-foreground" size="sm" variant="link">
           <a href="https://faucet.solana.com/" rel="noopener noreferrer" target="_blank">
-            Use Faucet <UiIcon icon="externalLink" />
+            {t(($) => $.actionUseFaucet)} <UiIcon icon="externalLink" />
           </a>
         </Button>
       )}

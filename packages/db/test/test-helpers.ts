@@ -3,16 +3,17 @@ import { address } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
-import type { NetworkInputCreate } from '../src/dto/network-input-create.ts'
-import type { WalletInputCreate } from '../src/dto/wallet-input-create.ts'
-import type { SettingKey } from '../src/entity/setting-key.ts'
+import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
+import { randomId } from '../src/random-id.ts'
+import type { SettingKey } from '../src/setting/setting-key.ts'
+import type { WalletCreateInput } from '../src/wallet/wallet-create-input.ts'
 
 export function createDbTest(): Database {
   return createDb({ name: 'test' })
 }
 
 export function randomName(prefix: string): string {
-  return `${prefix}-${Math.random().toString(36).substring(2, 9)}`
+  return `${prefix}-${randomId(8)}`
 }
 
 export function testAccountCreateInput(input: { walletId: string } & Partial<AccountCreateInput>): AccountCreateInput {
@@ -24,17 +25,7 @@ export function testAccountCreateInput(input: { walletId: string } & Partial<Acc
   }
 }
 
-export function testWalletInputCreate(input: Partial<WalletInputCreate> = {}): WalletInputCreate {
-  return {
-    derivationPath: 'd',
-    mnemonic: 'baz',
-    name: randomName('wallet'),
-    secret: 'bar',
-    ...input,
-  }
-}
-
-export function testNetworkInputCreate(input: Partial<NetworkInputCreate> = {}): NetworkInputCreate {
+export function testNetworkCreateInput(input: Partial<NetworkCreateInput> = {}): NetworkCreateInput {
   return {
     endpoint: 'http://localhost:8899',
     name: randomName('network'),
@@ -42,7 +33,16 @@ export function testNetworkInputCreate(input: Partial<NetworkInputCreate> = {}):
     ...input,
   }
 }
-
-export function testSettingInputSet(value?: string): [SettingKey, string] {
+export function testSettingSetInput(value?: string): [SettingKey, string] {
   return ['activeNetworkId', value ?? randomName('setting')]
+}
+
+export function testWalletCreateInput(input: Partial<WalletCreateInput> = {}): WalletCreateInput {
+  return {
+    derivationPath: 'd',
+    mnemonic: 'baz',
+    name: randomName('wallet'),
+    secret: 'bar',
+    ...input,
+  }
 }

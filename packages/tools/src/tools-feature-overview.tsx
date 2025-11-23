@@ -3,7 +3,7 @@ import { ToolsUiOverview } from './ui/tools-ui-overview.tsx'
 
 export default function ToolsFeatureOverview() {
   return (
-    <div className="space-y-4">
+    <div className="flex flex-col gap-1 sm:gap-2 md:gap-4">
       <ToolsUiOverview tools={tools.filter((t) => !t.comingSoon)} />
       <ToolsUiOverview tools={tools.filter((t) => t.comingSoon)} />
     </div>

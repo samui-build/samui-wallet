@@ -9,10 +9,10 @@ export function SettingsUiPageItem({ page }: { page: SettingsPage }) {
       {({ isActive }) => (
         <Item size="sm" variant={isActive ? 'muted' : 'outline'}>
           <ItemMedia>
-            <UiIcon icon={page.icon} />
+            <UiIcon className="size-4 md:size-6" icon={page.icon} />
           </ItemMedia>
           <ItemContent>
-            <ItemTitle className="text-xl">{page.name}</ItemTitle>
+            <ItemTitle className="md:text-xl">{page.name}</ItemTitle>
           </ItemContent>
           <ItemActions>
             <UiIcon className="size-4" icon="chevronRight" />

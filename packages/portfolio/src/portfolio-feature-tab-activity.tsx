@@ -1,5 +1,6 @@
-import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
-import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import { useTranslation } from '@workspace/i18n'
 import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
 import { Button } from '@workspace/ui/components/button'
 import { Spinner } from '@workspace/ui/components/spinner'
@@ -9,8 +10,9 @@ import { useLocation } from 'react-router'
 import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
 
 export function PortfolioFeatureTabActivity() {
-  const account = useDbAccountActive()
-  const network = useDbNetworkActive()
+  const { t } = useTranslation('portfolio')
+  const account = useAccountActive()
+  const network = useNetworkActive()
   const { pathname: from } = useLocation()
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
     address: account.publicKey,
@@ -20,7 +22,7 @@ export function PortfolioFeatureTabActivity() {
   return (
     <div className="space-y-2">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-bold">Activity</h2>
+        <h2 className="text-xl font-bold">{t(($) => $.pageTitleActivity)}</h2>
         <div className="space-x-2">
           <Button disabled={isLoading} onClick={() => refetch()} size="icon" variant="outline">
             {isLoading ? <Spinner /> : <UiIcon icon="refresh" />}
@@ -28,7 +30,7 @@ export function PortfolioFeatureTabActivity() {
         </div>
       </div>
       {isLoading ? <UiLoader /> : null}
-      {isError ? <pre className="alert alert-error">Error: {error?.message.toString() ?? 'Unknown error'}</pre> : null}
+      {isError ? <pre className="alert alert-error">{error?.message.toString() ?? 'Unknown error'}</pre> : null}
       {isSuccess ? <PortfolioUiActivityList from={from} items={data} network={network} /> : null}
     </div>
   )

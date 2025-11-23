@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import type { ComponentProps } from 'react'
 import { handleCopyText } from '../lib/handle-copy-text.ts'
 import { toastError } from '../lib/toast-error.ts'
@@ -9,8 +10,10 @@ export function UiTextCopyButton({
   label,
   text,
   toast,
+  toastFailed,
   ...props
-}: ComponentProps<typeof Button> & { label?: string; text: string; toast: string }) {
+}: ComponentProps<typeof Button> & { label?: string; text: string; toast?: string; toastFailed?: string }) {
+  const { t } = useTranslation('ui')
   return (
     <Button
       className="cursor-pointer"
@@ -21,7 +24,7 @@ export function UiTextCopyButton({
             toastSuccess(toast)
           }
         } catch (error) {
-          toastError(error instanceof Error ? error.message : 'Failed to copy text')
+          toastError(error instanceof Error ? error.message : (toastFailed ?? t(($) => $.textCopyFailed)))
         }
       }}
       type="button"

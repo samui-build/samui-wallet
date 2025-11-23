@@ -1,6 +1,7 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { ExplorerUiExplorerIcon } from '@workspace/explorer/ui/explorer-ui-explorer-icon'
 import { ExplorerUiTxTimestamp } from '@workspace/explorer/ui/explorer-ui-tx-timestamp'
+import { useTranslation } from '@workspace/i18n'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiRelativeDate } from '@workspace/ui/components/ui-relative-date'
@@ -18,11 +19,12 @@ export function PortfolioUiActivityList({
   network: Network
   items: GetActivityItems
 }) {
+  const { t } = useTranslation('portfolio')
   const grouped = groupActivityItems(items)
   return (
     <div>
       {items.length === 0 ? (
-        <div>No transactions found.</div>
+        <div>{t(($) => $.noTransactions)}</div>
       ) : (
         <div className="space-y-4">
           {grouped.map(({ date, transactions }) => (
