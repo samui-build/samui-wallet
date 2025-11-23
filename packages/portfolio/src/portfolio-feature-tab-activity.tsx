@@ -11,7 +11,6 @@ import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
 
 export function PortfolioFeatureTabActivity() {
   const { t } = useTranslation('portfolio')
-  const { t: tUi } = useTranslation('ui')
   const account = useAccountActive()
   const network = useNetworkActive()
   const { pathname: from } = useLocation()
@@ -26,7 +25,7 @@ export function PortfolioFeatureTabActivity() {
         <h2 className="text-xl font-bold">{t(($) => $.pageTitleActivity)}</h2>
         <div className="space-x-2">
           <Button
-            aria-label={tUi(($) => $.buttonRefresh)}
+            aria-label={t(($) => $.buttonRefresh)}
             disabled={isLoading}
             onClick={() => refetch()}
             size="icon"

@@ -1,7 +1,7 @@
 {
-  "buttonBack": "Atrás",
-  "buttonClose": "Cerrar",
-  "buttonCopy": "Copiar",
+  "buttonBack": "Volver",
+  "buttonClose": "Cerrar diálogo",
+  "buttonCopy": "Copiar al portapapeles",
   "buttonRefresh": "Actualizar",
   "errorTitle": "Uy, ocurrió un error",
   "experimentalWarningDescription": "Utilice esta billetera bajo su propio riesgo. No use fondos reales.",

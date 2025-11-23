@@ -1,5 +1,6 @@
 {
   "lockfileVersion": 1,
+  "configVersion": 1,
   "workspaces": {
     "": {
       "name": "samui",
@@ -527,6 +528,7 @@
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
         "@workspace/explorer": "workspace:*",
+        "@workspace/i18n": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/settings": "workspace:*",
         "@workspace/solana-client": "workspace:*",

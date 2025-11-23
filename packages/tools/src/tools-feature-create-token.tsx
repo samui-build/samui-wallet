@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
+import { useTranslation } from '@workspace/i18n'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
@@ -17,6 +18,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useCallback, useId, useState } from 'react'
 
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
+  const { t } = useTranslation('ui')
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
@@ -109,7 +111,12 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             <FieldDescription>The address of the mint</FieldDescription>
             <div className="flex items-center gap-2">
               <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
-              <Button aria-label="Refresh" onClick={() => queryKeypair.refetch()} size="icon" variant="outline">
+              <Button
+                aria-label={t(($) => $.buttonRefresh)}
+                onClick={() => queryKeypair.refetch()}
+                size="icon"
+                variant="outline"
+              >
                 <UiIcon icon="refresh" />
               </Button>
             </div>

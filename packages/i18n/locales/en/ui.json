@@ -1,7 +1,7 @@
 {
-  "buttonBack": "Back",
-  "buttonClose": "Close",
-  "buttonCopy": "Copy",
+  "buttonBack": "Go back",
+  "buttonClose": "Close dialog",
+  "buttonCopy": "Copy to clipboard",
   "buttonRefresh": "Refresh",
   "errorTitle": "Oops, an error occurred",
   "experimentalWarningDescription": "Use this wallet at your own risk. Do not use any real funds.",
