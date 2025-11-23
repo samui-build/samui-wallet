@@ -4,11 +4,11 @@ import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-col
 export function DevFeatureUiColors() {
   return (
     <UiCard title="ui colors">
-      <div className="grid gap-4 grid-cols-4">
+      <div className="grid grid-cols-4 gap-4">
         {uiColorNames.map((uiColorName) => {
           const { bg, text } = getColorByName(uiColorName)
           return (
-            <div className={`${bg} ${text} aspect-square flex justify-center items-center`} key={uiColorName}>
+            <div className={`${bg} ${text} flex aspect-square items-center justify-center`} key={uiColorName}>
               {uiColorName}
             </div>
           )

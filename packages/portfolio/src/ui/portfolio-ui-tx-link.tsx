@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 
 export function PortfolioUiTxLink({ from, tx }: { from: string; tx: GetActivityItem }) {
   return (
-    <Link className="text-sm font-mono cursor-pointer" state={{ from }} to={`/explorer/tx/${tx.signature}`}>
+    <Link className="cursor-pointer font-mono text-sm" state={{ from }} to={`/explorer/tx/${tx.signature}`}>
       {ellipsify(tx.signature, 8)}
     </Link>
   )

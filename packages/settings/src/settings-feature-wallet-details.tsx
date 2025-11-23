@@ -34,7 +34,7 @@ export function SettingsFeatureWalletDetails() {
     <UiCard
       backButtonTo="/settings/wallets"
       title={
-        <div className="w-full flex items-center justify-between">
+        <div className="flex w-full items-center justify-between">
           <SettingsUiWalletItem item={item} />
           <div className="flex items-center gap-2">
             <UiTooltip content={t(($) => $.actionEditWallet)}>

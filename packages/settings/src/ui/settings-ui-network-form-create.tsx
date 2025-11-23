@@ -33,11 +33,11 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           control={form.control}
           name="type"
           render={({ field }) => (
-            <FormItem className="flex flex-col gap-2 w-full py-1">
+            <FormItem className="flex w-full flex-col gap-2 py-1">
               <FormLabel>{t(($) => $.networkInputTypeLabel)} *</FormLabel>
               <FormControl>
                 <ToggleGroup
-                  className="flex justify-start items-center flex-wrap"
+                  className="flex flex-wrap items-center justify-start"
                   onValueChange={field.onChange}
                   type="single"
                   value={field.value}
@@ -116,7 +116,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
           )}
           rules={{ required: false }}
         />
-        <div className="flex justify-end items-center w-full pt-3">
+        <div className="flex w-full items-center justify-end pt-3">
           <Button className="rounded-lg" size="sm">
             {t(($) => $.actionSave)}
           </Button>

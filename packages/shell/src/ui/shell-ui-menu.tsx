@@ -19,7 +19,7 @@ export function ShellUiMenu() {
   const activeNetwork = useMemo(() => items.find((c) => c.id === activeId), [items, activeId])
 
   return (
-    <Menubar className="py-2 h-10 md:h-14 bg-transparent border-none">
+    <Menubar className="h-10 border-none bg-transparent py-2 md:h-14">
       {activeAccount && activeWallet ? (
         <ShellUiMenuWallets
           activeAccount={activeAccount}

@@ -17,7 +17,7 @@ export function PortfolioUiAccountButtons({
   network: Network
 }) {
   return account ? (
-    <div className="gap-2 flex justify-center">
+    <div className="flex justify-center gap-2">
       <PortfolioUiAccountSheetReceive account={account} />
       <PortfolioUiAccountSheetSend balances={balances} isLoading={isLoading} send={send} />
     </div>
