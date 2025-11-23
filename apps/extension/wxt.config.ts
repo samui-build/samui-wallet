@@ -12,6 +12,13 @@ export default defineConfig({
     ],
   },
   modules: ['@wxt-dev/auto-icons', '@wxt-dev/module-react'],
+  react: {
+    vite: {
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    },
+  },
   srcDir: 'src',
   vite: () => ({
     plugins: [tailwindcss()],
