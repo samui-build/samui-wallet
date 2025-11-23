@@ -28,6 +28,7 @@
   "private": true,
   "scripts": {
     "build": "tsc -b && vite build",
+    "build:analyze": "ANALYZE=1 bun run build",
     "dev": "vite",
     "postinstall": "[ -f .env.example ] && [ ! -f .env ] && cp -v .env.example .env || true",
     "preview": "vite preview"
