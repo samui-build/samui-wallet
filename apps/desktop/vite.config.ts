@@ -6,7 +6,14 @@ const host = process.env['TAURI_DEV_HOST']
 
 export default defineConfig({
   clearScreen: false,
-  plugins: [react(), tailwindcss()],
+  plugins: [
+    react({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
+    tailwindcss(),
+  ],
   server: {
     hmr: host
       ? {

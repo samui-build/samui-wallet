@@ -11,7 +11,11 @@ export default defineConfig({
       enabled: process.argv.includes('--analyze'),
     }),
     cloudflare(),
-    react(),
+    react({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
     tailwindcss(),
     tsconfigPaths(),
   ],
