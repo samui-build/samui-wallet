@@ -1,5 +1,5 @@
 import type { Account } from '@workspace/db/account/account'
-
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
@@ -9,13 +9,14 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
+  const { t } = useTranslation('portfolio')
   return (
     <UiBottomSheet
-      description="Receive assets by sending them to this public key"
-      title="Receive assets"
+      description={t(($) => $.pageReceiveDescription)}
+      title={t(($) => $.pageReceiveTitle)}
       trigger={
         <Button variant="secondary">
-          <UiIcon icon="arrowDown" /> Receive
+          <UiIcon icon="arrowDown" /> {t(($) => $.actionReceive)}
         </Button>
       }
     >
@@ -23,15 +24,15 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         onClick={async () => {
           try {
             await handleCopyText(account.publicKey)
-            toastSuccess('Copied Public Key')
+            toastSuccess(t(($) => $.actionCopyPublicKeySuccess))
           } catch (error) {
-            toastError(error instanceof Error ? error.message : 'Failed to copy public key')
+            toastError(error instanceof Error ? error.message : t(($) => $.actionCopyPublicKeyError))
           }
         }}
         variant="outline"
       >
         <UiIcon icon="copy" />
-        Copy Public Key
+        {t(($) => $.actionCopyPublicKey)}
       </Button>
       <div className="px-6">
         <UiQrCode content={account.publicKey} />

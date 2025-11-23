@@ -1,24 +1,32 @@
 import { assertIsAddress } from '@solana/kit'
-import { solanaAddressSchema } from '@workspace/db/schema/solana-address-schema'
-import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
+import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
-import { useParams } from 'react-router'
+import { useLocation, useParams } from 'react-router'
 import { ExplorerFeatureAccountOverview } from './explorer-feature-account-overview.tsx'
 import { ExplorerFeatureAccountTransactions } from './explorer-feature-account-transactions.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
 export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
-  const network = useDbNetworkActive()
+  const network = useNetworkActive()
+  const location = useLocation()
   const { address } = useParams()
   if (!address || !solanaAddressSchema.safeParse(address).success) {
     return <ExplorerUiErrorPage message="The provided address is not a valid Solana address." title="Invalid address" />
   }
   assertIsAddress(address)
+  const from = location.state?.from ?? basePath
+  const backButtonTo = from.startsWith('/') ? from : `${basePath}/${from}`
 
   return (
     <UiPage>
       <div className="space-y-2 sm:space-y-4 md:space-y-6">
-        <ExplorerFeatureAccountOverview address={address} network={network} />
+        <ExplorerFeatureAccountOverview
+          address={address}
+          backButtonTo={backButtonTo}
+          basePath={basePath}
+          network={network}
+        />
         <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />
       </div>
     </UiPage>

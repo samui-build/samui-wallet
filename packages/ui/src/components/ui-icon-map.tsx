@@ -24,6 +24,8 @@ import {
   LucideLetterText,
   LucideNetwork,
   LucideNotepadText,
+  LucidePanelRight,
+  LucidePanelRightClose,
   LucidePencil,
   LucidePieChart,
   LucidePlus,
@@ -76,6 +78,8 @@ export type UiIconName =
   | 'save'
   | 'search'
   | 'settings'
+  | 'sidebar'
+  | 'sidebarClose'
   | 'tools'
   | 'upload'
   | 'wallet'
@@ -113,6 +117,8 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('portfolio', LucidePieChart)
   .set('refresh', LucideRefreshCcw)
   .set('save', LucideSave)
+  .set('sidebar', LucidePanelRight)
+  .set('sidebarClose', LucidePanelRightClose)
   .set('search', LucideSearch)
   .set('settings', LucideSettings)
   .set('tools', LucideHammer)

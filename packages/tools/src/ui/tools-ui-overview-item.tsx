@@ -18,10 +18,10 @@ export function ToolsUiOverviewItem({ tool }: { tool: Tool }) {
     >
       <Link to={tool.comingSoon ? '#' : tool.path}>
         <ItemMedia>
-          <UiIcon icon={tool.icon} />
+          <UiIcon className="size-4 md:size-6" icon={tool.icon} />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle className="text-xl">{tool.label}</ItemTitle>
+          <ItemTitle className="md:text-xl">{tool.label}</ItemTitle>
         </ItemContent>
         <ItemActions>
           {tool.comingSoon ? (

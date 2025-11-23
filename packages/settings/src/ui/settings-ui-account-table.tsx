@@ -1,19 +1,22 @@
 import type { Account } from '@workspace/db/account/account'
+import { useTranslation } from '@workspace/i18n'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import { AccountTypeLabel } from './account-type-label.tsx'
 import { AccountExportSecretButton } from './account-ui-export-secret-button.tsx'
 import { AccountUiItem } from './account-ui-item.tsx'
 
 export function SettingsUiAccountTable({ items }: { items: Account[] }) {
+  const { t } = useTranslation('settings')
   return (
     <Table>
       <TableHeader>
         <TableRow className="hover:bg-transparent">
-          <TableHead className="w-[50px]">Name</TableHead>
-          <TableHead>Public Key</TableHead>
-          <TableHead className="w-[50px]">Type</TableHead>
-          <TableHead className="w-[120px] text-right">Actions</TableHead>
+          <TableHead className="w-[50px]">{t(($) => $.accountTableHeaderName)}</TableHead>
+          <TableHead>{t(($) => $.accountTableHeaderPublicKey)}</TableHead>
+          <TableHead className="w-[50px]">{t(($) => $.accountTableHeaderType)}</TableHead>
+          <TableHead className="w-[120px] text-right">{t(($) => $.accountTableHeaderActions)}</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -28,7 +31,9 @@ export function SettingsUiAccountTable({ items }: { items: Account[] }) {
                 <UiTooltip content={item.publicKey}>{ellipsify(item.publicKey, 6, '...')}</UiTooltip>
               </span>
             </TableCell>
-            <TableCell className="font-mono text-xs">{item.type}</TableCell>
+            <TableCell className="font-mono text-xs">
+              <AccountTypeLabel type={item.type} />
+            </TableCell>
             <TableCell className="text-right">
               <AccountExportSecretButton account={item} />
             </TableCell>

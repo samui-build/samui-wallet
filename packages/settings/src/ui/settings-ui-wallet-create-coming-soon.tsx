@@ -19,7 +19,7 @@ export function SettingsUiWalletCreateComingSoon({
           <ItemDescription>{description}</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <Badge variant="default">Coming soon</Badge>
+          <Badge variant="secondary">Coming soon</Badge>
         </ItemActions>
       </Link>
     </Item>

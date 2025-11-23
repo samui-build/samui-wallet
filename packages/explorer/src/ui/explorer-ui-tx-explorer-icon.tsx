@@ -1,4 +1,4 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 
 import { ExplorerUiExplorerIcon } from './explorer-ui-explorer-icon.tsx'
 

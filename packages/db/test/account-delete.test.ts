@@ -5,6 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountDelete } from '../src/account/account-delete.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { randomId } from '../src/random-id.ts'
 import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -18,7 +19,7 @@ describe('account-delete', () => {
     it('should delete an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testAccountCreateInput({ walletId: crypto.randomUUID() })
+      const input = testAccountCreateInput({ walletId: randomId() })
       const id = await accountCreate(db, input)
 
       // ACT

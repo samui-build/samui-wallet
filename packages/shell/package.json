@@ -13,7 +13,8 @@
     "@workspace/ui": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "react-router": "catalog:"
+    "react-router": "catalog:",
+    "wxt": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

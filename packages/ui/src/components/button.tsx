@@ -13,8 +13,8 @@ const buttonVariants = cva(
     },
     variants: {
       size: {
-        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
-        icon: 'size-9',
+        default: 'h-7 md:h-9 px-2 md:px-4 py-1 md:py-2 has-[>svg]:px-3',
+        icon: 'size-7 md:size-9',
         lg: 'h-10 rounded-md px-6 has-[>svg]:px-4',
         sm: 'h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5',
       },

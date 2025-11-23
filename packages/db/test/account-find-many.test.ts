@@ -4,6 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
+import { randomId } from '../src/random-id.ts'
 import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -17,8 +18,8 @@ describe('account-find-many', () => {
     it('should find many accounts for a wallet', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId1 = crypto.randomUUID()
-      const walletId2 = crypto.randomUUID()
+      const walletId1 = randomId()
+      const walletId2 = randomId()
       const account1 = testAccountCreateInput({ walletId: walletId1 })
       const account2 = testAccountCreateInput({ walletId: walletId1 })
       const account3 = testAccountCreateInput({ walletId: walletId2 })
@@ -37,7 +38,7 @@ describe('account-find-many', () => {
     it('should find many accounts for a wallet by a partial name', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const account1 = testAccountCreateInput({ name: 'Trading Account', walletId })
       const account2 = testAccountCreateInput({ name: 'Staking Account', walletId })
       const account3 = testAccountCreateInput({ name: 'Savings', walletId })
@@ -56,7 +57,7 @@ describe('account-find-many', () => {
     it('should find many accounts for a wallet by type', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const account1 = testAccountCreateInput({ walletId })
       const account2 = testAccountCreateInput({ type: 'Imported', walletId })
       const account3 = testAccountCreateInput({ walletId })
@@ -75,7 +76,7 @@ describe('account-find-many', () => {
     it('should find many accounts for a wallet by a partial name and type', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const account1 = testAccountCreateInput({ name: 'Trading Account', walletId })
       const account2 = testAccountCreateInput({ name: 'Staking Account', type: 'Imported', walletId })
       const account3 = testAccountCreateInput({ name: 'Savings', type: 'Watched', walletId })
@@ -96,7 +97,7 @@ describe('account-find-many', () => {
     it('should find an account by id', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const account1 = testAccountCreateInput({ name: 'Account 1', walletId })
       const account2 = testAccountCreateInput({ name: 'Account 2', type: 'Imported', walletId })
       const id1 = await accountCreate(db, account1)
@@ -113,7 +114,7 @@ describe('account-find-many', () => {
     it('should find an account by publicKey', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = crypto.randomUUID()
+      const walletId = randomId()
       const account1 = testAccountCreateInput({
         name: 'Account 1',
         publicKey: address('So11111111111111111111111111111111111111112'),

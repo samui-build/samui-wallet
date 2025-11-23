@@ -18,8 +18,6 @@ export default {
         MyApiLive,
         HttpApiBuilder.middlewareCors({
           allowedOrigins: env.CORS_ORIGINS?.split(',').map((origin) => origin.trim()) ?? [],
-          credentials: true,
-          maxAge: 86400,
         }),
         HttpServer.layerContext,
       ),

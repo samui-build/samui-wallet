@@ -1,6 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
-import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
-import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -24,8 +24,8 @@ interface SendTokenInput {
 }
 
 export function PortfolioFeatureTabTokens() {
-  const account = useDbAccountActive()
-  const network = useDbNetworkActive()
+  const account = useAccountActive()
+  const network = useNetworkActive()
   const balances = useGetTokenBalances({ address: account.publicKey, network })
   const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({
     address: account.publicKey,

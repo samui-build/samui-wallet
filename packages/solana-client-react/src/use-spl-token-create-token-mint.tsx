@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import type { SplTokenCreateTokenMintOptions } from '@workspace/solana-client/spl-token-create-token-mint'
 import { splTokenCreateTokenMint } from '@workspace/solana-client/spl-token-create-token-mint'

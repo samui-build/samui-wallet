@@ -1,7 +1,7 @@
 import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'

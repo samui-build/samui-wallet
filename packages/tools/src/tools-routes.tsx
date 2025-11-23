@@ -1,5 +1,5 @@
-import { useDbAccountActive } from '@workspace/db-react/use-db-account-active'
-import { useDbNetworkActive } from '@workspace/db-react/use-db-network-active'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
 import { lazy } from 'react'
 import { useRoutes } from 'react-router'
@@ -10,8 +10,8 @@ const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.tsx'
 const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
 
 export default function ToolsRoutes() {
-  const account = useDbAccountActive()
-  const network = useDbNetworkActive()
+  const account = useAccountActive()
+  const network = useNetworkActive()
   const routes = useRoutes([
     { element: <ToolsFeatureOverview />, index: true },
     { element: <ToolsFeatureAirdrop account={account} network={network} />, path: 'airdrop' },

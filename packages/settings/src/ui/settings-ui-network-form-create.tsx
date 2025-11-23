@@ -1,7 +1,7 @@
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
-import { dbNetworkTypeOptions } from '@workspace/db/db-network-type-options'
-import type { NetworkInputCreate } from '@workspace/db/dto/network-input-create'
-import { networkSchemaCreate } from '@workspace/db/schema/network-schema-create'
+import type { NetworkCreateInput } from '@workspace/db/network/network-create-input'
+import { networkCreateSchema } from '@workspace/db/network/network-create-schema'
+import { networkTypeOptions } from '@workspace/db/network/network-type-options'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -18,10 +18,10 @@ import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-gr
 import { useForm } from 'react-hook-form'
 import { SettingsUiNetworkWarningMainnet } from './settings-ui-network-warning-mainnet.tsx'
 
-export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: NetworkInputCreate) => Promise<void> }) {
+export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: NetworkCreateInput) => Promise<void> }) {
   const { t } = useTranslation('settings')
-  const form = useForm<NetworkInputCreate>({
-    resolver: standardSchemaResolver(networkSchemaCreate),
+  const form = useForm<NetworkCreateInput>({
+    resolver: standardSchemaResolver(networkCreateSchema),
   })
 
   const watchType = form.watch('type')
@@ -43,7 +43,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
                   value={field.value}
                   variant="outline"
                 >
-                  {dbNetworkTypeOptions.map(({ label, value }) => (
+                  {networkTypeOptions.map(({ label, value }) => (
                     <ToggleGroupItem className="flex items-center gap-x-2" key={value} value={value}>
                       {label.replace('Solana ', '')}
                     </ToggleGroupItem>

@@ -1,5 +1,6 @@
-import { useDbAccountLive } from '@workspace/db-react/use-db-account-live'
-import { useDbWalletFindUnique } from '@workspace/db-react/use-db-wallet-find-unique'
+import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
@@ -13,9 +14,10 @@ import { SettingsUiAccountTable } from './ui/settings-ui-account-table.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletDetails() {
+  const { t } = useTranslation('settings')
   const { walletId } = useParams() as { walletId: string }
-  const { data: item, error, isError, isLoading } = useDbWalletFindUnique({ id: walletId })
-  const accounts = useDbAccountLive({ walletId })
+  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
+  const accounts = useAccountLive({ walletId })
   const sorted = useSortAccounts(accounts)
 
   if (isLoading) {
@@ -35,19 +37,19 @@ export function SettingsFeatureWalletDetails() {
         <div className="w-full flex items-center justify-between">
           <SettingsUiWalletItem item={item} />
           <div className="flex items-center gap-2">
-            <UiTooltip content="Edit wallet">
+            <UiTooltip content={t(($) => $.actionEditWallet)}>
               <Button asChild variant="outline">
                 <Link to={`./edit`}>
                   <UiIcon className="size-4" icon="edit" />
-                  Edit Wallet
+                  {t(($) => $.actionEditWallet)}
                 </Link>
               </Button>
             </UiTooltip>
-            <UiTooltip content="Add account to this wallet">
+            <UiTooltip content={t(($) => $.actionEditWalletMessage)}>
               <Button asChild variant="outline">
                 <Link to={`./add`}>
                   <UiIcon className="size-4" icon="add" />
-                  Add Account
+                  {t(($) => $.actionAddAccount)}
                 </Link>
               </Button>
             </UiTooltip>

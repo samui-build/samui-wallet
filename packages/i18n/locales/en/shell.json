@@ -1,6 +1,22 @@
 {
-  "explorerLabel": "Explorer",
-  "portfolioLabel": "Portfolio",
-  "settingsLabel": "Settings",
-  "toolsLabel": "Tools"
+  "accountAdd": "Add account",
+  "accountPublicKeyCopy": "Copy public key",
+  "accountPublicKeyCopyFailed": "Failed to copy public key",
+  "accountPublicKeyCopySuccess": "Copied public key",
+  "actionsSidebarHide": "Hide sidebar",
+  "actionsSidebarShow": "Show sidebar",
+  "commandEmpty": "No results found.",
+  "commandInputPlaceholder": "Type a command or search...",
+  "commandLanguage": "Language",
+  "commandLanguageChangeTo": "Change to",
+  "commandNavigate": "Navigate",
+  "commandNavigateTo": "Navigate to",
+  "commandSuggestions": "Suggestions",
+  "labelExplorer": "Explorer",
+  "labelPortfolio": "Portfolio",
+  "labelSettings": "Settings",
+  "labelTools": "Tools",
+  "networkSettings": "Network settings",
+  "walletEdit": "Edit wallet",
+  "walletSettings": "Wallet settings"
 }

@@ -1,12 +1,12 @@
 import { useMutation } from '@tanstack/react-query'
-import type { Wallet } from '@workspace/db/entity/wallet'
-import { useDbAccountCreate } from '@workspace/db-react/use-db-account-create'
+import type { Wallet } from '@workspace/db/wallet/wallet'
+import { useAccountCreate } from '@workspace/db-react/use-account-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.tsx'
 
 export function useDeriveAndCreateAccount() {
-  const createAccountMutation = useDbAccountCreate()
+  const createAccountMutation = useAccountCreate()
   const deriveFromMnemonicMutation = useDeriveFromMnemonic()
 
   return useMutation({

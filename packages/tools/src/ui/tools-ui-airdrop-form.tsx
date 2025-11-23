@@ -63,7 +63,7 @@ export function ToolsUiAirdropForm({
 
   return (
     <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <form className="space-y-2 md:space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="address"

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'

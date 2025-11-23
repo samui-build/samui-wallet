@@ -1,6 +1,6 @@
 import { useRouteLoaderData } from 'react-router'
-import type { DbLoaderData } from './db-loader.tsx'
+import type { RootLoaderData } from './root-loader.tsx'
 
 export function useRootLoaderData() {
-  return useRouteLoaderData<DbLoaderData>('root')
+  return useRouteLoaderData<RootLoaderData>('root')
 }

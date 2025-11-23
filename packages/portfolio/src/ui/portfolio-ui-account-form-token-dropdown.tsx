@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
   Command,
@@ -25,21 +26,22 @@ export function PortfolioUiAccountFormTokenDropdown({
   setMintAddress: (mintAddress: string) => void
   tokens: TokenBalance[]
 }) {
+  const { t } = useTranslation('portfolio')
   const [open, setOpen] = useState(false)
 
   return (
     <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
         <Button aria-expanded={open} className="w-full h-[60px] justify-between" role="combobox" variant="outline">
-          {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : 'Select token...'}
+          {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : t(($) => $.searchInputSelect)}
           <UiIcon className="opacity-50" icon="chevronsUpDown" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command>
-          <CommandInput className="h-9" placeholder="Search token..." />
+          <CommandInput className="h-9" placeholder={t(($) => $.searchInputPlaceholder)} />
           <CommandList>
-            <CommandEmpty>No token found.</CommandEmpty>
+            <CommandEmpty>{t(($) => $.searchInputNone)}</CommandEmpty>
             <CommandGroup>
               {tokens.map((item) => (
                 <CommandItem

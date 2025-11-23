@@ -1,12 +1,11 @@
+import { useTranslation } from '@workspace/i18n'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { useId, useMemo, useState } from 'react'
-
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-
 import { PortfolioUiAccountFormTokenDropdown } from './portfolio-ui-account-form-token-dropdown.tsx'
 
 export function PortfolioUiAccountFormSend({
@@ -18,6 +17,7 @@ export function PortfolioUiAccountFormSend({
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
+  const { t } = useTranslation('portfolio')
   const destinationId = useId()
   const amountId = useId()
   const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
@@ -41,22 +41,22 @@ export function PortfolioUiAccountFormSend({
 
             <FieldGroup>
               <Field>
-                <FieldLabel htmlFor={destinationId}>Destination</FieldLabel>
+                <FieldLabel htmlFor={destinationId}>{t(($) => $.sendInputDestinationLabel)}</FieldLabel>
                 <Input
                   id={destinationId}
                   onChange={(e) => setDestination(e.target.value)}
-                  placeholder="Destination"
+                  placeholder={t(($) => $.sendInputDestinationPlaceholder)}
                   type="text"
                   value={destination}
                 />
               </Field>
               <Field>
-                <FieldLabel htmlFor={amountId}>Amount</FieldLabel>
+                <FieldLabel htmlFor={amountId}>{t(($) => $.sendInputAmountLabel)}</FieldLabel>
                 <Input
                   id={amountId}
                   min="1"
                   onChange={(e) => setAmount(e.target.value)}
-                  placeholder="Amount"
+                  placeholder={t(($) => $.sendInputAmountPlaceholder)}
                   required
                   step="any"
                   type="number"
@@ -78,7 +78,7 @@ export function PortfolioUiAccountFormSend({
               type="button"
             >
               {isLoading ? <UiLoader className="size-4" /> : null}
-              Submit
+              {t(($) => $.actionSend)}
             </Button>
           </Field>
         </FieldGroup>

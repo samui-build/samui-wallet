@@ -1,6 +1,6 @@
 import type { Signature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 

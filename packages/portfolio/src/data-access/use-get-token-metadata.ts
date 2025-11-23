@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'

@@ -1,8 +1,9 @@
-import type { Network } from '@workspace/db/entity/network'
+import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
+import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiTxTimestamp } from './explorer-ui-tx-timestamp.tsx'
 
 function getTxStatus(tx: ExplorerGetTransactionResult) {
@@ -11,10 +12,12 @@ function getTxStatus(tx: ExplorerGetTransactionResult) {
 }
 
 export function ExplorerUiTxDetails({
+  basePath,
   network,
   signature,
   tx,
 }: {
+  basePath: string
   network: Network
   signature: string
   tx: ExplorerGetTransactionResult
@@ -22,6 +25,7 @@ export function ExplorerUiTxDetails({
   if (!tx) {
     return null
   }
+  const feePayer = tx.transaction.message.accountKeys[0]
   return (
     <div className="text-xs space-y-4">
       <ExplorerUiDetailRow
@@ -34,7 +38,10 @@ export function ExplorerUiTxDetails({
       <div className="grid grid-cols-2 gap-y-4">
         <ExplorerUiDetailRow label="Status" value={getTxStatus(tx)} />
         <ExplorerUiDetailRow label="Network" value={network.type} />
-        <ExplorerUiDetailRow label="Fee Payer" value={tx.transaction.message.accountKeys[0]} />
+        <ExplorerUiDetailRow
+          label="Fee Payer"
+          value={feePayer ? <ExplorerUiLinkAddress address={feePayer} basePath={basePath} /> : <div />}
+        />
         <ExplorerUiDetailRow label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
       </div>
       <Separator />

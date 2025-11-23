@@ -1,6 +1,7 @@
 import { ShellFeature } from '@workspace/shell/shell-feature'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { browser } from 'wxt/browser'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -11,6 +12,6 @@ if (!root) {
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Popup" />
+    <ShellFeature browser={browser} context="Popup" />
   </StrictMode>,
 )
