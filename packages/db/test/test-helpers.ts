@@ -1,6 +1,7 @@
 import 'fake-indexeddb/auto'
 import { address } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
+import type { BookmarkAccountCreateInput } from '../src/bookmark-account/bookmark-account-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
@@ -21,6 +22,15 @@ export function testAccountCreateInput(input: { walletId: string } & Partial<Acc
     name: randomName('account'),
     publicKey: address('So11111111111111111111111111111111111111112'),
     type: 'Derived',
+    ...input,
+  }
+}
+export function testBookmarkAccountCreateInput(
+  input: Partial<BookmarkAccountCreateInput> = {},
+): BookmarkAccountCreateInput {
+  return {
+    address: address('So11111111111111111111111111111111111111112'),
+    label: randomName('bookmarkAccount'),
     ...input,
   }
 }
