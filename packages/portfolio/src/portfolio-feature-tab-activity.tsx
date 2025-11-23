@@ -11,6 +11,7 @@ import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
 
 export function PortfolioFeatureTabActivity() {
   const { t } = useTranslation('portfolio')
+  const { t: tUi } = useTranslation('ui')
   const account = useAccountActive()
   const network = useNetworkActive()
   const { pathname: from } = useLocation()
@@ -24,7 +25,13 @@ export function PortfolioFeatureTabActivity() {
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">{t(($) => $.pageTitleActivity)}</h2>
         <div className="space-x-2">
-          <Button aria-label="Refresh" disabled={isLoading} onClick={() => refetch()} size="icon" variant="outline">
+          <Button
+            aria-label={tUi(($) => $.buttonRefresh)}
+            disabled={isLoading}
+            onClick={() => refetch()}
+            size="icon"
+            variant="outline"
+          >
             {isLoading ? <Spinner /> : <UiIcon icon="refresh" />}
           </Button>
         </div>

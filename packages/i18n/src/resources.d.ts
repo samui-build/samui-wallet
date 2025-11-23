@@ -162,6 +162,8 @@ interface Resources {
     textCopyFailed: 'Failed to copy text'
     buttonBack: 'Back'
     buttonClose: 'Close'
+    buttonCopy: 'Copy'
+    buttonRefresh: 'Refresh'
   }
 }
 

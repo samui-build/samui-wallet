@@ -16,7 +16,7 @@ export function UiTextCopyButton({
   const { t } = useTranslation('ui')
   return (
     <Button
-      aria-label="Copy"
+      aria-label={t(($) => $.buttonCopy)}
       className="cursor-pointer"
       onClick={async () => {
         try {
