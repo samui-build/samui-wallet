@@ -16,7 +16,7 @@ export function ExplorerUiExplorerLink({
   return (
     <UiTooltip content={`View in ${name}`}>
       <a
-        className={cn('link font-mono inline-flex gap-1', className)}
+        className={cn('link inline-flex gap-1 font-mono', className)}
         href={href}
         rel="noopener noreferrer"
         target="_blank"

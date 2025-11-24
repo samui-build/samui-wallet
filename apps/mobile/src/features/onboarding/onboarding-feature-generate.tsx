@@ -27,7 +27,7 @@ export function OnboardingFeatureGenerate() {
 
   return (
     <SafeAreaView>
-      <View className="flex flex-col h-full items-center justify-center">
+      <View className="flex h-full flex-col items-center justify-center">
         <Text className="text-center text-neutral-900 dark:text-neutral-100">Generate new wallet</Text>
         <View className="flex flex-row items-center gap-2">
           <Button onPress={() => generate(128)} title="12 words" />

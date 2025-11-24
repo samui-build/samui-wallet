@@ -29,7 +29,7 @@ export function PortfolioUiActivityList({
         <div className="space-y-4">
           {grouped.map(({ date, transactions }) => (
             <div className="space-y-4" key={date.getTime()}>
-              <div className="flex text-muted-foreground text-xs font-mono gap-2">
+              <div className="flex gap-2 font-mono text-muted-foreground text-xs">
                 <UiIcon className="size-4" icon="calendar" />
                 <UiTooltip content={`${date.toLocaleDateString()}`}>
                   <UiRelativeDate date={date} />
@@ -44,7 +44,7 @@ export function PortfolioUiActivityList({
                       <PortfolioUiTxLink from={from} tx={tx} />
                       <ExplorerUiExplorerIcon network={network} path={`/tx/${tx.signature}`} provider="solana" />
                     </div>
-                    <div className="font-mono text-xs text-muted-foreground whitespace-nowrap text-right truncate">
+                    <div className="truncate whitespace-nowrap text-right font-mono text-muted-foreground text-xs">
                       <ExplorerUiTxTimestamp blockTime={tx.blockTime} />
                     </div>
                   </div>

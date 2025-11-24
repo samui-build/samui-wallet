@@ -102,7 +102,7 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
             </div>
           </div>
 
-          <div className={`grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-4`}>
+          <div className={`grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3`}>
             {Array.from({ length: wordCount }, (_, i) => i).map((index) => (
               <OnboardingUiMnemonicWordInput
                 index={index + 1}
@@ -119,7 +119,7 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
             ))}
           </div>
 
-          {error && <p className="text-red-500 text-sm mt-4 text-center">{error}</p>}
+          {error && <p className="mt-4 text-center text-red-500 text-sm">{error}</p>}
         </div>
       </UiCard>
     </form>

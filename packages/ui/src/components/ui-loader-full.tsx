@@ -9,7 +9,7 @@ export function UiLoaderFull({
   classNameSpinner?: string | undefined
 }) {
   return (
-    <div className={cn('flex items-center justify-center h-full w-full', className)}>
+    <div className={cn('flex h-full w-full items-center justify-center', className)}>
       <UiLoader className={classNameSpinner} />
     </div>
   )

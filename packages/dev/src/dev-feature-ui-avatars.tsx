@@ -4,7 +4,7 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 export function DevFeatureUiAvatars() {
   return (
     <UiCard title="ui avatars">
-      <div className="grid gap-4 grid-cols-4 justify-items-center">
+      <div className="grid grid-cols-4 justify-items-center gap-4">
         <UiAvatar className="size-16" label="beeman" />
         <UiAvatar className="size-16" label="tobeycodes" />
         <UiAvatar className="size-16" label="beeman" src="https://github.com/beeman.png" />

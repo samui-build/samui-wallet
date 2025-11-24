@@ -32,7 +32,7 @@ export function PortfolioUiAccountFormTokenDropdown({
   return (
     <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
-        <Button aria-expanded={open} className="w-full h-[60px] justify-between" role="combobox" variant="outline">
+        <Button aria-expanded={open} className="h-[60px] w-full justify-between" role="combobox" variant="outline">
           {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : t(($) => $.searchInputSelect)}
           <UiIcon className="opacity-50" icon="chevronsUpDown" />
         </Button>

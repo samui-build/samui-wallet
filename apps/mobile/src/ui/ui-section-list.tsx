@@ -14,12 +14,12 @@ export function UiSectionList({ sections }: { sections: UiSectionItem[] }) {
     <SectionList
       keyExtractor={(item) => item.path}
       renderItem={({ item: { label, path, icon } }) => (
-        <View className="p-4 bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100">
+        <View className="bg-neutral-50 p-4 text-neutral-900 dark:bg-neutral-900 dark:text-neutral-100">
           <Link className="w-full" params={{}} screen={path}>
-            <View className="flex flex-row items-center justify-between w-full">
+            <View className="flex w-full flex-row items-center justify-between">
               <View className="flex flex-row items-center gap-4 text-foreground dark:text-white">
                 <UiIcon icon={icon} />
-                <Text className="text-lg font-bold text-neutral-900 dark:text-neutral-100">{label}</Text>
+                <Text className="font-bold text-lg text-neutral-900 dark:text-neutral-100">{label}</Text>
               </View>
               <View>
                 <UiIcon icon="chevronRight" />

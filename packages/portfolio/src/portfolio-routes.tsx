@@ -7,10 +7,10 @@ import { PortfolioFeatureTabTokens } from './portfolio-feature-tab-tokens.tsx'
 export default function PortfolioRoutes() {
   const { t } = useTranslation('portfolio')
   return (
-    <UiPage className="lg:max-w-2xl md:max-w-2xl sm:max-w-2xl xl:max-w-2xl">
+    <UiPage className="sm:max-w-2xl md:max-w-2xl lg:max-w-2xl xl:max-w-2xl">
       <UiTabRoutes
         basePath="/portfolio"
-        className="items-center mb-4 lg:mb-6"
+        className="mb-4 items-center lg:mb-6"
         tabs={[
           { element: <PortfolioFeatureTabTokens />, label: t(($) => $.labelTokens), path: 'tokens' },
           { element: <PortfolioFeatureTabActivity />, label: t(($) => $.labelActivity), path: 'activity' },

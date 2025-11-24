@@ -4,7 +4,7 @@ import { SettingsUiPageHeaderTitle } from './settings-ui-page-header-title.tsx'
 
 export function SettingsUiPageHeader({ page }: { page: SettingsPage }) {
   return (
-    <div className="px-2 flex gap-2 items-center">
+    <div className="flex items-center gap-2 px-2">
       <UiIcon icon={page.icon} />
       <SettingsUiPageHeaderTitle page={page} />
     </div>

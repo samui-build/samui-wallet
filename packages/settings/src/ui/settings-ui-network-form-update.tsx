@@ -35,11 +35,11 @@ export function SettingsUiNetworkFormUpdate({
   return (
     <Form {...form}>
       <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
-        <FormItem className="flex flex-col gap-2 w-full py-1">
+        <FormItem className="flex w-full flex-col gap-2 py-1">
           <FormLabel>{t(($) => $.networkInputTypeLabel)}</FormLabel>
           <FormControl>
             <ToggleGroup
-              className="flex justify-start items-center flex-wrap"
+              className="flex flex-wrap items-center justify-start"
               defaultValue={item.type}
               disabled
               type="single"
@@ -116,7 +116,7 @@ export function SettingsUiNetworkFormUpdate({
           )}
           rules={{ required: true }}
         />
-        <div className="flex justify-end items-center w-full pt-3">
+        <div className="flex w-full items-center justify-end pt-3">
           <Button className="rounded-lg" size="sm">
             {t(($) => $.actionSave)}
           </Button>

@@ -56,6 +56,16 @@
       "complexity": {
         "useLiteralKeys": "off"
       },
+      "nursery": {
+        "useSortedClasses": {
+          "fix": "safe",
+          "level": "error",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["cn", "clsx", "cva", "tw"]
+          }
+        }
+      },
       "recommended": true,
       "style": {
         "useComponentExportOnlyModules": {

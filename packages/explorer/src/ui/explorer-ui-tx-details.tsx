@@ -27,7 +27,7 @@ export function ExplorerUiTxDetails({
   }
   const feePayer = tx.transaction.message.accountKeys[0]
   return (
-    <div className="text-xs space-y-4">
+    <div className="space-y-4 text-xs">
       <ExplorerUiDetailRow
         label="View on Explorer"
         value={<ExplorerUiExplorers network={network} path={`/tx/${signature}`} />}
@@ -47,7 +47,7 @@ export function ExplorerUiTxDetails({
       <Separator />
       <ExplorerUiDetailRow
         label="Raw TX"
-        value={<pre className="text-[9px] overflow-auto">{JSON.stringify(tx, null, 2)}</pre>}
+        value={<pre className="overflow-auto text-[9px]">{JSON.stringify(tx, null, 2)}</pre>}
       />
     </div>
   )

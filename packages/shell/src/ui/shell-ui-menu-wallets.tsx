@@ -33,7 +33,7 @@ export function ShellUiMenuWallets({
   const { t } = useTranslation('shell')
   return (
     <MenubarMenu>
-      <MenubarTrigger asChild className="py-2 gap-2 h-8 md:h-12 px-1 md:px-2 md:min-w-[150px]">
+      <MenubarTrigger asChild className="h-8 gap-2 px-1 py-2 md:h-12 md:min-w-[150px] md:px-2">
         <div className="flex items-center gap-2">
           <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
           {activeAccount.name}

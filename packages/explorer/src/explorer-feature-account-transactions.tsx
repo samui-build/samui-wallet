@@ -48,7 +48,7 @@ export function ExplorerFeatureAccountTransactions({
               <ExplorerUiLinkTx basePath={basePath} signature={tx.signature} />
               <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
             </div>
-            <div className="font-mono text-xs text-muted-foreground text-right">
+            <div className="text-right font-mono text-muted-foreground text-xs">
               <ExplorerUiTxTimestamp blockTime={tx.blockTime} />
             </div>
           </div>

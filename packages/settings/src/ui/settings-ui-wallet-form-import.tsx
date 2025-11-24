@@ -82,7 +82,7 @@ export function SettingsUiWalletFormImport({
           )}
           rules={{ required: false }}
         />
-        <div className="flex justify-end items-center w-full pt-3 gap-4">
+        <div className="flex w-full items-center justify-end gap-4 pt-3">
           <div className="flex items-center space-x-2">
             <Switch checked={redirect} id={redirectId} onCheckedChange={setRedirect} />
             <Label htmlFor={redirectId}>{t(($) => $.walletInputRedirectLabel)}</Label>

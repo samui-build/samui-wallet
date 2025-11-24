@@ -18,7 +18,7 @@ export function UiEmpty({
   title: ReactNode
 }) {
   return (
-    <Empty className={cn('border border-dashed gap-3', className)}>
+    <Empty className={cn('gap-3 border border-dashed', className)}>
       {icon ? (
         <EmptyMedia variant="icon">
           <UiIcon icon={icon} />

@@ -20,7 +20,7 @@ export function UiErrorBoundary() {
   const title = `${isError ? 'A route' : 'An unknown'} error occurred`
 
   return (
-    <div className={cn('flex items-center justify-center h-full w-full px-6')}>
+    <div className={cn('flex h-full w-full items-center justify-center px-6')}>
       <UiEmpty className="" description={description} icon="bug" title={title}>
         <UiErrorBoundarySupport />
         {stack ? <UiErrorBoundaryStack stack={stack} /> : null}
@@ -41,7 +41,7 @@ function UiErrorBoundaryStack({ stack }: { stack: string }) {
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-6">
-        <pre className="text-[9px] overflow-auto w-full text-left">{stack}</pre>
+        <pre className="w-full overflow-auto text-left text-[9px]">{stack}</pre>
       </CollapsibleContent>
     </Collapsible>
   )

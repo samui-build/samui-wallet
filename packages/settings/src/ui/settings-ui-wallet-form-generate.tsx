@@ -89,7 +89,7 @@ export function SettingsUiWalletFormGenerate({
           )}
           rules={{ required: false }}
         />
-        <div className="flex justify-end items-center w-full pt-3">
+        <div className="flex w-full items-center justify-end pt-3">
           <Button size="lg">{t(($) => $.actionGenerate)}</Button>
         </div>
       </form>
