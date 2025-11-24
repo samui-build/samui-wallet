@@ -11,6 +11,7 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { UiPrompt } from '@workspace/ui/components/ui-prompt'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -36,11 +37,7 @@ export function SettingsFeatureWalletAddAccount() {
     }
   }
 
-  async function createAccountImported(walletId: string) {
-    const input = window.prompt('What is the secret key you want to import?')
-    if (!input?.trim().length) {
-      return
-    }
+  async function createAccountImported(walletId: string, input: string) {
     try {
       const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input, true)
       assertIsAddress(publicKey)
@@ -53,15 +50,11 @@ export function SettingsFeatureWalletAddAccount() {
     }
   }
 
-  async function createAccountWatched(walletId: string) {
-    const publicKey = window.prompt('What is the public key you want to watch?')
-    if (!publicKey?.trim().length) {
-      return
-    }
+  async function createAccountWatched(walletId: string, input: string) {
     try {
-      assertIsAddress(publicKey)
+      assertIsAddress(input)
       await createAccountMutation.mutateAsync({
-        input: { name: ellipsify(publicKey), publicKey, type: 'Watched', walletId },
+        input: { name: ellipsify(input), publicKey: input, type: 'Watched', walletId },
       })
       toastSuccess(`Account watched for ${item?.name}`)
     } catch (e) {
@@ -110,9 +103,18 @@ export function SettingsFeatureWalletAddAccount() {
             <ItemDescription>{t(($) => $.walletAddAccountImportDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <Button onClick={() => createAccountImported(item.id)} size="sm" variant="outline">
-              {t(($) => $.actionImport)}
-            </Button>
+            <UiPrompt
+              action={(value) => createAccountImported(item.id, value)}
+              actionLabel={t(($) => $.actionImport)}
+              description={t(($) => $.walletAddAccountImportDescription)}
+              label={t(($) => $.walletAddAccountImportLabel)}
+              placeholder={t(($) => $.walletAddAccountImportPlaceholder)}
+              title={t(($) => $.walletAddAccountImportTitle)}
+            >
+              <Button size="sm" variant="outline">
+                {t(($) => $.actionImport)}
+              </Button>
+            </UiPrompt>
           </ItemActions>
         </Item>
 
@@ -125,9 +127,18 @@ export function SettingsFeatureWalletAddAccount() {
             <ItemDescription>{t(($) => $.walletAddAccountWatchDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <Button onClick={() => createAccountWatched(item.id)} size="sm" variant="outline">
-              {t(($) => $.actionWatch)}
-            </Button>
+            <UiPrompt
+              action={(value) => createAccountWatched(item.id, value)}
+              actionLabel={t(($) => $.actionWatch)}
+              description={t(($) => $.walletAddAccountWatchDescription)}
+              label={t(($) => $.walletAddAccountWatchLabel)}
+              placeholder={t(($) => $.walletAddAccountWatchPlaceholder)}
+              title={t(($) => $.walletAddAccountWatchTitle)}
+            >
+              <Button size="sm" variant="outline">
+                {t(($) => $.actionWatch)}
+              </Button>
+            </UiPrompt>
           </ItemActions>
         </Item>
       </div>
