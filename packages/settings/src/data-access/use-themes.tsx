@@ -12,7 +12,7 @@ export function useThemes() {
 
   const [theme, setTheme] = useSetting('theme')
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', theme === 'dark')
+    document.documentElement.classList.toggle('dark', theme !== 'light')
   }, [theme])
 
   return {
