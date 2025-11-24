@@ -19,10 +19,10 @@
     "babel-plugin-react-compiler": "catalog:",
     "globals": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.1.12",
-    "vite-bundle-analyzer": "^1.2.3",
-    "vite-tsconfig-paths": "^5.1.4",
-    "wrangler": "^4.45.0"
+    "vite": "catalog:",
+    "vite-bundle-analyzer": "catalog:",
+    "vite-tsconfig-paths": "catalog:",
+    "wrangler": "4.50.0"
   },
   "name": "web",
   "private": true,

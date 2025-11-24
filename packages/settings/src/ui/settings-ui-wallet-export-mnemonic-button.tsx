@@ -3,7 +3,6 @@ import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -21,17 +20,15 @@ export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Walle
   }
 
   return (
-    <UiTooltip content={t(($) => $.actionExportMnemonic)}>
-      <UiConfirm
-        action={exportMnemonic}
-        actionLabel="Export"
-        description="Do you want to copy it to your clipboard?"
-        title="Exporting the mnemonic reveals sensitive information."
-      >
-        <Button size="icon" variant="outline">
-          <UiIcon className="size-4" icon="mnemonic" />
-        </Button>
-      </UiConfirm>
-    </UiTooltip>
+    <UiConfirm
+      action={exportMnemonic}
+      actionLabel="Export"
+      description="Do you want to copy it to your clipboard?"
+      title="Exporting the mnemonic reveals sensitive information."
+    >
+      <Button size="icon" title={t(($) => $.actionExportMnemonic)} variant="outline">
+        <UiIcon className="size-4" icon="mnemonic" />
+      </Button>
+    </UiConfirm>
   )
 }

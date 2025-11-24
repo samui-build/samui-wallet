@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "catalog:",
-    "@tauri-apps/cli": "^2",
+    "@tauri-apps/cli": "2.9.4",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
@@ -16,7 +16,7 @@
     "babel-plugin-react-compiler": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.0.4"
+    "vite": "catalog:"
   },
   "license": "MIT",
   "name": "desktop",
