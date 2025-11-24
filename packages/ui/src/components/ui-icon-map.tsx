@@ -12,6 +12,7 @@ import {
   LucideCircleX,
   LucideCoins,
   LucideCopy,
+  LucideCopyCheck,
   LucideExternalLink,
   LucideEye,
   LucideGlobe,
@@ -60,6 +61,7 @@ export type UiIconName =
   | 'circleX'
   | 'coins'
   | 'copy'
+  | 'copyCheck'
   | 'delete'
   | 'derive'
   | 'edit'
@@ -101,6 +103,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('circleX', LucideCircleX)
   .set('coins', LucideCoins)
   .set('copy', LucideCopy)
+  .set('copyCheck', LucideCopyCheck)
   .set('delete', LucideTrash)
   .set('derive', LucideLetterText)
   .set('edit', LucidePencil)

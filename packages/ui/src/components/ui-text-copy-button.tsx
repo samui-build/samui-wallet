@@ -1,10 +1,8 @@
-import { useTranslation } from '@workspace/i18n'
 import type { ComponentProps } from 'react'
-import { handleCopyText } from '../lib/handle-copy-text.ts'
-import { toastError } from '../lib/toast-error.ts'
-import { toastSuccess } from '../lib/toast-success.ts'
+import { cn } from '../lib/utils.ts'
 import { Button } from './button.tsx'
 import { UiIcon } from './ui-icon.tsx'
+import { type HandleCopyTextProps, useHandleCopyText } from './use-handle-copy-text.tsx'
 
 export function UiTextCopyButton({
   label,
@@ -12,26 +10,12 @@ export function UiTextCopyButton({
   toast,
   toastFailed,
   ...props
-}: ComponentProps<typeof Button> & { label?: string; text: string; toast?: string; toastFailed?: string }) {
-  const { t } = useTranslation('ui')
+}: ComponentProps<typeof Button> & HandleCopyTextProps & { label: string }) {
+  const { copied, handleCopy } = useHandleCopyText({ text, toast, toastFailed })
+
   return (
-    <Button
-      className="cursor-pointer"
-      onClick={async () => {
-        try {
-          await handleCopyText(text)
-          if (toast) {
-            toastSuccess(toast)
-          }
-        } catch (error) {
-          toastError(error instanceof Error ? error.message : (toastFailed ?? t(($) => $.textCopyFailed)))
-        }
-      }}
-      type="button"
-      variant="secondary"
-      {...props}
-    >
-      <UiIcon icon="copy" />
+    <Button className="cursor-pointer" onClick={handleCopy} type="button" variant="secondary" {...props}>
+      <UiIcon className={cn({ 'text-green-500': copied })} icon={copied ? 'copyCheck' : 'copy'} />
       {label}
     </Button>
   )

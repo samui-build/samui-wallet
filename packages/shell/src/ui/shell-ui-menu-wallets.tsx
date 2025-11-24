@@ -15,7 +15,7 @@ import {
 } from '@workspace/ui/components/menubar'
 import { UiAvatar } from '@workspace/ui/components/ui-avatar'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
+import { UiTextCopyIcon } from '@workspace/ui/components/ui-text-copy-icon'
 import { cn } from '@workspace/ui/lib/utils'
 import { Link } from 'react-router'
 
@@ -37,14 +37,12 @@ export function ShellUiMenuWallets({
         <div className="flex items-center gap-2">
           <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
           {activeAccount.name}
-          <UiTextCopyButton
+          <UiTextCopyIcon
             onPointerDown={(e) => e.stopPropagation()}
-            size="icon"
             text={activeAccount.publicKey}
             title={t(($) => $.accountPublicKeyCopy)}
             toast={t(($) => $.accountPublicKeyCopySuccess)}
             toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
-            variant="ghost"
           />
         </div>
       </MenubarTrigger>
@@ -58,7 +56,7 @@ export function ShellUiMenuWallets({
             <MenubarSubContent>
               <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount.id}>
                 {wallet.accounts.map((account) => (
-                  <div className="flex items-center" key={account.id}>
+                  <div className="flex items-center gap-1 pr-1" key={account.id}>
                     <MenubarRadioItem
                       className={cn('font-mono', {
                         'font-bold': account.id === activeAccount.id,
@@ -67,13 +65,11 @@ export function ShellUiMenuWallets({
                     >
                       {account.name}
                     </MenubarRadioItem>
-                    <UiTextCopyButton
-                      size="icon"
+                    <UiTextCopyIcon
                       text={account.publicKey}
                       title={t(($) => $.accountPublicKeyCopy)}
                       toast={t(($) => $.accountPublicKeyCopySuccess)}
                       toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
-                      variant="ghost"
                     />
                   </div>
                 ))}
