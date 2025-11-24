@@ -20,6 +20,8 @@ export function rootRouteLoader(context: ShellContext) {
     if (!networks.length) {
       return redirect('/settings/networks')
     }
+    const theme = settings.find((s) => s.key === 'theme')?.value ?? 'dark'
+    document.documentElement.classList.toggle('dark', theme === 'dark')
 
     const language = settings.find((s) => s.key === 'language')?.value ?? 'en'
     await i18n.changeLanguage(language)

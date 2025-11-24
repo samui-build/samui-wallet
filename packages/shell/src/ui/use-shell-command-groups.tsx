@@ -2,6 +2,7 @@ import { useShellCommandGroupDevelopment } from './use-shell-command-group-devel
 import { useShellCommandGroupLanguage } from './use-shell-command-group-language.tsx'
 import { useShellCommandGroupNavigate } from './use-shell-command-group-navigate.tsx'
 import { useShellCommandGroupSuggestions } from './use-shell-command-group-suggestions.tsx'
+import { useShellCommandGroupTheme } from './use-shell-command-group-theme.tsx'
 
 export interface ShellCommand {
   disabled?: boolean
@@ -18,7 +19,8 @@ export function useShellCommandGroups(): ShellCommandGroup[] {
   const suggestions = useShellCommandGroupSuggestions()
   const language = useShellCommandGroupLanguage()
   const navigate = useShellCommandGroupNavigate()
+  const theme = useShellCommandGroupTheme()
   const development = useShellCommandGroupDevelopment()
 
-  return [suggestions, language, navigate, development]
+  return [suggestions, navigate, language, theme, development]
 }
