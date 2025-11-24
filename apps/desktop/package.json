@@ -16,7 +16,7 @@
     "babel-plugin-react-compiler": "catalog:",
     "tailwindcss": "catalog:",
     "typescript": "catalog:",
-    "vite": "^7.0.4"
+    "vite": "catalog:"
   },
   "license": "MIT",
   "name": "desktop",
