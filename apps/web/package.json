@@ -22,7 +22,7 @@
     "vite": "catalog:",
     "vite-bundle-analyzer": "catalog:",
     "vite-tsconfig-paths": "catalog:",
-    "wrangler": "^4.45.0"
+    "wrangler": "4.50.0"
   },
   "name": "web",
   "private": true,
