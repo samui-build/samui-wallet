@@ -1,12 +1,12 @@
 import type { Signature } from '@solana/kit'
-import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
+import { UiTextCopyIcon } from '@workspace/ui/components/ui-text-copy-icon'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { Link, useLocation } from 'react-router'
 
 export function ExplorerUiLinkTx({ basePath, signature }: { basePath: string; signature: Signature }) {
   const { pathname: from } = useLocation()
   return (
-    <span className="flex items-center gap-1">
+    <span className="flex items-center gap-2">
       <Link
         className="cursor-pointer font-mono text-sm"
         state={{ from }}
@@ -15,13 +15,7 @@ export function ExplorerUiLinkTx({ basePath, signature }: { basePath: string; si
       >
         {ellipsify(signature, 8)}
       </Link>
-      <UiTextCopyButton
-        size="icon"
-        text={signature}
-        title="Copy signature to clipboard"
-        toast="Signature copied to clipboard"
-        variant="ghost"
-      />
+      <UiTextCopyIcon text={signature} title="Copy signature to clipboard" toast="Signature copied to clipboard" />
     </span>
   )
 }
