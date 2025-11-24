@@ -1,7 +1,6 @@
 import type { Account } from '@workspace/db/account/account'
 import { useTranslation } from '@workspace/i18n'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { AccountTypeLabel } from './account-type-label.tsx'
 import { AccountExportSecretButton } from './account-ui-export-secret-button.tsx'
@@ -27,8 +26,8 @@ export function SettingsUiAccountTable({ items }: { items: Account[] }) {
             </TableCell>
             <TableCell className="font-mono text-xs">
               <span className="hidden lg:block">{item.publicKey}</span>
-              <span className="lg:hidden">
-                <UiTooltip content={item.publicKey}>{ellipsify(item.publicKey, 6, '...')}</UiTooltip>
+              <span className="lg:hidden" title={item.publicKey}>
+                {ellipsify(item.publicKey, 6, '...')}
               </span>
             </TableCell>
             <TableCell className="font-mono text-xs">
