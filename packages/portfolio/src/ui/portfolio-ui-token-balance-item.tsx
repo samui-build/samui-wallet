@@ -8,23 +8,21 @@ export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
   const symbol = item.metadata?.symbol ?? ellipsify(item.mint, 2, '').toLocaleUpperCase()
   const icon = item.metadata?.icon
   return (
-    <div className="flex w-full items-center justify-between" key={item.mint}>
-      <div className="flex items-center gap-2">
-        <div className="flex size-14 items-center justify-center">
-          {icon ? (
-            <UiAvatar className="size-12" label={name} src={icon} />
-          ) : (
-            <UiAvatar className="size-12" label={symbol} />
-          )}
-        </div>
-        <div className="mr-6 flex flex-col items-start">
-          <div className="font-bold">{name}</div>
-          <div className="text-muted-foreground">{symbol}</div>
+    <div className="flex w-full items-center justify-between gap-4" key={item.mint}>
+      <div className="flex min-w-0 flex-1 items-center gap-3">
+        {icon ? (
+          <UiAvatar className="size-12 shrink-0" label={name} src={icon} />
+        ) : (
+          <UiAvatar className="size-12 shrink-0" label={symbol} />
+        )}
+        <div className="flex min-w-0 flex-col gap-0.5 text-left">
+          <div className="truncate font-semibold text-sm">{name}</div>
+          <div className="truncate text-muted-foreground/70 text-xs">{symbol}</div>
         </div>
       </div>
-      <div className="flex flex-col items-end" style={{ flexGrow: 1 }}>
-        <div>${item.balanceUsd}</div>
-        <div className="text-muted-foreground text-sm">{item.balanceToken}</div>
+      <div className="flex shrink-0 flex-col items-end gap-0.5">
+        <div className="font-semibold text-sm">{item.balanceToken}</div>
+        <div className="text-muted-foreground/60 text-xs">${item.balanceUsd}</div>
       </div>
     </div>
   )
