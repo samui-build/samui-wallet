@@ -5,7 +5,6 @@ import { useTranslation } from '@workspace/i18n'
 import type { GetActivityItems } from '@workspace/solana-client/get-activity'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiRelativeDate } from '@workspace/ui/components/ui-relative-date'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { groupActivityItems } from './group-activity-items.tsx'
 import { PortfolioUiTxLink } from './portfolio-ui-tx-link.tsx'
 import { PortfolioUiTxStatus } from './portfolio-ui-tx-status.tsx'
@@ -31,9 +30,7 @@ export function PortfolioUiActivityList({
             <div className="space-y-4" key={date.getTime()}>
               <div className="flex gap-2 font-mono text-muted-foreground text-xs">
                 <UiIcon className="size-4" icon="calendar" />
-                <UiTooltip content={`${date.toLocaleDateString()}`}>
-                  <UiRelativeDate date={date} />
-                </UiTooltip>
+                <UiRelativeDate date={date} />
               </div>
 
               <div className="space-y-2">
