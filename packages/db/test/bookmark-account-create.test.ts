@@ -47,5 +47,51 @@ describe('bookmark-account-create', () => {
       // ACT & ASSERT
       await expect(bookmarkAccountCreate(db, input)).rejects.toThrow('Error creating bookmark account')
     })
+
+    it('should throw an error when the label is too long', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testBookmarkAccountCreateInput({
+        label: 'a'.repeat(51),
+      })
+
+      // ACT & ASSERT
+      await expect(bookmarkAccountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 50,
+            "inclusive": true,
+            "path": [
+              "label"
+            ],
+            "message": "Too big: expected string to have <=50 characters"
+          }
+        ]]
+      `)
+    })
+
+    it('should throw an error with an invalid address', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testBookmarkAccountCreateInput({
+        // @ts-expect-error invalid address on purpose
+        address: 'invalid-address',
+      })
+
+      // ACT & ASSERT
+      await expect(bookmarkAccountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "code": "custom",
+            "path": [
+              "address"
+            ],
+            "message": "Invalid Solana address"
+          }
+        ]]
+      `)
+    })
   })
 })

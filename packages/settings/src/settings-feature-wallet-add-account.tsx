@@ -38,6 +38,9 @@ export function SettingsFeatureWalletAddAccount() {
   }
 
   async function createAccountImported(walletId: string, input: string) {
+    if (!input.trim().length) {
+      return
+    }
     try {
       const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input, true)
       assertIsAddress(publicKey)
@@ -51,6 +54,9 @@ export function SettingsFeatureWalletAddAccount() {
   }
 
   async function createAccountWatched(walletId: string, input: string) {
+    if (!input.trim().length) {
+      return
+    }
     try {
       assertIsAddress(input)
       await createAccountMutation.mutateAsync({
@@ -110,6 +116,7 @@ export function SettingsFeatureWalletAddAccount() {
               label={t(($) => $.walletAddAccountImportLabel)}
               placeholder={t(($) => $.walletAddAccountImportPlaceholder)}
               title={t(($) => $.walletAddAccountImportTitle)}
+              value=""
             >
               <Button size="sm" variant="outline">
                 {t(($) => $.actionImport)}
@@ -134,6 +141,7 @@ export function SettingsFeatureWalletAddAccount() {
               label={t(($) => $.walletAddAccountWatchLabel)}
               placeholder={t(($) => $.walletAddAccountWatchPlaceholder)}
               title={t(($) => $.walletAddAccountWatchTitle)}
+              value=""
             >
               <Button size="sm" variant="outline">
                 {t(($) => $.actionWatch)}

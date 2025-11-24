@@ -21,7 +21,7 @@ export class Database extends Dexie {
     super(config.name)
     this.version(1).stores({
       accounts: 'id, [order+walletId], derivationIndex, order, publicKey, type, walletId',
-      bookmarkAccounts: 'id, address, label',
+      bookmarkAccounts: 'id, address, label, updatedAt',
       networks: 'id, name, type',
       settings: 'id, &key',
       wallets: 'id, name, order',

@@ -15,7 +15,7 @@ export function UiEmpty({
   className?: string
   description: ReactNode
   icon?: UiIconName | undefined
-  title: ReactNode
+  title?: ReactNode | undefined
 }) {
   return (
     <Empty className={cn('gap-3 border border-dashed', className)}>
@@ -25,7 +25,7 @@ export function UiEmpty({
         </EmptyMedia>
       ) : null}
       <EmptyHeader>
-        <EmptyTitle>{title}</EmptyTitle>
+        {title ? <EmptyTitle>{title}</EmptyTitle> : null}
         <EmptyDescription>{description}</EmptyDescription>
       </EmptyHeader>
       {children ? <EmptyContent>{children}</EmptyContent> : null}

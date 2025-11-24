@@ -1,4 +1,24 @@
 interface Resources {
+  explorer: {
+    accountBookmarksDescription: 'List of accounts you bookmarked'
+    accountBookmarksEmpty: 'You have no account bookmarks yet.'
+    accountBookmarksTitle: 'Account bookmarks'
+    actionDelete: 'Delete'
+    actionManage: 'Manage'
+    actionUpdate: 'Update'
+    actions: 'Actions'
+    address: 'Address'
+    bookmarkDelete: 'Delete bookmark'
+    bookmarkDeleteDescription: 'This action cannot be undone.'
+    bookmarkDeleteTitle: 'Are you sure you want to delete this bookmark?'
+    editLabel: 'Edit label'
+    label: 'Label'
+    labelEmpty: 'None'
+    labelInputPlaceholder: 'Enter a label'
+    transactionBookmarksDescription: 'List of transactions you bookmarked'
+    transactionBookmarksEmpty: 'You have no transaction bookmarks yet.'
+    transactionBookmarksTitle: 'Transaction bookmarks'
+  }
   onboarding: {
     generateButtonCreate: 'Create wallet'
     generateCardDescription: "This seed phrase is the ONLY way to recover your wallet. Don't share it with anyone!"
@@ -102,13 +122,13 @@ interface Resources {
     walletAddAccountDeriveDescription: 'Derive an account from the Wallet&#39;s mnemonic'
     walletAddAccountDeriveTitle: 'Derive an account'
     walletAddAccountImportDescription: 'Import an account from a base58 secret key or byte array'
-    walletAddAccountImportTitle: 'Import an account'
     walletAddAccountImportLabel: 'Enter secret key (base58 or byte array)'
     walletAddAccountImportPlaceholder: 'Enter your base58 secret key or byte array…'
+    walletAddAccountImportTitle: 'Import an account'
     walletAddAccountWatchDescription: 'Watch an account by public key without importing a secret'
-    walletAddAccountWatchTitle: 'Watch an account'
     walletAddAccountWatchLabel: 'Enter public key'
     walletAddAccountWatchPlaceholder: "Enter the account's public key…"
+    walletAddAccountWatchTitle: 'Watch an account'
     walletCreateGenerateDescription: 'Generate a new seed phrase and derive an account'
     walletCreateGenerateTitle: 'Generate a new wallet'
     walletCreateHardwareUnruggableDescription: 'Unruggable is the first Solana native hardware account.'
