@@ -142,7 +142,7 @@ interface Resources {
     commandEnableDeveloperMode: 'Enable developer mode'
     commandInputPlaceholder: 'Type a command or search...'
     commandLanguage: 'Language'
-    commandLanguageChangeTo: 'Change to'
+    commandLanguageChangeTo: 'Change language to'
     commandNavigate: 'Navigate'
     commandNavigateTo: 'Navigate to'
     commandSuggestions: 'Suggestions'
