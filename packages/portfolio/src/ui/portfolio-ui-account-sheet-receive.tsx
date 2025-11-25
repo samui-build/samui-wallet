@@ -4,15 +4,10 @@ import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiQrCode } from '@workspace/ui/components/ui-qr-code'
-import { useHandleCopyText } from '@workspace/ui/components/use-handle-copy-text'
+import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
   const { t } = useTranslation('portfolio')
-  const { handleCopy } = useHandleCopyText({
-    text: account.publicKey,
-    toast: t(($) => $.actionCopyPublicKeySuccess),
-    toastFailed: t(($) => $.actionCopyPublicKeyError),
-  })
 
   return (
     <UiBottomSheet
@@ -24,12 +19,18 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         </Button>
       }
     >
-      <Button onClick={() => handleCopy()} variant="outline">
-        <UiIcon icon="copy" />
-        {t(($) => $.actionCopyPublicKey)}
-      </Button>
-      <div className="px-6">
-        <UiQrCode content={account.publicKey} />
+      <div className="space-y-6 p-2 text-center md:pb-10">
+        <UiTextCopyButton
+          label={t(($) => $.actionCopyPublicKey)}
+          text={account.publicKey}
+          toast={t(($) => $.actionCopyPublicKeySuccess)}
+          toastFailed={t(($) => $.actionCopyPublicKeyError)}
+        />
+        <div className="flex size-85 w-full justify-center">
+          <div className="aspect-square">
+            <UiQrCode content={account.publicKey} />
+          </div>
+        </div>
       </div>
     </UiBottomSheet>
   )
