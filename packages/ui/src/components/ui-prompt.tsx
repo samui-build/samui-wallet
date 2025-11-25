@@ -15,11 +15,11 @@ import type { FormEvent, ReactNode } from 'react'
 import { useId, useState } from 'react'
 
 interface UiPromptProps {
-  title: string
-  description: string
-  label: string
+  title: ReactNode
+  description: ReactNode
+  label: ReactNode
   placeholder?: string
-  actionLabel: string
+  actionLabel: ReactNode
   action: (value: string) => void
   children: ReactNode
 }
