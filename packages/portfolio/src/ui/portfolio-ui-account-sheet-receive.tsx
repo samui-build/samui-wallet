@@ -4,12 +4,16 @@ import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiQrCode } from '@workspace/ui/components/ui-qr-code'
-import { handleCopyText } from '@workspace/ui/lib/handle-copy-text'
-import { toastError } from '@workspace/ui/lib/toast-error'
-import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { useHandleCopyText } from '@workspace/ui/components/use-handle-copy-text'
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
   const { t } = useTranslation('portfolio')
+  const { handleCopy } = useHandleCopyText({
+    text: account.publicKey,
+    toast: t(($) => $.actionCopyPublicKeySuccess),
+    toastFailed: t(($) => $.actionCopyPublicKeyError),
+  })
+
   return (
     <UiBottomSheet
       description={t(($) => $.pageReceiveDescription)}
@@ -20,17 +24,7 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         </Button>
       }
     >
-      <Button
-        onClick={async () => {
-          try {
-            await handleCopyText(account.publicKey)
-            toastSuccess(t(($) => $.actionCopyPublicKeySuccess))
-          } catch (error) {
-            toastError(error instanceof Error ? error.message : t(($) => $.actionCopyPublicKeyError))
-          }
-        }}
-        variant="outline"
-      >
+      <Button onClick={() => handleCopy()} variant="outline">
         <UiIcon icon="copy" />
         {t(($) => $.actionCopyPublicKey)}
       </Button>
