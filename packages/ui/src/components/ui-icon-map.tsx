@@ -2,6 +2,8 @@ import {
   LucideAlertTriangle,
   LucideArrowDown,
   LucideArrowUp,
+  LucideBookmarkMinus,
+  LucideBookmarkPlus,
   LucideBug,
   LucideCalendar,
   LucideCamera,
@@ -12,6 +14,7 @@ import {
   LucideCircleX,
   LucideCoins,
   LucideCopy,
+  LucideCopyCheck,
   LucideExternalLink,
   LucideEye,
   LucideGlobe,
@@ -50,6 +53,8 @@ export type UiIconName =
   | 'alert'
   | 'arrowDown'
   | 'arrowUp'
+  | 'bookmarkAdd'
+  | 'bookmarkRemove'
   | 'bug'
   | 'calendar'
   | 'camera'
@@ -60,6 +65,7 @@ export type UiIconName =
   | 'circleX'
   | 'coins'
   | 'copy'
+  | 'copyCheck'
   | 'delete'
   | 'derive'
   | 'edit'
@@ -91,6 +97,8 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('alert', LucideAlertTriangle)
   .set('arrowDown', LucideArrowDown)
   .set('arrowUp', LucideArrowUp)
+  .set('bookmarkAdd', LucideBookmarkPlus)
+  .set('bookmarkRemove', LucideBookmarkMinus)
   .set('bug', LucideBug)
   .set('calendar', LucideCalendar)
   .set('camera', LucideCamera)
@@ -101,6 +109,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('circleX', LucideCircleX)
   .set('coins', LucideCoins)
   .set('copy', LucideCopy)
+  .set('copyCheck', LucideCopyCheck)
   .set('delete', LucideTrash)
   .set('derive', LucideLetterText)
   .set('edit', LucidePencil)

@@ -5,12 +5,12 @@ runs:
   using: composite
   steps:
     - name: Install Node.js
-      uses: actions/setup-node@v6
+      uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6
       with:
         node-version: lts/krypton
 
     - name: Install bun
-      uses: oven-sh/setup-bun@v2
+      uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2
       with:
         bun-version-file: '.bun-version'
 

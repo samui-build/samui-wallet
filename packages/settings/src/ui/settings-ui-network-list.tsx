@@ -4,7 +4,6 @@ import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemGroup, ItemTitle } from '@workspace/ui/components/item'
 import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { Link } from 'react-router'
 
 export function SettingsUiNetworkList({
@@ -32,26 +31,22 @@ export function SettingsUiNetworkList({
             </ItemTitle>
           </ItemContent>
           <ItemActions>
-            <UiTooltip content={t(($) => $.actionEdit)}>
-              <Button aria-label={t(($) => $.actionEdit)} asChild size="icon" variant="outline">
-                <Link to={`./${item.id}`}>
-                  <UiIcon className="size-4" icon="edit" />
-                </Link>
+            <Button aria-label={t(($) => $.actionEdit)} asChild size="icon" variant="outline">
+              <Link to={`./${item.id}`}>
+                <UiIcon className="size-4" icon="edit" />
+              </Link>
+            </Button>
+            <UiConfirm
+              action={async () => await deleteItem(item)}
+              actionLabel="Delete"
+              actionVariant="destructive"
+              description="This action can not be reversed."
+              title="Are you sure you want to delete this network?"
+            >
+              <Button aria-label={t(($) => $.actionDelete)} size="icon" variant="outline">
+                <UiIcon className="size-4 text-red-500" icon="delete" />
               </Button>
-            </UiTooltip>
-            <UiTooltip content={t(($) => $.actionDelete)}>
-              <UiConfirm
-                action={async () => await deleteItem(item)}
-                actionLabel="Delete"
-                actionVariant="destructive"
-                description="This action can not be reversed."
-                title="Are you sure you want to delete this network?"
-              >
-                <Button aria-label={t(($) => $.actionDelete)} size="icon" variant="outline">
-                  <UiIcon className="size-4 text-red-500" icon="delete" />
-                </Button>
-              </UiConfirm>
-            </UiTooltip>
+            </UiConfirm>
           </ItemActions>
         </Item>
       ))}

@@ -1,12 +1,12 @@
 import type { UnixTimestamp } from '@solana/kit'
 
 import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
-import { ExplorerUiTimestamp } from './explorer-ui-timestamp.tsx'
+import { UiTime } from '@workspace/ui/components/ui-time'
 
 export function ExplorerUiTxTimestamp({ blockTime }: { blockTime: null | UnixTimestamp }) {
-  const date = unixTimestampToDate(blockTime)
-  if (!date) {
+  const time = unixTimestampToDate(blockTime)
+  if (!time) {
     return 'No time'
   }
-  return <ExplorerUiTimestamp date={date} />
+  return <UiTime time={time} />
 }

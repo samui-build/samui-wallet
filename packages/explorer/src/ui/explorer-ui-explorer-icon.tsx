@@ -1,7 +1,6 @@
 import type { GetExplorerUrlProps } from '@workspace/solana-client/get-explorer-url'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { cn } from '@workspace/ui/lib/utils'
 
 export function ExplorerUiExplorerIcon({
@@ -12,15 +11,14 @@ export function ExplorerUiExplorerIcon({
 } & GetExplorerUrlProps) {
   const href = getExplorerUrl(props)
   return (
-    <UiTooltip content="View in Explorer">
-      <a
-        className={cn('link inline-flex gap-1 font-mono', className)}
-        href={href}
-        rel="noopener noreferrer"
-        target="_blank"
-      >
-        <UiIcon className="size-3" icon="explorer" />
-      </a>
-    </UiTooltip>
+    <a
+      className={cn('link inline-flex gap-1 font-mono', className)}
+      href={href}
+      rel="noopener noreferrer"
+      target="_blank"
+      title="View in Explorer"
+    >
+      <UiIcon className="size-3" icon="explorer" />
+    </a>
   )
 }

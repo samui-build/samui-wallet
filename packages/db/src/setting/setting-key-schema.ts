@@ -7,5 +7,6 @@ export const settingKeySchema = z.enum([
   'apiEndpoint',
   'developerModeEnabled',
   'language',
+  'theme',
   'warningAcceptExperimental',
 ])

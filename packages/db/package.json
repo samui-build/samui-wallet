@@ -11,7 +11,7 @@
     "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vitest": "workspace:*",
-    "fake-indexeddb": "^6.2.4",
+    "fake-indexeddb": "6.2.5",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

@@ -1,11 +1,11 @@
 {
   "devDependencies": {
     "@types/bun": "catalog:",
-    "@types/wait-on": "^5.3.4",
+    "@types/wait-on": "5.3.4",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "wait-on": "^9.0.3"
+    "wait-on": "9.0.3"
   },
   "exports": {
     ".": "./src/index.ts",

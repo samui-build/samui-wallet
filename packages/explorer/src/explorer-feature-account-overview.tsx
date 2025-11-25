@@ -5,6 +5,7 @@ import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
+import { ExplorerFeatureAccountBookmarkButton } from './explorer-feature-account-bookmark-button.tsx'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
@@ -32,10 +33,13 @@ export function ExplorerFeatureAccountOverview({
   return (
     <UiCard
       action={
-        <Button onClick={() => query.refetch()} size="sm" variant="secondary">
-          <UiIcon icon="refresh" />
-          Refresh
-        </Button>
+        <div className="flex items-center gap-2">
+          <ExplorerFeatureAccountBookmarkButton address={address} />
+          <Button onClick={() => query.refetch()} size="sm" variant="secondary">
+            <UiIcon icon="refresh" />
+            Refresh
+          </Button>
+        </div>
       }
       backButtonTo={backButtonTo}
       description={<ExplorerUiExplorers network={network} path={`/address/${address}`} />}

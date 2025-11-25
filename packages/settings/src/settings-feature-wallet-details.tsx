@@ -7,7 +7,6 @@ import { UiError } from '@workspace/ui/components/ui-error'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
-import { UiTooltip } from '@workspace/ui/components/ui-tooltip'
 import { Link, useParams } from 'react-router'
 import { useSortAccounts } from './data-access/use-sort-accounts.tsx'
 import { SettingsUiAccountTable } from './ui/settings-ui-account-table.tsx'
@@ -37,22 +36,18 @@ export function SettingsFeatureWalletDetails() {
         <div className="flex w-full items-center justify-between">
           <SettingsUiWalletItem item={item} />
           <div className="flex items-center gap-2">
-            <UiTooltip content={t(($) => $.actionEditWallet)}>
-              <Button asChild variant="outline">
-                <Link to={`./edit`}>
-                  <UiIcon className="size-4" icon="edit" />
-                  {t(($) => $.actionEditWallet)}
-                </Link>
-              </Button>
-            </UiTooltip>
-            <UiTooltip content={t(($) => $.actionEditWalletMessage)}>
-              <Button asChild variant="outline">
-                <Link to={`./add`}>
-                  <UiIcon className="size-4" icon="add" />
-                  {t(($) => $.actionAddAccount)}
-                </Link>
-              </Button>
-            </UiTooltip>
+            <Button asChild title={t(($) => $.actionEditWallet)} variant="outline">
+              <Link to={`./edit`}>
+                <UiIcon className="size-4" icon="edit" />
+                {t(($) => $.actionEditWallet)}
+              </Link>
+            </Button>
+            <Button asChild title={t(($) => $.actionEditWalletMessage)} variant="outline">
+              <Link to={`./add`}>
+                <UiIcon className="size-4" icon="add" />
+                {t(($) => $.actionAddAccount)}
+              </Link>
+            </Button>
           </div>
         </div>
       }
