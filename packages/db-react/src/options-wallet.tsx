@@ -6,6 +6,7 @@ import { walletDelete } from '@workspace/db/wallet/wallet-delete'
 import { walletFindMany } from '@workspace/db/wallet/wallet-find-many'
 import type { WalletFindManyInput } from '@workspace/db/wallet/wallet-find-many-input'
 import { walletFindUnique } from '@workspace/db/wallet/wallet-find-unique'
+import { walletReadMnemonic } from '@workspace/db/wallet/wallet-read-mnemonic'
 import { walletSetActive } from '@workspace/db/wallet/wallet-set-active'
 import { walletUpdate } from '@workspace/db/wallet/wallet-update'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
@@ -14,6 +15,7 @@ import { queryClient } from './query-client.tsx'
 
 export type WalletCreateMutateOptions = MutateOptions<string, Error, { input: WalletCreateInput }>
 export type WalletDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
+export type WalletReadMnemonicMutateOptions = MutateOptions<string, Error, { id: string }>
 export type WalletSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
 export type WalletUpdateMutateOptions = MutateOptions<number, Error, { input: WalletUpdateInput }>
 
@@ -41,6 +43,11 @@ export const optionsWallet = {
     queryOptions({
       queryFn: () => walletFindUnique(db, id),
       queryKey: ['walletFindUnique', id],
+    }),
+  readMnemonic: (props: WalletReadMnemonicMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ id }: { id: string }) => walletReadMnemonic(db, id),
+      ...props,
     }),
   setActive: (props: WalletSetActiveMutateOptions = {}) =>
     mutationOptions({
