@@ -75,7 +75,7 @@ describe('wallet-find-many', () => {
 
     it('should find many wallets by id', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(3)
       const wallet1 = testWalletCreateInput({ name: 'Test Wallet Alpha' })
       const wallet2 = testWalletCreateInput({ name: 'Test Wallet Beta' })
       const id1 = await walletCreate(db, wallet1)
@@ -87,6 +87,8 @@ describe('wallet-find-many', () => {
       // ASSERT
       expect(items).toHaveLength(1)
       expect(items[0]?.name).toEqual(wallet1.name)
+      // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
+      expect(items[0]?.mnemonic).toEqual(undefined)
     })
   })
 
@@ -103,8 +105,8 @@ describe('wallet-find-many', () => {
       // ARRANGE
       expect.assertions(1)
       vi.spyOn(db.wallets, 'orderBy').mockImplementation(() => ({
-        // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
         filter: () => ({
+          // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
           toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet[]>,
         }),
       }))

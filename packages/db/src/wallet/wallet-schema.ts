@@ -1,15 +1,5 @@
-import { z } from 'zod'
+import { walletInternalSchema } from './wallet-internal-schema.ts'
 
-import { accountSchema } from '../account/account-schema.ts'
-
-export const walletSchema = z.object({
-  accounts: z.array(accountSchema).optional().default([]),
-  createdAt: z.date(),
-  derivationPath: z.string(),
-  id: z.string(),
-  mnemonic: z.string(),
-  name: z.string(),
-  order: z.number(),
-  secret: z.string(),
-  updatedAt: z.date(),
+export const walletSchema = walletInternalSchema.omit({
+  mnemonic: true,
 })
