@@ -1,4 +1,5 @@
 import type { Wallet } from '@workspace/db/wallet/wallet'
+import { useWalletReadMnemonic } from '@workspace/db-react/use-wallet-read-mnemonic'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { Textarea } from '@workspace/ui/components/textarea'
@@ -11,27 +12,27 @@ import { SettingsUiExportConfirm } from './settings-ui-export-confirm.tsx'
 
 export function SettingsUiExportWalletMnemonic({ wallet }: { wallet: Wallet }) {
   const { t } = useTranslation('settings')
-  const [confirmed, setConfirmed] = useState(false)
   const [revealed, setRevealed] = useState(false)
+  const readMnemonicMutation = useWalletReadMnemonic()
 
   return (
     <UiBottomSheet
       description={t(($) => $.exportMnemonicCopyConfirmDescription)}
       title={t(($) => $.exportMnemonicCopyConfirmTitle)}
       trigger={
-        <Button disabled={!wallet.mnemonic} size="icon" title={t(($) => $.exportMnemonicCopy)} variant="outline">
+        <Button size="icon" title={t(($) => $.exportMnemonicCopy)} variant="outline">
           <UiIcon className="size-4" icon="mnemonic" />
         </Button>
       }
     >
       <div className="px-4 pb-4">
-        {confirmed ? (
+        {readMnemonicMutation.data?.length ? (
           <div className="space-y-2 text-center">
             <Textarea
               className={cn('w-full overflow-auto', {
                 'blur-sm': !revealed,
               })}
-              defaultValue={wallet.mnemonic}
+              defaultValue={readMnemonicMutation.data}
               readOnly
             />
             <div className="space-x-2">
@@ -41,13 +42,16 @@ export function SettingsUiExportWalletMnemonic({ wallet }: { wallet: Wallet }) {
               </Button>
               <UiTextCopyButton
                 label={t(($) => $.exportMnemonicCopy)}
-                text={wallet.mnemonic ?? ''}
+                text={readMnemonicMutation.data}
                 toast={t(($) => $.exportMnemonicCopyCopied)}
               />
             </div>
           </div>
         ) : (
-          <SettingsUiExportConfirm confirm={() => setConfirmed(true)} label={t(($) => $.exportMnemonicShow)} />
+          <SettingsUiExportConfirm
+            confirm={() => readMnemonicMutation.mutateAsync({ id: wallet.id })}
+            label={t(($) => $.exportMnemonicShow)}
+          />
         )}
       </div>
     </UiBottomSheet>
