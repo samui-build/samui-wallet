@@ -157,6 +157,9 @@ interface Resources {
     walletEdit: 'Edit wallet'
     walletSettings: 'Wallet settings'
   }
+  tools: {
+    generateKeypair: 'Generate New Keypair'
+  }
   translation: {
     languageEnglish: 'English'
     languageSpanish: 'Spanish'

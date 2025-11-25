@@ -18,7 +18,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useCallback, useId, useState } from 'react'
 
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
-  const { t } = useTranslation('ui')
+  const { t } = useTranslation('tools')
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
@@ -112,7 +112,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             <div className="flex items-center gap-2">
               <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
               <Button
-                aria-label={t(($) => $.buttonRefresh)}
+                aria-label={t(($) => $.generateKeypair)}
                 onClick={() => queryKeypair.refetch()}
                 size="icon"
                 variant="outline"
