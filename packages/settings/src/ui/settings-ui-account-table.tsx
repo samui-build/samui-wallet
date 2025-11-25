@@ -3,8 +3,8 @@ import { useTranslation } from '@workspace/i18n'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { AccountTypeLabel } from './account-type-label.tsx'
-import { AccountExportSecretButton } from './account-ui-export-secret-button.tsx'
 import { AccountUiItem } from './account-ui-item.tsx'
+import { SettingsUiExportAccountSecretKey } from './settings-ui-export-account-secret-key.tsx'
 
 export function SettingsUiAccountTable({ items }: { items: Account[] }) {
   const { t } = useTranslation('settings')
@@ -34,7 +34,7 @@ export function SettingsUiAccountTable({ items }: { items: Account[] }) {
               <AccountTypeLabel type={item.type} />
             </TableCell>
             <TableCell className="text-right">
-              <AccountExportSecretButton account={item} />
+              <SettingsUiExportAccountSecretKey account={item} />
             </TableCell>
           </TableRow>
         ))}
