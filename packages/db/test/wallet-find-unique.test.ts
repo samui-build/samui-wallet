@@ -16,7 +16,7 @@ describe('wallet-find-unique', () => {
   describe('expected behavior', () => {
     it('should find a unique wallet', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(3)
       const input = testWalletCreateInput()
       const id = await walletCreate(db, input)
 
@@ -26,6 +26,8 @@ describe('wallet-find-unique', () => {
       // ASSERT
       expect(item).toBeDefined()
       expect(item?.name).toBe(input.name)
+      // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
+      expect(item?.mnemonic).toBe(undefined)
     })
   })
 

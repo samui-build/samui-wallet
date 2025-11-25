@@ -4,7 +4,7 @@ import type { BookmarkAccount } from './bookmark-account/bookmark-account.ts'
 import type { Network } from './network/network.ts'
 import { populate } from './populate.ts'
 import type { Setting } from './setting/setting.ts'
-import type { Wallet } from './wallet/wallet.ts'
+import type { WalletInternal } from './wallet/wallet-internal.ts'
 
 export interface DatabaseConfig {
   name: string
@@ -15,7 +15,7 @@ export class Database extends Dexie {
   bookmarkAccounts!: Table<BookmarkAccount>
   networks!: Table<Network>
   settings!: Table<Setting>
-  wallets!: Table<Wallet>
+  wallets!: Table<WalletInternal>
 
   constructor(config: DatabaseConfig) {
     super(config.name)
