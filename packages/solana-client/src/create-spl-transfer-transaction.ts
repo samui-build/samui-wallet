@@ -16,6 +16,20 @@ import {
 } from '@solana-program/token'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 
+interface CreateSplTransferTransactionOptions {
+  amount: bigint
+  decimals: number
+  destination: Address | string
+  destinationTokenAccount: Address | string
+  destinationTokenAccountExists?: boolean
+  latestBlockhash: LatestBlockhash
+  mint: Address | string
+  sender: TransactionSigner
+  source?: TransactionSigner
+  sourceTokenAccount: Address | string
+  tokenProgram?: Address | string
+}
+
 export function createSplTransferTransaction({
   amount,
   decimals,
@@ -28,19 +42,7 @@ export function createSplTransferTransaction({
   source,
   sourceTokenAccount,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
-}: {
-  amount: bigint
-  decimals: number
-  destination: Address | string
-  destinationTokenAccount: Address | string
-  destinationTokenAccountExists?: boolean
-  latestBlockhash: LatestBlockhash
-  mint: Address | string
-  sender: TransactionSigner
-  source?: TransactionSigner
-  sourceTokenAccount: Address | string
-  tokenProgram?: Address | string
-}) {
+}: CreateSplTransferTransactionOptions) {
   assertIsAddress(mint)
   assertIsAddress(sourceTokenAccount)
   assertIsAddress(destinationTokenAccount)

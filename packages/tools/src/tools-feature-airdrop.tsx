@@ -3,6 +3,7 @@ import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useAccountLive } from '@workspace/db-react/use-account-live'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
+import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
@@ -17,7 +18,10 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
         accounts={accounts}
         disabled={isPending}
         submit={async (input) => {
-          const signature = await mutateAsync({ ...input, address: address(input.address) })
+          const signature = await mutateAsync({
+            address: address(input.address),
+            amount: solToLamports(input.amount.toString()),
+          })
           toastSuccess(
             <ExplorerUiExplorerLink
               label="View on explorer"

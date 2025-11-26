@@ -1,6 +1,7 @@
 import { tryCatch } from '@workspace/core/try-catch'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -82,8 +83,16 @@ export function PortfolioFeatureTabTokens() {
 
   const handleSendSol = useCallback(
     async (input: SendTokenInput): Promise<void> => {
+      if (!account.secretKey) {
+        throw new Error(`No secret key for this account`)
+      }
+      const sender = await createKeyPairSignerFromJson({ json: account.secretKey })
       const { data: result, error: sendError } = await tryCatch(
-        sendSolMutation.mutateAsync({ ...input, account: account }),
+        sendSolMutation.mutateAsync({
+          amount: input.amount,
+          destination: input.destination,
+          sender,
+        }),
       )
 
       if (sendError) {
