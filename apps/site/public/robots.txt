@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samui.build/sitemap-index.xml
