@@ -11,7 +11,13 @@ export function UiExperimentalWarning({ close }: { close?: () => void }) {
       <AlertTitle>{t(($) => $.experimentalWarningTitle)}</AlertTitle>
       <AlertDescription>{t(($) => $.experimentalWarningDescription)}</AlertDescription>
       {close ? (
-        <Button className="absolute top-2 right-2" onClick={() => close()} size="icon" variant="ghost">
+        <Button
+          aria-label={t(($) => $.buttonClose)}
+          className="absolute top-2 right-2"
+          onClick={() => close()}
+          size="icon"
+          variant="ghost"
+        >
           <LucideX />
         </Button>
       ) : null}

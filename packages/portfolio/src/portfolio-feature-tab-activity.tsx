@@ -24,7 +24,13 @@ export function PortfolioFeatureTabActivity() {
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-xl">{t(($) => $.pageTitleActivity)}</h2>
         <div className="space-x-2">
-          <Button disabled={isLoading} onClick={() => refetch()} size="icon" variant="outline">
+          <Button
+            aria-label={t(($) => $.buttonRefresh)}
+            disabled={isLoading}
+            onClick={() => refetch()}
+            size="icon"
+            variant="outline"
+          >
             {isLoading ? <Spinner /> : <UiIcon icon="refresh" />}
           </Button>
         </div>

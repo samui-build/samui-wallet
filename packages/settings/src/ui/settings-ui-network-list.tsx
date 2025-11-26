@@ -31,7 +31,7 @@ export function SettingsUiNetworkList({
             </ItemTitle>
           </ItemContent>
           <ItemActions>
-            <Button asChild size="icon" title={t(($) => $.actionEdit)} variant="outline">
+            <Button aria-label={t(($) => $.actionEdit)} asChild size="icon" variant="outline">
               <Link to={`./${item.id}`}>
                 <UiIcon className="size-4" icon="edit" />
               </Link>
@@ -43,7 +43,7 @@ export function SettingsUiNetworkList({
               description="This action can not be reversed."
               title="Are you sure you want to delete this network?"
             >
-              <Button size="icon" title={t(($) => $.actionDelete)} variant="outline">
+              <Button aria-label={t(($) => $.actionDelete)} size="icon" variant="outline">
                 <UiIcon className="size-4 text-red-500" icon="delete" />
               </Button>
             </UiConfirm>

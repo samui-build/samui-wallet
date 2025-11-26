@@ -40,7 +40,6 @@ export function ShellUiMenuWallets({
           <UiTextCopyIcon
             onPointerDown={(e) => e.stopPropagation()}
             text={activeAccount.publicKey}
-            title={t(($) => $.accountPublicKeyCopy)}
             toast={t(($) => $.accountPublicKeyCopySuccess)}
             toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
           />
@@ -67,7 +66,6 @@ export function ShellUiMenuWallets({
                     </MenubarRadioItem>
                     <UiTextCopyIcon
                       text={account.publicKey}
-                      title={t(($) => $.accountPublicKeyCopy)}
                       toast={t(($) => $.accountPublicKeyCopySuccess)}
                       toastFailed={t(($) => $.accountPublicKeyCopyFailed)}
                     />

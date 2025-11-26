@@ -26,7 +26,7 @@ export function SettingsUiWalletExportMnemonicButton({ wallet }: { wallet: Walle
       description="Do you want to copy it to your clipboard?"
       title="Exporting the mnemonic reveals sensitive information."
     >
-      <Button size="icon" title={t(($) => $.actionExportMnemonic)} variant="outline">
+      <Button aria-label={t(($) => $.actionExportMnemonic)} size="icon" variant="outline">
         <UiIcon className="size-4" icon="mnemonic" />
       </Button>
     </UiConfirm>

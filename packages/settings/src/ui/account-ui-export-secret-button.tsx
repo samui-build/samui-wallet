@@ -11,7 +11,7 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
   const { t } = useTranslation('settings')
   if (!account.secretKey) {
     return (
-      <Button disabled size="icon" title={t(($) => $.accountNoSecretKey)} type="button" variant="outline">
+      <Button aria-label={t(($) => $.accountNoSecretKey)} disabled size="icon" type="button" variant="outline">
         <UiIcon className="size-4" icon="key" />
       </Button>
     )
@@ -37,7 +37,7 @@ export function AccountExportSecretButton({ account }: { account: Account }) {
       description={t(($) => $.accountCopySecretKeyConfirmDescription)}
       title={t(($) => $.accountCopySecretKeyConfirmTitle)}
     >
-      <Button size="icon" title={t(($) => $.accountCopySecretKey)} variant="outline">
+      <Button aria-label={t(($) => $.accountCopySecretKey)} size="icon" variant="outline">
         <UiIcon className="size-4" icon="key" />
       </Button>
     </UiConfirm>

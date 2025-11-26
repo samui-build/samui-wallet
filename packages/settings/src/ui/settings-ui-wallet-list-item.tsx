@@ -29,7 +29,7 @@ export function SettingsUiWalletListItem({
       </ItemContent>
       <ItemActions>
         <SettingsUiWalletExportMnemonicButton wallet={item} />
-        <Button asChild size="icon" title={t(($) => $.actionEdit)} variant="outline">
+        <Button aria-label={t(($) => $.actionEdit)} asChild size="icon" variant="outline">
           <Link to={`./${item.id}/edit`}>
             <UiIcon className="size-4" icon="edit" />
           </Link>
@@ -41,7 +41,7 @@ export function SettingsUiWalletListItem({
           description="This action can not be reversed."
           title="Are you sure you want to delete this wallet?"
         >
-          <Button size="icon" title={t(($) => $.actionDelete)} variant="outline">
+          <Button aria-label={t(($) => $.actionDelete)} size="icon" variant="outline">
             <UiIcon className="size-4 text-red-500" icon="delete" />
           </Button>
         </UiConfirm>
