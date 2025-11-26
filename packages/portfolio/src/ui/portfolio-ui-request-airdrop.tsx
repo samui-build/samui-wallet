@@ -2,6 +2,7 @@ import type { Lamports } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
+import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import { UiEmpty } from '@workspace/ui/components/ui-empty'
@@ -27,7 +28,10 @@ export function PortfolioUiRequestAirdrop({
 
   return (
     <UiEmpty description={t(($) => $.requestAirdropDescription)} icon="airdrop" title={t(($) => $.requestAirdropTitle)}>
-      <Button disabled={isPending} onClick={() => mutateAsync({ address: account.publicKey, amount: 1 })}>
+      <Button
+        disabled={isPending}
+        onClick={() => mutateAsync({ address: account.publicKey, amount: solToLamports('1') })}
+      >
         <UiIcon icon="coins" /> {t(($) => $.actionRequestAirdrop)}
       </Button>
       {isLocalnet ? null : (
