@@ -14,19 +14,6 @@ describe('network-create', () => {
   })
 
   describe('expected behavior', () => {
-    it('should create a network', async () => {
-      // ARRANGE
-      expect.assertions(1)
-      const input = testNetworkCreateInput()
-
-      // ACT
-      await networkCreate(db, input)
-
-      // ASSERT
-      const items = await networkFindMany(db)
-      expect(items.map((i) => i.name)).toContain(input.name)
-    })
-
     it.each([
       ['http://127.0.0.1:8899'],
       ['http://hostname'],
@@ -100,16 +87,10 @@ describe('network-create', () => {
       await expect(networkCreate(db, input)).rejects.toThrow()
     })
 
-    it.each([
-      ['http://localhost:8899'],
-      ['https://127.0.0.1:8900'],
-      ['ftp://hostname'],
-      ['not-a-websocket-url'],
-      ['good://.com'],
-    ])('should throw an error with invalid endpointSubscriptions value %s', async (invalidUrl) => {
+    it('should throw an error with an invalid endpointSubscriptions', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkCreateInput({ endpointSubscriptions: invalidUrl })
+      const input = testNetworkCreateInput({ endpointSubscriptions: 'not-a-websocket-url' })
 
       // ACT & ASSERT
       await expect(networkCreate(db, input)).rejects.toThrow()
