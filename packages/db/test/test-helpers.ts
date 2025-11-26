@@ -1,7 +1,8 @@
 import 'fake-indexeddb/auto'
-import { address } from '@solana/kit'
+import { address, signature } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import type { BookmarkAccountCreateInput } from '../src/bookmark-account/bookmark-account-create-input.ts'
+import type { BookmarkTransactionCreateInput } from '../src/bookmark-transaction/bookmark-transaction-create-input.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
@@ -31,6 +32,15 @@ export function testBookmarkAccountCreateInput(
   return {
     address: address('So11111111111111111111111111111111111111112'),
     label: randomName('bookmarkAccount'),
+    ...input,
+  }
+}
+export function testBookmarkTransactionCreateInput(
+  input: Partial<BookmarkTransactionCreateInput> = {},
+): BookmarkTransactionCreateInput {
+  return {
+    label: randomName('bookmarkAccount'),
+    signature: signature('2RHM8HGK1NaHrWPnfLMDeBsANJAUh1NWefpYctp4v9ZCgLWVjczA8bsjubm4hDEdrdB5XQLKfkHYUoghZftfo1mZ'),
     ...input,
   }
 }

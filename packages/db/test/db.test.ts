@@ -11,6 +11,6 @@ describe('db', () => {
     // ACT
     const results = db.tables.map((t) => t.name)
     // ASSERT
-    expect(results).toEqual(['accounts', 'bookmarkAccounts', 'networks', 'settings', 'wallets'])
+    expect(results).toEqual(['accounts', 'bookmarkAccounts', 'bookmarkTransactions', 'networks', 'settings', 'wallets'])
   })
 })
