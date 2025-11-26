@@ -14,10 +14,18 @@ describe('network-create', () => {
   })
 
   describe('expected behavior', () => {
-    it('should create a network', async () => {
+    it.each([
+      ['http://127.0.0.1:8899'],
+      ['http://hostname'],
+      ['http://localhost:8899'],
+      ['https://127.0.0.1:8899'],
+      ['https://api.devnet.solana.com'],
+      ['https://hostname'],
+      ['https://localhost:8899'],
+    ])('should create a network with an endpoint %s', async (endpoint) => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkCreateInput()
+      const input = testNetworkCreateInput({ endpoint })
 
       // ACT
       await networkCreate(db, input)
@@ -26,10 +34,19 @@ describe('network-create', () => {
       const items = await networkFindMany(db)
       expect(items.map((i) => i.name)).toContain(input.name)
     })
-    it('should create a network with a subscription endpoint', async () => {
+
+    it.each([
+      ['ws://127.0.0.1:8900'],
+      ['ws://hostname'],
+      ['ws://localhost:8900'],
+      ['wss://127.0.0.1:8900'],
+      ['wss://api.devnet.solana.com'],
+      ['wss://hostname'],
+      ['wss://localhost:8900'],
+    ])('should create a network with a subscription endpoint %s', async (endpointSubscriptions) => {
       // ARRANGE
       expect.assertions(1)
-      const input = testNetworkCreateInput({ endpointSubscriptions: 'ws://127.0.0.1:8900' })
+      const input = testNetworkCreateInput({ endpointSubscriptions })
 
       // ACT
       await networkCreate(db, input)
@@ -65,6 +82,15 @@ describe('network-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testNetworkCreateInput({ endpoint: 'not-a-url' })
+
+      // ACT & ASSERT
+      await expect(networkCreate(db, input)).rejects.toThrow()
+    })
+
+    it('should throw an error with an invalid endpointSubscriptions', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testNetworkCreateInput({ endpointSubscriptions: 'not-a-websocket-url' })
 
       // ACT & ASSERT
       await expect(networkCreate(db, input)).rejects.toThrow()
