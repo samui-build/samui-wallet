@@ -8,11 +8,7 @@ import { useHandleCopyText } from '@workspace/ui/components/use-handle-copy-text
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
   const { t } = useTranslation('portfolio')
-  const { handleCopy } = useHandleCopyText({
-    text: account.publicKey,
-    toast: t(($) => $.actionCopyPublicKeySuccess),
-    toastFailed: t(($) => $.actionCopyPublicKeyError),
-  })
+  const { handleCopy } = useHandleCopyText()
 
   return (
     <UiBottomSheet
@@ -24,7 +20,16 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         </Button>
       }
     >
-      <Button onClick={() => handleCopy()} variant="outline">
+      <Button
+        onClick={() =>
+          handleCopy({
+            text: account.publicKey,
+            toast: t(($) => $.actionCopyPublicKeySuccess),
+            toastFailed: t(($) => $.actionCopyPublicKeyError),
+          })
+        }
+        variant="outline"
+      >
         <UiIcon icon="copy" />
         {t(($) => $.actionCopyPublicKey)}
       </Button>

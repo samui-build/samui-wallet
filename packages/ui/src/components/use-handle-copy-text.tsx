@@ -10,19 +10,19 @@ import { handleCopyText } from '../lib/handle-copy-text.ts'
 import { toastError } from '../lib/toast-error.ts'
 import { toastSuccess } from '../lib/toast-success.ts'
 
-export interface HandleCopyTextProps {
+export interface HandleCopyProps {
   text: string
   timeout?: number
   toast: string
   toastFailed?: string | undefined
 }
 
-export function useHandleCopyText({ text, timeout = 2000, toast, toastFailed }: HandleCopyTextProps) {
+export function useHandleCopyText() {
   const { t } = useTranslation('ui')
   const [copyTimeout, setCopyTimeout] = useState<number | null>(null)
   const [copied, setCopied] = useState(false)
 
-  function handleCopySuccess() {
+  function handleCopySuccess({ timeout = 2000, toast }: Pick<HandleCopyProps, 'timeout' | 'toast'>) {
     if (copyTimeout) {
       window.clearTimeout(copyTimeout)
     }
@@ -31,10 +31,10 @@ export function useHandleCopyText({ text, timeout = 2000, toast, toastFailed }: 
     toastSuccess(toast)
   }
 
-  async function handleCopy() {
+  async function handleCopy({ text, timeout = 2000, toast, toastFailed }: HandleCopyProps) {
     try {
       await handleCopyText(text)
-      handleCopySuccess()
+      handleCopySuccess({ timeout, toast })
     } catch (error) {
       toastError(error instanceof Error ? error.message : (toastFailed ?? t(($) => $.textCopyFailed)))
     }
