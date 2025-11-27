@@ -4,11 +4,10 @@ import { Button } from '@workspace/ui/components/button'
 import { UiBottomSheet } from '@workspace/ui/components/ui-bottom-sheet'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiQrCode } from '@workspace/ui/components/ui-qr-code'
-import { useHandleCopyText } from '@workspace/ui/components/use-handle-copy-text'
+import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 
 export function PortfolioUiAccountSheetReceive({ account }: { account: Account }) {
   const { t } = useTranslation('portfolio')
-  const { handleCopy } = useHandleCopyText()
 
   return (
     <UiBottomSheet
@@ -20,19 +19,13 @@ export function PortfolioUiAccountSheetReceive({ account }: { account: Account }
         </Button>
       }
     >
-      <Button
-        onClick={() =>
-          handleCopy({
-            text: account.publicKey,
-            toast: t(($) => $.actionCopyPublicKeySuccess),
-            toastFailed: t(($) => $.actionCopyPublicKeyError),
-          })
-        }
+      <UiTextCopyButton
+        label={t(($) => $.actionCopyPublicKey)}
+        text={account.publicKey}
+        toast={t(($) => $.actionCopyPublicKeySuccess)}
+        toastFailed={t(($) => $.actionCopyPublicKeyError)}
         variant="outline"
-      >
-        <UiIcon icon="copy" />
-        {t(($) => $.actionCopyPublicKey)}
-      </Button>
+      />
       <div className="px-6">
         <UiQrCode content={account.publicKey} />
       </div>
