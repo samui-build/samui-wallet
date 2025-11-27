@@ -1,0 +1,20 @@
+{
+  "accountBookmarksDescription": null,
+  "accountBookmarksEmpty": null,
+  "accountBookmarksTitle": null,
+  "actionDelete": null,
+  "actionManage": null,
+  "actions": null,
+  "actionUpdate": null,
+  "address": null,
+  "bookmarkDelete": null,
+  "bookmarkDeleteDescription": null,
+  "bookmarkDeleteTitle": null,
+  "editLabel": null,
+  "label": null,
+  "labelEmpty": null,
+  "labelInputPlaceholder": null,
+  "transactionBookmarksDescription": null,
+  "transactionBookmarksEmpty": null,
+  "transactionBookmarksTitle": null
+}

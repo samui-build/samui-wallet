@@ -38,7 +38,7 @@ export function SettingsUiWalletListItem({
           action={async () => await deleteItem(item)}
           actionLabel="Delete"
           actionVariant="destructive"
-          description="This action can not be reversed."
+          description="This action cannot be reversed."
           title="Are you sure you want to delete this wallet?"
         >
           <Button size="icon" title={t(($) => $.actionDelete)} variant="outline">

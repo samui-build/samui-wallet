@@ -317,6 +317,7 @@
         "@tanstack/react-query": "catalog:",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
+        "@workspace/i18n": "workspace:*",
         "@workspace/solana-client": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",

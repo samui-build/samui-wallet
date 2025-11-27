@@ -3,13 +3,14 @@ import { solanaSignatureSchema } from '@workspace/db/solana/solana-signature-sch
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiPage } from '@workspace/ui/components/ui-page'
-import { useLocation, useParams } from 'react-router'
+import { useParams } from 'react-router'
+import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-to.tsx'
 import { ExplorerFeatureTxDetails } from './explorer-feature-tx-details.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
 export function ExplorerFeatureTx({ basePath }: { basePath: string }) {
   const network = useNetworkActive()
-  const location = useLocation()
+  const backButtonTo = useExplorerBackButtonTo({ basePath })
   const { signature } = useParams() as { signature: string }
   if (!signature || !solanaSignatureSchema.safeParse(signature).success) {
     return (
@@ -20,8 +21,6 @@ export function ExplorerFeatureTx({ basePath }: { basePath: string }) {
     )
   }
   assertIsSignature(signature)
-  const from = location.state?.from ?? basePath
-  const backButtonTo = from.startsWith('/') ? from : `${basePath}/${from}`
 
   return (
     <UiPage>

@@ -5,6 +5,6 @@ export const bookmarkAccountSchema = z.object({
   address: solanaAddressSchema,
   createdAt: z.date(),
   id: z.string(),
-  label: z.string().optional(),
+  label: z.string().max(50).optional(),
   updatedAt: z.date(),
 })
