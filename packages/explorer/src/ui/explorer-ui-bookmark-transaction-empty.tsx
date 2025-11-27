@@ -4,5 +4,5 @@ import { UiEmpty } from '@workspace/ui/components/ui-empty'
 export function ExplorerUiBookmarkTransactionEmpty() {
   const { t } = useTranslation('explorer')
 
-  return <UiEmpty description={t(($) => $.transactionBookmarksEmpty)} />
+  return <UiEmpty description={t(($) => $.bookmarkTransactionEmpty)} />
 }

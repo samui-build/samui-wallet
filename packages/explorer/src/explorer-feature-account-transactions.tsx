@@ -6,7 +6,7 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
-import { ExplorerUiLinkTx } from './ui/explorer-ui-link-tx.tsx'
+import { ExplorerUiLinkSignature } from './ui/explorer-ui-link-signature.tsx'
 import { ExplorerUiTxExplorerIcon } from './ui/explorer-ui-tx-explorer-icon.tsx'
 import { ExplorerUiTxStatus } from './ui/explorer-ui-tx-status.tsx'
 import { ExplorerUiTxTimestamp } from './ui/explorer-ui-tx-timestamp.tsx'
@@ -45,7 +45,7 @@ export function ExplorerFeatureAccountTransactions({
           <div className="flex items-center justify-between" key={tx.signature}>
             <div className="flex items-center gap-2">
               <ExplorerUiTxStatus tx={tx} />
-              <ExplorerUiLinkTx basePath={basePath} signature={tx.signature} />
+              <ExplorerUiLinkSignature basePath={basePath} signature={tx.signature} />
               <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
             </div>
             <div className="text-right font-mono text-muted-foreground text-xs">

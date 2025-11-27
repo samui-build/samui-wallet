@@ -16,8 +16,8 @@ export function ExplorerFeatureBookmarkAccount({ basePath }: { basePath: string 
           <Link to={`${basePath}/bookmarks/account`}>{t(($) => $.actionManage)}</Link>
         </Button>
       }
-      description={t(($) => $.accountBookmarksDescription)}
-      title={t(($) => $.accountBookmarksTitle)}
+      description={t(($) => $.bookmarkAccountDescription)}
+      title={t(($) => $.bookmarkAccountTitle)}
     >
       {bookmarkAccounts?.length ? (
         <ExplorerUiBookmarkAccountList basePath={basePath} items={bookmarkAccounts ?? []} />

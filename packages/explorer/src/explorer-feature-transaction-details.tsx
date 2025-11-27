@@ -5,7 +5,7 @@ import { useExplorerGetTransaction } from './data-access/use-explorer-get-transa
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiTxDetails } from './ui/explorer-ui-tx-details.tsx'
 
-export function ExplorerFeatureTxDetails({
+export function ExplorerFeatureTransactionDetails({
   basePath,
   network,
   signature,

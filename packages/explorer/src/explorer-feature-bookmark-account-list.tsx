@@ -15,7 +15,7 @@ export function ExplorerFeatureBookmarkAccountList({ basePath }: { basePath: str
   const mutationUpdate = useBookmarkAccountUpdate()
   return (
     <UiPage>
-      <UiCard backButtonTo={backButtonTo} title={t(($) => $.accountBookmarksTitle)}>
+      <UiCard backButtonTo={backButtonTo} title={t(($) => $.bookmarkAccountTitle)}>
         <ExplorerUiBookmarkAccountTable
           basePath={basePath}
           items={items}

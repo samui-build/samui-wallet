@@ -4,7 +4,7 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { cn } from '@workspace/ui/lib/utils'
 import { useExplorerBookmarkAccount } from './data-access/use-explorer-bookmark-account.tsx'
 
-export function ExplorerFeatureAccountBookmarkButton({ address }: { address: Address }) {
+export function ExplorerFeatureBookmarkAccountButton({ address }: { address: Address }) {
   const { hasBookmark, isLoading, isError, toggle } = useExplorerBookmarkAccount({ address })
   if (isLoading) {
     return null
