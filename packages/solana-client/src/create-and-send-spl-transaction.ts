@@ -9,24 +9,22 @@ import {
 } from '@solana/kit'
 import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
 import { createSplTransferTransaction } from './create-spl-transfer-transaction.ts'
+import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import type { SolanaClient } from './solana-client.ts'
 import { uiAmountToBigInt } from './ui-amount-to-big-int.ts'
 
+export interface CreateAndSendSplTransactionOptions {
+  amount: string
+  decimals: number
+  destination: string
+  latestBlockhash?: LatestBlockhash | undefined
+  mint: Address | string
+  sender: KeyPairSigner
+}
+
 export async function createAndSendSplTransaction(
   client: SolanaClient,
-  {
-    amount,
-    decimals,
-    destination,
-    mint,
-    sender,
-  }: {
-    amount: string
-    decimals: number
-    destination: string
-    mint: Address | string
-    sender: KeyPairSigner
-  },
+  { amount, decimals, destination, latestBlockhash, mint, sender }: CreateAndSendSplTransactionOptions,
 ): Promise<string> {
   const mintInfo = await fetchMint(client.rpc, address(mint))
 
@@ -41,11 +39,11 @@ export async function createAndSendSplTransaction(
     owner: address(destination),
     tokenProgram,
   })
+  const destinationTokenAccountInfo = await client.rpc
+    .getAccountInfo(destinationTokenAccount, { encoding: 'base64' })
+    .send()
 
-  const [destinationTokenAccountInfo, { value: latestBlockhash }] = await Promise.all([
-    client.rpc.getAccountInfo(destinationTokenAccount, { encoding: 'base64' }).send(),
-    client.rpc.getLatestBlockhash().send(),
-  ])
+  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
   const transactionMessage = createSplTransferTransaction({
     amount: uiAmountToBigInt(amount, decimals),
     decimals,

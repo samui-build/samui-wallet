@@ -120,9 +120,11 @@ describe('bookmark-account-find-many', () => {
       expect.assertions(1)
 
       vi.spyOn(db.bookmarkAccounts, 'orderBy').mockImplementation(() => ({
-        // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
         filter: () => ({
-          toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<BookmarkAccount[]>,
+          // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
+          reverse: () => ({
+            toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<BookmarkAccount[]>,
+          }),
         }),
       }))
 

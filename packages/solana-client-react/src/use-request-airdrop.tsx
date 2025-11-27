@@ -14,9 +14,7 @@ export function useRequestAirdrop(network: Network) {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (input: Omit<RequestAirdropOption, 'client'>) => {
-      return requestAirdrop({ ...input, client })
-    },
+    mutationFn: (input: RequestAirdropOption) => requestAirdrop(client, input),
     onError: () => {
       toastError(
         <a

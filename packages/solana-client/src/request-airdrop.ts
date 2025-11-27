@@ -1,19 +1,16 @@
-import { type Address, airdropFactory, lamports } from '@solana/kit'
+import { type Address, airdropFactory, type Lamports } from '@solana/kit'
 
 import type { SolanaClient } from './solana-client.ts'
 
-const LAMPORTS_PER_SOL = 1_000_000_000n
-
 export interface RequestAirdropOption {
   address: Address
-  amount: number
-  client: SolanaClient
+  amount: Lamports
 }
 
-export async function requestAirdrop(options: RequestAirdropOption) {
-  return await airdropFactory(options.client)({
+export async function requestAirdrop(client: SolanaClient, { address, amount }: RequestAirdropOption) {
+  return await airdropFactory(client)({
     commitment: 'confirmed',
-    lamports: lamports(LAMPORTS_PER_SOL * BigInt(options.amount)),
-    recipientAddress: options.address,
+    lamports: amount,
+    recipientAddress: address,
   })
 }

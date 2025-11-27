@@ -68,6 +68,7 @@
       },
       "recommended": true,
       "style": {
+        "noUselessElse": "error",
         "useComponentExportOnlyModules": {
           "options": {
             "allowConstantExport": true

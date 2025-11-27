@@ -4,7 +4,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountDelete } from '../src/bookmark-account/bookmark-account-delete.ts'
-import { bookmarkAccountFindUnique } from '../src/bookmark-account/bookmark-account-find-unique.ts'
+import { bookmarkAccountFindByAddress } from '../src/bookmark-account/bookmark-account-find-by-address.ts'
 import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -25,7 +25,7 @@ describe('bookmark-account-delete', () => {
       await bookmarkAccountDelete(db, id)
 
       // ASSERT
-      const deletedItem = await bookmarkAccountFindUnique(db, id)
+      const deletedItem = await bookmarkAccountFindByAddress(db, input.address)
       expect(deletedItem).toBeNull()
     })
   })

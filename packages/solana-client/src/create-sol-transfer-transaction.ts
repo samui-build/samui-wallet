@@ -1,4 +1,4 @@
-import type { Address, Blockhash, TransactionSigner } from '@solana/kit'
+import type { Address, TransactionSigner } from '@solana/kit'
 import {
   address,
   appendTransactionMessageInstructions,
@@ -10,10 +10,14 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
 } from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
 
-export interface LatestBlockhash {
-  blockhash: Blockhash
-  lastValidBlockHeight: bigint
+export interface CreateSolTransferTransactionOptions {
+  amount: bigint
+  destination: Address | string
+  latestBlockhash: LatestBlockhash
+  sender: TransactionSigner
+  source?: TransactionSigner
 }
 
 export function createSolTransferTransaction({
@@ -22,13 +26,7 @@ export function createSolTransferTransaction({
   latestBlockhash,
   sender,
   source,
-}: {
-  amount: bigint
-  destination: Address | string
-  latestBlockhash: LatestBlockhash
-  sender: TransactionSigner
-  source?: TransactionSigner
-}) {
+}: CreateSolTransferTransactionOptions) {
   assertIsAddress(destination)
   assertIsKeyPairSigner(sender)
   if (source) {

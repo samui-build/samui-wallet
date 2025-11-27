@@ -11,7 +11,7 @@ export async function bookmarkAccountFindMany(
   const parsedInput = bookmarkAccountFindManySchema.parse(input)
   const { data, error } = await tryCatch(
     db.bookmarkAccounts
-      .orderBy('address')
+      .orderBy('updatedAt')
       .filter((item) => {
         const matchId = !parsedInput.id || item.id === parsedInput.id
         const matchLabel = !parsedInput.label || (item.label ? item.label.includes(parsedInput.label) : false)
@@ -19,6 +19,7 @@ export async function bookmarkAccountFindMany(
 
         return matchId && matchLabel && matchAddress
       })
+      .reverse()
       .toArray(),
   )
   if (error) {

@@ -6,23 +6,22 @@ import {
   signTransactionMessageWithSigners,
 } from '@solana/kit'
 import { createSolTransferTransaction } from './create-sol-transfer-transaction.ts'
+import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import { lamportsToSol } from './lamports-to-sol.ts'
 import { maxAvailableSolAmount } from './max-available-sol-amount.ts'
 import type { SolanaClient } from './solana-client.ts'
 
+export interface CreateAndSendSolTransactionOptions {
+  amount: bigint
+  destination: string
+  latestBlockhash?: LatestBlockhash | undefined
+  sender: KeyPairSigner
+  senderBalance: bigint
+}
+
 export async function createAndSendSolTransaction(
   client: SolanaClient,
-  {
-    amount,
-    destination,
-    sender,
-    senderBalance,
-  }: {
-    amount: bigint
-    destination: string
-    sender: KeyPairSigner
-    senderBalance: bigint
-  },
+  { amount, destination, latestBlockhash, sender, senderBalance }: CreateAndSendSolTransactionOptions,
 ): Promise<string> {
   const maxAvailable = maxAvailableSolAmount(senderBalance, amount)
 
@@ -32,7 +31,8 @@ export async function createAndSendSolTransaction(
     )
   }
 
-  const { value: latestBlockhash } = await client.rpc.getLatestBlockhash().send()
+  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
+
   const transactionMessage = createSolTransferTransaction({
     amount,
     destination,

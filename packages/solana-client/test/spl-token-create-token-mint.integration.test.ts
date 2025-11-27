@@ -1,25 +1,12 @@
-import { generateKeyPairSigner, type KeyPairSigner } from '@solana/kit'
-import { beforeAll, describe, expect, it } from 'vitest'
-import { createSolanaClient } from '../src/create-solana-client.ts'
-import { getLatestBlockhash, type LatestBlockhash } from '../src/get-latest-blockhash.ts'
+import { generateKeyPairSigner, isAddress } from '@solana/kit'
+import { describe, expect, it } from 'vitest'
 import { getTokenAccountsForMint } from '../src/get-token-accounts-for-mint.ts'
-import { isValidAddress } from '../src/is-valid-address.ts'
-import { requestAirdrop } from '../src/request-airdrop.ts'
 import { splTokenCreateTokenMint } from '../src/spl-token-create-token-mint.ts'
 import { uiAmountToBigInt } from '../src/ui-amount-to-big-int.ts'
+import { setupIntegrationTestContext } from './test-helpers.ts'
 
-describe('spl-token-create-token-mint', () => {
-  const client = createSolanaClient({
-    url: 'http://localhost:8899',
-    urlSubscriptions: 'ws://localhost:8900',
-  })
-  let latestBlockhash: LatestBlockhash
-  let feePayer: KeyPairSigner
-  beforeAll(async () => {
-    feePayer = await generateKeyPairSigner()
-    latestBlockhash = await getLatestBlockhash(client)
-    await requestAirdrop({ address: feePayer.address, amount: 1, client })
-  })
+describe('spl-token-create-token-mint', async () => {
+  const { client, latestBlockhash, feePayer } = await setupIntegrationTestContext()
 
   describe('expected behavior', () => {
     it('should create a token mint with mint and no supply', async () => {
@@ -75,7 +62,7 @@ describe('spl-token-create-token-mint', () => {
       const result = await splTokenCreateTokenMint(client, { decimals, feePayer, latestBlockhash })
 
       // ASSERT
-      expect(isValidAddress(result.mint)).toBeTruthy()
+      expect(isAddress(result.mint)).toBeTruthy()
     })
 
     it('should create a token mint with generated mint and supply', async () => {
@@ -101,7 +88,7 @@ describe('spl-token-create-token-mint', () => {
       expect(tokenAccount.account.data.parsed.info.tokenAmount.uiAmountString).toBe('1000')
       expect(tokenAccount.account.data.parsed.info.mint).toBe(result.mint)
       expect(tokenAccount.pubkey).toBe(result.ata)
-      expect(isValidAddress(result.mint)).toBeTruthy()
+      expect(isAddress(result.mint)).toBeTruthy()
     })
   })
 })

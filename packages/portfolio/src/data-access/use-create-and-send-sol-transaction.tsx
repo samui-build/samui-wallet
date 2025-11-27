@@ -1,44 +1,45 @@
+import type { KeyPairSigner } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
+import { getBalance } from '@workspace/solana-client/get-balance'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
-import { getBalanceQueryOptions, useGetBalance } from '@workspace/solana-client-react/use-get-balance'
+import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function useCreateAndSendSolTransaction(props: { account: Account; network: Network }) {
-  const { account, network } = props
+export function useCreateAndSendSolTransaction({ account, network }: { account: Account; network: Network }) {
   const queryClient = useQueryClient()
-  const client = useSolanaClient({ network: props.network })
-  const { data: balanceData } = useGetBalance({ address: account.publicKey, network })
+  const client = useSolanaClient({ network })
 
   return useMutation({
-    mutationFn: async ({ account, amount, destination }: { account: Account; amount: string; destination: string }) => {
-      if (!account.secretKey) {
-        throw new Error(`No secret key for this account`)
-      }
-
-      const sender = await createKeyPairSignerFromJson({ json: account.secretKey })
-
-      if (!balanceData?.value) {
+    mutationFn: async ({
+      amount,
+      destination,
+      sender,
+    }: {
+      amount: string
+      destination: string
+      sender: KeyPairSigner
+    }) => {
+      const senderBalance = await getBalance(client, { address: sender.address })
+      if (!senderBalance?.value) {
         throw new Error('Balance not available')
       }
-
       return createAndSendSolTransaction(client, {
         amount: solToLamports(amount),
         destination,
         sender,
-        senderBalance: balanceData.value,
+        senderBalance: senderBalance.value,
       })
     },
-    onSuccess: (_, { account: { publicKey: address } }) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
+        queryKey: getBalanceQueryOptions({ address: account.publicKey, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address: account.publicKey, client, network }).queryKey,
       })
     },
   })

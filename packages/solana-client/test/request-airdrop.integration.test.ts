@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { createSolanaClient } from '../src/create-solana-client.ts'
 import { getBalance } from '../src/get-balance.ts'
 import { requestAirdrop } from '../src/request-airdrop.ts'
+import { solToLamports } from '../src/sol-to-lamports.ts'
 
 describe('request-airdrop', () => {
   describe('expected behavior', () => {
@@ -15,10 +16,9 @@ describe('request-airdrop', () => {
       const address = await getAddressFromPublicKey(keypair.publicKey)
       const client = createSolanaClient({ url: 'http://localhost:8899', urlSubscriptions: 'ws://localhost:8900' })
       const initialBalance = await getBalance(client, { address })
-      await requestAirdrop({
+      await requestAirdrop(client, {
         address,
-        amount: 1,
-        client,
+        amount: solToLamports('1'),
       })
       const finalBalance = await getBalance(client, { address })
 

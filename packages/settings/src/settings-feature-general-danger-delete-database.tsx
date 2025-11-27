@@ -37,7 +37,7 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
           }}
           actionLabel="Delete"
           actionVariant="destructive"
-          description="This action can not be reversed."
+          description="This action cannot be reversed."
           title="Are you sure you want to reset the application?"
         >
           <Button disabled={!accept} variant="destructive">
