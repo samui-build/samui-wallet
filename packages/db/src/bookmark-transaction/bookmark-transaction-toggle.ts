@@ -11,9 +11,8 @@ export async function bookmarkTransactionToggle(db: Database, signature: Signatu
     if (existing) {
       await bookmarkTransactionDelete(db, existing.id)
       return 'deleted'
-    } else {
-      await bookmarkTransactionCreate(db, { signature })
-      return 'created'
     }
+    await bookmarkTransactionCreate(db, { signature })
+    return 'created'
   })
 }

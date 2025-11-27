@@ -11,9 +11,8 @@ export async function bookmarkAccountToggle(db: Database, address: Address): Pro
     if (existing) {
       await bookmarkAccountDelete(db, existing.id)
       return 'deleted'
-    } else {
-      await bookmarkAccountCreate(db, { address })
-      return 'created'
     }
+    await bookmarkAccountCreate(db, { address })
+    return 'created'
   })
 }
