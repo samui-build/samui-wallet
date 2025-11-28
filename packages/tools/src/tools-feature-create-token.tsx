@@ -2,7 +2,9 @@ import { generateKeyPairSigner } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
+import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
+import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
@@ -26,6 +28,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   const [resultTx, setResultTx] = useState<null | string>(null)
   const [resultSupply, setResultSupply] = useState<null | string>(null)
   const mutation = useSplTokenCreateTokenMint(props)
+  const readSecretKeyMutation = useAccountReadSecretKey()
 
   const queryKeypair = useQuery({
     queryFn: () => generateKeyPairSigner(),
@@ -37,8 +40,15 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     if (!queryKeypair.data) {
       return
     }
+    const secretKey = await readSecretKeyMutation.mutateAsync({ id: props.account.id })
+    if (!secretKey) {
+      throw new Error('Missing account secret key')
+    }
+    const feePayer = await createKeyPairSignerFromJson({ json: secretKey })
+
     const res = await mutation.mutateAsync({
       decimals,
+      feePayer,
       mint: queryKeypair.data,
       supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
     })
@@ -58,7 +68,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       )
       console.log('ATA', getExplorerUrl({ network: props.network, path: `/address/${res.ata}`, provider: 'solana' }))
     }
-  }, [mutation, props.network, queryKeypair, decimals, supply])
+  }, [mutation, props.account, props.network, queryKeypair, decimals, supply, readSecretKeyMutation])
 
   return (
     <UiCard backButtonTo="/tools" title="Create Token">

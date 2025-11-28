@@ -6,6 +6,7 @@ import { accountFindByWalletId } from '@workspace/db/account/account-find-by-wal
 import { accountFindMany } from '@workspace/db/account/account-find-many'
 import type { AccountFindManyInput } from '@workspace/db/account/account-find-many-input'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
+import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
 import { accountSetActive } from '@workspace/db/account/account-set-active'
 import { accountUpdate } from '@workspace/db/account/account-update'
 import type { AccountUpdateInput } from '@workspace/db/account/account-update-input'
@@ -15,6 +16,7 @@ import { queryClient } from './query-client.tsx'
 
 export type AccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountCreateInput }>
 export type AccountDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
+export type AccountReadSecretKeyMutateOptions = MutateOptions<string | undefined, Error, { id: string }>
 export type AccountSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
 export type AccountUpdateMutateOptions = MutateOptions<number, Error, { input: AccountUpdateInput }>
 
@@ -47,6 +49,11 @@ export const optionsAccount = {
     queryOptions({
       queryFn: () => accountFindUnique(db, id),
       queryKey: ['accountFindUnique', id],
+    }),
+  readSecretKey: (props: AccountReadSecretKeyMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ id }: { id: string }) => accountReadSecretKey(db, id),
+      ...props,
     }),
   setActive: (props: AccountSetActiveMutateOptions = {}) =>
     mutationOptions({

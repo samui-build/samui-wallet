@@ -1,4 +1,5 @@
 import type { Account } from '@workspace/db/account/account'
+import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { Textarea } from '@workspace/ui/components/textarea'
@@ -11,27 +12,32 @@ import { SettingsUiExportConfirm } from './settings-ui-export-confirm.tsx'
 
 export function SettingsUiExportAccountSecretKey({ account }: { account: Account }) {
   const { t } = useTranslation('settings')
-  const [confirmed, setConfirmed] = useState(false)
   const [revealed, setRevealed] = useState(false)
+  const readSecretKeyMutation = useAccountReadSecretKey()
 
   return (
     <UiBottomSheet
       description={t(($) => $.exportSecretKeyCopyConfirmDescription)}
       title={t(($) => $.exportSecretKeyCopyConfirmTitle)}
       trigger={
-        <Button disabled={!account.secretKey} size="icon" title={t(($) => $.exportSecretKeyCopy)} variant="outline">
+        <Button
+          disabled={account.type === 'Watched'}
+          size="icon"
+          title={t(($) => $.exportSecretKeyCopy)}
+          variant="outline"
+        >
           <UiIcon className="size-4" icon="key" />
         </Button>
       }
     >
       <div className="px-4 pb-4">
-        {confirmed ? (
+        {readSecretKeyMutation?.data?.length ? (
           <div className="space-y-2 text-center">
             <Textarea
               className={cn('w-full overflow-auto', {
                 'blur-sm': !revealed,
               })}
-              defaultValue={account.secretKey}
+              defaultValue={readSecretKeyMutation.data}
               readOnly
             />
             <div className="space-x-2">
@@ -41,13 +47,16 @@ export function SettingsUiExportAccountSecretKey({ account }: { account: Account
               </Button>
               <UiTextCopyButton
                 label={t(($) => $.exportSecretKeyCopy)}
-                text={account.secretKey ?? ''}
+                text={readSecretKeyMutation.data}
                 toast={t(($) => $.exportSecretKeyCopyCopied)}
               />
             </div>
           </div>
         ) : (
-          <SettingsUiExportConfirm confirm={() => setConfirmed(true)} label={t(($) => $.exportSecretKeyShow)} />
+          <SettingsUiExportConfirm
+            confirm={() => readSecretKeyMutation.mutateAsync({ id: account.id })}
+            label={t(($) => $.exportSecretKeyShow)}
+          />
         )}
       </div>
     </UiBottomSheet>
