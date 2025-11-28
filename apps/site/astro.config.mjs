@@ -33,7 +33,7 @@ export default defineConfig({
           label: 'GitHub',
         },
         {
-          href: 'https://samui.build/go/x',
+          href: 'https://x.com/SamuiBuild',
           icon: 'x.com',
           label: 'X / Twitter',
         },
