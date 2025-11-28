@@ -41,6 +41,7 @@
     "@commitlint/types": "20.0.0",
     "@cspell/dict-es-es": "3.0.8",
     "@radix-ui/react-select": "2.2.6",
+    "@socketsecurity/bun-security-scanner": "1.1.1",
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "cspell": "9.3.2",
