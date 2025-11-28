@@ -1,15 +1,13 @@
+import type { KeyPairSigner } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { createAndSendSplTransaction } from '@workspace/solana-client/create-and-send-spl-transaction'
 import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
 import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
 import { getTokenAccountsQueryOptions } from '@workspace/solana-client-react/use-get-token-accounts'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function useCreateAndSendSplTransaction(props: { network: Network }) {
-  const { network } = props
+export function useCreateAndSendSplTransaction({ network }: { network: Network }) {
   const queryClient = useQueryClient()
   const client = useSolanaClient({ network })
 
@@ -19,22 +17,17 @@ export function useCreateAndSendSplTransaction(props: { network: Network }) {
       decimals,
       destination,
       mint,
-      account,
+      sender,
     }: {
       amount: string
       decimals: number
       destination: string
       mint: string
-      account: Account
+      sender: KeyPairSigner
     }) => {
-      if (!account.secretKey) {
-        throw new Error(`No secret key for this account`)
-      }
-      const sender = await createKeyPairSignerFromJson({ json: account.secretKey })
-
       return createAndSendSplTransaction(client, { amount, decimals, destination, mint, sender })
     },
-    onSuccess: (_, { account: { publicKey: address } }) => {
+    onSuccess: (_, { sender: { address } }) => {
       queryClient.invalidateQueries({
         queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })

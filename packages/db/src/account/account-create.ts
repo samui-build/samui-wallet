@@ -21,6 +21,7 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
         derivationIndex: parsedInput.derivationIndex ?? 0,
         id: randomId(),
         order: order,
+        secretKey: parsedInput.secretKey,
         updatedAt: now,
       }),
     )

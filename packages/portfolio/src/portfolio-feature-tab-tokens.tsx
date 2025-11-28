@@ -1,5 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
@@ -32,7 +33,7 @@ export function PortfolioFeatureTabTokens() {
     address: account.publicKey,
     network,
   })
-
+  const readSecretKeyMutation = useAccountReadSecretKey()
   const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
   const sendSplMutation = useCreateAndSendSplTransaction({ network })
 
@@ -56,14 +57,18 @@ export function PortfolioFeatureTabTokens() {
   const handleSendSplToken = useCallback(
     async (input: SendTokenInput): Promise<void> => {
       const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-
+      const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
+      if (!secretKey) {
+        throw new Error(`No secret key for this account`)
+      }
+      const sender = await createKeyPairSignerFromJson({ json: secretKey })
       // Send SPL token
       const { data: result, error: sendError } = await tryCatch(
         sendSplMutation.mutateAsync({
           ...input,
-          account: account,
           decimals: input.mint.decimals,
           mint: input.mint.mint,
+          sender,
         }),
       )
 
@@ -78,15 +83,16 @@ export function PortfolioFeatureTabTokens() {
         toastError(`Failed to send ${tokenSymbol}`)
       }
     },
-    [account, sendSplMutation],
+    [account, sendSplMutation, readSecretKeyMutation],
   )
 
   const handleSendSol = useCallback(
     async (input: SendTokenInput): Promise<void> => {
-      if (!account.secretKey) {
+      const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
+      if (!secretKey) {
         throw new Error(`No secret key for this account`)
       }
-      const sender = await createKeyPairSignerFromJson({ json: account.secretKey })
+      const sender = await createKeyPairSignerFromJson({ json: secretKey })
       const { data: result, error: sendError } = await tryCatch(
         sendSolMutation.mutateAsync({
           amount: input.amount,
@@ -106,7 +112,7 @@ export function PortfolioFeatureTabTokens() {
         toastError('Failed to send SOL')
       }
     },
-    [account, sendSolMutation],
+    [account, sendSolMutation, readSecretKeyMutation],
   )
 
   const handleSendToken = useCallback(
