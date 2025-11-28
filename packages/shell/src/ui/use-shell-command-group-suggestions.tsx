@@ -6,15 +6,16 @@ import type { ShellCommandGroup } from './use-shell-command-groups.tsx'
 export function useShellCommandGroupSuggestions(): ShellCommandGroup {
   const { t } = useTranslation('shell')
   const { publicKey } = useAccountActive()
-  const { handleCopy } = useHandleCopyText({
-    text: publicKey,
-    toast: t(($) => $.accountPublicKeyCopySuccess),
-    toastFailed: t(($) => $.accountPublicKeyCopyFailed),
-  })
+  const { handleCopy } = useHandleCopyText()
   return {
     commands: [
       {
-        handler: () => handleCopy(),
+        handler: () =>
+          handleCopy({
+            text: publicKey,
+            toast: t(($) => $.accountPublicKeyCopySuccess),
+            toastFailed: t(($) => $.accountPublicKeyCopyFailed),
+          }),
         label: t(($) => $.accountPublicKeyCopy),
       },
     ],
