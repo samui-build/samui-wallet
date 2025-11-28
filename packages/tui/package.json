@@ -1,8 +1,7 @@
 {
   "dependencies": {
     "@opentui/core": "^0.1.31",
-    "@opentui/react": "^0.1.31",
-    "react": "catalog:"
+    "@opentui/react": "^0.1.31"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
@@ -18,6 +17,9 @@
   "license": "MIT",
   "module": "src/index.tsx",
   "name": "@workspace/tui",
+  "peerDependencies": {
+    "react": "catalog:"
+  },
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"

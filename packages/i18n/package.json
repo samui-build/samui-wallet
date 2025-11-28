@@ -2,8 +2,6 @@
   "dependencies": {
     "i18next": "^25.6.0",
     "i18next-cli": "^1.19.1",
-    "react": "catalog:",
-    "react-dom": "catalog:",
     "react-i18next": "^16.2.3"
   },
   "devDependencies": {
@@ -17,6 +15,10 @@
   },
   "license": "MIT",
   "name": "@workspace/i18n",
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",
