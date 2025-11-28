@@ -5,6 +5,7 @@ import type { Wallet } from './wallet.ts'
 import type { WalletFindManyInput } from './wallet-find-many-input.ts'
 
 import { walletFindManySchema } from './wallet-find-many-schema.ts'
+import { walletSanitizer } from './wallet-sanitizer.ts'
 
 export async function walletFindMany(db: Database, input: WalletFindManyInput = {}): Promise<Wallet[]> {
   const parsedInput = walletFindManySchema.parse(input)
@@ -36,7 +37,7 @@ export async function walletFindMany(db: Database, input: WalletFindManyInput = 
     return [
       ...dataWallets.map((wallet) => {
         return {
-          ...wallet,
+          ...walletSanitizer(wallet),
           accounts: [...dataAccounts.filter((account) => account.walletId === wallet.id)],
         }
       }),

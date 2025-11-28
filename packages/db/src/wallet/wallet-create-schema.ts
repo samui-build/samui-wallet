@@ -1,6 +1,6 @@
-import { walletSchema } from './wallet-schema.ts'
+import { walletInternalSchema } from './wallet-internal-schema.ts'
 
-export const walletCreateSchema = walletSchema.omit({
+export const walletCreateSchema = walletInternalSchema.omit({
   accounts: true,
   createdAt: true,
   id: true,

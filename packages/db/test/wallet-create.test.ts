@@ -26,7 +26,8 @@ describe('wallet-create', () => {
 
       // ASSERT
       const item = await walletFindUnique(db, result)
-      expect(item?.mnemonic).toBe(input.mnemonic)
+      // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
+      expect(item?.mnemonic).toBe(undefined)
       expect(item?.name).toBe(input.name)
       expect(item?.order).toBe(0)
     })
