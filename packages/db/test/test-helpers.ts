@@ -22,6 +22,7 @@ export function testAccountCreateInput(input: { walletId: string } & Partial<Acc
   return {
     name: randomName('account'),
     publicKey: address('So11111111111111111111111111111111111111112'),
+    secretKey: input?.type === 'Watched' ? '' : 'not-so-secret-key',
     type: 'Derived',
     ...input,
   }
