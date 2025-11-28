@@ -29,9 +29,7 @@
     "date-fns": "^4.1.0",
     "lucide-react": "catalog:",
     "next-themes": "^0.4.6",
-    "react": "catalog:",
     "react-day-picker": "^9.11.0",
-    "react-dom": "catalog:",
     "react-hook-form": "^7.65.0",
     "react-qrcode-logo": "^4.0.0",
     "react-resizable-panels": "^3.0.6",
@@ -61,6 +59,10 @@
     "./lib/*": "./src/lib/*.ts"
   },
   "name": "@workspace/ui",
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "private": false,
   "publishConfig": {
     "access": "public"

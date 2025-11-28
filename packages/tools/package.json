@@ -11,8 +11,6 @@
     "@workspace/solana-client": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "react": "catalog:",
-    "react-dom": "catalog:",
     "react-hook-form": "catalog:",
     "react-router": "catalog:",
     "zod": "catalog:"
@@ -29,6 +27,10 @@
   },
   "license": "MIT",
   "name": "@workspace/tools",
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"

@@ -5,8 +5,6 @@
     "@workspace/db": "workspace:*",
     "@workspace/ui": "workspace:*",
     "dexie-react-hooks": "^4.2.0",
-    "react": "catalog:",
-    "react-dom": "catalog:",
     "react-router": "catalog:"
   },
   "devDependencies": {
@@ -23,6 +21,10 @@
   },
   "license": "MIT",
   "name": "@workspace/db-react",
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit",

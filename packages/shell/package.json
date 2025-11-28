@@ -11,8 +11,6 @@
     "@workspace/settings": "workspace:*",
     "@workspace/tools": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "react": "catalog:",
-    "react-dom": "catalog:",
     "react-router": "catalog:",
     "wxt": "catalog:"
   },
@@ -28,6 +26,10 @@
   },
   "license": "MIT",
   "name": "@workspace/shell",
+  "peerDependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:"
+  },
   "private": false,
   "scripts": {
     "check-types": "tsc --noEmit"

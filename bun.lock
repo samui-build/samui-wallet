@@ -256,8 +256,6 @@
         "@workspace/db": "workspace:*",
         "@workspace/ui": "workspace:*",
         "dexie-react-hooks": "^4.2.0",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-router": "catalog:",
       },
       "devDependencies": {
@@ -268,6 +266,10 @@
         "@workspace/config-vitest": "workspace:*",
         "typescript": "catalog:",
         "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/dev": {
@@ -283,8 +285,6 @@
         "@workspace/settings": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -295,6 +295,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/env": {
@@ -322,8 +326,6 @@
         "@workspace/solana-client": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -335,6 +337,10 @@
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
       },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
+      },
     },
     "packages/i18n": {
       "name": "@workspace/i18n",
@@ -342,14 +348,16 @@
       "dependencies": {
         "i18next": "^25.6.0",
         "i18next-cli": "^1.19.1",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-i18next": "^16.2.3",
       },
       "devDependencies": {
         "@types/bun": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/keypair": {
@@ -383,8 +391,6 @@
         "@workspace/solana-client": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-router": "catalog:",
       },
       "devDependencies": {
@@ -393,6 +399,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/portfolio": {
@@ -411,8 +421,6 @@
         "@workspace/solana-client": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -423,6 +431,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/settings": {
@@ -439,8 +451,6 @@
         "@workspace/keypair": "workspace:*",
         "@workspace/solana-client": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -451,6 +461,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/shell": {
@@ -468,8 +482,6 @@
         "@workspace/settings": "workspace:*",
         "@workspace/tools": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-router": "catalog:",
         "wxt": "catalog:",
       },
@@ -479,6 +491,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/solana-client": {
@@ -510,8 +526,6 @@
         "@workspace/keypair": "workspace:*",
         "@workspace/solana-client": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
       },
       "devDependencies": {
         "@types/bun": "catalog:",
@@ -519,6 +533,10 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/tools": {
@@ -536,8 +554,6 @@
         "@workspace/solana-client": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
-        "react": "catalog:",
-        "react-dom": "catalog:",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -549,6 +565,10 @@
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
       },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
+      },
     },
     "packages/tui": {
       "name": "@workspace/tui",
@@ -556,7 +576,6 @@
       "dependencies": {
         "@opentui/core": "^0.1.31",
         "@opentui/react": "^0.1.31",
-        "react": "catalog:",
       },
       "devDependencies": {
         "@types/bun": "catalog:",
@@ -564,6 +583,9 @@
         "@types/react-dom": "catalog:",
         "@workspace/config-typescript": "workspace:*",
         "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
       },
     },
     "packages/ui": {
@@ -599,9 +621,7 @@
         "date-fns": "^4.1.0",
         "lucide-react": "catalog:",
         "next-themes": "^0.4.6",
-        "react": "catalog:",
         "react-day-picker": "^9.11.0",
-        "react-dom": "catalog:",
         "react-hook-form": "^7.65.0",
         "react-qrcode-logo": "^4.0.0",
         "react-resizable-panels": "^3.0.6",
@@ -623,6 +643,10 @@
         "tailwindcss": "catalog:",
         "typescript": "catalog:",
         "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/wallet-standard": {
