@@ -17,4 +17,5 @@ export interface Schema {
   signIn(inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]>
   signMessage(inputs: SolanaSignMessageInput[]): Promise<SolanaSignMessageOutput[]>
   signTransaction(inputs: SolanaSignTransactionInput[]): Promise<SolanaSignTransactionOutput[]>
+  invalidateRequest(): void
 }

@@ -1,8 +1,8 @@
 import { setEntrypoint } from '@workspace/background/entrypoint'
 import { ShellFeature } from '@workspace/shell/shell-feature'
-
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Request } from '../../components/request.tsx'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -15,6 +15,8 @@ setEntrypoint('sidepanel')
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Sidebar" />
+    <ShellFeature context="Sidebar">
+      <Request />
+    </ShellFeature>
   </StrictMode>,
 )
