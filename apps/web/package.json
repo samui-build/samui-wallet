@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.13.15",
-    "@tailwindcss/vite": "catalog:",
     "@workspace/env": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/shell": "workspace:*",
@@ -14,13 +13,11 @@
   "devDependencies": {
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
-    "@vitejs/plugin-react": "catalog:",
     "@workspace/config-typescript": "workspace:*",
-    "babel-plugin-react-compiler": "catalog:",
+    "@workspace/config-vite": "workspace:*",
     "globals": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vite-bundle-analyzer": "catalog:",
     "wrangler": "4.50.0"
   },
   "name": "web",

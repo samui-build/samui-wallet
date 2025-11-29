@@ -1,20 +1,11 @@
 import { cloudflare } from '@cloudflare/vite-plugin'
-import tailwindcss from '@tailwindcss/vite'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import { analyzer } from 'vite-bundle-analyzer'
+import { sharedConfig } from '@workspace/config-vite'
+import { withAnalyzer } from '@workspace/config-vite/with-analyzer'
+import { defineConfig, mergeConfig } from 'vite'
 
-export default defineConfig({
-  plugins: [
-    analyzer({
-      enabled: !!process.env['ANALYZE'],
-    }),
-    cloudflare(),
-    react({
-      babel: {
-        plugins: ['babel-plugin-react-compiler'],
-      },
-    }),
-    tailwindcss(),
-  ],
-})
+export default mergeConfig(
+  sharedConfig,
+  defineConfig({
+    plugins: [withAnalyzer(), cloudflare()],
+  }),
+)
