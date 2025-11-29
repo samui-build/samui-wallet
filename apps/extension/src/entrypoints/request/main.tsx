@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import '@workspace/ui/globals.css'
 
+import { setEntrypoint } from '@workspace/background/entrypoint'
 import { StrictMode } from 'react'
 import { App } from './app.tsx'
 
@@ -11,6 +12,8 @@ const root = document.getElementById('root')
 if (!root) {
   throw new Error('Root element not found')
 }
+
+setEntrypoint('request')
 
 createRoot(root).render(
   <StrictMode>
