@@ -4,6 +4,7 @@ import { defineProxyService } from '@webext-core/proxy-service'
 import type { Account } from '@workspace/db/account/account'
 import { accountCreate } from '@workspace/db/account/account-create'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
+import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
 import { db } from '@workspace/db/db'
 import { settingGetValue } from '@workspace/db/setting/setting-get-value'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'
@@ -26,6 +27,19 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
       }
 
       return account
+    },
+    secretKey: async (): Promise<string> => {
+      const accountId = await settingGetValue(db, 'activeAccountId')
+      if (!accountId) {
+        throw new Error('No active account set')
+      }
+
+      const secretKey = await accountReadSecretKey(db, accountId)
+      if (!secretKey) {
+        throw new Error('Active account secretKey not found')
+      }
+
+      return secretKey
     },
     walletAccounts: async (): Promise<StandardConnectOutput> => {
       const account = await getDbService().account.active()

@@ -19,16 +19,18 @@ describe('account-create', () => {
   describe('expected behavior', () => {
     it('should create an account', async () => {
       // ARRANGE
-      expect.assertions(1)
+      expect.assertions(2)
       const walletId = randomId()
       const input = testAccountCreateInput({ walletId })
 
       // ACT
-      await accountCreate(db, input)
+      const result = await accountCreate(db, input)
 
       // ASSERT
-      const items = await accountFindMany(db, { walletId })
-      expect(items.map((i) => i.name)).toContain(input.name)
+      const item = await accountFindUnique(db, result)
+      expect(item?.name).toEqual(input.name)
+      // @ts-expect-error secretKey does not exist on the type. Here we ensure it's sanitized.
+      expect(item?.secretKey).toBeUndefined()
     })
 
     it('should create an account with a default derivationIndex of 0', async () => {

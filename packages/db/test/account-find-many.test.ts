@@ -17,7 +17,7 @@ describe('account-find-many', () => {
   describe('expected behavior', () => {
     it('should find many accounts for a wallet', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(3)
       const walletId1 = randomId()
       const walletId2 = randomId()
       const account1 = testAccountCreateInput({ walletId: walletId1 })
@@ -33,6 +33,8 @@ describe('account-find-many', () => {
       // ASSERT
       expect(items).toHaveLength(2)
       expect(items.map((i) => i.name)).toEqual(expect.arrayContaining([account1.name, account2.name]))
+      // @ts-expect-error secretKey does not exist on the type. Here we ensure it's sanitized.
+      expect(items.map((i) => i.secretKey).filter(Boolean).length).toEqual(0)
     })
 
     it('should find many accounts for a wallet by a partial name', async () => {

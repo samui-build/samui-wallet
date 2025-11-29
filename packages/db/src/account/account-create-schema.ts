@@ -1,6 +1,6 @@
-import { accountSchema } from './account-schema.ts'
+import { accountInternalSchema } from './account-internal-schema.ts'
 
-export const accountCreateSchema = accountSchema
+export const accountCreateSchema = accountInternalSchema
   .omit({
     createdAt: true,
     id: true,

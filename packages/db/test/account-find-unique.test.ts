@@ -17,7 +17,7 @@ describe('account-find-unique', () => {
   describe('expected behavior', () => {
     it('should find a unique account', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(3)
       const input = testAccountCreateInput({ walletId: randomId() })
       const id = await accountCreate(db, input)
 
@@ -27,6 +27,8 @@ describe('account-find-unique', () => {
       // ASSERT
       expect(item).toBeDefined()
       expect(item?.name).toBe(input.name)
+      // @ts-expect-error secretKey does not exist on the type. Here we ensure it's sanitized.
+      expect(item?.secretKey).toBe(undefined)
     })
   })
 

@@ -1,5 +1,5 @@
 import { Dexie, type Table } from 'dexie'
-import type { Account } from './account/account.ts'
+import type { AccountInternal } from './account/account-internal.ts'
 import type { BookmarkAccount } from './bookmark-account/bookmark-account.ts'
 import type { BookmarkTransaction } from './bookmark-transaction/bookmark-transaction.ts'
 import type { Network } from './network/network.ts'
@@ -12,7 +12,7 @@ export interface DatabaseConfig {
 }
 
 export class Database extends Dexie {
-  accounts!: Table<Account>
+  accounts!: Table<AccountInternal>
   bookmarkAccounts!: Table<BookmarkAccount>
   bookmarkTransactions!: Table<BookmarkTransaction>
   networks!: Table<Network>
