@@ -13,6 +13,7 @@ const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
 const ExplorerRoutes = lazy(() => import('@workspace/explorer/explorer-routes'))
 const OnboardingRoutes = lazy(() => import('@workspace/onboarding/onboarding-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes'))
+const PortfolioModals = lazy(() => import('@workspace/portfolio/portfolio-modals'))
 const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
@@ -59,6 +60,7 @@ function getAppRoutes({ browser, context }: ShellFeatureProps): RouteObject[] {
       ],
       element: <ShellUiLayout browser={browser} context={context} />,
     },
+    { element: <PortfolioModals />, path: 'modals/*' },
     { element: <OnboardingRoutes redirectTo="/portfolio" />, path: 'onboarding/*' },
     { element: <SettingsFeatureReset />, path: 'reset' },
   ]

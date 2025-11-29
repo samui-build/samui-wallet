@@ -1,25 +1,23 @@
-import type { Account } from '@workspace/db/account/account'
-import type { Network } from '@workspace/db/network/network'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import { PortfolioUiAccountSheetReceive } from './portfolio-ui-account-sheet-receive.tsx'
-import { PortfolioUiAccountSheetSend } from './portfolio-ui-account-sheet-send.tsx'
+import { useTranslation } from '@workspace/i18n'
+import { Button } from '@workspace/ui/components/button'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
+import { Link, useLocation } from 'react-router'
 
-export function PortfolioUiAccountButtons({
-  account,
-  balances,
-  isLoading,
-  send,
-}: {
-  balances: TokenBalance[]
-  isLoading: boolean
-  send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
-  account: Account
-  network: Network
-}) {
-  return account ? (
+export function PortfolioUiAccountButtons() {
+  const { pathname: from } = useLocation()
+  const { t } = useTranslation('portfolio')
+  return (
     <div className="flex justify-center gap-2">
-      <PortfolioUiAccountSheetReceive account={account} />
-      <PortfolioUiAccountSheetSend balances={balances} isLoading={isLoading} send={send} />
+      <Button asChild variant="secondary">
+        <Link state={{ from }} to="/modals/receive">
+          <UiIcon icon="arrowDown" /> {t(($) => $.actionReceive)}
+        </Link>
+      </Button>
+      <Button asChild variant="secondary">
+        <Link state={{ from }} to="/modals/tokens">
+          <UiIcon icon="arrowUp" /> {t(($) => $.actionSend)}
+        </Link>
+      </Button>
     </div>
-  ) : null
+  )
 }
