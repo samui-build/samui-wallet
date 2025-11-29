@@ -1,20 +1,20 @@
-import type { SolanaSignTransactionInput } from '@solana/wallet-standard-features'
+import type { SolanaSignInInput } from '@solana/wallet-standard-features'
 
 import { getRequestService } from '@workspace/background/services/request'
 import { getSignService } from '@workspace/background/services/sign'
 import { Button } from '@workspace/ui/components/button'
 
-interface SignTransactionProps {
-  data: SolanaSignTransactionInput[]
+export interface RequestSignInProps {
+  data: SolanaSignInInput[]
 }
 
-export function SignTransaction({ data }: SignTransactionProps) {
+export function RequestUiSignIn({ data }: RequestSignInProps) {
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="text-center font-bold text-2xl">Sign Transaction</h1>
+      <h1 className="text-center font-bold text-2xl">Sign In</h1>
       <div className="flex flex-col gap-2">
         <Button
-          onClick={async () => await getRequestService().resolve(await getSignService().signTransaction(data))}
+          onClick={async () => await getRequestService().resolve(await getSignService().signIn(data))}
           variant="destructive"
         >
           Approve

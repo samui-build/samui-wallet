@@ -16,11 +16,23 @@ const PortfolioRoutes = lazy(() => import('@workspace/portfolio/portfolio-routes
 const ToolsRoutes = lazy(() => import('@workspace/tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/settings/settings-routes'))
+const RequestRoutes = lazy(() => import('@workspace/request/request-routes'))
+
+function getRoutes({ browser, context }: ShellFeatureProps) {
+  switch (context) {
+    case 'Onboarding':
+      return getOnboardingRoutes()
+    case 'Request':
+      return getRequestRoutes()
+    default:
+      return getAppRoutes({ browser, context })
+  }
+}
 
 function createRouter({ browser, context }: ShellFeatureProps) {
   return createHashRouter([
     {
-      children: context === 'Onboarding' ? getOnboardingRoutes() : getAppRoutes({ browser, context }),
+      children: getRoutes({ browser, context }),
       errorElement: <UiErrorBoundary />,
       hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
@@ -56,6 +68,22 @@ function getOnboardingRoutes(): RouteObject[] {
   return [
     { element: <Navigate replace to="/onboarding" />, index: true },
     { element: <OnboardingRoutes redirectTo="/onboarding/complete" />, path: 'onboarding/*' },
+    { element: <UiNotFound />, path: '*' },
+  ]
+}
+
+function getRequestRoutes(): RouteObject[] {
+  return [
+    { element: <Navigate replace to="/request" />, index: true },
+    {
+      element: <RequestRoutes />,
+      id: 'request',
+      loader: async () => {
+        const { requestRouteLoader } = await import('@workspace/request/data-access/request-route-loader')
+        return await requestRouteLoader()
+      },
+      path: 'request/*',
+    },
     { element: <UiNotFound />, path: '*' },
   ]
 }
