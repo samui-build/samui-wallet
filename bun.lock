@@ -191,6 +191,7 @@
         "@wallet-standard/core": "^1.1.1",
         "@webext-core/messaging": "^2.3.0",
         "@webext-core/proxy-service": "^1.2.1",
+        "@webext-core/storage": "1.2.0",
         "@workspace/db": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/ui": "workspace:*",
@@ -2197,6 +2198,8 @@
     "@webext-core/messaging": ["@webext-core/messaging@2.3.0", "", { "dependencies": { "serialize-error": "^11.0.0", "uid": "^2.0.2", "webextension-polyfill": "^0.10.0" } }, "sha512-gChSVKdRs7JEq5hFH0jVROSvTq+sKq9afXTA/gBswep3RWNLhXyDsXFlvPMkYbmML1XZ8QKKC9ou2MlCKRZwSQ=="],
 
     "@webext-core/proxy-service": ["@webext-core/proxy-service@1.2.1", "", { "dependencies": { "get-value": "^3.0.1", "webextension-polyfill": "^0.10.0" }, "peerDependencies": { "@webext-core/messaging": ">=1.3.1" } }, "sha512-MTs/7o8dZ8q7ySO0Kkkz9DYKPdTvMZqCYi7VVj1onzIHVy7m9b/OesQ8c3rrPzu8ZaljuZQJKfO3GITI6tSj6A=="],
+
+    "@webext-core/storage": ["@webext-core/storage@1.2.0", "", { "dependencies": { "webextension-polyfill": "^0.10.0" } }, "sha512-XI86HJUhugVdAQZLcj3EH/rZv08ByVn2riX3YI4HCJ86NOH5K3OwGi0ClFa/kq5U5hIVDMG6hwOBwgEgI2G5GQ=="],
 
     "@webgpu/types": ["@webgpu/types@0.1.66", "", {}, "sha512-YA2hLrwLpDsRueNDXIMqN9NTzD6bCDkuXbOSe0heS+f8YE8usA6Gbv1prj81pzVHrbaAma7zObnIC+I6/sXJgA=="],
 

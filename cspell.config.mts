@@ -56,6 +56,7 @@ const config: CSpellSettings = {
     'rtishchev',
     'samui',
     'seti',
+    'sidepanel',
     'skia',
     'solscan',
     'surfpool',

@@ -4,6 +4,7 @@ import { defineConfig } from 'wxt'
 export default defineConfig({
   manifest: {
     name: 'Samui',
+    permissions: ['storage'],
     web_accessible_resources: [
       {
         matches: ['*://*/*'],
