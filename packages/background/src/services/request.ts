@@ -17,7 +17,22 @@ import { sendMessage } from '../extension.ts'
 
 type DataType<T extends Request['type']> = Extract<Request, { type: T }>['data']
 
-type Request =
+function typeToSlug<T extends Request['type']>(type: T): string {
+  switch (type) {
+    case 'connect':
+      return 'connect'
+    case 'signAndSendTransaction':
+      return 'sign-and-send-transaction'
+    case 'signIn':
+      return 'sign-in'
+    case 'signMessage':
+      return 'sign-message'
+    case 'signTransaction':
+      return 'sign-transaction'
+  }
+}
+
+export type Request =
   | {
       data: SolanaSignAndSendTransactionInput[]
       id?: number
@@ -93,7 +108,7 @@ class RequestService {
     }
 
     const entrypoint = await getEntrypoint()
-    const id = entrypoint === 'sidepanel' ? undefined : await this.createPopupWindow()
+    const id = entrypoint === 'sidepanel' ? undefined : await this.createPopupWindow(type)
 
     return new Promise((resolve, reject) => {
       this.request = {
@@ -105,17 +120,18 @@ class RequestService {
       } as Request
 
       if (entrypoint === 'sidepanel') {
-        sendMessage('invalidateRequest')
+        sendMessage('onRequestCreate', this.request as Request)
       }
     })
   }
 
-  private async createPopupWindow(): Promise<number> {
+  private async createPopupWindow<T extends Request['type']>(type: T): Promise<number> {
+    const slug = typeToSlug(type)
     const window = await browser.windows.create({
       focused: true,
       height: 600,
       type: 'popup',
-      url: browser.runtime.getURL(`/request.html`),
+      url: browser.runtime.getURL(`/request.html#/request/${slug}`),
       width: 400,
     })
 
@@ -177,7 +193,7 @@ class RequestService {
 
     const entrypoint = await getEntrypoint()
     if (entrypoint === 'sidepanel') {
-      sendMessage('invalidateRequest')
+      sendMessage('onRequestReset')
     }
   }
 }

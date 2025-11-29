@@ -2,7 +2,7 @@ import { getDbService } from '@workspace/background/services/db'
 import { getRequestService } from '@workspace/background/services/request'
 import { Button } from '@workspace/ui/components/button'
 
-export function Connect() {
+export function RequestUiConnect() {
   return (
     <div className="flex flex-col gap-4 p-4">
       <h1 className="text-center font-bold text-2xl">Connect</h1>

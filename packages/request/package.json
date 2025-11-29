@@ -1,19 +1,9 @@
 {
   "dependencies": {
-    "@tanstack/react-query": "catalog:",
-    "@workspace/db": "workspace:*",
-    "@workspace/db-react": "workspace:*",
-    "@workspace/dev": "workspace:*",
-    "@workspace/explorer": "workspace:*",
-    "@workspace/i18n": "workspace:*",
-    "@workspace/onboarding": "workspace:*",
-    "@workspace/portfolio": "workspace:*",
-    "@workspace/request": "workspace:*",
-    "@workspace/settings": "workspace:*",
-    "@workspace/tools": "workspace:*",
+    "@solana/wallet-standard-features": "1.3.0",
+    "@workspace/background": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "react-router": "catalog:",
-    "wxt": "catalog:"
+    "react-router": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
@@ -26,7 +16,7 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
-  "name": "@workspace/shell",
+  "name": "@workspace/request",
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:"
