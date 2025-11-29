@@ -30,6 +30,13 @@ function getRoutes({ browser, context }: ShellFeatureProps) {
 }
 
 function createRouter({ browser, context }: ShellFeatureProps) {
+  let children = getAppRoutes({ browser, context })
+  if (context === 'Request') {
+    children = getRequestRoutes()
+  } else if (context === 'Onboarding') {
+    children = getOnboardingRoutes()
+  }
+
   return createHashRouter([
     {
       children: getRoutes({ browser, context }),
