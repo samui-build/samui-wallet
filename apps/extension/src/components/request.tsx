@@ -1,18 +1,35 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { onMessage } from '@workspace/background/extension'
 import { getRequestService } from '@workspace/background/services/request'
+import { useEffect } from 'react'
 
-import { Connect } from '../../components/connect.tsx'
-import { SignIn } from '../../components/sign-in.tsx'
-import { SignMessage } from '../../components/sign-message.tsx'
+import { Connect } from './connect.tsx'
+import { SignIn } from './sign-in.tsx'
+import { SignMessage } from './sign-message.tsx'
 
-export function App() {
+export function Request() {
+  const queryClient = useQueryClient()
+
   const { data, isLoading } = useQuery({
     queryFn: async () => await getRequestService().get(),
     queryKey: ['request'],
   })
 
-  if (isLoading || !data) {
+  // TODO: How can we better handle this cache invalidation?
+  useEffect(() => {
+    const unsubscribe = onMessage('invalidateRequest', () => {
+      queryClient.invalidateQueries({ queryKey: ['request'] })
+    })
+
+    return unsubscribe
+  }, [queryClient])
+
+  if (isLoading) {
     return <div>Loading...</div>
+  }
+
+  if (!data) {
+    return null
   }
 
   switch (data.type) {

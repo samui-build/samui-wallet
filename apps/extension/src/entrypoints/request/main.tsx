@@ -1,12 +1,10 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { createRoot } from 'react-dom/client'
 import '@workspace/ui/globals.css'
 
 import { setEntrypoint } from '@workspace/background/entrypoint'
+import { ShellProviders } from '@workspace/shell/data-access/shell-providers'
 import { StrictMode } from 'react'
-import { App } from './app.tsx'
-
-const queryClient = new QueryClient()
+import { Request } from '../../components/request.tsx'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -17,8 +15,8 @@ setEntrypoint('request')
 
 createRoot(root).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <App />
-    </QueryClientProvider>
+    <ShellProviders>
+      <Request />
+    </ShellProviders>
   </StrictMode>,
 )
