@@ -9,13 +9,14 @@ import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiError } from '@workspace/ui/components/ui-error'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { UiPrompt } from '@workspace/ui/components/ui-prompt'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { useParams } from 'react-router'
+import { Link, useParams } from 'react-router'
 import { useDeriveAndCreateAccount } from './data-access/use-derive-and-create-account.tsx'
 import { AccountUiIcon } from './ui/account-ui-icon.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
@@ -96,6 +97,21 @@ export function SettingsFeatureWalletAddAccount() {
           <ItemActions>
             <Button onClick={() => createAccountDerived(item)} size="sm" variant="outline">
               {t(($) => $.actionDerive)}
+            </Button>
+          </ItemActions>
+        </Item>
+
+        <Item variant="outline">
+          <ItemMedia variant="icon">
+            <UiIcon className="size-4" icon="search" />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Generate a vanity account</ItemTitle>
+            <ItemDescription>Find a prefix or suffix match for this wallet</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button asChild size="sm" variant="outline">
+              <Link to={`/settings/wallets/${item.id}/add/generate-vanity`}>Generate</Link>
             </Button>
           </ItemActions>
         </Item>

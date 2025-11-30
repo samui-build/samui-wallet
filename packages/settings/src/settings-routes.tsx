@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from 'react-router'
+import { SettingsFeatureAccountGenerateVanity } from './settings-feature-account-generate-vanity.tsx'
 import { SettingsFeatureGeneral } from './settings-feature-general.tsx'
 import { SettingsFeatureNetworkCreate } from './settings-feature-network-create.tsx'
 import { SettingsFeatureNetworkList } from './settings-feature-network-list.tsx'
@@ -25,6 +26,7 @@ export default function SettingsRoutes() {
             { element: <SettingsFeatureWalletImport />, path: 'import' },
             { element: <SettingsFeatureWalletDetails />, path: ':walletId' },
             { element: <SettingsFeatureWalletAddAccount />, path: ':walletId/add' },
+            { element: <SettingsFeatureAccountGenerateVanity />, path: ':walletId/add/generate-vanity' },
             { element: <SettingsFeatureWalletUpdate />, path: ':walletId/edit' },
           ],
           path: 'wallets',
