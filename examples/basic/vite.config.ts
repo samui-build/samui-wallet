@@ -1,14 +1,20 @@
 import path from 'node:path'
-import { sharedConfig } from '@workspace/config-vite'
-import { defineConfig, mergeConfig } from 'vite'
+import tailwindcss from '@tailwindcss/vite'
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
 
-export default mergeConfig(
-  sharedConfig,
-  defineConfig({
-    resolve: {
-      alias: {
-        '@': path.resolve(__dirname, './src'),
+export default defineConfig({
+  plugins: [
+    tailwindcss(),
+    react({
+      babel: {
+        plugins: [['babel-plugin-react-compiler']],
       },
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
     },
-  }),
-)
+  },
+})

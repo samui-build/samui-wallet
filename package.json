@@ -43,7 +43,7 @@
     "@radix-ui/react-select": "2.2.6",
     "@socketsecurity/bun-security-scanner": "1.1.1",
     "@types/bun": "catalog:",
-    "@types/node": "24.10.1",
+    "@types/node": "catalog:",
     "cspell": "9.3.2",
     "lefthook": "2.0.4",
     "pkg-pr-new": "0.0.60",
