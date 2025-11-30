@@ -1,43 +1,33 @@
 import { useTranslation } from '@workspace/i18n'
-import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
-import { useId, useMemo, useState } from 'react'
+import { useId, useState } from 'react'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import { PortfolioUiAccountFormTokenDropdown } from './portfolio-ui-account-form-token-dropdown.tsx'
+import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
-export function PortfolioUiAccountFormSend({
-  balances,
+export function PortfolioUiSendMint({
+  mint,
   isLoading,
   send,
 }: {
-  balances: TokenBalance[]
+  mint: TokenBalance
   isLoading: boolean
   send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
 }) {
   const { t } = useTranslation('portfolio')
   const destinationId = useId()
   const amountId = useId()
-  const [mintAddress, setMintAddress] = useState(NATIVE_MINT)
-  const [amount, setAmount] = useState('0')
+  const [amount, setAmount] = useState('')
   const [destination, setDestination] = useState('')
-  const mint = useMemo(() => {
-    return balances.find((item) => item.mint === mintAddress)
-  }, [balances, mintAddress])
 
   return (
-    <div className="px-4 pb-4">
+    <div className="space-y-6">
       <form>
         <FieldGroup>
           <FieldSet>
-            <PortfolioUiAccountFormTokenDropdown
-              mint={mint}
-              mintAddress={mintAddress}
-              setMintAddress={setMintAddress}
-              tokens={balances}
-            />
+            {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : t(($) => $.searchInputSelect)}
 
             <FieldGroup>
               <Field>

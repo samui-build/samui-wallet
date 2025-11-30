@@ -1,0 +1,91 @@
+import { useMutation } from '@tanstack/react-query'
+import { tryCatch } from '@workspace/core/try-catch'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import { toastError } from '@workspace/ui/lib/toast-error'
+import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
+import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
+import type { TokenBalance } from './use-get-token-metadata.ts'
+
+export interface PortfolioTxSendInput {
+  amount: string
+  destination: string
+  mint: TokenBalance
+}
+
+export function usePortfolioTxSend() {
+  const account = useAccountActive()
+  const network = useNetworkActive()
+  const readSecretKeyMutation = useAccountReadSecretKey()
+  const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
+  const sendSplMutation = useCreateAndSendSplTransaction({ network })
+
+  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<void> {
+    const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
+    const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
+    if (!secretKey) {
+      throw new Error(`No secret key for this account`)
+    }
+
+    const sender = await createKeyPairSignerFromJson({ json: secretKey })
+    // Send SPL token
+    const { data: result, error: sendError } = await tryCatch(
+      sendSplMutation.mutateAsync({
+        ...input,
+        decimals: input.mint.decimals,
+        mint: input.mint.mint,
+        sender,
+      }),
+    )
+
+    if (sendError) {
+      toastError(`Error sending ${tokenSymbol}`)
+      return
+    }
+
+    if (result) {
+      toastSuccess(`${tokenSymbol} has been sent!`)
+    } else {
+      toastError(`Failed to send ${tokenSymbol}`)
+    }
+  }
+
+  async function handleSendSol(input: PortfolioTxSendInput): Promise<void> {
+    const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
+    if (!secretKey) {
+      throw new Error(`No secret key for this account`)
+    }
+    const sender = await createKeyPairSignerFromJson({ json: secretKey })
+    const { data: result, error: sendError } = await tryCatch(
+      sendSolMutation.mutateAsync({
+        amount: input.amount,
+        destination: input.destination,
+        sender,
+      }),
+    )
+
+    if (sendError) {
+      toastError(`Error sending SOL: ${sendError}`)
+      return
+    }
+
+    if (result) {
+      toastSuccess('SOL has been sent!')
+    } else {
+      toastError('Failed to send SOL')
+    }
+  }
+
+  return useMutation({
+    mutationFn: (input: PortfolioTxSendInput) => {
+      if (input.mint.mint === NATIVE_MINT) {
+        return handleSendSol(input)
+      }
+      return handleSendSplToken(input)
+    },
+  })
+}

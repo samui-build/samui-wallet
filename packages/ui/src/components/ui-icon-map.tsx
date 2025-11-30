@@ -79,6 +79,7 @@ export type UiIconName =
   | 'key'
   | 'mnemonic'
   | 'network'
+  | 'plus'
   | 'portfolio'
   | 'refresh'
   | 'save'
@@ -123,6 +124,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('key', LucideKeyRound)
   .set('mnemonic', LucideNotepadText)
   .set('network', LucideNetwork)
+  .set('plus', LucidePlus)
   .set('portfolio', LucidePieChart)
   .set('refresh', LucideRefreshCcw)
   .set('save', LucideSave)
