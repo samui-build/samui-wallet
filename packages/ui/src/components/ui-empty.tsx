@@ -28,7 +28,7 @@ export function UiEmpty({
         {title ? <EmptyTitle>{title}</EmptyTitle> : null}
         <EmptyDescription>{description}</EmptyDescription>
       </EmptyHeader>
-      {children ? <EmptyContent>{children}</EmptyContent> : null}
+      {children ? <EmptyContent className="md:max-w-2xl lg:max-w-3xl">{children}</EmptyContent> : null}
     </Empty>
   )
 }
