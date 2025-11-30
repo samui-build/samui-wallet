@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "@tailwindcss/vite": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
+    "babel-plugin-react-compiler": "catalog:",
+    "vite": "catalog:",
+    "vite-bundle-analyzer": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@workspace/config-typescript": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "name": "@workspace/config-vite",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0"
+}
