@@ -5,9 +5,9 @@ import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
 import { Button } from '@workspace/ui/components/button'
 import { Spinner } from '@workspace/ui/components/spinner'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { useLocation } from 'react-router'
 import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
+import { PortfolioUiActivityListSkeleton } from './ui/portfolio-ui-activity-list-skeleton.tsx'
 
 export function PortfolioFeatureTabActivity() {
   const { t } = useTranslation('portfolio')
@@ -29,8 +29,8 @@ export function PortfolioFeatureTabActivity() {
           </Button>
         </div>
       </div>
-      {isLoading ? <UiLoader /> : null}
       {isError ? <pre className="alert alert-error">{error?.message.toString() ?? 'Unknown error'}</pre> : null}
+      {isLoading ? <PortfolioUiActivityListSkeleton /> : null}
       {isSuccess ? <PortfolioUiActivityList from={from} items={data} network={network} /> : null}
     </div>
   )
