@@ -5,13 +5,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { networkCreate } from '../src/network/network-create.ts'
 import { networkDelete } from '../src/network/network-delete.ts'
 import { networkFindUnique } from '../src/network/network-find-unique.ts'
-import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
+import { settingSetValue } from '../src/setting/setting-set-value.ts'
+import { createDbTest, testNetworkCreateInput, testSettingSetInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
 describe('network-delete', () => {
   beforeEach(async () => {
     await db.networks.clear()
+    await db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -27,6 +29,21 @@ describe('network-delete', () => {
       // ASSERT
       const deletedItem = await networkFindUnique(db, id)
       expect(deletedItem).toBeNull()
+    })
+
+    it('should not delete an active network', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testNetworkCreateInput()
+      const id = await networkCreate(db, input)
+      const [_, value] = testSettingSetInput(id)
+
+      await settingSetValue(db, 'activeNetworkId', value)
+
+      // ACT & ASSERT
+      await expect(networkDelete(db, id)).rejects.toThrow(
+        'You cannot delete the active network. Please change networks and try again.',
+      )
     })
   })
 
