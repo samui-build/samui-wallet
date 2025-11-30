@@ -1,11 +1,10 @@
 import type { GetActivityItem, GetActivityItems } from '@workspace/solana-client/get-activity'
 
-import { unixTimestampToDate } from '@workspace/solana-client/unix-timestamp-to-date'
+import { unixTimestampToIsoDateString } from '@workspace/solana-client/unix-timestamp-to-iso-date-string'
 
 export function groupActivityItems(txs: GetActivityItems): { date: Date; transactions: GetActivityItems }[] {
   const grouped = txs.reduce((acc, tx) => {
-    const timestamp = unixTimestampToDate(tx.blockTime) ?? new Date()
-    const dateKey = timestamp.toLocaleDateString()
+    const dateKey = unixTimestampToIsoDateString(tx.blockTime)
 
     const group = acc.get(dateKey)
     if (!group) {
