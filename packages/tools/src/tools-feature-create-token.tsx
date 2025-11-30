@@ -1,12 +1,10 @@
-import { generateKeyPairSigner } from '@solana/kit'
+import { type Address, generateKeyPairSigner, type Signature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
-import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
-import { getExplorerUrl } from '@workspace/solana-client/get-explorer-url'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
@@ -15,18 +13,22 @@ import { Input } from '@workspace/ui/components/input'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
+import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useCallback, useId, useState } from 'react'
+import { Link, useLocation } from 'react-router'
 
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
+  const { pathname: from } = useLocation()
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
   const [decimals, setDecimals] = useState<number>(9)
-  const [supply, setSupply] = useState<number>(0)
-  const [resultMint, setResultMint] = useState<null | string>(null)
-  const [resultTx, setResultTx] = useState<null | string>(null)
-  const [resultSupply, setResultSupply] = useState<null | string>(null)
+  const [supply, setSupply] = useState<number>(1000)
+  const [resultMint, setResultMint] = useState<null | Address>(null)
+  const [resultTx, setResultTx] = useState<null | Signature>(null)
+  const [resultAta, setResultAta] = useState<null | Address>(null)
+  const [resultSupply, setResultSupply] = useState<null | Signature>(null)
   const mutation = useSplTokenCreateTokenMint(props)
   const readSecretKeyMutation = useAccountReadSecretKey()
 
@@ -55,62 +57,58 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     await queryKeypair.refetch()
     setResultMint(res.mint)
     setResultTx(res.signatureCreate)
-    console.log('Mint', getExplorerUrl({ network: props.network, path: `/address/${res.mint}`, provider: 'solana' }))
-    console.log(
-      'TX',
-      getExplorerUrl({ network: props.network, path: `/tx/${res.signatureCreate}`, provider: 'solana' }),
-    )
     if (res.signatureSupply) {
       setResultSupply(res.signatureSupply)
-      console.log(
-        'Supply',
-        getExplorerUrl({ network: props.network, path: `/tx/${res.signatureSupply}`, provider: 'solana' }),
-      )
-      console.log('ATA', getExplorerUrl({ network: props.network, path: `/address/${res.ata}`, provider: 'solana' }))
     }
-  }, [mutation, props.account, props.network, queryKeypair, decimals, supply, readSecretKeyMutation])
+    if (res.ata) {
+      setResultAta(res.ata)
+    }
+  }, [mutation, props.account, queryKeypair, decimals, supply, readSecretKeyMutation])
 
   return (
     <UiCard backButtonTo="/tools" title="Create Token">
       {resultMint && resultTx ? (
         <div className="flex flex-col gap-6">
           <div>Token created!</div>
-          <div>
-            <ExplorerUiExplorerLink
-              label="View Mint"
-              network={props.network}
-              path={`/address/${resultMint}`}
-              provider="solana"
-            />
+          <div className="space-x-2">
+            <Button asChild variant="secondary">
+              <Link state={{ from }} to={`/explorer/address/${resultMint}`}>
+                View Mint
+              </Link>
+            </Button>
+            <Button asChild variant="secondary">
+              <Link state={{ from }} to={`/explorer/tx/${resultTx}`}>
+                View Mint Transaction
+              </Link>
+            </Button>
+            {resultAta ? (
+              <Button asChild variant="secondary">
+                <Link state={{ from }} to={`/explorer/address/${resultAta}`}>
+                  View Token Account
+                </Link>
+              </Button>
+            ) : null}
+            {resultSupply ? (
+              <Button asChild variant="secondary">
+                <Link state={{ from }} to={`/explorer/tx/${resultSupply}`}>
+                  View Supply Transaction
+                </Link>
+              </Button>
+            ) : null}
           </div>
-          <div>
-            <ExplorerUiExplorerLink
-              label="View Mint Transaction"
-              network={props.network}
-              path={`/tx/${resultTx}`}
-              provider="solana"
-            />
+          <div className="flex justify-end">
+            <Button
+              onClick={() => {
+                setResultMint(null)
+                setResultTx(null)
+                setResultAta(null)
+                setResultSupply(null)
+              }}
+              variant="default"
+            >
+              Done
+            </Button>
           </div>
-          {resultSupply ? (
-            <div>
-              <ExplorerUiExplorerLink
-                label="View Supply Transaction"
-                network={props.network}
-                path={`/tx/${resultSupply}`}
-                provider="solana"
-              />
-            </div>
-          ) : null}
-          <Button
-            onClick={() => {
-              setResultMint(null)
-              setResultTx(null)
-              setResultSupply(null)
-            }}
-            variant="default"
-          >
-            Done
-          </Button>
         </div>
       ) : props.account.type === 'Derived' ? (
         <div className="flex flex-col gap-6">
@@ -166,9 +164,6 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             />
           </Field>
 
-          <Item variant="muted">
-            <ItemTitle>Summary</ItemTitle>
-          </Item>
           <Item variant="outline">
             <ItemContent>
               <ItemTitle>Summary</ItemTitle>
@@ -176,13 +171,16 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
               <ItemDescription className="font-mono">
                 Owner: {ellipsify(props.account.publicKey, 6, '...')}
               </ItemDescription>
+              <ItemDescription className="font-mono">Decimals: {decimals}</ItemDescription>
+              <ItemDescription className="font-mono">Supply: {supply}</ItemDescription>
             </ItemContent>
-            <ItemActions>
-              <Button disabled={!queryKeypair.data} onClick={handleCreateToken}>
-                Create Token
-              </Button>
-            </ItemActions>
           </Item>
+          <ItemActions className="justify-end">
+            <Button disabled={!queryKeypair.data || mutation.isPending} onClick={handleCreateToken}>
+              {mutation.isPending ? <UiLoader className="size-4" /> : null}
+              Create Token
+            </Button>
+          </ItemActions>
         </div>
       ) : (
         <div>
