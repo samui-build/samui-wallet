@@ -28,7 +28,7 @@ export function SettingsUiNetworkFormCreate({ submit }: { submit: (input: Networ
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form className="space-y-2 md:space-y-6" onSubmit={form.handleSubmit((input) => submit(input))}>
         <FormField
           control={form.control}
           name="type"

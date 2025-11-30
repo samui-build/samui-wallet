@@ -19,7 +19,7 @@ export function SettingsFeatureWalletGenerate() {
   return (
     <UiCard
       backButtonTo="/settings/wallets/create"
-      contentProps={{ className: 'grid gap-6' }}
+      contentProps={{ className: 'space-y-2 md:space-y-6' }}
       title={t(($) => $.walletPageGenerateTitle)}
     >
       <SettingsUiWalletMnemonicStrength setStrength={setStrength} strength={strength} />

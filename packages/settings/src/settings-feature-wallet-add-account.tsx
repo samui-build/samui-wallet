@@ -84,7 +84,7 @@ export function SettingsFeatureWalletAddAccount() {
       description={t(($) => $.walletPageAddAccountDescription)}
       title={<SettingsUiWalletItem item={item} />}
     >
-      <div className="space-y-6">
+      <div className="space-y-2 md:space-y-6">
         <Item variant="outline">
           <ItemMedia variant="icon">
             <AccountUiIcon type="Derived" />

@@ -34,7 +34,7 @@ export function ShellUiLayout({ browser, context }: ShellFeatureProps) {
     <div className="flex h-full flex-col items-stretch justify-between">
       <ShellUiWarningExperimental />
       <ShellUiCommandMenu />
-      <header className="flex items-center justify-between bg-secondary/50">
+      <header className="flex items-center justify-between bg-secondary/30">
         <ShellUiMenu />
         <div className="pr-2">
           <ShellUiMenuActions browser={browser} context={context} />
@@ -43,12 +43,12 @@ export function ShellUiLayout({ browser, context }: ShellFeatureProps) {
       <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
         <Outlet />
       </main>
-      <footer className="flex items-center justify-between bg-secondary/50">
+      <footer className="flex items-center justify-between bg-secondary/30">
         {links.map(({ icon, label, to }) => (
           <NavLink
             className={({ isActive }) =>
               cn('flex flex-1 flex-col items-center gap-1 truncate pt-2 pb-1 text-xs md:gap-2 md:text-md', {
-                'bg-secondary/60 font-semibold': isActive,
+                'bg-secondary/50 font-semibold': isActive,
               })
             }
             key={to}

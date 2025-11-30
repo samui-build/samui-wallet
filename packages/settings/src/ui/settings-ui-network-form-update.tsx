@@ -34,7 +34,7 @@ export function SettingsUiNetworkFormUpdate({
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form className="flex flex-col space-y-2 md:space-y-6" onSubmit={form.handleSubmit((input) => submit(input))}>
         <FormItem className="flex w-full flex-col gap-2 py-1">
           <FormLabel>{t(($) => $.networkInputTypeLabel)}</FormLabel>
           <FormControl>

@@ -106,7 +106,7 @@ interface Resources {
     networkInputNameDescription: 'Provide the name of the network'
     networkInputNameLabel: 'Name'
     networkInputNamePlaceholder: 'Network name'
-    networkInputTypeDescription: 'You can&#39;t change the type of network after you created it.'
+    networkInputTypeDescription: 'You cannot change the type of network after you created it.'
     networkInputTypeLabel: 'Network'
     networkPageAddTitle: 'Add Network'
     networkPageEditTitle: 'Edit network'
@@ -125,7 +125,7 @@ interface Resources {
     pageWalletName: 'Wallets'
     themeDark: 'Dark'
     themeLight: 'Light'
-    walletAddAccountDeriveDescription: 'Derive an account from the Wallet&#39;s mnemonic'
+    walletAddAccountDeriveDescription: "Derive an account from the Wallet's mnemonic"
     walletAddAccountDeriveTitle: 'Derive an account'
     walletAddAccountImportDescription: 'Import an account from a base58 secret key or byte array'
     walletAddAccountImportLabel: 'Enter secret key (base58 or byte array)'
