@@ -23,6 +23,11 @@ export function UiErrorBoundary() {
     <div className={cn('flex h-full w-full items-center justify-center px-6')}>
       <UiEmpty className="" description={description} icon="bug" title={title}>
         <UiErrorBoundarySupport />
+        <Button onClick={() => window.location.reload()} variant="secondary">
+          <span>Refresh</span>
+          <UiIcon className="size-3" icon="refresh" />
+        </Button>
+
         {stack ? <UiErrorBoundaryStack stack={stack} /> : null}
       </UiEmpty>
     </div>
@@ -33,7 +38,7 @@ function UiErrorBoundaryStack({ stack }: { stack: string }) {
   const [showStack, setShowStack] = useState(false)
 
   return (
-    <Collapsible className="max-w-2xl" onOpenChange={setShowStack} open={showStack}>
+    <Collapsible className="w-full" onOpenChange={setShowStack} open={showStack}>
       <CollapsibleTrigger asChild>
         <Button variant="secondary">
           <span>{showStack ? 'Hide' : 'Show'} stack trace</span>
@@ -41,7 +46,7 @@ function UiErrorBoundaryStack({ stack }: { stack: string }) {
         </Button>
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-6">
-        <pre className="w-full overflow-auto text-left text-[9px]">{stack}</pre>
+        <pre className="w-full whitespace-pre-wrap text-left text-[9px]">{stack}</pre>
       </CollapsibleContent>
     </Collapsible>
   )
@@ -49,7 +54,7 @@ function UiErrorBoundaryStack({ stack }: { stack: string }) {
 
 function UiErrorBoundarySupport() {
   return (
-    <div className="whitespace-nowrap">
+    <div>
       Please{' '}
       <a
         className="hover:underline"
@@ -57,10 +62,10 @@ function UiErrorBoundarySupport() {
         rel="noopener noreferrer"
         target="_blank"
       >
-        create an issue
+        create a GitHub issue
       </a>{' '}
       or{' '}
-      <a className="hover:underline" href="http://samui.build/go/discord" rel="noopener noreferrer" target="_blank">
+      <a className="hover:underline" href="https://samui.build/go/discord" rel="noopener noreferrer" target="_blank">
         join our Discord
       </a>{' '}
       if the issue persists.
