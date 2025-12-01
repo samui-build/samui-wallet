@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:best-practices", "schedule:earlyMondays"],
+  "extends": ["config:best-practices", "schedule:daily"],
+  "minimumReleaseAge": "3 days",
   "packageRules": [
     {
       "enabled": false,
