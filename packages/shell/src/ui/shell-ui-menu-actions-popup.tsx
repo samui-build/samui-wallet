@@ -1,16 +1,16 @@
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import type { WxtBrowser } from 'wxt/browser'
+import { browser } from '@wxt-dev/browser'
 
-export function ShellUiMenuActionsPopup({ browser }: { browser: WxtBrowser | undefined }) {
+export function ShellUiMenuActionsPopup() {
   const { t } = useTranslation('shell')
 
   if (!browser || !browser?.sidePanel) {
     return null
   }
 
-  async function openSidePanel(browser: WxtBrowser) {
+  async function openSidePanel() {
     const currentWindow = await browser.windows.getCurrent()
     const windowId = currentWindow.id
 
@@ -23,12 +23,7 @@ export function ShellUiMenuActionsPopup({ browser }: { browser: WxtBrowser | und
   }
 
   return (
-    <Button
-      onClick={() => openSidePanel(browser)}
-      size="icon"
-      title={t(($) => $.actionsSidebarShow)}
-      variant="secondary"
-    >
+    <Button onClick={openSidePanel} size="icon" title={t(($) => $.actionsSidebarShow)} variant="secondary">
       <UiIcon icon="sidebar" />
     </Button>
   )

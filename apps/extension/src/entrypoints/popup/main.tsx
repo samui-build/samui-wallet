@@ -2,7 +2,6 @@ import { setEntrypoint } from '@workspace/background/entrypoint'
 import { ShellFeature } from '@workspace/shell/shell-feature'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { browser } from 'wxt/browser'
 
 const root = document.getElementById('root')
 if (!root) {
@@ -15,6 +14,6 @@ setEntrypoint('popup')
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature browser={browser} context="Popup" />
+    <ShellFeature />
   </StrictMode>,
 )

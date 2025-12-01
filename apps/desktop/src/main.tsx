@@ -9,6 +9,6 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Desktop" />
+    <ShellFeature />
   </StrictMode>,
 )

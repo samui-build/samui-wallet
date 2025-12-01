@@ -10,7 +10,7 @@
     "@workspace/db": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "@wxt-dev/browser": "^0.1.4"
+    "@wxt-dev/browser": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

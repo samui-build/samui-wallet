@@ -1,11 +1,11 @@
+import { getEntrypoint } from '@workspace/env/get-entrypoint'
 import { redirect } from 'react-router'
-import type { ShellContext } from '../shell-feature.tsx'
 
-export function redirectToOnboarding(context: ShellContext) {
+export function redirectToOnboarding() {
   const url = new URL(window.location.href)
-  switch (context) {
-    case 'Popup':
-    case 'Sidebar':
+  switch (getEntrypoint()) {
+    case 'popup':
+    case 'sidepanel':
       window.open(`${url.origin}/onboarding.html`, 'onboarding')
       window.close()
       return
