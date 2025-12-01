@@ -32,6 +32,20 @@ describe('wallet-create', () => {
       expect(item?.order).toBe(0)
     })
 
+    it('should create a wallet with a description', async () => {
+      // ARRANGE
+      expect.assertions(2)
+      const input = testWalletCreateInput({ description: 'foo bar' })
+
+      // ACT
+      const result = await walletCreate(db, input)
+
+      // ASSERT
+      const item = await walletFindUnique(db, result)
+      expect(item?.description).toBe(input.description)
+      expect(item?.name).toBe(input.name)
+    })
+
     it('should create a wallet and set activeWalletId setting', async () => {
       // ARRANGE
       expect.assertions(3)
@@ -56,6 +70,49 @@ describe('wallet-create', () => {
 
     afterEach(() => {
       vi.restoreAllMocks()
+    })
+    it('should throw an error when creating a wallet with a too long name', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testWalletCreateInput({ name: 'a'.repeat(21) })
+
+      // ACT & ASSERT
+      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 20,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=20 characters"
+          }
+        ]]
+      `)
+    })
+
+    it('should throw an error when creating a wallet with a too long description', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testWalletCreateInput({ description: 'a'.repeat(51) })
+
+      // ACT & ASSERT
+      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 50,
+            "inclusive": true,
+            "path": [
+              "description"
+            ],
+            "message": "Too big: expected string to have <=50 characters"
+          }
+        ]]
+      `)
     })
 
     it('should throw an error when creating a wallet fails', async () => {

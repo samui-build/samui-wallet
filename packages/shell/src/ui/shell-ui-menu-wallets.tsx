@@ -51,7 +51,12 @@ export function ShellUiMenuWallets({
           <MenubarSub key={wallet.id}>
             <MenubarSubTrigger className="gap-2">
               <UiAvatar label={wallet.name} />
-              {wallet.name}
+              <div className="flex flex-col">
+                <div>{wallet.name}</div>
+                <div className="max-w-[150px] truncate text-muted-foreground text-xs md:max-w-[250px]">
+                  {wallet.description}
+                </div>
+              </div>
             </MenubarSubTrigger>
             <MenubarSubContent>
               <MenubarRadioGroup onValueChange={(id) => setActiveAccount(id)} value={activeAccount.id}>

@@ -21,7 +21,7 @@ export function SettingsUiWalletListItem({
   const { t } = useTranslation('settings')
   return (
     <Item key={item.id} role="listitem" variant={activeId === item.id ? 'muted' : 'outline'}>
-      <ItemContent>
+      <ItemContent className="min-w-0">
         <ItemTitle>
           <Link to={`./${item.id}`}>
             <SettingsUiWalletItem item={item} />

@@ -47,6 +47,7 @@ export function SettingsUiWalletFormGenerate({
               <FormLabel>{t(($) => $.walletInputNameLabel)}</FormLabel>
               <FormControl>
                 <Input
+                  maxLength={20}
                   onChange={(e) => field.onChange(e.target.value)}
                   placeholder={t(($) => $.walletInputNamePlaceholder)}
                   type="text"
@@ -54,6 +55,27 @@ export function SettingsUiWalletFormGenerate({
                 />
               </FormControl>
               <FormDescription>{t(($) => $.walletInputNameDescription)}</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+          rules={{ required: false }}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{t(($) => $.walletInputDescriptionLabel)}</FormLabel>
+              <FormControl>
+                <Input
+                  maxLength={50}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  placeholder={t(($) => $.walletInputDescriptionPlaceholder)}
+                  type="text"
+                  value={field.value}
+                />
+              </FormControl>
+              <FormDescription>{t(($) => $.walletInputDescriptionDescription)}</FormDescription>
               <FormMessage />
             </FormItem>
           )}
