@@ -69,11 +69,12 @@ export type Request =
       type: 'connect'
     }
 
-type ResolveType<T extends Request['type']> = Extract<Request, { type: T }> extends {
-  resolve: (data: infer R) => void
-}
-  ? R
-  : never
+type ResolveType<T extends Request['type']> =
+  Extract<Request, { type: T }> extends {
+    resolve: (data: infer R) => void
+  }
+    ? R
+    : never
 
 class RequestService {
   private request: Request | null = null
