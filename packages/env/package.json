@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@wxt-dev/browser": "0.1.4",
     "zod": "catalog:"
   },
   "devDependencies": {
