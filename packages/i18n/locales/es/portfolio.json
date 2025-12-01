@@ -9,6 +9,7 @@
   "actionSelectToken": "Selecciona token",
   "actionSend": "Enviar",
   "actionUseFaucet": "Usa faucet",
+  "buttonRefresh": "Actualizar actividad",
   "labelActivity": "Actividad",
   "labelTokens": "Tokens",
   "noTransactions": "No se encontraron transacciones.",

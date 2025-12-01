@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import type { ComponentProps } from 'react'
 import { cn } from '../lib/utils.ts'
 import { Button } from './button.tsx'
@@ -12,9 +13,11 @@ export function UiTextCopyButton({
   ...props
 }: ComponentProps<typeof Button> & HandleCopyProps & { label: string }) {
   const { copied, handleCopy } = useHandleCopyText()
+  const { t } = useTranslation('ui')
 
   return (
     <Button
+      aria-label={t(($) => $.buttonCopy)}
       className="cursor-pointer"
       onClick={() => handleCopy({ text, toast, toastFailed })}
       type="button"

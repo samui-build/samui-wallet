@@ -1,4 +1,7 @@
 {
+  "buttonBack": "Volver",
+  "buttonClose": "Cerrar advertencia",
+  "buttonCopy": "Copiar al portapapeles",
   "errorTitle": "Uy, ocurrió un error",
   "experimentalWarningDescription": "Utilice esta billetera bajo su propio riesgo. No use fondos reales.",
   "experimentalWarningTitle": "Este es un software experimental.",

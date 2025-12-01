@@ -50,6 +50,7 @@ interface Resources {
     actionSelectToken: 'Select Token'
     actionSend: 'Send'
     actionUseFaucet: 'Use faucet'
+    buttonRefresh: 'Refresh activity'
     labelActivity: 'Activity'
     labelTokens: 'Tokens'
     noTransactions: 'No transactions found.'
@@ -191,11 +192,17 @@ interface Resources {
     walletEdit: 'Edit wallet'
     walletSettings: 'Wallet settings'
   }
+  tools: {
+    generateKeypair: 'Generate New Keypair'
+  }
   translation: {
     languageEnglish: 'English'
     languageSpanish: 'Spanish'
   }
   ui: {
+    buttonBack: 'Go back'
+    buttonClose: 'Close warning'
+    buttonCopy: 'Copy to clipboard'
     errorTitle: 'Oops, an error occurred'
     experimentalWarningDescription: 'Use this wallet at your own risk. Do not use any real funds.'
     experimentalWarningTitle: 'This is experimental software.'
