@@ -322,6 +322,7 @@
       "name": "@workspace/env",
       "version": "0.0.0",
       "dependencies": {
+        "@wxt-dev/browser": "0.1.4",
         "zod": "catalog:",
       },
       "devDependencies": {
