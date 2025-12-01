@@ -125,7 +125,7 @@ interface Resources {
     pageWalletName: 'Wallets'
     themeDark: 'Dark'
     themeLight: 'Light'
-    walletAddAccountDeriveDescription: 'Derive an account from the Wallet&#39;s mnemonic'
+    walletAddAccountDeriveDescription: "Derive an account from the Wallet's mnemonic"
     walletAddAccountDeriveTitle: 'Derive an account'
     walletAddAccountImportDescription: 'Import an account from a base58 secret key or byte array'
     walletAddAccountImportLabel: 'Enter secret key (base58 or byte array)'
