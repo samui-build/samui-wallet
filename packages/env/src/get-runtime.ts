@@ -1,6 +1,6 @@
 import { browser } from '@wxt-dev/browser'
 
-type Runtime = 'cli' | 'desktop' | 'extension' | 'mobile' | 'web'
+export type Runtime = 'cli' | 'desktop' | 'extension' | 'mobile' | 'web'
 
 export function getRuntime(): Runtime {
   if (typeof process !== 'undefined' && process.versions) {

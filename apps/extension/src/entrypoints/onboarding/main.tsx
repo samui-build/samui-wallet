@@ -14,6 +14,6 @@ setEntrypoint('onboarding')
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Onboarding" />
+    <ShellFeature />
   </StrictMode>,
 )

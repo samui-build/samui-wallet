@@ -4,7 +4,6 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 import { cn } from '@workspace/ui/lib/utils'
 import { NavLink, Outlet } from 'react-router'
-import type { ShellFeatureProps } from '../shell-feature.tsx'
 import { ShellUiCommandMenu } from './shell-ui-command-menu.tsx'
 import { ShellUiMenu } from './shell-ui-menu.tsx'
 import { ShellUiMenuActions } from './shell-ui-menu-actions.tsx'
@@ -16,7 +15,7 @@ export interface ShellLayoutLink {
   to: string
 }
 
-export function ShellUiLayout({ browser, context }: ShellFeatureProps) {
+export function ShellUiLayout() {
   const { t } = useTranslation('shell')
   const data = useRootLoaderData()
   if (!data?.accounts?.length) {
@@ -37,7 +36,7 @@ export function ShellUiLayout({ browser, context }: ShellFeatureProps) {
       <header className="flex items-center justify-between bg-secondary/30">
         <ShellUiMenu />
         <div className="pr-2">
-          <ShellUiMenuActions browser={browser} context={context} />
+          <ShellUiMenuActions />
         </div>
       </header>
       <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
