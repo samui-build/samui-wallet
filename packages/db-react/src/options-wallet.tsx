@@ -34,7 +34,7 @@ export const optionsWallet = {
       mutationFn: ({ id }: { id: string }) => walletDelete(db, id),
       ...props,
     }),
-  findMany: (input: WalletFindManyInput) =>
+  findMany: (input: WalletFindManyInput = {}) =>
     queryOptions({
       queryFn: () => walletFindMany(db, input),
       queryKey: ['walletFindMany', input],
