@@ -30,8 +30,8 @@
   "devDependencies": {
     "@types/react": "~19.1.10",
     "@workspace/config-typescript": "workspace:*",
-    "babel-preset-expo": "~54.0.0",
-    "drizzle-kit": "^0.31.7",
+    "babel-preset-expo": "54.0.7",
+    "drizzle-kit": "0.31.7",
     "typescript": "catalog:"
   },
   "main": "index.ts",
