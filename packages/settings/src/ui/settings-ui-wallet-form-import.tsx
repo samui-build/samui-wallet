@@ -41,7 +41,7 @@ export function SettingsUiWalletFormImport({
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-6" onSubmit={form.handleSubmit((input) => submit(input, redirect))}>
+      <form className="space-y-2 md:space-y-6" onSubmit={form.handleSubmit((input) => submit(input, redirect))}>
         <FormField
           control={form.control}
           name="name"

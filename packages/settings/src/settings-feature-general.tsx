@@ -13,8 +13,12 @@ export function SettingsFeatureGeneral() {
   const { t } = useTranslation('settings')
   const page = useSettingsPage({ pageId: 'general' })
   return (
-    <div className="space-y-4">
-      <UiCard contentProps={{ className: 'grid gap-4 space-y-4' }} description={page.description} title={page.name}>
+    <div className="space-y-2 md:space-y-4">
+      <UiCard
+        contentProps={{ className: 'space-y-2 md:space-y-6 md:py-2' }}
+        description={page.description}
+        title={page.name}
+      >
         <SettingsFeatureGeneralLanguage />
         <SettingsFeatureGeneralTheme />
         <SettingsFeatureGeneralApiEndpoint />

@@ -6,7 +6,7 @@ import { SettingsUiWalletCreateLink } from './settings-ui-wallet-create-link.tsx
 export function SettingsUiWalletCreateOptions() {
   const { t } = useTranslation('settings')
   return (
-    <div className="grid gap-4">
+    <div className="space-y-2 md:space-y-6">
       <SettingsUiWalletCreateHeader icon="mnemonic" label={t(($) => $.walletCreateHeaderSeed)} />
       <SettingsUiWalletCreateLink
         description={t(($) => $.walletCreateGenerateDescription)}

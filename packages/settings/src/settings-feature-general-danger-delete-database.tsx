@@ -13,7 +13,7 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
   const navigate = useNavigate()
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2 md:space-y-6">
       <div className="flex items-start gap-3">
         <Checkbox checked={accept} id={acceptId} onCheckedChange={() => setAccept((prev) => !prev)} />
         <div className="grid gap-2">
