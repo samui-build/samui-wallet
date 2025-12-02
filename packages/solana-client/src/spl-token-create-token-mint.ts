@@ -26,7 +26,7 @@ import {
 } from '@solana-program/token-2022'
 import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import type { SolanaClient } from './solana-client.ts'
-import { splTokenMintTo } from './spl-token-min-to.ts'
+import { splTokenMintTo } from './spl-token-mint-to.ts'
 
 export interface SplTokenCreateTokenMintOptions {
   decimals: number
