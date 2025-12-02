@@ -46,6 +46,7 @@
     "@types/bun": "catalog:",
     "@types/node": "catalog:",
     "cspell": "9.3.2",
+    "editorconfig-checker": "6.1.1",
     "lefthook": "2.0.4",
     "pkg-pr-new": "0.0.61",
     "syncpack": "14.0.0-alpha.29",
@@ -74,6 +75,7 @@
     "test:integration:watch": "vitest --watch --config=vitest.integration.config.ts",
     "test:watch": "vitest --watch"
   },
+  "trustedDependencies": ["editorconfig-checker"],
   "type": "module",
   "version": "0.0.0",
   "workspaces": ["apps/*", "packages/*", "turbo/*"]
