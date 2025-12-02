@@ -1,8 +1,8 @@
 {
   "dependencies": {
-    "i18next": "^25.6.0",
-    "i18next-cli": "^1.19.1",
-    "react-i18next": "^16.2.3"
+    "i18next": "25.6.0",
+    "i18next-cli": "1.19.1",
+    "react-i18next": "16.2.3"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
