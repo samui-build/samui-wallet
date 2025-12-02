@@ -2,6 +2,7 @@ import {
   assertIsTransactionWithBlockhashLifetime,
   getSignatureFromTransaction,
   type KeyPairSigner,
+  type Signature,
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
@@ -22,7 +23,7 @@ export interface CreateAndSendSolTransactionOptions {
 export async function createAndSendSolTransaction(
   client: SolanaClient,
   { amount, destination, latestBlockhash, sender, senderBalance }: CreateAndSendSolTransactionOptions,
-): Promise<string> {
+): Promise<Signature> {
   const maxAvailable = maxAvailableSolAmount(senderBalance, amount)
 
   if (amount > maxAvailable) {

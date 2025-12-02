@@ -4,6 +4,7 @@ import {
   assertIsTransactionWithBlockhashLifetime,
   getSignatureFromTransaction,
   type KeyPairSigner,
+  type Signature,
   sendAndConfirmTransactionFactory,
   signTransactionMessageWithSigners,
 } from '@solana/kit'
@@ -25,7 +26,7 @@ export interface CreateAndSendSplTransactionOptions {
 export async function createAndSendSplTransaction(
   client: SolanaClient,
   { amount, decimals, destination, latestBlockhash, mint, sender }: CreateAndSendSplTransactionOptions,
-): Promise<string> {
+): Promise<Signature> {
   const mintInfo = await fetchMint(client.rpc, address(mint))
 
   const tokenProgram = mintInfo.programAddress

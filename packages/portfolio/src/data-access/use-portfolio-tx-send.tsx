@@ -1,3 +1,4 @@
+import type { Signature } from '@solana/kit'
 import { useMutation } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
@@ -24,7 +25,7 @@ export function usePortfolioTxSend() {
   const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
   const sendSplMutation = useCreateAndSendSplTransaction({ network })
 
-  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<void> {
+  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<Signature | undefined> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
     const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
     if (!secretKey) {
@@ -49,12 +50,13 @@ export function usePortfolioTxSend() {
 
     if (result) {
       toastSuccess(`${tokenSymbol} has been sent!`)
-    } else {
-      toastError(`Failed to send ${tokenSymbol}`)
+      return result
     }
+    toastError(`Failed to send ${tokenSymbol}`)
+    return
   }
 
-  async function handleSendSol(input: PortfolioTxSendInput): Promise<void> {
+  async function handleSendSol(input: PortfolioTxSendInput): Promise<Signature | undefined> {
     const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
     if (!secretKey) {
       throw new Error(`No secret key for this account`)
@@ -75,9 +77,10 @@ export function usePortfolioTxSend() {
 
     if (result) {
       toastSuccess('SOL has been sent!')
-    } else {
-      toastError('Failed to send SOL')
+      return result
     }
+    toastError('Failed to send SOL')
+    return
   }
 
   return useMutation({
