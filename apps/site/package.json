@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@astrojs/starlight": "^0.36.1",
-    "@astrojs/starlight-tailwind": "^4.0.1",
+    "@astrojs/starlight": "0.36.1",
+    "@astrojs/starlight-tailwind": "4.0.1",
     "@tailwindcss/vite": "catalog:",
-    "astro": "^5.15.1",
-    "sharp": "^0.34.2",
+    "astro": "5.15.1",
+    "sharp": "0.34.2",
     "tailwindcss": "catalog:"
   },
   "devDependencies": {

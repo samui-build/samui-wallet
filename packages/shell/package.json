@@ -17,7 +17,6 @@
     "@workspace/tools": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@wxt-dev/browser": "catalog:",
-
     "react-router": "catalog:"
   },
   "devDependencies": {

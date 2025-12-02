@@ -21,6 +21,7 @@ export default defineConfig({
     },
   },
   srcDir: 'src',
+  // @ts-expect-error wxt types are incorrect for vite
   vite: () => ({
     plugins: [tailwindcss()],
   }),

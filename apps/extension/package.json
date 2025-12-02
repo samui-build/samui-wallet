@@ -17,7 +17,7 @@
     "@wxt-dev/module-react": "1.1.5",
     "babel-plugin-react-compiler": "catalog:",
     "typescript": "catalog:",
-    "vite": "7.1.12",
+    "vite": "catalog:",
     "wxt": "catalog:"
   },
   "name": "extension",

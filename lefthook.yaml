@@ -1,6 +1,10 @@
 pre-commit:
   parallel: true
   jobs:
+    - name: syncpack
+      run: bun syncpack lint
+      glob: "package.json"
+
     - name: lint
       run: bun lint
       glob: "*"

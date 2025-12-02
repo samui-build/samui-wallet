@@ -4,7 +4,7 @@
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "dexie-react-hooks": "^4.2.0",
+    "dexie-react-hooks": "4.2.0",
     "react-router": "catalog:",
     "superjson": "2.2.6"
   },

@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@effect/platform": "^0.93.1",
-    "effect": "^3.19.3"
+    "@effect/platform": "0.93.1",
+    "effect": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20251128.0",
