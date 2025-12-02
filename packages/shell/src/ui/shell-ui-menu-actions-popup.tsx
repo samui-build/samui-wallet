@@ -23,7 +23,7 @@ export function ShellUiMenuActionsPopup() {
   }
 
   return (
-    <Button onClick={openSidePanel} size="icon" aria-label={t(($) => $.actionsSidebarShow)} variant="secondary">
+    <Button aria-label={t(($) => $.actionsSidebarShow)} onClick={openSidePanel} size="icon" variant="secondary">
       <UiIcon icon="sidebar" />
     </Button>
   )
