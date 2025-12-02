@@ -1,3 +1,4 @@
+import { useTranslation } from '@workspace/i18n'
 import { UiEmpty } from '@workspace/ui/components/ui-empty'
 import { UiPage } from '@workspace/ui/components/ui-page'
 import { useNavigate } from 'react-router'
@@ -6,14 +7,15 @@ import { ExplorerFeatureBookmarkTransaction } from './explorer-feature-bookmark-
 import { ExplorerUiSearch } from './ui/explorer-ui-search.tsx'
 
 export function ExplorerFeatureIndex({ basePath }: { basePath: string }) {
+  const { t } = useTranslation('explorer')
   const navigate = useNavigate()
   return (
     <UiPage>
       <UiEmpty
         className="border-solid"
-        description="Search and explore accounts or transactions"
+        description={t(($) => $.pageExplorerDescription)}
         icon="explorer"
-        title="Explorer"
+        title={t(($) => $.pageExplorerTitle)}
       >
         <div className="w-full">
           <ExplorerUiSearch
