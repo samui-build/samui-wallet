@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@effect/platform": "0.93.1",
+    "@effect/platform": "0.93.5",
     "effect": "catalog:"
   },
   "devDependencies": {
