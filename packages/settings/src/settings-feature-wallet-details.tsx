@@ -17,7 +17,7 @@ export function SettingsFeatureWalletDetails() {
   const { pathname: from } = useLocation()
   const { walletId } = useParams() as { walletId: string }
   const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
-  const accounts = useAccountLive({ walletId })
+  const accounts = useAccountLive()
   const sorted = useSortAccounts(accounts)
 
   if (isLoading) {

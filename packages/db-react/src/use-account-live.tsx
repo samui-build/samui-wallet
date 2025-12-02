@@ -1,13 +1,13 @@
 import type { Account } from '@workspace/db/account/account'
-import { accountFindByWalletId } from '@workspace/db/account/account-find-by-wallet-id'
+import { accountFindMany } from '@workspace/db/account/account-find-many'
 import { db } from '@workspace/db/db'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useRootLoaderData } from './use-root-loader-data.tsx'
 import { useSetting } from './use-setting.tsx'
 
-export function useAccountLive({ walletId }: { walletId?: null | string } = {}) {
-  const [activeWalletId] = useSetting('activeWalletId')
-  if (!activeWalletId) {
+export function useAccountLive() {
+  const [walletId] = useSetting('activeWalletId')
+  if (!walletId) {
     throw new Error('No active wallet set.')
   }
 
@@ -16,5 +16,5 @@ export function useAccountLive({ walletId }: { walletId?: null | string } = {}) 
     throw new Error('Root loader not called.')
   }
 
-  return useLiveQuery<Account[], Account[]>(() => accountFindByWalletId(db, walletId), [walletId], data.accounts)
+  return useLiveQuery<Account[], Account[]>(() => accountFindMany(db, { walletId }), [walletId], data.accounts)
 }
