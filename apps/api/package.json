@@ -4,7 +4,7 @@
     "effect": "^3.19.3"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "4.20251121.0",
+    "@cloudflare/workers-types": "4.20251128.0",
     "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
     "tsx": "4.20.6",
