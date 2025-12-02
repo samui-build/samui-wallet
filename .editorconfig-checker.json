@@ -1,0 +1,21 @@
+{
+  "AllowedContentTypes": [],
+  "Debug": false,
+  "Disable": {
+    "Charset": false,
+    "EndOfLine": false,
+    "Indentation": false,
+    "IndentSize": false,
+    "InsertFinalNewline": false,
+    "MaxLineLength": true,
+    "TrimTrailingWhitespace": false
+  },
+  "Exclude": ["bun.lock", "\\.sql$"],
+  "Format": "",
+  "IgnoreDefaults": false,
+  "NoColor": false,
+  "PassedFiles": [],
+  "SpacesAfterTabs": false,
+  "Verbose": false,
+  "Version": "v3.6.0"
+}
