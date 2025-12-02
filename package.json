@@ -47,7 +47,7 @@
     "@types/node": "catalog:",
     "cspell": "9.3.2",
     "lefthook": "2.0.4",
-    "pkg-pr-new": "0.0.60",
+    "pkg-pr-new": "0.0.61",
     "turbo": "2.6.1",
     "vitest": "catalog:"
   },
