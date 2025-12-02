@@ -9,24 +9,26 @@ export function UiEmpty({
   className,
   description,
   icon,
+  iconClassName,
   title,
 }: {
   children?: ReactNode
   className?: string
-  description: ReactNode
+  description?: ReactNode
   icon?: UiIconName | undefined
+  iconClassName?: string
   title?: ReactNode | undefined
 }) {
   return (
     <Empty className={cn('gap-3 border border-dashed', className)}>
       {icon ? (
         <EmptyMedia variant="icon">
-          <UiIcon icon={icon} />
+          <UiIcon className={iconClassName ?? ''} icon={icon} />
         </EmptyMedia>
       ) : null}
       <EmptyHeader>
         {title ? <EmptyTitle>{title}</EmptyTitle> : null}
-        <EmptyDescription>{description}</EmptyDescription>
+        {description ? <EmptyDescription>{description}</EmptyDescription> : null}
       </EmptyHeader>
       {children ? <EmptyContent className="md:max-w-2xl lg:max-w-3xl">{children}</EmptyContent> : null}
     </Empty>
