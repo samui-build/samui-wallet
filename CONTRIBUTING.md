@@ -13,7 +13,7 @@ We welcome contributions to Samui Wallet. Please follow these guidelines to ensu
 4.  **Test Your Changes:** Run any existing tests and add new tests for your changes.
 5.  **Build Your Changes:** Make sure your changes build without errors.
     ```bash
-    bun run build --filter=web
+    bun run build
     ```
 6.  **Commit:** Write a clear and concise commit message using conventional commits.
     ```bash
@@ -40,21 +40,13 @@ Before you start contributing, please make sure you have the following with the 
 - [Node.js](https://nodejs.org) 
 - [Bun](https://bun.sh)
 
-- The project requires the correct Bun version, as specified in [`package.json`](./package.json) or .bun-version:
+- The project requires the correct Bun version, as specified in [`package.json`](./package.json) or .bun-version.
 
 We use [Biome](https://biomejs.dev/) for code formatting and linting. To ensure consistency:
 
-- Disable other formatters like ESLint, Prettier, etc.
-- **Install the Biome VS Code extension**  
-  [Biome VS Code extension](https://marketplace.visualstudio.com/items?itemName=biomejs.biome)
-- **Set Biome as the default formatter in your workspace**  
-  You can do this by adding the following to `.vscode/settings.json` in the root of the repository:
-  ```json
-  {
-    "editor.defaultFormatter": "biomejs.biome",
-    "editor.formatOnSave": true   // optional
-  }
-  ```
+- Disable any other code formatters (such as ESLint, Prettier, etc.).
+- Configure your editor to use Biome for formatting and linting on save.
+- See your editor's documentation for how to set Biome as the default formatter.
 
 ## Keeping Your Branch Updated
 
