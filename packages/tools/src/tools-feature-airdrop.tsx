@@ -1,7 +1,7 @@
 import { address } from '@solana/kit'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useWalletLive } from '@workspace/db-react/use-wallet-live'
 import { ExplorerUiExplorerLink } from '@workspace/explorer/ui/explorer-ui-explorer-link'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
@@ -37,7 +37,9 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
 }
 
 export function useAccountOptions() {
-  return [...new Map(useAccountLive().map((item) => [item.publicKey, item])).values()]
+  const wallets = useWalletLive()
+  const accounts = wallets.flatMap((wallet) => wallet.accounts)
+  return [...new Map(accounts.map((item) => [item.publicKey, item])).values()]
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((i) => ({ label: i.name, value: i.publicKey }))
 }

@@ -26,7 +26,7 @@ export function SettingsFeatureWalletAddAccount() {
   const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
-  const accounts = useAccountLive({ walletId })
+  const accounts = useAccountLive()
 
   async function createAccountDerived(wallet: Wallet) {
     try {

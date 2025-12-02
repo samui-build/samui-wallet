@@ -25,7 +25,7 @@ export async function rootLoader() {
 
   const activeWalletId = settings.find((s) => s.key === 'activeWalletId')?.value
   const accounts = activeWalletId
-    ? await getOrFetchQuery(queryClient, optionsAccount.findByWalletId(activeWalletId))
+    ? await getOrFetchQuery(queryClient, optionsAccount.findMany({ walletId: activeWalletId }))
     : []
 
   return {

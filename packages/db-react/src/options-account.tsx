@@ -2,7 +2,6 @@ import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/rea
 import { accountCreate } from '@workspace/db/account/account-create'
 import type { AccountCreateInput } from '@workspace/db/account/account-create-input'
 import { accountDelete } from '@workspace/db/account/account-delete'
-import { accountFindByWalletId } from '@workspace/db/account/account-find-by-wallet-id'
 import { accountFindMany } from '@workspace/db/account/account-find-many'
 import type { AccountFindManyInput } from '@workspace/db/account/account-find-many-input'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
@@ -34,11 +33,6 @@ export const optionsAccount = {
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountDelete(db, id),
       ...props,
-    }),
-  findByWalletId: (id: string) =>
-    queryOptions({
-      queryFn: () => accountFindByWalletId(db, id),
-      queryKey: ['accountFindByWalletId', id],
     }),
   findMany: (input: AccountFindManyInput) =>
     queryOptions({
