@@ -14,6 +14,6 @@ setEntrypoint('sidepanel')
 // Use at your own risk
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Sidebar" />
+    <ShellFeature />
   </StrictMode>,
 )

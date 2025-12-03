@@ -1,18 +1,17 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { queryClient } from '@workspace/db-react/query-client'
+import { getEntrypoint } from '@workspace/env/get-entrypoint'
 import { Toaster } from '@workspace/ui/components/sonner'
+import { browser } from '@wxt-dev/browser'
 import type { ReactNode } from 'react'
 import { lazy } from 'react'
-import { browser } from 'wxt/browser'
-import type { ShellContext } from '../shell-feature.tsx'
 
 const RequestFeatureDialog = lazy(() =>
   import('@workspace/request/request-feature-dialog').then((module) => ({ default: module.RequestFeatureDialog })),
 )
 
 interface ShellProviderProps {
-  context: ShellContext
   children: ReactNode
 }
 
@@ -33,12 +32,12 @@ const persister = createAsyncStoragePersister({
     : window.localStorage,
 })
 
-export function ShellProviders({ children, context }: ShellProviderProps) {
+export function ShellProviders({ children }: ShellProviderProps) {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       {children}
       <Toaster closeButton richColors />
-      {context === 'Sidebar' ? <RequestFeatureDialog /> : null}
+      {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
     </PersistQueryClientProvider>
   )
 }

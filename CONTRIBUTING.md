@@ -11,15 +11,19 @@ We welcome contributions to Samui Wallet. Please follow these guidelines to ensu
     ```
 3.  **Make Changes:** Write your code. Ensure it adheres to the existing code style.
 4.  **Test Your Changes:** Run any existing tests and add new tests for your changes.
-5.  **Commit:** Write a clear and concise commit message using conventional commits.
+5.  **Build Your Changes:** Make sure your changes build without errors.
+    ```bash
+    bun run build
+    ```
+6.  **Commit:** Write a clear and concise commit message using conventional commits.
     ```bash
     git commit -m "feat: Add new feature"
     ```
-6.  **Push:** Push your branch to your fork.
+7.  **Push:** Push your branch to your fork.
     ```bash
     git push origin <your-github-username>/your-feature-name
     ```
-7.  **Open a Pull Request (PR):** Open a PR from your branch to the `main` branch of the original repository. Provide a clear description of your changes.
+8.  **Open a Pull Request (PR):** Open a PR from your branch to the `main` branch of the original repository. Provide a clear description of your changes.
 
 ### Keep Pull Requests Small and Focused
 
@@ -28,6 +32,21 @@ We strongly prefer small, single-purpose PRs. Large PRs delay merges and increas
 Try to break down large features into smaller, incremental changes. Each PR should represent a single, logical unit of work.
 
 Avoid including unrelated changes. If you notice something that needs fixing but is outside the scope of your current work, create a separate [issue](https://github.com/samui-build/samui-wallet/issues/new/choose) or address it in a follow-up PR. This helps keep your PRs focused and easy to review.
+
+## Prerequisites
+
+Before you start contributing, please make sure you have the following with the correct versions:
+
+- [Node.js](https://nodejs.org) 
+- [Bun](https://bun.sh)
+
+- The project requires the correct Bun version, as specified in [`package.json`](./package.json) or .bun-version.
+
+We use [Biome](https://biomejs.dev/) for code formatting and linting. To ensure consistency:
+
+- Disable any other code formatters (such as ESLint, Prettier, etc.).
+- Configure your editor to use Biome for formatting and linting on save.
+- See your editor's documentation for how to set Biome as the default formatter.
 
 ## Keeping Your Branch Updated
 

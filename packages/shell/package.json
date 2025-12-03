@@ -7,6 +7,7 @@
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/dev": "workspace:*",
+    "@workspace/env": "workspace:*",
     "@workspace/explorer": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/onboarding": "workspace:*",
@@ -15,8 +16,9 @@
     "@workspace/settings": "workspace:*",
     "@workspace/tools": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "react-router": "catalog:",
-    "wxt": "catalog:"
+    "@wxt-dev/browser": "catalog:",
+
+    "react-router": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

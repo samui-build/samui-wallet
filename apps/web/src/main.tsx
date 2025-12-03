@@ -10,6 +10,6 @@ if (!root) {
 
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Web" />
+    <ShellFeature />
   </StrictMode>,
 )

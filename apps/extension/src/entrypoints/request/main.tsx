@@ -14,6 +14,6 @@ setEntrypoint('request')
 
 createRoot(root).render(
   <StrictMode>
-    <ShellFeature context="Request" />
+    <ShellFeature />
   </StrictMode>,
 )
