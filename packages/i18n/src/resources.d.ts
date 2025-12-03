@@ -200,8 +200,8 @@ interface Resources {
     languageSpanish: 'Spanish'
   }
   ui: {
-    buttonBack: 'Go back'
-    buttonClose: 'Close warning'
+    buttonBack: 'Go back to previous page'
+    buttonClose: 'Close experiment warning message'
     buttonCopy: 'Copy to clipboard'
     errorTitle: 'Oops, an error occurred'
     experimentalWarningDescription: 'Use this wallet at your own risk. Do not use any real funds.'
