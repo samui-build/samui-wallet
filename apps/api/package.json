@@ -9,7 +9,7 @@
     "@workspace/config-typescript": "workspace:*",
     "tsx": "4.20.6",
     "typescript": "catalog:",
-    "wrangler": "4.50.0"
+    "wrangler": "4.51.0"
   },
   "name": "api",
   "private": true,
