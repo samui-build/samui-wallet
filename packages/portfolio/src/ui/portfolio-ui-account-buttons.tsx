@@ -8,7 +8,6 @@ export function PortfolioUiAccountButtons() {
   const { pathname: from } = useLocation()
   const { t } = useTranslation('portfolio')
   const account = useAccountActive()
-  const isWatched = account.type === 'Watched'
 
   return (
     <div className="flex justify-center gap-2">
@@ -17,7 +16,7 @@ export function PortfolioUiAccountButtons() {
           <UiIcon icon="arrowDown" /> {t(($) => $.actionReceive)}
         </Link>
       </Button>
-      {isWatched ? (
+      {account.type === 'Watched' ? (
         <Button disabled title={t(($) => $.sendDisabledWatchOnly)} variant="secondary">
           <UiIcon icon="arrowUp" /> {t(($) => $.actionSend)}
         </Button>

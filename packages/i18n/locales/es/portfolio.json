@@ -16,7 +16,7 @@
   "requestAirdropDescription": "Solicita tu airdrop para empezar.",
   "requestAirdropTitle": "Solicitar airdrop",
   "searchInputSelect": "Selecciona token",
-  "sendDisabledWatchOnly": "No se puede enviar desde una cuenta de solo lectura",
+  "sendDisabledWatchOnly": "null",
   "sendInputAmountLabel": "Cantidad",
   "sendInputAmountPlaceholder": "Cantidad",
   "sendInputDestinationLabel": "Destino",
