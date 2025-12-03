@@ -1,4 +1,4 @@
-import { type Address, generateKeyPairSigner, isAddress, type Signature } from '@solana/kit'
+import { type Address, generateKeyPairSigner, type Signature } from '@solana/kit'
 import { useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
@@ -6,7 +6,10 @@ import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-se
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
+import type { SplToken2022CreateTokenMint } from '@workspace/solana-client/spl-token-2022-create-token-mint'
+import type { SplTokenCreateTokenMint } from '@workspace/solana-client/spl-token-create-token-mint'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
+import { useSplTokenCreateToken2022Mint } from '@workspace/solana-client-react/use-spl-token-create-token-2022-mint'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
 import { Checkbox } from '@workspace/ui/components/checkbox'
@@ -42,10 +45,9 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   const [resultSupply, setResultSupply] = useState<null | Signature>(null)
   const [tokenProgram, setTokenProgram] = useState<Address>(TOKEN_PROGRAM_ADDRESS)
   const [enableCloseMint, setEnableCloseMint] = useState<boolean>(false)
-  const [closeMintAuthority, setCloseMintAuthority] = useState<Address>(props.account.publicKey)
   const [enablePermanentDelegate, setEnablePermanentDelegate] = useState<boolean>(false)
-  const [permanentDelegateAddress, setPermanentDelegateAddress] = useState<Address>(props.account.publicKey)
   const mutation = useSplTokenCreateTokenMint(props)
+  const mutation2022 = useSplTokenCreateToken2022Mint(props)
   const readSecretKeyMutation = useAccountReadSecretKey()
 
   const queryKeypair = useQuery({
@@ -55,11 +57,6 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   })
 
   const handleCreateToken = useCallback(async (): Promise<void> => {
-    const isCloseAuthorityValid = !enableCloseMint || isAddress(closeMintAuthority)
-    const isPermanentDelegateValid = !enablePermanentDelegate || isAddress(permanentDelegateAddress)
-    if (!isCloseAuthorityValid || !isPermanentDelegateValid) {
-      return
-    }
     if (!queryKeypair.data) {
       return
     }
@@ -68,31 +65,30 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       throw new Error('Missing account secret key')
     }
     const feePayer = await createKeyPairSignerFromJson({ json: secretKey })
+    let res: SplTokenCreateTokenMint | SplToken2022CreateTokenMint
+    if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
+      const extensions = {
+        closeMint: enableCloseMint,
+        permanentDelegate: enablePermanentDelegate,
+      }
+      res = await mutation2022.mutateAsync({
+        decimals,
+        extensions,
+        feePayer,
+        mint: queryKeypair.data,
+        supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
+        tokenProgram,
+      })
+    } else {
+      res = await mutation.mutateAsync({
+        decimals,
+        feePayer,
+        mint: queryKeypair.data,
+        supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
+        tokenProgram,
+      })
+    }
 
-    const extensions =
-      tokenProgram === TOKEN_2022_PROGRAM_ADDRESS
-        ? {
-            closeMint: enableCloseMint
-              ? {
-                  address: closeMintAuthority,
-                }
-              : undefined,
-            permanentDelegate: enablePermanentDelegate
-              ? {
-                  address: permanentDelegateAddress,
-                }
-              : undefined,
-          }
-        : undefined
-
-    const res = await mutation.mutateAsync({
-      decimals,
-      extensions,
-      feePayer,
-      mint: queryKeypair.data,
-      supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
-      tokenProgram,
-    })
     await queryKeypair.refetch()
     setResultMint(res.mint)
     setResultTx(res.signatureCreate)
@@ -112,8 +108,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     tokenProgram,
     enableCloseMint,
     enablePermanentDelegate,
-    closeMintAuthority,
-    permanentDelegateAddress,
+    mutation2022,
   ])
 
   return (
@@ -262,24 +257,6 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
                   <p className="ml-6 text-muted-foreground text-xs">
                     Allow the mint account to be closed and rent reclaimed
                   </p>
-                  {enableCloseMint ? (
-                    <div className="ml-6">
-                      <Field>
-                        <FieldLabel>Close Mint Authority</FieldLabel>
-                        <FieldDescription>The authority that can close the mint</FieldDescription>
-                        <Input
-                          onChange={(e) => setCloseMintAuthority(e.target.value as Address)}
-                          placeholder={props.account.publicKey}
-                          required
-                          type="text"
-                          value={closeMintAuthority}
-                        />
-                        {!isAddress(closeMintAuthority) ? (
-                          <p className="text-red-500 text-xs">Invalid Solana address</p>
-                        ) : null}
-                      </Field>
-                    </div>
-                  ) : null}
                 </div>
                 <div className="flex flex-col gap-2">
                   <div className="flex items-center gap-2">
@@ -298,24 +275,6 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
                   <p className="ml-6 text-muted-foreground text-xs">
                     Allow a permanent delegate with unlimited authority over any token account
                   </p>
-                  {enablePermanentDelegate ? (
-                    <div className="ml-6">
-                      <Field>
-                        <FieldLabel>Permanent Delegate Authority</FieldLabel>
-                        <FieldDescription>The delegate with irrevocable authority over token accounts</FieldDescription>
-                        <Input
-                          onChange={(e) => setPermanentDelegateAddress(e.target.value as Address)}
-                          placeholder={props.account.publicKey}
-                          required
-                          type="text"
-                          value={permanentDelegateAddress}
-                        />
-                        {!isAddress(permanentDelegateAddress) ? (
-                          <p className="text-red-500 text-xs">Invalid Solana address</p>
-                        ) : null}
-                      </Field>
-                    </div>
-                  ) : null}
                 </div>
               </div>
             </Field>
@@ -347,15 +306,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             </ItemContent>
           </Item>
           <ItemActions className="justify-end">
-            <Button
-              disabled={
-                !queryKeypair.data ||
-                mutation.isPending ||
-                (enableCloseMint && !isAddress(closeMintAuthority)) ||
-                (enablePermanentDelegate && !isAddress(permanentDelegateAddress))
-              }
-              onClick={handleCreateToken}
-            >
+            <Button disabled={!queryKeypair.data || mutation.isPending} onClick={handleCreateToken}>
               {mutation.isPending ? <UiLoader className="size-4" /> : null}
               Create Token
             </Button>
