@@ -31,6 +31,9 @@ jobs:
       - name: Publish to pkg.pr.new
         run: bun pkg-pr-new publish --packageManager=bun './packages/*' --comment=off
 
+      - name: BundleMon
+        uses: lironer/bundlemon-action@v1
+
   check-types:
     runs-on: ubuntu-latest
     steps:
