@@ -34,7 +34,7 @@ export const optionsAccount = {
       mutationFn: ({ id }: { id: string }) => accountDelete(db, id),
       ...props,
     }),
-  findMany: (input: AccountFindManyInput) =>
+  findMany: (input: AccountFindManyInput = {}) =>
     queryOptions({
       queryFn: () => accountFindMany(db, input),
       queryKey: ['accountFindMany', input],

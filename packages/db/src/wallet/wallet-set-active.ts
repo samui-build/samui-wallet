@@ -16,7 +16,7 @@ export async function walletSetActive(db: Database, id: string) {
     await settingSetValue(db, 'activeWalletId', walletId)
 
     // get the list of accounts for `activeWalletId`
-    const accounts = await accountFindMany(db, { walletId })
+    const accounts = await accountFindMany(db)
     const first = accounts[0]
     if (!first) {
       console.warn(`There are no accounts in wallet ${walletId}`)

@@ -1,6 +1,7 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
+import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { useMemo } from 'react'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
 import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
@@ -37,7 +38,14 @@ export function PortfolioFeatureTabTokens() {
     <div className="space-y-2 px-2 md:space-y-6 md:px-0">
       {isLoadingWalletInfo ? <PortfolioUiBalanceSkeleton /> : <PortfolioUiBalance balance={totalBalance} />}
 
-      <PortfolioUiAccountButtons />
+      <PortfolioUiAccountButtons type={account.type} />
+
+      {account.type === 'Watched' ? (
+        <Alert>
+          <AlertTitle>This is a watched account.</AlertTitle>
+          <AlertDescription>You cannot use it to sign transactions.</AlertDescription>
+        </Alert>
+      ) : null}
 
       {isLoadingWalletInfo ? null : (
         <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />

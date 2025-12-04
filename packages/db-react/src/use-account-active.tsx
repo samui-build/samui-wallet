@@ -7,7 +7,17 @@ export function useAccountActive() {
   const accountLive = useAccountLive()
   const account = useMemo(() => accountLive.find((item) => item.id === accountId), [accountId, accountLive])
   if (!account) {
-    throw new Error('No active account set.')
+    console.log(
+      'accountLive',
+      accountLive.map((a) => a.publicKey),
+    )
+    console.log(
+      `Account ${accountId} not found in`,
+      accountLive.map((a) => ({ id: a.id, publicKey: a.publicKey })),
+    )
+    throw new Error(
+      `Account ${accountId} not found in ${accountLive.map((a) => ({ id: a.id, publicKey: a.publicKey }))}`,
+    )
   }
 
   return account
