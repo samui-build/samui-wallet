@@ -9,7 +9,12 @@ import {
   SolanaSignTransaction,
   type SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features'
-import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
+import type {
+  StandardConnectInput,
+  StandardConnectOutput,
+  StandardEventsListeners,
+  StandardEventsNames,
+} from '@wallet-standard/core'
 import {
   type IdentifierArray,
   StandardConnect,
@@ -24,8 +29,7 @@ import {
   type WalletVersion,
 } from '@wallet-standard/core'
 import { sendMessage } from '@workspace/background/window'
-
-import { on } from './features/events.ts'
+import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 import { signAndSendTransaction } from './features/sign-and-send-transaction.ts'
 import { signIn } from './features/sign-in.ts'
 import { signMessage } from './features/sign-message.ts'
@@ -72,9 +76,17 @@ export class SamuiWallet implements Wallet {
       [StandardConnect]: {
         connect: async (input?: StandardConnectInput): Promise<StandardConnectOutput> => {
           const response = await sendMessage('connect', input)
-          this.#accounts = response.accounts
+          const accounts = response.accounts.map((account) => ({
+            ...account,
+            publicKey: ensureUint8Array(account.publicKey),
+          }))
 
-          return response
+          this.#accounts = accounts
+          this.#emit('change', { accounts })
+
+          return {
+            accounts,
+          }
         },
         version: this.version,
       },
@@ -82,11 +94,22 @@ export class SamuiWallet implements Wallet {
         disconnect: async (): Promise<void> => {
           await sendMessage('disconnect')
           this.#accounts = []
+          this.#emit('change', { accounts: this.#accounts })
         },
         version: this.version,
       },
       [StandardEvents]: {
-        on,
+        on: (event, listener) => {
+          if (!this.#listeners[event]) {
+            this.#listeners[event] = []
+          }
+
+          this.#listeners[event].push(listener)
+
+          return (): void => {
+            this.#listeners[event] = this.#listeners[event]?.filter((existing) => listener !== existing) ?? []
+          }
+        },
         version: this.version,
       },
     }
@@ -105,4 +128,12 @@ export class SamuiWallet implements Wallet {
   }
 
   #accounts: readonly WalletAccount[] = []
+
+  #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } = {}
+
+  #emit<E extends StandardEventsNames>(event: E, ...args: Parameters<StandardEventsListeners[E]>): void {
+    this.#listeners[event]?.forEach((listener) => {
+      listener.apply(null, args)
+    })
+  }
 }

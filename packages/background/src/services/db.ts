@@ -1,4 +1,11 @@
 import { address, getAddressEncoder } from '@solana/kit'
+import { SOLANA_CHAINS } from '@solana/wallet-standard-chains'
+import {
+  SolanaSignAndSendTransaction,
+  SolanaSignIn,
+  SolanaSignMessage,
+  SolanaSignTransaction,
+} from '@solana/wallet-standard-features'
 import type { StandardConnectOutput } from '@wallet-standard/core'
 import { defineProxyService } from '@webext-core/proxy-service'
 import type { Account } from '@workspace/db/account/account'
@@ -48,10 +55,10 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
         accounts: [
           {
             address: account.publicKey,
-            chains: ['solana:devnet'],
-            features: ['solana:signTransaction', 'solana:signAndSendTransaction'],
-            // icon: '',
-            label: account.name,
+            chains: SOLANA_CHAINS,
+            features: [SolanaSignAndSendTransaction, SolanaSignIn, SolanaSignMessage, SolanaSignTransaction],
+            // icon: undefined,
+            // label: undefined,
             publicKey: getAddressEncoder().encode(address(account.publicKey)),
           },
         ],
