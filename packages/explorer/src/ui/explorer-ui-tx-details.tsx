@@ -1,5 +1,6 @@
 import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
+import superjson from 'superjson'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
@@ -47,7 +48,11 @@ export function ExplorerUiTxDetails({
       <Separator />
       <ExplorerUiDetailRow
         label="Raw TX"
-        value={<pre className="overflow-auto text-[9px]">{JSON.stringify(tx, null, 2)}</pre>}
+        value={
+          <pre className="overflow-auto whitespace-pre-wrap text-[9px]">
+            {JSON.stringify(superjson.serialize(tx).json, null, 2)}
+          </pre>
+        }
       />
     </div>
   )
