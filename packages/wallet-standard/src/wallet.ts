@@ -9,7 +9,13 @@ import {
   SolanaSignTransaction,
   type SolanaSignTransactionFeature,
 } from '@solana/wallet-standard-features'
-import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
+import type {
+  StandardConnectInput,
+  StandardConnectOutput,
+  StandardEventsListeners,
+  StandardEventsNames,
+  StandardEventsOnMethod,
+} from '@wallet-standard/core'
 import {
   type IdentifierArray,
   StandardConnect,
@@ -31,6 +37,7 @@ import { signIn } from './features/sign-in.ts'
 import { signMessage } from './features/sign-message.ts'
 import { signTransaction } from './features/sign-transaction.ts'
 import { icon } from './icon.ts'
+import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 
 type WalletFeatures = SolanaSignAndSendTransactionFeature &
   SolanaSignInFeature &
@@ -41,7 +48,24 @@ type WalletFeatures = SolanaSignAndSendTransactionFeature &
   StandardEventsFeature
 
 export class SamuiWallet implements Wallet {
+  readonly #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } = {}
+
+  #on: StandardEventsOnMethod = (event, listener) => {
+    this.#listeners[event]?.push(listener) || (this.#listeners[event] = [listener])
+    return (): void => this.#off(event, listener)
+  }
+
+  #emit<E extends StandardEventsNames>(event: E, ...args: Parameters<StandardEventsListeners[E]>): void {
+    // eslint-disable-next-line prefer-spread
+    this.#listeners[event]?.forEach((listener) => listener.apply(null, args))
+  }
+
+  #off<E extends StandardEventsNames>(event: E, listener: StandardEventsListeners[E]): void {
+    this.#listeners[event] = this.#listeners[event]?.filter((existingListener) => listener !== existingListener)
+  }
+
   get accounts(): readonly WalletAccount[] {
+    console.log('hello accounts', this.#accounts)
     return this.#accounts
   }
 
@@ -72,9 +96,19 @@ export class SamuiWallet implements Wallet {
       [StandardConnect]: {
         connect: async (input?: StandardConnectInput): Promise<StandardConnectOutput> => {
           const response = await sendMessage('connect', input)
-          this.#accounts = response.accounts
+          const accounts = response.accounts.map((account) => ({
+            ...account,
+            publicKey: ensureUint8Array(account.publicKey),
+          }))
+          console.log('new accounts')
 
-          return response
+          this.#accounts = accounts
+
+          this.#emit('change', { accounts: this.#accounts })
+
+          return {
+            accounts,
+          }
         },
         version: this.version,
       },
@@ -86,7 +120,7 @@ export class SamuiWallet implements Wallet {
         version: this.version,
       },
       [StandardEvents]: {
-        on,
+        on: this.#on,
         version: this.version,
       },
     }
