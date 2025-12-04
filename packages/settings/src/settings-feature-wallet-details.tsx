@@ -1,4 +1,4 @@
-import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
@@ -8,7 +8,6 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { Link, useLocation, useParams } from 'react-router'
-import { useSortAccounts } from './data-access/use-sort-accounts.tsx'
 import { SettingsUiAccountTable } from './ui/settings-ui-account-table.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
@@ -17,8 +16,7 @@ export function SettingsFeatureWalletDetails() {
   const { pathname: from } = useLocation()
   const { walletId } = useParams() as { walletId: string }
   const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
-  const accounts = useAccountLive()
-  const sorted = useSortAccounts(accounts)
+  const accounts = useAccountsForWalletLive({ walletId })
 
   if (isLoading) {
     return <UiLoader />
@@ -55,7 +53,7 @@ export function SettingsFeatureWalletDetails() {
       }
     >
       <div className="space-y-2 md:space-y-6">
-        <SettingsUiAccountTable items={sorted} />
+        <SettingsUiAccountTable items={accounts} />
       </div>
     </UiCard>
   )
