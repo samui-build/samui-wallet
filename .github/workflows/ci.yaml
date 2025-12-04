@@ -16,30 +16,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  syncpack:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Run syncpack
-        run: bun syncpack lint
-
-  editorconfig:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Run EditorConfig Checker
-        run: bun ec
-
   build:
     runs-on: ubuntu-latest
     steps:
@@ -66,71 +42,6 @@ jobs:
 
       - name: Check Types
         run: bun check-types
-
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Lint
-        run: bun lint
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Test
-        run: bun run test
-
-  test-integration:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Start Surfpool
-        run: |
-          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool:main start --offline --no-tui
-          bunx wait-on tcp:localhost:8899 --verbose --timeout 10000
-          bunx wait-on tcp:localhost:8900 --verbose --timeout 10000
-
-      - name: Test Integration
-        run: bun run test:integration
-
-  test-e2e:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
-
-      - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
-
-      - name: Install Playwright Browsers
-        run: bunx playwright install --with-deps
-
-      - name: Run Playwright tests
-        run: bun run test:e2e
-
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        if: ${{ !cancelled() }}
-        with:
-          name: playwright-report
-          path: playwright-report/
-          retention-days: 30
 
   commitlint:
     runs-on: ubuntu-latest
@@ -162,3 +73,92 @@ jobs:
 
       - name: Check Spelling
         run: bun spell-check
+
+  editorconfig:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Run EditorConfig Checker
+        run: bun ec
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Lint
+        run: bun lint
+
+  syncpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Run syncpack
+        run: bun syncpack lint
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Test
+        run: bun run test
+
+  test-e2e:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Install Playwright Browsers
+        run: bunx playwright install --with-deps
+
+      - name: Run Playwright tests
+        run: bun run test:e2e
+
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+  test-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Start Surfpool
+        run: |
+          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool:main start --offline --no-tui
+          bunx wait-on tcp:localhost:8899 --verbose --timeout 10000
+          bunx wait-on tcp:localhost:8900 --verbose --timeout 10000
+
+      - name: Test Integration
+        run: bun run test:integration
