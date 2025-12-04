@@ -58,3 +58,7 @@ ios
 
 # IDEs
 .vscode
+
+# Playwright
+playwright-report
+test-results
