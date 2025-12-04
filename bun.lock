@@ -349,6 +349,7 @@
         "@workspace/ui": "workspace:*",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
+        "superjson": "2.2.6",
         "zod": "catalog:",
       },
       "devDependencies": {
