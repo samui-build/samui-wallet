@@ -1,7 +1,7 @@
 import { assertIsAddress } from '@solana/kit'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useAccountCreate } from '@workspace/db-react/use-account-create'
-import { useAccountLive } from '@workspace/db-react/use-account-live'
+import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
@@ -27,7 +27,7 @@ export function SettingsFeatureWalletAddAccount() {
   const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
-  const accounts = useAccountLive()
+  const accounts = useAccountsForWalletLive({ walletId })
 
   async function createAccountDerived(wallet: Wallet) {
     try {

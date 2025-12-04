@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
-import { useAccountLive } from './use-account-live.tsx'
+import { useAccountsForActiveWalletLive } from './use-accounts-for-active-wallet-live.tsx'
 import { useSetting } from './use-setting.tsx'
 
 export function useAccountActive() {
   const [accountId] = useSetting('activeAccountId')
-  const accountLive = useAccountLive()
-  const account = useMemo(() => accountLive.find((item) => item.id === accountId), [accountId, accountLive])
+  const accounts = useAccountsForActiveWalletLive()
+  const account = useMemo(() => accounts.find((item) => item.id === accountId), [accountId, accounts])
   if (!account) {
     throw new Error('No active account set.')
   }
