@@ -26,6 +26,7 @@ export const optionsWallet = {
       onSuccess: () => {
         queryClient.invalidateQueries(optionsSetting.getAll())
         queryClient.invalidateQueries(optionsSetting.getValue('activeWalletId'))
+        queryClient.invalidateQueries(optionsWallet.findMany({}))
       },
       ...props,
     }),
@@ -34,7 +35,7 @@ export const optionsWallet = {
       mutationFn: ({ id }: { id: string }) => walletDelete(db, id),
       ...props,
     }),
-  findMany: (input: WalletFindManyInput = {}) =>
+  findMany: (input: WalletFindManyInput) =>
     queryOptions({
       queryFn: () => walletFindMany(db, input),
       queryKey: ['walletFindMany', input],

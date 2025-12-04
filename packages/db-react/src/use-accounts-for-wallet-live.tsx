@@ -10,5 +10,6 @@ export function useAccountsForWalletLive({ walletId }: { walletId: string }) {
     throw new Error('Root loader not called.')
   }
 
-  return useLiveQuery<Account[], Account[]>(() => accountFindMany(db, { walletId }), [walletId], data.accounts)
+  const accounts = useLiveQuery<Account[], Account[]>(() => accountFindMany(db), [], data.accounts)
+  return accounts.filter((account) => account.walletId === walletId)
 }
