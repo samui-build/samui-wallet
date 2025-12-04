@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@effect/platform": "^0.93.1",
-    "effect": "^3.19.3"
+    "@effect/platform": "0.93.5",
+    "effect": "catalog:"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20251128.0",
@@ -9,7 +9,7 @@
     "@workspace/config-typescript": "workspace:*",
     "tsx": "4.20.6",
     "typescript": "catalog:",
-    "wrangler": "4.50.0"
+    "wrangler": "4.51.0"
   },
   "name": "api",
   "private": true,

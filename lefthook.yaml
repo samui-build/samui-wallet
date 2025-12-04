@@ -1,6 +1,14 @@
 pre-commit:
   parallel: true
   jobs:
+    - name: syncpack
+      run: bun syncpack lint
+      glob: "package.json"
+
+    - name: editorconfig checker
+      run: bun ec
+      glob: "*"
+
     - name: lint
       run: bun lint
       glob: "*"

@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "@noble/hashes": "^2.0.1",
-    "@scure/bip39": "^2.0.1",
+    "@noble/hashes": "2.0.1",
+    "@scure/bip39": "2.0.1",
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
-    "micro-key-producer": "^0.8.2"
+    "micro-key-producer": "0.8.2"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

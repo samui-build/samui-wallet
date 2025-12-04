@@ -57,8 +57,8 @@ describe('function-name', () => {
 
 1. **Expected Behavior**: Tests for normal operation and valid inputs
 2. **Unexpected Behavior**: Tests for error handling, invalid inputs, and edge cases
-   - Must mock `console.log` in beforeEach
-   - Must restore mocks in afterEach
+  2.1 Must mock `console.log` in beforeEach
+  2.2 Must restore mocks in afterEach
 
 ### Test Pattern: ARRANGE/ACT/ASSERT
 

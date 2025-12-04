@@ -3,8 +3,8 @@
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
-    "dexie": "^4.2.1",
-    "nanoid": "^5.1.6",
+    "dexie": "4.2.1",
+    "nanoid": "5.1.6",
     "zod": "catalog:"
   },
   "devDependencies": {

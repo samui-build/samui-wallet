@@ -1,13 +1,13 @@
 {
   "dependencies": {
-    "@tauri-apps/api": "^2",
-    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/api": "2.9.1",
+    "@tauri-apps/plugin-opener": "2.5.2",
     "@workspace/shell": "workspace:*",
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@tauri-apps/cli": "2.9.4",
+    "@tauri-apps/cli": "2.9.5",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-typescript": "workspace:*",

@@ -16,13 +16,37 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  syncpack:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
 
       - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Run syncpack
+        run: bun syncpack lint
+
+  editorconfig:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Run EditorConfig Checker
+        run: bun ec
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6
+
+      - name: install dependencies
         uses: ./.github/workflows/actions/install-dependencies
 
       - name: Build

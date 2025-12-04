@@ -37,7 +37,7 @@ Avoid including unrelated changes. If you notice something that needs fixing but
 
 Before you start contributing, please make sure you have the following with the correct versions:
 
-- [Node.js](https://nodejs.org) 
+- [Node.js](https://nodejs.org)
 - [Bun](https://bun.sh)
 
 - The project requires the correct Bun version, as specified in [`package.json`](./package.json) or .bun-version.
