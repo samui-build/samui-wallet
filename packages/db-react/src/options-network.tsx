@@ -30,7 +30,7 @@ export const optionsNetwork = {
       onSuccess: () => toastSuccess('Network deleted'),
       ...props,
     }),
-  findMany: (input: NetworkFindManyInput = {}) =>
+  findMany: (input: NetworkFindManyInput) =>
     queryOptions({
       queryFn: () => networkFindMany(db, input),
       queryKey: ['networkFindMany', input],

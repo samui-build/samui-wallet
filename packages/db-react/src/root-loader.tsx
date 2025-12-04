@@ -17,16 +17,12 @@ export interface RootLoaderData {
 }
 
 export async function rootLoader() {
-  const [networks, settings, wallets] = await Promise.all([
-    getOrFetchQuery(queryClient, optionsNetwork.findMany()),
+  const [accounts, networks, settings, wallets] = await Promise.all([
+    getOrFetchQuery(queryClient, optionsAccount.findMany({})),
+    getOrFetchQuery(queryClient, optionsNetwork.findMany({})),
     getOrFetchQuery(queryClient, optionsSetting.getAll()),
-    getOrFetchQuery(queryClient, optionsWallet.findMany()),
+    getOrFetchQuery(queryClient, optionsWallet.findMany({})),
   ])
-
-  const activeWalletId = settings.find((s) => s.key === 'activeWalletId')?.value
-  const accounts = activeWalletId
-    ? await getOrFetchQuery(queryClient, optionsAccount.findMany({ walletId: activeWalletId }))
-    : []
 
   return {
     accounts,

@@ -6,8 +6,6 @@ export const accountFindManySchema = accountSchema
     name: true,
     publicKey: true,
     type: true,
+    walletId: true,
   })
   .partial()
-  .extend({
-    walletId: accountSchema.shape.walletId,
-  })
