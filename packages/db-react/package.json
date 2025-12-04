@@ -2,6 +2,7 @@
   "dependencies": {
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/ui": "workspace:*",
     "dexie-react-hooks": "4.2.0",

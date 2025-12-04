@@ -1,3 +1,4 @@
+import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import type { Setting } from '@workspace/db/setting/setting'
@@ -14,6 +15,7 @@ export interface RootLoaderData {
   networks: Network[]
   settings: Setting[]
   wallets: Wallet[]
+  activeAccount: Account | null
 }
 
 export async function rootLoader() {
@@ -28,8 +30,11 @@ export async function rootLoader() {
     ? await getOrFetchQuery(queryClient, optionsAccount.findMany({ walletId: activeWalletId }))
     : []
 
+  const { data: activeAccount } = await tryCatch(getOrFetchQuery(queryClient, optionsAccount.getActive()))
+
   return {
     accounts,
+    activeAccount,
     networks,
     settings,
     wallets,

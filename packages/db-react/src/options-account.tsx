@@ -5,6 +5,7 @@ import { accountDelete } from '@workspace/db/account/account-delete'
 import { accountFindMany } from '@workspace/db/account/account-find-many'
 import type { AccountFindManyInput } from '@workspace/db/account/account-find-many-input'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
+import { accountGetActive } from '@workspace/db/account/account-get-active'
 import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
 import { accountSetActive } from '@workspace/db/account/account-set-active'
 import { accountUpdate } from '@workspace/db/account/account-update'
@@ -44,6 +45,11 @@ export const optionsAccount = {
       queryFn: () => accountFindUnique(db, id),
       queryKey: ['accountFindUnique', id],
     }),
+  getActive: () =>
+    queryOptions({
+      queryFn: () => accountGetActive(db),
+      queryKey: ['accountGetActive'],
+    }),
   readSecretKey: (props: AccountReadSecretKeyMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountReadSecretKey(db, id),
@@ -56,6 +62,7 @@ export const optionsAccount = {
         queryClient.invalidateQueries(optionsSetting.getAll())
         queryClient.invalidateQueries(optionsSetting.getValue('activeWalletId'))
         queryClient.invalidateQueries(optionsSetting.getValue('activeAccountId'))
+        queryClient.invalidateQueries(optionsAccount.getActive())
       },
       ...props,
     }),
