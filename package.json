@@ -71,6 +71,7 @@
     "prepare": "lefthook install",
     "spell-check": "cspell -c ./cspell.config.mts .",
     "test": "vitest run",
+    "test:e2e": "turbo run test:e2e",
     "test:integration": "vitest run --config=vitest.integration.config.ts",
     "test:integration:watch": "vitest --watch --config=vitest.integration.config.ts",
     "test:watch": "vitest --watch"
