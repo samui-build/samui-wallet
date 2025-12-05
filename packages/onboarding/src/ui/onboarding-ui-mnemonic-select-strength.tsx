@@ -19,7 +19,7 @@ export function OnboardingUiMnemonicSelectStrength({
       variant="outline"
     >
       {[128, 256].map((value) => (
-        <ToggleGroupItem key={value} value={value.toString()}>
+        <ToggleGroupItem disabled={strength === value} key={value} value={value.toString()}>
           {t(($) => $.uiMnemonicWords, { words: value === 128 ? 12 : 24 })}
         </ToggleGroupItem>
       ))}

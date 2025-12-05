@@ -10,12 +10,11 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { ToolsUiAirdropForm } from './ui/tools-ui-airdrop-form.tsx'
 
 export default function ToolsFeatureAirdrop(props: { account: Account; network: Network }) {
-  const accounts = useAccountOptions()
+  const wallets = useWalletLive()
   const { isPending, mutateAsync } = useRequestAirdrop(props.network)
   return (
     <UiCard backButtonTo="/tools" title="Airdrop">
       <ToolsUiAirdropForm
-        accounts={accounts}
         disabled={isPending}
         submit={async (input) => {
           const signature = await mutateAsync({
@@ -31,15 +30,8 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
             />,
           )
         }}
+        wallets={wallets}
       />
     </UiCard>
   )
-}
-
-export function useAccountOptions() {
-  const wallets = useWalletLive()
-  const accounts = wallets.flatMap((wallet) => wallet.accounts)
-  return [...new Map(accounts.map((item) => [item.publicKey, item])).values()]
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map((i) => ({ label: i.name, value: i.publicKey }))
 }

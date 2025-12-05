@@ -11,6 +11,8 @@
     "react-router": "catalog:"
   },
   "devDependencies": {
+    "@playwright/test": "1.57.0",
+    "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-typescript": "workspace:*",
@@ -28,7 +30,8 @@
     "build:analyze": "ANALYZE=1 bun run build",
     "dev": "vite",
     "postinstall": "[ -f .env.example ] && [ ! -f .env ] && cp -v .env.example .env || true",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:e2e": "playwright test"
   },
   "type": "module",
   "version": "0.0.0"
