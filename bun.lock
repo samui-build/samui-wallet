@@ -367,6 +367,33 @@
         "react-dom": "catalog:",
       },
     },
+    "packages/flags": {
+      "name": "@workspace/flags",
+      "version": "0.0.0",
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "typescript": "catalog:",
+      },
+    },
+    "packages/flags-react": {
+      "name": "@workspace/flags-react",
+      "version": "0.0.0",
+      "dependencies": {
+        "@workspace/flags": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
+      },
+    },
     "packages/i18n": {
       "name": "@workspace/i18n",
       "version": "0.0.0",
@@ -2285,6 +2312,10 @@
     "@workspace/env": ["@workspace/env@workspace:packages/env"],
 
     "@workspace/explorer": ["@workspace/explorer@workspace:packages/explorer"],
+
+    "@workspace/flags": ["@workspace/flags@workspace:packages/flags"],
+
+    "@workspace/flags-react": ["@workspace/flags-react@workspace:packages/flags-react"],
 
     "@workspace/i18n": ["@workspace/i18n@workspace:packages/i18n"],
 
