@@ -5,12 +5,18 @@ import type { Network } from '@workspace/db/network/network'
 import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
+import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
+import type { SplToken2022CreateTokenMint } from '@workspace/solana-client/spl-token-2022-create-token-mint'
+import type { SplTokenCreateTokenMint } from '@workspace/solana-client/spl-token-create-token-mint'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
+import { useSplTokenCreateToken2022Mint } from '@workspace/solana-client-react/use-spl-token-create-token-2022-mint'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
 import { Button } from '@workspace/ui/components/button'
+import { Checkbox } from '@workspace/ui/components/checkbox'
 import { Field, FieldDescription, FieldLabel } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@workspace/ui/components/item'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
@@ -18,18 +24,30 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useCallback, useId, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 
+const SPL_TOKEN_PROGRAM: Record<Address, string> = {
+  [TOKEN_PROGRAM_ADDRESS]: 'SPL Token',
+  [TOKEN_2022_PROGRAM_ADDRESS]: 'SPL Token 2022',
+}
+
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
   const { pathname: from } = useLocation()
   const addressId = useId()
   const decimalsId = useId()
   const supplyId = useId()
+  const tokenProgramId = useId()
+  const closeMintId = useId()
+  const permanentDelegateId = useId()
   const [decimals, setDecimals] = useState<number>(9)
   const [supply, setSupply] = useState<number>(1000)
   const [resultMint, setResultMint] = useState<null | Address>(null)
   const [resultTx, setResultTx] = useState<null | Signature>(null)
   const [resultAta, setResultAta] = useState<null | Address>(null)
   const [resultSupply, setResultSupply] = useState<null | Signature>(null)
+  const [tokenProgram, setTokenProgram] = useState<Address>(TOKEN_PROGRAM_ADDRESS)
+  const [enableCloseMint, setEnableCloseMint] = useState<boolean>(false)
+  const [enablePermanentDelegate, setEnablePermanentDelegate] = useState<boolean>(false)
   const mutation = useSplTokenCreateTokenMint(props)
+  const mutation2022 = useSplTokenCreateToken2022Mint(props)
   const readSecretKeyMutation = useAccountReadSecretKey()
 
   const queryKeypair = useQuery({
@@ -47,13 +65,30 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       throw new Error('Missing account secret key')
     }
     const feePayer = await createKeyPairSignerFromJson({ json: secretKey })
+    let res: SplTokenCreateTokenMint | SplToken2022CreateTokenMint
+    if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
+      const extensions = {
+        closeMint: enableCloseMint,
+        permanentDelegate: enablePermanentDelegate,
+      }
+      res = await mutation2022.mutateAsync({
+        decimals,
+        extensions,
+        feePayer,
+        mint: queryKeypair.data,
+        supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
+        tokenProgram,
+      })
+    } else {
+      res = await mutation.mutateAsync({
+        decimals,
+        feePayer,
+        mint: queryKeypair.data,
+        supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
+        tokenProgram,
+      })
+    }
 
-    const res = await mutation.mutateAsync({
-      decimals,
-      feePayer,
-      mint: queryKeypair.data,
-      supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
-    })
     await queryKeypair.refetch()
     setResultMint(res.mint)
     setResultTx(res.signatureCreate)
@@ -63,7 +98,18 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     if (res.ata) {
       setResultAta(res.ata)
     }
-  }, [mutation, props.account, queryKeypair, decimals, supply, readSecretKeyMutation])
+  }, [
+    mutation,
+    props.account,
+    queryKeypair,
+    decimals,
+    supply,
+    readSecretKeyMutation,
+    tokenProgram,
+    enableCloseMint,
+    enablePermanentDelegate,
+    mutation2022,
+  ])
 
   return (
     <UiCard backButtonTo="/tools" title="Create Token">
@@ -164,6 +210,76 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             />
           </Field>
 
+          <Field>
+            <FieldLabel htmlFor={tokenProgramId}>Token Program</FieldLabel>
+            <FieldDescription>Select the token program to use</FieldDescription>
+            <Select
+              onValueChange={(value: Address) => {
+                setTokenProgram(value)
+                if (value === TOKEN_PROGRAM_ADDRESS) {
+                  setEnableCloseMint(false)
+                  setEnablePermanentDelegate(false)
+                }
+              }}
+              value={tokenProgram}
+            >
+              <SelectTrigger id={tokenProgramId}>
+                <SelectValue placeholder="Select token program" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={TOKEN_PROGRAM_ADDRESS}>{SPL_TOKEN_PROGRAM[TOKEN_PROGRAM_ADDRESS]}</SelectItem>
+                <SelectItem value={TOKEN_2022_PROGRAM_ADDRESS}>
+                  {SPL_TOKEN_PROGRAM[TOKEN_2022_PROGRAM_ADDRESS]}
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
+
+          {tokenProgram === TOKEN_2022_PROGRAM_ADDRESS ? (
+            <Field>
+              <FieldLabel>Token Extensions</FieldLabel>
+              <FieldDescription>Enable optional extensions for Token 2022</FieldDescription>
+              <div className="mt-2 flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      checked={enableCloseMint}
+                      id={closeMintId}
+                      onCheckedChange={(checked) => setEnableCloseMint(checked === true)}
+                    />
+                    <label
+                      className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      htmlFor={closeMintId}
+                    >
+                      Close Mint
+                    </label>
+                  </div>
+                  <p className="ml-6 text-muted-foreground text-xs">
+                    Allow the mint account to be closed and rent reclaimed
+                  </p>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      checked={enablePermanentDelegate}
+                      id={permanentDelegateId}
+                      onCheckedChange={(checked) => setEnablePermanentDelegate(checked === true)}
+                    />
+                    <label
+                      className="font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                      htmlFor={permanentDelegateId}
+                    >
+                      Permanent Delegate
+                    </label>
+                  </div>
+                  <p className="ml-6 text-muted-foreground text-xs">
+                    Allow a permanent delegate with unlimited authority over any token account
+                  </p>
+                </div>
+              </div>
+            </Field>
+          ) : null}
+
           <Item variant="outline">
             <ItemContent>
               <ItemTitle>Summary</ItemTitle>
@@ -173,6 +289,20 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
               </ItemDescription>
               <ItemDescription className="font-mono">Decimals: {decimals}</ItemDescription>
               <ItemDescription className="font-mono">Supply: {supply}</ItemDescription>
+              <ItemDescription className="font-mono">
+                Token Program:{' '}
+                {tokenProgram === TOKEN_PROGRAM_ADDRESS
+                  ? SPL_TOKEN_PROGRAM[TOKEN_PROGRAM_ADDRESS]
+                  : SPL_TOKEN_PROGRAM[TOKEN_2022_PROGRAM_ADDRESS]}
+              </ItemDescription>
+              {tokenProgram === TOKEN_2022_PROGRAM_ADDRESS && (enableCloseMint || enablePermanentDelegate) ? (
+                <ItemDescription className="font-mono">
+                  Extensions:{' '}
+                  {[enableCloseMint && 'Close Mint', enablePermanentDelegate && 'Permanent Delegate']
+                    .filter(Boolean)
+                    .join(', ')}
+                </ItemDescription>
+              ) : null}
             </ItemContent>
           </Item>
           <ItemActions className="justify-end">
