@@ -1,20 +1,14 @@
-import {
-  assertIsTransactionWithBlockhashLifetime,
-  getSignatureFromTransaction,
-  type KeyPairSigner,
-  type Signature,
-  sendAndConfirmTransactionFactory,
-  signTransactionMessageWithSigners,
-} from '@solana/kit'
-import { createSolTransferTransaction } from './create-sol-transfer-transaction.ts'
-import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
+import type { Address, KeyPairSigner, Signature } from '@solana/kit'
+import { createSolTransferInstructions } from './create-sol-transfer-instructions.ts'
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { lamportsToSol } from './lamports-to-sol.ts'
 import { maxAvailableSolAmount } from './max-available-sol-amount.ts'
+import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export interface CreateAndSendSolTransactionOptions {
   amount: bigint
-  destination: string
+  destination: Address
   latestBlockhash?: LatestBlockhash | undefined
   sender: KeyPairSigner
   senderBalance: bigint
@@ -32,21 +26,9 @@ export async function createAndSendSolTransaction(
     )
   }
 
-  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
-
-  const transactionMessage = createSolTransferTransaction({
-    amount,
-    destination,
+  return signAndSendTransaction(client, {
+    instructions: createSolTransferInstructions({ amount, destination, sender }),
     latestBlockhash,
     sender,
   })
-
-  const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
-  assertIsTransactionWithBlockhashLifetime(signedTransaction)
-
-  await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    signedTransaction,
-    { commitment: 'confirmed' },
-  )
-  return getSignatureFromTransaction(signedTransaction)
 }
