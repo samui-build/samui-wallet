@@ -1,6 +1,6 @@
 import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
-import superjson from 'superjson'
+import { UiDebug } from '@workspace/ui/components/ui-debug'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
@@ -46,14 +46,7 @@ export function ExplorerUiTxDetails({
         <ExplorerUiDetailRow label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
       </div>
       <Separator />
-      <ExplorerUiDetailRow
-        label="Raw TX"
-        value={
-          <pre className="overflow-auto whitespace-pre-wrap text-[9px]">
-            {JSON.stringify(superjson.serialize(tx).json, null, 2)}
-          </pre>
-        }
-      />
+      <ExplorerUiDetailRow label="Raw TX" value={<UiDebug data={tx} />} />
     </div>
   )
 }
