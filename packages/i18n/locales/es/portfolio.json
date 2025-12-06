@@ -6,6 +6,8 @@
   "actionCopyPublicKeySuccess": "Clave pública copiada",
   "actionReceive": "Recibir",
   "actionRequestAirdrop": "Solicitar airdrop",
+  "actionSelectAmount": "Selecciona cantidad",
+  "actionSelectDestination": "Selecciona destino",
   "actionSelectToken": "Selecciona token",
   "actionSend": "Enviar",
   "actionUseFaucet": "Usa faucet",
