@@ -1,4 +1,4 @@
-import type { KeyPairSigner } from '@solana/kit'
+import { address, type KeyPairSigner } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
@@ -29,7 +29,7 @@ export function useCreateAndSendSolTransaction({ account, network }: { account: 
       }
       return createAndSendSolTransaction(client, {
         amount: solToLamports(amount),
-        destination,
+        destination: address(destination),
         sender,
         senderBalance: senderBalance.value,
       })
