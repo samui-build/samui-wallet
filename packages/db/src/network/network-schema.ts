@@ -10,7 +10,7 @@ export const networkSchema = z.object({
     .or(z.literal(''))
     .optional(),
   id: z.string(),
-  name: z.string(),
+  name: z.string().trim().min(1).max(20),
   type: networkTypeSchema,
   updatedAt: z.date(),
 })
