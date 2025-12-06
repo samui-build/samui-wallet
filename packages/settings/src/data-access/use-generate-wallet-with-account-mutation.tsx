@@ -1,12 +1,14 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
+import { optionsAccount } from '@workspace/db-react/options-account'
+import { optionsWallet } from '@workspace/db-react/options-wallet'
 import { useAccountCreate } from '@workspace/db-react/use-account-create'
 import { useWalletCreate } from '@workspace/db-react/use-wallet-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-
 import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.tsx'
 
 export function useGenerateWalletWithAccountMutation() {
+  const queryClient = useQueryClient()
   const createWalletMutation = useWalletCreate()
   const createAccountMutation = useAccountCreate()
   const deriveAccountMutation = useDeriveFromMnemonic()
@@ -27,6 +29,10 @@ export function useGenerateWalletWithAccountMutation() {
         },
       })
       return walletId
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: optionsAccount.findMany({}).queryKey })
+      queryClient.invalidateQueries({ queryKey: optionsWallet.findMany({}).queryKey })
     },
   })
 }
