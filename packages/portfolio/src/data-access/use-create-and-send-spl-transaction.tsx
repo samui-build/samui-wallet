@@ -1,4 +1,4 @@
-import type { KeyPairSigner } from '@solana/kit'
+import { address, type KeyPairSigner } from '@solana/kit'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import { createAndSendSplTransaction } from '@workspace/solana-client/create-and-send-spl-transaction'
@@ -16,18 +16,24 @@ export function useCreateAndSendSplTransaction({ network }: { network: Network }
       amount,
       decimals,
       destination,
+      feePayerSigner,
       mint,
-      sender,
     }: {
       amount: string
       decimals: number
       destination: string
+      feePayerSigner: KeyPairSigner
       mint: string
-      sender: KeyPairSigner
     }) => {
-      return createAndSendSplTransaction(client, { amount, decimals, destination, mint, sender })
+      return createAndSendSplTransaction(client, {
+        amount,
+        decimals,
+        destination: address(destination),
+        feePayerSigner,
+        mint: address(mint),
+      })
     },
-    onSuccess: (_, { sender: { address } }) => {
+    onSuccess: (_, { feePayerSigner: { address } }) => {
       queryClient.invalidateQueries({
         queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })

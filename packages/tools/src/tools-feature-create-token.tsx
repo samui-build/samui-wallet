@@ -64,7 +64,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     if (!secretKey) {
       throw new Error('Missing account secret key')
     }
-    const feePayer = await createKeyPairSignerFromJson({ json: secretKey })
+    const feePayerSigner = await createKeyPairSignerFromJson({ json: secretKey })
     let res: SplTokenCreateTokenMint | SplToken2022CreateTokenMint
     if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
       const extensions = {
@@ -74,7 +74,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       res = await mutation2022.mutateAsync({
         decimals,
         extensions,
-        feePayer,
+        feePayerSigner,
         mint: queryKeypair.data,
         supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
         tokenProgram,
@@ -82,7 +82,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     } else {
       res = await mutation.mutateAsync({
         decimals,
-        feePayer,
+        feePayerSigner,
         mint: queryKeypair.data,
         supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
         tokenProgram,
