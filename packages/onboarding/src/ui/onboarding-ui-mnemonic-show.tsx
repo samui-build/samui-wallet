@@ -22,7 +22,7 @@ export function OnboardingUiMnemonicShow({ mnemonic }: { mnemonic: string }) {
   return (
     <div className={`grid grid-cols-2 gap-x-4 gap-y-4 sm:grid-cols-3`}>
       {words.map((word, index) => (
-        <OnboardingUiMnemonicWordReadonly index={index} key={word} word={word} />
+        <OnboardingUiMnemonicWordReadonly index={index} key={`${index}-${word}`} word={word} />
       ))}
     </div>
   )

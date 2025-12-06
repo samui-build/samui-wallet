@@ -1,5 +1,6 @@
 import type { Address } from '@solana/kit'
 import type { Network } from '@workspace/db/network/network'
+import { useTranslation } from '@workspace/i18n'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
@@ -22,6 +23,7 @@ export function ExplorerFeatureAccountOverview({
   address: Address
   network: Network
 }) {
+  const { t } = useTranslation('explorer')
   const query = useGetAccountInfo({ address, network })
   if (query.isLoading) {
     return <UiLoader />
@@ -37,24 +39,24 @@ export function ExplorerFeatureAccountOverview({
           <ExplorerFeatureBookmarkAccountButton address={address} />
           <Button onClick={() => query.refetch()} size="sm" variant="secondary">
             <UiIcon icon="refresh" />
-            Refresh
+            {t(($) => $.actionRefresh)}
           </Button>
         </div>
       }
       backButtonTo={backButtonTo}
       description={<ExplorerUiExplorers network={network} path={`/address/${address}`} />}
-      title={<div>Account Overview</div>}
+      title={<div>{t(($) => $.accountOverviewTitle)}</div>}
     >
       <div className="space-y-2 sm:space-y-4 lg:space-y-6">
-        <ExplorerUiDetailRow label="Address" value={address} />
+        <ExplorerUiDetailRow label={t(($) => $.address)} value={address} />
         {query.data?.value?.owner ? (
           <ExplorerUiDetailRow
-            label="Owner"
+            label={t(($) => $.owner)}
             value={<ExplorerUiLinkAddress address={query.data.value.owner} basePath={basePath} />}
           />
         ) : null}
         {query.data?.value?.lamports !== undefined ? (
-          <ExplorerUiDetailRow label="Lamports" value={query.data.value.lamports} />
+          <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.value.lamports} />
         ) : null}
       </div>
     </UiCard>

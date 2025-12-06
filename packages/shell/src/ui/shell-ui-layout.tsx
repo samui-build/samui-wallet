@@ -42,7 +42,7 @@ export function ShellUiLayout() {
       <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
         <Outlet />
       </main>
-      <footer className="flex items-center justify-between bg-secondary/30">
+      <footer className="flex items-center justify-between bg-secondary/30 pb-[env(safe-area-inset-bottom)]">
         {links.map(({ icon, label, to }) => (
           <NavLink
             className={({ isActive }) =>

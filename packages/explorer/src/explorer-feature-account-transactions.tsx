@@ -1,5 +1,6 @@
 import type { Address } from '@solana/kit'
 import type { Network } from '@workspace/db/network/network'
+import { useTranslation } from '@workspace/i18n'
 import { useGetSignaturesForAddress } from '@workspace/solana-client-react/use-get-signatures-for-address'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
@@ -20,6 +21,7 @@ export function ExplorerFeatureAccountTransactions({
   basePath: string
   network: Network
 }) {
+  const { t } = useTranslation('explorer')
   const query = useGetSignaturesForAddress({ address, network })
   if (query.isLoading) {
     return <UiLoader />
@@ -34,11 +36,11 @@ export function ExplorerFeatureAccountTransactions({
       action={
         <Button onClick={() => query.refetch()} size="sm" variant="secondary">
           <UiIcon icon="refresh" />
-          Refresh
+          {t(($) => $.actionRefresh)}
         </Button>
       }
-      description="Recent transactions for this account"
-      title={<div>Account Transactions</div>}
+      description={t(($) => $.transactionsOverviewDescription)}
+      title={<div>{t(($) => $.transactionsOverviewTitle)}</div>}
     >
       <div className="space-y-2">
         {transactions?.map((tx) => (

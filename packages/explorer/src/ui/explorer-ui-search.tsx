@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { solanaSignatureSchema } from '@workspace/db/solana/solana-signature-schema'
+import { useTranslation } from '@workspace/i18n'
 import { Form, FormField, FormItem, FormMessage } from '@workspace/ui/components/form'
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@workspace/ui/components/input-group'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
@@ -29,6 +30,7 @@ const formSchema = z
 export type ExplorerSearchInput = z.infer<typeof formSchema>
 
 export function ExplorerUiSearch({ submit }: { submit: (input: ExplorerSearchInput) => Promise<void> }) {
+  const { t } = useTranslation('explorer')
   const form = useForm({
     defaultValues: { query: '' },
     mode: 'all',
@@ -47,14 +49,14 @@ export function ExplorerUiSearch({ submit }: { submit: (input: ExplorerSearchInp
                 <InputGroupAddon>
                   <UiIcon icon="search" />
                 </InputGroupAddon>
-                <InputGroupInput placeholder="Search account or transaction" {...field} />
+                <InputGroupInput placeholder={t(($) => $.inputSearchPlaceholder)} {...field} />
                 <InputGroupAddon align="inline-end" asChild>
                   <InputGroupButton
                     disabled={!field.value || Boolean(form.formState.errors.query)}
                     type="submit"
                     variant="secondary"
                   >
-                    Search
+                    {t(($) => $.actionSearch)}
                   </InputGroupButton>
                 </InputGroupAddon>
               </InputGroup>
