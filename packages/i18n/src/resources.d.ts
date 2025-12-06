@@ -218,6 +218,9 @@ interface Resources {
     languageSpanish: 'Spanish'
   }
   ui: {
+    actionAdd: 'Add'
+    actionRemove: 'Remove'
+    actionSave: 'Save'
     errorTitle: 'Oops, an error occurred'
     experimentalWarningDescription: 'Use this wallet at your own risk. Do not use any real funds.'
     experimentalWarningTitle: 'This is experimental software.'

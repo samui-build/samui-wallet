@@ -42,6 +42,7 @@ import {
   LucideUmbrella,
   LucideUploadCloud,
   LucideWallet2,
+  LucideX,
 } from 'lucide-react'
 import type * as react from 'react'
 import type { ForwardRefExoticComponent } from 'react'
@@ -93,6 +94,7 @@ export type UiIconName =
   | 'upload'
   | 'wallet'
   | 'watch'
+  | 'x'
 
 const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('add', LucidePlus)
@@ -139,6 +141,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('upload', LucideUploadCloud)
   .set('wallet', LucideWallet2)
   .set('watch', LucideEye)
+  .set('x', LucideX)
 
 export function getIcon(type: UiIconName) {
   if (!uiIconMap.has(type)) {

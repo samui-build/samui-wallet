@@ -304,6 +304,7 @@
         "@tanstack/react-query": "catalog:",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
+        "@workspace/i18n": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/portfolio": "workspace:*",
         "@workspace/settings": "workspace:*",
