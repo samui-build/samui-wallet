@@ -62,6 +62,7 @@ export function PortfolioUiSendConfirm({
           </FieldSet>
           <Field className="flex justify-end" orientation="horizontal">
             <Button
+              autoFocus
               disabled={!mint || !amount || !destination || isLoading}
               onClick={async (e) => {
                 e.preventDefault()

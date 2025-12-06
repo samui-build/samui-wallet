@@ -1,8 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useTranslation } from '@workspace/i18n'
-import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { maxAvailableSolAmount } from '@workspace/solana-client/max-available-sol-amount'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Form, FormField, FormItem, FormMessage } from '@workspace/ui/components/form'
@@ -14,27 +12,18 @@ import { z } from 'zod'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
-export function PortfolioUiSendMint({
-  destination,
+export function PortfolioUiSendDestination({
   mint,
   isLoading,
-  send,
+  submit,
 }: {
-  destination: string
   mint: TokenBalance
   isLoading: boolean
-  send: (input: { amount: string; destination: string; mint: TokenBalance }) => Promise<void>
+  submit: (input: { destination: string }) => Promise<void>
 }) {
   const { t } = useTranslation('portfolio')
   const destinationId = useId()
-  const amountId = useId()
-  const max = mint.mint === NATIVE_MINT ? maxAvailableSolAmount(mint.balance, mint.balance) : mint.balance
-  const maxAmount = Number(max) / 10 ** mint.decimals
   const formSchema = z.object({
-    amount: z
-      .number()
-      .positive({ message: 'Amount must be greater than 0' })
-      .max(Number(maxAmount), { message: 'Amount exceeds available balance' }),
     destination: solanaAddressSchema,
   })
 
@@ -42,15 +31,14 @@ export function PortfolioUiSendMint({
 
   const form = useForm({
     defaultValues: {
-      amount: 0,
-      destination,
+      destination: '',
     },
     mode: 'all',
     resolver: zodResolver(formSchema),
   })
 
   async function handleSubmit(data: PortfolioUiSendMintInput) {
-    await send({ amount: data.amount.toString(), destination: data.destination, mint })
+    await submit({ destination: data.destination })
   }
 
   return (
@@ -72,43 +60,12 @@ export function PortfolioUiSendMint({
                         <Input
                           {...field}
                           autoComplete="off"
-                          disabled
+                          autoFocus
                           id={destinationId}
                           placeholder={t(($) => $.sendInputDestinationPlaceholder)}
-                          readOnly
                           type="text"
                           value={field.value.toString()}
                         />
-                      </Field>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="amount"
-                  render={({ field }) => (
-                    <FormItem>
-                      <Field>
-                        <FieldLabel htmlFor={amountId}>{t(($) => $.sendInputAmountLabel)}</FieldLabel>
-                        <div className="flex gap-2">
-                          <Input
-                            {...field}
-                            autoComplete="off"
-                            autoFocus
-                            id={amountId}
-                            min="0"
-                            onChange={(e) => field.onChange(Number(e.target.value))}
-                            placeholder={t(($) => $.sendInputAmountPlaceholder)}
-                            step="any"
-                            type="number"
-                            value={field.value}
-                          />
-                          <Button onClick={() => field.onChange(maxAmount)} type="button" variant="outline">
-                            Max
-                          </Button>
-                        </div>
                       </Field>
                       <FormMessage />
                     </FormItem>
