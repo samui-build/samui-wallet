@@ -14,7 +14,7 @@ export function PortfolioUiAccountButtons() {
         </Link>
       </Button>
       <Button asChild variant="secondary">
-        <Link state={{ from }} to="/modals/tokens">
+        <Link state={{ from }} to="/modals/send">
           <UiIcon icon="arrowUp" /> {t(($) => $.actionSend)}
         </Link>
       </Button>
