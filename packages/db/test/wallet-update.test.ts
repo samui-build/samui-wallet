@@ -68,6 +68,29 @@ describe('wallet-update', () => {
       await expect(walletUpdate(db, id, {})).rejects.toThrow(`Error updating wallet with id ${id}`)
     })
 
+    it('should throw an error when updating a wallet with a too short name', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
+
+      // ACT & ASSERT
+      await expect(walletUpdate(db, id, { name: ' ' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]]
+      `)
+    })
+
     it('should throw an error when updating a wallet with a too long name', async () => {
       // ARRANGE
       expect.assertions(1)

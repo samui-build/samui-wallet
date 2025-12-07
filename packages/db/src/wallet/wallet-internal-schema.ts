@@ -9,7 +9,7 @@ export const walletInternalSchema = z.object({
   description: z.string().max(50).optional(),
   id: z.string(),
   mnemonic: z.string(),
-  name: z.string().max(20),
+  name: z.string().trim().min(1).max(20),
   order: z.number(),
   secret: z.string(),
   updatedAt: z.date(),
