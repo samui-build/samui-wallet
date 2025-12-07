@@ -1,6 +1,7 @@
 import type { Address, Signature, TransactionSigner } from '@solana/kit'
-import { findAssociatedTokenPda, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-import { getCreateAssociatedTokenIdempotentInstruction, getMintToCheckedInstruction } from '@solana-program/token-2022'
+import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
+import { getMintToCheckedInstruction } from '@solana-program/token-2022'
+import { createGetOrCreateAtaInstruction } from './create-get-or-create-ata-instruction.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
@@ -30,18 +31,11 @@ export async function splTokenMintTo(
     transactionSigner,
   }: SplTokenMintToOptions,
 ): Promise<SplTokenMintToResult> {
-  const [ata] = await findAssociatedTokenPda({
+  const [ata, createAtaInstruction] = await createGetOrCreateAtaInstruction({
     mint,
     owner: transactionSigner.address,
     tokenProgram,
-  })
-
-  const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
-    ata,
-    mint,
-    owner: transactionSigner.address,
-    payer: transactionSigner,
-    tokenProgram,
+    transactionSigner,
   })
 
   const mintToInstruction = getMintToCheckedInstruction(
