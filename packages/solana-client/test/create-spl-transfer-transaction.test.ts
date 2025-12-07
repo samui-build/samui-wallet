@@ -1,7 +1,7 @@
-import { address, blockhash, generateKeyPairSigner } from '@solana/kit'
+import { address, generateKeyPairSigner } from '@solana/kit'
 import { getCreateAssociatedTokenInstruction, getTransferCheckedInstruction } from '@solana-program/token'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createSplTransferTransaction } from '../src/create-spl-transfer-transaction.ts'
+import { createSplTransferInstructions } from '../src/create-spl-transfer-instructions.ts'
 
 vi.mock('@solana-program/token', () => ({
   getCreateAssociatedTokenInstruction: vi.fn(() => ({
@@ -23,25 +23,20 @@ describe('create-spl-transfer-transaction', () => {
   describe('expected behavior', () => {
     it('should create complete transaction with transfer instruction when ATA exists', async () => {
       // ARRANGE
-      expect.assertions(8)
+      expect.assertions(4)
       const sender = await generateKeyPairSigner()
       const mint = address('So11111111111111111111111111111111111111112')
       const destination = address('So11111111111111111111111111111111111111113')
       const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
-      const testBlockhash = blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh')
 
       // ACT
-      const result = createSplTransferTransaction({
+      const result = createSplTransferInstructions({
         amount: 1000000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: testBlockhash,
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -63,11 +58,7 @@ describe('create-spl-transfer-transaction', () => {
         },
       )
       expect(getCreateAssociatedTokenInstruction).not.toHaveBeenCalled()
-      expect(result.version).toBe(0)
-      expect(result.feePayer).toBe(sender) // feePayer is the sender object, not sender.address
-      expect(result.lifetimeConstraint.blockhash).toBe(testBlockhash)
-      expect(result.lifetimeConstraint.lastValidBlockHeight).toBe(408781140n)
-      expect(result.instructions).toHaveLength(1)
+      expect(result).toHaveLength(1)
     })
 
     it('should create ATA and transfer instructions when destination ATA does not exist', async () => {
@@ -80,16 +71,12 @@ describe('create-spl-transfer-transaction', () => {
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      const result = createSplTransferTransaction({
+      const result = createSplTransferInstructions({
         amount: 500000n,
         decimals: 9,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: false,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -118,7 +105,7 @@ describe('create-spl-transfer-transaction', () => {
           programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
         },
       )
-      expect(result.instructions).toHaveLength(2)
+      expect(result).toHaveLength(2)
     })
 
     it('should use custom source as authority when provided', async () => {
@@ -132,16 +119,12 @@ describe('create-spl-transfer-transaction', () => {
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      createSplTransferTransaction({
+      createSplTransferInstructions({
         amount: 750000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         source, // Custom source authority
@@ -174,16 +157,12 @@ describe('create-spl-transfer-transaction', () => {
       const customTokenProgram = address('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
 
       // ACT
-      createSplTransferTransaction({
+      createSplTransferInstructions({
         amount: 1000000n,
         decimals: 6,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: false,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -211,16 +190,12 @@ describe('create-spl-transfer-transaction', () => {
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      const result = createSplTransferTransaction({
+      const result = createSplTransferInstructions({
         amount: 0n,
         decimals: 6,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -233,7 +208,7 @@ describe('create-spl-transfer-transaction', () => {
         }),
         expect.anything(),
       )
-      expect(result.instructions).toHaveLength(1)
+      expect(result).toHaveLength(1)
     })
 
     it('should handle large amount transfer', async () => {
@@ -247,16 +222,12 @@ describe('create-spl-transfer-transaction', () => {
       const largeAmount = 18446744073709551615n // Max uint64
 
       // ACT
-      createSplTransferTransaction({
+      createSplTransferInstructions({
         amount: largeAmount,
         decimals: 0,
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -281,16 +252,12 @@ describe('create-spl-transfer-transaction', () => {
       const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      createSplTransferTransaction({
+      createSplTransferInstructions({
         amount: 1000000000n,
         decimals: 9, // Wrapped SOL uses 9 decimals
         destination,
         destinationTokenAccount,
         destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-          lastValidBlockHeight: 408781140n,
-        },
         mint,
         sender,
         sourceTokenAccount,
@@ -298,46 +265,9 @@ describe('create-spl-transfer-transaction', () => {
 
       // ASSERT
       expect(getTransferCheckedInstruction).toHaveBeenCalledWith(
-        expect.objectContaining({
-          decimals: 9,
-        }),
+        expect.objectContaining({ decimals: 9 }),
         expect.anything(),
       )
-    })
-
-    it('should set correct transaction properties with provided blockhash', async () => {
-      // ARRANGE
-      expect.assertions(4)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
-      // Use a valid base58 blockhash format
-      const testBlockhash = blockhash('9s7BXS3Y6H2QoLPRfaLtK6qXKKH7GcWYoVT7hxXeXm4v')
-      const testBlockHeight = 999999999n
-
-      // ACT
-      const result = createSplTransferTransaction({
-        amount: 1000n,
-        decimals: 6,
-        destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
-        latestBlockhash: {
-          blockhash: testBlockhash,
-          lastValidBlockHeight: testBlockHeight,
-        },
-        mint,
-        sender,
-        sourceTokenAccount,
-      })
-
-      // ASSERT
-      expect(result.version).toBe(0)
-      expect(result.feePayer).toBe(sender) // feePayer is the sender object
-      expect(result.lifetimeConstraint.blockhash).toBe(testBlockhash)
-      expect(result.lifetimeConstraint.lastValidBlockHeight).toBe(testBlockHeight)
     })
   })
 
@@ -352,16 +282,13 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
+          // @ts-expect-error: Testing invalid input
           mint: 'invalid-address',
           sender,
           sourceTokenAccount,
@@ -379,18 +306,15 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           sender,
+          // @ts-expect-error: Testing invalid input
           sourceTokenAccount: 'not-a-valid-address',
         }),
       ).toThrow()
@@ -406,16 +330,13 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
+          // @ts-expect-error: Testing invalid input
           destinationTokenAccount: 'invalid',
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           sender,
           sourceTokenAccount,
@@ -433,16 +354,13 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
+          // @ts-expect-error: Testing invalid input
           destination: 'bad-address',
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           sender,
           sourceTokenAccount,
@@ -461,19 +379,16 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           sender,
           sourceTokenAccount,
+          // @ts-expect-error: Testing invalid input
           tokenProgram: 'not-valid',
         }),
       ).toThrow()
@@ -489,16 +404,12 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           // @ts-expect-error: Invalid sender
           sender: {},
@@ -518,16 +429,12 @@ describe('create-spl-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSplTransferTransaction({
+        createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
           destinationTokenAccount,
           destinationTokenAccountExists: true,
-          latestBlockhash: {
-            blockhash: blockhash('8RgfL7JKoPe4gwCGkCS1HwRHKTdG8TgQX1ncTFwkh2zh'),
-            lastValidBlockHeight: 408781140n,
-          },
           mint,
           sender,
           // @ts-expect-error: Invalid source

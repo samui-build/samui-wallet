@@ -1,28 +1,15 @@
-import {
-  type Address,
-  appendTransactionMessageInstructions,
-  assertIsTransactionWithBlockhashLifetime,
-  createTransactionMessage,
-  generateKeyPairSigner,
-  getSignatureFromTransaction,
-  type KeyPairSigner,
-  pipe,
-  type Signature,
-  sendAndConfirmTransactionFactory,
-  setTransactionMessageFeePayerSigner,
-  setTransactionMessageLifetimeUsingBlockhash,
-  signTransactionMessageWithSigners,
-} from '@solana/kit'
+import { type Address, assertIsAddress, generateKeyPairSigner, type KeyPairSigner, type Signature } from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
 import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
+import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 import { splTokenTransfer } from './spl-token-transfer.ts'
 
 export interface SplTokenCreateTokenMintOptions {
   decimals: number
   latestBlockhash?: LatestBlockhash | undefined
-  feePayer: KeyPairSigner
+  feePayerSigner: KeyPairSigner
   mint?: KeyPairSigner
   tokenProgram?: Address
   supply?: bigint | undefined
@@ -41,11 +28,12 @@ export async function splTokenCreateTokenMint(
     latestBlockhash,
     decimals,
     mint,
-    feePayer,
+    feePayerSigner,
     tokenProgram = TOKEN_PROGRAM_ADDRESS,
     supply = 0n,
   }: SplTokenCreateTokenMintOptions,
 ): Promise<SplTokenCreateTokenMint> {
+  assertIsAddress(tokenProgram)
   if (decimals < 0 || decimals > 9) {
     throw new Error(`Decimals must be between 0 and 9`)
   }
@@ -62,7 +50,7 @@ export async function splTokenCreateTokenMint(
   const createAccountInstruction = getCreateAccountInstruction({
     lamports: rent,
     newAccount: mint,
-    payer: feePayer,
+    payer: feePayerSigner,
     programAddress: tokenProgram,
     space,
   })
@@ -71,36 +59,19 @@ export async function splTokenCreateTokenMint(
   const initializeMintInstruction = getInitializeMintInstruction({
     decimals,
     mint: mint.address,
-    mintAuthority: feePayer.address,
+    mintAuthority: feePayerSigner.address,
   })
 
-  const instructions = [createAccountInstruction, initializeMintInstruction]
-
-  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
-
-  const transactionMessage = pipe(
-    createTransactionMessage({ version: 0 }),
-    (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
-    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-    (tx) => appendTransactionMessageInstructions(instructions, tx),
-  )
-
-  // Sign transaction message with required signers (fee payer and mint keypair)
-  const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
-  assertIsTransactionWithBlockhashLifetime(signedTransaction)
-
-  await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    signedTransaction,
-    { commitment: 'confirmed' },
-  )
-
-  // Get transaction signature
-  const signatureCreate = getSignatureFromTransaction(signedTransaction)
+  const signatureCreate = await signAndSendTransaction(client, {
+    feePayerSigner,
+    instructions: [createAccountInstruction, initializeMintInstruction],
+    latestBlockhash,
+  })
 
   if (supply > 0n) {
     const { ata, signature: signatureSupply } = await splTokenTransfer(client, {
       amount: supply,
-      feePayer,
+      feePayerSigner,
       latestBlockhash,
       mint: mint.address,
       tokenProgram,

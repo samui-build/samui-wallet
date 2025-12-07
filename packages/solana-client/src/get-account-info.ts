@@ -1,11 +1,9 @@
-import type { GetAccountInfoApi } from '@solana/kit'
-
-import { address as addressFn } from '@solana/kit'
+import type { Address, GetAccountInfoApi } from '@solana/kit'
 
 import type { SolanaClient } from './solana-client.ts'
 
 export type GetAccountInfoResult = ReturnType<GetAccountInfoApi['getAccountInfo']>
 
-export function getAccountInfo(client: SolanaClient, { address }: { address: string }): Promise<GetAccountInfoResult> {
-  return client.rpc.getAccountInfo(addressFn(address)).send()
+export function getAccountInfo(client: SolanaClient, { address }: { address: Address }): Promise<GetAccountInfoResult> {
+  return client.rpc.getAccountInfo(address).send()
 }

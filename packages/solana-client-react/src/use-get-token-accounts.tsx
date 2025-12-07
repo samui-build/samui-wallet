@@ -11,7 +11,7 @@ export function getTokenAccountsQueryOptions({
   client,
   network,
 }: {
-  address: string
+  address: Address
   client: SolanaClient
   network: Network
 }) {

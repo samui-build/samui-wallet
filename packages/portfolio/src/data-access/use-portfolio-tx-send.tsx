@@ -32,14 +32,14 @@ export function usePortfolioTxSend() {
       throw new Error(`No secret key for this account`)
     }
 
-    const sender = await createKeyPairSignerFromJson({ json: secretKey })
+    const feePayerSigner = await createKeyPairSignerFromJson({ json: secretKey })
     // Send SPL token
     const { data: result, error: sendError } = await tryCatch(
       sendSplMutation.mutateAsync({
         ...input,
         decimals: input.mint.decimals,
+        feePayerSigner,
         mint: input.mint.mint,
-        sender,
       }),
     )
 

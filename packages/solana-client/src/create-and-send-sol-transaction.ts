@@ -1,28 +1,22 @@
-import {
-  assertIsTransactionWithBlockhashLifetime,
-  getSignatureFromTransaction,
-  type KeyPairSigner,
-  type Signature,
-  sendAndConfirmTransactionFactory,
-  signTransactionMessageWithSigners,
-} from '@solana/kit'
-import { createSolTransferTransaction } from './create-sol-transfer-transaction.ts'
-import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
+import type { Address, KeyPairSigner, Signature } from '@solana/kit'
+import { createSolTransferInstructions } from './create-sol-transfer-instructions.ts'
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { lamportsToSol } from './lamports-to-sol.ts'
 import { maxAvailableSolAmount } from './max-available-sol-amount.ts'
+import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export interface CreateAndSendSolTransactionOptions {
   amount: bigint
-  destination: string
+  destination: Address
+  feePayerSigner: KeyPairSigner
   latestBlockhash?: LatestBlockhash | undefined
-  sender: KeyPairSigner
   senderBalance: bigint
 }
 
 export async function createAndSendSolTransaction(
   client: SolanaClient,
-  { amount, destination, latestBlockhash, sender, senderBalance }: CreateAndSendSolTransactionOptions,
+  { amount, destination, latestBlockhash, feePayerSigner, senderBalance }: CreateAndSendSolTransactionOptions,
 ): Promise<Signature> {
   const maxAvailable = maxAvailableSolAmount(senderBalance, amount)
 
@@ -32,21 +26,9 @@ export async function createAndSendSolTransaction(
     )
   }
 
-  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
-
-  const transactionMessage = createSolTransferTransaction({
-    amount,
-    destination,
+  return signAndSendTransaction(client, {
+    feePayerSigner,
+    instructions: createSolTransferInstructions({ amount, destination, source: feePayerSigner }),
     latestBlockhash,
-    sender,
   })
-
-  const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
-  assertIsTransactionWithBlockhashLifetime(signedTransaction)
-
-  await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    signedTransaction,
-    { commitment: 'confirmed' },
-  )
-  return getSignatureFromTransaction(signedTransaction)
 }

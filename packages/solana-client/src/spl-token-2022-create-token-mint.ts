@@ -1,21 +1,7 @@
-import {
-  type Address,
-  appendTransactionMessageInstructions,
-  assertIsTransactionWithBlockhashLifetime,
-  createTransactionMessage,
-  generateKeyPairSigner,
-  getSignatureFromTransaction,
-  type Instruction,
-  type KeyPairSigner,
-  pipe,
-  type Signature,
-  sendAndConfirmTransactionFactory,
-  setTransactionMessageFeePayerSigner,
-  setTransactionMessageLifetimeUsingBlockhash,
-  signTransactionMessageWithSigners,
-} from '@solana/kit'
+import { type Address, generateKeyPairSigner, type Instruction, type KeyPairSigner, type Signature } from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
 import {
+  type ExtensionArgs,
   extension,
   getInitializeMintCloseAuthorityInstruction,
   getInitializeMintInstruction,
@@ -23,14 +9,15 @@ import {
   getMintSize,
   TOKEN_2022_PROGRAM_ADDRESS,
 } from '@solana-program/token-2022'
-import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
+import type { LatestBlockhash } from './get-latest-blockhash.ts'
+import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 import { splTokenMintTo } from './spl-token-mint-to.ts'
 
 export interface SplToken2022CreateTokenMintOptions {
   decimals: number
   latestBlockhash?: LatestBlockhash | undefined
-  feePayer: KeyPairSigner
+  feePayerSigner: KeyPairSigner
   mint?: KeyPairSigner
   tokenProgram?: Address
   supply?: bigint | undefined
@@ -56,7 +43,7 @@ export async function splToken2022CreateTokenMint(
     latestBlockhash,
     decimals,
     mint,
-    feePayer,
+    feePayerSigner,
     tokenProgram = TOKEN_2022_PROGRAM_ADDRESS,
     supply = 0n,
     extensions,
@@ -68,18 +55,18 @@ export async function splToken2022CreateTokenMint(
 
   mint = mint ?? (await generateKeyPairSigner())
 
-  const extensionConfigs = []
-  let instructions: Instruction[] = []
+  const extensionConfigs: ExtensionArgs[] = []
+  const instructions: Instruction[] = []
 
   // Build extensions array for Token 2022
   if (extensions?.closeMint) {
     extensionConfigs.push(
       extension('MintCloseAuthority', {
-        closeAuthority: feePayer.address,
+        closeAuthority: feePayerSigner.address,
       }),
     )
     const initializeCloseMintInstruction = getInitializeMintCloseAuthorityInstruction({
-      closeAuthority: feePayer.address,
+      closeAuthority: feePayerSigner.address,
       mint: mint.address,
     })
     instructions.push(initializeCloseMintInstruction)
@@ -87,65 +74,48 @@ export async function splToken2022CreateTokenMint(
   if (extensions?.permanentDelegate) {
     extensionConfigs.push(
       extension('PermanentDelegate', {
-        delegate: feePayer.address,
+        delegate: feePayerSigner.address,
       }),
     )
     const initializePermanentDelegateInstruction = getInitializePermanentDelegateInstruction({
-      delegate: feePayer.address,
+      delegate: feePayerSigner.address,
       mint: mint.address,
     })
     instructions.push(initializePermanentDelegateInstruction)
   }
 
-  const space = BigInt(extensionConfigs.length > 0 ? getMintSize(extensionConfigs) : getMintSize())
+  const space = getMintSize(extensionConfigs.length > 0 ? extensionConfigs : undefined)
 
   // Get minimum balance for rent exemption
-  const rent = await client.rpc.getMinimumBalanceForRentExemption(space).send()
+  const rent = await client.rpc.getMinimumBalanceForRentExemption(BigInt(space)).send()
 
   // Instruction to create new account for mint
   const createAccountInstruction = getCreateAccountInstruction({
     lamports: rent,
     newAccount: mint,
-    payer: feePayer,
+    payer: feePayerSigner,
     programAddress: tokenProgram,
     space,
   })
 
-  instructions = [createAccountInstruction, ...instructions]
-
   const initializeMintInstruction = getInitializeMintInstruction({
     decimals,
     mint: mint.address,
-    mintAuthority: feePayer.address,
+    mintAuthority: feePayerSigner.address,
   })
-  instructions.push(initializeMintInstruction)
-
-  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
-
-  const transactionMessage = pipe(
-    createTransactionMessage({ version: 0 }),
-    (tx) => setTransactionMessageFeePayerSigner(feePayer, tx),
-    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-    (tx) => appendTransactionMessageInstructions(instructions, tx),
-  )
-
-  // Sign transaction message with required signers (fee payer and mint keypair)
-  const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
-  assertIsTransactionWithBlockhashLifetime(signedTransaction)
-
-  await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
-    signedTransaction,
-    { commitment: 'confirmed' },
-  )
 
   // Get transaction signature
-  const signatureCreate = getSignatureFromTransaction(signedTransaction)
+  const signatureCreate = await signAndSendTransaction(client, {
+    feePayerSigner,
+    instructions: [createAccountInstruction, ...instructions, initializeMintInstruction],
+    latestBlockhash,
+  })
 
   if (supply > 0n) {
     const { ata, signature: signatureSupply } = await splTokenMintTo(client, {
       amount: supply,
       decimals,
-      feePayer,
+      feePayerSigner,
       latestBlockhash,
       mint: mint.address,
       tokenProgram,
