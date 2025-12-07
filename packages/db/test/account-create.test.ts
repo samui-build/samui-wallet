@@ -75,6 +75,50 @@ describe('account-create', () => {
       vi.restoreAllMocks()
     })
 
+    it('should throw an error when creating an account with a too short name', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testAccountCreateInput({ name: ' ', walletId: randomId() })
+
+      // ACT & ASSERT
+      await expect(accountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]]
+      `)
+    })
+
+    it('should throw an error when creating an account with a too long name', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testAccountCreateInput({ name: 'a'.repeat(21), walletId: randomId() })
+
+      // ACT & ASSERT
+      await expect(accountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_big",
+            "maximum": 20,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too big: expected string to have <=20 characters"
+          }
+        ]]
+      `)
+    })
+
     it('should throw an error when creating an account fails', async () => {
       // ARRANGE
       expect.assertions(1)

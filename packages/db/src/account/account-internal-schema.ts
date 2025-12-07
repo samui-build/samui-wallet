@@ -6,7 +6,7 @@ export const accountInternalSchema = z.object({
   createdAt: z.date(),
   derivationIndex: z.number(),
   id: z.string(),
-  name: z.string(),
+  name: z.string().trim().min(1).max(20),
   order: z.number(),
   publicKey: solanaAddressSchema,
   secretKey: z.string().optional(),

@@ -82,7 +82,7 @@ describe('account-find-many', () => {
       const account1 = testAccountCreateInput({ name: 'Trading Account', walletId })
       const account2 = testAccountCreateInput({ name: 'Staking Account', type: 'Imported', walletId })
       const account3 = testAccountCreateInput({ name: 'Savings', type: 'Watched', walletId })
-      const account4 = testAccountCreateInput({ name: 'Another Trading Account', type: 'Imported', walletId })
+      const account4 = testAccountCreateInput({ name: 'Some Trading Account', type: 'Imported', walletId })
       await accountCreate(db, account1)
       await accountCreate(db, account2)
       await accountCreate(db, account3)
