@@ -41,8 +41,8 @@ export function portfolioTxSendMutationOptions({
     // Send SPL token
     const { data: result, error: sendError } = await tryCatch(
       sendSplMutation.mutateAsync({
-        ...input,
-        decimals: input.mint.decimals,
+        amount: input.amount,
+        destination: input.destination,
         mint: input.mint.mint,
         transactionSigner,
       }),

@@ -1,13 +1,11 @@
 import { address, generateKeyPairSigner } from '@solana/kit'
-import { getCreateAssociatedTokenInstruction, getTransferCheckedInstruction } from '@solana-program/token'
+import { getCreateAssociatedTokenIdempotentInstruction, getTransferCheckedInstruction } from '@solana-program/token'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createSplTransferInstructions } from '../src/create-spl-transfer-instructions.ts'
 
 vi.mock('@solana-program/token', () => ({
-  getCreateAssociatedTokenInstruction: vi.fn(() => ({
-    accounts: [],
-    programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
-  })),
+  findAssociatedTokenPda: vi.fn(() => []),
+  getCreateAssociatedTokenIdempotentInstruction: vi.fn(() => address('So11111111111111111111111111111111111111112')),
   getTransferCheckedInstruction: vi.fn(() => ({
     accounts: [],
     programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
@@ -15,7 +13,11 @@ vi.mock('@solana-program/token', () => ({
   TOKEN_PROGRAM_ADDRESS: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
 }))
 
-describe('create-spl-transfer-transaction', () => {
+describe('create-spl-transfer-transaction', async () => {
+  const transactionSigner = await generateKeyPairSigner()
+  const mint = address('So11111111111111111111111111111111111111112')
+  const destination = address('So11111111111111111111111111111111111111113')
+
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -24,22 +26,14 @@ describe('create-spl-transfer-transaction', () => {
     it('should create complete transaction with transfer instruction when ATA exists', async () => {
       // ARRANGE
       expect.assertions(4)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      const result = createSplTransferInstructions({
+      const result = await createSplTransferInstructions({
         amount: 1000000n,
         decimals: 6,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
         mint,
-        sender,
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT - Multiple assertions checking different aspects
@@ -47,59 +41,51 @@ describe('create-spl-transfer-transaction', () => {
       expect(getTransferCheckedInstruction).toHaveBeenCalledWith(
         {
           amount: 1000000n,
-          authority: sender,
+          authority: transactionSigner,
           decimals: 6,
-          destination: destinationTokenAccount,
+          destination: undefined,
           mint,
-          source: sourceTokenAccount,
+          source: undefined,
         },
         {
           programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
         },
       )
-      expect(getCreateAssociatedTokenInstruction).not.toHaveBeenCalled()
-      expect(result).toHaveLength(1)
+      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledTimes(1)
+      expect(result).toHaveLength(2)
     })
 
     it('should create ATA and transfer instructions when destination ATA does not exist', async () => {
       // ARRANGE
       expect.assertions(5)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      const result = createSplTransferInstructions({
+      const result = await createSplTransferInstructions({
         amount: 500000n,
         decimals: 9,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: false,
         mint,
-        sender,
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT - Check both instructions are created in correct order
-      expect(getCreateAssociatedTokenInstruction).toHaveBeenCalledTimes(1)
-      expect(getCreateAssociatedTokenInstruction).toHaveBeenCalledWith({
-        ata: destinationTokenAccount,
+      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledTimes(1)
+      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledWith({
+        ata: undefined,
         mint,
         owner: destination,
-        payer: sender,
+        payer: transactionSigner,
         tokenProgram: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
       })
       expect(getTransferCheckedInstruction).toHaveBeenCalledTimes(1)
       expect(getTransferCheckedInstruction).toHaveBeenCalledWith(
         {
           amount: 500000n,
-          authority: sender,
+          authority: transactionSigner,
           decimals: 9,
-          destination: destinationTokenAccount,
+          destination: undefined,
           mint,
-          source: sourceTokenAccount,
+          source: undefined,
         },
         {
           programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
@@ -111,24 +97,16 @@ describe('create-spl-transfer-transaction', () => {
     it('should use custom source as authority when provided', async () => {
       // ARRANGE
       expect.assertions(2)
-      const sender = await generateKeyPairSigner()
       const source = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      createSplTransferInstructions({
+      await createSplTransferInstructions({
         amount: 750000n,
         decimals: 6,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
         mint,
-        sender,
         source, // Custom source authority
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT - Verify source is used as authority instead of sender
@@ -140,7 +118,7 @@ describe('create-spl-transfer-transaction', () => {
       )
       expect(getTransferCheckedInstruction).not.toHaveBeenCalledWith(
         expect.objectContaining({
-          authority: sender,
+          authority: transactionSigner,
         }),
         expect.anything(),
       )
@@ -149,28 +127,20 @@ describe('create-spl-transfer-transaction', () => {
     it('should use custom token program when provided', async () => {
       // ARRANGE
       expect.assertions(2)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
       const customTokenProgram = address('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
 
       // ACT
-      createSplTransferInstructions({
+      await createSplTransferInstructions({
         amount: 1000000n,
         decimals: 6,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: false,
         mint,
-        sender,
-        sourceTokenAccount,
         tokenProgram: customTokenProgram,
+        transactionSigner,
       })
 
       // ASSERT - Verify custom token program is used
-      expect(getCreateAssociatedTokenInstruction).toHaveBeenCalledWith(
+      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledWith(
         expect.objectContaining({
           tokenProgram: customTokenProgram,
         }),
@@ -183,22 +153,14 @@ describe('create-spl-transfer-transaction', () => {
     it('should handle zero amount transfer', async () => {
       // ARRANGE
       expect.assertions(2)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      const result = createSplTransferInstructions({
+      const result = await createSplTransferInstructions({
         amount: 0n,
         decimals: 6,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
         mint,
-        sender,
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT
@@ -208,29 +170,21 @@ describe('create-spl-transfer-transaction', () => {
         }),
         expect.anything(),
       )
-      expect(result).toHaveLength(1)
+      expect(result).toHaveLength(2)
     })
 
     it('should handle large amount transfer', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
       const largeAmount = 18446744073709551615n // Max uint64
 
       // ACT
-      createSplTransferInstructions({
+      await createSplTransferInstructions({
         amount: largeAmount,
         decimals: 0,
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
         mint,
-        sender,
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT
@@ -245,22 +199,14 @@ describe('create-spl-transfer-transaction', () => {
     it('should handle different decimal precisions', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT
-      createSplTransferInstructions({
+      await createSplTransferInstructions({
         amount: 1000000000n,
         decimals: 9, // Wrapped SOL uses 9 decimals
         destination,
-        destinationTokenAccount,
-        destinationTokenAccountExists: true,
         mint,
-        sender,
-        sourceTokenAccount,
+        transactionSigner,
       })
 
       // ASSERT
@@ -275,173 +221,71 @@ describe('create-spl-transfer-transaction', () => {
     it('should throw error when mint address is invalid', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT & ASSERT
-      expect(() =>
+      await expect(
         createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
           // @ts-expect-error: Testing invalid input
           mint: 'invalid-address',
-          sender,
-          sourceTokenAccount,
+          transactionSigner,
         }),
-      ).toThrow()
-    })
-
-    it('should throw error when source token account address is invalid', async () => {
-      // ARRANGE
-      expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
-
-      // ACT & ASSERT
-      expect(() =>
-        createSplTransferInstructions({
-          amount: 1000000n,
-          decimals: 6,
-          destination,
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
-          mint,
-          sender,
-          // @ts-expect-error: Testing invalid input
-          sourceTokenAccount: 'not-a-valid-address',
-        }),
-      ).toThrow()
-    })
-
-    it('should throw error when destination token account address is invalid', async () => {
-      // ARRANGE
-      expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-
-      // ACT & ASSERT
-      expect(() =>
-        createSplTransferInstructions({
-          amount: 1000000n,
-          decimals: 6,
-          destination,
-          // @ts-expect-error: Testing invalid input
-          destinationTokenAccount: 'invalid',
-          destinationTokenAccountExists: true,
-          mint,
-          sender,
-          sourceTokenAccount,
-        }),
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
     it('should throw error when destination address is invalid', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT & ASSERT
-      expect(() =>
+      await expect(
         createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           // @ts-expect-error: Testing invalid input
           destination: 'bad-address',
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
           mint,
-          sender,
-          sourceTokenAccount,
+          transactionSigner,
         }),
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
     it('should throw error when token program address is invalid', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT & ASSERT
-      expect(() =>
+      await expect(
         createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
           mint,
-          sender,
-          sourceTokenAccount,
           // @ts-expect-error: Testing invalid input
           tokenProgram: 'not-valid',
+          transactionSigner,
         }),
-      ).toThrow()
-    })
-
-    it('should throw error when sender is not a keypair signer', async () => {
-      // ARRANGE
-      expect.assertions(1)
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
-
-      // ACT & ASSERT
-      expect(() =>
-        createSplTransferInstructions({
-          amount: 1000000n,
-          decimals: 6,
-          destination,
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
-          mint,
-          // @ts-expect-error: Invalid sender
-          sender: {},
-          sourceTokenAccount,
-        }),
-      ).toThrow()
+      ).rejects.toThrow()
     })
 
     it('should throw error when source is provided but not a keypair signer', async () => {
       // ARRANGE
       expect.assertions(1)
-      const sender = await generateKeyPairSigner()
-      const mint = address('So11111111111111111111111111111111111111112')
-      const destination = address('So11111111111111111111111111111111111111113')
-      const sourceTokenAccount = address('So11111111111111111111111111111111111111114')
-      const destinationTokenAccount = address('So11111111111111111111111111111111111111115')
 
       // ACT & ASSERT
-      expect(() =>
+      await expect(
         createSplTransferInstructions({
           amount: 1000000n,
           decimals: 6,
           destination,
-          destinationTokenAccount,
-          destinationTokenAccountExists: true,
           mint,
-          sender,
           // @ts-expect-error: Invalid source
           source: { address: 'something' },
-          sourceTokenAccount,
+          transactionSigner,
         }),
-      ).toThrow()
+      ).rejects.toThrow()
     })
   })
 })
