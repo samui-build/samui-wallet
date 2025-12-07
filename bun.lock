@@ -11,7 +11,7 @@
         "@commitlint/types": "20.0.0",
         "@cspell/dict-es-es": "3.0.8",
         "@radix-ui/react-select": "2.2.6",
-        "@socketsecurity/bun-security-scanner": "1.1.1",
+        "@socketsecurity/bun-security-scanner": "1.1.2",
         "@types/bun": "catalog:",
         "@types/node": "catalog:",
         "cspell": "9.3.2",
@@ -1925,7 +1925,7 @@
 
     "@sinonjs/fake-timers": ["@sinonjs/fake-timers@10.3.0", "", { "dependencies": { "@sinonjs/commons": "^3.0.0" } }, "sha512-V4BG07kuYSUkTCSBHG8G8TNhM+F19jXFWnQtzj+we8DrkpSBCee9Z3Ms8yiGer/dlmhe35/Xdgyo3/0rQKg7YA=="],
 
-    "@socketsecurity/bun-security-scanner": ["@socketsecurity/bun-security-scanner@1.1.1", "", {}, "sha512-DJ/dHmfivdveby89k0J9JMGkbMK8JazMKZnhuVfdvvArMzDIrw/0ZRYdf25S6Khc33jXznYX12/HoKCYlXzLKA=="],
+    "@socketsecurity/bun-security-scanner": ["@socketsecurity/bun-security-scanner@1.1.2", "", {}, "sha512-TdsAg6SMolubyZ6HfIjLWlANfHvhV6i7pdWof4OQ33zPEwXJm2ilA755levHMR618MKq22+06Ag8efiVKowxqA=="],
 
     "@solana-program/system": ["@solana-program/system@0.10.0", "", { "peerDependencies": { "@solana/kit": "^5.0" } }, "sha512-Go+LOEZmqmNlfr+Gjy5ZWAdY5HbYzk2RBewD9QinEU/bBSzpFfzqDRT55JjFRBGJUvMgf3C2vfXEGT4i8DSI4g=="],
 
