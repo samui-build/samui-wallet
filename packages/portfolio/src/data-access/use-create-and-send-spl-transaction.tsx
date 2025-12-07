@@ -16,20 +16,17 @@ export function createAndSendSplTransactionMutationOptions(
   return mutationOptions({
     mutationFn: async ({
       amount,
-      decimals,
       destination,
       mint,
       transactionSigner,
     }: {
       amount: string
-      decimals: number
       destination: string
       mint: string
       transactionSigner: TransactionSigner
     }) => {
       return createAndSendSplTransaction(client, {
         amount,
-        decimals,
         destination: address(destination),
         mint: address(mint),
         transactionSigner,
