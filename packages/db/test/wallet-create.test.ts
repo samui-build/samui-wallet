@@ -71,6 +71,29 @@ describe('wallet-create', () => {
     afterEach(() => {
       vi.restoreAllMocks()
     })
+
+    it('should throw an error when creating a wallet with a too short name', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testWalletCreateInput({ name: ' ' })
+
+      // ACT & ASSERT
+      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "origin": "string",
+            "code": "too_small",
+            "minimum": 1,
+            "inclusive": true,
+            "path": [
+              "name"
+            ],
+            "message": "Too small: expected string to have >=1 characters"
+          }
+        ]]
+      `)
+    })
+
     it('should throw an error when creating a wallet with a too long name', async () => {
       // ARRANGE
       expect.assertions(1)
