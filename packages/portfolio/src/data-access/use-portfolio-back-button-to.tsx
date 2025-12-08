@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 
-export function usePortfolioBackButtonTo({ basePath = '/portfolio/send' }: { basePath?: string } = {}) {
+export function usePortfolioBackButtonTo({ basePath = '/portfolio' }: { basePath?: string } = {}) {
   const location = useLocation()
   const navigate = useNavigate()
   const from = location.state?.from ?? basePath
