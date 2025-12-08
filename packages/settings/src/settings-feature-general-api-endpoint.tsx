@@ -1,23 +1,62 @@
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { useSetting } from '@workspace/db-react/use-setting'
 import { useTranslation } from '@workspace/i18n'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
-import { useId } from 'react'
+import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const apiEndpointSchema = z.object({
+  apiEndpoint: z
+    .url({ hostname: z.regexes.hostname, protocol: /^https?$/ })
+    .nonempty()
+    .trim(),
+})
+
+type ApiEndpointForm = z.infer<typeof apiEndpointSchema>
 
 export function SettingsFeatureGeneralApiEndpoint() {
   const { t } = useTranslation('settings')
-  const apiEndpointId = useId()
   const [apiEndpoint, setApiEndpoint] = useSetting('apiEndpoint')
 
+  const form = useForm<ApiEndpointForm>({
+    mode: 'all',
+    resolver: standardSchemaResolver(apiEndpointSchema),
+    values: { apiEndpoint: apiEndpoint ?? '' },
+  })
+
+  const handleSave = (value: string) => {
+    const result = apiEndpointSchema.safeParse({ apiEndpoint: value })
+    if (result.success) {
+      setApiEndpoint(value)
+      toastSuccess('API Endpoint value updated')
+    }
+  }
+
   return (
-    <div className="space-y-2">
-      <Label htmlFor={apiEndpointId}>{t(($) => $.pageGeneralApiEndpoint)}</Label>
-      <Input
-        id={apiEndpointId}
-        onChange={(e) => setApiEndpoint(e.target.value)}
-        placeholder="https://api.samui.build"
-        value={apiEndpoint ?? ''}
+    <Form {...form}>
+      <FormField
+        control={form.control}
+        name="apiEndpoint"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>{t(($) => $.pageGeneralApiEndpoint)}</FormLabel>
+            <FormControl>
+              <Input
+                {...field}
+                onBlur={(e) => {
+                  field.onBlur()
+                  handleSave(e.target.value)
+                }}
+                placeholder="https://api.samui.build"
+                type="url"
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
       />
-    </div>
+    </Form>
   )
 }
