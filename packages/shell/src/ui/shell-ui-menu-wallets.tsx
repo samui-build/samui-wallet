@@ -39,7 +39,7 @@ export function ShellUiMenuWallets({
         data-testid="wallet-menu-trigger"
       >
         <div className="flex items-center gap-2">
-          <UiAvatar className="size-6 md:size-8" label={activeWallet.name} />
+          <UiAvatar className="size-6 md:size-8" color={activeWallet.color} label={activeWallet.name} />
           {activeAccount.name}
           <UiTextCopyIcon
             onPointerDown={(e) => e.stopPropagation()}
@@ -54,7 +54,7 @@ export function ShellUiMenuWallets({
         {wallets.map((wallet) => (
           <MenubarSub key={wallet.id}>
             <MenubarSubTrigger className="gap-2">
-              <UiAvatar label={wallet.name} />
+              <UiAvatar color={wallet.color} label={wallet.name} />
               <div className="flex flex-col">
                 <div>{wallet.name}</div>
                 <div className="max-w-[150px] truncate text-muted-foreground text-xs md:max-w-[250px]">

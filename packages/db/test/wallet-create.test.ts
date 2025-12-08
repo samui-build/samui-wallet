@@ -18,8 +18,8 @@ describe('wallet-create', () => {
   describe('expected behavior', () => {
     it('should create a wallet', async () => {
       // ARRANGE
-      expect.assertions(3)
-      const input = testWalletCreateInput()
+      expect.assertions(4)
+      const input = testWalletCreateInput({ color: 'green' })
 
       // ACT
       const result = await walletCreate(db, input)
@@ -29,6 +29,7 @@ describe('wallet-create', () => {
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(item?.mnemonic).toBe(undefined)
       expect(item?.name).toBe(input.name)
+      expect(item?.color).toBe('green')
       expect(item?.order).toBe(0)
     })
 
