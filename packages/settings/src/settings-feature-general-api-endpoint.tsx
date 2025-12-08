@@ -8,10 +8,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const apiEndpointSchema = z.object({
-  apiEndpoint: z
-    .url({ hostname: z.regexes.hostname, protocol: /^https?$/ })
-    .nonempty()
-    .trim(),
+  apiEndpoint: z.url({ hostname: z.regexes.hostname, protocol: /^https?$/ }).nonempty(),
 })
 
 type ApiEndpointForm = z.infer<typeof apiEndpointSchema>
@@ -26,10 +23,10 @@ export function SettingsFeatureGeneralApiEndpoint() {
     values: { apiEndpoint: apiEndpoint ?? '' },
   })
 
-  const handleSave = (value: string) => {
-    const result = apiEndpointSchema.safeParse({ apiEndpoint: value })
-    if (result.success) {
-      setApiEndpoint(value)
+  const handleSave = async (value: string) => {
+    const isValid = await form.trigger('apiEndpoint')
+    if (isValid) {
+      setApiEndpoint(value.trim())
       toastSuccess('API Endpoint value updated')
     }
   }
