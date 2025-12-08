@@ -32,7 +32,7 @@ jobs:
         run: bun pkg-pr-new publish --packageManager=bun './packages/*' --comment=off
 
       - name: BundleMon
-        uses: lironer/bundlemon-action@v1
+        uses: lironer/bundlemon-action@cadbdd58f86faf1900725ef69d455444124b3748 # v1
 
   check-types:
     runs-on: ubuntu-latest
