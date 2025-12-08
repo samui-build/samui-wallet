@@ -1,11 +1,10 @@
 import { Command } from '@effect/cli'
 import { BunContext, BunRuntime } from '@effect/platform-bun'
 import { start } from '@workspace/tui'
-import { Console, Effect } from 'effect'
+import { Effect } from 'effect'
+import { wallets } from './commands/wallets/command.ts'
 
-const example = Command.make('example', {}, () => Console.log('Samui Wallet'))
-
-const command = Command.make('samui', {}, () => Effect.sync(() => start())).pipe(Command.withSubcommands([example]))
+const command = Command.make('samui', {}, () => Effect.sync(() => start())).pipe(Command.withSubcommands([wallets]))
 
 const cli = Command.run(command, {
   name: 'Samui Wallet CLI',
