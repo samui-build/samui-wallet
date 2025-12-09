@@ -7,7 +7,6 @@ import { walletFindMany } from '@workspace/db/wallet/wallet-find-many'
 import type { WalletFindManyInput } from '@workspace/db/wallet/wallet-find-many-input'
 import { walletFindUnique } from '@workspace/db/wallet/wallet-find-unique'
 import { walletReadMnemonic } from '@workspace/db/wallet/wallet-read-mnemonic'
-import { walletSetActive } from '@workspace/db/wallet/wallet-set-active'
 import { walletUpdate } from '@workspace/db/wallet/wallet-update'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
 import { optionsSetting } from './options-setting.tsx'
@@ -47,14 +46,6 @@ export const optionsWallet = {
   readMnemonic: (props: WalletReadMnemonicMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => walletReadMnemonic(db, id),
-      ...props,
-    }),
-  setActive: (props: WalletSetActiveMutateOptions = {}) =>
-    mutationOptions({
-      mutationFn: ({ id }: { id: string }) => walletSetActive(db, id),
-      onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.findMany({}))
-      },
       ...props,
     }),
   update: (props: WalletUpdateMutateOptions = {}) =>

@@ -7,14 +7,14 @@ import { useId } from 'react'
 export function SettingsFeatureGeneralWarningAcceptExperimental() {
   const { t } = useTranslation('settings')
   const warningAcceptExperimentalId = useId()
-  const [warningAccepted, setWarningAccepted] = useSetting('warningAcceptExperimental')
+  const [warningAcceptExperimental, setWarningAcceptExperimental] = useSetting('warningAcceptExperimental')
 
   return (
     <div className="flex items-center space-x-2">
       <Switch
-        checked={warningAccepted !== 'true'}
+        checked={warningAcceptExperimental !== 'true'}
         id={warningAcceptExperimentalId}
-        onCheckedChange={(checked) => setWarningAccepted(`${!checked}`)}
+        onCheckedChange={(checked) => setWarningAcceptExperimental(`${!checked}`)}
       />
       <Label htmlFor={warningAcceptExperimentalId}>{t(($) => $.pageGeneralExperimentalSoftware)}</Label>
     </div>

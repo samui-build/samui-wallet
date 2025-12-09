@@ -4,9 +4,9 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiDeveloperModeLink() {
-  const [developerMode] = useSetting('developerModeEnabled')
+  const [developerModeEnabled] = useSetting('developerModeEnabled')
 
-  return developerMode === 'true' ? (
+  return developerModeEnabled === 'true' ? (
     <Button asChild size="icon" variant="outline">
       <Link to="/dev">
         <UiIcon icon="bug" />

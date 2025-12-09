@@ -6,14 +6,16 @@ import { Link } from 'react-router'
 
 export function OnboardingFeatureIndex() {
   const { t } = useTranslation('onboarding')
-  const [accepted, setAccepted] = useSetting('warningAcceptExperimental')
+  const [warningAcceptExperimental, setWarningAcceptExperimental] = useSetting('warningAcceptExperimental')
   return (
     <div className="flex flex-col items-center gap-6">
       <div className="flex flex-col items-center space-y-2">
         <div className="text-2xl">{t(($) => $.indexPageTitle)}</div>
         <div className="text-lg text-muted-foreground">{t(($) => $.indexPageDescription)}</div>
       </div>
-      {accepted === 'true' ? null : <UiExperimentalWarning close={() => setAccepted('true')} />}
+      {warningAcceptExperimental === 'true' ? null : (
+        <UiExperimentalWarning close={() => setWarningAcceptExperimental('true')} />
+      )}
       <div className="flex w-full flex-col space-y-2">
         <Button asChild>
           <Link to="generate">{t(($) => $.indexLinkGenerate)}</Link>
