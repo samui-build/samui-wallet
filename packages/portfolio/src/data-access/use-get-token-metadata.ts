@@ -10,12 +10,13 @@ import { formatBalance } from './format-balance.ts'
 import { formatBalanceUsd } from './format-balance-usd.ts'
 
 export interface TokenBalance {
+  account: Address
   balance: bigint
   balanceToken?: string
   balanceUsd?: string
   decimals: number
   metadata?: TokenMetadata | undefined
-  mint: string
+  mint: Address
 }
 
 export interface TokenMetadata {
@@ -27,9 +28,9 @@ export interface TokenMetadata {
   usdPrice: number
 }
 
-export function useGetTokenBalances(props: { address: Address; network: Network }) {
-  const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance(props)
-  const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts(props)
+export function useGetTokenBalances({ address, network }: { address: Address; network: Network }) {
+  const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance({ address, network })
+  const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts({ address, network })
 
   const mints = useMemo(() => {
     return [NATIVE_MINT, ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint)]
@@ -40,6 +41,7 @@ export function useGetTokenBalances(props: { address: Address; network: Network 
   return isLoadingBalance || isLoadingTokenAccounts
     ? []
     : mergeData({
+        account: address,
         balance: dataBalance?.value ?? 0n,
         metadata: metadata.data ?? [],
         tokenAccounts: dataTokenAccounts ?? [],
@@ -75,10 +77,12 @@ async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {
 }
 
 function mergeData({
+  account,
   balance,
   metadata,
   tokenAccounts,
 }: {
+  account: Address
   balance: bigint
   metadata: TokenMetadata[]
   tokenAccounts: GetTokenAccountsResult
@@ -87,6 +91,7 @@ function mergeData({
   const solMetadata = metadata.find((m) => m.id === solMint)
   const solDecimals = solMetadata?.decimals ?? 9
   const solBalance: TokenBalance = {
+    account,
     balance,
     balanceToken: formatBalance({ balance, decimals: solDecimals }),
     balanceUsd: formatBalanceUsd({
@@ -106,6 +111,7 @@ function mergeData({
     const decimals = account.account.data.parsed.info.tokenAmount.decimals
 
     return {
+      account: account.pubkey,
       balance,
       balanceToken: formatBalance({ balance, decimals }),
       balanceUsd: formatBalanceUsd({

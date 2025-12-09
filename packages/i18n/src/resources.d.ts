@@ -78,6 +78,8 @@ interface Resources {
     sendInputAmountPlaceholder: 'Amount'
     sendInputDestinationLabel: 'Destination'
     sendInputDestinationPlaceholder: 'Destination'
+    viewExplorerAccount: 'View account in Explorer'
+    viewExplorerToken: 'View token in Explorer'
   }
   settings: {
     accountTableHeaderActions: 'Actions'
