@@ -51,6 +51,7 @@ export function ShellUiLayout() {
               })
             }
             key={to}
+            prefetch="viewport"
             to={to}
           >
             <UiIcon className="size-4 md:size-6" icon={icon} />
