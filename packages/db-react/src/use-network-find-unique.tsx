@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { optionsNetwork } from './options-network.tsx'
+import { useNetworkLive } from './use-network-live.tsx'
 
 export function useNetworkFindUnique({ id }: { id: string }) {
-  return useQuery(optionsNetwork.findUnique(id))
+  const networks = useNetworkLive()
+  return networks.find((network) => network.id === id) ?? null
 }

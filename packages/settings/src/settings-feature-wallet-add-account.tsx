@@ -8,9 +8,7 @@ import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
-import { UiError } from '@workspace/ui/components/ui-error'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { UiPrompt } from '@workspace/ui/components/ui-prompt'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
@@ -24,7 +22,7 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 export function SettingsFeatureWalletAddAccount() {
   const { t } = useTranslation('settings')
   const { walletId } = useParams() as { walletId: string }
-  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
+  const wallet = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
   const accounts = useAccountsForWalletLive({ walletId })
@@ -48,7 +46,7 @@ export function SettingsFeatureWalletAddAccount() {
       await createAccountMutation.mutateAsync({
         input: { name: ellipsify(publicKey), publicKey, secretKey, type: 'Imported', walletId },
       })
-      toastSuccess(`Account imported for ${item?.name}`)
+      toastSuccess(`Account imported for ${wallet?.name}`)
     } catch (e) {
       toastError(`${e}`)
     }
@@ -63,27 +61,21 @@ export function SettingsFeatureWalletAddAccount() {
       await createAccountMutation.mutateAsync({
         input: { name: ellipsify(input), publicKey: input, type: 'Watched', walletId },
       })
-      toastSuccess(`Account watched for ${item?.name}`)
+      toastSuccess(`Account watched for ${wallet?.name}`)
     } catch (e) {
       toastError(`${e}`)
     }
   }
 
-  if (isLoading) {
-    return <UiLoader />
-  }
-  if (isError) {
-    return <UiError message={error} />
-  }
-  if (!item) {
+  if (!wallet) {
     return <UiNotFound />
   }
 
   return (
     <UiCard
-      backButtonTo={`/settings/wallets/${item.id}`}
+      backButtonTo={`/settings/wallets/${wallet.id}`}
       description={t(($) => $.walletPageAddAccountDescription)}
-      title={<SettingsUiWalletItem item={item} />}
+      title={<SettingsUiWalletItem item={wallet} />}
     >
       <div className="space-y-2 md:space-y-6">
         <Item variant="outline">
@@ -95,7 +87,7 @@ export function SettingsFeatureWalletAddAccount() {
             <ItemDescription>{t(($) => $.walletAddAccountDeriveDescription)}</ItemDescription>
           </ItemContent>
           <ItemActions>
-            <Button onClick={() => createAccountDerived(item)} size="sm" variant="outline">
+            <Button onClick={() => createAccountDerived(wallet)} size="sm" variant="outline">
               {t(($) => $.actionDerive)}
             </Button>
           </ItemActions>
@@ -111,7 +103,7 @@ export function SettingsFeatureWalletAddAccount() {
           </ItemContent>
           <ItemActions>
             <Button asChild size="sm" variant="outline">
-              <Link to={`/settings/wallets/${item.id}/add/generate-vanity`}>Generate</Link>
+              <Link to={`/settings/wallets/${wallet.id}/add/generate-vanity`}>Generate</Link>
             </Button>
           </ItemActions>
         </Item>
@@ -126,7 +118,7 @@ export function SettingsFeatureWalletAddAccount() {
           </ItemContent>
           <ItemActions>
             <UiPrompt
-              action={(value) => createAccountImported(item.id, value)}
+              action={(value) => createAccountImported(wallet.id, value)}
               actionLabel={t(($) => $.actionImport)}
               description={t(($) => $.walletAddAccountImportDescription)}
               label={t(($) => $.walletAddAccountImportLabel)}
@@ -151,7 +143,7 @@ export function SettingsFeatureWalletAddAccount() {
           </ItemContent>
           <ItemActions>
             <UiPrompt
-              action={(value) => createAccountWatched(item.id, value)}
+              action={(value) => createAccountWatched(wallet.id, value)}
               actionLabel={t(($) => $.actionWatch)}
               description={t(($) => $.walletAddAccountWatchDescription)}
               label={t(($) => $.walletAddAccountWatchLabel)}

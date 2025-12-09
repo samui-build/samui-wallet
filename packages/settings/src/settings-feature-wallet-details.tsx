@@ -3,9 +3,7 @@ import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
-import { UiError } from '@workspace/ui/components/ui-error'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { Link, useLocation, useParams } from 'react-router'
 import { SettingsUiAccountTable } from './ui/settings-ui-account-table.tsx'
@@ -15,16 +13,10 @@ export function SettingsFeatureWalletDetails() {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
   const { walletId } = useParams() as { walletId: string }
-  const { data: item, error, isError, isLoading } = useWalletFindUnique({ id: walletId })
+  const wallet = useWalletFindUnique({ id: walletId })
   const accounts = useAccountsForWalletLive({ walletId })
 
-  if (isLoading) {
-    return <UiLoader />
-  }
-  if (isError) {
-    return <UiError message={error} />
-  }
-  if (!item) {
+  if (!wallet) {
     return <UiNotFound />
   }
 
@@ -34,7 +26,7 @@ export function SettingsFeatureWalletDetails() {
       title={
         <div className="flex w-full items-center justify-between whitespace-nowrap">
           <div className="flex items-center gap-2">
-            <SettingsUiWalletItem item={item} />
+            <SettingsUiWalletItem item={wallet} />
             <Button asChild size="icon" title={t(($) => $.actionEditWallet)} variant="ghost">
               <Link state={{ from }} to={`./edit`}>
                 <UiIcon className="size-4" icon="edit" />
