@@ -26,6 +26,7 @@ export const optionsAccount = {
       onSuccess: () => {
         queryClient.invalidateQueries(optionsSetting.getAll())
         queryClient.invalidateQueries(optionsSetting.getValue('activeAccountId'))
+        queryClient.invalidateQueries(optionsAccount.findMany({}))
       },
       ...props,
     }),

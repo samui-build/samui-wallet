@@ -1,4 +1,3 @@
-import { useRootLoaderData } from '@workspace/db-react/use-root-loader-data'
 import { useTranslation } from '@workspace/i18n'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
@@ -17,10 +16,6 @@ export interface ShellLayoutLink {
 
 export function ShellUiLayout() {
   const { t } = useTranslation('shell')
-  const data = useRootLoaderData()
-  if (!data?.accounts?.length) {
-    return null
-  }
 
   const links: ShellLayoutLink[] = [
     { icon: 'portfolio', label: t(($) => $.labelPortfolio), to: '/portfolio' },
