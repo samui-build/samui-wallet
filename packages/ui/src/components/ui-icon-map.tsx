@@ -25,6 +25,7 @@ import {
   LucideImport,
   LucideKeyRound,
   LucideLetterText,
+  LucideMinus,
   LucideNetwork,
   LucideNotepadText,
   LucidePanelRight,
@@ -77,6 +78,7 @@ export type UiIconName =
   | 'image'
   | 'import'
   | 'key'
+  | 'minus'
   | 'mnemonic'
   | 'network'
   | 'plus'
@@ -122,6 +124,7 @@ const uiIconMap = new Map<UiIconName, UiIconLucide>()
   .set('image', LucideImage)
   .set('import', LucideImport)
   .set('key', LucideKeyRound)
+  .set('minus', LucideMinus)
   .set('mnemonic', LucideNotepadText)
   .set('network', LucideNetwork)
   .set('plus', LucidePlus)
