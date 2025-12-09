@@ -20,7 +20,7 @@ export async function rootLoader() {
   const [accounts, networks, settings, wallets] = await Promise.all([
     getOrFetchQuery(queryClient, optionsAccount.findMany({})),
     getOrFetchQuery(queryClient, optionsNetwork.findMany({})),
-    getOrFetchQuery(queryClient, optionsSetting.getAll()),
+    getOrFetchQuery(queryClient, optionsSetting.findMany({})),
     getOrFetchQuery(queryClient, optionsWallet.findMany({})),
   ])
 

@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
-import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
+import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletSetActive } from '../src/wallet/wallet-set-active.ts'
 import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
@@ -29,12 +29,12 @@ describe('wallet-set-active', () => {
       const idAccount2 = await accountCreate(db, inputAccount2)
 
       // ACT
-      const activeWalletIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdBeforeSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdBeforeSetActive = await settingFindUnique(db, 'activeWalletId')
+      const activeAccountIdBeforeSetActive = await settingFindUnique(db, 'activeAccountId')
 
       await walletSetActive(db, idWallet2)
-      const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdAfterSetActive = await settingFindUnique(db, 'activeWalletId')
+      const activeAccountIdAfterSetActive = await settingFindUnique(db, 'activeAccountId')
 
       // ASSERT
       expect(activeWalletIdBeforeSetActive?.value).toBe(idWallet1)
@@ -70,8 +70,8 @@ describe('wallet-set-active', () => {
 
       // ACT
       await walletSetActive(db, idWallet)
-      const activeWalletIdAfterSetActive = await settingFindUniqueByKey(db, 'activeWalletId')
-      const activeAccountIdAfterSetActive = await settingFindUniqueByKey(db, 'activeAccountId')
+      const activeWalletIdAfterSetActive = await settingFindUnique(db, 'activeWalletId')
+      const activeAccountIdAfterSetActive = await settingFindUnique(db, 'activeAccountId')
 
       // ASSERT
       expect(activeWalletIdAfterSetActive?.value).toBe(idWallet)

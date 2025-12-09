@@ -2,7 +2,7 @@ import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
-import { settingGetValue } from '../setting/setting-get-value.ts'
+import { settingFindUnique } from '../setting/setting-find-unique.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { accountCreateDetermineOrder } from './account-create-determine-order.ts'
 import type { AccountCreateInput } from './account-create-input.ts'
@@ -30,7 +30,7 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
       throw new Error(`Error creating account`)
     }
 
-    const activeAccountId = await settingGetValue(db, 'activeAccountId')
+    const activeAccountId = (await settingFindUnique(db, 'activeAccountId'))?.value
     if (!activeAccountId) {
       await settingSetValue(db, 'activeAccountId', data)
     }
