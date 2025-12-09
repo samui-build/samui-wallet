@@ -1,4 +1,4 @@
-import type { Address, KeyPairSigner, Signature } from '@solana/kit'
+import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { findAssociatedTokenPda, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { getCreateAssociatedTokenIdempotentInstruction, getMintToCheckedInstruction } from '@solana-program/token-2022'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
@@ -7,11 +7,11 @@ import type { SolanaClient } from './solana-client.ts'
 
 export interface SplTokenMintToOptions {
   amount: bigint
-  feePayerSigner: KeyPairSigner
-  latestBlockhash?: LatestBlockhash | undefined
-  tokenProgram?: Address
-  mint: Address
   decimals: number
+  latestBlockhash?: LatestBlockhash | undefined
+  mint: Address
+  tokenProgram?: Address
+  transactionSigner: TransactionSigner
 }
 
 export interface SplTokenMintToResult {
@@ -23,24 +23,24 @@ export async function splTokenMintTo(
   client: SolanaClient,
   {
     amount,
-    feePayerSigner,
     latestBlockhash,
     mint,
     decimals,
     tokenProgram = TOKEN_PROGRAM_ADDRESS,
+    transactionSigner,
   }: SplTokenMintToOptions,
 ): Promise<SplTokenMintToResult> {
   const [ata] = await findAssociatedTokenPda({
     mint,
-    owner: feePayerSigner.address,
+    owner: transactionSigner.address,
     tokenProgram,
   })
 
   const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
     ata,
     mint,
-    owner: feePayerSigner.address,
-    payer: feePayerSigner,
+    owner: transactionSigner.address,
+    payer: transactionSigner,
     tokenProgram,
   })
 
@@ -49,16 +49,16 @@ export async function splTokenMintTo(
       amount,
       decimals,
       mint,
-      mintAuthority: feePayerSigner,
+      mintAuthority: transactionSigner,
       token: ata,
     },
     { programAddress: tokenProgram },
   )
 
   const signature = await signAndSendTransaction(client, {
-    feePayerSigner,
     instructions: [createAtaInstruction, mintToInstruction],
     latestBlockhash,
+    transactionSigner,
   })
 
   return { ata, signature }

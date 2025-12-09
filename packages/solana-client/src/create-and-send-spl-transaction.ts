@@ -1,4 +1,10 @@
-import { type Address, assertIsAddress, assertIsKeyPairSigner, type KeyPairSigner, type Signature } from '@solana/kit'
+import {
+  type Address,
+  assertIsAddress,
+  assertIsTransactionSigner,
+  type Signature,
+  type TransactionSigner,
+} from '@solana/kit'
 import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
 import { createSplTransferInstructions } from './create-spl-transfer-instructions.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
@@ -10,24 +16,24 @@ export interface CreateAndSendSplTransactionOptions {
   amount: string
   decimals: number
   destination: Address
-  feePayerSigner: KeyPairSigner
   latestBlockhash?: LatestBlockhash | undefined
   mint: Address
+  transactionSigner: TransactionSigner
 }
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,
-  { amount, decimals, destination, latestBlockhash, mint, feePayerSigner }: CreateAndSendSplTransactionOptions,
+  { amount, decimals, destination, latestBlockhash, mint, transactionSigner }: CreateAndSendSplTransactionOptions,
 ): Promise<Signature> {
   assertIsAddress(destination)
   assertIsAddress(mint)
-  assertIsKeyPairSigner(feePayerSigner)
+  assertIsTransactionSigner(transactionSigner)
   const mintInfo = await fetchMint(client.rpc, mint)
 
   const tokenProgram = mintInfo.programAddress
   const [sourceTokenAccount] = await findAssociatedTokenPda({
     mint: mint,
-    owner: feePayerSigner.address,
+    owner: transactionSigner.address,
     tokenProgram,
   })
   const [destinationTokenAccount] = await findAssociatedTokenPda({
@@ -40,7 +46,6 @@ export async function createAndSendSplTransaction(
     .send()
 
   return signAndSendTransaction(client, {
-    feePayerSigner,
     instructions: createSplTransferInstructions({
       amount: uiAmountToBigInt(amount, decimals),
       decimals,
@@ -48,10 +53,11 @@ export async function createAndSendSplTransaction(
       destinationTokenAccount,
       destinationTokenAccountExists: destinationTokenAccountInfo.value !== null,
       mint,
-      sender: feePayerSigner,
+      sender: transactionSigner,
       sourceTokenAccount,
       tokenProgram,
     }),
     latestBlockhash,
+    transactionSigner,
   })
 }
