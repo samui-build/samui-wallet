@@ -4,16 +4,18 @@ import type { ShellCommandGroup } from './use-shell-command-groups.tsx'
 
 export function useShellCommandGroupDevelopment(): ShellCommandGroup {
   const { t } = useTranslation('shell')
-  const [developerMode, setDeveloperMode] = useSetting('developerModeEnabled')
+  const [developerModeEnabled, setDeveloperModeEnabled] = useSetting('developerModeEnabled')
 
   return {
     commands: [
       {
         handler: async () => {
-          await setDeveloperMode(developerMode === 'true' ? 'false' : 'true')
+          await setDeveloperModeEnabled(developerModeEnabled === 'true' ? 'false' : 'true')
         },
         label:
-          developerMode === 'true' ? t(($) => $.commandDisableDeveloperMode) : t(($) => $.commandEnableDeveloperMode),
+          developerModeEnabled === 'true'
+            ? t(($) => $.commandDisableDeveloperMode)
+            : t(($) => $.commandEnableDeveloperMode),
       },
     ],
     label: t(($) => $.commandDevelopment),

@@ -7,11 +7,11 @@ import { useId } from 'react'
 export function SettingsFeatureGeneralLanguage() {
   const { t } = useTranslation('settings')
   const languageId = useId()
-  const [language, setLanguageSetting] = useSetting('language')
+  const [language, setLanguage] = useSetting('language')
   const supportedLanguages = useSupportedLanguages()
 
   async function handleLanguageChange(newLanguage: string) {
-    await setLanguageSetting(newLanguage)
+    await setLanguage(newLanguage)
     await i18n.changeLanguage(newLanguage)
   }
 

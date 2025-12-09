@@ -7,7 +7,7 @@ export function useShellCommandGroupNavigate(): ShellCommandGroup {
   const { t } = useTranslation('shell')
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [developerMode] = useSetting('developerModeEnabled')
+  const [developerModeEnabled] = useSetting('developerModeEnabled')
 
   const options: { label: string; path: string }[] = [
     {
@@ -28,7 +28,7 @@ export function useShellCommandGroupNavigate(): ShellCommandGroup {
     },
   ]
 
-  if (developerMode === 'true') {
+  if (developerModeEnabled === 'true') {
     options.push({
       label: t(($) => $.labelDevelopment),
       path: '/dev',

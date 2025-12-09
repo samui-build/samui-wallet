@@ -4,8 +4,8 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link } from 'react-router'
 
 export function ShellUiMenuDevelopment({ items }: { items: { label: string; path: string }[] }) {
-  const [developerMode] = useSetting('developerModeEnabled')
-  return developerMode === 'true' ? (
+  const [developerModeEnabled] = useSetting('developerModeEnabled')
+  return developerModeEnabled === 'true' ? (
     <MenubarMenu>
       <MenubarTrigger className="h-8 gap-2 px-2 md:h-12 md:px-4">
         <UiIcon className="size-4 md:size-6" icon="bug" />
