@@ -1,8 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
-import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
+import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
 import { createDbTest, testSettingSetInput } from './test-helpers.ts'
 
@@ -23,7 +22,7 @@ describe('setting-set-value', () => {
       await settingSetValue(db, key, value)
 
       // ASSERT
-      const item = await settingFindUniqueByKey(db, key)
+      const item = await settingFindUnique(db, key)
       expect(item).toBeDefined()
       expect(item?.value).toBe(value)
     })
@@ -36,14 +35,14 @@ describe('setting-set-value', () => {
 
       // Create initial setting
       await settingSetValue(db, key, value)
-      const initialItem = await settingFindUniqueByKey(db, key)
+      const initialItem = await settingFindUnique(db, key)
       expect(initialItem?.value).toBe(value)
 
       // ACT
       await settingSetValue(db, key, updatedValue)
 
       // ASSERT
-      const updatedItem = await settingFindUniqueByKey(db, key)
+      const updatedItem = await settingFindUnique(db, key)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.value).toBe(updatedValue)
     })

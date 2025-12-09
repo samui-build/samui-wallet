@@ -2,7 +2,7 @@ import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Setting } from '../src/setting/setting.ts'
-import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
+import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import type { SettingKey } from '../src/setting/setting-key.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
 import { createDbTest, testSettingSetInput } from './test-helpers.ts'
@@ -22,7 +22,7 @@ describe('setting-find-unique-by-key', () => {
       await settingSetValue(db, key, value)
 
       // ACT
-      const result = await settingFindUniqueByKey(db, key)
+      const result = await settingFindUnique(db, key)
 
       // ASSERT
       expect(result).toBeDefined()
@@ -48,7 +48,7 @@ describe('setting-find-unique-by-key', () => {
       )
 
       // ACT & ASSERT
-      await expect(settingFindUniqueByKey(db, key)).rejects.toThrow(`Error finding setting with key ${key}`)
+      await expect(settingFindUnique(db, key)).rejects.toThrow(`Error finding setting with key ${key}`)
     })
   })
 })

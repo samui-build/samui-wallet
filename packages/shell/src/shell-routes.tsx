@@ -45,7 +45,7 @@ function createRouter() {
         [
           queryClient.getQueryState(optionsAccount.findMany({}).queryKey)?.isInvalidated,
           queryClient.getQueryState(optionsNetwork.findMany({}).queryKey)?.isInvalidated,
-          queryClient.getQueryState(optionsSetting.getAll().queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsSetting.findMany({}).queryKey)?.isInvalidated,
           queryClient.getQueryState(optionsWallet.findMany({}).queryKey)?.isInvalidated,
         ].some((isInvalidated) => isInvalidated || false),
     },

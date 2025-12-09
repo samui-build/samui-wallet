@@ -18,7 +18,7 @@ export const optionsAccount = {
     mutationOptions({
       mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(db, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.getAll())
+        queryClient.invalidateQueries(optionsSetting.findMany({}))
         queryClient.invalidateQueries(optionsAccount.findMany({}))
       },
       ...props,
@@ -37,7 +37,7 @@ export const optionsAccount = {
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountSetActive(db, id),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.getAll())
+        queryClient.invalidateQueries(optionsSetting.findMany({}))
       },
       ...props,
     }),
