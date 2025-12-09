@@ -49,7 +49,7 @@
     "cspell": "9.3.2",
     "editorconfig-checker": "6.1.1",
     "lefthook": "2.0.8",
-    "pkg-pr-new": "0.0.61",
+    "pkg-pr-new": "0.0.62",
     "syncpack": "14.0.0-alpha.29",
     "turbo": "2.6.1",
     "vitest": "catalog:"
