@@ -1,7 +1,13 @@
 import type { Signature } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
-import { optionsBookmarkTransaction } from './options-bookmark-transaction.tsx'
+import type { BookmarkTransaction } from '@workspace/db/bookmark-transaction/bookmark-transaction'
+import { bookmarkTransactionFindBySignature } from '@workspace/db/bookmark-transaction/bookmark-transaction-find-by-signature'
+import { db } from '@workspace/db/db'
+import { useLiveQuery } from 'dexie-react-hooks'
 
 export function useBookmarkTransactionFindBySignature({ signature }: { signature: Signature }) {
-  return useQuery(optionsBookmarkTransaction.findBySignature(signature))
+  return useLiveQuery<BookmarkTransaction | null, null>(
+    () => bookmarkTransactionFindBySignature(db, signature),
+    [signature],
+    null,
+  )
 }

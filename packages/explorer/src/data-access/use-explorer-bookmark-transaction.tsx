@@ -6,12 +6,11 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
 export function useExplorerBookmarkTransaction({ signature }: { signature: Signature }) {
-  const query = useBookmarkTransactionFindBySignature({ signature })
+  const bookmarkTransaction = useBookmarkTransactionFindBySignature({ signature })
   const mutationToggle = useBookmarkTransactionToggle()
 
   return {
-    ...query,
-    hasBookmark: !!query.data,
+    hasBookmark: Boolean(bookmarkTransaction),
     toggle: async () => {
       try {
         const result = await mutationToggle.mutateAsync({ signature })

@@ -7,13 +7,8 @@ import { useExplorerBookmarkAccount } from './data-access/use-explorer-bookmark-
 
 export function ExplorerFeatureBookmarkAccountButton({ address }: { address: Address }) {
   const { t } = useTranslation('explorer')
-  const { hasBookmark, isLoading, isError, toggle } = useExplorerBookmarkAccount({ address })
-  if (isLoading) {
-    return null
-  }
-  if (isError) {
-    return null
-  }
+  const { hasBookmark, toggle } = useExplorerBookmarkAccount({ address })
+
   return (
     <Button
       onClick={toggle}

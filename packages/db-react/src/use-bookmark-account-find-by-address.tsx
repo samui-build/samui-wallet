@@ -1,7 +1,9 @@
 import type { Address } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
-import { optionsBookmarkAccount } from './options-bookmark-account.tsx'
+import type { BookmarkAccount } from '@workspace/db/bookmark-account/bookmark-account'
+import { bookmarkAccountFindByAddress } from '@workspace/db/bookmark-account/bookmark-account-find-by-address'
+import { db } from '@workspace/db/db'
+import { useLiveQuery } from 'dexie-react-hooks'
 
 export function useBookmarkAccountFindByAddress({ address }: { address: Address }) {
-  return useQuery(optionsBookmarkAccount.findByAddress(address))
+  return useLiveQuery<null | BookmarkAccount, null>(() => bookmarkAccountFindByAddress(db, address), [address], null)
 }

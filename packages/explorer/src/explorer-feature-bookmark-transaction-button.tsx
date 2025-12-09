@@ -5,13 +5,8 @@ import { cn } from '@workspace/ui/lib/utils'
 import { useExplorerBookmarkTransaction } from './data-access/use-explorer-bookmark-transaction.tsx'
 
 export function ExplorerFeatureBookmarkTransactionButton({ signature }: { signature: Signature }) {
-  const { hasBookmark, isLoading, isError, toggle } = useExplorerBookmarkTransaction({ signature })
-  if (isLoading) {
-    return null
-  }
-  if (isError) {
-    return null
-  }
+  const { hasBookmark, toggle } = useExplorerBookmarkTransaction({ signature })
+
   return (
     <Button onClick={toggle} size="sm" title={`${hasBookmark ? 'Remove' : 'Add'} bookmark`} variant="secondary">
       <UiIcon
