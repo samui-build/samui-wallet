@@ -4,26 +4,26 @@ import {
   createTransactionMessage,
   getSignatureFromTransaction,
   type Instruction,
-  type KeyPairSigner,
   pipe,
   type Signature,
   sendAndConfirmTransactionFactory,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
+  type TransactionSigner,
 } from '@solana/kit'
 import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export interface SignAndSendTransaction {
-  feePayerSigner: KeyPairSigner
   instructions: Instruction[]
   latestBlockhash?: LatestBlockhash | undefined
+  transactionSigner: TransactionSigner
 }
 
 export async function signAndSendTransaction(
   client: SolanaClient,
-  { feePayerSigner, instructions, latestBlockhash }: SignAndSendTransaction,
+  { instructions, latestBlockhash, transactionSigner }: SignAndSendTransaction,
 ): Promise<Signature> {
   // Use provided latestBlockhash or get one
   latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
@@ -37,7 +37,7 @@ export async function signAndSendTransaction(
 
   const transactionMessageWithFeePayerAndBlockhash = pipe(
     // Sign the message
-    setTransactionMessageFeePayerSigner(feePayerSigner, transactionMessage),
+    setTransactionMessageFeePayerSigner(transactionSigner, transactionMessage),
     // Add the latest blockhash
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
   )

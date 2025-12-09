@@ -1,4 +1,4 @@
-import type { Address, KeyPairSigner, Signature } from '@solana/kit'
+import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { findAssociatedTokenPda, getMintToInstruction, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { getCreateAssociatedTokenIdempotentInstruction } from '@solana-program/token-2022'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
@@ -7,10 +7,10 @@ import type { SolanaClient } from './solana-client.ts'
 
 export interface SplTokenTransferOptions {
   amount: bigint
-  feePayerSigner: KeyPairSigner
   latestBlockhash?: LatestBlockhash | undefined
-  tokenProgram?: Address
   mint: Address
+  tokenProgram?: Address
+  transactionSigner: TransactionSigner
 }
 
 export interface SplTokenTransferResult {
@@ -20,33 +20,33 @@ export interface SplTokenTransferResult {
 
 export async function splTokenTransfer(
   client: SolanaClient,
-  { amount, feePayerSigner, latestBlockhash, mint, tokenProgram = TOKEN_PROGRAM_ADDRESS }: SplTokenTransferOptions,
+  { amount, latestBlockhash, mint, tokenProgram = TOKEN_PROGRAM_ADDRESS, transactionSigner }: SplTokenTransferOptions,
 ): Promise<SplTokenTransferResult> {
   const [ata] = await findAssociatedTokenPda({
     mint,
-    owner: feePayerSigner.address,
+    owner: transactionSigner.address,
     tokenProgram,
   })
 
   const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
     ata,
     mint,
-    owner: feePayerSigner.address,
-    payer: feePayerSigner,
+    owner: transactionSigner.address,
+    payer: transactionSigner,
     tokenProgram,
   })
 
   const mintToInstruction = getMintToInstruction({
     amount,
     mint,
-    mintAuthority: feePayerSigner,
+    mintAuthority: transactionSigner,
     token: ata,
   })
 
   const signature = await signAndSendTransaction(client, {
-    feePayerSigner,
     instructions: [createAtaInstruction, mintToInstruction],
     latestBlockhash,
+    transactionSigner,
   })
 
   return { ata, signature }

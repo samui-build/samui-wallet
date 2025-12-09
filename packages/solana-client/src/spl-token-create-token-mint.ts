@@ -1,4 +1,10 @@
-import { type Address, assertIsAddress, generateKeyPairSigner, type KeyPairSigner, type Signature } from '@solana/kit'
+import {
+  type Address,
+  assertIsAddress,
+  generateKeyPairSigner,
+  type Signature,
+  type TransactionSigner,
+} from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
 import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
@@ -9,10 +15,10 @@ import { splTokenTransfer } from './spl-token-transfer.ts'
 export interface SplTokenCreateTokenMintOptions {
   decimals: number
   latestBlockhash?: LatestBlockhash | undefined
-  feePayerSigner: KeyPairSigner
-  mint?: KeyPairSigner
-  tokenProgram?: Address
+  mint?: TransactionSigner
   supply?: bigint | undefined
+  tokenProgram?: Address
+  transactionSigner: TransactionSigner
 }
 
 export interface SplTokenCreateTokenMint {
@@ -28,9 +34,9 @@ export async function splTokenCreateTokenMint(
     latestBlockhash,
     decimals,
     mint,
-    feePayerSigner,
-    tokenProgram = TOKEN_PROGRAM_ADDRESS,
     supply = 0n,
+    tokenProgram = TOKEN_PROGRAM_ADDRESS,
+    transactionSigner,
   }: SplTokenCreateTokenMintOptions,
 ): Promise<SplTokenCreateTokenMint> {
   assertIsAddress(tokenProgram)
@@ -50,7 +56,7 @@ export async function splTokenCreateTokenMint(
   const createAccountInstruction = getCreateAccountInstruction({
     lamports: rent,
     newAccount: mint,
-    payer: feePayerSigner,
+    payer: transactionSigner,
     programAddress: tokenProgram,
     space,
   })
@@ -59,22 +65,22 @@ export async function splTokenCreateTokenMint(
   const initializeMintInstruction = getInitializeMintInstruction({
     decimals,
     mint: mint.address,
-    mintAuthority: feePayerSigner.address,
+    mintAuthority: transactionSigner.address,
   })
 
   const signatureCreate = await signAndSendTransaction(client, {
-    feePayerSigner,
     instructions: [createAccountInstruction, initializeMintInstruction],
     latestBlockhash,
+    transactionSigner,
   })
 
   if (supply > 0n) {
     const { ata, signature: signatureSupply } = await splTokenTransfer(client, {
       amount: supply,
-      feePayerSigner,
       latestBlockhash,
       mint: mint.address,
       tokenProgram,
+      transactionSigner,
     })
 
     return {

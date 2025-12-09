@@ -7,7 +7,7 @@ import { uiAmountToBigInt } from '../src/ui-amount-to-big-int.ts'
 import { setupIntegrationTestContext } from './test-helpers.ts'
 
 describe('spl-token-2022-create-token-mint', async () => {
-  const { client, latestBlockhash, feePayerSigner } = await setupIntegrationTestContext()
+  const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
 
   describe('expected behavior', () => {
     it('should create a token 2022 mint without extensions', async () => {
@@ -19,10 +19,10 @@ describe('spl-token-2022-create-token-mint', async () => {
       // ACT
       const result = await splToken2022CreateTokenMint(client, {
         decimals,
-        feePayerSigner,
         latestBlockhash,
         mint,
         tokenProgram: TOKEN_2022_PROGRAM_ADDRESS,
+        transactionSigner,
       })
 
       // ASSERT
@@ -43,9 +43,9 @@ describe('spl-token-2022-create-token-mint', async () => {
           closeMint: true,
           permanentDelegate: false,
         },
-        feePayerSigner,
         latestBlockhash,
         mint,
+        transactionSigner,
       })
 
       // ASSERT
@@ -67,11 +67,11 @@ describe('spl-token-2022-create-token-mint', async () => {
           closeMint: false,
           permanentDelegate: true,
         },
-        feePayerSigner,
         latestBlockhash,
         mint,
 
         tokenProgram: TOKEN_2022_PROGRAM_ADDRESS,
+        transactionSigner,
       })
 
       // ASSERT
@@ -93,10 +93,10 @@ describe('spl-token-2022-create-token-mint', async () => {
           closeMint: true,
           permanentDelegate: true,
         },
-        feePayerSigner,
         latestBlockhash,
         mint,
         tokenProgram: TOKEN_2022_PROGRAM_ADDRESS,
+        transactionSigner,
       })
 
       // ASSERT
@@ -119,17 +119,17 @@ describe('spl-token-2022-create-token-mint', async () => {
           closeMint: true,
           permanentDelegate: false,
         },
-        feePayerSigner,
         latestBlockhash,
         mint,
         supply,
 
         tokenProgram: TOKEN_2022_PROGRAM_ADDRESS,
+        transactionSigner,
       })
 
       // ASSERT
       const [tokenAccount] = await getTokenAccountsForMint(client, {
-        address: feePayerSigner.address,
+        address: transactionSigner.address,
         mint: result.mint,
       }).then((res) => res.value)
       if (!tokenAccount) {
@@ -159,16 +159,16 @@ describe('spl-token-2022-create-token-mint', async () => {
           closeMint: true,
           permanentDelegate: true,
         },
-        feePayerSigner,
         latestBlockhash,
         mint,
         supply,
         tokenProgram: TOKEN_2022_PROGRAM_ADDRESS,
+        transactionSigner,
       })
 
       // ASSERT
       const [tokenAccount] = await getTokenAccountsForMint(client, {
-        address: feePayerSigner.address,
+        address: transactionSigner.address,
         mint: result.mint,
       }).then((res) => res.value)
       if (!tokenAccount) {

@@ -30,8 +30,8 @@ export function useCreateAndSendSolTransaction({ account, network }: { account: 
       return createAndSendSolTransaction(client, {
         amount: solToLamports(amount),
         destination: address(destination),
-        feePayerSigner: sender,
         senderBalance: senderBalance.value,
+        transactionSigner: sender,
       })
     },
     onSuccess: () => {

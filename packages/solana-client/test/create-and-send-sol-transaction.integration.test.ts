@@ -8,7 +8,7 @@ import { getBalance } from '../src/get-balance.ts'
 import { setupIntegrationTestContext } from './test-helpers.ts'
 
 describe('create-and-send-sol-transaction', async () => {
-  const { client, latestBlockhash, feePayerSigner } = await setupIntegrationTestContext()
+  const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
 
   describe('expected behavior', () => {
     it('should create and send sol', async () => {
@@ -16,13 +16,13 @@ describe('create-and-send-sol-transaction', async () => {
       expect.assertions(2)
       const destinationKeypair = await generateKeyPairSigner()
       const destination = destinationKeypair.address
-      const senderBalance = await getBalance(client, { address: feePayerSigner.address }).then((res) => res.value)
+      const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
       const input: CreateAndSendSolTransactionOptions = {
         amount: 100n,
         destination,
-        feePayerSigner: feePayerSigner,
         latestBlockhash,
         senderBalance,
+        transactionSigner,
       }
 
       // ACT
