@@ -21,5 +21,7 @@
   "sendInputAmountLabel": "Amount",
   "sendInputAmountPlaceholder": "Amount",
   "sendInputDestinationLabel": "Destination",
-  "sendInputDestinationPlaceholder": "Destination"
+  "sendInputDestinationPlaceholder": "Destination",
+  "viewExplorerAccount": "View account in Explorer",
+  "viewExplorerToken": "View token in Explorer"
 }
