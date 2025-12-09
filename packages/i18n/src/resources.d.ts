@@ -162,6 +162,8 @@ interface Resources {
     walletCreateHeaderSeed: 'Seed phrases'
     walletCreateImportDescription: 'Import an existing seed phrase and discover accounts'
     walletCreateImportTitle: 'Import an existing wallet'
+    walletInputColorDescription: 'Select the color for this wallet'
+    walletInputColorLabel: 'Color'
     walletInputDerivationPathDescription: 'Provide the derivation path of the wallet'
     walletInputDerivationPathLabel: 'Derivation patch'
     walletInputDescriptionDescription: 'An optional description to help identify the wallet.'
