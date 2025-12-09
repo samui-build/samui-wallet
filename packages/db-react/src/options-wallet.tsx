@@ -25,7 +25,6 @@ export const optionsWallet = {
       mutationFn: ({ input }: { input: WalletCreateInput }) => walletCreate(db, input),
       onSuccess: () => {
         queryClient.invalidateQueries(optionsSetting.getAll())
-        queryClient.invalidateQueries(optionsSetting.getValue('activeWalletId'))
         queryClient.invalidateQueries(optionsWallet.findMany({}))
       },
       ...props,
@@ -55,8 +54,6 @@ export const optionsWallet = {
       mutationFn: ({ id }: { id: string }) => walletSetActive(db, id),
       onSuccess: () => {
         queryClient.invalidateQueries(optionsSetting.getAll())
-        queryClient.invalidateQueries(optionsSetting.getValue('activeWalletId'))
-        queryClient.invalidateQueries(optionsSetting.getValue('activeAccountId'))
       },
       ...props,
     }),
