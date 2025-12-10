@@ -1,5 +1,5 @@
 export const FEATURES = {
-  walletLockUnlock: true,
+  developerMode: process.env.NODE_ENV === 'development',
 } as const
 
 export type FeatureKey = keyof typeof FEATURES
