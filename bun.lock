@@ -556,6 +556,7 @@
         "@workspace/dev": "workspace:*",
         "@workspace/env": "workspace:*",
         "@workspace/explorer": "workspace:*",
+        "@workspace/flags": "workspace:*",
         "@workspace/i18n": "workspace:*",
         "@workspace/onboarding": "workspace:*",
         "@workspace/portfolio": "workspace:*",
