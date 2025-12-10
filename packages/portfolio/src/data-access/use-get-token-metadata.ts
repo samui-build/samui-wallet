@@ -1,5 +1,5 @@
 import type { Address } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
@@ -48,8 +48,8 @@ export function useGetTokenBalances({ address, network }: { address: Address; ne
       })
 }
 
-export function useGetTokenMetadata(mints: string[]) {
-  return useQuery({
+export function getTokenMetadataQueryOptions(mints: string[]) {
+  return queryOptions({
     enabled: !!mints.length,
     networkMode: 'offlineFirst',
     queryFn: () => getTokenMetadata(mints),
@@ -57,6 +57,10 @@ export function useGetTokenMetadata(mints: string[]) {
     retry: false,
     staleTime: Infinity,
   })
+}
+
+export function useGetTokenMetadata(mints: string[]) {
+  return useQuery(getTokenMetadataQueryOptions(mints))
 }
 
 async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {

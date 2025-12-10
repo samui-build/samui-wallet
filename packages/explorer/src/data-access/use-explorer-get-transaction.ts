@@ -1,16 +1,28 @@
 import type { Signature } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function useExplorerGetTransaction({ network, signature }: { network: Network; signature: Signature }) {
-  const client = useSolanaClient({ network })
-
-  return useQuery({
+export function explorerGetTransactionQueryOptions({
+  network,
+  signature,
+  client,
+}: {
+  network: Network
+  signature: Signature
+  client: SolanaClient
+}) {
+  return queryOptions({
     queryFn: () => getTransaction(client, signature),
     queryKey: ['explorerGetTransaction', network.endpoint, signature],
   })
+}
+
+export function useExplorerGetTransaction({ network, signature }: { network: Network; signature: Signature }) {
+  const client = useSolanaClient({ network })
+
+  return useQuery(explorerGetTransactionQueryOptions({ client, network, signature }))
 }
 
 // TODO: Figure out how to properly type this.
