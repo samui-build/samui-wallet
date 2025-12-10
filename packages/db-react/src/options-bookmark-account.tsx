@@ -11,6 +11,7 @@ export type BookmarkAccountUpdateMutateOptions = MutateOptions<
   Error,
   { address: Address; input: BookmarkAccountUpdateInput }
 >
+
 export const optionsBookmarkAccount = {
   toggle: (props: BookmarkAccountToggleMutateOptions) =>
     mutationOptions({

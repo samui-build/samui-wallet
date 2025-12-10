@@ -1,6 +1,7 @@
 import type { Signature } from '@solana/kit'
-import { useMutation } from '@tanstack/react-query'
+import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
+import type { Account } from '@workspace/db/account/account'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
@@ -18,13 +19,17 @@ export interface PortfolioTxSendInput {
   mint: TokenBalance
 }
 
-export function usePortfolioTxSend() {
-  const account = useAccountActive()
-  const network = useNetworkActive()
-  const readSecretKeyMutation = useAccountReadSecretKey()
-  const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
-  const sendSplMutation = useCreateAndSendSplTransaction({ network })
-
+export function portfolioTxSendMutationOptions({
+  account,
+  readSecretKeyMutation,
+  sendSolMutation,
+  sendSplMutation,
+}: {
+  account: Account
+  readSecretKeyMutation: ReturnType<typeof useAccountReadSecretKey>
+  sendSolMutation: ReturnType<typeof useCreateAndSendSolTransaction>
+  sendSplMutation: ReturnType<typeof useCreateAndSendSplTransaction>
+}) {
   async function handleSendSplToken(input: PortfolioTxSendInput): Promise<Signature | undefined> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
     const secretKey = await readSecretKeyMutation.mutateAsync({ id: account.id })
@@ -83,7 +88,7 @@ export function usePortfolioTxSend() {
     return
   }
 
-  return useMutation({
+  return mutationOptions({
     mutationFn: (input: PortfolioTxSendInput) => {
       if (input.mint.mint === NATIVE_MINT) {
         return handleSendSol(input)
@@ -91,4 +96,21 @@ export function usePortfolioTxSend() {
       return handleSendSplToken(input)
     },
   })
+}
+
+export function usePortfolioTxSend() {
+  const account = useAccountActive()
+  const network = useNetworkActive()
+  const readSecretKeyMutation = useAccountReadSecretKey()
+  const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
+  const sendSplMutation = useCreateAndSendSplTransaction({ network })
+
+  return useMutation(
+    portfolioTxSendMutationOptions({
+      account,
+      readSecretKeyMutation,
+      sendSolMutation,
+      sendSplMutation,
+    }),
+  )
 }
