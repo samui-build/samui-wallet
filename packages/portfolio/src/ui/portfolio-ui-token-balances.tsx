@@ -6,7 +6,7 @@ export function PortfolioUiTokenBalances({ items }: { items: TokenBalance[] }) {
   return (
     <div className="space-y-2 md:space-y-6">
       {items.map((item) => (
-        <PortfolioUiTokenBalanceItem item={item} key={item.mint} />
+        <PortfolioUiTokenBalanceItem item={item} key={item.mint} showMenu />
       ))}
     </div>
   )

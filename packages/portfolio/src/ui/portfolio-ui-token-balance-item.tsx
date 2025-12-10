@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 import { PortfolioUiTokenBalanceItemMenu } from './portfolio-ui-token-balance-item-menu.tsx'
 
-export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
+export function PortfolioUiTokenBalanceItem({ item, showMenu = false }: { item: TokenBalance; showMenu?: boolean }) {
   const name = item.metadata?.name ?? ellipsify(item.mint)
   const symbol = item.metadata?.symbol ?? ellipsify(item.mint, 2, '').toLocaleUpperCase()
   const icon = item.metadata?.icon
@@ -28,7 +28,7 @@ export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
           <div className="font-semibold text-sm">{item.balanceToken}</div>
           <div className="text-muted-foreground/60 text-xs">${item.balanceUsd}</div>
         </div>
-        <PortfolioUiTokenBalanceItemMenu item={item} />
+        {showMenu ? <PortfolioUiTokenBalanceItemMenu item={item} /> : null}
       </div>
     </Link>
   )
