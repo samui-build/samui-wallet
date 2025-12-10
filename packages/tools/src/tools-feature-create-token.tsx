@@ -1,5 +1,5 @@
 import { type Address, generateKeyPairSigner, type Signature } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
@@ -29,6 +29,14 @@ const SPL_TOKEN_PROGRAM: Record<Address, string> = {
   [TOKEN_2022_PROGRAM_ADDRESS]: 'SPL Token 2022',
 }
 
+export function queryKeypairQueryOptions() {
+  return queryOptions({
+    queryFn: () => generateKeyPairSigner(),
+    queryKey: ['generateKeyPairSigner'],
+    refetchOnWindowFocus: false,
+  })
+}
+
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
   const { pathname: from } = useLocation()
   const addressId = useId()
@@ -49,12 +57,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   const mutation = useSplTokenCreateTokenMint(props)
   const mutation2022 = useSplTokenCreateToken2022Mint(props)
   const readSecretKeyMutation = useAccountReadSecretKey()
-
-  const queryKeypair = useQuery({
-    queryFn: () => generateKeyPairSigner(),
-    queryKey: ['generateKeyPairSigner'],
-    refetchOnWindowFocus: false,
-  })
+  const queryKeypair = useQuery(queryKeypairQueryOptions())
 
   const handleCreateToken = useCallback(async (): Promise<void> => {
     if (!queryKeypair.data) {
