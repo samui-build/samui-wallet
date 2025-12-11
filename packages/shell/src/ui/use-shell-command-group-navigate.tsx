@@ -1,4 +1,4 @@
-import { useSetting } from '@workspace/db-react/use-setting'
+import { isEnabled } from '@workspace/flags'
 import { useTranslation } from '@workspace/i18n'
 import { useLocation, useNavigate } from 'react-router'
 import type { ShellCommandGroup } from './use-shell-command-groups.tsx'
@@ -7,7 +7,6 @@ export function useShellCommandGroupNavigate(): ShellCommandGroup {
   const { t } = useTranslation('shell')
   const navigate = useNavigate()
   const { pathname } = useLocation()
-  const [developerModeEnabled] = useSetting('developerModeEnabled')
 
   const options: { label: string; path: string }[] = [
     {
@@ -28,7 +27,7 @@ export function useShellCommandGroupNavigate(): ShellCommandGroup {
     },
   ]
 
-  if (developerModeEnabled === 'true') {
+  if (isEnabled('developerMode')) {
     options.push({
       label: t(($) => $.labelDevelopment),
       path: '/dev',
