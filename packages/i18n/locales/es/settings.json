@@ -81,6 +81,8 @@
   "walletCreateHeaderSeed": "Frase semilla",
   "walletCreateImportDescription": "Importar una frase semilla existente y descubrir cuentas",
   "walletCreateImportTitle": "Importar una billetera existente",
+  "walletInputColorDescription": null,
+  "walletInputColorLabel": null,
   "walletInputDerivationPathDescription": "Proporcione la ruta de derivación de la billetera.",
   "walletInputDerivationPathLabel": "Ruta de derivación",
   "walletInputDescriptionDescription": "Una descripción opcional para ayudar a identificar la billetera.",

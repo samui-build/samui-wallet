@@ -1,5 +1,10 @@
-import type { Address, Instruction, TransactionSigner } from '@solana/kit'
-import { assertIsAddress, assertIsKeyPairSigner } from '@solana/kit'
+import {
+  type Address,
+  assertIsAddress,
+  assertIsTransactionSigner,
+  type Instruction,
+  type TransactionSigner,
+} from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
 
 export interface CreateSolTransferTransactionOptions {
@@ -14,7 +19,7 @@ export function createSolTransferInstructions({
   source,
 }: CreateSolTransferTransactionOptions): Instruction[] {
   assertIsAddress(destination)
-  assertIsKeyPairSigner(source)
+  assertIsTransactionSigner(source)
 
   const transferInstruction = getTransferSolInstruction({ amount, destination, source })
 

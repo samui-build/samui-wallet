@@ -10,7 +10,7 @@ import { ExplorerUiBookmarkTransactionTable } from './ui/explorer-ui-bookmark-tr
 export function ExplorerFeatureBookmarkTransactionList({ basePath }: { basePath: string }) {
   const { t } = useTranslation('explorer')
   const backButtonTo = useExplorerBackButtonTo({ basePath })
-  const items = useBookmarkTransactionLive()
+  const bookmarkTransactions = useBookmarkTransactionLive()
   const mutationToggle = useBookmarkTransactionToggle()
   const mutationUpdate = useBookmarkTransactionUpdate()
   return (
@@ -18,7 +18,7 @@ export function ExplorerFeatureBookmarkTransactionList({ basePath }: { basePath:
       <UiCard backButtonTo={backButtonTo} title={t(($) => $.bookmarkTransactionTitle)}>
         <ExplorerUiBookmarkTransactionTable
           basePath={basePath}
-          items={items}
+          items={bookmarkTransactions}
           toggleItem={async ({ signature }) => {
             await mutationToggle.mutateAsync({ signature })
           }}

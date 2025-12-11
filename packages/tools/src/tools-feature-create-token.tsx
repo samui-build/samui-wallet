@@ -1,5 +1,5 @@
 import { type Address, generateKeyPairSigner, type Signature } from '@solana/kit'
-import { useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
@@ -29,6 +29,14 @@ const SPL_TOKEN_PROGRAM: Record<Address, string> = {
   [TOKEN_2022_PROGRAM_ADDRESS]: 'SPL Token 2022',
 }
 
+export function queryKeypairQueryOptions() {
+  return queryOptions({
+    queryFn: () => generateKeyPairSigner(),
+    queryKey: ['generateKeyPairSigner'],
+    refetchOnWindowFocus: false,
+  })
+}
+
 export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
   const { pathname: from } = useLocation()
   const addressId = useId()
@@ -49,12 +57,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   const mutation = useSplTokenCreateTokenMint(props)
   const mutation2022 = useSplTokenCreateToken2022Mint(props)
   const readSecretKeyMutation = useAccountReadSecretKey()
-
-  const queryKeypair = useQuery({
-    queryFn: () => generateKeyPairSigner(),
-    queryKey: ['generateKeyPairSigner'],
-    refetchOnWindowFocus: false,
-  })
+  const queryKeypair = useQuery(queryKeypairQueryOptions())
 
   const handleCreateToken = useCallback(async (): Promise<void> => {
     if (!queryKeypair.data) {
@@ -64,7 +67,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
     if (!secretKey) {
       throw new Error('Missing account secret key')
     }
-    const feePayerSigner = await createKeyPairSignerFromJson({ json: secretKey })
+    const transactionSigner = await createKeyPairSignerFromJson({ json: secretKey })
     let res: SplTokenCreateTokenMint | SplToken2022CreateTokenMint
     if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
       const extensions = {
@@ -74,18 +77,18 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       res = await mutation2022.mutateAsync({
         decimals,
         extensions,
-        feePayerSigner,
         mint: queryKeypair.data,
         supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
         tokenProgram,
+        transactionSigner,
       })
     } else {
       res = await mutation.mutateAsync({
         decimals,
-        feePayerSigner,
         mint: queryKeypair.data,
         supply: supply > 0 ? uiAmountToBigInt(supply.toString(), decimals) : undefined,
         tokenProgram,
+        transactionSigner,
       })
     }
 

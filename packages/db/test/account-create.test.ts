@@ -5,7 +5,7 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
-import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
+import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
@@ -54,9 +54,9 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ walletId })
 
       // ACT
-      const activeAccountIdBefore = await settingFindUniqueByKey(db, 'activeAccountId')
+      const activeAccountIdBefore = await settingFindUnique(db, 'activeAccountId')
       const result = await accountCreate(db, input)
-      const activeAccountIdAfter = await settingFindUniqueByKey(db, 'activeAccountId')
+      const activeAccountIdAfter = await settingFindUnique(db, 'activeAccountId')
 
       // ASSERT
       const items = await accountFindMany(db, { walletId })

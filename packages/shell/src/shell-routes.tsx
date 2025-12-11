@@ -1,4 +1,7 @@
+import { optionsAccount } from '@workspace/db-react/options-account'
+import { optionsNetwork } from '@workspace/db-react/options-network'
 import { optionsSetting } from '@workspace/db-react/options-setting'
+import { optionsWallet } from '@workspace/db-react/options-wallet'
 import { queryClient } from '@workspace/db-react/query-client'
 import { getEntrypoint } from '@workspace/env/get-entrypoint'
 import { UiErrorBoundary } from '@workspace/ui/components/ui-error-boundary'
@@ -38,10 +41,13 @@ function createRouter() {
       hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
       loader: rootRouteLoader(),
-      shouldRevalidate: () => {
-        const state = queryClient.getQueryState(optionsSetting.getAll().queryKey)
-        return !state || state.isInvalidated
-      },
+      shouldRevalidate: () =>
+        [
+          queryClient.getQueryState(optionsAccount.findMany({}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsNetwork.findMany({}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsSetting.findMany({}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsWallet.findMany({}).queryKey)?.isInvalidated,
+        ].some((isInvalidated) => isInvalidated || false),
     },
   ])
 }

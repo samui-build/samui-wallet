@@ -14,6 +14,8 @@ import {
   FormMessage,
 } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
+import { getColorByName, uiColorNames } from '@workspace/ui/lib/get-initials-colors'
+import { cn } from '@workspace/ui/lib/utils'
 import { useForm } from 'react-hook-form'
 
 export function SettingsUiWalletFormUpdate({
@@ -69,6 +71,38 @@ export function SettingsUiWalletFormUpdate({
                 />
               </FormControl>
               <FormDescription>{t(($) => $.walletInputDescriptionDescription)}</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+          rules={{ required: false }}
+        />
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{t(($) => $.walletInputColorLabel)}</FormLabel>
+              <FormDescription>{t(($) => $.walletInputColorDescription)}</FormDescription>
+              <FormControl>
+                <div className="grid grid-cols-6 gap-4">
+                  {uiColorNames.map((uiColorName) => {
+                    const { bg, text } = getColorByName(uiColorName)
+                    return (
+                      <button
+                        className={cn(`flex aspect-square cursor-pointer items-center justify-center`, text, bg, {
+                          'font-bold': field.value === uiColorName,
+                        })}
+                        disabled={field.value === uiColorName}
+                        key={uiColorName}
+                        onClick={() => field.onChange(uiColorName)}
+                        type="button"
+                      >
+                        {uiColorName}
+                      </button>
+                    )
+                  })}
+                </div>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

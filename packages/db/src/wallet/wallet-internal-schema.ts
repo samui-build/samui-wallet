@@ -1,9 +1,11 @@
 import { z } from 'zod'
 
 import { accountSchema } from '../account/account-schema.ts'
+import { colorSchema } from '../color-schema.ts'
 
 export const walletInternalSchema = z.object({
   accounts: z.array(accountSchema).optional().default([]),
+  color: colorSchema.optional(),
   createdAt: z.date(),
   derivationPath: z.string(),
   description: z.string().max(50).optional(),

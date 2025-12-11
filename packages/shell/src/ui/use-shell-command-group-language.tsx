@@ -4,11 +4,11 @@ import type { ShellCommandGroup } from './use-shell-command-groups.tsx'
 
 export function useShellCommandGroupLanguage(): ShellCommandGroup {
   const { t } = useTranslation('shell')
-  const [language, setLanguageSetting] = useSetting('language')
+  const [language, setLanguage] = useSetting('language')
   const supportedLanguages = useSupportedLanguages()
 
   async function handleLanguageChange(newLanguage: string) {
-    await setLanguageSetting(newLanguage)
+    await setLanguage(newLanguage)
     await i18n.changeLanguage(newLanguage)
   }
 

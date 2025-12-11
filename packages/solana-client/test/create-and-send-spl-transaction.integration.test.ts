@@ -8,8 +8,8 @@ import { getTokenAccountsForMint } from '../src/get-token-accounts-for-mint.ts'
 import { setupIntegrationTestContext, setupIntegrationTestMint } from './test-helpers.ts'
 
 describe('create-and-send-spl-transaction', async () => {
-  const { client, latestBlockhash, feePayerSigner } = await setupIntegrationTestContext()
-  const testMint = await setupIntegrationTestMint({ client, feePayerSigner, latestBlockhash })
+  const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
+  const testMint = await setupIntegrationTestMint({ client, latestBlockhash, transactionSigner })
 
   describe('expected behavior', () => {
     it('should create and send spl token', async () => {
@@ -21,9 +21,9 @@ describe('create-and-send-spl-transaction', async () => {
         amount: '420',
         decimals: testMint.input.decimals,
         destination,
-        feePayerSigner,
         latestBlockhash,
         mint: testMint.result.mint,
+        transactionSigner,
       }
 
       // ACT

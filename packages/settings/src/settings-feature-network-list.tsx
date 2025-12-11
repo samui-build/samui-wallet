@@ -17,8 +17,8 @@ export function SettingsFeatureNetworkList() {
     onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Network deleted'),
   })
-  const items = useNetworkLive()
-  const [activeId] = useSetting('activeNetworkId')
+  const networks = useNetworkLive()
+  const [activeNetworkId] = useSetting('activeNetworkId')
   return (
     <UiCard
       action={
@@ -30,9 +30,9 @@ export function SettingsFeatureNetworkList() {
       title={page.name}
     >
       <SettingsUiNetworkList
-        activeId={activeId}
+        activeId={activeNetworkId}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
-        items={items}
+        items={networks}
       />
     </UiCard>
   )

@@ -2,8 +2,9 @@ import { UiAvatar } from '@workspace/ui/components/ui-avatar'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { Link, useLocation } from 'react-router'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import { PortfolioUiTokenBalanceItemMenu } from './portfolio-ui-token-balance-item-menu.tsx'
 
-export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
+export function PortfolioUiTokenBalanceItem({ item, showMenu = false }: { item: TokenBalance; showMenu?: boolean }) {
   const name = item.metadata?.name ?? ellipsify(item.mint)
   const symbol = item.metadata?.symbol ?? ellipsify(item.mint, 2, '').toLocaleUpperCase()
   const icon = item.metadata?.icon
@@ -22,9 +23,12 @@ export function PortfolioUiTokenBalanceItem({ item }: { item: TokenBalance }) {
           <div className="truncate text-muted-foreground/70 text-xs">{symbol}</div>
         </div>
       </div>
-      <div className="flex shrink-0 flex-col items-end gap-0.5">
-        <div className="font-semibold text-sm">{item.balanceToken}</div>
-        <div className="text-muted-foreground/60 text-xs">${item.balanceUsd}</div>
+      <div className="flex items-center gap-2">
+        <div className="flex shrink-0 flex-col items-end gap-0.5">
+          <div className="font-semibold text-sm">{item.balanceToken}</div>
+          <div className="text-muted-foreground/60 text-xs">${item.balanceUsd}</div>
+        </div>
+        {showMenu ? <PortfolioUiTokenBalanceItemMenu item={item} /> : null}
       </div>
     </Link>
   )

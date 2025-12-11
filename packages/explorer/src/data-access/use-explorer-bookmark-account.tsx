@@ -7,12 +7,11 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
 export function useExplorerBookmarkAccount({ address }: { address: Address }) {
   const { t } = useTranslation('explorer')
-  const query = useBookmarkAccountFindByAddress({ address })
+  const bookmark = useBookmarkAccountFindByAddress({ address })
   const mutationToggle = useBookmarkAccountToggle()
 
   return {
-    ...query,
-    hasBookmark: !!query.data,
+    hasBookmark: Boolean(bookmark),
     toggle: async () => {
       try {
         const result = await mutationToggle.mutateAsync({ address })

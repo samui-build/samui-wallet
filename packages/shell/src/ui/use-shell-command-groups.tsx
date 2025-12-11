@@ -1,4 +1,3 @@
-import { useShellCommandGroupDevelopment } from './use-shell-command-group-development.tsx'
 import { useShellCommandGroupLanguage } from './use-shell-command-group-language.tsx'
 import { useShellCommandGroupNavigate } from './use-shell-command-group-navigate.tsx'
 import { useShellCommandGroupSuggestions } from './use-shell-command-group-suggestions.tsx'
@@ -20,7 +19,6 @@ export function useShellCommandGroups(): ShellCommandGroup[] {
   const language = useShellCommandGroupLanguage()
   const navigate = useShellCommandGroupNavigate()
   const theme = useShellCommandGroupTheme()
-  const development = useShellCommandGroupDevelopment()
 
-  return [suggestions, navigate, language, theme, development]
+  return [suggestions, navigate, language, theme]
 }

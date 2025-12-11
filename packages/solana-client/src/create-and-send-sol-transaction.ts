@@ -1,4 +1,4 @@
-import type { Address, KeyPairSigner, Signature } from '@solana/kit'
+import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { createSolTransferInstructions } from './create-sol-transfer-instructions.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { lamportsToSol } from './lamports-to-sol.ts'
@@ -9,14 +9,14 @@ import type { SolanaClient } from './solana-client.ts'
 export interface CreateAndSendSolTransactionOptions {
   amount: bigint
   destination: Address
-  feePayerSigner: KeyPairSigner
   latestBlockhash?: LatestBlockhash | undefined
   senderBalance: bigint
+  transactionSigner: TransactionSigner
 }
 
 export async function createAndSendSolTransaction(
   client: SolanaClient,
-  { amount, destination, latestBlockhash, feePayerSigner, senderBalance }: CreateAndSendSolTransactionOptions,
+  { amount, destination, latestBlockhash, senderBalance, transactionSigner }: CreateAndSendSolTransactionOptions,
 ): Promise<Signature> {
   const maxAvailable = maxAvailableSolAmount(senderBalance, amount)
 
@@ -27,8 +27,8 @@ export async function createAndSendSolTransaction(
   }
 
   return signAndSendTransaction(client, {
-    feePayerSigner,
-    instructions: createSolTransferInstructions({ amount, destination, source: feePayerSigner }),
+    instructions: createSolTransferInstructions({ amount, destination, source: transactionSigner }),
     latestBlockhash,
+    transactionSigner,
   })
 }

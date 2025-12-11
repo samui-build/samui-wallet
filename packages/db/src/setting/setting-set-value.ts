@@ -2,7 +2,7 @@ import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
-import { settingFindUniqueByKey } from './setting-find-unique-by-key.ts'
+import { settingFindUnique } from './setting-find-unique.ts'
 import type { SettingKey } from './setting-key.ts'
 import { settingKeySchema } from './setting-key-schema.ts'
 
@@ -16,7 +16,7 @@ export async function settingSetValue(db: Database, key: SettingKey, value: stri
 
   return db.transaction('rw', db.settings, async () => {
     const now = new Date()
-    const setting = await settingFindUniqueByKey(db, key)
+    const setting = await settingFindUnique(db, key)
     // Update the setting if it's already set
     if (setting) {
       const { error } = await tryCatch(db.settings.update(setting.id, { updatedAt: now, value }))

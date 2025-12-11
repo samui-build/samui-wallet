@@ -1,7 +1,7 @@
 import {
   type Address,
   assertIsAddress,
-  assertIsKeyPairSigner,
+  assertIsTransactionSigner,
   type Instruction,
   type TransactionSigner,
 } from '@solana/kit'
@@ -41,9 +41,9 @@ export function createSplTransferInstructions({
   assertIsAddress(mint)
   assertIsAddress(sourceTokenAccount)
   assertIsAddress(tokenProgram)
-  assertIsKeyPairSigner(sender)
+  assertIsTransactionSigner(sender)
   if (source) {
-    assertIsKeyPairSigner(source)
+    assertIsTransactionSigner(source)
   }
 
   const instructions: Instruction[] = []

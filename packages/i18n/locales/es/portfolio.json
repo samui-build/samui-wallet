@@ -21,5 +21,7 @@
   "sendInputAmountLabel": "Cantidad",
   "sendInputAmountPlaceholder": "Cantidad",
   "sendInputDestinationLabel": "Destino",
-  "sendInputDestinationPlaceholder": "Destino"
+  "sendInputDestinationPlaceholder": "Destino",
+  "viewExplorerAccount": null,
+  "viewExplorerToken": null
 }

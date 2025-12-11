@@ -5,8 +5,6 @@ import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
-import { UiError } from '@workspace/ui/components/ui-error'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
@@ -132,7 +130,7 @@ function useVanityGenerator() {
 export function SettingsFeatureAccountGenerateVanity() {
   const navigate = useNavigate()
   const { walletId } = useParams() as { walletId: string }
-  const { data: wallet, error: walletError, isError, isLoading } = useWalletFindUnique({ id: walletId })
+  const wallet = useWalletFindUnique({ id: walletId })
   const createAccountMutation = useAccountCreate()
   const { cancel, start, state } = useVanityGenerator()
   const [showSecret, setShowSecret] = useState(false)
@@ -149,14 +147,6 @@ export function SettingsFeatureAccountGenerateVanity() {
 
   const isPending = state.status === 'pending'
   const { attempts, error: generationError, result } = state
-
-  if (isLoading) {
-    return <UiLoader />
-  }
-
-  if (isError) {
-    return <UiError message={walletError} />
-  }
 
   if (!wallet) {
     return <UiNotFound />

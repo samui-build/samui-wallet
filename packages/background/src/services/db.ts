@@ -13,7 +13,7 @@ import { accountCreate } from '@workspace/db/account/account-create'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
 import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
 import { db } from '@workspace/db/db'
-import { settingGetValue } from '@workspace/db/setting/setting-get-value'
+import { settingFindUnique } from '@workspace/db/setting/setting-find-unique'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
@@ -23,7 +23,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 export const [registerDbService, getDbService] = defineProxyService('DbService', () => ({
   account: {
     active: async (): Promise<Account> => {
-      const accountId = await settingGetValue(db, 'activeAccountId')
+      const accountId = (await settingFindUnique(db, 'activeAccountId'))?.value
       if (!accountId) {
         throw new Error('No active account set')
       }
@@ -36,7 +36,7 @@ export const [registerDbService, getDbService] = defineProxyService('DbService',
       return account
     },
     secretKey: async (): Promise<string> => {
-      const accountId = await settingGetValue(db, 'activeAccountId')
+      const accountId = (await settingFindUnique(db, 'activeAccountId'))?.value
       if (!accountId) {
         throw new Error('No active account set')
       }

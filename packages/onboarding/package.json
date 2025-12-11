@@ -3,12 +3,14 @@
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/env": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/settings": "workspace:*",
     "@workspace/solana-client": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@wxt-dev/browser": "catalog:",
     "react-router": "catalog:"
   },
   "devDependencies": {

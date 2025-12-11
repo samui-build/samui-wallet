@@ -1,7 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { settingFindUniqueByKey } from '../src/setting/setting-find-unique-by-key.ts'
+import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
@@ -18,8 +18,8 @@ describe('wallet-create', () => {
   describe('expected behavior', () => {
     it('should create a wallet', async () => {
       // ARRANGE
-      expect.assertions(3)
-      const input = testWalletCreateInput()
+      expect.assertions(4)
+      const input = testWalletCreateInput({ color: 'green' })
 
       // ACT
       const result = await walletCreate(db, input)
@@ -29,6 +29,7 @@ describe('wallet-create', () => {
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(item?.mnemonic).toBe(undefined)
       expect(item?.name).toBe(input.name)
+      expect(item?.color).toBe('green')
       expect(item?.order).toBe(0)
     })
 
@@ -51,9 +52,9 @@ describe('wallet-create', () => {
       expect.assertions(3)
       const input = testWalletCreateInput()
       // ACT
-      const activeWalletIdBefore = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdBefore = await settingFindUnique(db, 'activeWalletId')
       const result = await walletCreate(db, input)
-      const activeWalletIdAfter = await settingFindUniqueByKey(db, 'activeWalletId')
+      const activeWalletIdAfter = await settingFindUnique(db, 'activeWalletId')
 
       // ASSERT
       const items = await walletFindMany(db)

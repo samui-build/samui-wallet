@@ -5,7 +5,6 @@ export const settingKeySchema = z.enum([
   'activeNetworkId',
   'activeWalletId',
   'apiEndpoint',
-  'developerModeEnabled',
   'language',
   'theme',
   'warningAcceptExperimental',

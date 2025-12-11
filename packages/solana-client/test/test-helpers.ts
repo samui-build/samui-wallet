@@ -13,8 +13,8 @@ import { uiAmountToBigInt } from '../src/ui-amount-to-big-int.ts'
 
 export interface IntegrationTestContext {
   client: SolanaClient
-  feePayerSigner: KeyPairSigner
   latestBlockhash: LatestBlockhash
+  transactionSigner: KeyPairSigner
 }
 
 export async function setupIntegrationTestContext(): Promise<IntegrationTestContext> {
@@ -22,10 +22,10 @@ export async function setupIntegrationTestContext(): Promise<IntegrationTestCont
     url: 'http://localhost:8899',
     urlSubscriptions: 'ws://localhost:8900',
   })
-  const [latestBlockhash, feePayerSigner] = await Promise.all([getLatestBlockhash(client), generateKeyPairSigner()])
-  await requestAirdrop(client, { address: feePayerSigner.address, amount: solToLamports('1') })
+  const [latestBlockhash, transactionSigner] = await Promise.all([getLatestBlockhash(client), generateKeyPairSigner()])
+  await requestAirdrop(client, { address: transactionSigner.address, amount: solToLamports('1') })
 
-  return { client, feePayerSigner, latestBlockhash }
+  return { client, latestBlockhash, transactionSigner }
 }
 
 export interface IntegrationTestMint {
@@ -35,18 +35,18 @@ export interface IntegrationTestMint {
 
 export async function setupIntegrationTestMint({
   client,
-  feePayerSigner,
   latestBlockhash,
+  transactionSigner,
 }: IntegrationTestContext): Promise<IntegrationTestMint> {
   const newTokenMint = await generateKeyPairSigner()
   const decimals = 6
   const supply = 420
   const input: SplTokenCreateTokenMintOptions = {
     decimals,
-    feePayerSigner,
     latestBlockhash,
     mint: newTokenMint,
     supply: uiAmountToBigInt(supply.toString(), decimals),
+    transactionSigner,
   }
 
   const result = await splTokenCreateTokenMint(client, input)

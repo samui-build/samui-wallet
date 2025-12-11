@@ -6,7 +6,7 @@ import { uiAmountToBigInt } from '../src/ui-amount-to-big-int.ts'
 import { setupIntegrationTestContext } from './test-helpers.ts'
 
 describe('spl-token-create-token-mint', async () => {
-  const { client, latestBlockhash, feePayerSigner } = await setupIntegrationTestContext()
+  const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
 
   describe('expected behavior', () => {
     it('should create a token mint with mint and no supply', async () => {
@@ -15,12 +15,18 @@ describe('spl-token-create-token-mint', async () => {
       const mint = await generateKeyPairSigner()
 
       // ACT
-      const result = await splTokenCreateTokenMint(client, { decimals: 0, feePayerSigner, latestBlockhash, mint })
+      const result = await splTokenCreateTokenMint(client, {
+        decimals: 0,
+        latestBlockhash,
+        mint,
+        transactionSigner,
+      })
 
       // ASSERT
-      const res = await getTokenAccountsForMint(client, { address: feePayerSigner.address, mint: mint.address }).then(
-        (res) => res.value,
-      )
+      const res = await getTokenAccountsForMint(client, {
+        address: transactionSigner.address,
+        mint: mint.address,
+      }).then((res) => res.value)
       expect(res.length).toBe(0)
       expect(result.mint).toBe(mint.address)
     })
@@ -33,12 +39,18 @@ describe('spl-token-create-token-mint', async () => {
       const supply = uiAmountToBigInt('1000', decimals)
 
       // ACT
-      const result = await splTokenCreateTokenMint(client, { decimals, feePayerSigner, latestBlockhash, mint, supply })
+      const result = await splTokenCreateTokenMint(client, {
+        decimals,
+        latestBlockhash,
+        mint,
+        supply,
+        transactionSigner,
+      })
 
       // ASSERT
 
       const [tokenAccount] = await getTokenAccountsForMint(client, {
-        address: feePayerSigner.address,
+        address: transactionSigner.address,
         mint: mint.address,
       }).then((res) => res.value)
       if (!tokenAccount) {
@@ -59,7 +71,11 @@ describe('spl-token-create-token-mint', async () => {
       const decimals = 9
 
       // ACT
-      const result = await splTokenCreateTokenMint(client, { decimals, feePayerSigner, latestBlockhash })
+      const result = await splTokenCreateTokenMint(client, {
+        decimals,
+        latestBlockhash,
+        transactionSigner,
+      })
 
       // ASSERT
       expect(isAddress(result.mint)).toBeTruthy()
@@ -72,11 +88,16 @@ describe('spl-token-create-token-mint', async () => {
       const supply = uiAmountToBigInt('1000', 9)
 
       // ACT
-      const result = await splTokenCreateTokenMint(client, { decimals, feePayerSigner, latestBlockhash, supply })
+      const result = await splTokenCreateTokenMint(client, {
+        decimals,
+        latestBlockhash,
+        supply,
+        transactionSigner,
+      })
 
       // ASSERT
       const [tokenAccount] = await getTokenAccountsForMint(client, {
-        address: feePayerSigner.address,
+        address: transactionSigner.address,
         mint: result.mint,
       }).then((res) => res.value)
       if (!tokenAccount) {

@@ -31,7 +31,7 @@
     "@types/react": "19.2.7",
     "@workspace/config-typescript": "workspace:*",
     "babel-preset-expo": "54.0.7",
-    "drizzle-kit": "0.31.7",
+    "drizzle-kit": "0.31.8",
     "typescript": "catalog:"
   },
   "main": "index.ts",

@@ -2,7 +2,7 @@ import { tryCatch } from '@workspace/core/try-catch'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
-import { settingGetValue } from '../setting/setting-get-value.ts'
+import { settingFindUnique } from '../setting/setting-find-unique.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { walletCreateDetermineOrder } from './wallet-create-determine-order.ts'
 import type { WalletCreateInput } from './wallet-create-input.ts'
@@ -30,7 +30,7 @@ export async function walletCreate(db: Database, input: WalletCreateInput): Prom
       throw new Error(`Error creating wallet`)
     }
 
-    const activeWalletId = await settingGetValue(db, 'activeWalletId')
+    const activeWalletId = (await settingFindUnique(db, 'activeWalletId'))?.value
     if (!activeWalletId) {
       await settingSetValue(db, 'activeWalletId', data)
     }

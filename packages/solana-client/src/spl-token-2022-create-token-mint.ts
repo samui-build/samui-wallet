@@ -1,4 +1,10 @@
-import { type Address, generateKeyPairSigner, type Instruction, type KeyPairSigner, type Signature } from '@solana/kit'
+import {
+  type Address,
+  generateKeyPairSigner,
+  type Instruction,
+  type Signature,
+  type TransactionSigner,
+} from '@solana/kit'
 import { getCreateAccountInstruction } from '@solana-program/system'
 import {
   type ExtensionArgs,
@@ -16,15 +22,15 @@ import { splTokenMintTo } from './spl-token-mint-to.ts'
 
 export interface SplToken2022CreateTokenMintOptions {
   decimals: number
-  latestBlockhash?: LatestBlockhash | undefined
-  feePayerSigner: KeyPairSigner
-  mint?: KeyPairSigner
-  tokenProgram?: Address
-  supply?: bigint | undefined
   extensions?: {
     closeMint: boolean
     permanentDelegate: boolean
   }
+  latestBlockhash?: LatestBlockhash | undefined
+  mint?: TransactionSigner
+  supply?: bigint | undefined
+  tokenProgram?: Address
+  transactionSigner: TransactionSigner
 }
 
 // Compatibility alias for tests expecting the generic name
@@ -40,13 +46,13 @@ export interface SplToken2022CreateTokenMint {
 export async function splToken2022CreateTokenMint(
   client: SolanaClient,
   {
-    latestBlockhash,
     decimals,
-    mint,
-    feePayerSigner,
-    tokenProgram = TOKEN_2022_PROGRAM_ADDRESS,
-    supply = 0n,
     extensions,
+    latestBlockhash,
+    mint,
+    supply = 0n,
+    tokenProgram = TOKEN_2022_PROGRAM_ADDRESS,
+    transactionSigner,
   }: SplToken2022CreateTokenMintOptions,
 ): Promise<SplToken2022CreateTokenMint> {
   if (decimals < 0 || decimals > 9) {
@@ -62,11 +68,11 @@ export async function splToken2022CreateTokenMint(
   if (extensions?.closeMint) {
     extensionConfigs.push(
       extension('MintCloseAuthority', {
-        closeAuthority: feePayerSigner.address,
+        closeAuthority: transactionSigner.address,
       }),
     )
     const initializeCloseMintInstruction = getInitializeMintCloseAuthorityInstruction({
-      closeAuthority: feePayerSigner.address,
+      closeAuthority: transactionSigner.address,
       mint: mint.address,
     })
     instructions.push(initializeCloseMintInstruction)
@@ -74,11 +80,11 @@ export async function splToken2022CreateTokenMint(
   if (extensions?.permanentDelegate) {
     extensionConfigs.push(
       extension('PermanentDelegate', {
-        delegate: feePayerSigner.address,
+        delegate: transactionSigner.address,
       }),
     )
     const initializePermanentDelegateInstruction = getInitializePermanentDelegateInstruction({
-      delegate: feePayerSigner.address,
+      delegate: transactionSigner.address,
       mint: mint.address,
     })
     instructions.push(initializePermanentDelegateInstruction)
@@ -93,7 +99,7 @@ export async function splToken2022CreateTokenMint(
   const createAccountInstruction = getCreateAccountInstruction({
     lamports: rent,
     newAccount: mint,
-    payer: feePayerSigner,
+    payer: transactionSigner,
     programAddress: tokenProgram,
     space,
   })
@@ -101,24 +107,24 @@ export async function splToken2022CreateTokenMint(
   const initializeMintInstruction = getInitializeMintInstruction({
     decimals,
     mint: mint.address,
-    mintAuthority: feePayerSigner.address,
+    mintAuthority: transactionSigner.address,
   })
 
   // Get transaction signature
   const signatureCreate = await signAndSendTransaction(client, {
-    feePayerSigner,
     instructions: [createAccountInstruction, ...instructions, initializeMintInstruction],
     latestBlockhash,
+    transactionSigner,
   })
 
   if (supply > 0n) {
     const { ata, signature: signatureSupply } = await splTokenMintTo(client, {
       amount: supply,
       decimals,
-      feePayerSigner,
       latestBlockhash,
       mint: mint.address,
       tokenProgram,
+      transactionSigner,
     })
 
     return {

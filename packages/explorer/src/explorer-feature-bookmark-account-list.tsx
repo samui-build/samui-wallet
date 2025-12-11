@@ -10,7 +10,7 @@ import { ExplorerUiBookmarkAccountTable } from './ui/explorer-ui-bookmark-accoun
 export function ExplorerFeatureBookmarkAccountList({ basePath }: { basePath: string }) {
   const { t } = useTranslation('explorer')
   const backButtonTo = useExplorerBackButtonTo({ basePath })
-  const items = useBookmarkAccountLive()
+  const bookmarkAccounts = useBookmarkAccountLive()
   const mutationToggle = useBookmarkAccountToggle()
   const mutationUpdate = useBookmarkAccountUpdate()
   return (
@@ -18,7 +18,7 @@ export function ExplorerFeatureBookmarkAccountList({ basePath }: { basePath: str
       <UiCard backButtonTo={backButtonTo} title={t(($) => $.bookmarkAccountTitle)}>
         <ExplorerUiBookmarkAccountTable
           basePath={basePath}
-          items={items}
+          items={bookmarkAccounts}
           toggleItem={async ({ address }) => {
             await mutationToggle.mutateAsync({ address })
           }}

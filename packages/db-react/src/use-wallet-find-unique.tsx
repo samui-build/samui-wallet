@@ -1,7 +1,6 @@
-import { useQuery } from '@tanstack/react-query'
-
-import { optionsWallet } from './options-wallet.tsx'
+import { useWalletLive } from './use-wallet-live.tsx'
 
 export function useWalletFindUnique({ id }: { id: string }) {
-  return useQuery(optionsWallet.findUnique(id))
+  const wallets = useWalletLive()
+  return wallets.find((w) => w.id === id) ?? null
 }
