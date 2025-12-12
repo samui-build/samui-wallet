@@ -3,7 +3,7 @@ import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { Link } from 'react-router'
 import { useSettingsPage } from './data-access/use-settings-page.tsx'
-import { SettingsFeatureGeneralApiEndpoint } from './settings-feature-general-api-endpoint.tsx'
+import { SettingsFeatureGeneralApiSettings } from './settings-feature-general-api-settings.tsx'
 import { SettingsFeatureGeneralLanguage } from './settings-feature-general-language.tsx'
 import { SettingsFeatureGeneralTheme } from './settings-feature-general-theme.tsx'
 import { SettingsFeatureGeneralWarningAcceptExperimental } from './settings-feature-general-warning-accept-experimental.tsx'
@@ -20,8 +20,10 @@ export function SettingsFeatureGeneral() {
       >
         <SettingsFeatureGeneralLanguage />
         <SettingsFeatureGeneralTheme />
-        <SettingsFeatureGeneralApiEndpoint />
         <SettingsFeatureGeneralWarningAcceptExperimental />
+      </UiCard>
+      <UiCard contentProps={{ className: 'space-y-2 md:space-y-6 md:py-2' }} title={t(($) => $.pageGeneralApiSettings)}>
+        <SettingsFeatureGeneralApiSettings />
       </UiCard>
       <UiCard
         className="border-red-500"
