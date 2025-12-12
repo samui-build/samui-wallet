@@ -19,7 +19,6 @@ describe('create-and-send-spl-transaction', async () => {
       const destination = destinationKeypair.address
       const input: CreateAndSendSplTransactionOptions = {
         amount: '420',
-        decimals: testMint.input.decimals,
         destination,
         latestBlockhash,
         mint: testMint.result.mint,

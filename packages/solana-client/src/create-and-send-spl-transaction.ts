@@ -5,7 +5,7 @@ import {
   type Signature,
   type TransactionSigner,
 } from '@solana/kit'
-import { fetchMint, findAssociatedTokenPda } from '@solana-program/token'
+import { fetchMint } from '@solana-program/token'
 import { createSplTransferInstructions } from './create-spl-transfer-instructions.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { signAndSendTransaction } from './sign-and-send-transaction.ts'
@@ -14,7 +14,6 @@ import { uiAmountToBigInt } from './ui-amount-to-big-int.ts'
 
 export interface CreateAndSendSplTransactionOptions {
   amount: string
-  decimals: number
   destination: Address
   latestBlockhash?: LatestBlockhash | undefined
   mint: Address
@@ -23,39 +22,24 @@ export interface CreateAndSendSplTransactionOptions {
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,
-  { amount, decimals, destination, latestBlockhash, mint, transactionSigner }: CreateAndSendSplTransactionOptions,
+  { amount, destination, latestBlockhash, mint, transactionSigner }: CreateAndSendSplTransactionOptions,
 ): Promise<Signature> {
   assertIsAddress(destination)
   assertIsAddress(mint)
   assertIsTransactionSigner(transactionSigner)
   const mintInfo = await fetchMint(client.rpc, mint)
-
+  const decimals = mintInfo.data.decimals
   const tokenProgram = mintInfo.programAddress
-  const [sourceTokenAccount] = await findAssociatedTokenPda({
-    mint: mint,
-    owner: transactionSigner.address,
-    tokenProgram,
-  })
-  const [destinationTokenAccount] = await findAssociatedTokenPda({
-    mint: mint,
-    owner: destination,
-    tokenProgram,
-  })
-  const destinationTokenAccountInfo = await client.rpc
-    .getAccountInfo(destinationTokenAccount, { encoding: 'base64' })
-    .send()
 
   return signAndSendTransaction(client, {
-    instructions: createSplTransferInstructions({
+    instructions: await createSplTransferInstructions({
       amount: uiAmountToBigInt(amount, decimals),
       decimals,
       destination,
-      destinationTokenAccount,
-      destinationTokenAccountExists: destinationTokenAccountInfo.value !== null,
       mint,
-      sender: transactionSigner,
-      sourceTokenAccount,
+      source: transactionSigner,
       tokenProgram,
+      transactionSigner,
     }),
     latestBlockhash,
     transactionSigner,
