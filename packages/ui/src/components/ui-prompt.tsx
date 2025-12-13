@@ -1,3 +1,4 @@
+import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import { Button } from '@workspace/ui/components/button'
 import {
   Dialog,
@@ -9,10 +10,18 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@workspace/ui/components/dialog'
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
-import { Label } from '@workspace/ui/components/label'
-import type { ComponentProps, FormEvent, ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import { useEffect, useId, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const promptSchema = z.object({
+  value: z.string().trim(),
+})
+
+type PromptForm = z.infer<typeof promptSchema>
 
 interface UiPromptProps {
   action: (value: string) => void
@@ -38,16 +47,20 @@ export function UiPrompt({
   value: inputValue,
 }: UiPromptProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [value, setValue] = useState(inputValue)
   const inputId = useId()
 
-  useEffect(() => {
-    setValue(inputValue)
-  }, [inputValue])
+  const form = useForm<PromptForm>({
+    resolver: standardSchemaResolver(promptSchema),
+    values: { value: inputValue },
+  })
+  const { control, handleSubmit, reset } = form
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault()
-    action(value.trim())
+  useEffect(() => {
+    reset({ value: isOpen ? inputValue : '' })
+  }, [isOpen, inputValue, reset])
+
+  function submit(input: PromptForm) {
+    action(input.value)
     setIsOpen(false)
   }
 
@@ -56,35 +69,46 @@ export function UiPrompt({
       <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[600px]">
-        <form onSubmit={handleSubmit}>
-          <DialogHeader>
-            <DialogTitle>{title}</DialogTitle>
-            {description ? <DialogDescription>{description}</DialogDescription> : null}
-          </DialogHeader>
+        <Form {...form}>
+          <form onSubmit={handleSubmit(submit)}>
+            <DialogHeader>
+              <DialogTitle>{title}</DialogTitle>
+              {description ? <DialogDescription>{description}</DialogDescription> : null}
+            </DialogHeader>
 
-          <div className="grid gap-4 py-4">
-            <div className="grid gap-4">
-              <Label htmlFor={inputId}>{label}</Label>
-              <Input
-                autoFocus
-                id={inputId}
-                onChange={(e) => setValue(e.target.value)}
-                placeholder={placeholder}
-                value={value}
-                {...inputProps}
+            <div className="grid gap-4 py-4">
+              <FormField
+                control={control}
+                name="value"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel htmlFor={inputId}>{label}</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete="off"
+                        autoFocus
+                        id={inputId}
+                        {...field}
+                        {...inputProps}
+                        placeholder={placeholder}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
             </div>
-          </div>
 
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </DialogClose>
-            <Button type="submit">{actionLabel}</Button>
-          </DialogFooter>
-        </form>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="outline">
+                  Cancel
+                </Button>
+              </DialogClose>
+              <Button type="submit">{actionLabel}</Button>
+            </DialogFooter>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   )
