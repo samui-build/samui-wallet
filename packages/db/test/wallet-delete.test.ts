@@ -1,11 +1,12 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-
+import { accountCreate } from '../src/account/account-create.ts'
+import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletDelete } from '../src/wallet/wallet-delete.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
@@ -27,6 +28,23 @@ describe('wallet-delete', () => {
       // ASSERT
       const deletedItem = await walletFindUnique(db, id)
       expect(deletedItem).toBeNull()
+    })
+
+    it('should delete the accounts in a wallet', async () => {
+      // ARRANGE
+      expect.assertions(2)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
+      const accountId = await accountCreate(db, testAccountCreateInput({ walletId: id }))
+
+      // ACT
+      await walletDelete(db, id)
+
+      // ASSERT
+      const deletedWallet = await walletFindUnique(db, id)
+      const deletedAccount = await accountFindUnique(db, accountId)
+      expect(deletedWallet).toBeNull()
+      expect(deletedAccount).toBeNull()
     })
   })
 

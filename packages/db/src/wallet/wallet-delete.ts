@@ -1,9 +1,15 @@
 import { tryCatch } from '@workspace/core/try-catch'
-
+import { accountFindMany } from '../account/account-find-many.ts'
 import type { Database } from '../database.ts'
 
 export async function walletDelete(db: Database, id: string): Promise<void> {
-  return db.transaction('rw', db.wallets, async () => {
+  return db.transaction('rw', db.accounts, db.wallets, async () => {
+    const accounts = await accountFindMany(db, { walletId: id })
+    const { error: errorAccounts } = await tryCatch(db.accounts.bulkDelete(accounts.map((account) => account.id)))
+    if (errorAccounts) {
+      console.log(errorAccounts)
+      throw new Error(`Error deleting accounts for wallet with id ${id}`)
+    }
     const { data, error } = await tryCatch(db.wallets.delete(id))
     if (error) {
       console.log(error)
