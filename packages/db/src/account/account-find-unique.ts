@@ -4,10 +4,12 @@ import type { Account } from './account.ts'
 import { accountSanitizer } from './account-sanitizer.ts'
 
 export async function accountFindUnique(db: Database, id: string): Promise<null | Account> {
-  const { data, error } = await tryCatch(db.accounts.get(id))
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding account with id ${id}`)
-  }
-  return data ? accountSanitizer(data) : null
+  return db.transaction('r', db.accounts, async () => {
+    const { data, error } = await tryCatch(db.accounts.get(id))
+    if (error) {
+      console.log(error)
+      throw new Error(`Error finding account with id ${id}`)
+    }
+    return data ? accountSanitizer(data) : null
+  })
 }

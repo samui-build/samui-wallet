@@ -7,10 +7,12 @@ export async function bookmarkTransactionFindBySignature(
   db: Database,
   signature: Signature,
 ): Promise<null | BookmarkTransaction> {
-  const { data, error } = await tryCatch(db.bookmarkTransactions.get({ signature }))
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding bookmark transaction with signature ${signature}`)
-  }
-  return data ? data : null
+  return db.transaction('r', db.bookmarkTransactions, async () => {
+    const { data, error } = await tryCatch(db.bookmarkTransactions.get({ signature }))
+    if (error) {
+      console.log(error)
+      throw new Error(`Error finding bookmark transaction with signature ${signature}`)
+    }
+    return data ? data : null
+  })
 }

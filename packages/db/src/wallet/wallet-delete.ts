@@ -3,10 +3,12 @@ import { tryCatch } from '@workspace/core/try-catch'
 import type { Database } from '../database.ts'
 
 export async function walletDelete(db: Database, id: string): Promise<void> {
-  const { data, error } = await tryCatch(db.wallets.delete(id))
-  if (error) {
-    console.log(error)
-    throw new Error(`Error deleting wallet with id ${id}`)
-  }
-  return data
+  return db.transaction('rw', db.wallets, async () => {
+    const { data, error } = await tryCatch(db.wallets.delete(id))
+    if (error) {
+      console.log(error)
+      throw new Error(`Error deleting wallet with id ${id}`)
+    }
+    return data
+  })
 }

@@ -9,22 +9,24 @@ export async function bookmarkAccountFindMany(
   input: BookmarkAccountFindManyInput,
 ): Promise<BookmarkAccount[]> {
   const parsedInput = bookmarkAccountFindManySchema.parse(input)
-  const { data, error } = await tryCatch(
-    db.bookmarkAccounts
-      .orderBy('updatedAt')
-      .filter((item) => {
-        const matchId = !parsedInput.id || item.id === parsedInput.id
-        const matchLabel = !parsedInput.label || (item.label ? item.label.includes(parsedInput.label) : false)
-        const matchAddress = !parsedInput.address || item.address === parsedInput.address
+  return db.transaction('r', db.bookmarkAccounts, async () => {
+    const { data, error } = await tryCatch(
+      db.bookmarkAccounts
+        .orderBy('updatedAt')
+        .filter((item) => {
+          const matchId = !parsedInput.id || item.id === parsedInput.id
+          const matchLabel = !parsedInput.label || (item.label ? item.label.includes(parsedInput.label) : false)
+          const matchAddress = !parsedInput.address || item.address === parsedInput.address
 
-        return matchId && matchLabel && matchAddress
-      })
-      .reverse()
-      .toArray(),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding bookmark accounts`)
-  }
-  return data
+          return matchId && matchLabel && matchAddress
+        })
+        .reverse()
+        .toArray(),
+    )
+    if (error) {
+      console.log(error)
+      throw new Error(`Error finding bookmark accounts`)
+    }
+    return data
+  })
 }

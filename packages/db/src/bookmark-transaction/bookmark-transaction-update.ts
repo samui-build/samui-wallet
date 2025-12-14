@@ -10,15 +10,17 @@ export async function bookmarkTransactionUpdate(
   input: BookmarkTransactionUpdateInput,
 ): Promise<number> {
   const parsedInput = parseStrict(bookmarkTransactionUpdateSchema.parse(input))
-  const { data, error } = await tryCatch(
-    db.bookmarkTransactions.update(id, {
-      ...parsedInput,
-      updatedAt: new Date(),
-    }),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error updating bookmark transaction with id ${id}`)
-  }
-  return data
+  return db.transaction('rw', db.bookmarkTransactions, async () => {
+    const { data, error } = await tryCatch(
+      db.bookmarkTransactions.update(id, {
+        ...parsedInput,
+        updatedAt: new Date(),
+      }),
+    )
+    if (error) {
+      console.log(error)
+      throw new Error(`Error updating bookmark transaction with id ${id}`)
+    }
+    return data
+  })
 }
