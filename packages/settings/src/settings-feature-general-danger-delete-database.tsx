@@ -39,11 +39,12 @@ export function SettingsFeatureGeneralDangerDeleteDatabase() {
           actionVariant="destructive"
           description="This action cannot be reversed."
           title="Are you sure you want to reset the application?"
-        >
-          <Button disabled={!accept} variant="destructive">
-            Delete Database
-          </Button>
-        </UiConfirm>
+          trigger={
+            <Button disabled={!accept} variant="destructive">
+              Delete Database
+            </Button>
+          }
+        />
       </div>
     </div>
   )
