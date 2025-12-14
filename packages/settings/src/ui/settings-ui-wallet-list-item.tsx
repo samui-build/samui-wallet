@@ -1,12 +1,8 @@
 import type { Wallet } from '@workspace/db/wallet/wallet'
-import { useTranslation } from '@workspace/i18n'
-import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/components/item'
-import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { Link, useLocation } from 'react-router'
-import { SettingsUiExportWalletMnemonic } from './settings-ui-export-wallet-mnemonic.tsx'
-import { SettingsUiWalletDeleteConfirm } from './settings-ui-wallet-delete-confirm.tsx'
+import { Link } from 'react-router'
 import { SettingsUiWalletItem } from './settings-ui-wallet-item.tsx'
+import { SettingsUiWalletMenu } from './settings-ui-wallet-menu.tsx'
 
 export function SettingsUiWalletListItem({
   activeId,
@@ -17,8 +13,6 @@ export function SettingsUiWalletListItem({
   deleteItem: (item: Wallet) => Promise<void>
   item: Wallet
 }) {
-  const { pathname: from } = useLocation()
-  const { t } = useTranslation('settings')
   return (
     <Item key={item.id} role="listitem" variant={activeId === item.id ? 'muted' : 'outline'}>
       <ItemContent className="min-w-0">
@@ -29,13 +23,7 @@ export function SettingsUiWalletListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
-        <SettingsUiExportWalletMnemonic wallet={item} />
-        <Button asChild size="icon" title={t(($) => $.actionEdit)} variant="outline">
-          <Link state={{ from }} to={`./${item.id}/edit`}>
-            <UiIcon className="size-4" icon="edit" />
-          </Link>
-        </Button>
-        <SettingsUiWalletDeleteConfirm deleteItem={deleteItem} item={item} />
+        <SettingsUiWalletMenu deleteItem={deleteItem} wallet={item} />
       </ItemActions>
     </Item>
   )
