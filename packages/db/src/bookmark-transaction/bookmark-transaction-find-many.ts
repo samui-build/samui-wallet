@@ -9,22 +9,24 @@ export async function bookmarkTransactionFindMany(
   input: BookmarkTransactionFindManyInput,
 ): Promise<BookmarkTransaction[]> {
   const parsedInput = bookmarkTransactionFindManySchema.parse(input)
-  const { data, error } = await tryCatch(
-    db.bookmarkTransactions
-      .orderBy('updatedAt')
-      .filter((item) => {
-        const matchId = !parsedInput.id || item.id === parsedInput.id
-        const matchLabel = !parsedInput.label || (item.label ? item.label.includes(parsedInput.label) : false)
-        const matchSignature = !parsedInput.signature || item.signature === parsedInput.signature
+  return db.transaction('r', db.bookmarkTransactions, async () => {
+    const { data, error } = await tryCatch(
+      db.bookmarkTransactions
+        .orderBy('updatedAt')
+        .filter((item) => {
+          const matchId = !parsedInput.id || item.id === parsedInput.id
+          const matchLabel = !parsedInput.label || (item.label ? item.label.includes(parsedInput.label) : false)
+          const matchSignature = !parsedInput.signature || item.signature === parsedInput.signature
 
-        return matchId && matchLabel && matchSignature
-      })
-      .reverse()
-      .toArray(),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error finding bookmark transactions`)
-  }
-  return data
+          return matchId && matchLabel && matchSignature
+        })
+        .reverse()
+        .toArray(),
+    )
+    if (error) {
+      console.log(error)
+      throw new Error(`Error finding bookmark transactions`)
+    }
+    return data
+  })
 }

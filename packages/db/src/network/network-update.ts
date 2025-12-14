@@ -7,15 +7,17 @@ import { networkUpdateSchema } from './network-update-schema.ts'
 
 export async function networkUpdate(db: Database, id: string, input: NetworkUpdateInput): Promise<number> {
   const parsedInput = parseStrict(networkUpdateSchema.parse(input))
-  const { data, error } = await tryCatch(
-    db.networks.update(id, {
-      ...parsedInput,
-      updatedAt: new Date(),
-    }),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error updating network with id ${id}`)
-  }
-  return data
+  return db.transaction('rw', db.networks, async () => {
+    const { data, error } = await tryCatch(
+      db.networks.update(id, {
+        ...parsedInput,
+        updatedAt: new Date(),
+      }),
+    )
+    if (error) {
+      console.log(error)
+      throw new Error(`Error updating network with id ${id}`)
+    }
+    return data
+  })
 }

@@ -9,17 +9,20 @@ export async function networkCreate(db: Database, input: NetworkCreateInput): Pr
   const now = new Date()
   // TODO: Add runtime check to ensure Network.type is valid
   const parsedInput = networkCreateSchema.parse(input)
-  const { data, error } = await tryCatch(
-    db.networks.add({
-      ...parsedInput,
-      createdAt: now,
-      id: randomId(),
-      updatedAt: now,
-    }),
-  )
-  if (error) {
-    console.log(error)
-    throw new Error(`Error creating network`)
-  }
-  return data
+
+  return db.transaction('rw', db.networks, async () => {
+    const { data, error } = await tryCatch(
+      db.networks.add({
+        ...parsedInput,
+        createdAt: now,
+        id: randomId(),
+        updatedAt: now,
+      }),
+    )
+    if (error) {
+      console.log(error)
+      throw new Error(`Error creating network`)
+    }
+    return data
+  })
 }
