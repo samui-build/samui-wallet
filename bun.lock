@@ -435,6 +435,7 @@
       "name": "@workspace/onboarding",
       "version": "0.0.0",
       "dependencies": {
+        "@hookform/resolvers": "catalog:",
         "@tanstack/react-query": "catalog:",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
@@ -446,7 +447,9 @@
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
         "@wxt-dev/browser": "catalog:",
+        "react-hook-form": "catalog:",
         "react-router": "catalog:",
+        "zod": "catalog:",
       },
       "devDependencies": {
         "@types/bun": "catalog:",
