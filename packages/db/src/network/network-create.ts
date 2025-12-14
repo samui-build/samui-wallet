@@ -7,7 +7,6 @@ import { networkCreateSchema } from './network-create-schema.ts'
 
 export async function networkCreate(db: Database, input: NetworkCreateInput): Promise<string> {
   const now = new Date()
-  // TODO: Add runtime check to ensure Network.type is valid
   const parsedInput = networkCreateSchema.parse(input)
 
   return db.transaction('rw', db.networks, async () => {
