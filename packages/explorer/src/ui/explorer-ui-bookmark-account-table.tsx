@@ -64,11 +64,12 @@ export function ExplorerUiBookmarkAccountTable({
                   actionLabel={t(($) => $.actionDelete)}
                   description={t(($) => $.bookmarkDeleteDescription)}
                   title={t(($) => $.bookmarkDeleteTitle)}
-                >
-                  <Button size="icon" title={t(($) => $.bookmarkDelete)} variant="outline">
-                    <UiIcon className="text-red-500" icon="delete" />
-                  </Button>
-                </UiConfirm>
+                  trigger={
+                    <Button size="icon" title={t(($) => $.bookmarkDelete)} variant="outline">
+                      <UiIcon className="text-red-500" icon="delete" />
+                    </Button>
+                  }
+                />
               </div>
             </TableCell>
           </TableRow>

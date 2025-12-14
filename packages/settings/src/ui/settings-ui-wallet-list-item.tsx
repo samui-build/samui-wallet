@@ -2,10 +2,10 @@ import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/components/item'
-import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link, useLocation } from 'react-router'
 import { SettingsUiExportWalletMnemonic } from './settings-ui-export-wallet-mnemonic.tsx'
+import { SettingsUiWalletDeleteConfirm } from './settings-ui-wallet-delete-confirm.tsx'
 import { SettingsUiWalletItem } from './settings-ui-wallet-item.tsx'
 
 export function SettingsUiWalletListItem({
@@ -35,17 +35,7 @@ export function SettingsUiWalletListItem({
             <UiIcon className="size-4" icon="edit" />
           </Link>
         </Button>
-        <UiConfirm
-          action={async () => await deleteItem(item)}
-          actionLabel="Delete"
-          actionVariant="destructive"
-          description="This action cannot be reversed."
-          title="Are you sure you want to delete this wallet?"
-        >
-          <Button size="icon" title={t(($) => $.actionDelete)} variant="outline">
-            <UiIcon className="size-4 text-red-500" icon="delete" />
-          </Button>
-        </UiConfirm>
+        <SettingsUiWalletDeleteConfirm deleteItem={deleteItem} item={item} />
       </ItemActions>
     </Item>
   )

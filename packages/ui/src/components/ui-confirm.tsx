@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react'
+import type { ComponentProps, ReactNode } from 'react'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,23 +13,24 @@ import {
 import { buttonVariants } from './button.tsx'
 
 export function UiConfirm({
-  actionLabel,
   action,
-  children,
-  title,
-  description,
+  actionLabel,
   actionVariant = 'default',
-}: {
-  title: ReactNode
+  description,
+  title,
+  trigger,
+  ...props
+}: Omit<ComponentProps<typeof AlertDialog>, 'children'> & {
   action: () => Promise<void>
-  children: ReactNode
-  description: ReactNode
   actionLabel: ReactNode
   actionVariant?: 'default' | 'destructive' | 'ghost' | 'link' | 'outline' | 'secondary'
+  description: ReactNode
+  title: ReactNode
+  trigger?: ReactNode
 }) {
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
+    <AlertDialog {...props}>
+      {trigger ? <AlertDialogTrigger asChild>{trigger}</AlertDialogTrigger> : null}
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
