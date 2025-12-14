@@ -161,5 +161,33 @@ describe('network-create', () => {
         ]]
       `)
     })
+
+    it('should throw an error with an invalid type', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testNetworkCreateInput({
+        // @ts-expect-error we override the type
+        type: 'solana:custom',
+      })
+
+      // ACT & ASSERT
+      await expect(networkCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+        [ZodError: [
+          {
+            "code": "invalid_value",
+            "values": [
+              "solana:devnet",
+              "solana:localnet",
+              "solana:mainnet",
+              "solana:testnet"
+            ],
+            "path": [
+              "type"
+            ],
+            "message": "Invalid option: expected one of \\"solana:devnet\\"|\\"solana:localnet\\"|\\"solana:mainnet\\"|\\"solana:testnet\\""
+          }
+        ]]
+      `)
+    })
   })
 })
