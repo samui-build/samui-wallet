@@ -28,7 +28,7 @@ import { z } from 'zod'
 
 const formSchema = z.object({
   address: z.string(),
-  amount: z.number().int({ message: 'Amount must be an integer' }).min(0),
+  amount: z.number().min(0),
 })
 
 export type AirdropFormSchema = z.infer<typeof formSchema>
@@ -103,9 +103,11 @@ export function ToolsUiAirdropForm({
               <FormLabel>Amount</FormLabel>
               <FormControl>
                 <Input
+                  autoComplete="off"
                   className="w-[200px]"
+                  min="0"
                   placeholder="Enter the amount of SOL to airdrop"
-                  step="1"
+                  step="any"
                   type="number"
                   {...field}
                   onChange={(e) => field.onChange(e.target.valueAsNumber)}
