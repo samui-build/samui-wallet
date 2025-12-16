@@ -1,8 +1,7 @@
 import type { ComponentProps, ReactNode } from 'react'
-
 import { cn } from '../lib/utils.ts'
 import { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card.tsx'
-import { UiBack } from './ui-back.tsx'
+import { UiBackButton } from './ui-back-button.tsx'
 
 export function UiCard({
   action,
@@ -39,7 +38,7 @@ export function UiCard({
         <CardHeader {...headerProps}>
           {title ? (
             <CardTitle className={cn('flex items-center gap-2', titleProps?.className)} {...titleProps}>
-              {backButtonTo ? <UiBack to={backButtonTo} /> : null}
+              {backButtonTo ? <UiBackButton to={backButtonTo} /> : null}
               {title}
             </CardTitle>
           ) : null}
