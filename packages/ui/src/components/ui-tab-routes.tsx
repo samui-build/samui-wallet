@@ -45,11 +45,13 @@ export function UiTabRoutes({
       </Tabs>
       <Suspense fallback={<UiLoader />}>
         <Routes>
-          {redirect ? <Route element={<Navigate replace to={`./${redirect}`} />} index /> : null}
+          {redirect ? <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} index /> : null}
           {tabs.map((tab) => (
             <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
           ))}
-          <Route element={<Navigate replace to={`./${redirect}`} />} path="*" />
+          {redirect && !activeTab ? (
+            <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} path="*" />
+          ) : null}
         </Routes>
       </Suspense>
     </>
