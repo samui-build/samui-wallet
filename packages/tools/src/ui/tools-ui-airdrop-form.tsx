@@ -1,5 +1,6 @@
 'use client'
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
+import type { Account } from '@workspace/db/account/account'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -78,7 +79,7 @@ export function ToolsUiAirdropForm({
                     {wallets.map((wallet) => (
                       <SelectGroup key={wallet.id}>
                         <SelectLabel>{wallet.name}</SelectLabel>
-                        {wallet.accounts.map((account) => (
+                        {uniqueAccounts(wallet.accounts ?? []).map((account) => (
                           <SelectItem key={account.id} value={account.publicKey}>
                             {account.name}
                           </SelectItem>
@@ -122,4 +123,8 @@ export function ToolsUiAirdropForm({
       </form>
     </Form>
   )
+}
+
+function uniqueAccounts(accounts: Account[] = []): Account[] {
+  return Array.from(new Map(accounts.map((account) => [account.publicKey, account])).values())
 }
