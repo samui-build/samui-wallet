@@ -1,6 +1,6 @@
 import type { ComponentProps, ReactElement, ReactNode } from 'react'
 
-import { Suspense } from 'react'
+import { Fragment, Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 
 import { Tabs, TabsList, TabsTrigger } from './tabs.tsx'
@@ -45,13 +45,15 @@ export function UiTabRoutes({
       </Tabs>
       <Suspense fallback={<UiLoader />}>
         <Routes>
-          {redirect ? <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} index /> : null}
+          {redirect && (
+            <Fragment>
+              <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} index />
+              {!activeTab && <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} path="*" />}
+            </Fragment>
+          )}
           {tabs.map((tab) => (
             <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
           ))}
-          {redirect && !activeTab ? (
-            <Route element={<Navigate replace to={`${basePath}/${redirect}`} />} path="*" />
-          ) : null}
         </Routes>
       </Suspense>
     </>
