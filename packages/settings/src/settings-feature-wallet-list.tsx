@@ -15,7 +15,7 @@ export function SettingsFeatureWalletList() {
   const { t } = useTranslation('settings')
   const page = useSettingsPage({ pageId: 'wallets' })
   const deleteMutation = useWalletDelete({
-    onError: () => toastError('Error deleting wallet'),
+    onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Wallet deleted'),
   })
   const wallets = useWalletLive()

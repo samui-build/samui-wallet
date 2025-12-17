@@ -3,15 +3,17 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
+import { settingSetValue } from '../src/setting/setting-set-value.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletDelete } from '../src/wallet/wallet-delete.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbTest, testAccountCreateInput, testSettingSetInput, testWalletCreateInput } from './test-helpers.ts'
 
 const db = createDbTest()
 
 describe('wallet-delete', () => {
   beforeEach(async () => {
+    await db.settings.clear()
     await db.wallets.clear()
   })
 
@@ -19,6 +21,8 @@ describe('wallet-delete', () => {
     it('should delete a wallet', async () => {
       // ARRANGE
       expect.assertions(1)
+      // We create the first wallet so that will be the default. The second is the one that will be deleted.
+      await walletCreate(db, testWalletCreateInput())
       const input = testWalletCreateInput()
       const id = await walletCreate(db, input)
 
@@ -33,6 +37,8 @@ describe('wallet-delete', () => {
     it('should delete the accounts in a wallet', async () => {
       // ARRANGE
       expect.assertions(2)
+      // We create the first wallet so that will be the default. The second is the one that will be deleted.
+      await walletCreate(db, testWalletCreateInput())
       const input = testWalletCreateInput()
       const id = await walletCreate(db, input)
       const accountId = await accountCreate(db, testAccountCreateInput({ walletId: id }))
@@ -55,6 +61,21 @@ describe('wallet-delete', () => {
 
     afterEach(() => {
       vi.restoreAllMocks()
+    })
+
+    it('should not delete an active wallet', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const input = testWalletCreateInput()
+      const id = await walletCreate(db, input)
+      const [_, value] = testSettingSetInput(id)
+
+      await settingSetValue(db, 'activeWalletId', value)
+
+      // ACT & ASSERT
+      await expect(walletDelete(db, id)).rejects.toThrow(
+        'You cannot delete the active wallet. Please change wallets and try again.',
+      )
     })
 
     it('should throw an error when deleting a wallet fails', async () => {
