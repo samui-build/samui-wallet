@@ -1,4 +1,4 @@
-import type { Signature } from '@solana/kit'
+import { address, type Signature } from '@solana/kit'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
@@ -7,6 +7,7 @@ import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-se
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
@@ -69,8 +70,12 @@ export function portfolioTxSendMutationOptions({
     const sender = await createKeyPairSignerFromJson({ json: secretKey })
     const { data: result, error: sendError } = await tryCatch(
       sendSolMutation.mutateAsync({
-        amount: input.amount,
-        destination: input.destination,
+        recipients: [
+          {
+            amount: solToLamports(input.amount),
+            destination: address(input.destination),
+          },
+        ],
         sender,
       }),
     )
