@@ -89,6 +89,21 @@ jobs:
       - name: Run EditorConfig Checker
         run: bun ec
 
+  i18n:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Install Dependencies
+        uses: ./.github/workflows/actions/install-dependencies
+
+      - name: Extract and check translations
+        run: |
+          bun run --cwd packages/i18n i18n:extract
+          bun lint:fix
+          git diff --quiet --ignore-submodules HEAD
+
   lint:
     runs-on: ubuntu-latest
     steps:
