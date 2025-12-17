@@ -7,21 +7,23 @@ import {
 } from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
 
-export interface CreateSolTransferTransactionOptions {
+export interface TransferRecipient {
   amount: bigint
   destination: Address
+}
+export interface CreateSolTransferTransactionOptions {
+  recipients: TransferRecipient[]
   source: TransactionSigner
 }
 
 export function createSolTransferInstructions({
-  amount,
-  destination,
+  recipients,
   source,
 }: CreateSolTransferTransactionOptions): Instruction[] {
-  assertIsAddress(destination)
+  for (const { destination } of recipients) {
+    assertIsAddress(destination)
+  }
   assertIsTransactionSigner(source)
 
-  const transferInstruction = getTransferSolInstruction({ amount, destination, source })
-
-  return [transferInstruction]
+  return recipients.map(({ amount, destination }) => getTransferSolInstruction({ amount, destination, source }))
 }

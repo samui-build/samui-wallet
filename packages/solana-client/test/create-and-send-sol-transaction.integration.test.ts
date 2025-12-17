@@ -18,9 +18,13 @@ describe('create-and-send-sol-transaction', async () => {
       const destination = destinationKeypair.address
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
       const input: CreateAndSendSolTransactionOptions = {
-        amount: 100n,
-        destination,
         latestBlockhash,
+        recipients: [
+          {
+            amount: 100n,
+            destination,
+          },
+        ],
         senderBalance,
         transactionSigner,
       }
@@ -30,7 +34,42 @@ describe('create-and-send-sol-transaction', async () => {
 
       // ASSERT
       const res = await getBalance(client, { address: destination }).then((res) => res.value)
-      expect(res).toBe(input.amount)
+      expect(res).toBe(input.recipients[0]?.amount)
+      expect(isSignature(result)).toBeTruthy()
+    })
+
+    it('should create and send sol to multiple recipients', async () => {
+      // ARRANGE
+      expect.assertions(3)
+      const destinationAliceKeypair = await generateKeyPairSigner()
+      const destinationAlice = destinationAliceKeypair.address
+      const destinationBobKeypair = await generateKeyPairSigner()
+      const destinationBob = destinationBobKeypair.address
+      const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
+      const input: CreateAndSendSolTransactionOptions = {
+        latestBlockhash,
+        recipients: [
+          {
+            amount: 100n,
+            destination: destinationAlice,
+          },
+          {
+            amount: 42n,
+            destination: destinationBob,
+          },
+        ],
+        senderBalance,
+        transactionSigner,
+      }
+
+      // ACT
+      const result = await createAndSendSolTransaction(client, input)
+
+      // ASSERT
+      const balanceAlice = await getBalance(client, { address: destinationAlice }).then((res) => res.value)
+      const balanceBob = await getBalance(client, { address: destinationBob }).then((res) => res.value)
+      expect(balanceAlice).toBe(input.recipients[0]?.amount)
+      expect(balanceBob).toBe(input.recipients[1]?.amount)
       expect(isSignature(result)).toBeTruthy()
     })
   })
