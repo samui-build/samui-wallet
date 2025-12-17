@@ -1,6 +1,6 @@
-'use client'
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema'
 import type { Account } from '@workspace/db/account/account'
+import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -27,7 +27,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 const formSchema = z.object({
-  address: z.string(),
+  address: solanaAddressSchema,
   amount: z.number().min(0),
 })
 
@@ -42,7 +42,7 @@ export function ToolsUiAirdropForm({
   submit: (input: AirdropFormSchema) => Promise<void>
   wallets: Wallet[]
 }) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm({
     resolver: standardSchemaResolver(formSchema),
     values: {
       address: '',
@@ -119,7 +119,7 @@ export function ToolsUiAirdropForm({
           )}
         />
 
-        <Button disabled={disabled || !form.formState.isValid} type="submit">
+        <Button disabled={disabled} type="submit">
           Submit
         </Button>
       </form>
