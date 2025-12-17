@@ -2,6 +2,8 @@
   "generateButtonCreate": "Create wallet",
   "generateCardDescription": "This seed phrase is the ONLY way to recover your wallet. Don't share it with anyone!",
   "generateCardTitle": "Generate Recovery Phrase",
+  "generateMnemonicHide": "Hide mnemonic",
+  "generateMnemonicShow": "Show mnemonic",
   "generateToastCopied": "Mnemonic copied to clipboard",
   "generateToastCopy": "Copy",
   "importButtonSubmit": "Import wallet",

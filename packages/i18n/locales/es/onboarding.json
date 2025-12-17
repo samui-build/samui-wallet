@@ -2,6 +2,8 @@
   "generateButtonCreate": "Crea billetera",
   "generateCardDescription": "Esta frase semilla es la ÚNICA forma de recuperar tu billetera. ¡No la compartas con nadie!",
   "generateCardTitle": "Generar frase de recuperación",
+  "generateMnemonicHide": "Ocultar mnemónica",
+  "generateMnemonicShow": "Revelar mnemónica",
   "generateToastCopied": "Mnemónica copiada al portapapeles",
   "generateToastCopy": "Copiar",
   "importButtonSubmit": "Importar billetera",

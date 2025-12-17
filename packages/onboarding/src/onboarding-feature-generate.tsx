@@ -3,11 +3,14 @@ import { useTranslation } from '@workspace/i18n'
 import type { MnemonicStrength } from '@workspace/keypair/generate-mnemonic'
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
 import { validateMnemonic } from '@workspace/keypair/validate-mnemonic'
+import { Button } from '@workspace/ui/components/button'
 import { Form } from '@workspace/ui/components/form'
 import { UiBackButton } from '@workspace/ui/components/ui-back-button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
@@ -27,6 +30,7 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
   const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
   const navigate = useNavigate()
+  const [revealed, setRevealed] = useState<boolean>(false)
 
   const form = useForm<OnboardingGenerateForm>({
     defaultValues: {
@@ -85,8 +89,12 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
                   strength={strength}
                 />
               </div>
+              <Button onClick={() => setRevealed((value) => !value)} type="button" variant="secondary">
+                <UiIcon icon="watch" />
+                {revealed ? t(($) => $.generateMnemonicHide) : t(($) => $.generateMnemonicShow)}
+              </Button>
             </div>
-            <OnboardingUiMnemonicShow mnemonic={mnemonic} />
+            <OnboardingUiMnemonicShow mnemonic={mnemonic} revealed={revealed} />
           </div>
         </UiCard>
       </form>
