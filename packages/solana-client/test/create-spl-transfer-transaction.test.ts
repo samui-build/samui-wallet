@@ -29,10 +29,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       const result = await createSplTransferInstructions({
-        amount: 1000000n,
         decimals: 6,
-        destination,
         mint,
+        recipients: [{ amount: 1000000n, destination }],
         transactionSigner,
       })
 
@@ -61,10 +60,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       const result = await createSplTransferInstructions({
-        amount: 500000n,
         decimals: 9,
-        destination,
         mint,
+        recipients: [{ amount: 500000n, destination }],
         transactionSigner,
       })
 
@@ -101,10 +99,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       await createSplTransferInstructions({
-        amount: 750000n,
         decimals: 6,
-        destination,
         mint,
+        recipients: [{ amount: 750000n, destination }],
         source, // Custom source authority
         transactionSigner,
       })
@@ -131,10 +128,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       await createSplTransferInstructions({
-        amount: 1000000n,
         decimals: 6,
-        destination,
         mint,
+        recipients: [{ amount: 1000000n, destination }],
         tokenProgram: customTokenProgram,
         transactionSigner,
       })
@@ -156,10 +152,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       const result = await createSplTransferInstructions({
-        amount: 0n,
         decimals: 6,
-        destination,
         mint,
+        recipients: [{ amount: 0n, destination }],
         transactionSigner,
       })
 
@@ -180,10 +175,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       await createSplTransferInstructions({
-        amount: largeAmount,
         decimals: 0,
-        destination,
         mint,
+        recipients: [{ amount: largeAmount, destination }],
         transactionSigner,
       })
 
@@ -202,10 +196,9 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT
       await createSplTransferInstructions({
-        amount: 1000000000n,
         decimals: 9, // Wrapped SOL uses 9 decimals
-        destination,
         mint,
+        recipients: [{ amount: 1000000000n, destination }],
         transactionSigner,
       })
 
@@ -225,11 +218,10 @@ describe('create-spl-transfer-transaction', async () => {
       // ACT & ASSERT
       await expect(
         createSplTransferInstructions({
-          amount: 1000000n,
           decimals: 6,
-          destination,
           // @ts-expect-error: Testing invalid input
           mint: 'invalid-address',
+          recipients: [{ amount: 1000000n, destination }],
           transactionSigner,
         }),
       ).rejects.toThrow()
@@ -242,11 +234,15 @@ describe('create-spl-transfer-transaction', async () => {
       // ACT & ASSERT
       await expect(
         createSplTransferInstructions({
-          amount: 1000000n,
           decimals: 6,
-          // @ts-expect-error: Testing invalid input
-          destination: 'bad-address',
           mint,
+          recipients: [
+            {
+              amount: 1000000n,
+              // @ts-expect-error: Testing invalid input
+              destination: 'bad-address',
+            },
+          ],
           transactionSigner,
         }),
       ).rejects.toThrow()

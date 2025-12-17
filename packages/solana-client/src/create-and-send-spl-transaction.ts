@@ -10,21 +10,22 @@ import { createSplTransferInstructions } from './create-spl-transfer-instruction
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
-import { uiAmountToBigInt } from './ui-amount-to-big-int.ts'
+import type { TransferRecipient } from './transfer-recipient.ts'
 
 export interface CreateAndSendSplTransactionOptions {
-  amount: string
-  destination: Address
   latestBlockhash?: LatestBlockhash | undefined
   mint: Address
+  recipients: TransferRecipient[]
   transactionSigner: TransactionSigner
 }
 
 export async function createAndSendSplTransaction(
   client: SolanaClient,
-  { amount, destination, latestBlockhash, mint, transactionSigner }: CreateAndSendSplTransactionOptions,
+  { latestBlockhash, mint, recipients, transactionSigner }: CreateAndSendSplTransactionOptions,
 ): Promise<Signature> {
-  assertIsAddress(destination)
+  for (const { destination } of recipients) {
+    assertIsAddress(destination)
+  }
   assertIsAddress(mint)
   assertIsTransactionSigner(transactionSigner)
   const mintInfo = await fetchMint(client.rpc, mint)
@@ -33,10 +34,9 @@ export async function createAndSendSplTransaction(
 
   return signAndSendTransaction(client, {
     instructions: await createSplTransferInstructions({
-      amount: uiAmountToBigInt(amount, decimals),
       decimals,
-      destination,
       mint,
+      recipients: recipients.map(({ amount, destination }) => ({ amount, destination })),
       source: transactionSigner,
       tokenProgram,
       transactionSigner,
