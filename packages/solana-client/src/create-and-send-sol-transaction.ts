@@ -1,10 +1,11 @@
 import type { Signature, TransactionSigner } from '@solana/kit'
-import { createSolTransferInstructions, type TransferRecipient } from './create-sol-transfer-instructions.ts'
+import { createSolTransferInstructions } from './create-sol-transfer-instructions.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { lamportsToSol } from './lamports-to-sol.ts'
 import { maxAvailableSolAmount } from './max-available-sol-amount.ts'
 import { signAndSendTransaction } from './sign-and-send-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
+import type { TransferRecipient } from './transfer-recipient.ts'
 
 export interface CreateAndSendSolTransactionOptions {
   latestBlockhash?: LatestBlockhash | undefined

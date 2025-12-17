@@ -1,16 +1,7 @@
-import {
-  type Address,
-  assertIsAddress,
-  assertIsTransactionSigner,
-  type Instruction,
-  type TransactionSigner,
-} from '@solana/kit'
+import { assertIsAddress, assertIsTransactionSigner, type Instruction, type TransactionSigner } from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
+import type { TransferRecipient } from './transfer-recipient.ts'
 
-export interface TransferRecipient {
-  amount: bigint
-  destination: Address
-}
 export interface CreateSolTransferTransactionOptions {
   recipients: TransferRecipient[]
   source: TransactionSigner

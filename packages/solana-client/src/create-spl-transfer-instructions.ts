@@ -11,27 +11,28 @@ import {
   getTransferCheckedInstruction,
   TOKEN_PROGRAM_ADDRESS,
 } from '@solana-program/token'
+import type { TransferRecipient } from './transfer-recipient.ts'
 
 interface CreateSplTransferTransactionOptions {
-  amount: bigint
   decimals: number
-  destination: Address
   mint: Address
+  recipients: TransferRecipient[]
   source?: TransactionSigner
   tokenProgram?: Address
   transactionSigner: TransactionSigner
 }
 
 export async function createSplTransferInstructions({
-  amount,
   decimals,
-  destination,
   transactionSigner,
   mint,
+  recipients,
   source,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
 }: CreateSplTransferTransactionOptions): Promise<Instruction[]> {
-  assertIsAddress(destination)
+  for (const { destination } of recipients) {
+    assertIsAddress(destination)
+  }
   assertIsAddress(mint)
   assertIsAddress(tokenProgram)
   assertIsTransactionSigner(transactionSigner)
@@ -40,38 +41,45 @@ export async function createSplTransferInstructions({
   }
   const authority = source ?? transactionSigner
 
-  const [[sourceATA], [destinationATA]] = await Promise.all([
-    findAssociatedTokenPda({
-      mint,
-      owner: transactionSigner.address,
-      tokenProgram,
-    }),
-    findAssociatedTokenPda({
-      mint,
-      owner: destination,
-      tokenProgram,
-    }),
-  ])
-
-  const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
-    ata: destinationATA,
+  const [sourceATA] = await findAssociatedTokenPda({
     mint,
-    owner: destination,
-    payer: transactionSigner,
+    owner: transactionSigner.address,
     tokenProgram,
   })
 
-  const transferInstruction = getTransferCheckedInstruction(
-    {
-      amount,
-      authority,
-      decimals,
-      destination: destinationATA,
-      mint,
-      source: sourceATA,
-    },
-    { programAddress: tokenProgram },
-  )
+  const results: Instruction[] = []
 
-  return [createAtaInstruction, transferInstruction]
+  for (const { amount, destination } of recipients) {
+    assertIsAddress(destination)
+
+    const [destinationATA] = await findAssociatedTokenPda({
+      mint,
+      owner: destination,
+      tokenProgram,
+    })
+
+    const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
+      ata: destinationATA,
+      mint,
+      owner: destination,
+      payer: transactionSigner,
+      tokenProgram,
+    })
+
+    const transferInstruction = getTransferCheckedInstruction(
+      {
+        amount,
+        authority,
+        decimals,
+        destination: destinationATA,
+        mint,
+        source: sourceATA,
+      },
+      { programAddress: tokenProgram },
+    )
+
+    results.push(createAtaInstruction, transferInstruction)
+  }
+
+  return results
 }

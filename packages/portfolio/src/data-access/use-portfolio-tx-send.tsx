@@ -8,6 +8,7 @@ import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
+import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
@@ -42,9 +43,13 @@ export function portfolioTxSendMutationOptions({
     // Send SPL token
     const { data: result, error: sendError } = await tryCatch(
       sendSplMutation.mutateAsync({
-        amount: input.amount,
-        destination: input.destination,
         mint: input.mint.mint,
+        recipients: [
+          {
+            amount: uiAmountToBigInt(input.amount, input.mint.decimals),
+            destination: address(input.destination),
+          },
+        ],
         transactionSigner,
       }),
     )

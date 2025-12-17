@@ -37,15 +37,15 @@ export async function setupIntegrationTestMint({
   client,
   latestBlockhash,
   transactionSigner,
-}: IntegrationTestContext): Promise<IntegrationTestMint> {
+  supply,
+}: IntegrationTestContext & { supply: string }): Promise<IntegrationTestMint> {
   const newTokenMint = await generateKeyPairSigner()
   const decimals = 6
-  const supply = 420
   const input: SplTokenCreateTokenMintOptions = {
     decimals,
     latestBlockhash,
     mint: newTokenMint,
-    supply: uiAmountToBigInt(supply.toString(), decimals),
+    supply: uiAmountToBigInt(supply, decimals),
     transactionSigner,
   }
 
