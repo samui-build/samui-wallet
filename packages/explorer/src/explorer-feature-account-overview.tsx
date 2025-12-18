@@ -5,7 +5,6 @@ import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-accoun
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
-import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerFeatureBookmarkAccountButton } from './explorer-feature-bookmark-account-button.tsx'
 import { ExplorerUiDetailGrid } from './ui/explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
@@ -26,9 +25,7 @@ export function ExplorerFeatureAccountOverview({
 }) {
   const { t } = useTranslation('explorer')
   const query = useGetAccountInfo({ address, network })
-  if (query.isLoading) {
-    return <UiLoader />
-  }
+
   if (query.isError) {
     return <ExplorerUiErrorPage message={query.error.message} title="Error getting account overview" />
   }
