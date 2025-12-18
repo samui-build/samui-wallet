@@ -57,6 +57,7 @@ interface Resources {
     uiMnemonicWords: '{{words}} words'
   }
   portfolio: {
+    actionBurn: 'Burn'
     actionClose: 'Close'
     actionConfirm: 'Confirm'
     actionCopyPublicKey: 'Copy public key'
@@ -69,6 +70,7 @@ interface Resources {
     actionSelectToken: 'Select token'
     actionSend: 'Send'
     actionUseFaucet: 'Use faucet'
+    burnTokens: 'Burn tokens'
     labelActivity: 'Activity'
     labelTokens: 'Tokens'
     noTransactions: 'No transactions found.'
@@ -76,6 +78,7 @@ interface Resources {
     requestAirdropDescription: 'Request your airdrop to get started.'
     requestAirdropTitle: 'Request Airdrop'
     searchInputSelect: 'Select token...'
+    sendInputAccountLabel: 'sendInputAccountLabel'
     sendInputAmountLabel: 'Amount'
     sendInputAmountPlaceholder: 'Amount'
     sendInputDestinationLabel: 'Destination'

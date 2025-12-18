@@ -1,4 +1,5 @@
 {
+  "actionBurn": "Burn",
   "actionClose": "Close",
   "actionConfirm": "Confirm",
   "actionCopyPublicKey": "Copy public key",
@@ -11,6 +12,7 @@
   "actionSelectToken": "Select token",
   "actionSend": "Send",
   "actionUseFaucet": "Use faucet",
+  "burnTokens": "Burn tokens",
   "labelActivity": "Activity",
   "labelTokens": "Tokens",
   "noTransactions": "No transactions found.",
@@ -18,6 +20,7 @@
   "requestAirdropDescription": "Request your airdrop to get started.",
   "requestAirdropTitle": "Request Airdrop",
   "searchInputSelect": "Select token...",
+  "sendInputAccountLabel": "Account",
   "sendInputAmountLabel": "Amount",
   "sendInputAmountPlaceholder": "Amount",
   "sendInputDestinationLabel": "Destination",

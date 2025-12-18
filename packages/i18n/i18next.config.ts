@@ -27,7 +27,7 @@ export default defineConfig({
       'to',
       'variant',
     ],
-    input: '../../**/*.{js,jsx,ts,tsx}',
+    input: '../../**/src/**/*.{js,jsx,ts,tsx}',
     output: 'locales/{{language}}/{{namespace}}.json',
   },
   locales: ['en', 'es'],

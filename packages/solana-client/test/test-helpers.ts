@@ -1,6 +1,7 @@
-import { generateKeyPairSigner, type KeyPairSigner } from '@solana/kit'
+import { type Address, generateKeyPairSigner, type KeyPairSigner } from '@solana/kit'
 import { createSolanaClient } from '../src/create-solana-client.ts'
 import { getLatestBlockhash, type LatestBlockhash } from '../src/get-latest-blockhash.ts'
+import { getTokenAccountsForMint } from '../src/get-token-accounts-for-mint.ts'
 import { requestAirdrop } from '../src/request-airdrop.ts'
 import { solToLamports } from '../src/sol-to-lamports.ts'
 import type { SolanaClient } from '../src/solana-client.ts'
@@ -52,4 +53,12 @@ export async function setupIntegrationTestMint({
   const result = await splTokenCreateTokenMint(client, input)
 
   return { input, result }
+}
+
+export async function getTokenAccount(client: SolanaClient, { address, mint }: { address: Address; mint: Address }) {
+  return await getTokenAccounts(client, { address, mint }).then(([tokenAccount]) => tokenAccount)
+}
+
+export async function getTokenAccounts(client: SolanaClient, { address, mint }: { address: Address; mint: Address }) {
+  return await getTokenAccountsForMint(client, { address, mint }).then((res) => res.value)
 }

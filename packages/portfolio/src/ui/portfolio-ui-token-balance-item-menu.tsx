@@ -31,6 +31,11 @@ export function PortfolioUiTokenBalanceItemMenu({ item }: { item: TokenBalance }
             {t(($) => $.viewExplorerToken)}
           </Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link state={{ from }} to={`/modals/burn/${item.account}`}>
+            {t(($) => $.burnTokens)}
+          </Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   )

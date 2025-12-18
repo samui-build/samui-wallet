@@ -1,4 +1,5 @@
 {
+  "actionBurn": "Quemar",
   "actionClose": "Cerrar",
   "actionConfirm": "Confirmar",
   "actionCopyPublicKey": "Copiar clave pública",
@@ -11,6 +12,7 @@
   "actionSelectToken": "Selecciona token",
   "actionSend": "Enviar",
   "actionUseFaucet": "Usa faucet",
+  "burnTokens": "Quemar tokens",
   "labelActivity": "Actividad",
   "labelTokens": "Tokens",
   "noTransactions": "No se encontraron transacciones.",
@@ -18,6 +20,7 @@
   "requestAirdropDescription": "Solicita tu airdrop para empezar.",
   "requestAirdropTitle": "Solicitar airdrop",
   "searchInputSelect": "Selecciona token",
+  "sendInputAccountLabel": "Cuenta",
   "sendInputAmountLabel": "Cantidad",
   "sendInputAmountPlaceholder": "Cantidad",
   "sendInputDestinationLabel": "Destino",
