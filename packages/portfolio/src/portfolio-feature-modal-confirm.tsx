@@ -1,7 +1,9 @@
+import { address } from '@solana/kit'
 import { useTranslation } from '@workspace/i18n'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useNavigate, useParams } from 'react-router'
+import { getAmountForMint } from './data-access/get-amount-for-mint.ts'
 import { usePortfolioTokenMint } from './data-access/use-portfolio-token-mint.tsx'
 import { usePortfolioTxSend } from './data-access/use-portfolio-tx-send.tsx'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
@@ -32,16 +34,15 @@ export function PortfolioFeatureModalConfirm() {
   return (
     <PortfolioUiModal title={t(($) => $.actionConfirm)}>
       <PortfolioUiSendConfirm
-        amount={amount}
         confirm={async (input) => {
           const signature = await confirmMutation.mutateAsync(input)
           if (signature) {
             await navigate(`/modals/complete/${signature}`)
           }
         }}
-        destination={destination}
         isLoading={confirmMutation.isPending}
         mint={mint}
+        recipients={[{ amount: getAmountForMint({ amount, mint }), destination: address(destination) }]}
       />
     </PortfolioUiModal>
   )
