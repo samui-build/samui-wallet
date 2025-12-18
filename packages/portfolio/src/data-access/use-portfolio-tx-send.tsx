@@ -1,4 +1,4 @@
-import { address, type Signature } from '@solana/kit'
+import type { Signature } from '@solana/kit'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
@@ -7,8 +7,7 @@ import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-se
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
-import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
+import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
@@ -16,9 +15,8 @@ import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transa
 import type { TokenBalance } from './use-get-token-metadata.ts'
 
 export interface PortfolioTxSendInput {
-  amount: string
-  destination: string
   mint: TokenBalance
+  recipients: TransferRecipient[]
 }
 
 export function portfolioTxSendMutationOptions({
@@ -42,16 +40,7 @@ export function portfolioTxSendMutationOptions({
     const transactionSigner = await createKeyPairSignerFromJson({ json: secretKey })
     // Send SPL token
     const { data: result, error: sendError } = await tryCatch(
-      sendSplMutation.mutateAsync({
-        mint: input.mint.mint,
-        recipients: [
-          {
-            amount: uiAmountToBigInt(input.amount, input.mint.decimals),
-            destination: address(input.destination),
-          },
-        ],
-        transactionSigner,
-      }),
+      sendSplMutation.mutateAsync({ mint: input.mint.mint, recipients: input.recipients, transactionSigner }),
     )
 
     if (sendError) {
@@ -74,15 +63,7 @@ export function portfolioTxSendMutationOptions({
     }
     const sender = await createKeyPairSignerFromJson({ json: secretKey })
     const { data: result, error: sendError } = await tryCatch(
-      sendSolMutation.mutateAsync({
-        recipients: [
-          {
-            amount: solToLamports(input.amount),
-            destination: address(input.destination),
-          },
-        ],
-        sender,
-      }),
+      sendSolMutation.mutateAsync({ recipients: input.recipients, sender }),
     )
 
     if (sendError) {
