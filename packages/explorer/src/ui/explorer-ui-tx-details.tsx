@@ -1,6 +1,7 @@
 import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
 import { UiDebug } from '@workspace/ui/components/ui-debug'
+import { UiPre } from '@workspace/ui/components/ui-pre'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
@@ -26,7 +27,7 @@ export function ExplorerUiTxDetails({
   if (!tx) {
     return null
   }
-  const feePayer = tx.transaction.message.accountKeys[0]
+  const feePayer = tx.transaction.message.accountKeys[0]?.pubkey
   return (
     <div className="space-y-4 text-xs">
       <ExplorerUiDetailRow
@@ -45,6 +46,14 @@ export function ExplorerUiTxDetails({
         />
         <ExplorerUiDetailRow label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
       </div>
+      <Separator />
+      {tx.meta?.logMessages?.length ? (
+        <ExplorerUiDetailRow label="Log messages" value={<UiPre>{tx.meta.logMessages.map((a) => `${a}\n`)}</UiPre>} />
+      ) : null}
+      <Separator />
+      {tx.transaction.message.instructions?.length ? (
+        <ExplorerUiDetailRow label="Log messages" value={<UiDebug data={tx.transaction.message.instructions} />} />
+      ) : null}
       <Separator />
       <ExplorerUiDetailRow label="Raw TX" value={<UiDebug data={tx} />} />
     </div>

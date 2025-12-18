@@ -4,6 +4,7 @@ import { useTranslation } from '@workspace/i18n'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiDebug } from '@workspace/ui/components/ui-debug'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerFeatureBookmarkAccountButton } from './explorer-feature-bookmark-account-button.tsx'
@@ -58,6 +59,7 @@ export function ExplorerFeatureAccountOverview({
         {query.data?.value?.lamports !== undefined ? (
           <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.value.lamports} />
         ) : null}
+        <UiDebug data={query.data} />
       </div>
     </UiCard>
   )
