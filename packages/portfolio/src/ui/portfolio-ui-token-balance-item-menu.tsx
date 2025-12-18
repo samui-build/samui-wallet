@@ -1,4 +1,5 @@
 import { useTranslation } from '@workspace/i18n'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { Button } from '@workspace/ui/components/button'
 import {
   DropdownMenu,
@@ -13,6 +14,7 @@ import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 export function PortfolioUiTokenBalanceItemMenu({ item }: { item: TokenBalance }) {
   const { t } = useTranslation('portfolio')
   const { pathname: from } = useLocation()
+  const canBurn = item.mint !== NATIVE_MINT && item.balance > 0n
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -21,16 +23,25 @@ export function PortfolioUiTokenBalanceItemMenu({ item }: { item: TokenBalance }
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link state={{ from }} to={`/explorer/address/${item.account}`}>
             {t(($) => $.viewExplorerAccount)}
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem asChild className="cursor-pointer">
           <Link state={{ from }} to={`/explorer/address/${item.mint}`}>
             {t(($) => $.viewExplorerToken)}
           </Link>
         </DropdownMenuItem>
+        {canBurn ? (
+          <DropdownMenuItem asChild className="cursor-pointer">
+            <Link state={{ from }} to={`/modals/burn/${item.account}`}>
+              {t(($) => $.burnTokens)}
+            </Link>
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem disabled>{t(($) => $.burnTokens)}</DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

@@ -11,25 +11,29 @@ export function PortfolioUiTokenBalanceItem({ item, showMenu = false }: { item: 
   const { pathname: from } = useLocation()
 
   return (
-    <Link className="flex w-full items-center justify-between gap-4" state={{ from }} to={`/modals/send/${item.mint}`}>
-      <div className="flex min-w-0 flex-1 items-center gap-3">
-        {icon ? (
-          <UiAvatar className="size-12 shrink-0" label={name} src={icon} />
-        ) : (
-          <UiAvatar className="size-12 shrink-0" label={symbol} />
-        )}
-        <div className="flex min-w-0 flex-col gap-0.5 text-left">
-          <div className="truncate font-semibold text-sm">{name}</div>
-          <div className="truncate text-muted-foreground/70 text-xs">{symbol}</div>
+    <div className="flex w-full items-center gap-2">
+      <Link
+        className="flex min-w-0 flex-1 items-center justify-between gap-4"
+        state={{ from }}
+        to={`/modals/send/${item.mint}`}
+      >
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          {icon ? (
+            <UiAvatar className="size-12 shrink-0" label={name} src={icon} />
+          ) : (
+            <UiAvatar className="size-12 shrink-0" label={symbol} />
+          )}
+          <div className="flex min-w-0 flex-col gap-0.5 text-left">
+            <div className="truncate font-semibold text-sm">{name}</div>
+            <div className="truncate text-muted-foreground/70 text-xs">{symbol}</div>
+          </div>
         </div>
-      </div>
-      <div className="flex items-center gap-2">
         <div className="flex shrink-0 flex-col items-end gap-0.5">
           <div className="font-semibold text-sm">{item.balanceToken}</div>
           <div className="text-muted-foreground/60 text-xs">${item.balanceUsd}</div>
         </div>
-        {showMenu ? <PortfolioUiTokenBalanceItemMenu item={item} /> : null}
-      </div>
-    </Link>
+      </Link>
+      {showMenu ? <PortfolioUiTokenBalanceItemMenu item={item} /> : null}
+    </div>
   )
 }

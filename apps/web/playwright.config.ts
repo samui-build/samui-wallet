@@ -35,8 +35,10 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'bun run build && bun run preview',
-    reuseExistingServer: !isCi,
+    command: 'bun e2e/web-server.ts',
+    env: { VITE_ACTIVE_NETWORK_ID: 'networkLocalnet' },
+    gracefulShutdown: { signal: 'SIGTERM', timeout: 10_000 },
+    reuseExistingServer: false,
     url: 'http://localhost:4173',
   },
   workers: isCi ? 1 : 3,

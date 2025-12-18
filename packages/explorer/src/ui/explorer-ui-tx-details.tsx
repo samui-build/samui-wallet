@@ -3,6 +3,7 @@ import type { Network } from '@workspace/db/network/network'
 import type { GetTransactionResult } from '@workspace/solana-client/get-transaction'
 import { Separator } from '@workspace/ui/components/separator'
 import { UiDebug } from '@workspace/ui/components/ui-debug'
+import { UiPre } from '@workspace/ui/components/ui-pre'
 import { ExplorerUiDetailGrid } from './explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
@@ -31,7 +32,7 @@ export function ExplorerUiTxDetails({
   if (!tx) {
     return null
   }
-  const feePayer = tx.transaction.message.accountKeys[0]
+  const feePayer = tx.transaction.message.accountKeys[0]?.pubkey
   return (
     <ExplorerUiDetailGrid>
       <ExplorerUiDetailRow
@@ -43,7 +44,7 @@ export function ExplorerUiTxDetails({
       <ExplorerUiDetailRow label="Network" value={network.type} variant="wide" />
       <ExplorerUiDetailRow
         label="Fee Payer"
-        value={feePayer ? <ExplorerUiLinkAddress address={feePayer.pubkey} basePath={basePath} /> : <div />}
+        value={feePayer ? <ExplorerUiLinkAddress address={feePayer} basePath={basePath} /> : <div />}
         variant="wide"
       />
       <ExplorerUiDetailRow
@@ -58,6 +59,18 @@ export function ExplorerUiTxDetails({
       <Separator />
       <ExplorerUiDetailRow label="Program Instruction Logs" value={<UiDebug data={tx.meta?.logMessages ?? []} />} />
       <Separator />
+      {tx.meta?.logMessages?.length ? (
+        <>
+          <ExplorerUiDetailRow label="Log messages" value={<UiPre>{tx.meta.logMessages.join('\n')}</UiPre>} />
+          <Separator />
+        </>
+      ) : null}
+      {tx.transaction.message.instructions?.length ? (
+        <>
+          <ExplorerUiDetailRow label="Instructions" value={<UiDebug data={tx.transaction.message.instructions} />} />
+          <Separator />
+        </>
+      ) : null}
       <ExplorerUiDetailRow label="Raw TX" value={<UiDebug data={tx} />} />
     </ExplorerUiDetailGrid>
   )

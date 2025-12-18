@@ -11,6 +11,7 @@
     "react-router": "catalog:"
   },
   "devDependencies": {
+    "@beeman/testcontainers": "catalog:",
     "@playwright/test": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
@@ -21,6 +22,7 @@
     "baseline-browser-mapping": "catalog:",
     "globals": "catalog:",
     "playwright": "catalog:",
+    "testcontainers": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "wrangler": "catalog:"

@@ -1,7 +1,7 @@
-import { expect, test } from '@playwright/test'
-import { testWalletMenuLabel, testWalletSeedPhrase } from './fixtures/wallet.ts'
+import { expect, type Page } from '@playwright/test'
+import { testWalletMenuLabel, testWalletSeedPhrase } from '../fixtures/wallet.ts'
 
-test('onboarding - import existing wallet', async ({ page }) => {
+export async function importExistingWallet(page: Page) {
   await page.goto('')
   await page.getByRole('link', { name: 'I already have a wallet' }).click()
 
@@ -12,6 +12,5 @@ test('onboarding - import existing wallet', async ({ page }) => {
   }
 
   await page.getByRole('button', { name: 'Import wallet' }).click()
-  await page.getByRole('button', { name: 'Copy public key' }).click()
   await expect(page.getByTestId('wallet-menu-trigger')).toContainText(testWalletMenuLabel)
-})
+}
