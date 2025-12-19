@@ -4,7 +4,6 @@ import { UiDebug } from '@workspace/ui/components/ui-debug'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailGrid } from './explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
-import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiTxTimestamp } from './explorer-ui-tx-timestamp.tsx'
 
@@ -30,11 +29,6 @@ export function ExplorerUiTxDetails({
   const feePayer = tx.transaction.message.accountKeys[0]
   return (
     <ExplorerUiDetailGrid>
-      <ExplorerUiDetailRow
-        label="View on Explorer"
-        value={<ExplorerUiExplorers network={network} path={`/tx/${signature}`} />}
-      />
-      <Separator />
       <ExplorerUiDetailRow label="Signature" value={signature} />
       <Separator />
       <ExplorerUiDetailGrid cols={2}>
