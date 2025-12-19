@@ -14,7 +14,7 @@ export function UiBottomSheet({
 }) {
   return (
     <Sheet {...props}>
-      <SheetContent className="sm:-translate-x-1/2 w-full sm:left-1/2 sm:w-[400px]" side="bottom">
+      <SheetContent className="w-full sm:left-1/2 sm:w-[400px] sm:-translate-x-1/2" side="bottom">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>

@@ -103,7 +103,7 @@ function FieldDescription({ className, ...props }: ComponentProps<'p'>) {
     <p
       className={cn(
         'font-normal text-muted-foreground text-sm leading-normal group-has-[[data-orientation=horizontal]]/field:text-balance',
-        'nth-last-2:-mt-1 [[data-variant=legend]+&]:-mt-1.5 last:mt-0',
+        'nth-last-2:-mt-1 last:mt-0 [[data-variant=legend]+&]:-mt-1.5',
         '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
         className,
       )}
@@ -183,7 +183,7 @@ function FieldSeparator({
 } & ComponentProps<'div'>) {
   return (
     <div
-      className={cn('-my-2 group-data-[variant=outline]/field-group:-mb-2 relative h-5 text-sm', className)}
+      className={cn('relative -my-2 h-5 text-sm group-data-[variant=outline]/field-group:-mb-2', className)}
       data-content={!!children}
       data-slot="field-separator"
       {...props}
