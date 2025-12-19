@@ -7,6 +7,7 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerFeatureBookmarkAccountButton } from './explorer-feature-bookmark-account-button.tsx'
+import { ExplorerUiDetailGrid } from './ui/explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
@@ -47,7 +48,7 @@ export function ExplorerFeatureAccountOverview({
       description={<ExplorerUiExplorers network={network} path={`/address/${address}`} />}
       title={<div>{t(($) => $.accountOverviewTitle)}</div>}
     >
-      <div className="space-y-2 sm:space-y-4 lg:space-y-6">
+      <ExplorerUiDetailGrid>
         <ExplorerUiDetailRow label={t(($) => $.address)} value={address} />
         {query.data?.value?.owner ? (
           <ExplorerUiDetailRow
@@ -58,7 +59,7 @@ export function ExplorerFeatureAccountOverview({
         {query.data?.value?.lamports !== undefined ? (
           <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.value.lamports} />
         ) : null}
-      </div>
+      </ExplorerUiDetailGrid>
     </UiCard>
   )
 }
