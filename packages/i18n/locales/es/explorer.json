@@ -20,6 +20,7 @@
   "bookmarkTransactionDescription": "Lista de transacciones etiquetadas",
   "bookmarkTransactionEmpty": "Aún no tienes transacciones etiquetadas",
   "bookmarkTransactionTitle": "Transacciones etiquetadas",
+  "debug": "Debug",
   "editLabel": "Editar nombre",
   "inputSearchPlaceholder": "Buscar cuenta o transacción",
   "label": "Etiqueta",

@@ -6,11 +6,12 @@ import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
+import { ExplorerFeatureAccountInfo } from './explorer-feature-account-info.tsx'
 import { ExplorerFeatureBookmarkAccountButton } from './explorer-feature-bookmark-account-button.tsx'
+import { ExplorerUiDetailGrid } from './ui/explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
-import { ExplorerUiLinkAddress } from './ui/explorer-ui-link-address.tsx'
 
 export function ExplorerFeatureAccountOverview({
   backButtonTo,
@@ -31,6 +32,9 @@ export function ExplorerFeatureAccountOverview({
   if (query.isError) {
     return <ExplorerUiErrorPage message={query.error.message} title="Error getting account overview" />
   }
+  if (!query.data) {
+    return <ExplorerUiErrorPage message="No data found" title="Error getting account" />
+  }
 
   return (
     <UiCard
@@ -47,18 +51,13 @@ export function ExplorerFeatureAccountOverview({
       description={<ExplorerUiExplorers network={network} path={`/address/${address}`} />}
       title={<div>{t(($) => $.accountOverviewTitle)}</div>}
     >
-      <div className="space-y-2 sm:space-y-4 lg:space-y-6">
-        <ExplorerUiDetailRow label={t(($) => $.address)} value={address} />
-        {query.data?.value?.owner ? (
-          <ExplorerUiDetailRow
-            label={t(($) => $.owner)}
-            value={<ExplorerUiLinkAddress address={query.data.value.owner} basePath={basePath} />}
-          />
-        ) : null}
-        {query.data?.value?.lamports !== undefined ? (
-          <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.value.lamports} />
-        ) : null}
-      </div>
+      <ExplorerUiDetailGrid>
+        <ExplorerUiDetailGrid cols={2}>
+          <ExplorerUiDetailRow label={t(($) => $.address)} value={address} />
+          <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.lamports} />
+        </ExplorerUiDetailGrid>
+        <ExplorerFeatureAccountInfo account={query.data} basePath={basePath} />
+      </ExplorerUiDetailGrid>
     </UiCard>
   )
 }

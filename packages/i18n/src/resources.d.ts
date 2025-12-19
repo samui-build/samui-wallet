@@ -22,6 +22,7 @@ interface Resources {
     bookmarkTransactionDescription: 'List of transactions you bookmarked'
     bookmarkTransactionEmpty: 'You have no transaction bookmarks yet.'
     bookmarkTransactionTitle: 'Transaction bookmarks'
+    debug: 'Debug'
     editLabel: 'Edit label'
     inputSearchPlaceholder: 'Search account or transaction'
     label: 'Label'
