@@ -2,12 +2,9 @@ import { assertIsAddress } from '@solana/kit'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
-import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { useParams } from 'react-router'
 import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-to.tsx'
 import { ExplorerFeatureAccountOverview } from './explorer-feature-account-overview.tsx'
-import { ExplorerFeatureAccountTokens } from './explorer-feature-account-tokens.tsx'
-import { ExplorerFeatureAccountTransactions } from './explorer-feature-account-transactions.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
 export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
@@ -21,29 +18,12 @@ export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
 
   return (
     <UiPage>
-      <div className="space-y-2 sm:space-y-4 md:space-y-6">
-        <ExplorerFeatureAccountOverview
-          address={address}
-          backButtonTo={backButtonTo}
-          basePath={basePath}
-          network={network}
-        />
-        <UiTabRoutes
-          basePath={`${basePath}/address/${address}`}
-          tabs={[
-            {
-              element: <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />,
-              label: 'Transactions',
-              path: 'transactions',
-            },
-            {
-              element: <ExplorerFeatureAccountTokens address={address} basePath={basePath} network={network} />,
-              label: 'Tokens',
-              path: 'tokens',
-            },
-          ]}
-        />
-      </div>
+      <ExplorerFeatureAccountOverview
+        address={address}
+        backButtonTo={backButtonTo}
+        basePath={basePath}
+        network={network}
+      />
     </UiPage>
   )
 }

@@ -2,6 +2,7 @@ import { type Address, fetchJsonParsedAccount } from '@solana/kit'
 import type { SolanaClient } from './solana-client.ts'
 
 export type FetchedAccount = Awaited<ReturnType<typeof fetchAccount>>
+export type ExistingFetchedAccount = Extract<FetchedAccount, { exists: true }>
 
 export async function fetchAccount(
   client: SolanaClient,
