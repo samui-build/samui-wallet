@@ -15,7 +15,7 @@ export function OnboardingUiMnemonicWordInput({
   return (
     <div className="relative">
       <Label
-        className="-top-2 absolute left-2 inline-block bg-white px-1 font-medium text-xs text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400"
+        className="absolute -top-2 left-2 inline-block bg-white px-1 font-medium text-xs text-zinc-500 dark:bg-zinc-900 dark:text-zinc-400"
         htmlFor={`word-${index}`}
       >
         {index}
