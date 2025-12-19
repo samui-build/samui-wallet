@@ -8,6 +8,7 @@ import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-
 import { ExplorerFeatureBookmarkTransactionButton } from './explorer-feature-bookmark-transaction-button.tsx'
 import { ExplorerFeatureTransactionDetails } from './explorer-feature-transaction-details.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
+import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
 
 export function ExplorerFeatureTransaction({ basePath }: { basePath: string }) {
   const network = useNetworkActive()
@@ -32,6 +33,7 @@ export function ExplorerFeatureTransaction({ basePath }: { basePath: string }) {
           </div>
         }
         backButtonTo={backButtonTo}
+        description={<ExplorerUiExplorers network={network} path={`/tx/${signature}`} />}
         title="Transaction"
       >
         <ExplorerFeatureTransactionDetails basePath={basePath} network={network} signature={signature} />
