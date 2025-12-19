@@ -2,6 +2,7 @@ import type { Network } from '@workspace/db/network/network'
 import { Separator } from '@workspace/ui/components/separator'
 import { UiDebug } from '@workspace/ui/components/ui-debug'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
+import { ExplorerUiDetailGrid } from './explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
 import { ExplorerUiExplorers } from './explorer-ui-explorers.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
@@ -28,7 +29,7 @@ export function ExplorerUiTxDetails({
   }
   const feePayer = tx.transaction.message.accountKeys[0]
   return (
-    <div className="space-y-4 text-xs">
+    <ExplorerUiDetailGrid>
       <ExplorerUiDetailRow
         label="View on Explorer"
         value={<ExplorerUiExplorers network={network} path={`/tx/${signature}`} />}
@@ -36,7 +37,7 @@ export function ExplorerUiTxDetails({
       <Separator />
       <ExplorerUiDetailRow label="Signature" value={signature} />
       <Separator />
-      <div className="grid grid-cols-2 gap-y-4">
+      <ExplorerUiDetailGrid cols={2}>
         <ExplorerUiDetailRow label="Status" value={getTxStatus(tx)} />
         <ExplorerUiDetailRow label="Network" value={network.type} />
         <ExplorerUiDetailRow
@@ -44,9 +45,9 @@ export function ExplorerUiTxDetails({
           value={feePayer ? <ExplorerUiLinkAddress address={feePayer} basePath={basePath} /> : <div />}
         />
         <ExplorerUiDetailRow label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
-      </div>
+      </ExplorerUiDetailGrid>
       <Separator />
       <ExplorerUiDetailRow label="Raw TX" value={<UiDebug data={tx} />} />
-    </div>
+    </ExplorerUiDetailGrid>
   )
 }
