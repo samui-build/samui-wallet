@@ -1,6 +1,7 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
 import { accountCreate } from '@workspace/db/account/account-create'
 import type { AccountCreateInput } from '@workspace/db/account/account-create-input'
+import { accountDelete } from '@workspace/db/account/account-delete'
 import { accountFindMany } from '@workspace/db/account/account-find-many'
 import type { AccountFindManyInput } from '@workspace/db/account/account-find-many-input'
 import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
@@ -10,6 +11,7 @@ import { optionsSetting } from './options-setting.tsx'
 import { queryClient } from './query-client.tsx'
 
 export type AccountCreateMutateOptions = MutateOptions<string, Error, { input: AccountCreateInput }>
+export type AccountDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
 export type AccountReadSecretKeyMutateOptions = MutateOptions<string | undefined, Error, { id: string }>
 export type AccountSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
 
@@ -19,6 +21,14 @@ export const optionsAccount = {
       mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(db, input),
       onSuccess: () => {
         queryClient.invalidateQueries(optionsSetting.findMany({}))
+        queryClient.invalidateQueries(optionsAccount.findMany({}))
+      },
+      ...props,
+    }),
+  delete: (props: AccountDeleteMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ id }: { id: string }) => accountDelete(db, id),
+      onSuccess: () => {
         queryClient.invalidateQueries(optionsAccount.findMany({}))
       },
       ...props,

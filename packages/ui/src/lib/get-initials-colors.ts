@@ -67,9 +67,12 @@ export function getColorByName(colorName: UiColorName): UiColorPair {
   return colorMap[colorName]
 }
 
-export function getInitialsColor(name: string): UiColorPair {
+export function getColorForName(name: string): UiColorName {
   const hash = hashCode(name)
   const index = Math.abs(hash) % uiColorNames.length
 
-  return getColorByName(uiColorNames[index] ?? 'blue')
+  return uiColorNames[index] as UiColorName
+}
+export function getInitialsColor(name: string): UiColorPair {
+  return getColorByName(getColorForName(name))
 }

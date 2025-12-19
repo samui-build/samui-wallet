@@ -1,4 +1,4 @@
-import type { Wallet } from '@workspace/db/wallet/wallet'
+import type { Account } from '@workspace/db/account/account'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -11,14 +11,14 @@ import { UiConfirm } from '@workspace/ui/components/ui-confirm'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Fragment, useState } from 'react'
 import { Link, useLocation } from 'react-router'
-import { SettingsUiBottomSheetExportWalletMnemonic } from './settings-ui-bottom-sheet-export-wallet-mnemonic.tsx'
+import { SettingsUiBottomSheetExportAccountSecretKey } from './settings-ui-bottom-sheet-export-account-secret-key.tsx'
 
-export function SettingsUiWalletMenu({
+export function SettingsUiAccountMenu({
   deleteItem,
-  wallet,
+  account,
 }: {
-  deleteItem: (item: Wallet) => Promise<void>
-  wallet: Wallet
+  deleteItem: (item: Account) => Promise<void>
+  account: Account
 }) {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
@@ -34,27 +34,27 @@ export function SettingsUiWalletMenu({
         </DropdownMenuTrigger>
         <DropdownMenuContent>
           <DropdownMenuItem asChild className="cursor-pointer">
-            <Link state={{ from }} to={`/settings/wallets/${wallet.id}/edit`}>
-              {t(($) => $.actionEditWallet)}
+            <Link state={{ from }} to={`/explorer/address/${account.publicKey}`}>
+              {t(($) => $.actionViewAccount)}
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenExport(true)}>
-            {t(($) => $.exportMnemonic)}
+            {t(($) => $.exportSecretKey)}
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenDelete(true)}>
-            {t(($) => $.actionDeleteWallet)}
+            {t(($) => $.actionDeleteAccount)}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-      <SettingsUiBottomSheetExportWalletMnemonic open={openExport} setOpen={setOpenExport} wallet={wallet} />
+      <SettingsUiBottomSheetExportAccountSecretKey account={account} open={openExport} setOpen={setOpenExport} />
       <UiConfirm
-        action={() => deleteItem(wallet)}
+        action={() => deleteItem(account)}
         actionLabel={t(($) => $.actionDelete)}
         actionVariant="destructive"
-        description={t(($) => $.walletDeleteDescription)}
+        description={t(($) => $.accountDeleteDescription)}
         onOpenChange={setOpenDelete}
         open={openDelete}
-        title={t(($) => $.walletDeleteTitle)}
+        title={t(($) => $.accountDeleteTitle)}
       />
     </Fragment>
   )

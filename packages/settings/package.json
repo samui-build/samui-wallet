@@ -6,6 +6,7 @@
     "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/explorer": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/solana-client": "workspace:*",

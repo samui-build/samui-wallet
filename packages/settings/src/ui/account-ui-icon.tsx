@@ -5,7 +5,7 @@ import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
 export function AccountUiIcon({ type }: { type: AccountType }) {
   return <UiIcon className="size-4" icon={getAccountUiIcon(type)} />
 }
-function getAccountUiIcon(type: AccountType): UiIconName {
+export function getAccountUiIcon(type: AccountType): UiIconName {
   switch (type) {
     case 'Derived':
       return 'derive'
