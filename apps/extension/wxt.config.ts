@@ -3,6 +3,9 @@ import { defineConfig } from 'wxt'
 
 export default defineConfig({
   manifest: {
+    externally_connectable: {
+      ids: ['*'],
+    },
     name: 'Samui',
     permissions: ['storage'],
     web_accessible_resources: [

@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 
-import { toast } from 'sonner'
+import { type ExternalToast, toast } from 'sonner'
 
-export function toastError(message: ReactNode) {
-  toast.error(message)
+export function toastError(message: ReactNode, data?: ExternalToast) {
+  toast.error(message, data)
 }

@@ -45,6 +45,10 @@ type WalletFeatures = SolanaSignAndSendTransactionFeature &
   StandardEventsFeature
 
 export class SamuiWallet implements Wallet {
+  private readonly _name: string
+  constructor(name = 'Samui') {
+    this._name = name
+  }
   get accounts(): readonly WalletAccount[] {
     return this.#accounts
   }
@@ -120,7 +124,7 @@ export class SamuiWallet implements Wallet {
   }
 
   get name(): string {
-    return 'Samui'
+    return this._name
   }
 
   get version(): WalletVersion {

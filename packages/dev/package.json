@@ -2,6 +2,7 @@
   "dependencies": {
     "@hookform/resolvers": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@wallet-standard/react": "1.0.1",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/i18n": "workspace:*",
