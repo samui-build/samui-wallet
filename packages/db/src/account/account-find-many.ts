@@ -10,7 +10,7 @@ export async function accountFindMany(db: Database, input: AccountFindManyInput 
   return db.transaction('r', db.accounts, async () => {
     const { data, error } = await tryCatch(
       db.accounts
-        .orderBy('derivationIndex')
+        .orderBy('order')
         .filter((item) => {
           const matchWalletId = !parsedInput.walletId || item.walletId === parsedInput.walletId
           const matchId = !parsedInput.id || item.id === parsedInput.id

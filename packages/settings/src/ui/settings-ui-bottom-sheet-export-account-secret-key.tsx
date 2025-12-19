@@ -9,7 +9,7 @@ import { useState } from 'react'
 import { SettingsUiExportConfirm } from './settings-ui-export-confirm.tsx'
 import { SettingsUiMnemonicBlur } from './settings-ui-mnemonic-blur.tsx'
 
-export function SettingsUiExportAccountSecretKeySheet({
+export function SettingsUiBottomSheetExportAccountSecretKey({
   account,
   open,
   setOpen,

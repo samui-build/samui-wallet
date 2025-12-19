@@ -1,3 +1,5 @@
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useAccountDelete } from '@workspace/db-react/use-account-delete'
 import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
@@ -5,14 +7,21 @@ import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
+import { toastError } from '@workspace/ui/lib/toast-error'
+import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { Link, useLocation, useParams } from 'react-router'
-import { SettingsUiAccountTable } from './ui/settings-ui-account-table.tsx'
+import { SettingsUiAccountList } from './ui/settings-ui-account-list.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletDetails() {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
   const { walletId } = useParams() as { walletId: string }
+  const deleteMutation = useAccountDelete({
+    onError: (error) => toastError(error.message),
+    onSuccess: () => toastSuccess('Account deleted'),
+  })
+  const activeAccount = useAccountActive()
   const wallet = useWalletFindUnique({ id: walletId })
   const accounts = useAccountsForWalletLive({ walletId })
 
@@ -44,9 +53,11 @@ export function SettingsFeatureWalletDetails() {
         </div>
       }
     >
-      <div className="space-y-2 md:space-y-6">
-        <SettingsUiAccountTable items={accounts} />
-      </div>
+      <SettingsUiAccountList
+        activeId={activeAccount.id}
+        deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
+        items={accounts}
+      />
     </UiCard>
   )
 }
