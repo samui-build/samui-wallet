@@ -1,8 +1,11 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useAccountDelete } from '@workspace/db-react/use-account-delete'
 import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
+import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
+import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
@@ -24,6 +27,8 @@ export function SettingsFeatureWalletDetails() {
   const activeAccount = useAccountActive()
   const wallet = useWalletFindUnique({ id: walletId })
   const accounts = useAccountsForWalletLive({ walletId })
+  const activeNetwork = useNetworkActive()
+  const requestAirdropMutation = useRequestAirdrop(activeNetwork)
 
   if (!wallet) {
     return <UiNotFound />
@@ -57,6 +62,10 @@ export function SettingsFeatureWalletDetails() {
         activeId={activeAccount.id}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={accounts}
+        networkType={activeNetwork.type}
+        requestAirdrop={async (item) => {
+          await requestAirdropMutation.mutateAsync({ address: item.publicKey, amount: solToLamports('1') })
+        }}
       />
     </UiCard>
   )
