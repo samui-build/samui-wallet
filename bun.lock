@@ -530,6 +530,7 @@
         "@workspace/i18n": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/solana-client": "workspace:*",
+        "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",

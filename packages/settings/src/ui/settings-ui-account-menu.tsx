@@ -1,4 +1,5 @@
 import type { Account } from '@workspace/db/account/account'
+import type { NetworkType } from '@workspace/db/network/network-type'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
 import {
@@ -14,11 +15,15 @@ import { Link, useLocation } from 'react-router'
 import { SettingsUiBottomSheetExportAccountSecretKey } from './settings-ui-bottom-sheet-export-account-secret-key.tsx'
 
 export function SettingsUiAccountMenu({
-  deleteItem,
   account,
+  deleteItem,
+  networkType,
+  requestAirdrop,
 }: {
-  deleteItem: (item: Account) => Promise<void>
   account: Account
+  deleteItem: (item: Account) => Promise<void>
+  networkType: NetworkType
+  requestAirdrop: (item: Account) => Promise<void>
 }) {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
@@ -37,6 +42,13 @@ export function SettingsUiAccountMenu({
             <Link state={{ from }} to={`/explorer/address/${account.publicKey}`}>
               {t(($) => $.actionViewAccount)}
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            disabled={networkType === 'solana:mainnet'}
+            onClick={() => requestAirdrop(account)}
+          >
+            {t(($) => $.actionRequestAirdrop)}
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenExport(true)}>
             {t(($) => $.exportSecretKey)}
