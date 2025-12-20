@@ -11,8 +11,8 @@ import { ExplorerFeatureAccountTransactions } from './explorer-feature-account-t
 import { ExplorerFeatureBookmarkAccountButton } from './explorer-feature-bookmark-account-button.tsx'
 import { ExplorerUiDetailGrid } from './ui/explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './ui/explorer-ui-detail-row.tsx'
-import { ExplorerUiError } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
+import { ExplorerUiRequestAirdrop } from './ui/explorer-ui-request-airdrop.tsx'
 
 export function ExplorerFeatureAccountOverview({
   backButtonTo,
@@ -54,7 +54,7 @@ export function ExplorerFeatureAccountOverview({
         </ExplorerUiDetailGrid>
       </UiCard>
       {query.isError ? (
-        <ExplorerUiError message={query.error.message} title="Error getting account overview" />
+        <ExplorerUiRequestAirdrop address={address} network={network} />
       ) : (
         <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />
       )}

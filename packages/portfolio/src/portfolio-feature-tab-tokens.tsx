@@ -1,12 +1,12 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import { ExplorerUiRequestAirdrop } from '@workspace/explorer/ui/explorer-ui-request-airdrop'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { useMemo } from 'react'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
 import { PortfolioUiAccountButtons } from './ui/portfolio-ui-account-buttons.tsx'
 import { PortfolioUiBalance } from './ui/portfolio-ui-balance.tsx'
 import { PortfolioUiBalanceSkeleton } from './ui/portfolio-ui-balance-skeleton.tsx'
-import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 import { PortfolioUiTokenBalancesSkeleton } from './ui/portfolio-ui-token-balances-skeleton.tsx'
 
@@ -40,7 +40,7 @@ export function PortfolioFeatureTabTokens() {
       <PortfolioUiAccountButtons />
 
       {isLoadingWalletInfo ? null : (
-        <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.lamports} network={network} />
+        <ExplorerUiRequestAirdrop address={account.publicKey} lamports={dataWalletInfo?.lamports} network={network} />
       )}
 
       {isLoadingWalletInfo ? (
