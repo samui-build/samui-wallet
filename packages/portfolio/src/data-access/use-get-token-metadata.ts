@@ -2,6 +2,7 @@ import type { Address } from '@solana/kit'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import { formatBalance } from '@workspace/explorer/data-access/format-balance'
+import { bigIntToDecimal } from '@workspace/solana-client/big-int-to-decimal'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
@@ -134,8 +135,8 @@ function mergeData({
     if (metadataSort !== 0) {
       return metadataSort
     }
-    const aValue = (Number(a.balance) / 10 ** a.decimals) * (a.metadata?.usdPrice ?? 0)
-    const bValue = (Number(b.balance) / 10 ** b.decimals) * (b.metadata?.usdPrice ?? 0)
+    const aValue = bigIntToDecimal(a.balance, a.decimals) * (a.metadata?.usdPrice ?? 0)
+    const bValue = bigIntToDecimal(b.balance, b.decimals) * (b.metadata?.usdPrice ?? 0)
 
     return bValue - aValue
   })

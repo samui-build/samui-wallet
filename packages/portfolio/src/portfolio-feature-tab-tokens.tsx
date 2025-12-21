@@ -1,5 +1,6 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import { bigIntToDecimal } from '@workspace/solana-client/big-int-to-decimal'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { useMemo } from 'react'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
@@ -23,7 +24,7 @@ export function PortfolioFeatureTabTokens() {
       if (!item.metadata?.usdPrice) {
         return acc
       }
-      const itemBalance = (Number(item.balance) / 10 ** item.decimals) * item.metadata.usdPrice
+      const itemBalance = bigIntToDecimal(item.balance, item.decimals) * item.metadata.usdPrice
       return acc + itemBalance
     }, 0)
 
