@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useTranslation } from '@workspace/i18n'
+import { bigIntToDecimal } from '@workspace/solana-client/big-int-to-decimal'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import { maxAvailableSolAmount } from '@workspace/solana-client/max-available-sol-amount'
 import { Button } from '@workspace/ui/components/button'
@@ -29,7 +30,7 @@ export function PortfolioUiSendMint({
   const destinationId = useId()
   const amountId = useId()
   const max = mint.mint === NATIVE_MINT ? maxAvailableSolAmount(mint.balance, mint.balance) : mint.balance
-  const maxAmount = Number(max) / 10 ** mint.decimals
+  const maxAmount = bigIntToDecimal(max, mint.decimals)
   const formSchema = z.object({
     amount: z
       .number()
