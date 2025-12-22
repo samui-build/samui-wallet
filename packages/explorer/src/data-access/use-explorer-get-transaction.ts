@@ -33,7 +33,7 @@ export type ExplorerGetTransactionResult = Awaited<ReturnType<typeof getTransact
 async function getTransaction(client: SolanaClient, signature: Signature) {
   return client.rpc
     .getTransaction(signature, {
-      encoding: 'json',
+      encoding: 'jsonParsed',
       maxSupportedTransactionVersion: 0,
     })
     .send()
