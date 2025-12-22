@@ -4,6 +4,7 @@ import { useTranslation } from '@workspace/i18n'
 import { useGetSignaturesForAddress } from '@workspace/solana-client-react/use-get-signatures-for-address'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiEmpty } from '@workspace/ui/components/ui-empty'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
@@ -39,22 +40,25 @@ export function ExplorerFeatureAccountTransactions({
           {t(($) => $.actionRefresh)}
         </Button>
       }
-      description={t(($) => $.transactionsOverviewDescription)}
-      title={<div>{t(($) => $.transactionsOverviewTitle)}</div>}
+      title={<div>{t(($) => $.accountTransactionsTitle)}</div>}
     >
       <div className="space-y-2">
-        {transactions?.map((tx) => (
-          <div className="flex items-center justify-between" key={tx.signature}>
-            <div className="flex items-center gap-2">
-              <ExplorerUiTxStatus tx={tx} />
-              <ExplorerUiLinkSignature basePath={basePath} signature={tx.signature} />
-              <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
+        {transactions.length ? (
+          transactions?.map((tx) => (
+            <div className="flex items-center justify-between" key={tx.signature}>
+              <div className="flex items-center gap-2">
+                <ExplorerUiTxStatus tx={tx} />
+                <ExplorerUiLinkSignature basePath={basePath} signature={tx.signature} />
+                <ExplorerUiTxExplorerIcon network={network} signature={tx.signature} />
+              </div>
+              <div className="text-right font-mono text-muted-foreground text-xs">
+                <ExplorerUiTxTimestamp blockTime={tx.blockTime} />
+              </div>
             </div>
-            <div className="text-right font-mono text-muted-foreground text-xs">
-              <ExplorerUiTxTimestamp blockTime={tx.blockTime} />
-            </div>
-          </div>
-        ))}
+          ))
+        ) : (
+          <UiEmpty description={t(($) => $.accountTransactionsEmpty)} />
+        )}
       </div>
     </UiCard>
   )

@@ -6,6 +6,7 @@ import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { useParams } from 'react-router'
 import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-to.tsx'
 import { ExplorerFeatureAccountOverview } from './explorer-feature-account-overview.tsx'
+import { ExplorerFeatureAccountTokens } from './explorer-feature-account-tokens.tsx'
 import { ExplorerFeatureAccountTransactions } from './explorer-feature-account-transactions.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 
@@ -34,6 +35,11 @@ export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
               element: <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />,
               label: 'Transactions',
               path: 'transactions',
+            },
+            {
+              element: <ExplorerFeatureAccountTokens address={address} basePath={basePath} network={network} />,
+              label: 'Tokens',
+              path: 'tokens',
             },
           ]}
         />
