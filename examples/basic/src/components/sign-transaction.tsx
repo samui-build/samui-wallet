@@ -1,6 +1,7 @@
 import {
   address,
   appendTransactionMessageInstructions,
+  assertIsTransactionWithBlockhashLifetime,
   createSolanaRpc,
   createSolanaRpcSubscriptions,
   createTransactionMessage,
@@ -51,13 +52,11 @@ export function SignTransaction({ account }: SignTransactionProps) {
         const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
         console.log('Signed Transaction:', signedTransaction)
 
-        await sendAndConfirmTransactionFactory({ rpc, rpcSubscriptions })(
-          // @ts-expect-error TODO: Figure out "Property lastValidBlockHeight is missing in type TransactionDurableNonceLifetime but required in type"
-          signedTransaction,
-          {
-            commitment: 'confirmed',
-          },
-        )
+        assertIsTransactionWithBlockhashLifetime(signedTransaction)
+
+        await sendAndConfirmTransactionFactory({ rpc, rpcSubscriptions })(signedTransaction, {
+          commitment: 'confirmed',
+        })
         const transactionSignature = getSignatureFromTransaction(signedTransaction)
         console.log('Transaction Signature:', transactionSignature)
       }}
