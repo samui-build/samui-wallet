@@ -11,7 +11,7 @@ import { ExplorerFeatureTransaction } from './explorer-feature-transaction.tsx'
 export default function ExplorerRoutes({ basePath }: { basePath: string }) {
   return useRoutes([
     { element: <ExplorerFeatureIndex basePath={basePath} />, index: true },
-    { element: <ExplorerFeatureAccount basePath={basePath} />, path: 'address/:address' },
+    { element: <ExplorerFeatureAccount basePath={basePath} />, path: 'address/:address/*' },
     { element: <ExplorerFeatureTransaction basePath={basePath} />, path: 'tx/:signature' },
     { element: <ExplorerFeatureBookmarkAccountList basePath={basePath} />, path: 'bookmarks/account' },
     { element: <ExplorerFeatureBookmarkTransactionList basePath={basePath} />, path: 'bookmarks/transaction' },

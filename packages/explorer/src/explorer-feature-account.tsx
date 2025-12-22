@@ -2,6 +2,7 @@ import { assertIsAddress } from '@solana/kit'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
+import { UiTabRoutes } from '@workspace/ui/components/ui-tab-routes'
 import { useParams } from 'react-router'
 import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-to.tsx'
 import { ExplorerFeatureAccountOverview } from './explorer-feature-account-overview.tsx'
@@ -26,7 +27,16 @@ export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
           basePath={basePath}
           network={network}
         />
-        <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />
+        <UiTabRoutes
+          basePath={`${basePath}/address/${address}`}
+          tabs={[
+            {
+              element: <ExplorerFeatureAccountTransactions address={address} basePath={basePath} network={network} />,
+              label: 'Transactions',
+              path: 'transactions',
+            },
+          ]}
+        />
       </div>
     </UiPage>
   )
