@@ -14,14 +14,14 @@ export function ExplorerUiExplorerLink({
   const name = getExplorerName(props.provider)
   return (
     <a
-      className={cn('link inline-flex gap-1 font-mono', className)}
+      className={cn('inline-flex items-center gap-1 font-mono hover:underline', className)}
       href={href}
       rel="noopener noreferrer"
       target="_blank"
       title={`View in ${name}`}
     >
       {label ?? name}
-      <UiIcon className="size-3" icon="externalLink" />
+      <UiIcon className="size-3 shrink-0" icon="externalLink" />
     </a>
   )
 }
