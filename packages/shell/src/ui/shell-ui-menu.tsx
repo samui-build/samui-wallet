@@ -24,17 +24,13 @@ export function ShellUiMenu() {
 
   return (
     <Menubar className="h-10 border-none bg-transparent py-2 md:h-14">
-      {activeAccount && activeWallet ? (
-        <ShellUiMenuWallets
-          activeAccount={activeAccount}
-          activeWallet={activeWallet}
-          setActiveAccount={(id: string) => setActiveMutation.mutateAsync({ id })}
-          wallets={wallets}
-        />
-      ) : null}
-      {activeNetwork ? (
-        <ShellUiMenuNetwork active={activeNetwork} networks={networks} setActive={setActiveNetworkId} />
-      ) : null}
+      <ShellUiMenuWallets
+        activeAccount={activeAccount}
+        activeWallet={activeWallet}
+        setActiveAccount={(id: string) => setActiveMutation.mutateAsync({ id })}
+        wallets={wallets}
+      />
+      <ShellUiMenuNetwork active={activeNetwork} networks={networks} setActive={setActiveNetworkId} />
       <ShellUiMenuDevelopment items={getDevOptions()} />
     </Menubar>
   )
