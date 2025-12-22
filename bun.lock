@@ -568,6 +568,7 @@
         "@workspace/portfolio": "workspace:*",
         "@workspace/request": "workspace:*",
         "@workspace/settings": "workspace:*",
+        "@workspace/solana-client-react": "workspace:*",
         "@workspace/tools": "workspace:*",
         "@workspace/ui": "workspace:*",
         "@wxt-dev/browser": "catalog:",
