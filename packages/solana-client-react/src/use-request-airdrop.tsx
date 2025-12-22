@@ -3,6 +3,7 @@ import type { Network } from '@workspace/db/network/network'
 import type { RequestAirdropOption } from '@workspace/solana-client/request-airdrop'
 import { requestAirdrop } from '@workspace/solana-client/request-airdrop'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
+import { UiToastLink } from '@workspace/ui/components/ui-toast-link'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { getAccountInfoQueryOptions } from './use-get-account-info.tsx'
@@ -14,14 +15,14 @@ export function requestAirdropMutationOptions(client: SolanaClient, queryClient:
     mutationFn: (input: RequestAirdropOption) => requestAirdrop(client, input),
     onError: () => {
       toastError(
-        <a
-          className="block cursor-pointer underline hover:no-underline"
-          href="https://faucet.solana.com/"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Failed to request airdrop. Click here to try the faucet directly.
-        </a>,
+        network.type === 'solana:localnet' ? (
+          'Failed to request airdrop. Make sure your local validator is running.'
+        ) : (
+          <UiToastLink
+            href="https://faucet.solana.com/"
+            label="Failed to request airdrop. Click here to try the faucet directly."
+          />
+        ),
       )
     },
     onSuccess: (_, { address }) => {
