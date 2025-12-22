@@ -11,6 +11,7 @@ const tokens = new Map<Address, string>()
 
 export function ExplorerUiProgramLabel({ address }: { address: Address }) {
   const found = tokens.get(address)
+
   if (!found) {
     return <ExplorerUiAddress address={address} />
   }
