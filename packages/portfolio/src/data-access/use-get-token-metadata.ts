@@ -1,12 +1,12 @@
 import type { Address } from '@solana/kit'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
+import { formatBalance } from '@workspace/explorer/data-access/format-balance'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
 import { useMemo } from 'react'
-import { formatBalance } from './format-balance.ts'
 import { formatBalanceUsd } from './format-balance-usd.ts'
 
 export interface TokenBalance {

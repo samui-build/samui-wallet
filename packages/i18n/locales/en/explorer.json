@@ -1,5 +1,10 @@
 {
+  "account": "Account",
   "accountOverviewTitle": "Account overview",
+  "accountTokensEmpty": "No tokens found.",
+  "accountTokensTitle": "Tokens",
+  "accountTransactionsEmpty": "No transactions found.",
+  "accountTransactionsTitle": "Transactions",
   "actionDelete": "Delete",
   "actionManage": "Manage",
   "actionRefresh": "Refresh",
@@ -7,6 +12,7 @@
   "actions": "Actions",
   "actionUpdate": "Update",
   "address": "Address",
+  "amount": "Amount",
   "bookmarkAccountDescription": "List of accounts you bookmarked",
   "bookmarkAccountEmpty": "You have no account bookmarks yet.",
   "bookmarkAccountTitle": "Account bookmarks",
@@ -26,10 +32,9 @@
   "labelEmpty": "None",
   "labelInputPlaceholder": "Enter a label",
   "lamports": "lamports",
-  "owner": "owner",
+  "mint": "Mint",
+  "owner": "Owner",
   "pageExplorerDescription": "Search and explore accounts or transactions",
   "pageExplorerTitle": "Explorer",
-  "signature": "Signature",
-  "transactionsOverviewDescription": "Recent transactions for this account",
-  "transactionsOverviewTitle": "Account transactions"
+  "signature": "Signature"
 }

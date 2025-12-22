@@ -1,5 +1,10 @@
 {
+  "account": "Cuenta",
   "accountOverviewTitle": "Descripción general de la cuenta",
+  "accountTokensEmpty": "No se encontraron tokens",
+  "accountTokensTitle": "Tokens",
+  "accountTransactionsEmpty": "No se encontraron transacciones",
+  "accountTransactionsTitle": "Transacciones",
   "actionDelete": "Eliminar",
   "actionManage": "Gestionar",
   "actionRefresh": "Actualizar",
@@ -7,6 +12,7 @@
   "actions": "Acciones",
   "actionUpdate": "Actualizar",
   "address": "Dirección",
+  "amount": "Cantidad",
   "bookmarkAccountDescription": "Lista de cuentas etiquetadas",
   "bookmarkAccountEmpty": "Aún no tienes cuentas etiquetadas",
   "bookmarkAccountTitle": "Cuentas etiquetadas",
@@ -26,10 +32,9 @@
   "labelEmpty": "Ninguna",
   "labelInputPlaceholder": "Ingresa una etiqueta",
   "lamports": "Lamports",
-  "owner": "Propietario",
+  "mint": "Mint",
+  "owner": "Owner",
   "pageExplorerDescription": "Buscar y explorar cuentas o transacciones",
   "pageExplorerTitle": "Explorador",
-  "signature": "Firma",
-  "transactionsOverviewDescription": "Transacciones recientes de esta cuenta",
-  "transactionsOverviewTitle": "Transacciones de la cuenta"
+  "signature": "Firma"
 }
