@@ -28,7 +28,7 @@ import { z } from 'zod'
 
 const formSchema = z.object({
   address: solanaAddressSchema,
-  amount: z.number().min(0),
+  amount: z.number().gt(0, 'Amount must be greater than 0'),
 })
 
 export type AirdropFormSchema = z.infer<typeof formSchema>
