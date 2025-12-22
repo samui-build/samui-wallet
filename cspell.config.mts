@@ -60,6 +60,7 @@ const config: CSpellSettings = {
     'skia',
     'solscan',
     'surfpool',
+    'sysvar',
     'testnet',
     'tobeycodes',
     'unimodules',

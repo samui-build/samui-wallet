@@ -28,6 +28,8 @@ interface Resources {
     bookmarkTransactionDescription: 'List of transactions you bookmarked'
     bookmarkTransactionEmpty: 'You have no transaction bookmarks yet.'
     bookmarkTransactionTitle: 'Transaction bookmarks'
+    change: 'Change'
+    details: 'Details'
     editLabel: 'Edit label'
     inputSearchPlaceholder: 'Search account or transaction'
     label: 'Label'
@@ -38,6 +40,7 @@ interface Resources {
     owner: 'Owner'
     pageExplorerDescription: 'Search and explore accounts or transactions'
     pageExplorerTitle: 'Explorer'
+    postBalance: 'Post balance'
     signature: 'Signature'
   }
   onboarding: {

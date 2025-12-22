@@ -26,6 +26,8 @@
   "bookmarkTransactionDescription": "Lista de transacciones etiquetadas",
   "bookmarkTransactionEmpty": "Aún no tienes transacciones etiquetadas",
   "bookmarkTransactionTitle": "Transacciones etiquetadas",
+  "change": "Cambio",
+  "details": "Detalles",
   "editLabel": "Editar nombre",
   "inputSearchPlaceholder": "Buscar cuenta o transacción",
   "label": "Etiqueta",
@@ -36,5 +38,6 @@
   "owner": "Owner",
   "pageExplorerDescription": "Buscar y explorar cuentas o transacciones",
   "pageExplorerTitle": "Explorador",
+  "postBalance": "Saldo posterior",
   "signature": "Firma"
 }
