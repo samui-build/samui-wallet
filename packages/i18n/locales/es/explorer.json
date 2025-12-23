@@ -39,5 +39,6 @@
   "pageExplorerDescription": "Buscar y explorar cuentas o transacciones",
   "pageExplorerTitle": "Explorador",
   "postBalance": "Saldo posterior",
-  "signature": "Firma"
+  "signature": "Firma",
+  "token": "Tokens"
 }

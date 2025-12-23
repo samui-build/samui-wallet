@@ -4,7 +4,7 @@ import { Badge } from '@workspace/ui/components/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { formatBalance } from '../data-access/format-balance.tsx'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
-import { ExplorerUiBalanceSolDiff } from './explorer-ui-balance-sol-diff.tsx'
+import { ExplorerUiBalanceDiff } from './explorer-ui-balance-diff.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiProgramLabel } from './explorer-ui-program-label.tsx'
 
@@ -39,7 +39,7 @@ export function ExplorerUiTxAccounts({ basePath, tx }: { basePath: string; tx: E
               />
             </TableCell>
             <TableCell className="font-mono md:w-[100px]">
-              <ExplorerUiBalanceSolDiff post={tx.meta?.postBalances[idx]} pre={tx.meta?.preBalances[idx]} />
+              <ExplorerUiBalanceDiff decimals={9} post={tx.meta?.postBalances[idx]} pre={tx.meta?.preBalances[idx]} />
             </TableCell>
             <TableCell className="font-mono text-xs">
               {formatBalance({ balance: tx.meta?.postBalances[idx] ?? lamports(0n), decimals: 9 })}

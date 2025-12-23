@@ -42,6 +42,7 @@ interface Resources {
     pageExplorerTitle: 'Explorer'
     postBalance: 'Post balance'
     signature: 'Signature'
+    token: 'Token'
   }
   onboarding: {
     generateButtonCreate: 'Create wallet'
