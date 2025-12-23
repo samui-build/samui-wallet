@@ -39,5 +39,6 @@
   "pageExplorerDescription": "Search and explore accounts or transactions",
   "pageExplorerTitle": "Explorer",
   "postBalance": "Post balance",
-  "signature": "Signature"
+  "signature": "Signature",
+  "token": "Token"
 }

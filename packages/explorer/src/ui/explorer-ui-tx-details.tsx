@@ -9,6 +9,7 @@ import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiSignature } from './explorer-ui-signature.tsx'
 import { ExplorerUiTxAccounts } from './explorer-ui-tx-accounts.tsx'
 import { ExplorerUiTxTimestamp } from './explorer-ui-tx-timestamp.tsx'
+import { ExplorerUiTxTokenBalances } from './explorer-ui-tx-token-balances.tsx'
 
 function getTxStatus(tx: ExplorerGetTransactionResult) {
   // @ts-expect-error figure out how to properly type the 'Ok' property.
@@ -45,6 +46,7 @@ export function ExplorerUiTxDetails({
       </ExplorerUiDetailGrid>
       <Separator />
       <ExplorerUiTxAccounts basePath={basePath} tx={tx} />
+      <ExplorerUiTxTokenBalances basePath={basePath} tx={tx} />
       <Separator />
       <ExplorerUiDetailRow label="Program Instruction Logs" value={<UiDebug data={tx.meta?.logMessages ?? []} />} />
       <Separator />
