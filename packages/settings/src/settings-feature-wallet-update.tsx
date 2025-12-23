@@ -9,7 +9,11 @@ import { SettingsUiWalletFormUpdate } from './ui/settings-ui-wallet-form-update.
 export function SettingsFeatureWalletUpdate() {
   const { t } = useTranslation('settings')
   const navigate = useNavigate()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
+  if (!walletId) {
+    throw new Error('Parameter walletId is required')
+  }
+
   const { state } = useLocation()
   const from = state?.from ?? `/settings/wallets/${walletId}`
   const updateMutation = useWalletUpdate()

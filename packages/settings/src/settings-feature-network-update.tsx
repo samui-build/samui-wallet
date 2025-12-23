@@ -9,7 +9,11 @@ import { SettingsUiNetworkFormUpdate } from './ui/settings-ui-network-form-updat
 export function SettingsFeatureNetworkUpdate() {
   const { t } = useTranslation('settings')
   const navigate = useNavigate()
-  const { networkId } = useParams() as { networkId: string }
+  const { networkId } = useParams<{ networkId: string }>()
+  if (!networkId) {
+    throw new Error('Parameter networkId is required')
+  }
+
   const updateMutation = useNetworkUpdate()
   const network = useNetworkFindUnique({ id: networkId })
 

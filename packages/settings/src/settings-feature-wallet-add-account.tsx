@@ -21,7 +21,11 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletAddAccount() {
   const { t } = useTranslation('settings')
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
+  if (!walletId) {
+    throw new Error('Parameter walletId is required')
+  }
+
   const wallet = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
