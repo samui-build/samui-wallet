@@ -13,7 +13,7 @@ import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
 export function ExplorerFeatureTransaction({ basePath }: { basePath: string }) {
   const network = useNetworkActive()
   const backButtonTo = useExplorerBackButtonTo({ basePath })
-  const { signature } = useParams() as { signature: string }
+  const { signature } = useParams<{ signature: string }>()
   if (!signature || !solanaSignatureSchema.safeParse(signature).success) {
     return (
       <ExplorerUiErrorPage

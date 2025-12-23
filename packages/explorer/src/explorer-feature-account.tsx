@@ -13,7 +13,7 @@ import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 export function ExplorerFeatureAccount({ basePath }: { basePath: string }) {
   const network = useNetworkActive()
   const backButtonTo = useExplorerBackButtonTo({ basePath })
-  const { address } = useParams()
+  const { address } = useParams<{ address: string }>()
   if (!address || !solanaAddressSchema.safeParse(address).success) {
     return <ExplorerUiErrorPage message="The provided address is not a valid Solana address." title="Invalid address" />
   }
