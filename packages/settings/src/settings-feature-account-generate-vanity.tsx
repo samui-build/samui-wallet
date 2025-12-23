@@ -5,6 +5,7 @@ import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key
 import { Alert, AlertDescription, AlertTitle } from '@workspace/ui/components/alert'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiError } from '@workspace/ui/components/ui-error'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { UiTextCopyButton } from '@workspace/ui/components/ui-text-copy-button'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
@@ -12,7 +13,6 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-
 import {
   SettingsUiWalletFormGenerateVanity,
   type VanityWalletFormFields,
@@ -129,7 +129,7 @@ function useVanityGenerator() {
 
 export function SettingsFeatureAccountGenerateVanity() {
   const navigate = useNavigate()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
   const wallet = useWalletFindUnique({ id: walletId })
   const createAccountMutation = useAccountCreate()
   const { cancel, start, state } = useVanityGenerator()
@@ -147,6 +147,10 @@ export function SettingsFeatureAccountGenerateVanity() {
 
   const isPending = state.status === 'pending'
   const { attempts, error: generationError, result } = state
+
+  if (!walletId) {
+    return <UiError message={new Error('Wallet ID parameter is unknown')} title="No wallet ID" />
+  }
 
   if (!wallet) {
     return <UiNotFound />
