@@ -1,14 +1,14 @@
 import { lamports } from '@solana/kit'
 import { useTranslation } from '@workspace/i18n'
+import type { GetTransactionResult } from '@workspace/solana-client/get-transaction'
 import { Badge } from '@workspace/ui/components/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { formatBalance } from '../data-access/format-balance.tsx'
-import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiBalanceDiff } from './explorer-ui-balance-diff.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiProgramLabel } from './explorer-ui-program-label.tsx'
 
-export function ExplorerUiTxAccounts({ basePath, tx }: { basePath: string; tx: ExplorerGetTransactionResult }) {
+export function ExplorerUiTxAccounts({ basePath, tx }: { basePath: string; tx: GetTransactionResult }) {
   const { t } = useTranslation('explorer')
   if (!tx) {
     return null

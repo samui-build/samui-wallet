@@ -1,11 +1,11 @@
 import { useTranslation } from '@workspace/i18n'
+import type { GetTransactionResult } from '@workspace/solana-client/get-transaction'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
-import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiBalanceDiff } from './explorer-ui-balance-diff.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
 import { ExplorerUiProgramLabel } from './explorer-ui-program-label.tsx'
 
-export function ExplorerUiTxTokenBalances({ basePath, tx }: { basePath: string; tx: ExplorerGetTransactionResult }) {
+export function ExplorerUiTxTokenBalances({ basePath, tx }: { basePath: string; tx: GetTransactionResult }) {
   const { t } = useTranslation('explorer')
   if (!tx) {
     return null

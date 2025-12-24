@@ -1,7 +1,7 @@
 import type { Signature } from '@solana/kit'
 import type { Network } from '@workspace/db/network/network'
+import { useGetTransaction } from '@workspace/solana-client-react/use-get-transaction'
 import { Spinner } from '@workspace/ui/components/spinner'
-import { useExplorerGetTransaction } from './data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiTxDetails } from './ui/explorer-ui-tx-details.tsx'
 
@@ -14,7 +14,7 @@ export function ExplorerFeatureTransactionDetails({
   network: Network
   signature: Signature
 }) {
-  const query = useExplorerGetTransaction({ network, signature })
+  const query = useGetTransaction({ network, signature })
 
   if (query.isLoading) {
     return <Spinner />
