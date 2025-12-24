@@ -51,6 +51,7 @@ const config: CSpellSettings = {
     'lamports',
     'localnet',
     'mainnet',
+    'metaplex',
     'netinfo',
     'nums',
     'rtishchev',
