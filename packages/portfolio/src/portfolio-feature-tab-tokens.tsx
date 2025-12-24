@@ -40,7 +40,7 @@ export function PortfolioFeatureTabTokens() {
       <PortfolioUiAccountButtons />
 
       {isLoadingWalletInfo ? null : (
-        <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
+        <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.lamports} network={network} />
       )}
 
       {isLoadingWalletInfo ? (

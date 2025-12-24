@@ -18,6 +18,7 @@ export function getAccountInfoQueryOptions({
   return queryOptions({
     queryFn: () => getAccountInfo(client, { address }),
     queryKey: ['getAccountInfo', network.endpoint, address],
+    retry: false,
   })
 }
 
