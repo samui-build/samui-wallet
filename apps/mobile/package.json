@@ -9,7 +9,7 @@
     "babel-plugin-inline-import": "3.0.0",
     "clsx": "2.1.1",
     "drizzle-orm": "0.44.7",
-    "expo": "54.0.29",
+    "expo": "54.0.30",
     "expo-dev-client": "6.0.20",
     "expo-sqlite": "16.0.10",
     "expo-status-bar": "3.0.9",
@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/react": "~19.1.10",
     "@workspace/config-typescript": "workspace:*",
-    "babel-preset-expo": "54.0.8",
+    "babel-preset-expo": "54.0.9",
     "drizzle-kit": "0.31.8",
     "typescript": "catalog:"
   },
