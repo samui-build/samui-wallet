@@ -5,9 +5,11 @@ import { UiDebug } from '@workspace/ui/components/ui-debug'
 import type { ExplorerGetTransactionResult } from '../data-access/use-explorer-get-transaction.ts'
 import { ExplorerUiDetailGrid } from './explorer-ui-detail-grid.tsx'
 import { ExplorerUiDetailRow } from './explorer-ui-detail-row.tsx'
+import { ExplorerUiDetailRowWide } from './explorer-ui-detail-row-wide.tsx'
 import { ExplorerUiLinkAddress } from './explorer-ui-link-address.tsx'
-import { ExplorerUiSignature } from './explorer-ui-signature.tsx'
+import { ExplorerUiLinkSignature } from './explorer-ui-link-signature.tsx'
 import { ExplorerUiTxAccounts } from './explorer-ui-tx-accounts.tsx'
+import { ExplorerUiTxInstructions } from './explorer-ui-tx-instructions.tsx'
 import { ExplorerUiTxTimestamp } from './explorer-ui-tx-timestamp.tsx'
 import { ExplorerUiTxTokenBalances } from './explorer-ui-tx-token-balances.tsx'
 
@@ -33,20 +35,21 @@ export function ExplorerUiTxDetails({
   const feePayer = tx.transaction.message.accountKeys[0]
   return (
     <ExplorerUiDetailGrid>
-      <ExplorerUiDetailRow label="Signature" value={<ExplorerUiSignature signature={signature} />} />
-      <Separator />
-      <ExplorerUiDetailGrid cols={2}>
-        <ExplorerUiDetailRow label="Status" value={getTxStatus(tx)} />
-        <ExplorerUiDetailRow label="Network" value={network.type} />
-        <ExplorerUiDetailRow
-          label="Fee Payer"
-          value={feePayer ? <ExplorerUiLinkAddress address={feePayer.pubkey} basePath={basePath} /> : <div />}
-        />
-        <ExplorerUiDetailRow label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
-      </ExplorerUiDetailGrid>
+      <ExplorerUiDetailRowWide
+        label="Signature"
+        value={<ExplorerUiLinkSignature basePath={basePath} signature={signature} />}
+      />
+      <ExplorerUiDetailRowWide label="Status" value={getTxStatus(tx)} />
+      <ExplorerUiDetailRowWide label="Network" value={network.type} />
+      <ExplorerUiDetailRowWide
+        label="Fee Payer"
+        value={feePayer ? <ExplorerUiLinkAddress address={feePayer.pubkey} basePath={basePath} /> : <div />}
+      />
+      <ExplorerUiDetailRowWide label="Timestamp" value={<ExplorerUiTxTimestamp blockTime={tx.blockTime} />} />
       <Separator />
       <ExplorerUiTxAccounts basePath={basePath} tx={tx} />
       <ExplorerUiTxTokenBalances basePath={basePath} tx={tx} />
+      <ExplorerUiTxInstructions basePath={basePath} tx={tx} />
       <Separator />
       <ExplorerUiDetailRow label="Program Instruction Logs" value={<UiDebug data={tx.meta?.logMessages ?? []} />} />
       <Separator />
