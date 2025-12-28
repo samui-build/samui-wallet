@@ -6,6 +6,6 @@ export const NATIVE_LOADER = address('NativeLoader111111111111111111111111111111
 export const BPF_LOADER = address('BPFLoader2111111111111111111111111111111111')
 export const TRANSACTION_FEE_LAMPORTS = BigInt(5000)
 
+export { STAKE_PROGRAM_ADDRESS } from '@solana-program/stake'
 export { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
-
 export { TOKEN_2022_PROGRAM_ADDRESS } from '@solana-program/token-2022'

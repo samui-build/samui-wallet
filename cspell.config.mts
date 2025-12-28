@@ -70,6 +70,7 @@ const config: CSpellSettings = {
     'tobeycodes',
     'unimodules',
     'unruggable',
+    'unstake',
     'viewpager',
     'vitaly',
     'wordlist',

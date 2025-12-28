@@ -8,6 +8,7 @@ const ToolsFeatureAirdrop = lazy(() => import('./tools-feature-airdrop.tsx'))
 const ToolsFeatureCreateToken = lazy(() => import('./tools-feature-create-token.tsx'))
 const ToolsFeatureMintToken = lazy(() => import('./tools-feature-mint-token.tsx'))
 const ToolsFeatureOverview = lazy(() => import('./tools-feature-overview.tsx'))
+const ToolsFeatureStake = lazy(() => import('./tools-feature-stake.tsx'))
 const ToolsFeatureTransactionInspector = lazy(() => import('./tools-feature-transaction-inspector.tsx'))
 
 export default function ToolsRoutes() {
@@ -19,6 +20,7 @@ export default function ToolsRoutes() {
     { element: <ToolsFeatureCreateToken account={account} network={network} />, path: 'create-token' },
     { element: <ToolsFeatureMintToken />, path: 'mint-token' },
     { element: <ToolsFeatureMintToken />, path: 'create-nft' },
+    { element: <ToolsFeatureStake account={account} network={network} />, path: 'stake/*' },
     { element: <ToolsFeatureTransactionInspector />, path: 'transaction-inspector' },
   ])
 

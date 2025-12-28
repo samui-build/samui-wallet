@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "@hookform/resolvers": "catalog:",
+    "@solana-program/stake": "catalog:",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/explorer": "workspace:*",

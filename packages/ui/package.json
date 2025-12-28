@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@base-ui/react": "1.4.0",
     "@hookform/resolvers": "catalog:",
     "@nkzw/use-relative-time": "1.2.3",
     "@radix-ui/react-accordion": "1.2.12",

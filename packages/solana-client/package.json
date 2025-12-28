@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@solana-program/stake": "catalog:",
     "@solana-program/system": "catalog:",
     "@solana-program/token": "catalog:",
     "@solana-program/token-2022": "catalog:",
