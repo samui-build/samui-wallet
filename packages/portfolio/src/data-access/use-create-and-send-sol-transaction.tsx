@@ -17,15 +17,21 @@ export function createAndSendSolTransactionMutationOptions(
   network: Network,
 ) {
   return mutationOptions({
-    mutationFn: async ({ recipients, sender }: { recipients: TransferRecipient[]; sender: KeyPairSigner }) => {
-      const senderBalance = await getBalance(client, { address: sender.address })
+    mutationFn: async ({
+      recipients,
+      transactionSigner,
+    }: {
+      recipients: TransferRecipient[]
+      transactionSigner: KeyPairSigner
+    }) => {
+      const senderBalance = await getBalance(client, { address: transactionSigner.address })
       if (!senderBalance?.value) {
         throw new Error('Balance not available')
       }
       return createAndSendSolTransaction(client, {
         recipients,
         senderBalance: senderBalance.value,
-        transactionSigner: sender,
+        transactionSigner,
       })
     },
     onSuccess: () => {
