@@ -27,8 +27,10 @@
   "bookmarkTransactionEmpty": "You have no transaction bookmarks yet.",
   "bookmarkTransactionTitle": "Transaction bookmarks",
   "change": "Change",
+  "data": "Data",
   "details": "Details",
   "editLabel": "Edit label",
+  "innerInstructions": "Inner instructions",
   "inputSearchPlaceholder": "Search account or transaction",
   "label": "Label",
   "labelEmpty": "None",
@@ -39,6 +41,8 @@
   "pageExplorerDescription": "Search and explore accounts or transactions",
   "pageExplorerTitle": "Explorer",
   "postBalance": "Post balance",
+  "program": "Program",
+  "raw": "Raw",
   "signature": "Signature",
   "token": "Token"
 }

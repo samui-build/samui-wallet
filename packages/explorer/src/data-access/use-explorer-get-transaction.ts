@@ -25,11 +25,10 @@ export function useExplorerGetTransaction({ network, signature }: { network: Net
   return useQuery(explorerGetTransactionQueryOptions({ client, network, signature }))
 }
 
-// TODO: Figure out how to properly type this.
-// I want to be able to determine the type *if it succeeds*
-// I want to have a return type for a 'found tx' that I can use to build my UI.
-export type ExplorerGetTransactionResult = Awaited<ReturnType<typeof getTransaction>>
-
+export type ExplorerGetTransactionResult = NonNullable<Awaited<ReturnType<typeof getTransaction>>>
+export type ExplorerGetTransactionResultInstruction =
+  // biome-ignore lint/suspicious/noExplicitAny: ongoing type confusion
+  ExplorerGetTransactionResult['transaction']['message']['instructions'][number] & { parsed?: any }
 async function getTransaction(client: SolanaClient, signature: Signature) {
   return client.rpc
     .getTransaction(signature, {

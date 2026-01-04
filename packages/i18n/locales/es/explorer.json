@@ -27,8 +27,10 @@
   "bookmarkTransactionEmpty": "Aún no tienes transacciones etiquetadas",
   "bookmarkTransactionTitle": "Transacciones etiquetadas",
   "change": "Cambio",
+  "data": "Data",
   "details": "Detalles",
   "editLabel": "Editar nombre",
+  "innerInstructions": "Instrucciones internas",
   "inputSearchPlaceholder": "Buscar cuenta o transacción",
   "label": "Etiqueta",
   "labelEmpty": "Ninguna",
@@ -39,6 +41,8 @@
   "pageExplorerDescription": "Buscar y explorar cuentas o transacciones",
   "pageExplorerTitle": "Explorador",
   "postBalance": "Saldo posterior",
+  "program": "Program",
+  "raw": "Raw",
   "signature": "Firma",
   "token": "Tokens"
 }
