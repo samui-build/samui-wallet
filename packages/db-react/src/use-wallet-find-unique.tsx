@@ -1,6 +1,6 @@
 import { useWalletLive } from './use-wallet-live.tsx'
 
-export function useWalletFindUnique({ id }: { id: string }) {
+export function useWalletFindUnique({ id }: { id: string | undefined }) {
   const wallets = useWalletLive()
-  return wallets.find((w) => w.id === id) ?? null
+  return id ? (wallets.find((w) => w.id === id) ?? null) : null
 }

@@ -8,6 +8,7 @@ import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
 import { Button } from '@workspace/ui/components/button'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiError } from '@workspace/ui/components/ui-error'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { toastError } from '@workspace/ui/lib/toast-error'
@@ -19,7 +20,7 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 export function SettingsFeatureWalletDetails() {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
   const deleteMutation = useAccountDelete({
     onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Account deleted'),
@@ -29,6 +30,10 @@ export function SettingsFeatureWalletDetails() {
   const accounts = useAccountsForWalletLive({ walletId })
   const activeNetwork = useNetworkActive()
   const requestAirdropMutation = useRequestAirdrop(activeNetwork)
+
+  if (!walletId) {
+    return <UiError message={new Error('Wallet ID parameter is unknown')} title="No wallet ID" />
+  }
 
   if (!wallet) {
     return <UiNotFound />

@@ -2,6 +2,7 @@ import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useWalletUpdate } from '@workspace/db-react/use-wallet-update'
 import { useTranslation } from '@workspace/i18n'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiError } from '@workspace/ui/components/ui-error'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import { SettingsUiWalletFormUpdate } from './ui/settings-ui-wallet-form-update.tsx'
@@ -9,11 +10,15 @@ import { SettingsUiWalletFormUpdate } from './ui/settings-ui-wallet-form-update.
 export function SettingsFeatureWalletUpdate() {
   const { t } = useTranslation('settings')
   const navigate = useNavigate()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
   const { state } = useLocation()
   const from = state?.from ?? `/settings/wallets/${walletId}`
   const updateMutation = useWalletUpdate()
   const wallet = useWalletFindUnique({ id: walletId })
+
+  if (!walletId) {
+    return <UiError message={new Error('Wallet ID parameter is unknown')} title="No wallet ID" />
+  }
 
   if (!wallet) {
     return <UiNotFound />

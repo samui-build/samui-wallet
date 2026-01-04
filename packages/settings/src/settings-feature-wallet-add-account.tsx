@@ -8,6 +8,7 @@ import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key
 import { Button } from '@workspace/ui/components/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@workspace/ui/components/item'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { UiError } from '@workspace/ui/components/ui-error'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { UiPrompt } from '@workspace/ui/components/ui-prompt'
@@ -21,7 +22,7 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletAddAccount() {
   const { t } = useTranslation('settings')
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
   const wallet = useWalletFindUnique({ id: walletId })
   const deriveAccount = useDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
@@ -65,6 +66,10 @@ export function SettingsFeatureWalletAddAccount() {
     } catch (e) {
       toastError(`${e}`)
     }
+  }
+
+  if (!walletId) {
+    return <UiError message={new Error('Wallet ID parameter is unknown')} title="No wallet ID" />
   }
 
   if (!wallet) {
