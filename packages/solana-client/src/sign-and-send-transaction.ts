@@ -29,20 +29,13 @@ export async function signAndSendTransaction(
   latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
 
   const transactionMessage = pipe(
-    // Create a new transaction
     createTransactionMessage({ version: 0 }),
-    // Append the instructions
     (tx) => appendTransactionMessageInstructions(instructions, tx),
-  )
-
-  const transactionMessageWithFeePayerAndBlockhash = pipe(
-    // Sign the message
-    setTransactionMessageFeePayerSigner(transactionSigner, transactionMessage),
-    // Add the latest blockhash
+    (tx) => setTransactionMessageFeePayerSigner(transactionSigner, tx),
     (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
   )
 
-  const signedTransaction = await signTransactionMessageWithSigners(transactionMessageWithFeePayerAndBlockhash)
+  const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
   assertIsTransactionWithBlockhashLifetime(signedTransaction)
 
   await sendAndConfirmTransactionFactory({ rpc: client.rpc, rpcSubscriptions: client.rpcSubscriptions })(
