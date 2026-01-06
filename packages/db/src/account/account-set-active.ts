@@ -1,6 +1,4 @@
 import type { Database } from '../database.ts'
-import { settingFindUnique } from '../setting/setting-find-unique.ts'
-import type { SettingKey } from '../setting/setting-key.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { accountFindUnique } from './account-find-unique.ts'
 
@@ -14,17 +12,6 @@ export async function accountSetActive(db: Database, id: string) {
     }
     const accountId = found.id
 
-    // set the `activeAccountId` setting to the new value
-    const keyWallet: SettingKey = 'activeWalletId'
-    const keyAccount: SettingKey = 'activeAccountId'
-    // get the `activeWalletId` setting
-    const activeWallet = await settingFindUnique(db, keyWallet)
-
-    // ensure that the request `Account.walletId` is equal to `activeWalletId`
-    if (found.walletId !== activeWallet?.value) {
-      await settingSetValue(db, keyWallet, found.walletId)
-    }
-
-    await settingSetValue(db, keyAccount, accountId)
+    await settingSetValue(db, 'activeAccountId', accountId)
   })
 }

@@ -17,7 +17,7 @@ describe('account-set-active', () => {
   describe('expected behavior', () => {
     it('should set an account and its related wallet to active', async () => {
       // ARRANGE
-      expect.assertions(4)
+      expect.assertions(2)
       const inputWallet1 = testWalletCreateInput()
       const inputWallet2 = testWalletCreateInput()
       const idWallet1 = await walletCreate(db, inputWallet1)
@@ -29,17 +29,13 @@ describe('account-set-active', () => {
       const idAccount2 = await accountCreate(db, inputAccount2)
 
       // ACT
-      const activeWalletIdBefore = await settingFindUnique(db, 'activeWalletId')
       const activeAccountIdBefore = await settingFindUnique(db, 'activeAccountId')
 
       await accountSetActive(db, idAccount2)
-      const activeWalletIdAfter = await settingFindUnique(db, 'activeWalletId')
       const activeAccountIdAfter = await settingFindUnique(db, 'activeAccountId')
 
       // ASSERT
-      expect(activeWalletIdBefore?.value).toBe(idWallet1)
       expect(activeAccountIdBefore?.value).toBe(idAccount1)
-      expect(activeWalletIdAfter?.value).toBe(idWallet2)
       expect(activeAccountIdAfter?.value).toBe(idAccount2)
     })
   })

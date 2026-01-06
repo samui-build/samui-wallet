@@ -11,8 +11,8 @@ export function rootRouteLoader() {
     const result = await rootLoader()
     const { settings, networks } = result
 
-    const activeWalletId = settings.find((s) => s.key === 'activeWalletId')?.value
-    if (!activeWalletId && !pathname.startsWith('/onboarding')) {
+    const activeAccountId = settings.find((s) => s.key === 'activeAccountId')?.value
+    if (!activeAccountId && !pathname.startsWith('/onboarding')) {
       return redirectToOnboarding()
     }
 
