@@ -8,14 +8,16 @@ import type { WalletFindManyInput } from '@workspace/db/wallet/wallet-find-many-
 import { walletReadMnemonic } from '@workspace/db/wallet/wallet-read-mnemonic'
 import { walletUpdate } from '@workspace/db/wallet/wallet-update'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
+import { walletUpdateOrder } from '@workspace/db/wallet/wallet-update-order'
+import type { WalletUpdateOrderInput } from '@workspace/db/wallet/wallet-update-order-input'
 import { optionsSetting } from './options-setting.tsx'
 import { queryClient } from './query-client.tsx'
 
 export type WalletCreateMutateOptions = MutateOptions<string, Error, { input: WalletCreateInput }>
 export type WalletDeleteMutateOptions = MutateOptions<void, Error, { id: string }>
 export type WalletReadMnemonicMutateOptions = MutateOptions<string, Error, { id: string }>
-export type WalletSetActiveMutateOptions = MutateOptions<void, Error, { id: string }>
-export type WalletUpdateMutateOptions = MutateOptions<number, Error, { input: WalletUpdateInput }>
+export type WalletUpdateMutateOptions = MutateOptions<number, Error, { id: string; input: WalletUpdateInput }>
+export type WalletUpdateOrderMutateOptions = MutateOptions<void, Error, { input: WalletUpdateOrderInput }>
 
 export const optionsWallet = {
   create: (props: WalletCreateMutateOptions = {}) =>
@@ -48,6 +50,14 @@ export const optionsWallet = {
   update: (props: WalletUpdateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id, input }: { id: string; input: WalletUpdateInput }) => walletUpdate(db, id, input),
+      onSuccess: () => {
+        queryClient.invalidateQueries(optionsWallet.findMany({}))
+      },
+      ...props,
+    }),
+  updateOrder: (props: WalletUpdateOrderMutateOptions = {}) =>
+    mutationOptions({
+      mutationFn: ({ input }: { input: WalletUpdateOrderInput }) => walletUpdateOrder(db, input),
       onSuccess: () => {
         queryClient.invalidateQueries(optionsWallet.findMany({}))
       },
