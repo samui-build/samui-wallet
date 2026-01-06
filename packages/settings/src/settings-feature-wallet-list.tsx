@@ -1,4 +1,4 @@
-import { useSetting } from '@workspace/db-react/use-setting'
+import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useWalletDelete } from '@workspace/db-react/use-wallet-delete'
 import { useWalletLive } from '@workspace/db-react/use-wallet-live'
 import { useTranslation } from '@workspace/i18n'
@@ -18,8 +18,8 @@ export function SettingsFeatureWalletList() {
     onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Wallet deleted'),
   })
+  const account = useAccountActive()
   const wallets = useWalletLive()
-  const [activeWalletId] = useSetting('activeWalletId')
   return wallets.length ? (
     <UiCard
       action={
@@ -31,7 +31,7 @@ export function SettingsFeatureWalletList() {
       title={page.name}
     >
       <SettingsUiWalletList
-        activeId={activeWalletId}
+        activeId={account.walletId}
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={wallets}
       />

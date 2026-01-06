@@ -1,9 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
 import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
 
@@ -45,22 +43,6 @@ describe('wallet-create', () => {
       const item = await walletFindUnique(db, result)
       expect(item?.description).toBe(input.description)
       expect(item?.name).toBe(input.name)
-    })
-
-    it('should create a wallet and set activeWalletId setting', async () => {
-      // ARRANGE
-      expect.assertions(3)
-      const input = testWalletCreateInput()
-      // ACT
-      const activeWalletIdBefore = await settingFindUnique(db, 'activeWalletId')
-      const result = await walletCreate(db, input)
-      const activeWalletIdAfter = await settingFindUnique(db, 'activeWalletId')
-
-      // ASSERT
-      const items = await walletFindMany(db)
-      expect(items.map((i) => i.name)).toContain(input.name)
-      expect(activeWalletIdBefore).toBeNull()
-      expect(activeWalletIdAfter?.value).toBe(result)
     })
   })
 
