@@ -13,13 +13,23 @@ import { Fragment, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { SettingsUiBottomSheetExportWalletMnemonic } from './settings-ui-bottom-sheet-export-wallet-mnemonic.tsx'
 
+export interface SettingsUiWalletMenuProps {
+  deleteItem: (item: Wallet) => Promise<void>
+  isFirst?: boolean
+  isLast?: boolean
+  onMoveDown?: (item: Wallet) => Promise<void>
+  onMoveUp?: (item: Wallet) => Promise<void>
+  wallet: Wallet
+}
+
 export function SettingsUiWalletMenu({
   deleteItem,
+  isFirst,
+  isLast,
+  onMoveDown,
+  onMoveUp,
   wallet,
-}: {
-  deleteItem: (item: Wallet) => Promise<void>
-  wallet: Wallet
-}) {
+}: SettingsUiWalletMenuProps) {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
   const [openDelete, setOpenDelete] = useState(false)
@@ -37,6 +47,20 @@ export function SettingsUiWalletMenu({
             <Link state={{ from }} to={`/settings/wallets/${wallet.id}/edit`}>
               {t(($) => $.actionEditWallet)}
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            disabled={isFirst || !onMoveUp}
+            onClick={() => onMoveUp?.(wallet)}
+          >
+            {t(($) => $.actionMoveWalletUp)}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            disabled={isLast || !onMoveDown}
+            onClick={() => onMoveDown?.(wallet)}
+          >
+            {t(($) => $.actionMoveWalletDown)}
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer" onClick={() => setOpenExport(true)}>
             {t(($) => $.exportMnemonic)}

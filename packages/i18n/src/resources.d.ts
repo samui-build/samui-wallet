@@ -109,6 +109,8 @@ interface Resources {
     actionEditWalletMessage: 'Add account to this wallet'
     actionGenerate: 'Generate'
     actionImport: 'Import'
+    actionMoveWalletDown: 'Move down'
+    actionMoveWalletUp: 'Move up'
     actionRequestAirdrop: 'Request airdrop'
     actionSave: 'Save'
     actionViewAccount: 'View account'
