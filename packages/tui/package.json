@@ -1,7 +1,7 @@
 {
   "dependencies": {
-    "@opentui/core": "0.1.67",
-    "@opentui/react": "0.1.67"
+    "@opentui/core": "0.1.68",
+    "@opentui/react": "0.1.68"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
