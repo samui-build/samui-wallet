@@ -51,7 +51,7 @@
     "lefthook": "2.0.13",
     "pkg-pr-new": "0.0.62",
     "syncpack": "14.0.0-alpha.34",
-    "turbo": "2.7.2",
+    "turbo": "2.7.3",
     "vitest": "catalog:"
   },
   "engines": {
