@@ -1,5 +1,7 @@
+import type { Account } from '@workspace/db/account/account'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useAccountDelete } from '@workspace/db-react/use-account-delete'
+import { useAccountUpdateOrder } from '@workspace/db-react/use-account-update-order'
 import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
@@ -24,6 +26,10 @@ export function SettingsFeatureWalletDetails() {
     onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Account deleted'),
   })
+  const updateOrderMutation = useAccountUpdateOrder({
+    onError: (error) => toastError(error.message),
+    onSuccess: () => toastSuccess('Account order updated'),
+  })
   const activeAccount = useAccountActive()
   const wallet = useWalletFindUnique({ id: walletId })
   const accounts = useAccountsForWalletLive({ walletId })
@@ -32,6 +38,10 @@ export function SettingsFeatureWalletDetails() {
 
   if (!wallet) {
     return <UiNotFound />
+  }
+
+  function handleMove(item: Account, adjustment: number) {
+    return updateOrderMutation.mutateAsync({ input: { id: item.id, order: item.order + adjustment } })
   }
 
   return (
@@ -63,6 +73,8 @@ export function SettingsFeatureWalletDetails() {
         deleteItem={(input) => deleteMutation.mutateAsync({ id: input.id })}
         items={accounts}
         networkType={activeNetwork.type}
+        onMoveDown={(item: Account) => handleMove(item, 1)}
+        onMoveUp={(item: Account) => handleMove(item, -1)}
         requestAirdrop={async (item) => {
           await requestAirdropMutation.mutateAsync({ address: item.publicKey, amount: solToLamports('1') })
         }}
