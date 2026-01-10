@@ -15,6 +15,8 @@
   "actionEditWalletMessage": "Añadir cuenta a esta billetera",
   "actionGenerate": "Generar",
   "actionImport": "Importar",
+  "actionMoveAccountDown": "Mover abajo",
+  "actionMoveAccountUp": "Mover arriba",
   "actionMoveWalletDown": "Mover abajo",
   "actionMoveWalletUp": "Mover arriba",
   "actionRequestAirdrop": "Solicitar airdrop",

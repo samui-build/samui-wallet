@@ -14,17 +14,27 @@ import { Fragment, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 import { SettingsUiBottomSheetExportAccountSecretKey } from './settings-ui-bottom-sheet-export-account-secret-key.tsx'
 
+export interface SettingsUiAccountMenuProps {
+  account: Account
+  deleteItem: (item: Account) => Promise<void>
+  isFirst?: boolean
+  isLast?: boolean
+  networkType: NetworkType
+  onMoveDown?: (item: Account) => Promise<void>
+  onMoveUp?: (item: Account) => Promise<void>
+  requestAirdrop: (item: Account) => Promise<void>
+}
+
 export function SettingsUiAccountMenu({
   account,
   deleteItem,
+  isFirst,
+  isLast,
   networkType,
+  onMoveDown,
+  onMoveUp,
   requestAirdrop,
-}: {
-  account: Account
-  deleteItem: (item: Account) => Promise<void>
-  networkType: NetworkType
-  requestAirdrop: (item: Account) => Promise<void>
-}) {
+}: SettingsUiAccountMenuProps) {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
   const [openDelete, setOpenDelete] = useState(false)
@@ -42,6 +52,20 @@ export function SettingsUiAccountMenu({
             <Link state={{ from }} to={`/explorer/address/${account.publicKey}`}>
               {t(($) => $.actionViewAccount)}
             </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            disabled={isFirst || !onMoveUp}
+            onClick={() => onMoveUp?.(account)}
+          >
+            {t(($) => $.actionMoveAccountUp)}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            disabled={isLast || !onMoveDown}
+            onClick={() => onMoveDown?.(account)}
+          >
+            {t(($) => $.actionMoveAccountDown)}
           </DropdownMenuItem>
           <DropdownMenuItem
             className="cursor-pointer"
