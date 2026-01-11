@@ -400,7 +400,7 @@
       "version": "0.0.0",
       "dependencies": {
         "i18next": "25.7.4",
-        "i18next-cli": "1.34.0",
+        "i18next-cli": "1.34.1",
         "react-i18next": "16.5.1",
       },
       "devDependencies": {
@@ -3227,7 +3227,7 @@
 
     "i18next": ["i18next@25.7.4", "", { "dependencies": { "@babel/runtime": "^7.28.4" }, "peerDependencies": { "typescript": "^5" }, "optionalPeers": ["typescript"] }, "sha512-hRkpEblXXcXSNbw8mBNq9042OEetgyB/ahc/X17uV/khPwzV+uB8RHceHh3qavyrkPJvmXFKXME2Sy1E0KjAfw=="],
 
-    "i18next-cli": ["i18next-cli@1.34.0", "", { "dependencies": { "@croct/json5-parser": "0.2.2", "@swc/core": "1.15.4", "chalk": "5.6.2", "chokidar": "5.0.0", "commander": "14.0.2", "execa": "9.6.1", "glob": "13.0.0", "i18next-resources-for-ts": "2.0.0", "inquirer": "13.1.0", "jiti": "2.6.1", "jsonc-parser": "3.3.1", "minimatch": "10.1.1", "ora": "9.0.0", "react": "^19.2.3", "react-i18next": "^16.5.1", "swc-walk": "1.0.1" }, "bin": { "i18next-cli": "dist/esm/cli.js" } }, "sha512-xMcHsKJl8IzgxVSsJFm0dwia8JARzcmCsSHWxOCFTImpX5tO+vM/fwSKF3F7xJaAxOW1bXvgsyze2dpI9keSrg=="],
+    "i18next-cli": ["i18next-cli@1.34.1", "", { "dependencies": { "@croct/json5-parser": "0.2.2", "@swc/core": "1.15.4", "chalk": "5.6.2", "chokidar": "5.0.0", "commander": "14.0.2", "execa": "9.6.1", "glob": "13.0.0", "i18next-resources-for-ts": "2.0.0", "inquirer": "13.1.0", "jiti": "2.6.1", "jsonc-parser": "3.3.1", "minimatch": "10.1.1", "ora": "9.0.0", "react": "^19.2.3", "react-i18next": "^16.5.1", "swc-walk": "1.0.1" }, "bin": { "i18next-cli": "dist/esm/cli.js" } }, "sha512-s9bIgtu5fE5BgGFxlXGgYwvIdKGXQuLkR2tG7hbwn8Y8wcJ5r3CyNqOsjnKyG+QMGn16/Vs0Q8RNeM9AWF82aw=="],
 
     "i18next-resources-for-ts": ["i18next-resources-for-ts@2.0.0", "", { "dependencies": { "@babel/runtime": "^7.28.4", "@swc/core": "^1.15.3", "chokidar": "^5.0.0", "yaml": "^2.8.2" }, "bin": { "i18next-resources-for-ts": "bin/i18next-resources-for-ts.js" } }, "sha512-RvATolbJlxrwpZh2+R7ZcNtg0ewmXFFx6rdu9i2bUEBvn6ThgA82rxDe3rJQa3hFS0SopX0qPaABqVDN3TUVpw=="],
 
