@@ -50,14 +50,14 @@ export function ExplorerFeatureAccountOverview({
     >
       <ExplorerUiDetailGrid>
         <ExplorerUiDetailRow label={t(($) => $.address)} value={address} />
-        {query.data?.value?.owner ? (
+        {query.data?.owner ? (
           <ExplorerUiDetailRow
             label={t(($) => $.owner)}
-            value={<ExplorerUiLinkAddress address={query.data.value.owner} basePath={basePath} />}
+            value={<ExplorerUiLinkAddress address={query.data.owner} basePath={basePath} />}
           />
         ) : null}
-        {query.data?.value?.lamports !== undefined ? (
-          <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.value.lamports} />
+        {query.data?.lamports !== undefined ? (
+          <ExplorerUiDetailRow label={t(($) => $.lamports)} value={query.data.lamports} />
         ) : null}
       </ExplorerUiDetailGrid>
     </UiCard>
