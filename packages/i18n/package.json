@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "i18next": "25.7.3",
+    "i18next": "25.7.4",
     "i18next-cli": "1.34.0",
     "react-i18next": "16.5.1"
   },
