@@ -9,7 +9,7 @@
     "babel-plugin-inline-import": "3.0.0",
     "clsx": "2.1.1",
     "drizzle-orm": "0.45.1",
-    "expo": "54.0.30",
+    "expo": "54.0.31",
     "expo-dev-client": "6.0.20",
     "expo-sqlite": "16.0.10",
     "expo-status-bar": "3.0.9",
