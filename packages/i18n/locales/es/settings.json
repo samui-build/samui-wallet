@@ -25,7 +25,7 @@
   "actionWatch": "Observar",
   "exportMnemonic": "Exportar mnemónica",
   "exportMnemonicCopy": "Copiar mnemónica",
-  "exportMnemonicCopyConfirmDescription": "¿Desea copiarla en el portapapeles?",
+  "exportMnemonicCopyConfirmDescription": "Nunca compartas tu secreto con nadie. Cualquiera que lo conozca tendrá control total sobre tu cuenta.",
   "exportMnemonicCopyConfirmTitle": "Al exportar la mnemónica se revela información confidencial.",
   "exportMnemonicCopyCopied": "Mnemónica copiada al portapapeles",
   "exportMnemonicHide": "Ocultar mnemónica",
