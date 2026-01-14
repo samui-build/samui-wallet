@@ -19,7 +19,7 @@
         "editorconfig-checker": "6.1.1",
         "lefthook": "2.0.13",
         "pkg-pr-new": "0.0.62",
-        "syncpack": "14.0.0-alpha.34",
+        "syncpack": "14.0.0-canary.1",
         "turbo": "2.7.3",
         "vitest": "catalog:",
       },
@@ -4343,23 +4343,23 @@
 
     "symbol-tree": ["symbol-tree@3.2.4", "", {}, "sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw=="],
 
-    "syncpack": ["syncpack@14.0.0-alpha.34", "", { "dependencies": { "tsx": "^4.21.0" }, "optionalDependencies": { "syncpack-darwin-arm64": "14.0.0-alpha.34", "syncpack-darwin-x64": "14.0.0-alpha.34", "syncpack-linux-arm64": "14.0.0-alpha.34", "syncpack-linux-arm64-musl": "14.0.0-alpha.34", "syncpack-linux-x64": "14.0.0-alpha.34", "syncpack-linux-x64-musl": "14.0.0-alpha.34", "syncpack-windows-arm64": "14.0.0-alpha.34", "syncpack-windows-x64": "14.0.0-alpha.34" }, "bin": { "syncpack": "index.cjs" } }, "sha512-Y3e2Fz/Xp9MkI6oReW9Fq18yBO3c0lbycdNHOJrnfcs5IiPD8uPkkTWm9IJ38WG+Tapdr2Tbf0Kyzu+3aKkLjQ=="],
+    "syncpack": ["syncpack@14.0.0-canary.1", "", { "dependencies": { "tsx": "^4.21.0" }, "optionalDependencies": { "syncpack-darwin-arm64": "14.0.0-canary.1", "syncpack-darwin-x64": "14.0.0-canary.1", "syncpack-linux-arm64": "14.0.0-canary.1", "syncpack-linux-arm64-musl": "14.0.0-canary.1", "syncpack-linux-x64": "14.0.0-canary.1", "syncpack-linux-x64-musl": "14.0.0-canary.1", "syncpack-windows-arm64": "14.0.0-canary.1", "syncpack-windows-x64": "14.0.0-canary.1" } }, "sha512-ckUeoGpxG2jweY0MOn1pLKcu8huNYSAuhlUGkiUpPis1vkRMEM7Fo0bay4DyUU4dMtv+ryPcW/DfNvnq9yNm1A=="],
 
-    "syncpack-darwin-arm64": ["syncpack-darwin-arm64@14.0.0-alpha.34", "", { "os": "darwin", "cpu": "arm64" }, "sha512-8FMnmhcDsc00/8t6dkiCQxdkLzKxp/bBRuyfiZY4vxqoj9mNNEwK3+r0pwK9JsPhuyktYBR1pcec/p0d/D1lyw=="],
+    "syncpack-darwin-arm64": ["syncpack-darwin-arm64@14.0.0-canary.1", "", { "os": "darwin", "cpu": "arm64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-tKxNtRWLXyfM3BHzYC4lJTbv5I0cz9rh12hHGCO5zclGj2+pcZGKDG6frZmFrBEhEkHyzdYBxv75PsYi8+NoNg=="],
 
-    "syncpack-darwin-x64": ["syncpack-darwin-x64@14.0.0-alpha.34", "", { "os": "darwin", "cpu": "x64" }, "sha512-T3ZdFQEkfvxIYJG9J2V0bPk6LUqhMPTrIuLdfI4TpW9Z9MzBUK7Bbx16Ezq9AlOrIsu7ARxnYMH74opG83baZg=="],
+    "syncpack-darwin-x64": ["syncpack-darwin-x64@14.0.0-canary.1", "", { "os": "darwin", "cpu": "x64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-yUzrgmM30og8nUjrVE/ARnZgBbVpnLSpZHc1cV4O8Dgv9X2tMe1KNcIC2zWS1P8mwaD+rejr5E1nMMUFmQnj2w=="],
 
-    "syncpack-linux-arm64": ["syncpack-linux-arm64@14.0.0-alpha.34", "", { "os": "linux", "cpu": "arm64" }, "sha512-PVQMXo7tRXFC4q5Aks3Q+fLsPoy9u2gOpOTpn6KSpLvv2a/BrOskmPmue3YvYkK2B6MtxQazOcTRaaMkby6bAg=="],
+    "syncpack-linux-arm64": ["syncpack-linux-arm64@14.0.0-canary.1", "", { "os": "linux", "cpu": "arm64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-zKZOdWGR4dKyhJ81q/VkdHe8vdrTXAnQGT2M66f2VM50ORWzrT0+f5wd5IN0p3VcshK9tIwWgbn3YsG67biGWw=="],
 
-    "syncpack-linux-arm64-musl": ["syncpack-linux-arm64-musl@14.0.0-alpha.34", "", { "os": "linux", "cpu": "arm64" }, "sha512-E0ZoBvEgsfWWjmys+QMWAlQFXmOOf+XDeT+3Dok1lbogtohTK7xCdCHT6U6yg/HzuUtSWCQwFJtwd2IBt7OdTA=="],
+    "syncpack-linux-arm64-musl": ["syncpack-linux-arm64-musl@14.0.0-canary.1", "", { "os": "linux", "cpu": "arm64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-VbHlZGLkib3MgO57T1xoge/AupEsnmaZsT8K2PnX43PsFTaO1+3T1MFlrY+E7tg1C5FBMrFkIKLUOFe9uZaAZg=="],
 
-    "syncpack-linux-x64": ["syncpack-linux-x64@14.0.0-alpha.34", "", { "os": "linux", "cpu": "x64" }, "sha512-SB15PEPEctMjWv+Imk9wqFexbEWYm+ts/jvHaadHSr9zoOQweiiy66awNzQufSmHR14lhtgELR+OvyuE5jDylA=="],
+    "syncpack-linux-x64": ["syncpack-linux-x64@14.0.0-canary.1", "", { "os": "linux", "cpu": "x64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-GfST2ALUZmaxifihKn+zMKxVIhcrbiw3ZfAZEvvSz8IveyZjukULSy9dnF8npzXP5vnTmoBKhO0yqN4dR1WbgA=="],
 
-    "syncpack-linux-x64-musl": ["syncpack-linux-x64-musl@14.0.0-alpha.34", "", { "os": "linux", "cpu": "x64" }, "sha512-sMCLhSt2fjFGIypR2sLgb+lDGGAZUD5Ov/v9EflbycO7wcnb2/RvmfG/BWt4fpkve8wK1kQ993RXOWgdlRvmag=="],
+    "syncpack-linux-x64-musl": ["syncpack-linux-x64-musl@14.0.0-canary.1", "", { "os": "linux", "cpu": "x64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-Ut7NgEVqaCrARt5GD2b1mSEywlAMrSNfEjqestQcjKZ/l8HjK7kXIEIcX+mgdKCZd3sLMZq0xThlrjjGRhq3Sg=="],
 
-    "syncpack-windows-arm64": ["syncpack-windows-arm64@14.0.0-alpha.34", "", { "os": "win32", "cpu": "arm64" }, "sha512-4xM777/AqOGPKK8EHgGDXcxR1jtT+fDVQQ+d+WQ0g6UiDfiAt44gOpiuhAjqb5ibC7REeyNCa3Ho8uKW0cw6ww=="],
+    "syncpack-windows-arm64": ["syncpack-windows-arm64@14.0.0-canary.1", "", { "os": "win32", "cpu": "arm64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-WLzNLToHWZ0vvf2AY7orQUWTB+zsH+mWeD+638UhBmwQ5DQKpMjLc+YcpKIdEet6v/VvlPSiLT8DGe9qZATh8w=="],
 
-    "syncpack-windows-x64": ["syncpack-windows-x64@14.0.0-alpha.34", "", { "os": "win32", "cpu": "x64" }, "sha512-nV4TYqsNvNhcQCjeGBV92dwupQEu3fZLVvfvzsWpSWmvMn9NEpo3/v3YfQ6sfyB0giLra8Kpai6gTDbRqnMq8Q=="],
+    "syncpack-windows-x64": ["syncpack-windows-x64@14.0.0-canary.1", "", { "os": "win32", "cpu": "x64", "bin": { "syncpack": "bin/syncpack" } }, "sha512-t27cVIdZpQ/IIpsiB2nIF5bo7vCjGJulpcazg3jKAEa9PShSh+A4uRWtHNZzm7fn4MQIaSABUdLDbsqVfRgKRA=="],
 
     "tailwind-merge": ["tailwind-merge@3.4.0", "", {}, "sha512-uSaO4gnW+b3Y2aWoWfFpX62vn2sR3skfhbjsEnaBI81WD1wBLlHZe5sWf0AqjksNdYTbGBEd0UasQMT3SNV15g=="],
 
