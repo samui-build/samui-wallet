@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "@turbo/gen": "2.7.3",
+    "@turbo/gen": "2.7.4",
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:"
   },
