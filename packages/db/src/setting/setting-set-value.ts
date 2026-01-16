@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -19,15 +19,17 @@ export async function settingSetValue(db: Database, key: SettingKey, value: stri
     const setting = await settingFindUnique(db, key)
     // Update the setting if it's already set
     if (setting) {
-      const { error } = await tryCatch(db.settings.update(setting.id, { updatedAt: now, value }))
-      if (error) {
+      const result = await Result.tryPromise(() => db.settings.update(setting.id, { updatedAt: now, value }))
+      if (Result.isError(result)) {
         throw new Error(`Error updating setting`)
       }
       return
     }
     // Create the setting if it's not set
-    const { error } = await tryCatch(db.settings.add({ createdAt: now, id: randomId(), key, updatedAt: now, value }))
-    if (error) {
+    const result = await Result.tryPromise(() =>
+      db.settings.add({ createdAt: now, id: randomId(), key, updatedAt: now, value }),
+    )
+    if (Result.isError(result)) {
       throw new Error(`Error creating setting`)
     }
     return

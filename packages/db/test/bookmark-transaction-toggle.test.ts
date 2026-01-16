@@ -55,12 +55,12 @@ describe('bookmark-transaction-toggle', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkTransactionCreateInput()
-      vi.spyOn(db.bookmarkTransactions, 'where').mockImplementationOnce(() => {
+      vi.spyOn(db.bookmarkTransactions, 'get').mockImplementationOnce(() => {
         throw new Error('Test error')
       })
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionToggle(db, input.signature)).rejects.toThrow('Test error')
+      await expect(bookmarkTransactionToggle(db, input.signature)).rejects.toThrow('Error finding bookmark transaction')
     })
   })
 })

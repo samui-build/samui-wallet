@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import { convertKeyPairToJson } from './convert-key-pair-to-json.ts'
 import { createKeyPairSignerFromBip44 } from './create-key-pair-signer-from-bip44.ts'
@@ -21,7 +21,7 @@ export async function deriveFromMnemonicAtIndex({
   derivationPath = derivationPaths.default,
   mnemonic,
 }: DeriveFromMnemonicAtIndexProps): Promise<DerivedAccount> {
-  const { data: signers, error } = await tryCatch(
+  const result = await Result.tryPromise(() =>
     createKeyPairSignerFromBip44({
       derivationPath,
       extractable: true,
@@ -30,13 +30,13 @@ export async function deriveFromMnemonicAtIndex({
       to: derivationIndex + 1,
     }),
   )
-  if (error) {
-    if (error instanceof Error && error.message.includes('Invalid mnemonic')) {
-      throw error
+  if (Result.isError(result)) {
+    if (result.error instanceof Error && result.error.message.includes('Invalid mnemonic')) {
+      throw result.error
     }
     throw new Error(`Error creating KeyPair signer from mnemonic`)
   }
-  const signer = signers.length ? signers[0] : undefined
+  const signer = result.value.length ? result.value[0] : undefined
   if (!signer) {
     throw new Error(`Error creating KeyPair signer from mnemonic`)
   }

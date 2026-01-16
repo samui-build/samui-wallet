@@ -1,14 +1,14 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 
 export async function bookmarkAccountDelete(db: Database, id: string): Promise<void> {
   return db.transaction('rw', db.bookmarkAccounts, async () => {
-    const { data, error } = await tryCatch(db.bookmarkAccounts.delete(id))
-    if (error) {
-      console.log(error)
+    const result = await Result.tryPromise(() => db.bookmarkAccounts.delete(id))
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error deleting bookmark account with id ${id}`)
     }
-    return data
+    return result.value
   })
 }

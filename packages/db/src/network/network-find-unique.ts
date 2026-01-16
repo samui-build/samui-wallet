@@ -1,15 +1,15 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import type { Network } from './network.ts'
 
 export async function networkFindUnique(db: Database, id: string): Promise<Network | null> {
   return db.transaction('r', db.networks, async () => {
-    const { data, error } = await tryCatch(db.networks.get(id))
-    if (error) {
-      console.log(error)
+    const result = await Result.tryPromise(() => db.networks.get(id))
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding network with id ${id}`)
     }
-    return data ? data : null
+    return result.value ? result.value : null
   })
 }

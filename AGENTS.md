@@ -15,7 +15,7 @@
 - **Formatting**: Biome (single quotes, 120 width, no semicolons, trailing commas)
 - **Linting**: Biome
 - **Naming**: camelCase variables/functions, PascalCase types
-- **Error Handling**: Use `tryCatch` from `@workspace/core`
+- **Error Handling**: Use `Result` from `@workspace/core` (re-exports `better-result`)
 - **Testing**: Vitest globals, jsdom env, ARRANGE/ACT/ASSERT pattern
 - **Imports**: Type imports separate, alphabetical sorting
 

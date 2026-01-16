@@ -1,4 +1,7 @@
 {
+  "dependencies": {
+    "better-result": "2.1.0"
+  },
   "devDependencies": {
     "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",

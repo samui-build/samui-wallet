@@ -1,6 +1,6 @@
 import type { KeyPairSigner, Signature } from '@solana/kit'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
@@ -30,18 +30,18 @@ export function portfolioTxSendMutationOptions({
     transactionSigner: KeyPairSigner,
   ): Promise<Signature | undefined> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-    const { data: result, error: sendError } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       sendSplMutation.mutateAsync({ mint: input.mint.mint, recipients: input.recipients, transactionSigner }),
     )
 
-    if (sendError) {
+    if (Result.isError(result)) {
       toastError(`Error sending ${tokenSymbol}`)
       return
     }
 
-    if (result) {
+    if (result.value) {
       toastSuccess(`${tokenSymbol} has been sent!`)
-      return result
+      return result.value
     }
     toastError(`Failed to send ${tokenSymbol}`)
     return
@@ -51,18 +51,18 @@ export function portfolioTxSendMutationOptions({
     input: PortfolioTxSendInput,
     transactionSigner: KeyPairSigner,
   ): Promise<Signature | undefined> {
-    const { data: result, error: sendError } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       sendSolMutation.mutateAsync({ recipients: input.recipients, transactionSigner }),
     )
 
-    if (sendError) {
-      toastError(`Error sending SOL: ${sendError}`)
+    if (Result.isError(result)) {
+      toastError(`Error sending SOL: ${result.error}`)
       return
     }
 
-    if (result) {
+    if (result.value) {
       toastSuccess('SOL has been sent!')
-      return result
+      return result.value
     }
     toastError('Failed to send SOL')
     return

@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -10,7 +10,7 @@ export async function bookmarkAccountCreate(db: Database, input: BookmarkAccount
   const parsedInput = bookmarkAccountCreateSchema.parse(input)
 
   return db.transaction('rw', db.bookmarkAccounts, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.bookmarkAccounts.add({
         ...parsedInput,
         createdAt: now,
@@ -18,11 +18,11 @@ export async function bookmarkAccountCreate(db: Database, input: BookmarkAccount
         updatedAt: now,
       }),
     )
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error creating bookmark account`)
     }
 
-    return data
+    return result.value
   })
 }
