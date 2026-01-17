@@ -55,12 +55,12 @@ describe('bookmark-account-toggle', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkAccountCreateInput()
-      vi.spyOn(db.bookmarkAccounts, 'where').mockImplementationOnce(() => {
+      vi.spyOn(db.bookmarkAccounts, 'get').mockImplementationOnce(() => {
         throw new Error('Test error')
       })
 
       // ACT & ASSERT
-      await expect(bookmarkAccountToggle(db, input.address)).rejects.toThrow('Test error')
+      await expect(bookmarkAccountToggle(db, input.address)).rejects.toThrow('Error finding bookmark account')
     })
   })
 })

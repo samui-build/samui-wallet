@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -10,7 +10,7 @@ export async function networkCreate(db: Database, input: NetworkCreateInput): Pr
   const parsedInput = networkCreateSchema.parse(input)
 
   return db.transaction('rw', db.networks, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.networks.add({
         ...parsedInput,
         createdAt: now,
@@ -18,10 +18,10 @@ export async function networkCreate(db: Database, input: NetworkCreateInput): Pr
         updatedAt: now,
       }),
     )
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error creating network`)
     }
-    return data
+    return result.value
   })
 }

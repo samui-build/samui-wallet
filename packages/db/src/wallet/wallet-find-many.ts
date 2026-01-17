@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import type { Wallet } from './wallet.ts'
@@ -10,35 +10,34 @@ import { walletSanitizer } from './wallet-sanitizer.ts'
 export async function walletFindMany(db: Database, input: WalletFindManyInput = {}): Promise<Wallet[]> {
   const parsedInput = walletFindManySchema.parse(input)
   return db.transaction('r', db.wallets, db.accounts, async () => {
-    const [{ data: dataWallets, error: walletsError }, { data: dataAccounts, error: errorAccounts }] =
-      await Promise.all([
-        tryCatch(
-          db.wallets
-            .orderBy('order')
-            .filter((item) => {
-              const matchId = !parsedInput.id || item.id === parsedInput.id
-              const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+    const [result1, result2] = await Promise.all([
+      Result.tryPromise(() =>
+        db.wallets
+          .orderBy('order')
+          .filter((item) => {
+            const matchId = !parsedInput.id || item.id === parsedInput.id
+            const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
 
-              return matchId && matchName
-            })
-            .toArray(),
-        ),
-        tryCatch(db.accounts.orderBy('order').toArray()),
-      ])
+            return matchId && matchName
+          })
+          .toArray(),
+      ),
+      Result.tryPromise(() => db.accounts.orderBy('order').toArray()),
+    ])
 
-    if (walletsError) {
-      console.log(walletsError)
+    if (Result.isError(result1)) {
+      console.log(result1.error)
       throw new Error(`Error finding wallets`)
     }
-    if (errorAccounts) {
-      console.log(errorAccounts)
+    if (Result.isError(result2)) {
+      console.log(result2.error)
       throw new Error(`Error finding accounts`)
     }
     return [
-      ...dataWallets.map((wallet) => {
+      ...result1.value.map((wallet) => {
         return {
           ...walletSanitizer(wallet),
-          accounts: [...dataAccounts.filter((account) => account.walletId === wallet.id)],
+          accounts: [...result2.value.filter((account) => account.walletId === wallet.id)],
         }
       }),
     ]

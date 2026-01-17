@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 import type { Account } from './account.ts'
 import type { AccountUpdateOrderInput } from './account-update-order-input.ts'
@@ -28,7 +28,7 @@ export async function accountUpdateOrder(db: Database, input: AccountUpdateOrder
     const increment = newOrder < oldOrder
     const lower = increment ? newOrder : oldOrder + 1
     const upper = increment ? oldOrder - 1 : newOrder
-    const { error: updateAccountsError } = await tryCatch(
+    const updateAccountsResult = await Result.tryPromise(() =>
       db.accounts
         .where('order')
         .between(lower, upper, true, true)
@@ -36,15 +36,15 @@ export async function accountUpdateOrder(db: Database, input: AccountUpdateOrder
           account.order = increment ? account.order + 1 : account.order - 1
         }),
     )
-    if (updateAccountsError) {
+    if (Result.isError(updateAccountsResult)) {
       throw new Error(`Error updating account order (${increment ? 'increment' : 'decrement'})`)
     }
 
     // Finally, update the moved account's order
-    const { error: updateError } = await tryCatch(db.accounts.update(id, { order: newOrder }))
+    const updateResult = await Result.tryPromise(() => db.accounts.update(id, { order: newOrder }))
 
-    if (updateError) {
-      console.log(updateError)
+    if (Result.isError(updateResult)) {
+      console.log(updateResult.error)
       throw new Error(`Error moving account with id ${id}`)
     }
   })

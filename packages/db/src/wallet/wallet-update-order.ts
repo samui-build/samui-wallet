@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 import type { Wallet } from './wallet.ts'
 import type { WalletUpdateOrderInput } from './wallet-update-order-input.ts'
@@ -28,7 +28,7 @@ export async function walletUpdateOrder(db: Database, input: WalletUpdateOrderIn
     const increment = newOrder < oldOrder
     const lower = increment ? newOrder : oldOrder + 1
     const upper = increment ? oldOrder - 1 : newOrder
-    const { error: updateWalletsError } = await tryCatch(
+    const result1 = await Result.tryPromise(() =>
       db.wallets
         .where('order')
         .between(lower, upper, true, true)
@@ -36,15 +36,15 @@ export async function walletUpdateOrder(db: Database, input: WalletUpdateOrderIn
           wallet.order = increment ? wallet.order + 1 : wallet.order - 1
         }),
     )
-    if (updateWalletsError) {
+    if (Result.isError(result1)) {
       throw new Error(`Error updating wallet order (${increment ? 'increment' : 'decrement'})`)
     }
 
     // Finally, update the moved wallet's order
-    const { error: updateError } = await tryCatch(db.wallets.update(id, { order: newOrder }))
+    const result = await Result.tryPromise(() => db.wallets.update(id, { order: newOrder }))
 
-    if (updateError) {
-      console.log(updateError)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error moving wallet with id ${id}`)
     }
   })

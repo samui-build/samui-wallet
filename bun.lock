@@ -244,6 +244,9 @@
     "packages/core": {
       "name": "@workspace/core",
       "version": "0.0.0",
+      "dependencies": {
+        "better-result": "2.1.0",
+      },
       "devDependencies": {
         "@types/bun": "catalog:",
         "@workspace/config-typescript": "workspace:*",
@@ -1052,6 +1055,10 @@
     "@biomejs/cli-win32-x64": ["@biomejs/cli-win32-x64@2.3.11", "", { "os": "win32", "cpu": "x64" }, "sha512-43VrG813EW+b5+YbDbz31uUsheX+qFKCpXeY9kfdAx+ww3naKxeVkTD9zLIWxUPfJquANMHrmW3wbe/037G0Qg=="],
 
     "@capsizecss/unpack": ["@capsizecss/unpack@4.0.0", "", { "dependencies": { "fontkitten": "^1.0.0" } }, "sha512-VERIM64vtTP1C4mxQ5thVT9fK0apjPFobqybMtA1UdUujWka24ERHbRHFGmpbbhp73MhV+KSsHQH9C6uOTdEQA=="],
+
+    "@clack/core": ["@clack/core@0.5.0", "", { "dependencies": { "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-p3y0FIOwaYRUPRcMO7+dlmLh8PSRcrjuTndsiA0WAFbWES0mLZlrjVoBRZ9DzkPFJZG6KGkJmoEAY0ZcVWTkow=="],
+
+    "@clack/prompts": ["@clack/prompts@0.11.0", "", { "dependencies": { "@clack/core": "0.5.0", "picocolors": "^1.0.0", "sisteransi": "^1.0.5" } }, "sha512-pMN5FcrEw9hUkZA4f+zLlzivQSeQf5dRGJjSUbvVYDLvpKCdQx5OaknvKzgbtXOizhP+SJJJjqEbOe55uKKfAw=="],
 
     "@cloudflare/kv-asset-handler": ["@cloudflare/kv-asset-handler@0.4.1", "", { "dependencies": { "mime": "^3.0.0" } }, "sha512-Nu8ahitGFFJztxUml9oD/DLb7Z28C8cd8F46IVQ7y5Btz575pvMY8AqZsXkX7Gds29eCKdMgIHjIvzskHgPSFg=="],
 
@@ -2494,6 +2501,8 @@
     "before-after-hook": ["before-after-hook@2.2.3", "", {}, "sha512-NzUnlZexiaH/46WDhANlyR2bXRopNg4F/zuSA3OpZnllCUgRaOF2znDioDWrmbNVsuZk6l9pMquQB38cfBZwkQ=="],
 
     "better-opn": ["better-opn@3.0.2", "", { "dependencies": { "open": "^8.0.4" } }, "sha512-aVNobHnJqLiUelTaHat9DZ1qM2w0C0Eym4LPI/3JxOnSokGVdsl1T1kN7TFvsEAD8G47A6VKQ0TVHqbBnYMJlQ=="],
+
+    "better-result": ["better-result@2.1.0", "", { "dependencies": { "@clack/prompts": "^0.11.0" }, "bin": { "better-result": "bin/cli.mjs" } }, "sha512-POnegQjl5WgHVX4DmKarYSezjZ+iUmtSAtjtbVLpelay0NA6KbI41mOKnJYvy/i3P1NvmzsuZxDkXPuyAOYTuw=="],
 
     "bidi-js": ["bidi-js@1.0.3", "", { "dependencies": { "require-from-string": "^2.0.2" } }, "sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw=="],
 
@@ -4766,6 +4775,10 @@
     "@babel/highlight/picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
 
     "@babel/plugin-transform-runtime/semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
+
+    "@clack/core/picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
+
+    "@clack/prompts/picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
 
     "@cloudflare/vite-plugin/miniflare": ["miniflare@4.20251217.0", "", { "dependencies": { "@cspotcode/source-map-support": "0.8.1", "acorn": "8.14.0", "acorn-walk": "8.3.2", "exit-hook": "2.2.1", "glob-to-regexp": "0.4.1", "sharp": "^0.33.5", "stoppable": "1.1.0", "undici": "7.14.0", "workerd": "1.20251217.0", "ws": "8.18.0", "youch": "4.1.0-beta.10", "zod": "3.22.3" }, "bin": { "miniflare": "bootstrap.js" } }, "sha512-8xsTQbPS6YV+ABZl9qiJIbsum6hbpbhqiyKpOVdzZrhK+1N8EFpT8R6aBZff7kezGmxYZSntjgjqTwJmj3JLgA=="],
 

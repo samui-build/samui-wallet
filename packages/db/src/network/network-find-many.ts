@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 import type { Network } from './network.ts'
@@ -9,7 +9,7 @@ import { networkFindManySchema } from './network-find-many-schema.ts'
 export async function networkFindMany(db: Database, input: NetworkFindManyInput = {}): Promise<Network[]> {
   const parsedInput = networkFindManySchema.parse(input)
   return db.transaction('r', db.networks, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.networks
         .orderBy('name')
         .filter((item) => {
@@ -22,10 +22,10 @@ export async function networkFindMany(db: Database, input: NetworkFindManyInput 
         })
         .toArray(),
     )
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding networks`)
     }
-    return data
+    return result.value
   })
 }

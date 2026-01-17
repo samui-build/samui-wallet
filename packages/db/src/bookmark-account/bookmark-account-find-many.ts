@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 import type { BookmarkAccount } from './bookmark-account.ts'
 import type { BookmarkAccountFindManyInput } from './bookmark-account-find-many-input.ts'
@@ -10,7 +10,7 @@ export async function bookmarkAccountFindMany(
 ): Promise<BookmarkAccount[]> {
   const parsedInput = bookmarkAccountFindManySchema.parse(input)
   return db.transaction('r', db.bookmarkAccounts, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.bookmarkAccounts
         .orderBy('updatedAt')
         .filter((item) => {
@@ -23,10 +23,10 @@ export async function bookmarkAccountFindMany(
         .reverse()
         .toArray(),
     )
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding bookmark accounts`)
     }
-    return data
+    return result.value
   })
 }

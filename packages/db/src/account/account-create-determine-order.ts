@@ -1,24 +1,24 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 
 import type { Database } from '../database.ts'
 
 export async function accountCreateDetermineOrder(db: Database, walletId: string): Promise<number> {
   return db.transaction('r', db.accounts, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.accounts
         .orderBy('order')
         .and((x) => x.walletId === walletId)
         .last(),
     )
 
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding last account`)
     }
 
-    if (!data) {
+    if (!result.value) {
       return 0
     }
-    return data.order + 1
+    return result.value.order + 1
   })
 }

@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 import { parseStrict } from '../parse-strict.ts'
 import type { BookmarkAccountUpdateInput } from './bookmark-account-update-input.ts'
@@ -11,16 +11,16 @@ export async function bookmarkAccountUpdate(
 ): Promise<number> {
   const parsedInput = parseStrict(bookmarkAccountUpdateSchema.parse(input))
   return db.transaction('rw', db.bookmarkAccounts, async () => {
-    const { data, error } = await tryCatch(
+    const result = await Result.tryPromise(() =>
       db.bookmarkAccounts.update(id, {
         ...parsedInput,
         updatedAt: new Date(),
       }),
     )
-    if (error) {
-      console.log(error)
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error updating bookmark account with id ${id}`)
     }
-    return data
+    return result.value
   })
 }

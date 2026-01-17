@@ -1,20 +1,20 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 
 export function accountReadSecretKey(db: Database, id: string) {
   return db.transaction('r', db.accounts, async () => {
-    const { data: account, error } = await tryCatch(db.accounts.get(id))
-    if (error) {
-      console.log(error)
+    const result = await Result.tryPromise(() => db.accounts.get(id))
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding account with id ${id}`)
     }
-    if (!account) {
+    if (!result.value) {
       throw new Error(`Account with id ${id} not found`)
     }
-    if (account.type === 'Watched') {
+    if (result.value.type === 'Watched') {
       throw new Error(`Account with id ${id} does not have a secret key`)
     }
     // TODO: Decrypt account.secretKey here
-    return account.secretKey
+    return result.value.secretKey
   })
 }

@@ -1,5 +1,5 @@
 import type { Signature } from '@solana/kit'
-import { tryCatch } from '@workspace/core/try-catch'
+import { Result } from '@workspace/core/result'
 import type { Database } from '../database.ts'
 import type { BookmarkTransaction } from './bookmark-transaction.ts'
 
@@ -8,11 +8,11 @@ export async function bookmarkTransactionFindBySignature(
   signature: Signature,
 ): Promise<null | BookmarkTransaction> {
   return db.transaction('r', db.bookmarkTransactions, async () => {
-    const { data, error } = await tryCatch(db.bookmarkTransactions.get({ signature }))
-    if (error) {
-      console.log(error)
+    const result = await Result.tryPromise(() => db.bookmarkTransactions.get({ signature }))
+    if (Result.isError(result)) {
+      console.log(result.error)
       throw new Error(`Error finding bookmark transaction with signature ${signature}`)
     }
-    return data ? data : null
+    return result.value ? result.value : null
   })
 }
