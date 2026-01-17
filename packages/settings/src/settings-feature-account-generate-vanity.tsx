@@ -12,7 +12,6 @@ import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useEffect, useReducer, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
-
 import {
   SettingsUiWalletFormGenerateVanity,
   type VanityWalletFormFields,
@@ -129,7 +128,11 @@ function useVanityGenerator() {
 
 export function SettingsFeatureAccountGenerateVanity() {
   const navigate = useNavigate()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
+  if (!walletId) {
+    throw new Error('Parameter walletId is required')
+  }
+
   const wallet = useWalletFindUnique({ id: walletId })
   const createAccountMutation = useAccountCreate()
   const { cancel, start, state } = useVanityGenerator()

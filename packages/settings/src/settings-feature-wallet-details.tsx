@@ -21,7 +21,11 @@ import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 export function SettingsFeatureWalletDetails() {
   const { t } = useTranslation('settings')
   const { pathname: from } = useLocation()
-  const { walletId } = useParams() as { walletId: string }
+  const { walletId } = useParams<{ walletId: string }>()
+  if (!walletId) {
+    throw new Error('Parameter walletId is required')
+  }
+
   const deleteMutation = useAccountDelete({
     onError: (error) => toastError(error.message),
     onSuccess: () => toastSuccess('Account deleted'),
