@@ -21,18 +21,19 @@ export function SettingsUiBottomSheetExportWalletMnemonic({
   const { t } = useTranslation('settings')
   const [revealed, setRevealed] = useState(false)
   const readMnemonicMutation = useWalletReadMnemonic()
+  const mnemonic = readMnemonicMutation.data
 
   return (
     <UiBottomSheet
-      description={t(($) => $.exportMnemonicCopyConfirmDescription)}
+      description={mnemonic ? t(($) => $.exportMnemonicCopyConfirmDescription) : undefined}
       onOpenChange={(value) => setOpen(value)}
       open={open}
       title={t(($) => $.exportMnemonicCopyConfirmTitle)}
     >
       <div className="px-4 pb-4">
-        {readMnemonicMutation.data?.length ? (
+        {mnemonic ? (
           <div className="space-y-2 text-center">
-            <SettingsUiMnemonicBlur revealed={revealed} value={readMnemonicMutation.data} />
+            <SettingsUiMnemonicBlur revealed={revealed} value={mnemonic} />
             <div className="space-x-2">
               <Button onClick={() => setRevealed((val) => !val)} variant="secondary">
                 <UiIcon icon="watch" />
@@ -40,7 +41,7 @@ export function SettingsUiBottomSheetExportWalletMnemonic({
               </Button>
               <UiTextCopyButton
                 label={t(($) => $.exportMnemonicCopy)}
-                text={readMnemonicMutation.data}
+                text={mnemonic}
                 toast={t(($) => $.exportMnemonicCopyCopied)}
               />
             </div>

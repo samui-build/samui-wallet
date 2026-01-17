@@ -25,7 +25,7 @@
   "actionWatch": "Watch",
   "exportMnemonic": "Export mnemonic",
   "exportMnemonicCopy": "Copy mnemonic",
-  "exportMnemonicCopyConfirmDescription": "Do you want to copy it to your clipboard?",
+  "exportMnemonicCopyConfirmDescription": "Never share your secret with others. Anyone with your secret will have complete control over your account.",
   "exportMnemonicCopyConfirmTitle": "Exporting the mnemonic reveals sensitive information.",
   "exportMnemonicCopyCopied": "Mnemonic copied to clipboard",
   "exportMnemonicHide": "Hide mnemonic",
