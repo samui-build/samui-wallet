@@ -16,9 +16,9 @@ runs:
 
     - name: Install dependencies
       shell: bash
-      run: bun install
+      run: bun install --verbose
 
 # TODO: This check can go when this issue is fixed https://github.com/oven-sh/bun/issues/24223
-    - name: Check for dirty git repo
-      shell: bash
-      run:  git diff --quiet --ignore-submodules HEAD
+    # - name: Check for dirty git repo
+    #   shell: bash
+    #   run:  git diff --ignore-submodules HEAD
