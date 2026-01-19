@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@astrojs/starlight": "0.37.2",
+    "@astrojs/starlight": "0.37.3",
     "@astrojs/starlight-tailwind": "4.0.2",
     "@tailwindcss/vite": "catalog:",
     "astro": "5.16.9",
