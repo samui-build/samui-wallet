@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@opentui/core": "0.1.72",
+    "@opentui/core": "0.1.73",
     "@opentui/react": "0.1.72"
   },
   "devDependencies": {
