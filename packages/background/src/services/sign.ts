@@ -50,7 +50,6 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
 
     for (const input of inputs) {
       const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
-      // @ts-expect-error TODO: Figure out "Property 'lifetimeConstraint' is missing in type 'Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }>' but required in type 'TransactionWithLifetime'."
       const transaction = await signTransaction([key], decoded)
       const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
       // @ts-expect-error TODO: Figure out "Type 'FullySignedTransaction & Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }> & TransactionWithLifetime' is missing the following properties from type 'Readonly<{ instructions: readonly Instruction<string, readonly (AccountLookupMeta<string, string> | AccountMeta<string>)[]>[]; version: TransactionVersion; }>': instructions, version"
@@ -132,7 +131,6 @@ export const [registerSignService, getSignService] = defineProxyService('SignSer
 
     for (const input of inputs) {
       const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
-      // @ts-expect-error TODO: Figure out "Property 'lifetimeConstraint' is missing in type 'Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }>' but required in type 'TransactionWithLifetime'."
       const signed = await signTransaction([key], decoded)
       results.push({
         signedTransaction: new Uint8Array(getTransactionEncoder().encode(signed)),
