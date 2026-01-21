@@ -21,7 +21,7 @@
     "globals": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "wrangler": "4.54.0"
+    "wrangler": "4.59.1"
   },
   "name": "web",
   "private": true,
