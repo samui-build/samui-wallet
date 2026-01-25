@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cloudflare/vite-plugin": "1.21.0",
+    "@cloudflare/vite-plugin": "1.21.2",
     "@workspace/env": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/shell": "workspace:*",
