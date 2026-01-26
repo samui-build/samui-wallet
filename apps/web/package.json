@@ -18,7 +18,7 @@
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vite": "workspace:*",
     "babel-plugin-react-compiler": "catalog:",
-    "baseline-browser-mapping": "2.9.15",
+    "baseline-browser-mapping": "2.9.17",
     "globals": "catalog:",
     "playwright": "1.57.0",
     "typescript": "catalog:",
