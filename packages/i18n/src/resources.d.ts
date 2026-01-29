@@ -37,7 +37,7 @@ interface Resources {
     label: 'Label'
     labelEmpty: 'None'
     labelInputPlaceholder: 'Enter a label'
-    lamports: 'lamports'
+    lamports: 'Lamports'
     mint: 'Mint'
     owner: 'Owner'
     pageExplorerDescription: 'Search and explore accounts or transactions'
