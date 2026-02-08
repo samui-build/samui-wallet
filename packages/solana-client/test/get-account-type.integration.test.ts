@@ -25,7 +25,7 @@ describe('get-account-type', async () => {
       const account = await fetchAccount(client, { address, throwOnError: false })
 
       // ACT
-      const result = getAccountType({ account })
+      const result = getAccountType(account)
 
       // ASSERT
       expect(result).toBe(type)
