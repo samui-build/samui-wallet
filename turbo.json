@@ -1,6 +1,5 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalEnv": ["TAURI_DEV_HOST"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

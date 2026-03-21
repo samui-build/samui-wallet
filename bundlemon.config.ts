@@ -3,9 +3,6 @@ import type { Config } from 'bundlemon/lib/main/types.d.ts'
 const config: Config = {
   files: [
     {
-      path: 'apps/desktop/dist/**/*-<hash>.js',
-    },
-    {
       path: 'apps/extension/.output/chrome-mv3/**/*-<hash>.js',
     },
     {
@@ -13,9 +10,6 @@ const config: Config = {
     },
   ],
   groups: [
-    {
-      path: 'apps/desktop/dist/**/*-<hash>.js',
-    },
     {
       path: 'apps/extension/.output/chrome-mv3/**/*-<hash>.js',
     },
