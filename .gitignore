@@ -33,7 +33,6 @@ dist
 .output
 .wxt
 .astro
-.expo
 target
 schemas
 
@@ -51,10 +50,6 @@ npm-debug.log*
 .DS_Store
 *.pem
 tmp
-
-# React Native
-android
-ios
 
 # IDEs
 .vscode

@@ -9,13 +9,6 @@ const config: RcFile = {
       range: '',
     },
   ],
-  versionGroups: [
-    {
-      dependencies: ['react', '@types/react'],
-      isIgnored: true,
-      packages: ['mobile'],
-    },
-  ],
 }
 
 export default config
