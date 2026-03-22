@@ -41,7 +41,7 @@ bun dev # or bun --filter=<app-name> dev
 
 ## Documentation
 
-For more info on how to configure Samui [head over to our docs](https://samui.build).
+For more info on how to configure Samui, [head over to our docs](https://samui.build).
 
 ## Contributing
 
