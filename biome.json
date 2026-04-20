@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.12/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.12/schema.json",
   "assist": {
     "actions": {
       "source": {
@@ -56,6 +56,10 @@
       "complexity": {
         "useLiteralKeys": "off"
       },
+      "correctness": {
+        "noUnresolvedImports": "off",
+        "useHookAtTopLevel": "off"
+      },
       "nursery": {
         "useSortedClasses": {
           "fix": "safe",
@@ -74,6 +78,10 @@
             "allowConstantExport": true
           }
         }
+      },
+      "suspicious": {
+        "noArrayIndexKey": "off",
+        "noImportCycles": "off"
       }
     }
   },

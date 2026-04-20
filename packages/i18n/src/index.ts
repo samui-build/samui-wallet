@@ -48,7 +48,5 @@ i18n.use(initReactI18next).init({
 })
 
 export { useTranslation } from 'react-i18next'
-
-export { i18n }
-
 export { useSupportedLanguages } from './use-supported-languages.ts'
+export { i18n }
