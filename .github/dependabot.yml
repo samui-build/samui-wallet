@@ -1,0 +1,28 @@
+version: 2
+
+updates:
+  - package-ecosystem: bun
+    commit-message:
+      include: scope
+      prefix: chore
+    cooldown:
+      default-days: 5
+    directory: /
+    schedule:
+      day: sunday
+      interval: weekly
+      time: "00:00"
+      timezone: UTC
+
+  - package-ecosystem: github-actions
+    commit-message:
+      include: scope
+      prefix: chore
+    cooldown:
+      default-days: 5
+    directory: /
+    schedule:
+      day: sunday
+      interval: weekly
+      time: "00:00"
+      timezone: UTC

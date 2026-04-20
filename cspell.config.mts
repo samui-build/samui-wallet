@@ -41,6 +41,7 @@ const config: CSpellSettings = {
     'blockhash',
     'bootsplash',
     'bunx',
+    'cooldown',
     'cypherpunk',
     'datetimepicker',
     'devnet',
