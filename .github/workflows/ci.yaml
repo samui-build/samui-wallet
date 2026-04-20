@@ -20,10 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: install dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Build
         run: bun run build
@@ -32,16 +32,16 @@ jobs:
         run: bun pkg-pr-new publish --packageManager=bun './packages/*' --comment=off
 
       - name: BundleMon
-        uses: lironer/bundlemon-action@cadbdd58f86faf1900725ef69d455444124b3748 # v1
+        uses: lironer/bundlemon-action@cadbdd58f86faf1900725ef69d455444124b3748 # v1.3.0
 
   check-types:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Check Types
         run: bun check-types
@@ -50,12 +50,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Validate current commit (last commit) with commitlint
         if: github.event_name == 'push'
@@ -69,10 +69,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Check Spelling
         run: bun spell-check
@@ -81,10 +81,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Run EditorConfig Checker
         run: bun ec
@@ -93,10 +93,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Extract and check translations
         run: |
@@ -108,10 +108,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Lint
         run: bun lint
@@ -120,10 +120,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Run syncpack
         run: bun syncpack lint
@@ -132,10 +132,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Test
         run: bun run test
@@ -145,10 +145,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Install Playwright Browsers
         run: bunx playwright install --with-deps
@@ -156,7 +156,7 @@ jobs:
       - name: Run Playwright tests
         run: bun run test:e2e
 
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: ${{ !cancelled() }}
         with:
           name: playwright-report
@@ -167,10 +167,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - name: Install Dependencies
-        uses: ./.github/workflows/actions/install-dependencies
+        uses: ./.github/actions/install-dependencies
 
       - name: Start Surfpool
         run: |
