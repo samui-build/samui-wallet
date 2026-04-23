@@ -16,6 +16,7 @@
     "@wxt-dev/auto-icons": "1.1.1",
     "@wxt-dev/module-react": "1.2.2",
     "babel-plugin-react-compiler": "catalog:",
+    "baseline-browser-mapping": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "wxt": "catalog:"

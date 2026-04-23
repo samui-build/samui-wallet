@@ -61,6 +61,7 @@
         "@wxt-dev/auto-icons": "1.1.1",
         "@wxt-dev/module-react": "1.2.2",
         "babel-plugin-react-compiler": "catalog:",
+        "baseline-browser-mapping": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",
         "wxt": "catalog:",
@@ -104,7 +105,7 @@
         "@workspace/config-typescript": "workspace:*",
         "@workspace/config-vite": "workspace:*",
         "babel-plugin-react-compiler": "catalog:",
-        "baseline-browser-mapping": "2.10.19",
+        "baseline-browser-mapping": "catalog:",
         "globals": "catalog:",
         "playwright": "1.57.0",
         "typescript": "catalog:",
@@ -140,6 +141,7 @@
         "@types/react-dom": "catalog:",
         "@vitejs/plugin-react": "catalog:",
         "babel-plugin-react-compiler": "catalog:",
+        "baseline-browser-mapping": "catalog:",
         "globals": "catalog:",
         "tw-animate-css": "1.4.0",
         "typescript": "catalog:",
@@ -725,6 +727,7 @@
     "@vitejs/plugin-react": "5.2.0",
     "@wxt-dev/browser": "0.1.40",
     "babel-plugin-react-compiler": "1.0.0",
+    "baseline-browser-mapping": "2.10.20",
     "effect": "3.19.8",
     "eslint": "9.38.0",
     "globals": "16.5.0",
@@ -1977,7 +1980,7 @@
 
     "base64-js": ["base64-js@1.5.1", "", {}, "sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA=="],
 
-    "baseline-browser-mapping": ["baseline-browser-mapping@2.10.19", "", { "bin": { "baseline-browser-mapping": "dist/cli.cjs" } }, "sha512-qCkNLi2sfBOn8XhZQ0FXsT1Ki/Yo5P90hrkRamVFRS7/KV9hpfA4HkoWNU152+8w0zPjnxo5psx5NL3PSGgv5g=="],
+    "baseline-browser-mapping": ["baseline-browser-mapping@2.10.20", "", { "bin": { "baseline-browser-mapping": "dist/cli.cjs" } }, "sha512-1AaXxEPfXT+GvTBJFuy4yXVHWJBXa4OdbIebGN/wX5DlsIkU0+wzGnd2lOzokSk51d5LUmqjgBLRLlypLUqInQ=="],
 
     "basic": ["basic@workspace:examples/basic"],
 
@@ -3976,8 +3979,6 @@
     "boxen/type-fest": ["type-fest@4.41.0", "", {}, "sha512-TeTSQ6H5YHvpqVwBRcnLDCBnDOHWYu7IvGbHT6N8AOymcr9PJGjc1GTtiWZTYg0NCgYwvnYWEkVChQAr9bjfwA=="],
 
     "boxen/wrap-ansi": ["wrap-ansi@9.0.2", "", { "dependencies": { "ansi-styles": "^6.2.1", "string-width": "^7.0.0", "strip-ansi": "^7.1.0" } }, "sha512-42AtmgqjV+X1VpdOfyTGOYRi0/zsoLqtXQckTmqTeybT+BDIbM/Guxo7x3pE2vtpr1ok6xRqM9OpBe+Jyoqyww=="],
-
-    "browserslist/baseline-browser-mapping": ["baseline-browser-mapping@2.8.23", "", { "bin": { "baseline-browser-mapping": "dist/cli.js" } }, "sha512-616V5YX4bepJFzNyOfce5Fa8fDJMfoxzOIzDCZwaGL8MKVpFrXqfNUoIpRn9YMI5pXf/VKgzjB4htFMsFKKdiQ=="],
 
     "builtins/semver": ["semver@7.7.3", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q=="],
 
