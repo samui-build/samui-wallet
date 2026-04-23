@@ -19,7 +19,7 @@ const persister = createAsyncStoragePersister({
   storage: browser?.storage?.local
     ? {
         getItem: async (key: string) => {
-          const result = await browser.storage.local.get(key)
+          const result = await browser.storage.local.get<Record<string, string | null>>(key)
           return result[key] ?? null
         },
         removeItem: async (key: string) => {
