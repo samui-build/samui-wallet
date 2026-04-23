@@ -3,7 +3,7 @@
     "@radix-ui/react-slot": "catalog:",
     "@solana-program/system": "catalog:",
     "@solana/kit": "catalog:",
-    "@solana/react": "5.0.0",
+    "@solana/react": "catalog:",
     "@solana/wallet-standard-chains": "catalog:",
     "@solana/wallet-standard-features": "catalog:",
     "@tailwindcss/vite": "catalog:",
