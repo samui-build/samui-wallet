@@ -6,7 +6,7 @@
     "@workspace/ui": "workspace:*",
     "dexie-react-hooks": "4.2.0",
     "react-router": "catalog:",
-    "superjson": "2.2.6"
+    "superjson": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

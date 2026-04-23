@@ -11,7 +11,7 @@
     "react-router": "catalog:"
   },
   "devDependencies": {
-    "@playwright/test": "1.57.0",
+    "@playwright/test": "catalog:",
     "@types/node": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
@@ -20,10 +20,10 @@
     "babel-plugin-react-compiler": "catalog:",
     "baseline-browser-mapping": "catalog:",
     "globals": "catalog:",
-    "playwright": "1.57.0",
+    "playwright": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "wrangler": "4.60.0"
+    "wrangler": "catalog:"
   },
   "name": "web",
   "private": true,
