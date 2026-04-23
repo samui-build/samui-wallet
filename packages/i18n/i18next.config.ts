@@ -10,8 +10,6 @@ export default defineConfig({
       '../**/dist/**',
       '../../**/dist/**',
       'dist/**',
-
-      '../../examples/**',
     ],
     ignoredAttributes: [
       'autoComplete',

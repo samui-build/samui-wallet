@@ -81,5 +81,5 @@
   "trustedDependencies": ["editorconfig-checker"],
   "type": "module",
   "version": "0.0.0",
-  "workspaces": ["apps/*", "packages/*", "turbo/*"]
+  "workspaces": ["apps/*", "examples/*", "packages/*", "turbo/*"]
 }
