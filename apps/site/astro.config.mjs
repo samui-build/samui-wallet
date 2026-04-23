@@ -58,7 +58,6 @@ export default defineConfig({
   },
   site: 'https://samui.build',
   vite: {
-    // @ts-expect-error Astro 5 uses Vite 6, we use Vite 7 in our monorepo
     plugins: [tailwindcss()],
   },
 })
