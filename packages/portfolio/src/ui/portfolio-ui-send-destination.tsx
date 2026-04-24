@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { tryCatch } from '@workspace/core/try-catch'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useTranslation } from '@workspace/i18n'
 import { Button } from '@workspace/ui/components/button'
@@ -24,7 +25,9 @@ export function PortfolioUiSendDestination({
   const { t } = useTranslation('portfolio')
   const destinationId = useId()
   const formSchema = z.object({
-    destination: solanaAddressSchema,
+    destination: z.string().refine((value) => !value || solanaAddressSchema.safeParse(value).success, {
+      message: 'Invalid Solana address',
+    }),
   })
 
   type PortfolioUiSendMintInput = z.infer<typeof formSchema>
@@ -36,9 +39,16 @@ export function PortfolioUiSendDestination({
     mode: 'all',
     resolver: zodResolver(formSchema),
   })
+  const destination = form.watch('destination')
 
   async function handleSubmit(data: PortfolioUiSendMintInput) {
-    await submit({ destination: data.destination })
+    if (!data.destination) {
+      return
+    }
+    const { error: submitError } = await tryCatch(submit({ destination: data.destination }))
+    if (submitError) {
+      return
+    }
   }
 
   return (
@@ -75,7 +85,7 @@ export function PortfolioUiSendDestination({
             </FieldSet>
 
             <Field className="flex justify-end" orientation="horizontal">
-              <Button disabled={!form.formState.isValid || isLoading} type="submit">
+              <Button disabled={!destination || !form.formState.isValid || isLoading} type="submit">
                 {isLoading ? <UiLoader className="size-4" /> : null}
                 {t(($) => $.actionSend)}
               </Button>
