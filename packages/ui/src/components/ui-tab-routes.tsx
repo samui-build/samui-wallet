@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactElement, ReactNode } from 'react'
-
 import { Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router'
 
@@ -45,11 +44,14 @@ export function UiTabRoutes({
       </Tabs>
       <Suspense fallback={<UiLoader />}>
         <Routes>
-          {redirect ? <Route element={<Navigate replace to={`./${redirect}`} />} index /> : null}
+          {redirect ? <Route element={<Navigate replace state={location.state} to={`./${redirect}`} />} index /> : null}
           {tabs.map((tab) => (
             <Route element={tab.element} key={tab.path} path={`${tab.path}/*`} />
           ))}
-          <Route element={<Navigate replace to={`./${redirect}`} />} path="*" />
+          <Route
+            element={<Navigate replace state={location.state} to={redirect ? `./${redirect}` : './'} />}
+            path="*"
+          />
         </Routes>
       </Suspense>
     </>
