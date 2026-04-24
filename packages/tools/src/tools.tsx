@@ -9,4 +9,5 @@ export interface Tool {
 export const tools: Tool[] = [
   { icon: 'airdrop', label: 'Airdrop', path: '/tools/airdrop' },
   { icon: 'coins', label: 'Token Creator', path: '/tools/create-token' },
+  { icon: 'search', label: 'Transaction Inspector', path: '/tools/transaction-inspector' },
 ]

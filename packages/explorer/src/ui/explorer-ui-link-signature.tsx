@@ -19,12 +19,7 @@ export function ExplorerUiLinkSignature({
   const { pathname: from } = useLocation()
   return (
     <span className={cn('flex items-center gap-2', className)}>
-      <Link
-        className="cursor-pointer font-mono text-sm"
-        state={{ from }}
-        title={signature}
-        to={`${basePath}/tx/${signature}`}
-      >
+      <Link className="cursor-pointer font-mono" state={{ from }} title={signature} to={`${basePath}/tx/${signature}`}>
         {label?.length ? label : <ExplorerUiSignature signature={signature} />}
       </Link>
       <UiTextCopyIcon text={signature} title="Copy signature to clipboard" toast="Signature copied to clipboard" />
