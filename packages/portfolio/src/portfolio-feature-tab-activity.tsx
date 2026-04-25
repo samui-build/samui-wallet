@@ -20,7 +20,7 @@ export function PortfolioFeatureTabActivity() {
   })
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 px-2 md:px-0">
       <div className="flex items-center justify-between">
         <h2 className="font-bold text-xl">{t(($) => $.pageTitleActivity)}</h2>
         <div className="space-x-2">
