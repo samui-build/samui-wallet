@@ -30,7 +30,7 @@
     "date-fns": "4.1.0",
     "lucide-react": "catalog:",
     "next-themes": "0.4.6",
-    "react-day-picker": "9.13.0",
+    "react-day-picker": "9.14.0",
     "react-hook-form": "catalog:",
     "react-qrcode-logo": "4.0.0",
     "react-router": "catalog:",
