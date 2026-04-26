@@ -9,8 +9,8 @@ import type {
   SolanaSignTransactionOutput,
 } from '@solana/wallet-standard-features'
 import type { StandardConnectInput, StandardConnectOutput } from '@wallet-standard/core'
-
-import { defineProxyService } from '@webext-core/proxy-service'
+import type { ProxyService, ProxyServiceKey } from '@webext-core/proxy-service'
+import { createProxyService, registerService } from '@webext-core/proxy-service'
 import { browser } from '@wxt-dev/browser'
 import { getEntrypoint } from '../entrypoint.ts'
 import { sendMessage } from '../extension.ts'
@@ -199,7 +199,15 @@ class RequestService {
   }
 }
 
-export const [registerRequestService, getRequestService] = defineProxyService(
-  'RequestService',
-  () => new RequestService(),
-)
+const requestServiceKey = 'RequestService' as ProxyServiceKey<RequestService>
+let requestService: RequestService | undefined
+
+export function getRequestService(): ProxyService<RequestService> {
+  return (requestService ?? createProxyService(requestServiceKey)) as ProxyService<RequestService>
+}
+
+export function registerRequestService(): RequestService {
+  requestService = new RequestService()
+  registerService(requestServiceKey, requestService)
+  return requestService
+}
