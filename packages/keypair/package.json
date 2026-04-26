@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@noble/hashes": "2.0.1",
+    "@noble/hashes": "2.2.0",
     "@scure/bip39": "2.0.1",
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
