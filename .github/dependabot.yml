@@ -8,6 +8,11 @@ updates:
     cooldown:
       default-days: 5
     directory: /
+    groups:
+      tanstack-query:
+        patterns:
+          - "@tanstack/query-*"
+          - "@tanstack/react-query*"
     schedule:
       day: sunday
       interval: weekly
