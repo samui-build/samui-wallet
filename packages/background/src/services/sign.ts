@@ -84,7 +84,7 @@ function createSignService() {
         const signedMessage = createSignInMessage({
           ...input,
           address: input.address || active.publicKey,
-          domain: input.domain || window.location.hostname,
+          domain: input.domain || globalThis.self?.location?.hostname || 'localhost',
         })
         const signature = await signBytes(privateKey, signedMessage)
 
