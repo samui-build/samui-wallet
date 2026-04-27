@@ -6,6 +6,7 @@ import { UiPage } from '@workspace/ui/components/ui-page'
 import { useParams } from 'react-router'
 import { useExplorerBackButtonTo } from './data-access/use-explorer-back-button-to.tsx'
 import { ExplorerFeatureBookmarkTransactionButton } from './explorer-feature-bookmark-transaction-button.tsx'
+import { ExplorerFeatureTransactionCopyButton } from './explorer-feature-transaction-copy-button.tsx'
 import { ExplorerFeatureTransactionDetails } from './explorer-feature-transaction-details.tsx'
 import { ExplorerUiErrorPage } from './ui/explorer-ui-error-page.tsx'
 import { ExplorerUiExplorers } from './ui/explorer-ui-explorers.tsx'
@@ -29,6 +30,7 @@ export function ExplorerFeatureTransaction({ basePath }: { basePath: string }) {
       <UiCard
         action={
           <div className="flex items-center gap-2">
+            <ExplorerFeatureTransactionCopyButton network={network} signature={signature} />
             <ExplorerFeatureBookmarkTransactionButton signature={signature} />
           </div>
         }

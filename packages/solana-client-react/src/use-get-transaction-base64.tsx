@@ -1,12 +1,12 @@
 import type { Signature } from '@solana/kit'
 import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
-import { getTransaction } from '@workspace/solana-client/get-transaction'
+import { getTransactionBase64 } from '@workspace/solana-client/get-transaction-base64'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 
 import { useSolanaClient } from './use-solana-client.tsx'
 
-export function getTransactionQueryOptions({
+export function getTransactionBase64QueryOptions({
   client,
   network,
   signature,
@@ -16,13 +16,13 @@ export function getTransactionQueryOptions({
   signature: Signature
 }) {
   return queryOptions({
-    queryFn: () => getTransaction(client, { signature }),
-    queryKey: ['getTransaction', network.endpoint, signature],
+    queryFn: () => getTransactionBase64(client, { signature }),
+    queryKey: ['getTransactionBase64', network.endpoint, signature],
   })
 }
 
-export function useGetTransaction({ network, signature }: { network: Network; signature: Signature }) {
+export function useGetTransactionBase64({ network, signature }: { network: Network; signature: Signature }) {
   const client = useSolanaClient({ network })
 
-  return useQuery(getTransactionQueryOptions({ client, network, signature }))
+  return useQuery(getTransactionBase64QueryOptions({ client, network, signature }))
 }
