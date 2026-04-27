@@ -39,6 +39,7 @@ export default defineConfig({
     env: { VITE_ACTIVE_NETWORK_ID: 'networkLocalnet' },
     gracefulShutdown: { signal: 'SIGTERM', timeout: 10_000 },
     reuseExistingServer: false,
+    timeout: 180_000,
     url: 'http://localhost:4173',
   },
   workers: isCi ? 1 : 3,
