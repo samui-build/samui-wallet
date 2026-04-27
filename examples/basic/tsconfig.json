@@ -4,7 +4,6 @@
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
-    "baseUrl": ".",
     "composite": true,
     "declaration": true,
     "declarationMap": true,
@@ -16,6 +15,7 @@
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "libReplacement": false,
     "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "Bundler",
@@ -37,6 +37,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
+    "types": ["bun", "node", "react", "react-dom"],
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   }

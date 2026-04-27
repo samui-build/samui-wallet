@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "types": ["bun", "node"]
   },
   "extends": ["@workspace/config-typescript/react-library.json", "astro/tsconfigs/strict"]
 }

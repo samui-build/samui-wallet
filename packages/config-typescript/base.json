@@ -15,6 +15,7 @@
     "incremental": true,
     "isolatedModules": true,
     "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "libReplacement": false,
     "module": "ESNext",
     "moduleDetection": "force",
     "moduleResolution": "Bundler",
@@ -32,6 +33,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES2022",
+    "types": ["bun", "node"],
     "useDefineForClassFields": true,
     "verbatimModuleSyntax": true
   },
