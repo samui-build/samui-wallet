@@ -1,15 +1,14 @@
-import type { KeyPairSigner, Signature } from '@solana/kit'
+import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
-import { useAccountActive } from '@workspace/db-react/use-account-active'
-import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import type { Network } from '@workspace/db/network/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
 import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
-import { useGetActiveAccountKeyPairSigner } from './use-get-active-account-key-pair-signer.tsx'
 import type { TokenBalance } from './use-get-token-metadata.ts'
 
 export interface PortfolioTxSendInput {
@@ -18,16 +17,17 @@ export interface PortfolioTxSendInput {
 }
 
 export function portfolioTxSendMutationOptions({
+  getTransactionSigner,
   sendSolMutation,
   sendSplMutation,
 }: {
+  getTransactionSigner: GetTransactionSigner
   sendSolMutation: ReturnType<typeof useCreateAndSendSolTransaction>
   sendSplMutation: ReturnType<typeof useCreateAndSendSplTransaction>
 }) {
-  const getActiveAccountKeyPairSigner = useGetActiveAccountKeyPairSigner()
   async function handleSendSplToken(
     input: PortfolioTxSendInput,
-    transactionSigner: KeyPairSigner,
+    transactionSigner: TransactionSigner,
   ): Promise<Signature | undefined> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
     const { data: result, error: sendError } = await tryCatch(
@@ -49,7 +49,7 @@ export function portfolioTxSendMutationOptions({
 
   async function handleSendSol(
     input: PortfolioTxSendInput,
-    transactionSigner: KeyPairSigner,
+    transactionSigner: TransactionSigner,
   ): Promise<Signature | undefined> {
     const { data: result, error: sendError } = await tryCatch(
       sendSolMutation.mutateAsync({ recipients: input.recipients, transactionSigner }),
@@ -70,7 +70,7 @@ export function portfolioTxSendMutationOptions({
 
   return mutationOptions({
     mutationFn: async (input: PortfolioTxSendInput) => {
-      const transactionSigner = await getActiveAccountKeyPairSigner()
+      const transactionSigner = await getTransactionSigner()
       if (input.mint.mint === NATIVE_MINT) {
         return handleSendSol(input, transactionSigner)
       }
@@ -79,14 +79,21 @@ export function portfolioTxSendMutationOptions({
   })
 }
 
-export function usePortfolioTxSend() {
-  const { publicKey: address } = useAccountActive()
-  const network = useNetworkActive()
+export function usePortfolioTxSend({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const sendSolMutation = useCreateAndSendSolTransaction({ address, network })
   const sendSplMutation = useCreateAndSendSplTransaction({ network })
 
   return useMutation(
     portfolioTxSendMutationOptions({
+      getTransactionSigner,
       sendSolMutation,
       sendSplMutation,
     }),

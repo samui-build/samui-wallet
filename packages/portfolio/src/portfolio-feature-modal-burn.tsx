@@ -1,25 +1,31 @@
 import { type Address, isAddress } from '@solana/kit'
+import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { useAccountActive } from '@workspace/db-react/use-account-active'
-import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useTranslation } from '@workspace/i18n'
 import { isParsedTokenAccountData } from '@workspace/solana-client/get-token-account-info'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
 import { useGetTokenAccountInfo } from '@workspace/solana-client-react/use-get-token-account-info'
 import { useSplTokenBurn } from '@workspace/solana-client-react/use-spl-token-burn'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
+import { toastError } from '@workspace/ui/lib/toast-error'
 import { useNavigate, useParams } from 'react-router'
 import { PortfolioUiBurn } from './ui/portfolio-ui-burn.tsx'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
-import { useGetTransactionSigner } from './use-get-transaction-signer.tsx'
 
-export function PortfolioFeatureModalBurn() {
+export function PortfolioFeatureModalBurn({
+  account,
+  getTransactionSigner,
+  network,
+}: {
+  account: Account
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const { t } = useTranslation('portfolio')
   const { address } = useParams<{ address: string }>()
-  const account = useAccountActive()
-  const network = useNetworkActive()
 
   if (!address || !isAddress(address)) {
     return <UiError message={new Error(t(($) => $.errorNoAddressMessage))} title={t(($) => $.errorNoAddressTitle)} />
@@ -27,16 +33,30 @@ export function PortfolioFeatureModalBurn() {
 
   return (
     <PortfolioUiModal title={t(($) => $.actionBurn)}>
-      <PortfolioFeatureBurn account={account} address={address} network={network} />
+      {account.type === 'Watched' ? (
+        <UiError
+          message={new Error(t(($) => $.errorWatchedAccountMessage))}
+          title={t(($) => $.errorWatchedAccountTitle)}
+        />
+      ) : (
+        <PortfolioFeatureBurn address={address} getTransactionSigner={getTransactionSigner} network={network} />
+      )}
     </PortfolioUiModal>
   )
 }
 
-function PortfolioFeatureBurn({ account, address, network }: { account: Account; address: Address; network: Network }) {
+function PortfolioFeatureBurn({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const { t } = useTranslation('portfolio')
   const navigate = useNavigate()
   const mutation = useSplTokenBurn({ network })
-  const getTransactionSigner = useGetTransactionSigner({ account })
   const { data: dataTokenAccountInfo, isLoading: isLoadingTokenAccountInfo } = useGetTokenAccountInfo({
     address,
     network,
@@ -68,14 +88,6 @@ function PortfolioFeatureBurn({ account, address, network }: { account: Account;
       />
     )
   }
-  if (account.type === 'Watched') {
-    return (
-      <UiError
-        message={new Error(t(($) => $.errorWatchedAccountMessage))}
-        title={t(($) => $.errorWatchedAccountTitle)}
-      />
-    )
-  }
 
   const tokenAmount = dataTokenAccountInfo.data.tokenAmount
   const tokenProgram = dataTokenAccountInfo.tokenProgram
@@ -85,7 +97,11 @@ function PortfolioFeatureBurn({ account, address, network }: { account: Account;
       account={dataTokenAccountInfo.address}
       amount={tokenAmount.uiAmountString}
       confirm={async (input) => {
-        const transactionSigner = await getTransactionSigner()
+        const { data: transactionSigner, error } = await tryCatch(getTransactionSigner())
+        if (error) {
+          toastError('Failed to get transaction signer.')
+          return
+        }
         const { signature } = await mutation.mutateAsync({
           account: address,
           amount: uiAmountToBigInt(input.amount, tokenAmount.decimals),

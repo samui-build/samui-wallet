@@ -8,7 +8,6 @@
     "@workspace/db-react": "workspace:*",
     "@workspace/explorer": "workspace:*",
     "@workspace/i18n": "workspace:*",
-    "@workspace/keypair": "workspace:*",
     "@workspace/solana-client": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",

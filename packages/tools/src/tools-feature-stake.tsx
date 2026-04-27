@@ -1,8 +1,8 @@
 import type { Address } from '@solana/kit'
 import { tryCatch } from '@workspace/core/try-catch'
-import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import type { StakeAccount } from '@workspace/solana-client/get-stake-accounts'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import { useCloseStakeAccount } from '@workspace/solana-client-react/use-close-stake-account'
 import { useCreateStakeAccount } from '@workspace/solana-client-react/use-create-stake-account'
 import { useDeactivateStakeAccount } from '@workspace/solana-client-react/use-deactivate-stake-account'
@@ -20,13 +20,30 @@ import { ToolsUiStakeAccountDetail } from './ui/tools-ui-stake-account-detail.ts
 import { ToolsUiStakeAccountsIndex } from './ui/tools-ui-stake-accounts-index.tsx'
 import { ToolsUiStakeCreateForm } from './ui/tools-ui-stake-create-form.tsx'
 
-export default function ToolsFeatureStake({ account, network }: { account: Account; network: Network }) {
+export default function ToolsFeatureStake({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   return (
     <div className="space-y-2 md:space-y-6">
       <UiCard backButtonTo="/tools" contentProps={{ className: 'space-y-2 md:space-y-6' }} title="Stake">
         <Routes>
           <Route element={<Navigate replace to="/tools/stake/accounts" />} index />
-          <Route element={<ToolsFeatureStakeAccounts account={account} network={network} />} path="accounts/*" />
+          <Route
+            element={
+              <ToolsFeatureStakeAccounts
+                address={address}
+                getTransactionSigner={getTransactionSigner}
+                network={network}
+              />
+            }
+            path="accounts/*"
+          />
           <Route element={<Navigate replace to="/tools/stake/accounts" />} path="*" />
         </Routes>
       </UiCard>
@@ -34,10 +51,22 @@ export default function ToolsFeatureStake({ account, network }: { account: Accou
   )
 }
 
-export function ToolsFeatureStakeAccounts({ account, network }: { account: Account; network: Network }) {
-  const accountsQuery = useGetStakeAccounts({ address: account.publicKey, network })
-  const closeStakeAccountMutation = useCloseStakeAccount({ account, network })
-  const deactivateStakeAccountMutation = useDeactivateStakeAccount({ account, network })
+export function ToolsFeatureStakeAccounts({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
+  const accountsQuery = useGetStakeAccounts({ address, network })
+  const closeStakeAccountMutation = useCloseStakeAccount({ address, getTransactionSigner, network })
+  const deactivateStakeAccountMutation = useDeactivateStakeAccount({
+    address,
+    getTransactionSigner,
+    network,
+  })
   const accounts = accountsQuery.data ?? []
   const actions: StakeAccountActions = {
     close: async (stakeAccount) => {
@@ -57,13 +86,15 @@ export function ToolsFeatureStakeAccounts({ account, network }: { account: Accou
     <UiDebug data={accountsQuery.error} />
   ) : (
     <Routes>
+      <Route element={<ToolsUiStakeAccountsIndex accounts={accounts} actions={actions} authority={address} />} index />
       <Route
-        element={<ToolsUiStakeAccountsIndex accounts={accounts} actions={actions} authority={account.publicKey} />}
-        index
+        element={
+          <ToolsFeatureStakeCreate address={address} getTransactionSigner={getTransactionSigner} network={network} />
+        }
+        path="stake"
       />
-      <Route element={<ToolsFeatureStakeCreate account={account} network={network} />} path="stake" />
       <Route
-        element={<ToolsFeatureStakeAccountDetail accounts={accounts} actions={actions} authority={account.publicKey} />}
+        element={<ToolsFeatureStakeAccountDetail accounts={accounts} actions={actions} authority={address} />}
         path=":address"
       />
       <Route element={<Navigate replace to="." />} path="*" />
@@ -103,16 +134,24 @@ function ToolsFeatureStakeAccountDetail({
   )
 }
 
-function ToolsFeatureStakeCreate({ account, network }: { account: Account; network: Network }) {
-  const createStakeAccountMutation = useCreateStakeAccount({ account, network })
+function ToolsFeatureStakeCreate({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
+  const createStakeAccountMutation = useCreateStakeAccount({ address, getTransactionSigner, network })
   const navigate = useNavigate()
   const rentReserveQuery = useGetStakeAccountRentReserve({ network })
   const voteAccountsQuery = useGetVoteAccounts({ network })
-  const walletBalanceQuery = useGetBalance({ address: account.publicKey, network })
+  const walletBalanceQuery = useGetBalance({ address, network })
 
   return (
     <ToolsUiStakeCreateForm
-      address={account.publicKey}
+      address={address}
       createStake={async (input) => {
         const { data: result, error } = await tryCatch(createStakeAccountMutation.mutateAsync(input))
         if (error) {

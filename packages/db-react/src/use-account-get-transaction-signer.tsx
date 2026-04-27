@@ -1,8 +1,9 @@
 import type { Account } from '@workspace/db/account/account'
-import { useAccountSecretKey } from '@workspace/db-react/use-account-secret-key'
 import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
+import { useAccountSecretKey } from './use-account-secret-key.tsx'
 
-export function useGetTransactionSigner({ account }: { account: Account }) {
+export function useAccountGetTransactionSigner({ account }: { account: Account }): GetTransactionSigner {
   const accountSecretKey = useAccountSecretKey()
 
   return async () => {

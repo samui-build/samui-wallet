@@ -1,5 +1,5 @@
-import { useAccountActive } from '@workspace/db-react/use-account-active'
-import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import type { Account } from '@workspace/db/account/account'
+import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
 import { useGetActivity } from '@workspace/solana-client-react/use-get-activity'
 import { Button } from '@workspace/ui/components/button'
@@ -9,10 +9,8 @@ import { useLocation } from 'react-router'
 import { PortfolioUiActivityList } from './ui/portfolio-ui-activity-list.tsx'
 import { PortfolioUiActivityListSkeleton } from './ui/portfolio-ui-activity-list-skeleton.tsx'
 
-export function PortfolioFeatureTabActivity() {
+export function PortfolioFeatureTabActivity({ account, network }: { account: Account; network: Network }) {
   const { t } = useTranslation('portfolio')
-  const account = useAccountActive()
-  const network = useNetworkActive()
   const { pathname: from } = useLocation()
   const { data, error, isError, isLoading, isSuccess, refetch } = useGetActivity({
     address: account.publicKey,

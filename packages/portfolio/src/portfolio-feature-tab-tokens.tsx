@@ -1,5 +1,5 @@
-import { useAccountActive } from '@workspace/db-react/use-account-active'
-import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import type { Address } from '@solana/kit'
+import type { Network } from '@workspace/db/network/network'
 import { bigIntToDecimal } from '@workspace/solana-client/big-int-to-decimal'
 import { useGetAccountInfo } from '@workspace/solana-client-react/use-get-account-info'
 import { useMemo } from 'react'
@@ -11,9 +11,7 @@ import { PortfolioUiRequestAirdrop } from './ui/portfolio-ui-request-airdrop.tsx
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 import { PortfolioUiTokenBalancesSkeleton } from './ui/portfolio-ui-token-balances-skeleton.tsx'
 
-export function PortfolioFeatureTabTokens() {
-  const { publicKey: address } = useAccountActive()
-  const network = useNetworkActive()
+export function PortfolioFeatureTabTokens({ address, network }: { address: Address; network: Network }) {
   const balances = useGetTokenBalances({ address, network })
   const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({
     address,

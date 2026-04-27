@@ -1,13 +1,13 @@
 import { type Address, generateKeyPairSigner, type Signature } from '@solana/kit'
 import { queryOptions, useQuery } from '@tanstack/react-query'
+import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
-import { createKeyPairSignerFromJson } from '@workspace/keypair/create-key-pair-signer-from-json'
 import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
 import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
 import type { SplToken2022CreateTokenMint } from '@workspace/solana-client/spl-token-2022-create-token-mint'
 import type { SplTokenCreateTokenMint } from '@workspace/solana-client/spl-token-create-token-mint'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import { uiAmountToBigInt } from '@workspace/solana-client/ui-amount-to-big-int'
 import { useSplTokenCreateToken2022Mint } from '@workspace/solana-client-react/use-spl-token-create-token-2022-mint'
 import { useSplTokenCreateTokenMint } from '@workspace/solana-client-react/use-spl-token-create-token-mint'
@@ -21,6 +21,7 @@ import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import { toastError } from '@workspace/ui/lib/toast-error'
 import { useCallback, useId, useState } from 'react'
 import { Link, useLocation } from 'react-router'
 
@@ -37,7 +38,15 @@ export function queryKeypairQueryOptions() {
   })
 }
 
-export default function ToolsFeatureCreateToken(props: { account: Account; network: Network }) {
+export default function ToolsFeatureCreateToken({
+  account,
+  getTransactionSigner,
+  network,
+}: {
+  account: Account
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const { pathname: from } = useLocation()
   const addressId = useId()
   const decimalsId = useId()
@@ -54,20 +63,21 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
   const [tokenProgram, setTokenProgram] = useState<Address>(TOKEN_PROGRAM_ADDRESS)
   const [enableCloseMint, setEnableCloseMint] = useState<boolean>(false)
   const [enablePermanentDelegate, setEnablePermanentDelegate] = useState<boolean>(false)
-  const mutation = useSplTokenCreateTokenMint(props)
-  const mutation2022 = useSplTokenCreateToken2022Mint(props)
-  const readSecretKeyMutation = useAccountReadSecretKey()
+  const mutation = useSplTokenCreateTokenMint({ account, network })
+  const mutation2022 = useSplTokenCreateToken2022Mint({ account, network })
+  const isPending = mutation.isPending || mutation2022.isPending
+
   const queryKeypair = useQuery(queryKeypairQueryOptions())
 
   const handleCreateToken = useCallback(async (): Promise<void> => {
     if (!queryKeypair.data) {
       return
     }
-    const secretKey = await readSecretKeyMutation.mutateAsync({ id: props.account.id })
-    if (!secretKey) {
-      throw new Error('Missing account secret key')
+    const { data: transactionSigner, error } = await tryCatch(getTransactionSigner())
+    if (error) {
+      toastError('Failed to get transaction signer.')
+      return
     }
-    const transactionSigner = await createKeyPairSignerFromJson({ json: secretKey })
     let res: SplTokenCreateTokenMint | SplToken2022CreateTokenMint
     if (tokenProgram === TOKEN_2022_PROGRAM_ADDRESS) {
       const extensions = {
@@ -102,16 +112,15 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
       setResultAta(res.ata)
     }
   }, [
-    mutation,
-    props.account,
-    queryKeypair,
     decimals,
-    supply,
-    readSecretKeyMutation,
-    tokenProgram,
     enableCloseMint,
     enablePermanentDelegate,
+    getTransactionSigner,
+    mutation,
     mutation2022,
+    queryKeypair,
+    supply,
+    tokenProgram,
   ])
 
   return (
@@ -159,7 +168,7 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             </Button>
           </div>
         </div>
-      ) : props.account.type === 'Derived' ? (
+      ) : account.type === 'Derived' ? (
         <div className="flex flex-col gap-6">
           <Field>
             <FieldLabel htmlFor={addressId}>Mint Address</FieldLabel>
@@ -286,10 +295,8 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
           <Item variant="outline">
             <ItemContent>
               <ItemTitle>Summary</ItemTitle>
-              <ItemDescription className="font-mono">Network: {getNetworkLabel(props.network.type)}</ItemDescription>
-              <ItemDescription className="font-mono">
-                Owner: {ellipsify(props.account.publicKey, 6, '...')}
-              </ItemDescription>
+              <ItemDescription className="font-mono">Network: {getNetworkLabel(network.type)}</ItemDescription>
+              <ItemDescription className="font-mono">Owner: {ellipsify(account.publicKey, 6, '...')}</ItemDescription>
               <ItemDescription className="font-mono">Decimals: {decimals}</ItemDescription>
               <ItemDescription className="font-mono">Supply: {supply}</ItemDescription>
               <ItemDescription className="font-mono">
@@ -309,16 +316,16 @@ export default function ToolsFeatureCreateToken(props: { account: Account; netwo
             </ItemContent>
           </Item>
           <ItemActions className="justify-end">
-            <Button disabled={!queryKeypair.data || mutation.isPending} onClick={handleCreateToken}>
-              {mutation.isPending ? <UiLoader className="size-4" /> : null}
+            <Button disabled={!queryKeypair.data || isPending} onClick={handleCreateToken}>
+              {isPending ? <UiLoader className="size-4" /> : null}
               Create Token
             </Button>
           </ItemActions>
         </div>
       ) : (
         <div>
-          <p>You can&#39;t mint a token while account {props.account.name}</p>
-          <p>Account of type {props.account.type} is not derived.</p>
+          <p>You can&#39;t mint a token while account {account.name}</p>
+          <p>Account of type {account.type} is not derived.</p>
         </div>
       )}
     </UiCard>

@@ -1,3 +1,5 @@
+import type { Address } from '@solana/kit'
+import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
@@ -6,10 +8,10 @@ import { usePortfolioTokenMint } from './data-access/use-portfolio-token-mint.ts
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 import { PortfolioUiSendMint } from './ui/portfolio-ui-send-mint.tsx'
 
-export function PortfolioFeatureModalSelectAmount() {
+export function PortfolioFeatureModalSelectAmount({ address, network }: { address: Address; network: Network }) {
   const { t } = useTranslation('portfolio')
   const { destination, token } = useParams<{ destination: string; token: string }>()
-  const mint = usePortfolioTokenMint({ token })
+  const mint = usePortfolioTokenMint({ address, network, token })
   const navigate = useNavigate()
 
   if (!destination) {

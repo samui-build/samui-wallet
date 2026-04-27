@@ -1,3 +1,6 @@
+import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useAccountGetTransactionSigner } from '@workspace/db-react/use-account-get-transaction-signer'
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useTranslation } from '@workspace/i18n'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { useRoutes } from 'react-router'
@@ -12,14 +15,38 @@ import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 
 export default function PortfolioModals() {
   const { t } = useTranslation('ui')
+  const account = useAccountActive()
+  const network = useNetworkActive()
+  const getTransactionSigner = useAccountGetTransactionSigner({ account })
+
   return useRoutes([
-    { element: <PortfolioFeatureModalBurn />, path: 'burn/:address' },
-    { element: <PortfolioFeatureModalConfirm />, path: 'confirm/:token/:destination/:amount' },
+    {
+      element: (
+        <PortfolioFeatureModalBurn account={account} getTransactionSigner={getTransactionSigner} network={network} />
+      ),
+      path: 'burn/:address',
+    },
+    {
+      element: (
+        <PortfolioFeatureModalConfirm
+          address={account.publicKey}
+          getTransactionSigner={getTransactionSigner}
+          network={network}
+        />
+      ),
+      path: 'confirm/:token/:destination/:amount',
+    },
     { element: <PortfolioFeatureModalComplete />, path: 'complete/:signature' },
-    { element: <PortfolioFeatureModalReceive />, path: 'receive' },
-    { element: <PortfolioFeatureModalSelectTokens />, path: 'send' },
-    { element: <PortfolioFeatureModalSelectDestination />, path: 'send/:token' },
-    { element: <PortfolioFeatureModalSelectAmount />, path: 'send/:token/:destination' },
+    { element: <PortfolioFeatureModalReceive account={account} />, path: 'receive' },
+    { element: <PortfolioFeatureModalSelectTokens account={account} network={network} />, path: 'send' },
+    {
+      element: <PortfolioFeatureModalSelectDestination address={account.publicKey} network={network} />,
+      path: 'send/:token',
+    },
+    {
+      element: <PortfolioFeatureModalSelectAmount address={account.publicKey} network={network} />,
+      path: 'send/:token/:destination',
+    },
     {
       element: (
         <PortfolioUiModal title={t(($) => $.notFoundTitle)}>

@@ -1,4 +1,4 @@
-import type { Address, KeyPairSigner } from '@solana/kit'
+import type { Address, TransactionSigner } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
@@ -26,7 +26,7 @@ function createAndSendSolTransactionMutationOptions({
       transactionSigner,
     }: {
       recipients: TransferRecipient[]
-      transactionSigner: KeyPairSigner
+      transactionSigner: TransactionSigner
     }) => {
       const senderBalance = await getBalance(client, { address: transactionSigner.address })
       if (!senderBalance?.value) {

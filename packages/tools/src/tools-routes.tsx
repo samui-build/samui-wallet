@@ -1,4 +1,5 @@
 import { useAccountActive } from '@workspace/db-react/use-account-active'
+import { useAccountGetTransactionSigner } from '@workspace/db-react/use-account-get-transaction-signer'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { UiPage } from '@workspace/ui/components/ui-page'
 import { lazy } from 'react'
@@ -14,13 +15,24 @@ const ToolsFeatureTransactionInspector = lazy(() => import('./tools-feature-tran
 export default function ToolsRoutes() {
   const account = useAccountActive()
   const network = useNetworkActive()
+  const getTransactionSigner = useAccountGetTransactionSigner({ account })
   const routes = useRoutes([
     { element: <ToolsFeatureOverview />, index: true },
     { element: <ToolsFeatureAirdrop account={account} network={network} />, path: 'airdrop' },
-    { element: <ToolsFeatureCreateToken account={account} network={network} />, path: 'create-token' },
+    {
+      element: (
+        <ToolsFeatureCreateToken account={account} getTransactionSigner={getTransactionSigner} network={network} />
+      ),
+      path: 'create-token',
+    },
     { element: <ToolsFeatureMintToken />, path: 'mint-token' },
     { element: <ToolsFeatureMintToken />, path: 'create-nft' },
-    { element: <ToolsFeatureStake account={account} network={network} />, path: 'stake/*' },
+    {
+      element: (
+        <ToolsFeatureStake address={account.publicKey} getTransactionSigner={getTransactionSigner} network={network} />
+      ),
+      path: 'stake/*',
+    },
     { element: <ToolsFeatureTransactionInspector />, path: 'transaction-inspector' },
   ])
 

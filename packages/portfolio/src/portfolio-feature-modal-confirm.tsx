@@ -1,5 +1,7 @@
-import { address } from '@solana/kit'
+import { type Address, assertIsAddress } from '@solana/kit'
+import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useNavigate, useParams } from 'react-router'
@@ -9,12 +11,20 @@ import { usePortfolioTxSend } from './data-access/use-portfolio-tx-send.tsx'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 import { PortfolioUiSendConfirm } from './ui/portfolio-ui-send-confirm.tsx'
 
-export function PortfolioFeatureModalConfirm() {
+export function PortfolioFeatureModalConfirm({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const { t } = useTranslation('portfolio')
   const { amount, destination, token } = useParams<{ amount: string; destination: string; token: string }>()
-  const mint = usePortfolioTokenMint({ token })
+  const mint = usePortfolioTokenMint({ address, network, token })
   const navigate = useNavigate()
-  const confirmMutation = usePortfolioTxSend()
+  const confirmMutation = usePortfolioTxSend({ address, getTransactionSigner, network })
   if (!token) {
     return <UiError message={new Error('Token parameter is unknown')} title="No token" />
   }
@@ -30,7 +40,7 @@ export function PortfolioFeatureModalConfirm() {
   if (!destination) {
     return <UiError message={new Error('Parameter destination is unknown')} title="No destination" />
   }
-
+  assertIsAddress(destination)
   return (
     <PortfolioUiModal title={t(($) => $.actionConfirm)}>
       <PortfolioUiSendConfirm
@@ -42,7 +52,7 @@ export function PortfolioFeatureModalConfirm() {
         }}
         isLoading={confirmMutation.isPending}
         mint={mint}
-        recipients={[{ amount: getAmountForMint({ amount, mint }), destination: address(destination) }]}
+        recipients={[{ amount: getAmountForMint({ amount, mint }), destination }]}
       />
     </PortfolioUiModal>
   )

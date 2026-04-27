@@ -3,6 +3,8 @@
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
+    "@workspace/keypair": "workspace:*",
+    "@workspace/solana-client": "workspace:*",
     "@workspace/ui": "workspace:*",
     "dexie-react-hooks": "4.2.0",
     "react-router": "catalog:",

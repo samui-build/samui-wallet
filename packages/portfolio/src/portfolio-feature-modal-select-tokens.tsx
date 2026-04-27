@@ -1,14 +1,12 @@
-import { useAccountActive } from '@workspace/db-react/use-account-active'
-import { useNetworkActive } from '@workspace/db-react/use-network-active'
+import type { Account } from '@workspace/db/account/account'
+import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
 import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 
-export function PortfolioFeatureModalSelectTokens() {
+export function PortfolioFeatureModalSelectTokens({ account, network }: { account: Account; network: Network }) {
   const { t } = useTranslation('portfolio')
-  const account = useAccountActive()
-  const network = useNetworkActive()
   const balances = useGetTokenBalances({ address: account.publicKey, network })
 
   return (

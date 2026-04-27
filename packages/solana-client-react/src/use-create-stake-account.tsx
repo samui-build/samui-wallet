@@ -1,14 +1,12 @@
 import type { Address, Lamports } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { useAccountReadSecretKey } from '@workspace/db-react/use-account-read-secret-key'
 import { createStakeAccount } from '@workspace/solana-client/create-stake-account'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
+import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { getTransactionSigner } from './get-transaction-signer.ts'
 import { getBalanceQueryOptions } from './use-get-balance.tsx'
 import { getStakeAccountsQueryOptions } from './use-get-stake-accounts.tsx'
 import { useSolanaClient } from './use-solana-client.tsx'
@@ -19,21 +17,21 @@ export interface CreateStakeAccountInput {
 }
 
 export function createStakeAccountMutationOptions({
-  account,
+  address,
   client,
   queryClient,
-  readSecretKey,
+  getTransactionSigner,
   network,
 }: {
-  account: Account
+  address: Address
   client: SolanaClient
-  queryClient: QueryClient
-  readSecretKey: (input: { id: string }) => Promise<string | undefined>
+  getTransactionSigner: GetTransactionSigner
   network: Network
+  queryClient: QueryClient
 }) {
   return mutationOptions({
     mutationFn: async ({ amount, vote }: CreateStakeAccountInput) => {
-      const transactionSigner = await getTransactionSigner(account, readSecretKey)
+      const transactionSigner = await getTransactionSigner()
       return createStakeAccount(client, {
         amount,
         transactionSigner,
@@ -44,26 +42,25 @@ export function createStakeAccountMutationOptions({
       toastError('Failed to stake SOL.')
     },
     onSuccess: async ({ signature }) => {
-      await invalidateStakeAccountQueries({ address: account.publicKey, client, network, queryClient })
+      await invalidateStakeAccountQueries({ address, client, network, queryClient })
       toastSuccess(`Stake transaction confirmed: ${ellipsify(signature, 6, '...')}`)
     },
   })
 }
 
-export function useCreateStakeAccount({ account, network }: { account: Account; network: Network }) {
+export function useCreateStakeAccount({
+  address,
+  getTransactionSigner,
+  network,
+}: {
+  address: Address
+  getTransactionSigner: GetTransactionSigner
+  network: Network
+}) {
   const client = useSolanaClient({ network })
   const queryClient = useQueryClient()
-  const readSecretKeyMutation = useAccountReadSecretKey()
 
-  return useMutation(
-    createStakeAccountMutationOptions({
-      account,
-      client,
-      network,
-      queryClient,
-      readSecretKey: readSecretKeyMutation.mutateAsync,
-    }),
-  )
+  return useMutation(createStakeAccountMutationOptions({ address, client, getTransactionSigner, network, queryClient }))
 }
 
 async function invalidateStakeAccountQueries({
