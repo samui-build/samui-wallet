@@ -1,8 +1,9 @@
 import { z } from 'zod'
-
+import { colorSchema } from '../color-schema.ts'
 import { networkTypeSchema } from './network-type-schema.ts'
 
 export const networkSchema = z.object({
+  color: colorSchema.optional(),
   createdAt: z.date(),
   endpoint: z.url({ hostname: z.regexes.hostname, protocol: /^https?$/ }),
   endpointSubscriptions: z

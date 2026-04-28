@@ -1,7 +1,10 @@
+import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useTranslation } from '@workspace/i18n'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import type { UiIconName } from '@workspace/ui/components/ui-icon-map'
+import { getColorByName } from '@workspace/ui/lib/get-initials-colors'
 import { cn } from '@workspace/ui/lib/utils'
+import { useMemo } from 'react'
 import { NavLink, Outlet } from 'react-router'
 import { ShellUiCommandMenu } from './shell-ui-command-menu.tsx'
 import { ShellUiMenu } from './shell-ui-menu.tsx'
@@ -15,8 +18,9 @@ export interface ShellLayoutLink {
 }
 
 export function ShellUiLayout() {
+  const activeNetwork = useNetworkActive()
+  const { border } = useMemo(() => getColorByName(activeNetwork.color ?? 'green'), [activeNetwork])
   const { t } = useTranslation('shell')
-
   const links: ShellLayoutLink[] = [
     { icon: 'portfolio', label: t(($) => $.labelPortfolio), to: '/portfolio' },
     { icon: 'explorer', label: t(($) => $.labelExplorer), to: '/explorer' },
@@ -28,7 +32,11 @@ export function ShellUiLayout() {
     <div className="flex h-full flex-col items-stretch justify-between">
       <ShellUiWarningExperimental />
       <ShellUiCommandMenu />
-      <header className="flex items-center justify-between bg-secondary/30">
+      <header
+        className={cn('flex items-center justify-between bg-secondary/30', {
+          [`border-b-2 ${border}`]: !!activeNetwork.color,
+        })}
+      >
         <ShellUiMenu />
         <div className="pr-2">
           <ShellUiMenuActions />

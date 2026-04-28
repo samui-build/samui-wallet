@@ -25,6 +25,9 @@ export function SettingsFeatureNetworkUpdate() {
     <UiCard backButtonTo=".." title={t(($) => $.networkPageEditTitle)}>
       <SettingsUiNetworkFormUpdate
         item={network}
+        saveInPlace={async (input) => {
+          await updateMutation.mutateAsync({ id: network.id, input })
+        }}
         submit={async (input) => {
           return updateMutation.mutateAsync({ id: network.id, input }).then(() => {
             navigate('/settings/networks')

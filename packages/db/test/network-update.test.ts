@@ -15,6 +15,21 @@ describe('network-update', () => {
   })
 
   describe('expected behavior', () => {
+    it('should unset a network color', async () => {
+      // ARRANGE
+      expect.assertions(2)
+      const input = testNetworkCreateInput({ color: 'green' })
+      const id = await networkCreate(db, input)
+
+      // ACT
+      await networkUpdate(db, id, { color: undefined })
+
+      // ASSERT
+      const updatedItem = await networkFindUnique(db, id)
+      expect(updatedItem).toBeDefined()
+      expect(updatedItem?.color).toBeUndefined()
+    })
+
     it('should update a network', async () => {
       // ARRANGE
       expect.assertions(2)

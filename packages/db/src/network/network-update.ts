@@ -6,11 +6,13 @@ import type { NetworkUpdateInput } from './network-update-input.ts'
 import { networkUpdateSchema } from './network-update-schema.ts'
 
 export async function networkUpdate(db: Database, id: string, input: NetworkUpdateInput): Promise<number> {
-  const parsedInput = parseStrict(networkUpdateSchema.parse(input))
+  const parsedInput = networkUpdateSchema.parse(input)
+  const parsedStrictInput = parseStrict(parsedInput)
   return db.transaction('rw', db.networks, async () => {
     const { data, error } = await tryCatch(
       db.networks.update(id, {
-        ...parsedInput,
+        ...parsedStrictInput,
+        ...('color' in input && input.color === undefined ? { color: undefined } : {}),
         updatedAt: new Date(),
       }),
     )

@@ -16,14 +16,18 @@ import {
 } from '@workspace/ui/components/form'
 import { Input } from '@workspace/ui/components/input'
 import { ToggleGroup, ToggleGroupItem } from '@workspace/ui/components/toggle-group'
+import { UiFormInputColor } from '@workspace/ui/components/ui-form-input-color'
+import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { SettingsUiNetworkWarningMainnet } from './settings-ui-network-warning-mainnet.tsx'
 
 export function SettingsUiNetworkFormUpdate({
   item,
+  saveInPlace,
   submit,
 }: {
   item: Network
+  saveInPlace: (input: NetworkUpdateInput) => Promise<void>
   submit: (input: NetworkUpdateInput) => Promise<void>
 }) {
   const { t } = useTranslation('settings')
@@ -31,10 +35,23 @@ export function SettingsUiNetworkFormUpdate({
     resolver: standardSchemaResolver(networkUpdateSchema),
     values: item,
   })
+  const saveInPlaceQueue = useRef(Promise.resolve())
+
+  function queueSaveInPlace(input: NetworkUpdateInput) {
+    saveInPlaceQueue.current = saveInPlaceQueue.current
+      .catch(() => undefined)
+      .then(() => saveInPlace(input))
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 
   return (
     <Form {...form}>
-      <form className="flex flex-col space-y-2 md:space-y-6" onSubmit={form.handleSubmit((input) => submit(input))}>
+      <form
+        className="flex flex-col space-y-2 md:space-y-6"
+        onSubmit={form.handleSubmit((input) => submit({ ...input, color: form.getValues('color') }))}
+      >
         <FormItem className="flex w-full flex-col gap-2 py-1">
           <FormLabel>{t(($) => $.networkInputTypeLabel)}</FormLabel>
           <FormControl>
@@ -116,6 +133,44 @@ export function SettingsUiNetworkFormUpdate({
           )}
           rules={{ required: true }}
         />
+        <FormField
+          control={form.control}
+          name="color"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>{t(($) => $.networkInputColorLabel)}</FormLabel>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <FormDescription>{t(($) => $.networkInputColorDescription)}</FormDescription>
+                {field.value !== undefined ? (
+                  <Button
+                    className="h-auto p-0"
+                    onClick={() => {
+                      field.onChange(undefined)
+                      queueSaveInPlace({ color: undefined })
+                    }}
+                    size="sm"
+                    type="button"
+                    variant="link"
+                  >
+                    {t(($) => $.networkInputColorUnset)}
+                  </Button>
+                ) : null}
+              </div>
+              <FormControl>
+                <UiFormInputColor
+                  onChange={(color) => {
+                    field.onChange(color)
+                    queueSaveInPlace({ color })
+                  }}
+                  value={field.value}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+          rules={{ required: false }}
+        />
+
         <div className="flex w-full items-center justify-end pt-3">
           <Button className="rounded-lg" size="sm">
             {t(($) => $.actionSave)}
