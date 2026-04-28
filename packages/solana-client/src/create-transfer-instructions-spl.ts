@@ -13,7 +13,7 @@ import {
 } from '@solana-program/token'
 import type { TransferRecipient } from './transfer-recipient.ts'
 
-interface CreateSplTransferTransactionOptions {
+interface CreateTransferInstructionsSplOptions {
   decimals: number
   mint: Address
   recipients: TransferRecipient[]
@@ -22,14 +22,14 @@ interface CreateSplTransferTransactionOptions {
   transactionSigner: TransactionSigner
 }
 
-export async function createSplTransferInstructions({
+export async function createTransferInstructionsSpl({
   decimals,
   transactionSigner,
   mint,
   recipients,
   source,
   tokenProgram = TOKEN_PROGRAM_ADDRESS,
-}: CreateSplTransferTransactionOptions): Promise<Instruction[]> {
+}: CreateTransferInstructionsSplOptions): Promise<Instruction[]> {
   for (const { destination } of recipients) {
     assertIsAddress(destination)
   }

@@ -1,23 +1,28 @@
 import { useTranslation } from '@workspace/i18n'
 import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
 import { Button } from '@workspace/ui/components/button'
-import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
-import { Input } from '@workspace/ui/components/input'
+import { Field, FieldGroup, FieldSet } from '@workspace/ui/components/field'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
-import { useId } from 'react'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import type { PortfolioTxSendInput } from '../data-access/use-portfolio-tx-send.tsx'
+import type { PortfolioPreparedTransaction } from '../data-access/use-portfolio-tx-prepare.tsx'
+import { PortfolioUiSendConfirmChanges } from './portfolio-ui-send-confirm-changes.tsx'
+import { PortfolioUiSendConfirmDestination } from './portfolio-ui-send-confirm-destination.tsx'
+import { PortfolioUiSendConfirmTransaction } from './portfolio-ui-send-confirm-transaction.tsx'
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
 export function PortfolioUiSendConfirm({
   confirm,
   isLoading,
+  isPreparing,
   mint,
+  preparedTransaction,
   recipients,
 }: {
-  confirm: (input: PortfolioTxSendInput) => Promise<void>
+  confirm: (input: PortfolioPreparedTransaction) => Promise<void>
   isLoading: boolean
+  isPreparing: boolean
   mint: TokenBalance
+  preparedTransaction: PortfolioPreparedTransaction | undefined
   recipients: TransferRecipient[]
 }) {
   const { t } = useTranslation('portfolio')
@@ -28,20 +33,30 @@ export function PortfolioUiSendConfirm({
         <FieldGroup>
           <FieldSet>
             {mint ? <PortfolioUiTokenBalanceItem item={mint} /> : t(($) => $.searchInputSelect)}
-            {recipients.map((recipient) => (
-              <PortfolioUiSendConfirmDestination key={recipient.destination} recipient={recipient} />
+            {recipients.map((recipient, index) => (
+              <PortfolioUiSendConfirmDestination
+                key={`${recipient.destination}-${recipient.amount.toString()}-${index}`}
+                mint={mint}
+                recipient={recipient}
+              />
             ))}
+            <PortfolioUiSendConfirmChanges
+              mint={mint}
+              preparedTransaction={preparedTransaction}
+              recipients={recipients}
+            />
+            <PortfolioUiSendConfirmTransaction isPreparing={isPreparing} preparedTransaction={preparedTransaction} />
           </FieldSet>
           <Field className="flex justify-end" orientation="horizontal">
             <Button
               autoFocus
-              disabled={!mint || isLoading}
+              disabled={!mint || !preparedTransaction || isLoading || isPreparing}
               onClick={async (e) => {
                 e.preventDefault()
-                if (!mint) {
+                if (!mint || !preparedTransaction) {
                   return
                 }
-                await confirm({ mint, recipients })
+                await confirm(preparedTransaction)
               }}
               type="button"
             >
@@ -52,41 +67,5 @@ export function PortfolioUiSendConfirm({
         </FieldGroup>
       </form>
     </div>
-  )
-}
-
-function PortfolioUiSendConfirmDestination({ recipient: { amount, destination } }: { recipient: TransferRecipient }) {
-  const { t } = useTranslation('portfolio')
-  const destinationId = useId()
-  const amountId = useId()
-
-  return (
-    <FieldGroup>
-      <Field>
-        <FieldLabel htmlFor={destinationId}>{t(($) => $.sendInputDestinationLabel)}</FieldLabel>
-        <Input
-          defaultValue={destination}
-          disabled
-          id={destinationId}
-          placeholder={t(($) => $.sendInputDestinationPlaceholder)}
-          readOnly
-          type="text"
-        />
-      </Field>
-      <Field>
-        <FieldLabel htmlFor={amountId}>{t(($) => $.sendInputAmountLabel)}</FieldLabel>
-        <Input
-          defaultValue={amount.toString()}
-          disabled
-          id={amountId}
-          min="1"
-          placeholder={t(($) => $.sendInputAmountPlaceholder)}
-          readOnly
-          required
-          step="any"
-          type="number"
-        />
-      </Field>
-    </FieldGroup>
   )
 }

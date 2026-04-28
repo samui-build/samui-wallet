@@ -1,28 +1,21 @@
-import {
-  type Address,
-  assertIsAddress,
-  assertIsTransactionSigner,
-  type Signature,
-  type TransactionSigner,
-} from '@solana/kit'
+import type { Address, TransactionSigner } from '@solana/kit'
+import { assertIsAddress, assertIsTransactionSigner } from '@solana/kit'
 import { fetchMint } from '@solana-program/token'
-import { createSplTransferInstructions } from './create-spl-transfer-instructions.ts'
-import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { createTransferInstructionsSpl } from './create-transfer-instructions-spl.ts'
+import type { PreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 import type { TransferRecipient } from './transfer-recipient.ts'
 
-export interface CreateAndSendSplTransactionOptions {
-  latestBlockhash?: LatestBlockhash | undefined
+export interface PrepareTransactionSplOptions {
   mint: Address
   recipients: TransferRecipient[]
   transactionSigner: TransactionSigner
 }
 
-export async function createAndSendSplTransaction(
+export async function prepareTransactionSpl(
   client: SolanaClient,
-  { latestBlockhash, mint, recipients, transactionSigner }: CreateAndSendSplTransactionOptions,
-): Promise<Signature> {
+  { mint, recipients, transactionSigner }: PrepareTransactionSplOptions,
+): Promise<PreparedTransaction> {
   for (const { destination } of recipients) {
     assertIsAddress(destination)
   }
@@ -32,8 +25,8 @@ export async function createAndSendSplTransaction(
   const decimals = mintInfo.data.decimals
   const tokenProgram = mintInfo.programAddress
 
-  return signAndSendTransaction(client, {
-    instructions: await createSplTransferInstructions({
+  return {
+    instructions: await createTransferInstructionsSpl({
       decimals,
       mint,
       recipients: recipients.map(({ amount, destination }) => ({ amount, destination })),
@@ -41,7 +34,6 @@ export async function createAndSendSplTransaction(
       tokenProgram,
       transactionSigner,
     }),
-    latestBlockhash,
     transactionSigner,
-  })
+  }
 }

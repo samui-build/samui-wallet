@@ -1,7 +1,7 @@
 import type { Address, TransactionSigner } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
-import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
+import { createAndSendTransactionSol } from '@workspace/solana-client/create-and-send-transaction-sol'
 import { getBalance } from '@workspace/solana-client/get-balance'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
@@ -9,7 +9,7 @@ import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-g
 import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-function createAndSendSolTransactionMutationOptions({
+function createAndSendTransactionSolMutationOptions({
   address,
   client,
   network,
@@ -32,7 +32,7 @@ function createAndSendSolTransactionMutationOptions({
       if (!senderBalance?.value) {
         throw new Error('Balance not available')
       }
-      return createAndSendSolTransaction(client, {
+      return createAndSendTransactionSol(client, {
         recipients,
         senderBalance: senderBalance.value,
         transactionSigner,
@@ -53,5 +53,5 @@ export function useCreateAndSendSolTransaction({ address, network }: { address: 
   const queryClient = useQueryClient()
   const client = useSolanaClient({ network })
 
-  return useMutation(createAndSendSolTransactionMutationOptions({ address, client, network, queryClient }))
+  return useMutation(createAndSendTransactionSolMutationOptions({ address, client, network, queryClient }))
 }

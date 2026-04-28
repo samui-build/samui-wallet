@@ -1,38 +1,32 @@
-import type { Address, Signature, TransactionSigner } from '@solana/kit'
-import { mutationOptions, useMutation } from '@tanstack/react-query'
+import type { Signature } from '@solana/kit'
+import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Network } from '@workspace/db/network/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
-import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
+import { sendPreparedTransaction } from '@workspace/solana-client/send-prepared-transaction'
+import type { SolanaClient } from '@workspace/solana-client/solana-client'
+import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
+import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
+import { getTokenAccountsQueryOptions } from '@workspace/solana-client-react/use-get-token-accounts'
+import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { useCreateAndSendSolTransaction } from './use-create-and-send-sol-transaction.tsx'
-import { useCreateAndSendSplTransaction } from './use-create-and-send-spl-transaction.tsx'
-import type { TokenBalance } from './use-get-token-metadata.ts'
+import type { PortfolioPreparedTransaction } from './use-portfolio-tx-prepare.tsx'
 
-export interface PortfolioTxSendInput {
-  mint: TokenBalance
-  recipients: TransferRecipient[]
-}
+export type PortfolioTxSendInput = PortfolioPreparedTransaction
 
 export function portfolioTxSendMutationOptions({
-  getTransactionSigner,
-  sendSolMutation,
-  sendSplMutation,
+  client,
+  network,
+  queryClient,
 }: {
-  getTransactionSigner: GetTransactionSigner
-  sendSolMutation: ReturnType<typeof useCreateAndSendSolTransaction>
-  sendSplMutation: ReturnType<typeof useCreateAndSendSplTransaction>
+  client: SolanaClient
+  network: Network
+  queryClient: QueryClient
 }) {
-  async function handleSendSplToken(
-    input: PortfolioTxSendInput,
-    transactionSigner: TransactionSigner,
-  ): Promise<Signature | undefined> {
+  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<Signature | undefined> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-    const { data: result, error: sendError } = await tryCatch(
-      sendSplMutation.mutateAsync({ mint: input.mint.mint, recipients: input.recipients, transactionSigner }),
-    )
+    const { data: result, error: sendError } = await tryCatch(sendPreparedTransaction(client, input))
 
     if (sendError) {
       toastError(`Error sending ${tokenSymbol}`)
@@ -47,13 +41,8 @@ export function portfolioTxSendMutationOptions({
     return
   }
 
-  async function handleSendSol(
-    input: PortfolioTxSendInput,
-    transactionSigner: TransactionSigner,
-  ): Promise<Signature | undefined> {
-    const { data: result, error: sendError } = await tryCatch(
-      sendSolMutation.mutateAsync({ recipients: input.recipients, transactionSigner }),
-    )
+  async function handleSendSol(input: PortfolioTxSendInput): Promise<Signature | undefined> {
+    const { data: result, error: sendError } = await tryCatch(sendPreparedTransaction(client, input))
 
     if (sendError) {
       toastError(`Error sending SOL: ${sendError}`)
@@ -70,32 +59,36 @@ export function portfolioTxSendMutationOptions({
 
   return mutationOptions({
     mutationFn: async (input: PortfolioTxSendInput) => {
-      const transactionSigner = await getTransactionSigner()
       if (input.mint.mint === NATIVE_MINT) {
-        return handleSendSol(input, transactionSigner)
+        return handleSendSol(input)
       }
-      return handleSendSplToken(input, transactionSigner)
+      return handleSendSplToken(input)
+    },
+    onSuccess: (_, { mint, transactionSigner: { address } }) => {
+      queryClient.invalidateQueries({
+        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
+      })
+      queryClient.invalidateQueries({
+        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
+      })
+      if (mint.mint !== NATIVE_MINT) {
+        queryClient.invalidateQueries({
+          queryKey: getTokenAccountsQueryOptions({ address, client, network }).queryKey,
+        })
+      }
     },
   })
 }
 
-export function usePortfolioTxSend({
-  address,
-  getTransactionSigner,
-  network,
-}: {
-  address: Address
-  getTransactionSigner: GetTransactionSigner
-  network: Network
-}) {
-  const sendSolMutation = useCreateAndSendSolTransaction({ address, network })
-  const sendSplMutation = useCreateAndSendSplTransaction({ network })
+export function usePortfolioTxSend({ network }: { network: Network }) {
+  const client = useSolanaClient({ network })
+  const queryClient = useQueryClient()
 
   return useMutation(
     portfolioTxSendMutationOptions({
-      getTransactionSigner,
-      sendSolMutation,
-      sendSplMutation,
+      client,
+      network,
+      queryClient,
     }),
   )
 }

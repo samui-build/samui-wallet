@@ -2,7 +2,7 @@ import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { getMintToInstruction, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { createGetOrCreateAtaInstruction } from './create-get-or-create-ata-instruction.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export interface SplTokenTransferOptions {
@@ -36,7 +36,7 @@ export async function splTokenTransfer(
     token: ata,
   })
 
-  const signature = await signAndSendTransaction(client, {
+  const signature = await sendPreparedTransaction(client, {
     instructions: [createAtaInstruction, mintToInstruction],
     latestBlockhash,
     transactionSigner,

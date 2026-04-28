@@ -1,7 +1,7 @@
 import { address, generateKeyPairSigner } from '@solana/kit'
 import { getTransferSolInstruction } from '@solana-program/system'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createSolTransferInstructions } from '../src/create-sol-transfer-instructions.ts'
+import { createTransferInstructionsSol } from '../src/create-transfer-instructions-sol.ts'
 
 vi.mock('@solana-program/system', () => ({
   getTransferSolInstruction: vi.fn(() => ({
@@ -10,7 +10,7 @@ vi.mock('@solana-program/system', () => ({
   })),
 }))
 
-describe('create-sol-transfer-transaction', () => {
+describe('create-transfer-instructions-sol', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
@@ -23,7 +23,7 @@ describe('create-sol-transfer-transaction', () => {
       const source = await generateKeyPairSigner()
 
       // ACT
-      createSolTransferInstructions({ recipients: [{ amount: 100n, destination }], source })
+      createTransferInstructionsSol({ recipients: [{ amount: 100n, destination }], source })
 
       // ASSERT
       expect(getTransferSolInstruction).toHaveBeenCalledTimes(1)
@@ -38,7 +38,7 @@ describe('create-sol-transfer-transaction', () => {
       const source = await generateKeyPairSigner()
 
       // ACT
-      createSolTransferInstructions({
+      createTransferInstructionsSol({
         recipients: [
           { amount: 100n, destination: destinationAlice },
           { amount: 42n, destination: destinationBob },
@@ -59,7 +59,7 @@ describe('create-sol-transfer-transaction', () => {
       const source = await generateKeyPairSigner()
 
       // ACT
-      const result = createSolTransferInstructions({ recipients: [{ amount: 1000000n, destination }], source })
+      const result = createTransferInstructionsSol({ recipients: [{ amount: 1000000n, destination }], source })
 
       // ASSERT
       expect(result).toHaveLength(1)
@@ -72,7 +72,7 @@ describe('create-sol-transfer-transaction', () => {
       const source = await generateKeyPairSigner()
 
       // ACT
-      createSolTransferInstructions({ recipients: [{ amount: 0n, destination }], source })
+      createTransferInstructionsSol({ recipients: [{ amount: 0n, destination }], source })
 
       // ASSERT
       expect(getTransferSolInstruction).toHaveBeenCalledWith(
@@ -90,7 +90,7 @@ describe('create-sol-transfer-transaction', () => {
       const largeAmount = 18446744073709551615n // Max uint64
 
       // ACT
-      createSolTransferInstructions({ recipients: [{ amount: largeAmount, destination }], source })
+      createTransferInstructionsSol({ recipients: [{ amount: largeAmount, destination }], source })
 
       // ASSERT
       expect(getTransferSolInstruction).toHaveBeenCalledWith(expect.objectContaining({ amount: largeAmount }))
@@ -113,7 +113,7 @@ describe('create-sol-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSolTransferInstructions({
+        createTransferInstructionsSol({
           recipients: [
             {
               amount: 100n,
@@ -133,7 +133,7 @@ describe('create-sol-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSolTransferInstructions({
+        createTransferInstructionsSol({
           amount: 100n,
           destination,
           // @ts-expect-error: Testing invalid input
@@ -149,7 +149,7 @@ describe('create-sol-transfer-transaction', () => {
 
       // ACT & ASSERT
       expect(() =>
-        createSolTransferInstructions({
+        createTransferInstructionsSol({
           amount: 100n,
           destination,
           // @ts-expect-error: Testing invalid input

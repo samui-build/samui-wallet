@@ -1,13 +1,13 @@
 import { generateKeyPairSigner, isSignature } from '@solana/kit'
 import { describe, expect, it } from 'vitest'
 import {
-  type CreateAndSendSolTransactionOptions,
-  createAndSendSolTransaction,
-} from '../src/create-and-send-sol-transaction.ts'
+  type CreateAndSendTransactionSolOptions,
+  createAndSendTransactionSol,
+} from '../src/create-and-send-transaction-sol.ts'
 import { getBalance } from '../src/get-balance.ts'
 import { setupIntegrationTestContext } from './test-helpers.ts'
 
-describe('create-and-send-sol-transaction', async () => {
+describe('create-and-send-transaction-sol', async () => {
   const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
 
   describe('expected behavior', () => {
@@ -17,7 +17,7 @@ describe('create-and-send-sol-transaction', async () => {
       const destinationKeypair = await generateKeyPairSigner()
       const destination = destinationKeypair.address
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
-      const input: CreateAndSendSolTransactionOptions = {
+      const input: CreateAndSendTransactionSolOptions = {
         latestBlockhash,
         recipients: [
           {
@@ -30,7 +30,7 @@ describe('create-and-send-sol-transaction', async () => {
       }
 
       // ACT
-      const result = await createAndSendSolTransaction(client, input)
+      const result = await createAndSendTransactionSol(client, input)
 
       // ASSERT
       const res = await getBalance(client, { address: destination }).then((res) => res.value)
@@ -46,7 +46,7 @@ describe('create-and-send-sol-transaction', async () => {
       const destinationBobKeypair = await generateKeyPairSigner()
       const destinationBob = destinationBobKeypair.address
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
-      const input: CreateAndSendSolTransactionOptions = {
+      const input: CreateAndSendTransactionSolOptions = {
         latestBlockhash,
         recipients: [
           {
@@ -63,7 +63,7 @@ describe('create-and-send-sol-transaction', async () => {
       }
 
       // ACT
-      const result = await createAndSendSolTransaction(client, input)
+      const result = await createAndSendTransactionSol(client, input)
 
       // ASSERT
       const balanceAlice = await getBalance(client, { address: destinationAlice }).then((res) => res.value)

@@ -8,7 +8,7 @@ import {
 import { getCreateAccountInstruction } from '@solana-program/system'
 import { getInitializeMintInstruction, getMintSize, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 import { splTokenTransfer } from './spl-token-transfer.ts'
 
@@ -68,7 +68,7 @@ export async function splTokenCreateTokenMint(
     mintAuthority: transactionSigner.address,
   })
 
-  const signatureCreate = await signAndSendTransaction(client, {
+  const signatureCreate = await sendPreparedTransaction(client, {
     instructions: [createAccountInstruction, initializeMintInstruction],
     latestBlockhash,
     transactionSigner,

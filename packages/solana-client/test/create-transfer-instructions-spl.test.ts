@@ -1,7 +1,7 @@
 import { address, generateKeyPairSigner } from '@solana/kit'
 import { getCreateAssociatedTokenIdempotentInstruction, getTransferCheckedInstruction } from '@solana-program/token'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { createSplTransferInstructions } from '../src/create-spl-transfer-instructions.ts'
+import { createTransferInstructionsSpl } from '../src/create-transfer-instructions-spl.ts'
 
 vi.mock('@solana-program/token', () => ({
   findAssociatedTokenPda: vi.fn(() => []),
@@ -13,7 +13,7 @@ vi.mock('@solana-program/token', () => ({
   TOKEN_PROGRAM_ADDRESS: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
 }))
 
-describe('create-spl-transfer-transaction', async () => {
+describe('create-transfer-instructions-spl', async () => {
   const transactionSigner = await generateKeyPairSigner()
   const mint = address('So11111111111111111111111111111111111111112')
   const destination = address('So11111111111111111111111111111111111111113')
@@ -28,7 +28,7 @@ describe('create-spl-transfer-transaction', async () => {
       expect.assertions(4)
 
       // ACT
-      const result = await createSplTransferInstructions({
+      const result = await createTransferInstructionsSpl({
         decimals: 6,
         mint,
         recipients: [{ amount: 1000000n, destination }],
@@ -59,7 +59,7 @@ describe('create-spl-transfer-transaction', async () => {
       expect.assertions(5)
 
       // ACT
-      const result = await createSplTransferInstructions({
+      const result = await createTransferInstructionsSpl({
         decimals: 9,
         mint,
         recipients: [{ amount: 500000n, destination }],
@@ -98,7 +98,7 @@ describe('create-spl-transfer-transaction', async () => {
       const source = await generateKeyPairSigner()
 
       // ACT
-      await createSplTransferInstructions({
+      await createTransferInstructionsSpl({
         decimals: 6,
         mint,
         recipients: [{ amount: 750000n, destination }],
@@ -127,7 +127,7 @@ describe('create-spl-transfer-transaction', async () => {
       const customTokenProgram = address('TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb')
 
       // ACT
-      await createSplTransferInstructions({
+      await createTransferInstructionsSpl({
         decimals: 6,
         mint,
         recipients: [{ amount: 1000000n, destination }],
@@ -151,7 +151,7 @@ describe('create-spl-transfer-transaction', async () => {
       expect.assertions(2)
 
       // ACT
-      const result = await createSplTransferInstructions({
+      const result = await createTransferInstructionsSpl({
         decimals: 6,
         mint,
         recipients: [{ amount: 0n, destination }],
@@ -174,7 +174,7 @@ describe('create-spl-transfer-transaction', async () => {
       const largeAmount = 18446744073709551615n // Max uint64
 
       // ACT
-      await createSplTransferInstructions({
+      await createTransferInstructionsSpl({
         decimals: 0,
         mint,
         recipients: [{ amount: largeAmount, destination }],
@@ -195,7 +195,7 @@ describe('create-spl-transfer-transaction', async () => {
       expect.assertions(1)
 
       // ACT
-      await createSplTransferInstructions({
+      await createTransferInstructionsSpl({
         decimals: 9, // Wrapped SOL uses 9 decimals
         mint,
         recipients: [{ amount: 1000000000n, destination }],
@@ -217,7 +217,7 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT & ASSERT
       await expect(
-        createSplTransferInstructions({
+        createTransferInstructionsSpl({
           decimals: 6,
           // @ts-expect-error: Testing invalid input
           mint: 'invalid-address',
@@ -233,7 +233,7 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT & ASSERT
       await expect(
-        createSplTransferInstructions({
+        createTransferInstructionsSpl({
           decimals: 6,
           mint,
           recipients: [
@@ -254,7 +254,7 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT & ASSERT
       await expect(
-        createSplTransferInstructions({
+        createTransferInstructionsSpl({
           amount: 1000000n,
           decimals: 6,
           destination,
@@ -272,7 +272,7 @@ describe('create-spl-transfer-transaction', async () => {
 
       // ACT & ASSERT
       await expect(
-        createSplTransferInstructions({
+        createTransferInstructionsSpl({
           amount: 1000000n,
           decimals: 6,
           destination,

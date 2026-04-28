@@ -5,7 +5,7 @@ import {
   type TOKEN_2022_PROGRAM_ADDRESS,
 } from '@solana-program/token-2022'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export type SplTokenBurnTokenProgram = typeof TOKEN_PROGRAM_ADDRESS | typeof TOKEN_2022_PROGRAM_ADDRESS | Address
@@ -47,7 +47,7 @@ export async function splTokenBurn(
           { programAddress: tokenProgram },
         )
 
-  const signature = await signAndSendTransaction(client, {
+  const signature = await sendPreparedTransaction(client, {
     instructions: [burnInstruction],
     latestBlockhash,
     transactionSigner,

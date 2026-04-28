@@ -16,7 +16,7 @@ import {
   TOKEN_2022_PROGRAM_ADDRESS,
 } from '@solana-program/token-2022'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 import { splTokenMintTo } from './spl-token-mint-to.ts'
 
@@ -111,7 +111,7 @@ export async function splToken2022CreateTokenMint(
   })
 
   // Get transaction signature
-  const signatureCreate = await signAndSendTransaction(client, {
+  const signatureCreate = await sendPreparedTransaction(client, {
     instructions: [createAccountInstruction, ...instructions, initializeMintInstruction],
     latestBlockhash,
     transactionSigner,

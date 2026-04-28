@@ -1,7 +1,7 @@
 import { address, type TransactionSigner } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
-import { createAndSendSplTransaction } from '@workspace/solana-client/create-and-send-spl-transaction'
+import { createAndSendTransactionSpl } from '@workspace/solana-client/create-and-send-transaction-spl'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
 import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
@@ -9,7 +9,7 @@ import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-b
 import { getTokenAccountsQueryOptions } from '@workspace/solana-client-react/use-get-token-accounts'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function createAndSendSplTransactionMutationOptions(
+export function createAndSendTransactionSplMutationOptions(
   client: SolanaClient,
   queryClient: QueryClient,
   network: Network,
@@ -24,7 +24,7 @@ export function createAndSendSplTransactionMutationOptions(
       recipients: TransferRecipient[]
       transactionSigner: TransactionSigner
     }) => {
-      return createAndSendSplTransaction(client, {
+      return createAndSendTransactionSpl(client, {
         mint: address(mint),
         recipients,
         transactionSigner,
@@ -48,5 +48,5 @@ export function useCreateAndSendSplTransaction({ network }: { network: Network }
   const queryClient = useQueryClient()
   const client = useSolanaClient({ network })
 
-  return useMutation(createAndSendSplTransactionMutationOptions(client, queryClient, network))
+  return useMutation(createAndSendTransactionSplMutationOptions(client, queryClient, network))
 }

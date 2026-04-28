@@ -1,25 +1,30 @@
 import { generateKeyPairSigner, isSignature } from '@solana/kit'
-import { describe, expect, it } from 'vitest'
+import { beforeAll, describe, expect, it } from 'vitest'
 import {
-  type CreateAndSendSplTransactionOptions,
-  createAndSendSplTransaction,
-} from '../src/create-and-send-spl-transaction.ts'
+  type CreateAndSendTransactionSplOptions,
+  createAndSendTransactionSpl,
+} from '../src/create-and-send-transaction-spl.ts'
 import { getTokenAccountsForMint } from '../src/get-token-accounts-for-mint.ts'
 import { uiAmountToBigInt } from '../src/ui-amount-to-big-int.ts'
 import { setupIntegrationTestContext, setupIntegrationTestMint } from './test-helpers.ts'
 
-describe('create-and-send-spl-transaction', async () => {
-  const { client, latestBlockhash, transactionSigner } = await setupIntegrationTestContext()
+describe('create-and-send-transaction-spl', () => {
+  let context: Awaited<ReturnType<typeof setupIntegrationTestContext>>
+
+  beforeAll(async () => {
+    context = await setupIntegrationTestContext()
+  })
 
   describe('expected behavior', () => {
     it('should create and send spl token', async () => {
       // ARRANGE
       expect.assertions(2)
+      const { client, latestBlockhash, transactionSigner } = context
       const testMint = await setupIntegrationTestMint({ client, latestBlockhash, supply: '1000', transactionSigner })
       const destinationKeypair = await generateKeyPairSigner()
       const destination = destinationKeypair.address
       const amount = '420'
-      const input: CreateAndSendSplTransactionOptions = {
+      const input: CreateAndSendTransactionSplOptions = {
         latestBlockhash,
         mint: testMint.result.mint,
         recipients: [{ amount: uiAmountToBigInt(amount, testMint.input.decimals), destination }],
@@ -27,7 +32,7 @@ describe('create-and-send-spl-transaction', async () => {
       }
 
       // ACT
-      const result = await createAndSendSplTransaction(client, input)
+      const result = await createAndSendTransactionSpl(client, input)
 
       // ASSERT
       const [tokenAccount] = await getTokenAccountsForMint(client, {
@@ -42,6 +47,7 @@ describe('create-and-send-spl-transaction', async () => {
     it('should create and send spl tokens to multiple destinations', async () => {
       // ARRANGE
       expect.assertions(4)
+      const { client, latestBlockhash, transactionSigner } = context
       const testMint = await setupIntegrationTestMint({ client, latestBlockhash, supply: '1000', transactionSigner })
       const destinationAliceKeypair = await generateKeyPairSigner()
       const destinationAlice = destinationAliceKeypair.address
@@ -49,7 +55,7 @@ describe('create-and-send-spl-transaction', async () => {
       const destinationBob = destinationBobKeypair.address
       const amountAlice = '420'
       const amountBob = '42'
-      const input: CreateAndSendSplTransactionOptions = {
+      const input: CreateAndSendTransactionSplOptions = {
         latestBlockhash,
         mint: testMint.result.mint,
         recipients: [
@@ -60,7 +66,7 @@ describe('create-and-send-spl-transaction', async () => {
       }
 
       // ACT
-      const result = await createAndSendSplTransaction(client, input)
+      const result = await createAndSendTransactionSpl(client, input)
 
       // ASSERT
       const [tokenAccountAlice] = await getTokenAccountsForMint(client, {

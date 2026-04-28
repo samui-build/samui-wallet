@@ -10,7 +10,7 @@ import { getDelegateStakeInstruction, getInitializeInstruction } from '@solana-p
 import { getCreateAccountInstruction } from '@solana-program/system'
 import { STAKE_PROGRAM_ADDRESS } from './constants.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export const STAKE_ACCOUNT_SPACE = 200n
@@ -68,7 +68,7 @@ export async function createStakeAccount(
     vote,
   })
 
-  const signature = await signAndSendTransaction(client, {
+  const signature = await sendPreparedTransaction(client, {
     instructions: [createAccountInstruction, initializeInstruction, delegateStakeInstruction],
     latestBlockhash,
     transactionSigner,

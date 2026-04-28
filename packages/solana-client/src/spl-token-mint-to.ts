@@ -3,7 +3,7 @@ import { TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
 import { getMintToCheckedInstruction } from '@solana-program/token-2022'
 import { createGetOrCreateAtaInstruction } from './create-get-or-create-ata-instruction.ts'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
-import { signAndSendTransaction } from './sign-and-send-transaction.ts'
+import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
 export interface SplTokenMintToOptions {
@@ -49,7 +49,7 @@ export async function splTokenMintTo(
     { programAddress: tokenProgram },
   )
 
-  const signature = await signAndSendTransaction(client, {
+  const signature = await sendPreparedTransaction(client, {
     instructions: [createAtaInstruction, mintToInstruction],
     latestBlockhash,
     transactionSigner,

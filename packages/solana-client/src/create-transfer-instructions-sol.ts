@@ -2,15 +2,15 @@ import { assertIsAddress, assertIsTransactionSigner, type Instruction, type Tran
 import { getTransferSolInstruction } from '@solana-program/system'
 import type { TransferRecipient } from './transfer-recipient.ts'
 
-export interface CreateSolTransferTransactionOptions {
+export interface CreateTransferInstructionsSolOptions {
   recipients: TransferRecipient[]
   source: TransactionSigner
 }
 
-export function createSolTransferInstructions({
+export function createTransferInstructionsSol({
   recipients,
   source,
-}: CreateSolTransferTransactionOptions): Instruction[] {
+}: CreateTransferInstructionsSolOptions): Instruction[] {
   for (const { destination } of recipients) {
     assertIsAddress(destination)
   }

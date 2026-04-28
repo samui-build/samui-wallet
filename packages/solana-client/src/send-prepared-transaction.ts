@@ -15,15 +15,17 @@ import {
 import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
 import type { SolanaClient } from './solana-client.ts'
 
-export interface SignAndSendTransaction {
+export interface SendPreparedTransactionOptions {
   instructions: Instruction[]
   latestBlockhash?: LatestBlockhash | undefined
   transactionSigner: TransactionSigner
 }
 
-export async function signAndSendTransaction(
+export type PreparedTransaction = Omit<SendPreparedTransactionOptions, 'latestBlockhash'>
+
+export async function sendPreparedTransaction(
   client: SolanaClient,
-  { instructions, latestBlockhash, transactionSigner }: SignAndSendTransaction,
+  { instructions, latestBlockhash, transactionSigner }: SendPreparedTransactionOptions,
 ): Promise<Signature> {
   // Use provided latestBlockhash or get one
   latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
