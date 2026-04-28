@@ -44,7 +44,7 @@ export function createStakeAccountMutationOptions({
       toastError('Failed to stake SOL.')
     },
     onSuccess: async ({ signature }) => {
-      await invalidateStakeAccountQueries({ account, client, network, queryClient })
+      await invalidateStakeAccountQueries({ address: account.publicKey, client, network, queryClient })
       toastSuccess(`Stake transaction confirmed: ${ellipsify(signature, 6, '...')}`)
     },
   })
@@ -67,22 +67,22 @@ export function useCreateStakeAccount({ account, network }: { account: Account; 
 }
 
 async function invalidateStakeAccountQueries({
-  account,
+  address,
   client,
   queryClient,
   network,
 }: {
-  account: Account
+  address: Address
   client: SolanaClient
   queryClient: QueryClient
   network: Network
 }) {
   await Promise.all([
     queryClient.invalidateQueries({
-      queryKey: getBalanceQueryOptions({ address: account.publicKey, client, network }).queryKey,
+      queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
     }),
     queryClient.invalidateQueries({
-      queryKey: getStakeAccountsQueryOptions({ address: account.publicKey, client, network }).queryKey,
+      queryKey: getStakeAccountsQueryOptions({ address, client, network }).queryKey,
     }),
   ])
 }

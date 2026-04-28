@@ -1,5 +1,4 @@
 import type { Address, Lamports } from '@solana/kit'
-import type { Account } from '@workspace/db/account/account'
 import { ExplorerUiLinkAddress } from '@workspace/explorer/ui/explorer-ui-link-address'
 import { lamportsToSol } from '@workspace/solana-client/lamports-to-sol'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
@@ -19,7 +18,7 @@ import { ToolsUiStakeCreateValidatorCombobox } from './tools-ui-stake-create-val
 import { getSortedVoteAccounts, getStakeAmountValidation, toBigIntLamports } from './tools-ui-stake-utils.ts'
 
 export function ToolsUiStakeCreateForm({
-  account,
+  address,
   createStake,
   isPending,
   rentReserve,
@@ -30,7 +29,7 @@ export function ToolsUiStakeCreateForm({
   walletBalance,
   walletBalanceIsLoading,
 }: {
-  account: Account
+  address: Address
   createStake: (input: CreateStakeAccountInput) => Promise<void>
   isPending: boolean
   rentReserve: Lamports | undefined
@@ -142,13 +141,7 @@ export function ToolsUiStakeCreateForm({
       <div className="grid gap-3 rounded-md border bg-muted/20 p-3 sm:grid-cols-2">
         <ToolsUiStakeAccountCardField
           label="From"
-          value={
-            <ExplorerUiLinkAddress
-              address={account.publicKey}
-              basePath="/explorer"
-              label={ellipsify(account.publicKey, 6, '...')}
-            />
-          }
+          value={<ExplorerUiLinkAddress address={address} basePath="/explorer" label={ellipsify(address, 6, '...')} />}
         />
         <ToolsUiStakeAccountCardField
           label="Balance"

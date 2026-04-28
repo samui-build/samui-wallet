@@ -1,3 +1,4 @@
+import type { Address } from '@solana/kit'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
@@ -62,7 +63,7 @@ export function ToolsFeatureStakeAccounts({ account, network }: { account: Accou
       />
       <Route element={<ToolsFeatureStakeCreate account={account} network={network} />} path="stake" />
       <Route
-        element={<ToolsFeatureStakeAccountDetail account={account} accounts={accounts} actions={actions} />}
+        element={<ToolsFeatureStakeAccountDetail accounts={accounts} actions={actions} authority={account.publicKey} />}
         path=":address"
       />
       <Route element={<Navigate replace to="." />} path="*" />
@@ -73,11 +74,11 @@ export function ToolsFeatureStakeAccounts({ account, network }: { account: Accou
 function ToolsFeatureStakeAccountDetail({
   accounts,
   actions,
-  account,
+  authority,
 }: {
   accounts: StakeAccount[]
   actions: StakeAccountActions
-  account: Account
+  authority: Address
 }) {
   const { address } = useParams<{ address: string }>()
   const navigate = useNavigate()
@@ -91,7 +92,7 @@ function ToolsFeatureStakeAccountDetail({
     <ToolsUiStakeAccountDetail
       account={stakeAccount}
       actions={actions}
-      authority={account.publicKey}
+      authority={authority}
       close={async () => {
         const closed = await actions.close(stakeAccount)
         if (closed) {
@@ -111,7 +112,7 @@ function ToolsFeatureStakeCreate({ account, network }: { account: Account; netwo
 
   return (
     <ToolsUiStakeCreateForm
-      account={account}
+      address={account.publicKey}
       createStake={async (input) => {
         const { data: result, error } = await tryCatch(createStakeAccountMutation.mutateAsync(input))
         if (error) {

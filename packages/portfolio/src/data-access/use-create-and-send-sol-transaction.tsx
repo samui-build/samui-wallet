@@ -1,6 +1,5 @@
-import type { KeyPairSigner } from '@solana/kit'
+import type { Address, KeyPairSigner } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
-import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { createAndSendSolTransaction } from '@workspace/solana-client/create-and-send-sol-transaction'
 import { getBalance } from '@workspace/solana-client/get-balance'
@@ -10,12 +9,17 @@ import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-g
 import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
 
-export function createAndSendSolTransactionMutationOptions(
-  client: SolanaClient,
-  queryClient: QueryClient,
-  account: Account,
-  network: Network,
-) {
+function createAndSendSolTransactionMutationOptions({
+  address,
+  client,
+  network,
+  queryClient,
+}: {
+  address: Address
+  client: SolanaClient
+  network: Network
+  queryClient: QueryClient
+}) {
   return mutationOptions({
     mutationFn: async ({
       recipients,
@@ -36,18 +40,18 @@ export function createAndSendSolTransactionMutationOptions(
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: getBalanceQueryOptions({ address: account.publicKey, client, network }).queryKey,
+        queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })
       queryClient.invalidateQueries({
-        queryKey: getAccountInfoQueryOptions({ address: account.publicKey, client, network }).queryKey,
+        queryKey: getAccountInfoQueryOptions({ address, client, network }).queryKey,
       })
     },
   })
 }
 
-export function useCreateAndSendSolTransaction({ account, network }: { account: Account; network: Network }) {
+export function useCreateAndSendSolTransaction({ address, network }: { address: Address; network: Network }) {
   const queryClient = useQueryClient()
   const client = useSolanaClient({ network })
 
-  return useMutation(createAndSendSolTransactionMutationOptions(client, queryClient, account, network))
+  return useMutation(createAndSendSolTransactionMutationOptions({ address, client, network, queryClient }))
 }

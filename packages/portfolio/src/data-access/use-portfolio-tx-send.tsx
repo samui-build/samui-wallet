@@ -80,9 +80,9 @@ export function portfolioTxSendMutationOptions({
 }
 
 export function usePortfolioTxSend() {
-  const account = useAccountActive()
+  const { publicKey: address } = useAccountActive()
   const network = useNetworkActive()
-  const sendSolMutation = useCreateAndSendSolTransaction({ account, network })
+  const sendSolMutation = useCreateAndSendSolTransaction({ address, network })
   const sendSplMutation = useCreateAndSendSplTransaction({ network })
 
   return useMutation(

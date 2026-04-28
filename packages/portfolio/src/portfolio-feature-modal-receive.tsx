@@ -5,11 +5,11 @@ import { PortfolioUiReceive } from './ui/portfolio-ui-receive.tsx'
 
 export function PortfolioFeatureModalReceive() {
   const { t } = useTranslation('portfolio')
-  const account = useAccountActive()
+  const { publicKey: address } = useAccountActive()
 
   return (
     <PortfolioUiModal title={t(($) => $.actionReceive)}>
-      <PortfolioUiReceive account={account} />
+      <PortfolioUiReceive address={address} />
     </PortfolioUiModal>
   )
 }

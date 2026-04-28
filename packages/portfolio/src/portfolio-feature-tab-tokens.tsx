@@ -12,11 +12,11 @@ import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 import { PortfolioUiTokenBalancesSkeleton } from './ui/portfolio-ui-token-balances-skeleton.tsx'
 
 export function PortfolioFeatureTabTokens() {
-  const account = useAccountActive()
+  const { publicKey: address } = useAccountActive()
   const network = useNetworkActive()
-  const balances = useGetTokenBalances({ address: account.publicKey, network })
+  const balances = useGetTokenBalances({ address, network })
   const { data: dataWalletInfo, isLoading: isLoadingWalletInfo } = useGetAccountInfo({
-    address: account.publicKey,
+    address,
     network,
   })
   const totalBalance = useMemo(() => {
@@ -41,7 +41,7 @@ export function PortfolioFeatureTabTokens() {
       <PortfolioUiAccountButtons />
 
       {isLoadingWalletInfo ? null : (
-        <PortfolioUiRequestAirdrop account={account} lamports={dataWalletInfo?.value?.lamports} network={network} />
+        <PortfolioUiRequestAirdrop address={address} lamports={dataWalletInfo?.value?.lamports} network={network} />
       )}
 
       {isLoadingWalletInfo ? (
