@@ -1,31 +1,30 @@
-import { formatBalance } from '@workspace/explorer/data-access/format-balance'
 import { useTranslation } from '@workspace/i18n'
-import { NATIVE_MINT, TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
-import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
+import { NATIVE_MINT } from '@workspace/solana-client/constants'
+import {
+  formatSimulatedTransactionChange,
+  getSimulatedTransactionChangeRows,
+  type SimulatedTransactionChangeRow,
+} from '@workspace/solana-client/get-simulated-transaction-change-rows'
+import type { SimulatePreparedTransactionResult } from '@workspace/solana-client/simulate-prepared-transaction'
 import { Badge } from '@workspace/ui/components/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
-import type { PortfolioPreparedTransaction } from '../data-access/use-portfolio-tx-prepare.tsx'
-import { getInstructionAccountAddress } from './portfolio-ui-send-confirm-instruction.tsx'
 
 export function PortfolioUiSendConfirmChanges({
   mint,
-  preparedTransaction,
-  recipients,
+  simulation,
 }: {
   mint: TokenBalance
-  preparedTransaction: PortfolioPreparedTransaction | undefined
-  recipients: TransferRecipient[]
+  simulation: SimulatePreparedTransactionResult | undefined
 }) {
   const { t } = useTranslation('portfolio')
 
-  if (!preparedTransaction) {
+  if (simulation?.status !== 'success') {
     return null
   }
 
-  const rows = getSendConfirmChangeRows({ mint, preparedTransaction, recipients })
-  const tokenLabel = getSendConfirmTokenLabel(mint)
+  const rows = getSendConfirmChangeRows({ mint, simulation })
 
   if (!rows.length) {
     return null
@@ -44,19 +43,19 @@ export function PortfolioUiSendConfirmChanges({
         </TableHeader>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.address}>
+            <TableRow key={`${row.address}:${row.tokenTitle}`}>
               <TableCell className="px-3 py-2 font-mono text-xs">
                 <span title={row.address}>{ellipsify(row.address)}</span>
               </TableCell>
               <TableCell className="px-3 py-2 font-mono text-xs">
-                <span title={mint.mint}>{tokenLabel}</span>
+                <span title={row.tokenTitle}>{row.tokenLabel}</span>
               </TableCell>
               <TableCell className="px-3 py-2 text-right">
                 <Badge
                   className="font-mono"
                   variant={row.change > 0n ? 'success' : row.change < 0n ? 'destructive' : 'outline'}
                 >
-                  {formatTokenChange({ change: row.change, decimals: mint.decimals })}
+                  {formatSimulatedTransactionChange({ change: row.change, decimals: row.decimals })}
                 </Badge>
               </TableCell>
             </TableRow>
@@ -67,56 +66,53 @@ export function PortfolioUiSendConfirmChanges({
   )
 }
 
-function getSendConfirmChangeRows({
+export function getSendConfirmChangeRows({
   mint,
-  preparedTransaction,
-  recipients,
+  simulation,
 }: {
   mint: TokenBalance
-  preparedTransaction: PortfolioPreparedTransaction
-  recipients: TransferRecipient[]
+  simulation: Extract<SimulatePreparedTransactionResult, { status: 'success' }>
 }) {
-  const rows = new Map<string, SendConfirmChangeRow>()
-  const transferInstructions = preparedTransaction.instructions.filter(
-    (instruction) =>
-      instruction.programAddress === TOKEN_PROGRAM_ADDRESS || instruction.programAddress === TOKEN_2022_PROGRAM_ADDRESS,
-  )
+  return getSimulatedTransactionChangeRows({ simulation })
+    .map(
+      (row): SendConfirmChangeRow => ({
+        address: row.address,
+        change: row.change,
+        decimals: row.decimals,
+        tokenLabel: getSendConfirmChangeRowTokenLabel({ mint, row }),
+        tokenTitle: row.mint,
+      }),
+    )
+    .sort((rowA, rowB) => {
+      const tokenSort = rowA.tokenLabel.localeCompare(rowB.tokenLabel)
+      if (tokenSort !== 0) {
+        return tokenSort
+      }
 
-  for (const [index, { amount, destination }] of recipients.entries()) {
-    if (mint.mint === NATIVE_MINT) {
-      addChangeRow(rows, preparedTransaction.transactionSigner.address, -amount)
-      addChangeRow(rows, destination, amount)
-      continue
-    }
-
-    const transferInstruction = transferInstructions[index]
-    const source =
-      getInstructionAccountAddress(transferInstruction?.accounts?.[0]) ?? preparedTransaction.transactionSigner.address
-    const tokenDestination = getInstructionAccountAddress(transferInstruction?.accounts?.[2]) ?? destination
-
-    addChangeRow(rows, source, -amount)
-    addChangeRow(rows, tokenDestination, amount)
-  }
-
-  return [...rows.values()]
+      return rowA.address.localeCompare(rowB.address)
+    })
 }
 
-interface SendConfirmChangeRow {
+export interface SendConfirmChangeRow {
   address: string
   change: bigint
-}
-
-function addChangeRow(rows: Map<string, SendConfirmChangeRow>, address: string, change: bigint) {
-  rows.set(address, {
-    address,
-    change: (rows.get(address)?.change ?? 0n) + change,
-  })
-}
-
-function formatTokenChange({ change, decimals }: { change: bigint; decimals: number }) {
-  return `${change > 0n ? '+' : ''}${formatBalance({ balance: change, decimals })}`
+  decimals: number
+  tokenLabel: string
+  tokenTitle: string
 }
 
 function getSendConfirmTokenLabel(mint: TokenBalance) {
-  return mint.mint === NATIVE_MINT ? (mint.metadata?.symbol ?? 'SOL') : ellipsify(mint.mint)
+  return mint.metadata?.symbol ?? (mint.mint === NATIVE_MINT ? 'SOL' : ellipsify(mint.mint))
+}
+
+function getSendConfirmChangeRowTokenLabel({ mint, row }: { mint: TokenBalance; row: SimulatedTransactionChangeRow }) {
+  if (row.type === 'sol') {
+    return getSolTokenLabel(mint)
+  }
+
+  return row.mint === mint.mint ? getSendConfirmTokenLabel(mint) : ellipsify(row.mint)
+}
+
+function getSolTokenLabel(mint: TokenBalance) {
+  return mint.mint === NATIVE_MINT ? getSendConfirmTokenLabel(mint) : 'SOL'
 }

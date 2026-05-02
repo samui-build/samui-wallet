@@ -1,9 +1,11 @@
-import type { Signature } from '@solana/kit'
 import { mutationOptions, type QueryClient, useMutation, useQueryClient } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Network } from '@workspace/db/network/network'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
-import { sendPreparedTransaction } from '@workspace/solana-client/send-prepared-transaction'
+import {
+  type SendSimulatedPreparedTransactionResult,
+  sendSimulatedPreparedTransaction,
+} from '@workspace/solana-client/send-prepared-transaction'
 import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import { getAccountInfoQueryOptions } from '@workspace/solana-client-react/use-get-account-info'
 import { getBalanceQueryOptions } from '@workspace/solana-client-react/use-get-balance'
@@ -14,6 +16,7 @@ import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import type { PortfolioPreparedTransaction } from './use-portfolio-tx-prepare.tsx'
 
 export type PortfolioTxSendInput = PortfolioPreparedTransaction
+export type PortfolioTxSendResult = SendSimulatedPreparedTransactionResult | undefined
 
 export function portfolioTxSendMutationOptions({
   client,
@@ -24,33 +27,41 @@ export function portfolioTxSendMutationOptions({
   network: Network
   queryClient: QueryClient
 }) {
-  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<Signature | undefined> {
+  async function handleSendSplToken(input: PortfolioTxSendInput): Promise<PortfolioTxSendResult> {
     const tokenSymbol = input.mint.metadata?.symbol ?? 'Token'
-    const { data: result, error: sendError } = await tryCatch(sendPreparedTransaction(client, input))
+    const { data: result, error: sendError } = await tryCatch(sendSimulatedPreparedTransaction(client, input))
 
     if (sendError) {
       toastError(`Error sending ${tokenSymbol}`)
       return
     }
 
-    if (result) {
+    if (result?.signature) {
       toastSuccess(`${tokenSymbol} has been sent!`)
+      return result
+    }
+    if (result?.simulation.status === 'failure') {
+      toastError(`${tokenSymbol} simulation failed`)
       return result
     }
     toastError(`Failed to send ${tokenSymbol}`)
     return
   }
 
-  async function handleSendSol(input: PortfolioTxSendInput): Promise<Signature | undefined> {
-    const { data: result, error: sendError } = await tryCatch(sendPreparedTransaction(client, input))
+  async function handleSendSol(input: PortfolioTxSendInput): Promise<PortfolioTxSendResult> {
+    const { data: result, error: sendError } = await tryCatch(sendSimulatedPreparedTransaction(client, input))
 
     if (sendError) {
       toastError(`Error sending SOL: ${sendError}`)
       return
     }
 
-    if (result) {
+    if (result?.signature) {
       toastSuccess('SOL has been sent!')
+      return result
+    }
+    if (result?.simulation.status === 'failure') {
+      toastError('SOL simulation failed')
       return result
     }
     toastError('Failed to send SOL')
@@ -64,7 +75,11 @@ export function portfolioTxSendMutationOptions({
       }
       return handleSendSplToken(input)
     },
-    onSuccess: (_, { mint, transactionSigner: { address } }) => {
+    onSuccess: (result, { mint, transactionSigner: { address } }) => {
+      if (!result?.signature) {
+        return
+      }
+
       queryClient.invalidateQueries({
         queryKey: getBalanceQueryOptions({ address, client, network }).queryKey,
       })

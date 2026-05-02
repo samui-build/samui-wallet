@@ -1,42 +1,36 @@
 import {
-  appendTransactionMessageInstructions,
   assertIsTransactionWithBlockhashLifetime,
-  createTransactionMessage,
   getSignatureFromTransaction,
-  type Instruction,
-  pipe,
   type Signature,
   sendAndConfirmTransactionFactory,
-  setTransactionMessageFeePayerSigner,
-  setTransactionMessageLifetimeUsingBlockhash,
   signTransactionMessageWithSigners,
-  type TransactionSigner,
 } from '@solana/kit'
-import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
+import {
+  createPreparedTransactionMessage,
+  type PreparedTransaction,
+  type PreparedTransactionOptions,
+} from './prepared-transaction-message.ts'
+import { type SimulatePreparedTransactionResult, simulatePreparedTransaction } from './simulate-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
 
-export interface SendPreparedTransactionOptions {
-  instructions: Instruction[]
-  latestBlockhash?: LatestBlockhash | undefined
-  transactionSigner: TransactionSigner
-}
+export type { PreparedTransaction }
+export type SendPreparedTransactionOptions = PreparedTransactionOptions
 
-export type PreparedTransaction = Omit<SendPreparedTransactionOptions, 'latestBlockhash'>
+export type SendSimulatedPreparedTransactionResult =
+  | {
+      signature: Signature
+      simulation: Extract<SimulatePreparedTransactionResult, { status: 'success' }>
+    }
+  | {
+      signature: undefined
+      simulation: Extract<SimulatePreparedTransactionResult, { status: 'failure' }>
+    }
 
 export async function sendPreparedTransaction(
   client: SolanaClient,
-  { instructions, latestBlockhash, transactionSigner }: SendPreparedTransactionOptions,
+  input: SendPreparedTransactionOptions,
 ): Promise<Signature> {
-  // Use provided latestBlockhash or get one
-  latestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
-
-  const transactionMessage = pipe(
-    createTransactionMessage({ version: 0 }),
-    (tx) => appendTransactionMessageInstructions(instructions, tx),
-    (tx) => setTransactionMessageFeePayerSigner(transactionSigner, tx),
-    (tx) => setTransactionMessageLifetimeUsingBlockhash(latestBlockhash, tx),
-  )
-
+  const { transactionMessage } = await createPreparedTransactionMessage(client, input)
   const signedTransaction = await signTransactionMessageWithSigners(transactionMessage)
   assertIsTransactionWithBlockhashLifetime(signedTransaction)
 
@@ -45,4 +39,27 @@ export async function sendPreparedTransaction(
     { commitment: 'confirmed' },
   )
   return getSignatureFromTransaction(signedTransaction)
+}
+
+export async function sendSimulatedPreparedTransaction(
+  client: SolanaClient,
+  input: SendPreparedTransactionOptions,
+): Promise<SendSimulatedPreparedTransactionResult> {
+  const simulation = await simulatePreparedTransaction(client, input)
+  if (simulation.status === 'failure') {
+    return {
+      signature: undefined,
+      simulation,
+    }
+  }
+
+  const signature = await sendPreparedTransaction(client, {
+    ...input,
+    latestBlockhash: simulation.latestBlockhash,
+  })
+
+  return {
+    signature,
+    simulation,
+  }
 }
