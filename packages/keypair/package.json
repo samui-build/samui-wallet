@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@noble/hashes": "2.2.0",
-    "@scure/bip39": "2.0.1",
+    "@scure/bip39": "2.2.0",
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
     "micro-key-producer": "0.8.2"
