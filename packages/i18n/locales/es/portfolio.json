@@ -39,7 +39,7 @@
   "sendConfirmInstructionCount_many": "{{count}} instrucciones",
   "sendConfirmInstructionCount_one": "{{count}} instrucción",
   "sendConfirmInstructionCount_other": "{{count}} instrucciones",
-  "sendConfirmInstructionDataBytes": "Bytes de datos: {{bytes}}",
+  "sendConfirmInstructionDataBytes": "Bytes de datos: {{bytes, number}}",
   "sendConfirmInstructionNoAccounts": "Ninguna",
   "sendConfirmInstructionProgram": "Programa",
   "sendConfirmInstructionUnknownAccount": "Desconocido",

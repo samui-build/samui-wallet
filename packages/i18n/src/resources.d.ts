@@ -81,7 +81,7 @@ interface Resources {
     onboardingPageDescription: 'You can now start using 🏝️ Samui Wallet!'
     onboardingPageTitle: "You're all set!"
     uiMnemonicUnexpectedLength: 'Unexpected mnemonic length'
-    uiMnemonicWords: '{{words}} words'
+    uiMnemonicWords: '{{words, number}} words'
   }
   portfolio: {
     actionBurn: 'Burn'
@@ -122,7 +122,7 @@ interface Resources {
     sendConfirmExpectedChanges: 'Expected changes'
     sendConfirmInstructionAccounts: 'Accounts'
     sendConfirmInstructionCount: '{{count}} instruction' | '{{count}} instructions'
-    sendConfirmInstructionDataBytes: 'Data bytes: {{bytes}}'
+    sendConfirmInstructionDataBytes: 'Data bytes: {{bytes, number}}'
     sendConfirmInstructionNoAccounts: 'None'
     sendConfirmInstructionProgram: 'Program'
     sendConfirmInstructionUnknownAccount: 'Unknown'

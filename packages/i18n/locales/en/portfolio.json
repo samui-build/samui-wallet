@@ -38,7 +38,7 @@
   "sendConfirmInstructionAccounts": "Accounts",
   "sendConfirmInstructionCount_one": "{{count}} instruction",
   "sendConfirmInstructionCount_other": "{{count}} instructions",
-  "sendConfirmInstructionDataBytes": "Data bytes: {{bytes}}",
+  "sendConfirmInstructionDataBytes": "Data bytes: {{bytes, number}}",
   "sendConfirmInstructionNoAccounts": "None",
   "sendConfirmInstructionProgram": "Program",
   "sendConfirmInstructionUnknownAccount": "Unknown",
