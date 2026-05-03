@@ -4,7 +4,7 @@
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
     "dexie": "4.4.2",
-    "nanoid": "5.1.6",
+    "nanoid": "5.1.9",
     "zod": "catalog:"
   },
   "devDependencies": {
