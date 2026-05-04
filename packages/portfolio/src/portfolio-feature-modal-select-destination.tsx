@@ -3,7 +3,7 @@ import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
 import { UiError } from '@workspace/ui/components/ui-error'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { useNavigate, useParams } from 'react-router'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import { usePortfolioTokenMint } from './data-access/use-portfolio-token-mint.tsx'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 import { PortfolioUiSendDestination } from './ui/portfolio-ui-send-destination.tsx'
@@ -11,6 +11,7 @@ import { PortfolioUiSendDestination } from './ui/portfolio-ui-send-destination.t
 export function PortfolioFeatureModalSelectDestination({ address, network }: { address: Address; network: Network }) {
   const { t } = useTranslation('portfolio')
   const { token } = useParams<{ token: string }>()
+  const location = useLocation()
   const mint = usePortfolioTokenMint({ address, network, token })
   const navigate = useNavigate()
 
@@ -27,7 +28,9 @@ export function PortfolioFeatureModalSelectDestination({ address, network }: { a
         isLoading={false}
         mint={mint}
         sourceAddress={address}
-        submit={async (input) => await navigate(`/modals/send/${token}/${input.destination}`)}
+        submit={async (input) =>
+          await navigate(`/modals/send/${token}/${input.destination}`, { state: { from: location.pathname } })
+        }
       />
     </PortfolioUiModal>
   )
