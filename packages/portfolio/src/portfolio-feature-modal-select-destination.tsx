@@ -26,6 +26,7 @@ export function PortfolioFeatureModalSelectDestination({ address, network }: { a
       <PortfolioUiSendDestination
         isLoading={false}
         mint={mint}
+        sourceAddress={address}
         submit={async (input) => await navigate(`/modals/send/${token}/${input.destination}`)}
       />
     </PortfolioUiModal>

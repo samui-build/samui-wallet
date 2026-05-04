@@ -1,9 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { tryCatch } from '@workspace/core/try-catch'
+import type { Account } from '@workspace/db/account/account'
 import type { BookmarkAccount } from '@workspace/db/bookmark-account/bookmark-account'
 import { solanaAddressSchema } from '@workspace/db/solana/solana-address-schema'
 import { useBookmarkAccountLive } from '@workspace/db-react/use-bookmark-account-live'
+import { useWalletLive } from '@workspace/db-react/use-wallet-live'
 import { useTranslation } from '@workspace/i18n'
+import { Badge } from '@workspace/ui/components/badge'
 import { Button } from '@workspace/ui/components/button'
 import { Field, FieldGroup, FieldLabel, FieldSet } from '@workspace/ui/components/field'
 import { Form, FormField, FormItem, FormMessage } from '@workspace/ui/components/form'
@@ -17,19 +20,26 @@ import { z } from 'zod'
 import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
-function compareBookmarkAccounts(bookmarkAccountA: BookmarkAccount, bookmarkAccountB: BookmarkAccount): number {
+type DestinationAccount = {
+  address: string
+  id: string
+  isSource: boolean
+  label: string
+}
+
+function compareDestinationAccounts(destinationAccountA: DestinationAccount, destinationAccountB: DestinationAccount) {
   return (
-    getBookmarkAccountLabel(bookmarkAccountA).localeCompare(getBookmarkAccountLabel(bookmarkAccountB)) ||
-    bookmarkAccountA.address.localeCompare(bookmarkAccountB.address)
+    destinationAccountA.label.localeCompare(destinationAccountB.label) ||
+    destinationAccountA.address.localeCompare(destinationAccountB.address)
   )
 }
 
-function filterBookmarkAccount(bookmarkAccount: BookmarkAccount, query: string): boolean {
+function filterDestinationAccount(destinationAccount: DestinationAccount, query: string): boolean {
   const normalizedQuery = query.toLocaleLowerCase()
 
   return (
-    getBookmarkAccountLabel(bookmarkAccount).toLocaleLowerCase().includes(normalizedQuery) ||
-    bookmarkAccount.address.toLocaleLowerCase().includes(normalizedQuery)
+    destinationAccount.label.toLocaleLowerCase().includes(normalizedQuery) ||
+    destinationAccount.address.toLocaleLowerCase().includes(normalizedQuery)
   )
 }
 
@@ -37,37 +47,78 @@ function getBookmarkAccountLabel(bookmarkAccount: BookmarkAccount): string {
   return bookmarkAccount.label?.trim() || ellipsify(bookmarkAccount.address, 8, '...')
 }
 
-function shouldOpenBookmarkSuggestions(bookmarkAccounts: BookmarkAccount[], value: string): boolean {
+function shouldOpenDestinationSuggestions(destinationAccounts: DestinationAccount[], value: string): boolean {
   return (
     !value ||
     !solanaAddressSchema.safeParse(value).success ||
-    bookmarkAccounts.some((item) => filterBookmarkAccount(item, value))
+    destinationAccounts.some((item) => filterDestinationAccount(item, value))
   )
 }
 
+function uniqueAccounts(accounts: Account[] = []): Account[] {
+  return Array.from(new Map(accounts.map((account) => [account.publicKey, account])).values())
+}
+
 export function PortfolioUiSendDestination({
-  mint,
   isLoading,
+  mint,
+  sourceAddress,
   submit,
 }: {
-  mint: TokenBalance
   isLoading: boolean
+  mint: TokenBalance
+  sourceAddress: string
   submit: (input: { destination: string }) => Promise<void>
 }) {
   const { t } = useTranslation('portfolio')
   const bookmarkAccountsLive = useBookmarkAccountLive()
   const destinationId = useId()
-  const bookmarkAccounts = useMemo(
-    () => [...bookmarkAccountsLive].sort(compareBookmarkAccounts),
+  const wallets = useWalletLive()
+  const bookmarkDestinationAccounts = useMemo<DestinationAccount[]>(
+    () =>
+      [...bookmarkAccountsLive]
+        .map((bookmarkAccount) => ({
+          address: bookmarkAccount.address,
+          id: `bookmark-${bookmarkAccount.id}`,
+          isSource: false,
+          label: getBookmarkAccountLabel(bookmarkAccount),
+        }))
+        .sort(compareDestinationAccounts),
     [bookmarkAccountsLive],
   )
-  const bookmarkAccountGroups = useMemo<UiGroupedComboboxInputGroup<BookmarkAccount>[]>(
-    () => [{ items: bookmarkAccounts, label: t(($) => $.sendInputDestinationBookmarksGroupLabel) }],
-    [bookmarkAccounts, t],
+  const bookmarkAccountGroups = useMemo<UiGroupedComboboxInputGroup<DestinationAccount>[]>(
+    () => [{ items: bookmarkDestinationAccounts, label: t(($) => $.sendInputDestinationBookmarksGroupLabel) }],
+    [bookmarkDestinationAccounts, t],
+  )
+  const walletAccountGroups = useMemo<UiGroupedComboboxInputGroup<DestinationAccount>[]>(
+    () =>
+      wallets
+        .map((wallet) => ({
+          items: uniqueAccounts(wallet.accounts ?? [])
+            .map((account) => ({
+              address: account.publicKey,
+              id: `account-${account.id}`,
+              isSource: account.publicKey === sourceAddress,
+              label: account.name,
+            }))
+            .sort(compareDestinationAccounts),
+          label: wallet.name,
+        }))
+        .filter((group) => group.items.length)
+        .sort((groupA, groupB) => groupA.label.localeCompare(groupB.label)),
+    [sourceAddress, wallets],
+  )
+  const destinationAccountGroups = useMemo(
+    () => bookmarkAccountGroups.concat(walletAccountGroups),
+    [bookmarkAccountGroups, walletAccountGroups],
+  )
+  const destinationAccounts = useMemo(
+    () => destinationAccountGroups.flatMap((group) => group.items),
+    [destinationAccountGroups],
   )
   const formSchema = z.object({
     destination: z.string().refine((value) => !value || solanaAddressSchema.safeParse(value).success, {
-      message: 'Invalid Solana address',
+      message: t(($) => $.sendInputDestinationInvalid),
     }),
   })
 
@@ -113,18 +164,29 @@ export function PortfolioUiSendDestination({
                           contentClassName="w-[calc(var(--anchor-width)-5rem)]"
                           disabledMessage={t(($) => $.sendInputDestinationBookmarksEmpty)}
                           emptyMessage={t(($) => $.sendInputDestinationBookmarksNotFound)}
-                          filter={filterBookmarkAccount}
-                          getItemKey={(bookmarkAccount) => bookmarkAccount.id}
-                          getItemLabel={getBookmarkAccountLabel}
-                          getItemValue={(bookmarkAccount) => bookmarkAccount.address}
-                          groups={bookmarkAccountGroups}
+                          filter={filterDestinationAccount}
+                          getItemKey={(destinationAccount) => destinationAccount.id}
+                          getItemLabel={(destinationAccount) => (
+                            <>
+                              {destinationAccount.label}
+                              {destinationAccount.isSource ? (
+                                <Badge className="ml-2 align-middle" variant="secondary">
+                                  {t(($) => $.sendDestinationFromBadge)}
+                                </Badge>
+                              ) : null}
+                            </>
+                          )}
+                          getItemValue={(destinationAccount) => destinationAccount.address}
+                          groups={destinationAccountGroups}
                           id={destinationId}
                           inputRef={field.ref}
                           name={field.name}
                           onBlur={field.onBlur}
                           onValueChange={field.onChange}
                           placeholder={t(($) => $.sendInputDestinationPlaceholder)}
-                          shouldOpenSuggestions={(value) => shouldOpenBookmarkSuggestions(bookmarkAccounts, value)}
+                          shouldOpenSuggestions={(value) =>
+                            shouldOpenDestinationSuggestions(destinationAccounts, value)
+                          }
                           sideOffset={fieldState.error ? 34 : 6}
                           value={field.value}
                         />
