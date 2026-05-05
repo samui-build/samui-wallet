@@ -1,6 +1,6 @@
 import type { UnixTimestamp } from '@solana/kit'
 
-export function unixTimestampToDate(time: null | UnixTimestamp) {
+export function unixTimestampToDate(time: null | UnixTimestamp): Date | null {
   if (!time) {
     return null
   }

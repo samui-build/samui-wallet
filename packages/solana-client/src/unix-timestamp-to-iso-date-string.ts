@@ -1,7 +1,7 @@
 import type { UnixTimestamp } from '@solana/kit'
 import { unixTimestampToDate } from './unix-timestamp-to-date.ts'
 
-export function unixTimestampToIsoDateString(time: null | UnixTimestamp) {
+export function unixTimestampToIsoDateString(time: null | UnixTimestamp): string {
   const timestamp = unixTimestampToDate(time) ?? new Date()
   const year = timestamp.getFullYear()
   const month = (timestamp.getMonth() + 1).toString().padStart(2, '0')

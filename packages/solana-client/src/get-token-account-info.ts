@@ -1,5 +1,6 @@
 import { type Address, fetchJsonParsedAccount, type JsonParsedTokenAccount } from '@solana/kit'
 import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from './constants.ts'
+import type { ExistingFetchedAccount } from './fetch-account.ts'
 import type { SolanaClient } from './solana-client.ts'
 import type { SplTokenBurnTokenProgram } from './spl-token-burn.ts'
 
@@ -9,7 +10,15 @@ export type ParsedTokenAccountData = JsonParsedTokenAccount & {
   }
 }
 
-export type TokenAccountInfo = Awaited<ReturnType<typeof getTokenAccountInfo>>
+export interface GetTokenAccountInfoOptions {
+  address: Address
+}
+
+export interface GetTokenAccountProgramAddressOptions {
+  account: TokenAccountInfo
+}
+
+export type TokenAccountInfo = ExistingFetchedAccount
 export type TokenAccountInfoWithTokenProgram = TokenAccountInfo & {
   tokenProgram: SplTokenBurnTokenProgram | undefined
 }
@@ -20,9 +29,7 @@ export function isParsedTokenAccountData(data: unknown): data is ParsedTokenAcco
 
 export function getTokenAccountProgramAddress({
   account,
-}: {
-  account: TokenAccountInfo
-}): SplTokenBurnTokenProgram | undefined {
+}: GetTokenAccountProgramAddressOptions): SplTokenBurnTokenProgram | undefined {
   if (!account.exists || account.data instanceof Uint8Array) {
     return undefined
   }
@@ -37,7 +44,10 @@ export function getTokenAccountProgramAddress({
   }
 }
 
-export async function getTokenAccountInfo(client: SolanaClient, { address }: { address: Address }) {
+export async function getTokenAccountInfo(
+  client: SolanaClient,
+  { address }: GetTokenAccountInfoOptions,
+): Promise<TokenAccountInfo> {
   const parsed = await fetchJsonParsedAccount(client.rpc, address, { commitment: 'confirmed' })
 
   if (!parsed?.exists) {

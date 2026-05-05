@@ -5,6 +5,9 @@ import {
   pipe,
   setTransactionMessageFeePayerSigner,
   setTransactionMessageLifetimeUsingBlockhash,
+  type TransactionMessage,
+  type TransactionMessageWithBlockhashLifetime,
+  type TransactionMessageWithFeePayerSigner,
   type TransactionSigner,
 } from '@solana/kit'
 import { getLatestBlockhash, type LatestBlockhash } from './get-latest-blockhash.ts'
@@ -18,10 +21,17 @@ export interface PreparedTransactionOptions {
 
 export type PreparedTransaction = Omit<PreparedTransactionOptions, 'latestBlockhash'>
 
+export interface PreparedTransactionMessage {
+  latestBlockhash: LatestBlockhash
+  transactionMessage: TransactionMessage &
+    TransactionMessageWithBlockhashLifetime &
+    TransactionMessageWithFeePayerSigner
+}
+
 export async function createPreparedTransactionMessage(
   client: SolanaClient,
   { instructions, latestBlockhash, transactionSigner }: PreparedTransactionOptions,
-) {
+): Promise<PreparedTransactionMessage> {
   const transactionLatestBlockhash = latestBlockhash ?? (await getLatestBlockhash(client))
   const transactionMessage = pipe(
     createTransactionMessage({ version: 0 }),

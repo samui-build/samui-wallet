@@ -5,19 +5,23 @@ import type {
   SimulatePreparedTransactionSolBalanceChange,
 } from './simulate-prepared-transaction-types.ts'
 
+export interface GetSimulatedSolBalanceChangesOptions {
+  accountAddresses: Address[]
+  postAccounts: readonly (RawParsedAccount | null)[] | undefined
+  postBalances: readonly (bigint | number | string)[] | undefined
+  preAccounts: readonly (RawParsedAccount | null)[]
+  preBalances: readonly (bigint | number | string)[] | undefined
+}
+
+export type GetSimulatedSolBalanceChangesResult = SimulatePreparedTransactionSolBalanceChange[]
+
 export function getSimulatedSolBalanceChanges({
   accountAddresses,
   postAccounts,
   postBalances,
   preAccounts,
   preBalances,
-}: {
-  accountAddresses: Address[]
-  postAccounts: readonly (RawParsedAccount | null)[] | undefined
-  postBalances: readonly (bigint | number | string)[] | undefined
-  preAccounts: readonly (RawParsedAccount | null)[]
-  preBalances: readonly (bigint | number | string)[] | undefined
-}) {
+}: GetSimulatedSolBalanceChangesOptions): GetSimulatedSolBalanceChangesResult {
   return (
     getSolBalanceChanges({
       accountAddresses,

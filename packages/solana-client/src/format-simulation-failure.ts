@@ -1,11 +1,11 @@
-export function formatSimulationFailure(error: unknown, logs: string[] = []) {
+export function formatSimulationFailure(error: unknown, logs: string[] = []): string {
   const formattedError = formatUnknownError(error)
   const parts = formattedError ? [formattedError] : []
   parts.push(...logs)
   return parts.join('\n')
 }
 
-function formatUnknownError(error: unknown) {
+function formatUnknownError(error: unknown): string {
   if (!error) {
     return ''
   }

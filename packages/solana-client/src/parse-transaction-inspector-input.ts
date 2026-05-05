@@ -66,6 +66,11 @@ export interface TransactionInspectorAddressTableLookup {
   writableIndexes: readonly number[]
 }
 
+export interface TransactionInspectorAccountReferencesOptions {
+  addressTableLookups: TransactionInspectorAddressTableLookup[]
+  staticAccounts: Address[]
+}
+
 interface ParsedTransactionBytes {
   rawMessage: ReadonlyUint8Array
   signatures: TransactionInspectorSignature[]
@@ -172,10 +177,7 @@ function getAddressTableLookups(message: CompiledTransactionMessage): Transactio
 export function getTransactionInspectorAccountReferences({
   addressTableLookups,
   staticAccounts,
-}: {
-  addressTableLookups: TransactionInspectorAddressTableLookup[]
-  staticAccounts: Address[]
-}): TransactionInspectorAccountReference[] {
+}: TransactionInspectorAccountReferencesOptions): TransactionInspectorAccountReference[] {
   return [
     ...staticAccounts.map((address, index) => ({
       address,

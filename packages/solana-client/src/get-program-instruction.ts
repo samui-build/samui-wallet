@@ -16,7 +16,7 @@ const instructionMap = new Map<string, string>()
   .set(`ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL.create`, 'Create')
   .set(`ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL.createIdempotent`, 'Create idempotent')
 
-export function getProgramInstruction(instruction: GetTransactionResultInstruction) {
+export function getProgramInstruction(instruction: GetTransactionResultInstruction): string {
   return (
     instructionMap.get(`${instruction.programId}.${getInstructionType(instruction)}`) ?? getInstructionType(instruction)
   )

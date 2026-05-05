@@ -33,6 +33,10 @@ export interface StakeAccountData {
   } | null
 }
 
+export interface GetStakeAccountsOptions {
+  address: Address
+}
+
 interface ParsedStakeAccountData {
   parsed: {
     info: StakeAccountData
@@ -41,7 +45,7 @@ interface ParsedStakeAccountData {
 
 export async function getStakeAccounts(
   client: SolanaClient,
-  { address }: { address: Address },
+  { address }: GetStakeAccountsOptions,
 ): Promise<StakeAccount[]> {
   const accounts = await client.rpc
     .getProgramAccounts(STAKE_PROGRAM_ADDRESS, {

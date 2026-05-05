@@ -17,19 +17,23 @@ interface ParsedTokenAccountBalance {
   programId?: Address | undefined
 }
 
+export interface GetSimulatedTokenBalanceChangesOptions {
+  accountAddresses: Address[]
+  postAccounts: readonly (RawParsedAccount | null)[] | undefined
+  postTokenBalances: readonly RawSimulateTransactionTokenBalance[] | undefined
+  preAccounts: readonly (RawParsedAccount | null)[]
+  preTokenBalances: readonly RawSimulateTransactionTokenBalance[] | undefined
+}
+
+export type GetSimulatedTokenBalanceChangesResult = SimulatePreparedTransactionTokenBalanceChange[]
+
 export function getSimulatedTokenBalanceChanges({
   accountAddresses,
   postAccounts,
   postTokenBalances,
   preAccounts,
   preTokenBalances,
-}: {
-  accountAddresses: Address[]
-  postAccounts: readonly (RawParsedAccount | null)[] | undefined
-  postTokenBalances: readonly RawSimulateTransactionTokenBalance[] | undefined
-  preAccounts: readonly (RawParsedAccount | null)[]
-  preTokenBalances: readonly RawSimulateTransactionTokenBalance[] | undefined
-}) {
+}: GetSimulatedTokenBalanceChangesOptions): GetSimulatedTokenBalanceChangesResult {
   return (
     getTokenBalanceChanges({
       accountAddresses,

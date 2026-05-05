@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 import { NATIVE_MINT } from './constants.ts'
-import type { SimulatePreparedTransactionResult } from './simulate-prepared-transaction.ts'
+import type { SimulatePreparedTransactionSuccessResult } from './simulate-prepared-transaction.ts'
 
 export interface SimulatedTransactionChangeRow {
   address: Address
@@ -10,11 +10,20 @@ export interface SimulatedTransactionChangeRow {
   type: 'sol' | 'token'
 }
 
+export interface FormatSimulatedTransactionChangeOptions {
+  change: bigint
+  decimals: number
+}
+
+export interface GetSimulatedTransactionChangeRowsOptions {
+  simulation: SimulatePreparedTransactionSuccessResult
+}
+
+export type GetSimulatedTransactionChangeRowsResult = SimulatedTransactionChangeRow[]
+
 export function getSimulatedTransactionChangeRows({
   simulation,
-}: {
-  simulation: Extract<SimulatePreparedTransactionResult, { status: 'success' }>
-}) {
+}: GetSimulatedTransactionChangeRowsOptions): GetSimulatedTransactionChangeRowsResult {
   const solRows = simulation.solBalanceChanges.map(
     ({ address, change }): SimulatedTransactionChangeRow => ({
       address,
@@ -44,7 +53,10 @@ export function getSimulatedTransactionChangeRows({
   })
 }
 
-export function formatSimulatedTransactionChange({ change, decimals }: { change: bigint; decimals: number }) {
+export function formatSimulatedTransactionChange({
+  change,
+  decimals,
+}: FormatSimulatedTransactionChangeOptions): string {
   const formattedChange = formatBigIntAmount({ amount: change, decimals })
 
   return `${change > 0n ? '+' : ''}${formattedChange}`

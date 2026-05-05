@@ -2,13 +2,15 @@ import type { ClusterUrl } from '@solana/kit'
 import { createSolanaRpc, createSolanaRpcSubscriptions } from '@solana/kit'
 import type { SolanaClient } from './solana-client.ts'
 
+export interface CreateSolanaClientOptions<TClusterUrl extends ClusterUrl> {
+  url: TClusterUrl
+  urlSubscriptions?: TClusterUrl | undefined
+}
+
 export function createSolanaClient<TClusterUrl extends ClusterUrl>({
   url,
   urlSubscriptions,
-}: {
-  url: TClusterUrl
-  urlSubscriptions?: TClusterUrl | undefined
-}): SolanaClient<TClusterUrl> {
+}: CreateSolanaClientOptions<TClusterUrl>): SolanaClient<TClusterUrl> {
   if (!url.startsWith('http')) {
     throw new Error('Invalid url')
   }

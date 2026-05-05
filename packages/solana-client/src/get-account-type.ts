@@ -5,7 +5,11 @@ import { type AccountTokenType, getAccountTokenType } from './get-account-token-
 
 export type AccountType = AccountTokenType | 'not-found' | 'system' | 'system-program' | 'unknown'
 
-export function getAccountType({ account }: { account?: FetchedAccount | undefined }): AccountType {
+export interface GetAccountTypeOptions {
+  account?: FetchedAccount | undefined
+}
+
+export function getAccountType({ account }: GetAccountTypeOptions): AccountType {
   if (!account?.exists) {
     return 'not-found'
   }

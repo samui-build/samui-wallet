@@ -33,6 +33,10 @@ export type AccountTokenMintInfo = Readonly<{
 
 export type AccountTokenInfo = AccountTokenAccountInfo | AccountTokenMintInfo
 
+export interface GetAccountTokenInfoOptions {
+  account?: FetchedAccount | undefined
+}
+
 function getExtensionLabels(extensions: readonly unknown[] | undefined) {
   const result = extensions
     ?.map((extension) => {
@@ -56,11 +60,7 @@ function isParsedTokenMintData(data: ExistingFetchedAccountData): data is Parsed
   return !(data instanceof Uint8Array) && data.parsedAccountMeta?.type === 'mint'
 }
 
-export function getAccountTokenInfo({
-  account,
-}: {
-  account?: FetchedAccount | undefined
-}): AccountTokenInfo | undefined {
+export function getAccountTokenInfo({ account }: GetAccountTokenInfoOptions): AccountTokenInfo | undefined {
   if (!account?.exists) {
     return undefined
   }

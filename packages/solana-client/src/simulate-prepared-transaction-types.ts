@@ -50,15 +50,19 @@ export interface SimulatePreparedTransactionBaseResult {
   unitsConsumed: bigint | undefined
 }
 
+export type SimulatePreparedTransactionFailureResult = SimulatePreparedTransactionBaseResult & {
+  error: unknown
+  status: 'failure'
+}
+
 export type SimulatePreparedTransactionResult =
-  | (SimulatePreparedTransactionBaseResult & {
-      error: null
-      status: 'success'
-    })
-  | (SimulatePreparedTransactionBaseResult & {
-      error: unknown
-      status: 'failure'
-    })
+  | SimulatePreparedTransactionFailureResult
+  | SimulatePreparedTransactionSuccessResult
+
+export type SimulatePreparedTransactionSuccessResult = SimulatePreparedTransactionBaseResult & {
+  error: null
+  status: 'success'
+}
 
 export interface SimulatePreparedTransactionSolBalanceChange {
   address: Address

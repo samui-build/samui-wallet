@@ -15,7 +15,7 @@ export interface GetExplorerUrlProps {
   provider: ExplorerProvider
 }
 
-export function getExplorerUrl({ network, path, provider }: GetExplorerUrlProps) {
+export function getExplorerUrl({ network, path, provider }: GetExplorerUrlProps): string {
   if (!(path.startsWith('/address') || path.startsWith('/block') || path.startsWith('/tx'))) {
     throw new Error('Invalid path. Must be /address, /block, or /tx.')
   }
@@ -34,7 +34,7 @@ export function getExplorerUrl({ network, path, provider }: GetExplorerUrlProps)
   return url.toString()
 }
 
-function getExplorerBaseUrl(provider: ExplorerProvider) {
+function getExplorerBaseUrl(provider: ExplorerProvider): string {
   switch (provider) {
     case 'orb':
       return 'https://orb.helius.dev'

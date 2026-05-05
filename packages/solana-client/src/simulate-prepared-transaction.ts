@@ -23,8 +23,10 @@ export type SimulatePreparedTransactionOptions = PreparedTransactionOptions
 
 export type {
   SimulatePreparedTransactionBaseResult,
+  SimulatePreparedTransactionFailureResult,
   SimulatePreparedTransactionResult,
   SimulatePreparedTransactionSolBalanceChange,
+  SimulatePreparedTransactionSuccessResult,
   SimulatePreparedTransactionTokenBalanceChange,
 } from './simulate-prepared-transaction-types.ts'
 

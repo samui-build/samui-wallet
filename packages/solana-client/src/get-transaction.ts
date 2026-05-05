@@ -2,7 +2,11 @@ import type { Signature } from '@solana/kit'
 
 import type { SolanaClient } from './solana-client.ts'
 
-export async function getTransaction(client: SolanaClient, { signature }: { signature: Signature }) {
+export interface GetTransactionOptions {
+  signature: Signature
+}
+
+export async function getTransaction(client: SolanaClient, { signature }: GetTransactionOptions) {
   return client.rpc
     .getTransaction(signature, {
       encoding: 'jsonParsed',
@@ -11,7 +15,18 @@ export async function getTransaction(client: SolanaClient, { signature }: { sign
     .send()
 }
 
-export type GetTransactionResult = NonNullable<Awaited<ReturnType<typeof getTransaction>>>
-export type GetTransactionResultInstruction =
-  // biome-ignore lint/suspicious/noExplicitAny: ongoing type confusion
-  GetTransactionResult['transaction']['message']['instructions'][number] & { parsed?: any }
+export type GetTransactionResponse = Awaited<ReturnType<typeof getTransaction>>
+export type GetTransactionResult = NonNullable<GetTransactionResponse>
+type GetTransactionResultInstructionUnion = GetTransactionResult['transaction']['message']['instructions'][number]
+export type GetTransactionResultParsedInstruction = Extract<GetTransactionResultInstructionUnion, { parsed: unknown }>
+export type GetTransactionResultInstruction = GetTransactionResultInstructionUnion & {
+  parsed?: GetTransactionResultParsedInstruction['parsed']
+}
+
+export function assertGetTransactionResultParsedInstruction(
+  instruction: GetTransactionResultInstruction,
+): asserts instruction is GetTransactionResultParsedInstruction {
+  if (!('parsed' in instruction)) {
+    throw new Error('Expected parsed transaction instruction')
+  }
+}

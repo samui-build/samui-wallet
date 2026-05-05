@@ -6,7 +6,10 @@ export interface SplTokenCreateTokenAccountOptions {
   mint: Address
 }
 
-export async function splTokenCreateTokenAccount(client: SolanaClient, options: SplTokenCreateTokenAccountOptions) {
+export async function splTokenCreateTokenAccount(
+  client: SolanaClient,
+  options: SplTokenCreateTokenAccountOptions,
+): Promise<void> {
   //
   console.log({
     client,
