@@ -1,5 +1,5 @@
 import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
-import { BPF_LOADER, NATIVE_LOADER, SYSTEM_ACCOUNT } from './constants.ts'
+import { BPF_LOADER, BPF_LOADER_UPGRADEABLE, NATIVE_LOADER, SYSTEM_ACCOUNT } from './constants.ts'
 import type { FetchedAccount } from './fetch-account.ts'
 import { type AccountTokenType, getAccountTokenType } from './get-account-token-type.ts'
 
@@ -14,6 +14,7 @@ export function getAccountType({ account }: { account?: FetchedAccount | undefin
     case TOKEN_PROGRAM_ADDRESS:
       return getAccountTokenType({ account })
     case BPF_LOADER:
+    case BPF_LOADER_UPGRADEABLE:
       return 'system-program'
     case SYSTEM_ACCOUNT:
     case NATIVE_LOADER:

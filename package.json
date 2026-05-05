@@ -1,6 +1,6 @@
 {
   "catalog": {
-    "@beeman/testcontainers": "1.2.0",
+    "@beeman/testcontainers": "1.2.1",
     "@eslint/js": "9.38.0",
     "@hookform/resolvers": "5.2.2",
     "@playwright/test": "1.57.0",

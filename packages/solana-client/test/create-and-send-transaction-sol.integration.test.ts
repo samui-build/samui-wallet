@@ -5,6 +5,7 @@ import {
   createAndSendTransactionSol,
 } from '../src/create-and-send-transaction-sol.ts'
 import { getBalance } from '../src/get-balance.ts'
+import { solToLamports } from '../src/sol-to-lamports.ts'
 import { setupIntegrationTestContext } from './test-helpers.ts'
 
 describe('create-and-send-transaction-sol', async () => {
@@ -16,12 +17,13 @@ describe('create-and-send-transaction-sol', async () => {
       expect.assertions(2)
       const destinationKeypair = await generateKeyPairSigner()
       const destination = destinationKeypair.address
+      const amount = solToLamports('0.01')
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
       const input: CreateAndSendTransactionSolOptions = {
         latestBlockhash,
         recipients: [
           {
-            amount: 100n,
+            amount,
             destination,
           },
         ],
@@ -45,16 +47,18 @@ describe('create-and-send-transaction-sol', async () => {
       const destinationAlice = destinationAliceKeypair.address
       const destinationBobKeypair = await generateKeyPairSigner()
       const destinationBob = destinationBobKeypair.address
+      const amountAlice = solToLamports('0.01')
+      const amountBob = solToLamports('0.02')
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
       const input: CreateAndSendTransactionSolOptions = {
         latestBlockhash,
         recipients: [
           {
-            amount: 100n,
+            amount: amountAlice,
             destination: destinationAlice,
           },
           {
-            amount: 42n,
+            amount: amountBob,
             destination: destinationBob,
           },
         ],

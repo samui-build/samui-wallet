@@ -150,11 +150,19 @@ jobs:
       - name: Install Dependencies
         uses: ./.github/actions/install-dependencies
 
+      - name: Cache Playwright browsers
+        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          key: ${{ runner.os }}-playwright-${{ hashFiles('package.json') }}
+          path: ~/.cache/ms-playwright
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
       - name: Install Playwright Browsers
         run: bunx playwright install --with-deps
 
       - name: Pull Surfpool
-        run: docker pull surfpool/surfpool:1.0
+        run: docker pull surfpool/surfpool:latest
 
       - name: Run Playwright tests
         run: bun run test:e2e
@@ -177,7 +185,7 @@ jobs:
 
       - name: Start Surfpool
         run: |
-          docker run -d --name surfpool -p 8899:8899 -p 8900:8900 surfpool/surfpool:main start --offline --no-tui
+          docker run -d --name surfpool -e SURFPOOL_NETWORK_HOST=0.0.0.0 -p 8899:8899 -p 8900:8900 surfpool/surfpool:latest start --offline --no-tui
           bunx wait-on tcp:localhost:8899 --verbose --timeout 10000
           bunx wait-on tcp:localhost:8900 --verbose --timeout 10000
 

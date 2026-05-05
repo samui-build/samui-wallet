@@ -27,7 +27,7 @@ describe('simulate-prepared-transaction', () => {
       expect.assertions(5)
       const { client, latestBlockhash, transactionSigner } = context
       const destination = (await generateKeyPairSigner()).address
-      const amount = 100n
+      const amount = solToLamports('0.01')
       const senderBalance = await getBalance(client, { address: transactionSigner.address }).then((res) => res.value)
       const preparedTransaction = prepareTransactionSol({
         recipients: [{ amount, destination }],

@@ -713,7 +713,7 @@
     "editorconfig-checker",
   ],
   "catalog": {
-    "@beeman/testcontainers": "1.2.0",
+    "@beeman/testcontainers": "1.2.1",
     "@eslint/js": "9.38.0",
     "@hookform/resolvers": "5.2.2",
     "@playwright/test": "1.57.0",
@@ -857,7 +857,7 @@
 
     "@base-ui/utils": ["@base-ui/utils@0.2.7", "", { "dependencies": { "@babel/runtime": "^7.29.2", "@floating-ui/utils": "^0.2.11", "reselect": "^5.1.1", "use-sync-external-store": "^1.6.0" }, "peerDependencies": { "@types/react": "^17 || ^18 || ^19", "react": "^17 || ^18 || ^19", "react-dom": "^17 || ^18 || ^19" }, "optionalPeers": ["@types/react"] }, "sha512-nXYKhiL/0JafyJE8PfcflipGftOftlIwKd72rU15iZ1M5yqgg5J9P8NHU71GReDuXco5MJA/eVQqUT5WRqX9sA=="],
 
-    "@beeman/testcontainers": ["@beeman/testcontainers@1.2.0", "", { "peerDependencies": { "@solana/kit": "^6", "@solana/kit-plugins": "^0.3", "testcontainers": "^11", "typescript": "^5 || ^6" } }, "sha512-UY6smhT+mywpOmxVJ4NvATMBzlwmtdYcO1yDn61aL4QrynioPlIZLeCfLtk+/PkmIMl94SYdZ4FhLKxMmqMx3g=="],
+    "@beeman/testcontainers": ["@beeman/testcontainers@1.2.1", "", { "peerDependencies": { "@solana/kit": "^6", "@solana/kit-plugins": "^0.3", "testcontainers": "^11", "typescript": "^5 || ^6" } }, "sha512-8NUvI1UCuMEfbLpTL8rWYHXOo9gL5LPTbHtvxm2AjX9xSqLZPDxIgk+FWHWcqkPxTuRtQkN4VVjGYkxzEEKzBg=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.4.13", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.4.13", "@biomejs/cli-darwin-x64": "2.4.13", "@biomejs/cli-linux-arm64": "2.4.13", "@biomejs/cli-linux-arm64-musl": "2.4.13", "@biomejs/cli-linux-x64": "2.4.13", "@biomejs/cli-linux-x64-musl": "2.4.13", "@biomejs/cli-win32-arm64": "2.4.13", "@biomejs/cli-win32-x64": "2.4.13" }, "bin": { "biome": "bin/biome" } }, "sha512-gLXOwkOBBg0tr7bDsqlkIh4uFeKuMjxvqsrb1Tukww1iDmHcfr4Uu8MoQxp0Rcte+69+osRNWXwHsu/zxT6XqA=="],
 
