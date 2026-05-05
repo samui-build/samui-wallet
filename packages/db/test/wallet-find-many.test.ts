@@ -90,6 +90,22 @@ describe('wallet-find-many', () => {
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(items[0]?.mnemonic).toEqual(undefined)
     })
+
+    it('should not expose secret keys on nested wallet accounts', async () => {
+      // ARRANGE
+      expect.assertions(3)
+      const id = await walletCreate(db, testWalletCreateInput())
+      await accountCreate(db, testAccountCreateInput({ secretKey: 'raw-data-accounts-secret-key', walletId: id }))
+
+      // ACT
+      const result = await walletFindMany(db, { id })
+
+      // ASSERT
+      expect(result).toHaveLength(1)
+      expect(result[0]?.accounts).toHaveLength(1)
+      // @ts-expect-error: Testing invalid input
+      expect(result[0]?.accounts[0]?.secretKey).toBe(undefined)
+    })
   })
 
   describe('unexpected behavior', () => {

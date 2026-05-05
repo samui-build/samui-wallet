@@ -1,5 +1,6 @@
 import { tryCatch } from '@workspace/core/try-catch'
 
+import { accountSanitizer } from '../account/account-sanitizer.ts'
 import type { Database } from '../database.ts'
 import type { Wallet } from './wallet.ts'
 import type { WalletFindManyInput } from './wallet-find-many-input.ts'
@@ -38,7 +39,9 @@ export async function walletFindMany(db: Database, input: WalletFindManyInput = 
       ...dataWallets.map((wallet) => {
         return {
           ...walletSanitizer(wallet),
-          accounts: [...dataAccounts.filter((account) => account.walletId === wallet.id)],
+          accounts: dataAccounts
+            .filter((account) => account.walletId === wallet.id)
+            .map((account) => accountSanitizer(account)),
         }
       }),
     ]
