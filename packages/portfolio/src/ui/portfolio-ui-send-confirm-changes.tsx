@@ -9,7 +9,7 @@ import type { SimulatePreparedTransactionResult } from '@workspace/solana-client
 import { Badge } from '@workspace/ui/components/badge'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@workspace/ui/components/table'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 
 export function PortfolioUiSendConfirmChanges({
   mint,

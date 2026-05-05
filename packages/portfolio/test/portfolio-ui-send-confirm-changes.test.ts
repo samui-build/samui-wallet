@@ -2,7 +2,7 @@ import { address, blockhash } from '@solana/kit'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { SimulatePreparedTransactionResult } from '@workspace/solana-client/simulate-prepared-transaction'
 import { describe, expect, it } from 'vitest'
-import type { TokenBalance } from '../src/data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../src/data-access/use-get-token-balances.ts'
 import { getSendConfirmChangeRows } from '../src/ui/portfolio-ui-send-confirm-changes.tsx'
 
 describe('portfolio-ui-send-confirm-changes', () => {

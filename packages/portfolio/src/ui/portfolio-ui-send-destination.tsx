@@ -17,7 +17,7 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { useId, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
 type DestinationAccount = {

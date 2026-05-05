@@ -1,6 +1,6 @@
 import type { Address } from '@solana/kit'
 import type { Network } from '@workspace/db/network/network'
-import { useGetTokenBalances } from './use-get-token-metadata.ts'
+import { useGetTokenBalances } from './use-get-token-balances.ts'
 
 export function usePortfolioTokenMint({
   address,

@@ -1,7 +1,7 @@
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
 import { useTranslation } from '@workspace/i18n'
-import { useGetTokenBalances } from './data-access/use-get-token-metadata.ts'
+import { useGetTokenBalances } from './data-access/use-get-token-balances.ts'
 import { PortfolioUiModal } from './ui/portfolio-ui-modal.tsx'
 import { PortfolioUiTokenBalances } from './ui/portfolio-ui-token-balances.tsx'
 

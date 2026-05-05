@@ -1,12 +1,13 @@
 import type { Address } from '@solana/kit'
-import { queryOptions, useQuery } from '@tanstack/react-query'
 import type { Network } from '@workspace/db/network/network'
 import { formatBalance } from '@workspace/explorer/data-access/format-balance'
 import { bigIntToDecimal } from '@workspace/solana-client/big-int-to-decimal'
 import { NATIVE_MINT } from '@workspace/solana-client/constants'
 import type { GetTokenAccountsResult } from '@workspace/solana-client/get-token-accounts'
+import type { TokenMetadata } from '@workspace/solana-client/get-token-metadata-jupiter'
 import { useGetBalance } from '@workspace/solana-client-react/use-get-balance'
 import { useGetTokenAccounts } from '@workspace/solana-client-react/use-get-token-accounts'
+import { useGetTokenMetadataJupiter } from '@workspace/solana-client-react/use-get-token-metadata-jupiter'
 import { useMemo } from 'react'
 import { formatBalanceUsd } from './format-balance-usd.ts'
 
@@ -20,15 +21,6 @@ export interface TokenBalance {
   mint: Address
 }
 
-export interface TokenMetadata {
-  decimals: number
-  icon: string
-  id: string
-  name: string
-  symbol: string
-  usdPrice: number
-}
-
 export function useGetTokenBalances({ address, network }: { address: Address; network: Network }) {
   const { data: dataBalance, isLoading: isLoadingBalance } = useGetBalance({ address, network })
   const { data: dataTokenAccounts, isLoading: isLoadingTokenAccounts } = useGetTokenAccounts({ address, network })
@@ -37,7 +29,7 @@ export function useGetTokenBalances({ address, network }: { address: Address; ne
     return [NATIVE_MINT, ...(dataTokenAccounts ?? []).map((t) => t.account.data.parsed.info.mint)]
   }, [dataTokenAccounts])
 
-  const metadata = useGetTokenMetadata(mints)
+  const metadata = useGetTokenMetadataJupiter(mints)
 
   return isLoadingBalance || isLoadingTokenAccounts
     ? []
@@ -47,38 +39,6 @@ export function useGetTokenBalances({ address, network }: { address: Address; ne
         metadata: metadata.data ?? [],
         tokenAccounts: dataTokenAccounts ?? [],
       })
-}
-
-export function getTokenMetadataQueryOptions(mints: string[]) {
-  return queryOptions({
-    enabled: !!mints.length,
-    networkMode: 'offlineFirst',
-    queryFn: () => getTokenMetadata(mints),
-    queryKey: ['getTokenMetadata', mints],
-    retry: false,
-    staleTime: Infinity,
-  })
-}
-
-export function useGetTokenMetadata(mints: string[]) {
-  return useQuery(getTokenMetadataQueryOptions(mints))
-}
-
-async function getTokenMetadata(mints: string[]): Promise<TokenMetadata[]> {
-  const url = new URL('https://lite-api.jup.ag/tokens/v2/search')
-  url.searchParams.append('query', mints.join(','))
-  return fetch(url)
-    .then((res) => res.json())
-    .then((items) =>
-      items.map((i: TokenMetadata) => ({
-        decimals: i.decimals,
-        icon: i.icon,
-        id: i.id,
-        name: i.id === NATIVE_MINT ? 'Solana' : i.name,
-        symbol: i.symbol,
-        usdPrice: i.usdPrice,
-      })),
-    )
 }
 
 function mergeData({

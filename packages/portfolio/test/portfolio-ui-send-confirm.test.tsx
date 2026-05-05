@@ -3,7 +3,7 @@ import type { SimulatePreparedTransactionResult } from '@workspace/solana-client
 import { renderToStaticMarkup } from 'react-dom/server'
 import { MemoryRouter } from 'react-router'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { TokenBalance } from '../src/data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../src/data-access/use-get-token-balances.ts'
 import type { PortfolioPreparedTransaction } from '../src/data-access/use-portfolio-tx-prepare.tsx'
 import { PortfolioUiSendConfirm } from '../src/ui/portfolio-ui-send-confirm.tsx'
 

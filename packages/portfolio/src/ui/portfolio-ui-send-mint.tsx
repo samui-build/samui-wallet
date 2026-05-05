@@ -12,7 +12,7 @@ import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 import { PortfolioUiTokenBalanceItem } from './portfolio-ui-token-balance-item.tsx'
 
 export function PortfolioUiSendMint({

@@ -565,6 +565,7 @@
         "@solana/kit": "catalog:",
         "@workspace/core": "workspace:*",
         "ws": "catalog:",
+        "zod": "catalog:",
       },
       "devDependencies": {
         "@types/bun": "catalog:",

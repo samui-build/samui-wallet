@@ -9,7 +9,7 @@ import {
 } from '@workspace/ui/components/dropdown-menu'
 import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { Link, useLocation } from 'react-router'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 
 export function PortfolioUiTokenBalanceItemMenu({ item }: { item: TokenBalance }) {
   const { t } = useTranslation('portfolio')

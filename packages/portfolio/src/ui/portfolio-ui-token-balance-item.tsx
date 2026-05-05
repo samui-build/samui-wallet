@@ -1,7 +1,7 @@
 import { UiAvatar } from '@workspace/ui/components/ui-avatar'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { Link, useLocation } from 'react-router'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 import { PortfolioUiTokenBalanceItemMenu } from './portfolio-ui-token-balance-item-menu.tsx'
 
 export function PortfolioUiTokenBalanceItem({ item, showMenu = false }: { item: TokenBalance; showMenu?: boolean }) {

@@ -6,7 +6,8 @@
     "@solana-program/token-2022": "catalog:",
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
-    "ws": "catalog:"
+    "ws": "catalog:",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",

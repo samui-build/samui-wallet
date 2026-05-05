@@ -10,7 +10,7 @@ import type { SolanaClient } from '@workspace/solana-client/solana-client'
 import type { GetTransactionSigner } from '@workspace/solana-client/transaction-signer'
 import type { TransferRecipient } from '@workspace/solana-client/transfer-recipient'
 import { useSolanaClient } from '@workspace/solana-client-react/use-solana-client'
-import type { TokenBalance } from './use-get-token-metadata.ts'
+import type { TokenBalance } from './use-get-token-balances.ts'
 
 export interface PortfolioPreparedTransaction extends PreparedTransaction {
   mint: TokenBalance

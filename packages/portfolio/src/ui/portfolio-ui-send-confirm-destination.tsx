@@ -4,7 +4,7 @@ import type { TransferRecipient } from '@workspace/solana-client/transfer-recipi
 import { Field, FieldGroup, FieldLabel } from '@workspace/ui/components/field'
 import { Input } from '@workspace/ui/components/input'
 import { useId } from 'react'
-import type { TokenBalance } from '../data-access/use-get-token-metadata.ts'
+import type { TokenBalance } from '../data-access/use-get-token-balances.ts'
 
 export function PortfolioUiSendConfirmDestination({
   mint,
