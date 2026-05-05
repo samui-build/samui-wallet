@@ -28,8 +28,8 @@ import {
   type WalletIcon,
   type WalletVersion,
 } from '@wallet-standard/core'
+import { decodeTransportBytes } from '@workspace/background/transport-bytes'
 import { sendMessage } from '@workspace/background/window'
-import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 import { signAndSendTransaction } from './features/sign-and-send-transaction.ts'
 import { signIn } from './features/sign-in.ts'
 import { signMessage } from './features/sign-message.ts'
@@ -78,7 +78,7 @@ export class SamuiWallet implements Wallet {
           const response = await sendMessage('connect', input)
           const accounts = response.accounts.map((account) => ({
             ...account,
-            publicKey: ensureUint8Array(account.publicKey),
+            publicKey: decodeTransportBytes(account.publicKey),
           }))
 
           this.#accounts = accounts

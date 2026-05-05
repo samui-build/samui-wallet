@@ -22,8 +22,8 @@ import type {
 import { createSignInMessage } from '@solana/wallet-standard-util'
 import type { ProxyService, ProxyServiceKey } from '@webext-core/proxy-service'
 import { createProxyService, registerService } from '@webext-core/proxy-service'
-import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 
+import { decodeTransportBytes } from '../transport-bytes.ts'
 import { getDbService } from './db.ts'
 
 const rpc = createSolanaRpc('https://api.devnet.solana.com')
@@ -51,7 +51,7 @@ function createSignService() {
       const key = await createKeyPairFromBytes(bytes)
 
       for (const input of inputs) {
-        const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
+        const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
         const transaction = await signTransaction([key], decoded)
         const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
         // @ts-expect-error TODO: Figure out "Type 'FullySignedTransaction & Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }> & TransactionWithLifetime' is missing the following properties from type 'Readonly<{ instructions: readonly Instruction<string, readonly (AccountLookupMeta<string, string> | AccountMeta<string>)[]>[]; version: TransactionVersion; }>': instructions, version"
@@ -109,7 +109,7 @@ function createSignService() {
       const { privateKey } = await createKeyPairFromBytes(bytes)
 
       for (const input of inputs) {
-        const signedMessage = ensureUint8Array(input.message)
+        const signedMessage = decodeTransportBytes(input.message)
         const signature = await signBytes(privateKey, signedMessage)
 
         results.push({
@@ -132,7 +132,7 @@ function createSignService() {
       const key = await createKeyPairFromBytes(bytes)
 
       for (const input of inputs) {
-        const decoded = getTransactionDecoder().decode(ensureUint8Array(input.transaction))
+        const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
         const signed = await signTransaction([key], decoded)
         results.push({
           signedTransaction: new Uint8Array(getTransactionEncoder().encode(signed)),

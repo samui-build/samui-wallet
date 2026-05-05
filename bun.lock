@@ -692,7 +692,6 @@
         "@solana/wallet-standard-features": "catalog:",
         "@wallet-standard/core": "catalog:",
         "@workspace/background": "workspace:*",
-        "@workspace/keypair": "workspace:*",
       },
       "devDependencies": {
         "@types/bun": "catalog:",

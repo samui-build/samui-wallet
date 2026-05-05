@@ -3,8 +3,8 @@ import type {
   SolanaSignAndSendTransactionOutput,
 } from '@solana/wallet-standard-features'
 
+import { decodeTransportBytes } from '@workspace/background/transport-bytes'
 import { sendMessage } from '@workspace/background/window'
-import { ensureUint8Array } from '@workspace/keypair/ensure-uint8array'
 
 export async function signAndSendTransaction(
   ...inputs: SolanaSignAndSendTransactionInput[]
@@ -13,6 +13,6 @@ export async function signAndSendTransaction(
 
   return response.map((output) => ({
     ...output,
-    signature: ensureUint8Array(output.signature),
+    signature: decodeTransportBytes(output.signature),
   }))
 }
