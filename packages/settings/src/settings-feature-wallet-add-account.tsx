@@ -2,6 +2,7 @@ import { assertIsAddress } from '@solana/kit'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useAccountCreate } from '@workspace/db-react/use-account-create'
 import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
+import { useWalletDeriveAndCreateAccount } from '@workspace/db-react/use-wallet-derive-and-create-account'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
 import { useTranslation } from '@workspace/i18n'
 import { importKeyPairToPublicKeySecretKey } from '@workspace/keypair/import-key-pair-to-public-key-secret-key'
@@ -15,7 +16,6 @@ import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { Link, useParams } from 'react-router'
-import { useDeriveAndCreateAccount } from './data-access/use-derive-and-create-account.tsx'
 import { AccountUiIcon } from './ui/account-ui-icon.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
@@ -27,7 +27,7 @@ export function SettingsFeatureWalletAddAccount() {
   }
 
   const wallet = useWalletFindUnique({ id: walletId })
-  const deriveAccount = useDeriveAndCreateAccount()
+  const deriveAccount = useWalletDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
   const accounts = useAccountsForWalletLive({ walletId })
 

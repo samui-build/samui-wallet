@@ -1,6 +1,6 @@
-import type { Wallet } from '@workspace/db/wallet/wallet'
+import type { Wallet } from './wallet.ts'
 
-export function determineWalletName(items: Wallet[]): string {
+export function walletDetermineName(items: Wallet[]): string {
   const numbers = items
     .map((wallet) => {
       const match = wallet.name.match(/^Wallet (\d+)$/)

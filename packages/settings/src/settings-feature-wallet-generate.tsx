@@ -1,19 +1,19 @@
+import { useWalletDetermineName } from '@workspace/db-react/use-wallet-determine-name'
+import { useWalletGenerateWithAccount } from '@workspace/db-react/use-wallet-generate-with-account'
 import { useTranslation } from '@workspace/i18n'
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
-import { useDetermineWalletName } from './data-access/use-determine-wallet-name.tsx'
-import { useGenerateWalletWithAccountMutation } from './data-access/use-generate-wallet-with-account-mutation.tsx'
 import { SettingsUiWalletFormGenerate } from './ui/settings-ui-wallet-form-generate.tsx'
 import { SettingsUiWalletMnemonicStrength } from './ui/settings-ui-wallet-mnemonic-strength.tsx'
 
 export function SettingsFeatureWalletGenerate() {
   const { t } = useTranslation('settings')
-  const generateWalletWithAccountMutation = useGenerateWalletWithAccountMutation()
+  const generateWalletWithAccountMutation = useWalletGenerateWithAccount()
   const navigate = useNavigate()
   const [strength, setStrength] = useState<128 | 256>(128)
-  const name = useDetermineWalletName()
+  const name = useWalletDetermineName()
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
 
   return (
@@ -27,8 +27,8 @@ export function SettingsFeatureWalletGenerate() {
         mnemonic={mnemonic}
         name={name}
         submit={async (input) => {
-          generateWalletWithAccountMutation.mutateAsync(input).then((walletId) => {
-            navigate(`/settings/wallets/${walletId}`)
+          await generateWalletWithAccountMutation.mutateAsync(input).then(async (walletId) => {
+            await navigate(`/settings/wallets/${walletId}`)
           })
         }}
       />

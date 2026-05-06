@@ -3,7 +3,7 @@ import type { DeriveFromMnemonicAtIndexProps } from '@workspace/keypair/derive-f
 import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemonic-at-index'
 import { toastError } from '@workspace/ui/lib/toast-error'
 
-export function deriveFromMnemonicMutationOptions() {
+export function accountDeriveFromMnemonicMutationOptions() {
   return mutationOptions({
     mutationFn: (input: DeriveFromMnemonicAtIndexProps) => deriveFromMnemonicAtIndex(input),
     onError: (error) => {
@@ -12,6 +12,6 @@ export function deriveFromMnemonicMutationOptions() {
   })
 }
 
-export function useDeriveFromMnemonic() {
-  return useMutation(deriveFromMnemonicMutationOptions())
+export function useAccountDeriveFromMnemonic() {
+  return useMutation(accountDeriveFromMnemonicMutationOptions())
 }

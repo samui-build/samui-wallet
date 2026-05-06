@@ -72,8 +72,6 @@
   "pageNetworkName": "Redes",
   "pageWalletDescription": "Gestionar billeteras y cuentas",
   "pageWalletName": "Billeteras",
-  "themeDark": "Oscuro",
-  "themeLight": "Claro",
   "walletAddAccountDeriveDescription": "Derivar una cuenta a partir de la frase mnemónica de la billetera.",
   "walletAddAccountDeriveTitle": "Derivar una cuenta",
   "walletAddAccountImportDescription": "Importar una cuenta desde una clave secreta base58 o una matriz de bytes",

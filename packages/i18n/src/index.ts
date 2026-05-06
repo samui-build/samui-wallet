@@ -3,6 +3,7 @@ import './i18next.d.ts'
 
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
+import enDbReact from '../locales/en/db-react.json' with { type: 'json' }
 import enExplorer from '../locales/en/explorer.json' with { type: 'json' }
 import enOnboarding from '../locales/en/onboarding.json' with { type: 'json' }
 import enPortfolio from '../locales/en/portfolio.json' with { type: 'json' }
@@ -10,6 +11,7 @@ import enSettings from '../locales/en/settings.json' with { type: 'json' }
 import enShell from '../locales/en/shell.json' with { type: 'json' }
 import enTranslation from '../locales/en/translation.json' with { type: 'json' }
 import enUi from '../locales/en/ui.json' with { type: 'json' }
+import esDbReact from '../locales/es/db-react.json' with { type: 'json' }
 import esExplorer from '../locales/es/explorer.json' with { type: 'json' }
 import esOnboarding from '../locales/es/onboarding.json' with { type: 'json' }
 import esPortfolio from '../locales/es/portfolio.json' with { type: 'json' }
@@ -27,6 +29,7 @@ i18n.use(initReactI18next).init({
   lng: 'en',
   resources: {
     en: {
+      'db-react': enDbReact,
       explorer: enExplorer,
       onboarding: enOnboarding,
       portfolio: enPortfolio,
@@ -36,6 +39,7 @@ i18n.use(initReactI18next).init({
       ui: enUi,
     },
     es: {
+      'db-react': esDbReact,
       explorer: esExplorer,
       onboarding: esOnboarding,
       portfolio: esPortfolio,

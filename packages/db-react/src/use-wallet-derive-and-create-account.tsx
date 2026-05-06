@@ -1,17 +1,17 @@
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import type { Wallet } from '@workspace/db/wallet/wallet'
-import { useAccountCreate } from '@workspace/db-react/use-account-create'
-import { useWalletReadMnemonic } from '@workspace/db-react/use-wallet-read-mnemonic'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
-import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.tsx'
+import { useAccountCreate } from './use-account-create.tsx'
+import { useAccountDeriveFromMnemonic } from './use-account-derive-from-mnemonic.tsx'
+import { useWalletReadMnemonic } from './use-wallet-read-mnemonic.tsx'
 
-export function deriveAndCreateAccountMutationOptions({
+export function walletDeriveAndCreateAccountMutationOptions({
   createAccountMutation,
   deriveFromMnemonicMutation,
   readMnemonicMutation,
 }: {
   createAccountMutation: ReturnType<typeof useAccountCreate>
-  deriveFromMnemonicMutation: ReturnType<typeof useDeriveFromMnemonic>
+  deriveFromMnemonicMutation: ReturnType<typeof useAccountDeriveFromMnemonic>
   readMnemonicMutation: ReturnType<typeof useWalletReadMnemonic>
 }) {
   return mutationOptions({
@@ -35,13 +35,13 @@ export function deriveAndCreateAccountMutationOptions({
   })
 }
 
-export function useDeriveAndCreateAccount() {
+export function useWalletDeriveAndCreateAccount() {
   const createAccountMutation = useAccountCreate()
-  const deriveFromMnemonicMutation = useDeriveFromMnemonic()
+  const deriveFromMnemonicMutation = useAccountDeriveFromMnemonic()
   const readMnemonicMutation = useWalletReadMnemonic()
 
   return useMutation(
-    deriveAndCreateAccountMutationOptions({
+    walletDeriveAndCreateAccountMutationOptions({
       createAccountMutation,
       deriveFromMnemonicMutation,
       readMnemonicMutation,

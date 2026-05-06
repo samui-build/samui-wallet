@@ -1,12 +1,12 @@
+import { useWalletDetermineName } from '@workspace/db-react/use-wallet-determine-name'
+import { useWalletGenerateWithAccount } from '@workspace/db-react/use-wallet-generate-with-account'
 import { derivationPaths } from '@workspace/keypair/derivation-paths'
-import { useDetermineWalletName } from '@workspace/settings/data-access/use-determine-wallet-name'
-import { useGenerateWalletWithAccountMutation } from '@workspace/settings/data-access/use-generate-wallet-with-account-mutation'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 
 export function useCreateNewWallet() {
-  const mutation = useGenerateWalletWithAccountMutation()
-  const name = useDetermineWalletName()
+  const mutation = useWalletGenerateWithAccount()
+  const name = useWalletDetermineName()
   return (mnemonic: string) =>
     mutation
       .mutateAsync({

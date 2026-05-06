@@ -1,14 +1,13 @@
+import { useSettingTheme } from '@workspace/db-react/use-setting-theme'
 import { useTranslation } from '@workspace/i18n'
 import { Label } from '@workspace/ui/components/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@workspace/ui/components/select'
 import { useId } from 'react'
 
-import { useThemes } from './data-access/use-themes.tsx'
-
 export function SettingsFeatureGeneralTheme() {
   const { t } = useTranslation('settings')
   const themeId = useId()
-  const { options, setTheme, theme } = useThemes()
+  const { options, setTheme, theme } = useSettingTheme()
 
   return (
     <div className="space-y-2">

@@ -1,24 +1,26 @@
 import { mutationOptions, useMutation } from '@tanstack/react-query'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
-import { useAccountCreate } from '@workspace/db-react/use-account-create'
-import { useWalletCreate } from '@workspace/db-react/use-wallet-create'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
+import { useAccountCreate } from './use-account-create.tsx'
+import { useAccountDeriveFromMnemonic } from './use-account-derive-from-mnemonic.tsx'
+import { useWalletCreate } from './use-wallet-create.tsx'
 
-import { useDeriveFromMnemonic } from './use-derive-from-mnemonic.tsx'
-
-export function generateWalletWithAccountMutationOptions({
-  createWalletMutation,
+export function walletGenerateWithAccountMutationOptions({
   createAccountMutation,
+  createWalletMutation,
   deriveAccountMutation,
 }: {
-  createWalletMutation: ReturnType<typeof useWalletCreate>
   createAccountMutation: ReturnType<typeof useAccountCreate>
-  deriveAccountMutation: ReturnType<typeof useDeriveFromMnemonic>
+  createWalletMutation: ReturnType<typeof useWalletCreate>
+  deriveAccountMutation: ReturnType<typeof useAccountDeriveFromMnemonic>
 }) {
   return mutationOptions({
     mutationFn: async (input: WalletCreateInput) => {
       // First, we see if we can derive the first account from this mnemonic
-      const derivedAccount = await deriveAccountMutation.mutateAsync({ mnemonic: input.mnemonic })
+      const derivedAccount = await deriveAccountMutation.mutateAsync({
+        derivationPath: input.derivationPath,
+        mnemonic: input.mnemonic,
+      })
       // If so, we create the wallet
       const walletId = await createWalletMutation.mutateAsync({ input })
       // After creating the wallet we can create the account
@@ -35,13 +37,13 @@ export function generateWalletWithAccountMutationOptions({
   })
 }
 
-export function useGenerateWalletWithAccountMutation() {
-  const createWalletMutation = useWalletCreate()
+export function useWalletGenerateWithAccount() {
   const createAccountMutation = useAccountCreate()
-  const deriveAccountMutation = useDeriveFromMnemonic()
+  const createWalletMutation = useWalletCreate()
+  const deriveAccountMutation = useAccountDeriveFromMnemonic()
 
   return useMutation(
-    generateWalletWithAccountMutationOptions({
+    walletGenerateWithAccountMutationOptions({
       createAccountMutation,
       createWalletMutation,
       deriveAccountMutation,

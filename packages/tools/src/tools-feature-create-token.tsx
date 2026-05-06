@@ -3,7 +3,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query'
 import { tryCatch } from '@workspace/core/try-catch'
 import type { Account } from '@workspace/db/account/account'
 import type { Network } from '@workspace/db/network/network'
-import { getNetworkLabel } from '@workspace/settings/ui/get-network-label'
+import { networkGetLabel } from '@workspace/db/network/network-get-label'
 import { TOKEN_2022_PROGRAM_ADDRESS, TOKEN_PROGRAM_ADDRESS } from '@workspace/solana-client/constants'
 import type { SplToken2022CreateTokenMint } from '@workspace/solana-client/spl-token-2022-create-token-mint'
 import type { SplTokenCreateTokenMint } from '@workspace/solana-client/spl-token-create-token-mint'
@@ -295,7 +295,7 @@ export default function ToolsFeatureCreateToken({
           <Item variant="outline">
             <ItemContent>
               <ItemTitle>Summary</ItemTitle>
-              <ItemDescription className="font-mono">Network: {getNetworkLabel(network.type)}</ItemDescription>
+              <ItemDescription className="font-mono">Network: {networkGetLabel(network.type)}</ItemDescription>
               <ItemDescription className="font-mono">Owner: {ellipsify(account.publicKey, 6, '...')}</ItemDescription>
               <ItemDescription className="font-mono">Decimals: {decimals}</ItemDescription>
               <ItemDescription className="font-mono">Supply: {supply}</ItemDescription>
