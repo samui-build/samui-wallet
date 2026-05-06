@@ -2,7 +2,6 @@
   "dependencies": {
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
-    "@workspace/core": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/solana-client": "workspace:*",
     "@workspace/ui": "workspace:*"

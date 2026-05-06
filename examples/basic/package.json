@@ -12,7 +12,6 @@
     "@wallet-standard/ui-registry": "1.0.1",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
-    "lucide-react": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "tailwind-merge": "catalog:",
@@ -24,8 +23,6 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "babel-plugin-react-compiler": "catalog:",
-    "baseline-browser-mapping": "catalog:",
-    "globals": "catalog:",
     "tw-animate-css": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:"

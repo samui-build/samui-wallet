@@ -1,7 +1,6 @@
 {
   "dependencies": {
     "@tanstack/query-async-storage-persister": "catalog:",
-    "@tanstack/query-sync-storage-persister": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-query-persist-client": "catalog:",
     "@workspace/background": "workspace:*",

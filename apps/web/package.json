@@ -4,11 +4,9 @@
     "@workspace/env": "workspace:*",
     "@workspace/feature-shell": "workspace:*",
     "@workspace/i18n": "workspace:*",
-    "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",
-    "react-dom": "catalog:",
-    "react-router": "catalog:"
+    "react-dom": "catalog:"
   },
   "devDependencies": {
     "@beeman/testcontainers": "catalog:",
@@ -19,8 +17,6 @@
     "@workspace/config-typescript": "workspace:*",
     "@workspace/config-vite": "workspace:*",
     "babel-plugin-react-compiler": "catalog:",
-    "baseline-browser-mapping": "catalog:",
-    "globals": "catalog:",
     "playwright": "catalog:",
     "testcontainers": "catalog:",
     "typescript": "catalog:",

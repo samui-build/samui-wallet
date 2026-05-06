@@ -17,7 +17,6 @@
     "vitest": "catalog:"
   },
   "exports": {
-    ".": "./src/index.ts",
     "./*": "./src/*.ts"
   },
   "license": "MIT",
