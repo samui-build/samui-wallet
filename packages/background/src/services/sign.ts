@@ -1,4 +1,5 @@
 import {
+  assertIsSendableTransaction,
   createKeyPairFromBytes,
   createSolanaRpc,
   getBase58Encoder,
@@ -53,8 +54,8 @@ function createSignService() {
       for (const input of inputs) {
         const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
         const transaction = await signTransaction([key], decoded)
+        assertIsSendableTransaction(transaction)
         const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
-        // @ts-expect-error TODO: Figure out "Type 'FullySignedTransaction & Readonly<{ messageBytes: TransactionMessageBytes; signatures: SignaturesMap; }> & TransactionWithLifetime' is missing the following properties from type 'Readonly<{ instructions: readonly Instruction<string, readonly (AccountLookupMeta<string, string> | AccountMeta<string>)[]>[]; version: TransactionVersion; }>': instructions, version"
         await sendTransaction(transaction, { commitment: 'confirmed' })
 
         results.push({
