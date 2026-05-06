@@ -2,3 +2,4 @@
 exact = true
 linker = "isolated"
 minimumReleaseAge = 432000
+minimumReleaseAgeExcludes = ["@beeman/testcontainers"]
