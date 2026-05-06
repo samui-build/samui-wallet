@@ -1,6 +1,5 @@
 import {
   assertIsSendableTransaction,
-  createKeyPairFromBytes,
   createSolanaRpc,
   getBase58Encoder,
   getSignatureFromTransaction,
@@ -43,13 +42,7 @@ function createSignService() {
       inputs: SolanaSignAndSendTransactionInput[],
     ): Promise<SolanaSignAndSendTransactionOutput[]> => {
       const results: SolanaSignAndSendTransactionOutput[] = []
-      const activeSecretKey = await getDbService().account.secretKey()
-      if (!activeSecretKey) {
-        throw new Error('Active account has no secret key')
-      }
-
-      const bytes = new Uint8Array(JSON.parse(activeSecretKey))
-      const key = await createKeyPairFromBytes(bytes)
+      const key = await getDbService().account.keyPair()
 
       for (const input of inputs) {
         const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
@@ -68,18 +61,13 @@ function createSignService() {
     signIn: async (inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> => {
       const results: SolanaSignInOutput[] = []
       const active = await getDbService().account.active()
-      const activeSecretKey = await getDbService().account.secretKey()
       const accounts = await getDbService().account.walletAccounts()
-      if (!activeSecretKey) {
-        throw new Error('Active account has no secret key')
-      }
 
       if (accounts.accounts[0] === undefined) {
         throw new Error('No wallet account found')
       }
 
-      const bytes = new Uint8Array(JSON.parse(activeSecretKey))
-      const { privateKey } = await createKeyPairFromBytes(bytes)
+      const { privateKey } = await getDbService().account.keyPair()
 
       for (const input of inputs) {
         const signedMessage = createSignInMessage({
@@ -101,13 +89,7 @@ function createSignService() {
     },
     signMessage: async (inputs: SolanaSignMessageInput[]): Promise<SolanaSignMessageOutput[]> => {
       const results: SolanaSignMessageOutput[] = []
-      const activeSecretKey = await getDbService().account.secretKey()
-      if (!activeSecretKey) {
-        throw new Error('Active account has no secret key')
-      }
-
-      const bytes = new Uint8Array(JSON.parse(activeSecretKey))
-      const { privateKey } = await createKeyPairFromBytes(bytes)
+      const { privateKey } = await getDbService().account.keyPair()
 
       for (const input of inputs) {
         const signedMessage = decodeTransportBytes(input.message)
@@ -124,13 +106,7 @@ function createSignService() {
     },
     signTransaction: async (inputs: SolanaSignTransactionInput[]): Promise<SolanaSignTransactionOutput[]> => {
       const results: SolanaSignTransactionOutput[] = []
-      const activeSecretKey = await getDbService().account.secretKey()
-      if (!activeSecretKey) {
-        throw new Error('Active account has no secret key')
-      }
-
-      const bytes = new Uint8Array(JSON.parse(activeSecretKey))
-      const key = await createKeyPairFromBytes(bytes)
+      const key = await getDbService().account.keyPair()
 
       for (const input of inputs) {
         const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))

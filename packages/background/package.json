@@ -16,7 +16,9 @@
   "devDependencies": {
     "@types/bun": "catalog:",
     "@workspace/config-typescript": "workspace:*",
-    "typescript": "catalog:"
+    "@workspace/config-vitest": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     ".": "./src/index.ts",
@@ -26,7 +28,9 @@
   "name": "@workspace/background",
   "private": false,
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
   },
   "type": "module",
   "version": "0.0.0"

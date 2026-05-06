@@ -1,4 +1,4 @@
-import { address, getAddressEncoder } from '@solana/kit'
+import { address, createKeyPairFromBytes, getAddressEncoder } from '@solana/kit'
 import { SOLANA_CHAINS } from '@solana/wallet-standard-chains'
 import {
   SolanaSignAndSendTransaction,
@@ -36,6 +36,11 @@ function createDbService() {
         }
 
         return account
+      },
+      keyPair: async (): Promise<CryptoKeyPair> => {
+        const secretKey = await getDbService().account.secretKey()
+
+        return await createKeyPairFromBytes(new Uint8Array(JSON.parse(secretKey)))
       },
       secretKey: async (): Promise<string> => {
         const accountId = (await settingFindUnique(db, 'activeAccountId'))?.value
