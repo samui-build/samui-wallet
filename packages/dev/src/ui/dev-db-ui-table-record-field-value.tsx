@@ -1,7 +1,7 @@
 import { isAddress, isSignature } from '@solana/kit'
 import type { DbRecord } from '@workspace/db/db-table-metadata'
-import { ExplorerUiLinkAddress } from '@workspace/explorer/ui/explorer-ui-link-address'
-import { ExplorerUiLinkSignature } from '@workspace/explorer/ui/explorer-ui-link-signature'
+import { ExplorerUiLinkAddress } from '@workspace/feature-explorer/ui/explorer-ui-link-address'
+import { ExplorerUiLinkSignature } from '@workspace/feature-explorer/ui/explorer-ui-link-signature'
 import { useTranslation } from '@workspace/i18n'
 import { formatDevDbValue } from './dev-db-ui-format.ts'
 

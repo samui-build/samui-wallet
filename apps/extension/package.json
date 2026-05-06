@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@workspace/background": "workspace:*",
-    "@workspace/shell": "workspace:*",
+    "@workspace/feature-shell": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",

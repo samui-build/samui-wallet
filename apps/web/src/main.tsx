@@ -1,5 +1,5 @@
 import '@workspace/i18n'
-import { ShellFeature } from '@workspace/shell/shell-feature'
+import { ShellFeature } from '@workspace/feature-shell/shell-feature'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 

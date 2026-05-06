@@ -2,8 +2,8 @@
   "dependencies": {
     "@cloudflare/vite-plugin": "1.32.3",
     "@workspace/env": "workspace:*",
+    "@workspace/feature-shell": "workspace:*",
     "@workspace/i18n": "workspace:*",
-    "@workspace/shell": "workspace:*",
     "@workspace/ui": "workspace:*",
     "@workspace/wallet-standard": "workspace:*",
     "react": "catalog:",

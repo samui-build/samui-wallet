@@ -1,20 +1,25 @@
 {
   "dependencies": {
-    "@hookform/resolvers": "catalog:",
-    "@solana/kit": "catalog:",
+    "@tanstack/query-async-storage-persister": "catalog:",
+    "@tanstack/query-sync-storage-persister": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@tanstack/react-query-persist-client": "catalog:",
+    "@workspace/background": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
+    "@workspace/dev": "workspace:*",
+    "@workspace/env": "workspace:*",
     "@workspace/feature-explorer": "workspace:*",
+    "@workspace/feature-onboarding": "workspace:*",
     "@workspace/feature-portfolio": "workspace:*",
+    "@workspace/feature-request": "workspace:*",
     "@workspace/feature-settings": "workspace:*",
+    "@workspace/feature-tools": "workspace:*",
+    "@workspace/flags": "workspace:*",
     "@workspace/i18n": "workspace:*",
-    "@workspace/keypair": "workspace:*",
-    "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "react-hook-form": "catalog:",
-    "react-router": "catalog:",
-    "zod": "catalog:"
+    "@wxt-dev/browser": "catalog:",
+    "react-router": "catalog:"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
@@ -27,7 +32,7 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
-  "name": "@workspace/dev",
+  "name": "@workspace/feature-shell",
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:"
