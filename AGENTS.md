@@ -60,6 +60,8 @@ describe('function-name', () => {
   2.1 Must mock `console.log` in beforeEach
   2.2 Must restore mocks in afterEach
 
+Exception: `*.integration.test.ts` files may omit the `unexpected behavior` section when the test is a focused happy-path wrapper around an external service, RPC endpoint, or runtime integration and adding synthetic failure cases would expand the intended coverage. Keep the `expected behavior` section and ARRANGE/ACT/ASSERT structure.
+
 ### Test Pattern: ARRANGE/ACT/ASSERT
 
 Every test must follow the ARRANGE/ACT/ASSERT pattern with explicit comments:
