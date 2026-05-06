@@ -94,6 +94,8 @@ jobs:
         uses: ./.github/actions/install-dependencies
 
       - name: Run EditorConfig Checker
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: bun ec
 
   i18n:

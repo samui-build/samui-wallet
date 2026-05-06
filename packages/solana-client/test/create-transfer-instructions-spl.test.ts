@@ -1,16 +1,23 @@
 import { address, generateKeyPairSigner } from '@solana/kit'
-import { getCreateAssociatedTokenIdempotentInstruction, getTransferCheckedInstruction } from '@solana-program/token'
+import { getTransferCheckedInstruction } from '@solana-program/token'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { createGetOrCreateAtaInstruction } from '../src/create-get-or-create-ata-instruction.ts'
 import { createTransferInstructionsSpl } from '../src/create-transfer-instructions-spl.ts'
 
 vi.mock('@solana-program/token', () => ({
   findAssociatedTokenPda: vi.fn(() => []),
-  getCreateAssociatedTokenIdempotentInstruction: vi.fn(() => address('So11111111111111111111111111111111111111112')),
   getTransferCheckedInstruction: vi.fn(() => ({
     accounts: [],
     programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
   })),
   TOKEN_PROGRAM_ADDRESS: 'TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',
+}))
+
+vi.mock('../src/create-get-or-create-ata-instruction.ts', () => ({
+  createGetOrCreateAtaInstruction: vi.fn(() => [
+    address('So11111111111111111111111111111111111111114'),
+    address('So11111111111111111111111111111111111111112'),
+  ]),
 }))
 
 describe('create-transfer-instructions-spl', async () => {
@@ -42,7 +49,7 @@ describe('create-transfer-instructions-spl', async () => {
           amount: 1000000n,
           authority: transactionSigner,
           decimals: 6,
-          destination: undefined,
+          destination: address('So11111111111111111111111111111111111111114'),
           mint,
           source: undefined,
         },
@@ -50,7 +57,7 @@ describe('create-transfer-instructions-spl', async () => {
           programAddress: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
         },
       )
-      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledTimes(1)
+      expect(createGetOrCreateAtaInstruction).toHaveBeenCalledTimes(1)
       expect(result).toHaveLength(2)
     })
 
@@ -67,13 +74,12 @@ describe('create-transfer-instructions-spl', async () => {
       })
 
       // ASSERT - Check both instructions are created in correct order
-      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledTimes(1)
-      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledWith({
-        ata: undefined,
+      expect(createGetOrCreateAtaInstruction).toHaveBeenCalledTimes(1)
+      expect(createGetOrCreateAtaInstruction).toHaveBeenCalledWith({
         mint,
         owner: destination,
-        payer: transactionSigner,
         tokenProgram: address('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
+        transactionSigner,
       })
       expect(getTransferCheckedInstruction).toHaveBeenCalledTimes(1)
       expect(getTransferCheckedInstruction).toHaveBeenCalledWith(
@@ -81,7 +87,7 @@ describe('create-transfer-instructions-spl', async () => {
           amount: 500000n,
           authority: transactionSigner,
           decimals: 9,
-          destination: undefined,
+          destination: address('So11111111111111111111111111111111111111114'),
           mint,
           source: undefined,
         },
@@ -136,7 +142,7 @@ describe('create-transfer-instructions-spl', async () => {
       })
 
       // ASSERT - Verify custom token program is used
-      expect(getCreateAssociatedTokenIdempotentInstruction).toHaveBeenCalledWith(
+      expect(createGetOrCreateAtaInstruction).toHaveBeenCalledWith(
         expect.objectContaining({
           tokenProgram: customTokenProgram,
         }),

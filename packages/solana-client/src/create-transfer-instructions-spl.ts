@@ -5,12 +5,8 @@ import {
   type Instruction,
   type TransactionSigner,
 } from '@solana/kit'
-import {
-  findAssociatedTokenPda,
-  getCreateAssociatedTokenIdempotentInstruction,
-  getTransferCheckedInstruction,
-  TOKEN_PROGRAM_ADDRESS,
-} from '@solana-program/token'
+import { findAssociatedTokenPda, getTransferCheckedInstruction, TOKEN_PROGRAM_ADDRESS } from '@solana-program/token'
+import { createGetOrCreateAtaInstruction } from './create-get-or-create-ata-instruction.ts'
 import type { TransferRecipient } from './transfer-recipient.ts'
 
 interface CreateTransferInstructionsSplOptions {
@@ -52,18 +48,11 @@ export async function createTransferInstructionsSpl({
   for (const { amount, destination } of recipients) {
     assertIsAddress(destination)
 
-    const [destinationATA] = await findAssociatedTokenPda({
+    const [destinationATA, createAtaInstruction] = await createGetOrCreateAtaInstruction({
       mint,
       owner: destination,
       tokenProgram,
-    })
-
-    const createAtaInstruction = getCreateAssociatedTokenIdempotentInstruction({
-      ata: destinationATA,
-      mint,
-      owner: destination,
-      payer: transactionSigner,
-      tokenProgram,
+      transactionSigner,
     })
 
     const transferInstruction = getTransferCheckedInstruction(
