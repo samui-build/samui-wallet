@@ -12,7 +12,7 @@ import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 're
 import { rootRouteLoader } from './data-access/root-route-loader.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
-const DevRoutes = lazy(() => import('@workspace/dev/dev-routes'))
+const DevRoutes = lazy(() => import('@workspace/feature-dev/dev-routes'))
 const ExplorerRoutes = lazy(() => import('@workspace/feature-explorer/explorer-routes'))
 const OnboardingRoutes = lazy(() => import('@workspace/feature-onboarding/onboarding-routes'))
 const PortfolioRoutes = lazy(() => import('@workspace/feature-portfolio/portfolio-routes'))

@@ -265,8 +265,21 @@
         "react-dom": "catalog:",
       },
     },
-    "packages/dev": {
-      "name": "@workspace/dev",
+    "packages/env": {
+      "name": "@workspace/env",
+      "version": "0.0.0",
+      "dependencies": {
+        "@wxt-dev/browser": "catalog:",
+        "zod": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "typescript": "catalog:",
+      },
+    },
+    "packages/feature-dev": {
+      "name": "@workspace/feature-dev",
       "version": "0.0.0",
       "dependencies": {
         "@hookform/resolvers": "catalog:",
@@ -295,19 +308,6 @@
       "peerDependencies": {
         "react": "catalog:",
         "react-dom": "catalog:",
-      },
-    },
-    "packages/env": {
-      "name": "@workspace/env",
-      "version": "0.0.0",
-      "dependencies": {
-        "@wxt-dev/browser": "catalog:",
-        "zod": "catalog:",
-      },
-      "devDependencies": {
-        "@types/bun": "catalog:",
-        "@workspace/config-typescript": "workspace:*",
-        "typescript": "catalog:",
       },
     },
     "packages/feature-explorer": {
@@ -467,8 +467,8 @@
         "@workspace/background": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
-        "@workspace/dev": "workspace:*",
         "@workspace/env": "workspace:*",
+        "@workspace/feature-dev": "workspace:*",
         "@workspace/feature-explorer": "workspace:*",
         "@workspace/feature-onboarding": "workspace:*",
         "@workspace/feature-portfolio": "workspace:*",
@@ -1951,9 +1951,9 @@
 
     "@workspace/db-react": ["@workspace/db-react@workspace:packages/db-react"],
 
-    "@workspace/dev": ["@workspace/dev@workspace:packages/dev"],
-
     "@workspace/env": ["@workspace/env@workspace:packages/env"],
+
+    "@workspace/feature-dev": ["@workspace/feature-dev@workspace:packages/feature-dev"],
 
     "@workspace/feature-explorer": ["@workspace/feature-explorer@workspace:packages/feature-explorer"],
 

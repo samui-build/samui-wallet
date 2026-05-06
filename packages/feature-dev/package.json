@@ -27,7 +27,7 @@
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
-  "name": "@workspace/dev",
+  "name": "@workspace/feature-dev",
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:"
