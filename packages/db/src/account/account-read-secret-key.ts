@@ -3,7 +3,7 @@ import type { Database } from '../database.ts'
 
 export function accountReadSecretKey(db: Database, id: string) {
   return db.transaction('r', db.accounts, async () => {
-    const { data: account, error } = await tryCatch(db.accounts.get(id))
+    const { data: account, error } = await tryCatch(db.accounts.where('id').equals(id).raw().first())
     if (error) {
       console.log(error)
       throw new Error(`Error finding account with id ${id}`)

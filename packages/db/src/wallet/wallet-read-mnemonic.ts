@@ -3,7 +3,7 @@ import type { Database } from '../database.ts'
 
 export function walletReadMnemonic(db: Database, id: string) {
   return db.transaction('r', db.wallets, async () => {
-    const { data: wallet, error } = await tryCatch(db.wallets.get(id))
+    const { data: wallet, error } = await tryCatch(db.wallets.where('id').equals(id).raw().first())
     if (error) {
       console.log(error)
       throw new Error(`Error finding wallet with id ${id}`)

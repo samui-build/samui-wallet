@@ -1,11 +1,13 @@
 import { Dexie, type Table } from 'dexie'
 import type { AccountInternal } from './account/account-internal.ts'
+import { accountSanitizer } from './account/account-sanitizer.ts'
 import type { BookmarkAccount } from './bookmark-account/bookmark-account.ts'
 import type { BookmarkTransaction } from './bookmark-transaction/bookmark-transaction.ts'
 import type { Network } from './network/network.ts'
 import { populate } from './populate.ts'
 import type { Setting } from './setting/setting.ts'
 import type { WalletInternal } from './wallet/wallet-internal.ts'
+import { walletSanitizer } from './wallet/wallet-sanitizer.ts'
 
 export interface DatabaseConfig {
   name: string
@@ -30,8 +32,19 @@ export class Database extends Dexie {
       wallets: 'id, name, order',
     })
 
+    this.accounts.hook('reading', accountReadingHook)
+    this.wallets.hook('reading', walletReadingHook)
+
     this.on('populate', async () => {
       await populate(this)
     })
   }
+}
+
+function accountReadingHook(account: AccountInternal | undefined) {
+  return account ? accountSanitizer(account) : account
+}
+
+function walletReadingHook(wallet: WalletInternal | undefined) {
+  return wallet ? walletSanitizer(wallet) : wallet
 }

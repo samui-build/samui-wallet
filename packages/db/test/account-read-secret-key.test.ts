@@ -1,7 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
+import type { AccountInternal } from '../src/account/account-internal.ts'
 import { accountReadSecretKey } from '../src/account/account-read-secret-key.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
@@ -51,6 +51,7 @@ describe('account-read-secret-key', () => {
 
     it('should throw an error if the account is of type Watched', async () => {
       // ARRANGE
+      expect.assertions(1)
       const walletInput = testWalletCreateInput()
       const walletId = await walletCreate(db, walletInput)
       const accountInput = testAccountCreateInput({ type: 'Watched', walletId })
@@ -64,8 +65,15 @@ describe('account-read-secret-key', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.accounts, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Account | undefined>,
+      vi.spyOn(db.accounts, 'where').mockImplementationOnce(
+        () =>
+          ({
+            equals: () => ({
+              raw: () => ({
+                first: () => Promise.reject(new Error('Test error')) as PromiseExtended<AccountInternal | undefined>,
+              }),
+            }),
+          }) as never,
       )
 
       // ACT & ASSERT

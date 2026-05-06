@@ -1,7 +1,7 @@
 import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
+import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
 import { walletReadMnemonic } from '../src/wallet/wallet-read-mnemonic.ts'
 import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
 
@@ -49,8 +49,15 @@ describe('wallet-read-mnemonic', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.wallets, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet | undefined>,
+      vi.spyOn(db.wallets, 'where').mockImplementationOnce(
+        () =>
+          ({
+            equals: () => ({
+              raw: () => ({
+                first: () => Promise.reject(new Error('Test error')) as PromiseExtended<WalletInternal | undefined>,
+              }),
+            }),
+          }) as never,
       )
 
       // ACT & ASSERT
