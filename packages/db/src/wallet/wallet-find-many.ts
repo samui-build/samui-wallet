@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
 import type { Database } from '../database.ts'
 import type { Wallet } from './wallet.ts'
@@ -9,30 +9,21 @@ import { walletFindManySchema } from './wallet-find-many-schema.ts'
 export async function walletFindMany(db: Database, input: WalletFindManyInput = {}): Promise<Wallet[]> {
   const parsedInput = walletFindManySchema.parse(input)
   return db.transaction('r', db.wallets, db.accounts, async () => {
-    const [{ data: dataWallets, error: walletsError }, { data: dataAccounts, error: errorAccounts }] =
-      await Promise.all([
-        tryCatch(
-          db.wallets
-            .orderBy('order')
-            .filter((item) => {
-              const matchId = !parsedInput.id || item.id === parsedInput.id
-              const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
+    const [dataWallets, dataAccounts] = await Promise.all([
+      tryCatchOrThrow(
+        db.wallets
+          .orderBy('order')
+          .filter((item) => {
+            const matchId = !parsedInput.id || item.id === parsedInput.id
+            const matchName = !parsedInput.name || item.name.includes(parsedInput.name)
 
-              return matchId && matchName
-            })
-            .toArray(),
-        ),
-        tryCatch(db.accounts.orderBy('order').toArray()),
-      ])
-
-    if (walletsError) {
-      console.log(walletsError)
-      throw new Error(`Error finding wallets`)
-    }
-    if (errorAccounts) {
-      console.log(errorAccounts)
-      throw new Error(`Error finding accounts`)
-    }
+            return matchId && matchName
+          })
+          .toArray(),
+        `Error finding wallets`,
+      ),
+      tryCatchOrThrow(db.accounts.orderBy('order').toArray(), `Error finding accounts`),
+    ])
     return [
       ...dataWallets.map((wallet) => {
         return {

@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import type { Database } from '../database.ts'
 import { parseStrict } from '../parse-strict.ts'
 import type { BookmarkTransactionUpdateInput } from './bookmark-transaction-update-input.ts'
@@ -11,16 +11,12 @@ export async function bookmarkTransactionUpdate(
 ): Promise<number> {
   const parsedInput = parseStrict(bookmarkTransactionUpdateSchema.parse(input))
   return db.transaction('rw', db.bookmarkTransactions, async () => {
-    const { data, error } = await tryCatch(
+    return tryCatchOrThrow(
       db.bookmarkTransactions.update(id, {
         ...parsedInput,
         updatedAt: new Date(),
       }),
+      `Error updating bookmark transaction with id ${id}`,
     )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error updating bookmark transaction with id ${id}`)
-    }
-    return data
   })
 }

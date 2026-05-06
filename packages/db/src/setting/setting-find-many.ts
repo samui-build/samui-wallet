@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import type { Database } from '../database.ts'
 import type { Setting } from './setting.ts'
 import type { SettingFindManyInput } from './setting-find-many-input.ts'
@@ -7,7 +7,7 @@ import { settingFindManySchema } from './setting-find-many-schema.ts'
 export async function settingFindMany(db: Database, input: SettingFindManyInput = {}): Promise<Setting[]> {
   const parsedInput = settingFindManySchema.parse(input)
   return db.transaction('r', db.settings, async () => {
-    const { data, error } = await tryCatch(
+    return tryCatchOrThrow(
       db.settings
         .orderBy('key')
         .filter((item) => {
@@ -17,11 +17,7 @@ export async function settingFindMany(db: Database, input: SettingFindManyInput 
           return matchKey && matchValue
         })
         .toArray(),
+      `Error finding settings`,
     )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error finding settings`)
-    }
-    return data
   })
 }

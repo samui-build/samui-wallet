@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -10,18 +10,14 @@ export async function networkCreate(db: Database, input: NetworkCreateInput): Pr
   const parsedInput = networkCreateSchema.parse(input)
 
   return db.transaction('rw', db.networks, async () => {
-    const { data, error } = await tryCatch(
+    return tryCatchOrThrow(
       db.networks.add({
         ...parsedInput,
         createdAt: now,
         id: randomId(),
         updatedAt: now,
       }),
+      `Error creating network`,
     )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error creating network`)
-    }
-    return data
   })
 }

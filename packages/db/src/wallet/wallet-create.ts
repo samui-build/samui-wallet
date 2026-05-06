@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -13,7 +13,7 @@ export async function walletCreate(db: Database, input: WalletCreateInput): Prom
   return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
     const order = await walletCreateDetermineOrder(db)
 
-    const { data, error } = await tryCatch(
+    return tryCatchOrThrow(
       db.wallets.add({
         ...parsedInput,
         accounts: [],
@@ -22,12 +22,7 @@ export async function walletCreate(db: Database, input: WalletCreateInput): Prom
         order,
         updatedAt: now,
       }),
+      `Error creating wallet`,
     )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error creating wallet`)
-    }
-
-    return data
   })
 }

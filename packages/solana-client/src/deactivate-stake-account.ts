@@ -1,6 +1,6 @@
 import type { Address, Signature, TransactionSigner } from '@solana/kit'
 import { getDeactivateInstruction } from '@solana-program/stake'
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import type { LatestBlockhash } from './get-latest-blockhash.ts'
 import { sendPreparedTransaction } from './send-prepared-transaction.ts'
 import type { SolanaClient } from './solana-client.ts'
@@ -15,7 +15,7 @@ export async function deactivateStakeAccount(
   client: SolanaClient,
   { latestBlockhash, stake, transactionSigner }: DeactivateStakeAccountOptions,
 ): Promise<Signature> {
-  const { data: signature, error } = await tryCatch(
+  return tryCatchOrThrow(
     sendPreparedTransaction(client, {
       instructions: [
         getDeactivateInstruction({
@@ -26,9 +26,6 @@ export async function deactivateStakeAccount(
       latestBlockhash,
       transactionSigner,
     }),
+    'Error deactivating stake account',
   )
-  if (error) {
-    throw error
-  }
-  return signature
 }

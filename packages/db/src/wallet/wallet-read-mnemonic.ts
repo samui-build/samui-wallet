@@ -1,13 +1,12 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import type { Database } from '../database.ts'
 
 export function walletReadMnemonic(db: Database, id: string) {
   return db.transaction('r', db.wallets, async () => {
-    const { data: wallet, error } = await tryCatch(db.wallets.where('id').equals(id).raw().first())
-    if (error) {
-      console.log(error)
-      throw new Error(`Error finding wallet with id ${id}`)
-    }
+    const wallet = await tryCatchOrThrow(
+      db.wallets.where('id').equals(id).raw().first(),
+      `Error finding wallet with id ${id}`,
+    )
     if (!wallet) {
       throw new Error(`Wallet with id ${id} not found`)
     }

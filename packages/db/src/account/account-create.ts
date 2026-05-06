@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
 import type { Database } from '../database.ts'
 import { randomId } from '../random-id.ts'
@@ -14,7 +14,7 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
 
   return db.transaction('rw', db.accounts, db.settings, db.wallets, async () => {
     const order = await accountCreateDetermineOrder(db, parsedInput.walletId)
-    const { data, error } = await tryCatch(
+    const data = await tryCatchOrThrow(
       db.accounts.add({
         ...parsedInput,
         createdAt: now,
@@ -24,11 +24,8 @@ export async function accountCreate(db: Database, input: AccountCreateInput): Pr
         secretKey: parsedInput.secretKey,
         updatedAt: now,
       }),
+      `Error creating account`,
     )
-    if (error) {
-      console.log(error)
-      throw new Error(`Error creating account`)
-    }
 
     const activeAccountId = (await settingFindUnique(db, 'activeAccountId'))?.value
     if (!activeAccountId) {

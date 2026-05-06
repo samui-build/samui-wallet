@@ -1,4 +1,4 @@
-import { tryCatch } from '@workspace/core/try-catch'
+import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
 import type { Database } from '../database.ts'
 import { settingFindUnique } from '../setting/setting-find-unique.ts'
@@ -10,11 +10,6 @@ export async function accountDelete(db: Database, id: string): Promise<void> {
       throw new Error('You cannot delete the active account. Please change accounts and try again.')
     }
 
-    const { data, error } = await tryCatch(db.accounts.delete(id))
-    if (error) {
-      console.log(error)
-      throw new Error(`Error deleting account with id ${id}`)
-    }
-    return data
+    return tryCatchOrThrow(db.accounts.delete(id), `Error deleting account with id ${id}`)
   })
 }
