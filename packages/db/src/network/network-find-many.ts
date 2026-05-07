@@ -1,16 +1,16 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 import type { Network } from './network.ts'
 import type { NetworkFindManyInput } from './network-find-many-input.ts'
 
 import { networkFindManySchema } from './network-find-many-schema.ts'
 
-export async function networkFindMany(db: Database, input: NetworkFindManyInput = {}): Promise<Network[]> {
+export async function networkFindMany(ctx: AppContext, input: NetworkFindManyInput = {}): Promise<Network[]> {
   const parsedInput = networkFindManySchema.parse(input)
-  return db.transaction('r', db.networks, async () => {
+  return ctx.db.transaction('r', ctx.db.networks, async () => {
     return tryCatchOrThrow(
-      db.networks
+      ctx.db.networks
         .orderBy('name')
         .filter((item) => {
           const matchEndpoint = !parsedInput.endpoint || item.endpoint.includes(parsedInput.endpoint)

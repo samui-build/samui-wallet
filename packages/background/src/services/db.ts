@@ -13,7 +13,8 @@ import type { Account } from '@workspace/db/account/account'
 import { accountCreate } from '@workspace/db/account/account-create'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
 import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-key'
-import { db } from '@workspace/db/db'
+import type { AppContext } from '@workspace/db/app-context'
+import { createAppContext } from '@workspace/db/create-app-context'
 import { settingFindUnique } from '@workspace/db/setting/setting-find-unique'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
@@ -21,16 +22,16 @@ import { deriveFromMnemonicAtIndex } from '@workspace/keypair/derive-from-mnemon
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 
 // TODO: Database abstraction layer to avoid duplicating this code from db and db-react packages
-function createDbService() {
+function createDbService(ctx: AppContext) {
   return {
     account: {
       active: async (): Promise<Account> => {
-        const accountId = (await settingFindUnique(db, 'activeAccountId'))?.value
+        const accountId = (await settingFindUnique(ctx, 'activeAccountId'))?.value
         if (!accountId) {
           throw new Error('No active account set')
         }
 
-        const account = await accountFindUnique(db, accountId)
+        const account = await accountFindUnique(ctx, accountId)
         if (!account) {
           throw new Error('Active account not found')
         }
@@ -43,12 +44,12 @@ function createDbService() {
         return await createKeyPairFromBytes(new Uint8Array(JSON.parse(secretKey)))
       },
       secretKey: async (): Promise<string> => {
-        const accountId = (await settingFindUnique(db, 'activeAccountId'))?.value
+        const accountId = (await settingFindUnique(ctx, 'activeAccountId'))?.value
         if (!accountId) {
           throw new Error('No active account set')
         }
 
-        const secretKey = await accountReadSecretKey(db, accountId)
+        const secretKey = await accountReadSecretKey(ctx, accountId)
         if (!secretKey) {
           throw new Error('Active account secretKey not found')
         }
@@ -77,9 +78,9 @@ function createDbService() {
         // First, we see if we can derive the first account from this mnemonic
         const derivedAccount = await deriveFromMnemonicAtIndex({ mnemonic: input.mnemonic })
         // If so, we create the wallet
-        const walletId = await walletCreate(db, input)
+        const walletId = await walletCreate(ctx, input)
         // After creating the wallet we can create the account
-        await accountCreate(db, {
+        await accountCreate(ctx, {
           ...derivedAccount,
           name: ellipsify(derivedAccount.publicKey),
           type: 'Derived',
@@ -101,7 +102,8 @@ export function getDbService(): ProxyService<DbService> {
 }
 
 export function registerDbService(): DbService {
-  dbService = createDbService()
+  const ctx = createAppContext()
+  dbService = createDbService(ctx)
   registerService(dbServiceKey, dbService)
   return dbService
 }

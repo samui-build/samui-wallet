@@ -1,20 +1,19 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletDelete } from '../src/wallet/wallet-delete.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-delete', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-    await db.settings.clear()
-    await db.wallets.clear()
+    await ctx.db.accounts.clear()
+    await ctx.db.settings.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -22,16 +21,16 @@ describe('wallet-delete', () => {
       // ARRANGE
       expect.assertions(1)
       // We create the first wallet so that will be the default. The second is the one that will be deleted.
-      const first = await walletCreate(db, testWalletCreateInput())
-      await accountCreate(db, testAccountCreateInput({ walletId: first }))
+      const first = await walletCreate(ctx, testWalletCreateInput())
+      await accountCreate(ctx, testAccountCreateInput({ walletId: first }))
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT
-      await walletDelete(db, id)
+      await walletDelete(ctx, id)
 
       // ASSERT
-      const deletedItem = await walletFindUnique(db, id)
+      const deletedItem = await walletFindUnique(ctx, id)
       expect(deletedItem).toBeNull()
     })
 
@@ -39,18 +38,18 @@ describe('wallet-delete', () => {
       // ARRANGE
       expect.assertions(2)
       // We create the first wallet so that will be the default. The second is the one that will be deleted.
-      const first = await walletCreate(db, testWalletCreateInput())
-      await accountCreate(db, testAccountCreateInput({ walletId: first }))
+      const first = await walletCreate(ctx, testWalletCreateInput())
+      await accountCreate(ctx, testAccountCreateInput({ walletId: first }))
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
-      const accountId = await accountCreate(db, testAccountCreateInput({ walletId: id }))
+      const id = await walletCreate(ctx, input)
+      const accountId = await accountCreate(ctx, testAccountCreateInput({ walletId: id }))
 
       // ACT
-      await walletDelete(db, id)
+      await walletDelete(ctx, id)
 
       // ASSERT
-      const deletedWallet = await walletFindUnique(db, id)
-      const deletedAccount = await accountFindUnique(db, accountId)
+      const deletedWallet = await walletFindUnique(ctx, id)
+      const deletedAccount = await accountFindUnique(ctx, accountId)
       expect(deletedWallet).toBeNull()
       expect(deletedAccount).toBeNull()
     })
@@ -69,11 +68,11 @@ describe('wallet-delete', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
-      await accountCreate(db, testAccountCreateInput({ walletId: id }))
+      const id = await walletCreate(ctx, input)
+      await accountCreate(ctx, testAccountCreateInput({ walletId: id }))
 
       // ACT & ASSERT
-      await expect(walletDelete(db, id)).rejects.toThrow(
+      await expect(walletDelete(ctx, id)).rejects.toThrow(
         'You cannot delete the active wallet. Please change wallets and try again.',
       )
     })
@@ -81,16 +80,16 @@ describe('wallet-delete', () => {
     it('should throw an error when deleting a wallet fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const first = await walletCreate(db, testWalletCreateInput())
-      await accountCreate(db, testAccountCreateInput({ walletId: first }))
-      const id = await walletCreate(db, testWalletCreateInput())
+      const first = await walletCreate(ctx, testWalletCreateInput())
+      await accountCreate(ctx, testAccountCreateInput({ walletId: first }))
+      const id = await walletCreate(ctx, testWalletCreateInput())
       // const id = 'test-id'
-      vi.spyOn(db.wallets, 'delete').mockImplementationOnce(
+      vi.spyOn(ctx.db.wallets, 'delete').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<void>,
       )
 
       // ACT & ASSERT
-      await expect(walletDelete(db, id)).rejects.toThrow(`Error deleting wallet with id ${id}`)
+      await expect(walletDelete(ctx, id)).rejects.toThrow(`Error deleting wallet with id ${id}`)
     })
   })
 })

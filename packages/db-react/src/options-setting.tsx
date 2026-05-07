@@ -1,5 +1,5 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
-import { db } from '@workspace/db/db'
+import type { AppContext } from '@workspace/db/app-context'
 import { settingFindMany } from '@workspace/db/setting/setting-find-many'
 import type { SettingFindManyInput } from '@workspace/db/setting/setting-find-many-input'
 import type { SettingKey } from '@workspace/db/setting/setting-key'
@@ -10,17 +10,17 @@ import { queryClient } from './query-client.tsx'
 export type SettingSetValueMutateOptions = MutateOptions<void, Error, string>
 
 export const optionsSetting = {
-  findMany: (input: SettingFindManyInput) =>
+  findMany: (ctx: AppContext, input: SettingFindManyInput) =>
     queryOptions({
-      queryFn: () => settingFindMany(db, input),
+      queryFn: () => settingFindMany(ctx, input),
       queryKey: ['settingFindMany', input],
     }),
-  update: (key: SettingKey, props: SettingSetValueMutateOptions = {}) =>
+  update: (ctx: AppContext, key: SettingKey, props: SettingSetValueMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: (value: string) => settingSetValue(db, key, value),
+      mutationFn: (value: string) => settingSetValue(ctx, key, value),
       onError: () => toastError('Error setting value'),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.findMany({}))
+        queryClient.invalidateQueries(optionsSetting.findMany(ctx, {}))
       },
       ...props,
     }),

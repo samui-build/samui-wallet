@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletCreateDetermineOrder } from '../src/wallet/wallet-create-determine-order.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-create-determine-order', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,10 +18,10 @@ describe('wallet-create-determine-order', () => {
       expect.assertions(2)
 
       // ACT
-      const result1 = await walletCreateDetermineOrder(db)
-      await walletCreate(db, testWalletCreateInput())
-      await walletCreate(db, testWalletCreateInput())
-      const result2 = await walletCreateDetermineOrder(db)
+      const result1 = await walletCreateDetermineOrder(ctx)
+      await walletCreate(ctx, testWalletCreateInput())
+      await walletCreate(ctx, testWalletCreateInput())
+      const result2 = await walletCreateDetermineOrder(ctx)
 
       // ASSERT
       expect(result1).toBe(0)
@@ -42,7 +41,7 @@ describe('wallet-create-determine-order', () => {
     it('should throw an error when finding the last wallet fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.wallets, 'orderBy').mockImplementation(
+      vi.spyOn(ctx.db.wallets, 'orderBy').mockImplementation(
         () =>
           ({
             last: () => Promise.reject(new Error('Test error')) as PromiseExtended<WalletInternal | undefined>,
@@ -50,7 +49,7 @@ describe('wallet-create-determine-order', () => {
       )
 
       // ACT & ASSERT
-      await expect(walletCreateDetermineOrder(db)).rejects.toThrow('Error finding last wallet')
+      await expect(walletCreateDetermineOrder(ctx)).rejects.toThrow('Error finding last wallet')
     })
   })
 })

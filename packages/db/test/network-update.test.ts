@@ -1,17 +1,16 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { networkCreate } from '../src/network/network-create.ts'
 import { networkFindUnique } from '../src/network/network-find-unique.ts'
 import { networkUpdate } from '../src/network/network-update.ts'
-import { createDbTest, randomName, testNetworkCreateInput } from './test-helpers.ts'
+import { createAppContextTest, randomName, testNetworkCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('network-update', () => {
   beforeEach(async () => {
-    await db.networks.clear()
+    await ctx.db.networks.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,13 +18,13 @@ describe('network-update', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testNetworkCreateInput({ color: 'green' })
-      const id = await networkCreate(db, input)
+      const id = await networkCreate(ctx, input)
 
       // ACT
-      await networkUpdate(db, id, { color: undefined })
+      await networkUpdate(ctx, id, { color: undefined })
 
       // ASSERT
-      const updatedItem = await networkFindUnique(db, id)
+      const updatedItem = await networkFindUnique(ctx, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.color).toBeUndefined()
     })
@@ -34,14 +33,14 @@ describe('network-update', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testNetworkCreateInput()
-      const id = await networkCreate(db, input)
+      const id = await networkCreate(ctx, input)
       const newName = randomName('newName')
 
       // ACT
-      await networkUpdate(db, id, { name: newName })
+      await networkUpdate(ctx, id, { name: newName })
 
       // ASSERT
-      const updatedItem = await networkFindUnique(db, id)
+      const updatedItem = await networkFindUnique(ctx, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.name).toBe(newName)
     })
@@ -60,21 +59,21 @@ describe('network-update', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.networks, 'update').mockImplementationOnce(
+      vi.spyOn(ctx.db.networks, 'update').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<number>,
       )
 
       // ACT & ASSERT
-      await expect(networkUpdate(db, id, {})).rejects.toThrow(`Error updating network with id ${id}`)
+      await expect(networkUpdate(ctx, id, {})).rejects.toThrow(`Error updating network with id ${id}`)
     })
 
     it('should throw an error when updating a network with a too short name', async () => {
       // ARRANGE
       expect.assertions(1)
-      const id = await networkCreate(db, testNetworkCreateInput())
+      const id = await networkCreate(ctx, testNetworkCreateInput())
 
       // ACT & ASSERT
-      await expect(networkUpdate(db, id, { name: '' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkUpdate(ctx, id, { name: '' })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -93,10 +92,10 @@ describe('network-update', () => {
     it('should throw an error when updating a network with a too long name', async () => {
       // ARRANGE
       expect.assertions(1)
-      const id = await networkCreate(db, testNetworkCreateInput())
+      const id = await networkCreate(ctx, testNetworkCreateInput())
 
       // ACT & ASSERT
-      await expect(networkUpdate(db, id, { name: 'a'.repeat(21) })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkUpdate(ctx, id, { name: 'a'.repeat(21) })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -115,10 +114,10 @@ describe('network-update', () => {
     it('should throw an error when updating a network with name with only spaces', async () => {
       // ARRANGE
       expect.assertions(1)
-      const id = await networkCreate(db, testNetworkCreateInput())
+      const id = await networkCreate(ctx, testNetworkCreateInput())
 
       // ACT & ASSERT
-      await expect(networkUpdate(db, id, { name: ' ' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkUpdate(ctx, id, { name: ' ' })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",

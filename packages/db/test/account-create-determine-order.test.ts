@@ -1,35 +1,34 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountCreateDetermineOrder } from '../src/account/account-create-determine-order.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('account-create-determine-order', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-    await db.settings.clear()
-    await db.wallets.clear()
+    await ctx.db.accounts.clear()
+    await ctx.db.settings.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
     it('should determine the next account order for a wallet', async () => {
       // ARRANGE
       expect.assertions(3)
-      const walletId1 = await walletCreate(db, testWalletCreateInput())
-      const walletId2 = await walletCreate(db, testWalletCreateInput())
+      const walletId1 = await walletCreate(ctx, testWalletCreateInput())
+      const walletId2 = await walletCreate(ctx, testWalletCreateInput())
 
       // ACT
-      const result1 = await accountCreateDetermineOrder(db, walletId1)
-      await accountCreate(db, testAccountCreateInput({ walletId: walletId1 }))
-      await accountCreate(db, testAccountCreateInput({ walletId: walletId1 }))
-      await accountCreate(db, testAccountCreateInput({ walletId: walletId2 }))
-      const result2 = await accountCreateDetermineOrder(db, walletId1)
-      const result3 = await accountCreateDetermineOrder(db, walletId2)
+      const result1 = await accountCreateDetermineOrder(ctx, walletId1)
+      await accountCreate(ctx, testAccountCreateInput({ walletId: walletId1 }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: walletId1 }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: walletId2 }))
+      const result2 = await accountCreateDetermineOrder(ctx, walletId1)
+      const result3 = await accountCreateDetermineOrder(ctx, walletId2)
 
       // ASSERT
       expect(result1).toBe(0)
@@ -50,7 +49,7 @@ describe('account-create-determine-order', () => {
     it('should throw an error when finding the last account fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.accounts, 'orderBy').mockImplementation(
+      vi.spyOn(ctx.db.accounts, 'orderBy').mockImplementation(
         () =>
           ({
             and: () => ({
@@ -60,7 +59,7 @@ describe('account-create-determine-order', () => {
       )
 
       // ACT & ASSERT
-      await expect(accountCreateDetermineOrder(db, 'wallet-id')).rejects.toThrow('Error finding last account')
+      await expect(accountCreateDetermineOrder(ctx, 'wallet-id')).rejects.toThrow('Error finding last account')
     })
   })
 })

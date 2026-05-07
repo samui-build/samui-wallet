@@ -1,6 +1,7 @@
 import { accountCreate } from '@workspace/db/account/account-create'
 import type { AccountCreateInput } from '@workspace/db/account/account-create-input'
 import type { AccountUpdateInput } from '@workspace/db/account/account-update-input'
+import type { AppContext } from '@workspace/db/app-context'
 import { bookmarkAccountCreate } from '@workspace/db/bookmark-account/bookmark-account-create'
 import type { BookmarkAccountCreateInput } from '@workspace/db/bookmark-account/bookmark-account-create-input'
 import { bookmarkAccountUpdate } from '@workspace/db/bookmark-account/bookmark-account-update'
@@ -9,7 +10,6 @@ import { bookmarkTransactionCreate } from '@workspace/db/bookmark-transaction/bo
 import type { BookmarkTransactionCreateInput } from '@workspace/db/bookmark-transaction/bookmark-transaction-create-input'
 import { bookmarkTransactionUpdate } from '@workspace/db/bookmark-transaction/bookmark-transaction-update'
 import type { BookmarkTransactionUpdateInput } from '@workspace/db/bookmark-transaction/bookmark-transaction-update-input'
-import { db } from '@workspace/db/db'
 import type { DbRecord, DbTableMetadata, DbTableName } from '@workspace/db/db-table-metadata'
 import { getDbTableMetadata, getDbTableRecord, getDbTableRecords } from '@workspace/db/db-table-metadata'
 import { networkCreate } from '@workspace/db/network/network-create'
@@ -26,14 +26,14 @@ import { walletUpdate } from '@workspace/db/wallet/wallet-update'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
 
 export interface DevDbTableConfig extends DbTableMetadata {
-  create: (input: Record<string, unknown>) => Promise<unknown>
+  create: (ctx: AppContext, input: Record<string, unknown>) => Promise<unknown>
   createFields?: string[]
   defaultValues?: Record<string, unknown>
   detailFields?: string[]
   label: string
   listFields: string[]
   titleField: string
-  update: (id: string, input: Record<string, unknown>) => Promise<unknown>
+  update: (ctx: AppContext, id: string, input: Record<string, unknown>) => Promise<unknown>
   updateFields?: string[]
 }
 
@@ -46,7 +46,7 @@ const walletTableMetadata = getRequiredDbTableMetadata('wallets')
 
 export const devDbTableConfigs: DevDbTableConfig[] = [
   {
-    create: (input) => accountCreate(db, input as AccountCreateInput),
+    create: (ctx, input) => accountCreate(ctx, input as AccountCreateInput),
     createFields: ['derivationIndex', 'name', 'publicKey', 'secretKey', 'type', 'walletId'],
     createSchema: accountTableMetadata.createSchema,
     defaultValues: {
@@ -63,8 +63,8 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: accountTableMetadata.name,
     recordSchema: accountTableMetadata.recordSchema,
     titleField: 'name',
-    update: async (id, input) =>
-      db.accounts.update(id, {
+    update: async (ctx, id, input) =>
+      ctx.db.accounts.update(id, {
         ...parseStrict(accountTableMetadata.updateSchema.parse(input as AccountUpdateInput)),
         updatedAt: new Date(),
       }),
@@ -72,7 +72,7 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     updateSchema: accountTableMetadata.updateSchema,
   },
   {
-    create: (input) => bookmarkAccountCreate(db, input as BookmarkAccountCreateInput),
+    create: (ctx, input) => bookmarkAccountCreate(ctx, input as BookmarkAccountCreateInput),
     createFields: ['address', 'label'],
     createSchema: bookmarkAccountTableMetadata.createSchema,
     defaultValues: {
@@ -85,12 +85,12 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: bookmarkAccountTableMetadata.name,
     recordSchema: bookmarkAccountTableMetadata.recordSchema,
     titleField: 'label',
-    update: (id, input) => bookmarkAccountUpdate(db, id, input as BookmarkAccountUpdateInput),
+    update: (ctx, id, input) => bookmarkAccountUpdate(ctx, id, input as BookmarkAccountUpdateInput),
     updateFields: ['label'],
     updateSchema: bookmarkAccountTableMetadata.updateSchema,
   },
   {
-    create: (input) => bookmarkTransactionCreate(db, input as BookmarkTransactionCreateInput),
+    create: (ctx, input) => bookmarkTransactionCreate(ctx, input as BookmarkTransactionCreateInput),
     createFields: ['label', 'signature'],
     createSchema: bookmarkTransactionTableMetadata.createSchema,
     defaultValues: {
@@ -103,12 +103,12 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: bookmarkTransactionTableMetadata.name,
     recordSchema: bookmarkTransactionTableMetadata.recordSchema,
     titleField: 'label',
-    update: (id, input) => bookmarkTransactionUpdate(db, id, input as BookmarkTransactionUpdateInput),
+    update: (ctx, id, input) => bookmarkTransactionUpdate(ctx, id, input as BookmarkTransactionUpdateInput),
     updateFields: ['label'],
     updateSchema: bookmarkTransactionTableMetadata.updateSchema,
   },
   {
-    create: (input) => networkCreate(db, input as NetworkCreateInput),
+    create: (ctx, input) => networkCreate(ctx, input as NetworkCreateInput),
     createFields: ['endpoint', 'endpointSubscriptions', 'name', 'type'],
     createSchema: networkTableMetadata.createSchema,
     defaultValues: {
@@ -123,14 +123,14 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: networkTableMetadata.name,
     recordSchema: networkTableMetadata.recordSchema,
     titleField: 'name',
-    update: (id, input) => networkUpdate(db, id, input as NetworkUpdateInput),
+    update: (ctx, id, input) => networkUpdate(ctx, id, input as NetworkUpdateInput),
     updateFields: ['color', 'endpoint', 'endpointSubscriptions', 'name'],
     updateSchema: networkTableMetadata.updateSchema,
   },
   {
-    create: async (input) => {
+    create: async (ctx, input) => {
       const parsedInput = settingTableMetadata.createSchema.parse(input) as { key: SettingKey; value: string }
-      await settingSetValue(db, parsedInput['key'], parsedInput['value'])
+      await settingSetValue(ctx, parsedInput['key'], parsedInput['value'])
     },
     createFields: ['key', 'value'],
     createSchema: settingTableMetadata.createSchema,
@@ -144,19 +144,19 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: settingTableMetadata.name,
     recordSchema: settingTableMetadata.recordSchema,
     titleField: 'key',
-    update: async (id, input) => {
-      const item = await db.settings.get(id)
+    update: async (ctx, id, input) => {
+      const item = await ctx.db.settings.get(id)
       const parsedInput = settingTableMetadata.updateSchema.parse(input) as { value?: string }
       if (!item) {
         throw new Error(`Setting not found: ${id}`)
       }
-      await settingSetValue(db, item.key as SettingKey, parsedInput['value'] ?? item.value)
+      await settingSetValue(ctx, item.key as SettingKey, parsedInput['value'] ?? item.value)
     },
     updateFields: ['value'],
     updateSchema: settingTableMetadata.updateSchema,
   },
   {
-    create: (input) => walletCreate(db, input as WalletCreateInput),
+    create: (ctx, input) => walletCreate(ctx, input as WalletCreateInput),
     createFields: ['color', 'derivationPath', 'description', 'mnemonic', 'name', 'secret'],
     createSchema: walletTableMetadata.createSchema,
     defaultValues: {
@@ -172,7 +172,7 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
     name: walletTableMetadata.name,
     recordSchema: walletTableMetadata.recordSchema,
     titleField: 'name',
-    update: (id, input) => walletUpdate(db, id, input as WalletUpdateInput),
+    update: (ctx, id, input) => walletUpdate(ctx, id, input as WalletUpdateInput),
     updateFields: ['name', 'description', 'order'],
     updateSchema: walletTableMetadata.updateSchema,
   },
@@ -182,12 +182,16 @@ export function getDevDbTableConfig(name: string | undefined): DevDbTableConfig 
   return devDbTableConfigs.find((config) => config.name === name)
 }
 
-export function getDevDbTableRecords(config: DevDbTableConfig): Promise<DbRecord[]> {
-  return getDbTableRecords(db, config.name)
+export function getDevDbTableRecords(ctx: AppContext, config: DevDbTableConfig): Promise<DbRecord[]> {
+  return getDbTableRecords(ctx, config.name)
 }
 
-export async function getDevDbTableRecord(config: DevDbTableConfig, id: string): Promise<DbRecord | undefined> {
-  return getDbTableRecord(db, config.name, id)
+export async function getDevDbTableRecord(
+  ctx: AppContext,
+  config: DevDbTableConfig,
+  id: string,
+): Promise<DbRecord | undefined> {
+  return getDbTableRecord(ctx, config.name, id)
 }
 
 function getRequiredDbTableMetadata(name: DbTableName) {

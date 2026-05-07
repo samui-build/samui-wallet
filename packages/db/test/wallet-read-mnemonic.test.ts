@@ -3,13 +3,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
 import { walletReadMnemonic } from '../src/wallet/wallet-read-mnemonic.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-read-mnemonic', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -17,10 +17,10 @@ describe('wallet-read-mnemonic', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT
-      const result = await walletReadMnemonic(db, id)
+      const result = await walletReadMnemonic(ctx, id)
 
       // ASSERT
       expect(result).toBe(input.mnemonic)
@@ -42,14 +42,14 @@ describe('wallet-read-mnemonic', () => {
       const id = 'non-existent-id'
 
       // ACT & ASSERT
-      await expect(walletReadMnemonic(db, id)).rejects.toThrow(`Wallet with id ${id} not found`)
+      await expect(walletReadMnemonic(ctx, id)).rejects.toThrow(`Wallet with id ${id} not found`)
     })
 
     it('should throw an error when reading the mnemonic fails', async () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.wallets, 'where').mockImplementationOnce(
+      vi.spyOn(ctx.db.wallets, 'where').mockImplementationOnce(
         () =>
           ({
             equals: () => ({
@@ -61,7 +61,7 @@ describe('wallet-read-mnemonic', () => {
       )
 
       // ACT & ASSERT
-      await expect(walletReadMnemonic(db, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
+      await expect(walletReadMnemonic(ctx, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
     })
   })
 })

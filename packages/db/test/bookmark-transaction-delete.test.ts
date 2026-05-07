@@ -1,17 +1,16 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionDelete } from '../src/bookmark-transaction/bookmark-transaction-delete.ts'
 import { bookmarkTransactionFindBySignature } from '../src/bookmark-transaction/bookmark-transaction-find-by-signature.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-delete', () => {
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
+    await ctx.db.bookmarkTransactions.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,13 +18,13 @@ describe('bookmark-transaction-delete', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkTransactionCreateInput()
-      const id = await bookmarkTransactionCreate(db, input)
+      const id = await bookmarkTransactionCreate(ctx, input)
 
       // ACT
-      await bookmarkTransactionDelete(db, id)
+      await bookmarkTransactionDelete(ctx, id)
 
       // ASSERT
-      const deletedItem = await bookmarkTransactionFindBySignature(db, input.signature)
+      const deletedItem = await bookmarkTransactionFindBySignature(ctx, input.signature)
       expect(deletedItem).toBeNull()
     })
   })
@@ -43,12 +42,12 @@ describe('bookmark-transaction-delete', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.bookmarkTransactions, 'delete').mockImplementationOnce(
+      vi.spyOn(ctx.db.bookmarkTransactions, 'delete').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<void>,
       )
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionDelete(db, id)).rejects.toThrow(
+      await expect(bookmarkTransactionDelete(ctx, id)).rejects.toThrow(
         `Error deleting bookmark transaction with id ${id}`,
       )
     })

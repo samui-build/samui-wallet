@@ -1,4 +1,5 @@
 import type { Account } from '@workspace/db/account/account'
+import type { AppContext } from '@workspace/db/app-context'
 import type { Network } from '@workspace/db/network/network'
 import type { Setting } from '@workspace/db/setting/setting'
 import type { Wallet } from '@workspace/db/wallet/wallet'
@@ -16,12 +17,12 @@ export interface RootLoaderData {
   wallets: Wallet[]
 }
 
-export async function rootLoader() {
+export async function rootLoader(ctx: AppContext) {
   const [accounts, networks, settings, wallets] = await Promise.all([
-    getOrFetchQuery(queryClient, optionsAccount.findMany({})),
-    getOrFetchQuery(queryClient, optionsNetwork.findMany({})),
-    getOrFetchQuery(queryClient, optionsSetting.findMany({})),
-    getOrFetchQuery(queryClient, optionsWallet.findMany({})),
+    getOrFetchQuery(queryClient, optionsAccount.findMany(ctx, {})),
+    getOrFetchQuery(queryClient, optionsNetwork.findMany(ctx, {})),
+    getOrFetchQuery(queryClient, optionsSetting.findMany(ctx, {})),
+    getOrFetchQuery(queryClient, optionsWallet.findMany(ctx, {})),
   ])
 
   return {

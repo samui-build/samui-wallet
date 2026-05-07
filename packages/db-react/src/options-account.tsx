@@ -8,7 +8,7 @@ import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-
 import { accountSetActive } from '@workspace/db/account/account-set-active'
 import { accountUpdateOrder } from '@workspace/db/account/account-update-order'
 import type { AccountUpdateOrderInput } from '@workspace/db/account/account-update-order-input'
-import { db } from '@workspace/db/db'
+import type { AppContext } from '@workspace/db/app-context'
 import { optionsSetting } from './options-setting.tsx'
 import { queryClient } from './query-client.tsx'
 
@@ -19,46 +19,46 @@ export type AccountSetActiveMutateOptions = MutateOptions<void, Error, { id: str
 export type AccountUpdateOrderMutateOptions = MutateOptions<void, Error, { input: AccountUpdateOrderInput }>
 
 export const optionsAccount = {
-  create: (props: AccountCreateMutateOptions = {}) =>
+  create: (ctx: AppContext, props: AccountCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(db, input),
+      mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(ctx, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.findMany({}))
-        queryClient.invalidateQueries(optionsAccount.findMany({}))
+        queryClient.invalidateQueries(optionsSetting.findMany(ctx, {}))
+        queryClient.invalidateQueries(optionsAccount.findMany(ctx, {}))
       },
       ...props,
     }),
-  delete: (props: AccountDeleteMutateOptions = {}) =>
+  delete: (ctx: AppContext, props: AccountDeleteMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => accountDelete(db, id),
+      mutationFn: ({ id }: { id: string }) => accountDelete(ctx, id),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsAccount.findMany({}))
+        queryClient.invalidateQueries(optionsAccount.findMany(ctx, {}))
       },
       ...props,
     }),
-  findMany: (input: AccountFindManyInput) =>
+  findMany: (ctx: AppContext, input: AccountFindManyInput) =>
     queryOptions({
-      queryFn: () => accountFindMany(db, input),
+      queryFn: () => accountFindMany(ctx, input),
       queryKey: ['accountFindMany', input],
     }),
-  readSecretKey: (props: AccountReadSecretKeyMutateOptions = {}) =>
+  readSecretKey: (ctx: AppContext, props: AccountReadSecretKeyMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => accountReadSecretKey(db, id),
+      mutationFn: ({ id }: { id: string }) => accountReadSecretKey(ctx, id),
       ...props,
     }),
-  setActive: (props: AccountSetActiveMutateOptions = {}) =>
+  setActive: (ctx: AppContext, props: AccountSetActiveMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => accountSetActive(db, id),
+      mutationFn: ({ id }: { id: string }) => accountSetActive(ctx, id),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.findMany({}))
+        queryClient.invalidateQueries(optionsSetting.findMany(ctx, {}))
       },
       ...props,
     }),
-  updateOrder: (props: AccountUpdateOrderMutateOptions = {}) =>
+  updateOrder: (ctx: AppContext, props: AccountUpdateOrderMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: AccountUpdateOrderInput }) => accountUpdateOrder(db, input),
+      mutationFn: ({ input }: { input: AccountUpdateOrderInput }) => accountUpdateOrder(ctx, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsAccount.findMany({}))
+        queryClient.invalidateQueries(optionsAccount.findMany(ctx, {}))
       },
       ...props,
     }),

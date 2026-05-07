@@ -2,13 +2,13 @@ import { signature } from '@solana/kit'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindBySignature } from '../src/bookmark-transaction/bookmark-transaction-find-by-signature.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-find-by-signature', () => {
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
+    await ctx.db.bookmarkTransactions.clear()
   })
 
   describe('expected behavior', () => {
@@ -16,10 +16,10 @@ describe('bookmark-transaction-find-by-signature', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testBookmarkTransactionCreateInput()
-      await bookmarkTransactionCreate(db, input)
+      await bookmarkTransactionCreate(ctx, input)
 
       // ACT
-      const item = await bookmarkTransactionFindBySignature(db, input.signature)
+      const item = await bookmarkTransactionFindBySignature(ctx, input.signature)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -34,7 +34,7 @@ describe('bookmark-transaction-find-by-signature', () => {
       )
 
       // ACT
-      const item = await bookmarkTransactionFindBySignature(db, nonExistentSignature)
+      const item = await bookmarkTransactionFindBySignature(ctx, nonExistentSignature)
 
       // ASSERT
       expect(item).toBeNull()
@@ -56,10 +56,10 @@ describe('bookmark-transaction-find-by-signature', () => {
         '67QRhaJuZeRqoSiifT6yKfuQTUKfvu2exuppyNyT7r2sQCXfBBpr96mdF5TurVDKdWsZ48nx9u5r9uJ87SG9PfvU',
       )
       expect.assertions(1)
-      vi.spyOn(db.bookmarkTransactions, 'get').mockRejectedValue(new Error('Test error'))
+      vi.spyOn(ctx.db.bookmarkTransactions, 'get').mockRejectedValue(new Error('Test error'))
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionFindBySignature(db, searchSignature)).rejects.toThrow(
+      await expect(bookmarkTransactionFindBySignature(ctx, searchSignature)).rejects.toThrow(
         `Error finding bookmark transaction with signature ${searchSignature}`,
       )
     })

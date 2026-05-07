@@ -1,9 +1,9 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 
-export async function bookmarkTransactionDelete(db: Database, id: string): Promise<void> {
-  return db.transaction('rw', db.bookmarkTransactions, async () => {
-    return tryCatchOrThrow(db.bookmarkTransactions.delete(id), `Error deleting bookmark transaction with id ${id}`)
+export async function bookmarkTransactionDelete(ctx: AppContext, id: string): Promise<void> {
+  return ctx.db.transaction('rw', ctx.db.bookmarkTransactions, async () => {
+    return tryCatchOrThrow(ctx.db.bookmarkTransactions.delete(id), `Error deleting bookmark transaction with id ${id}`)
   })
 }

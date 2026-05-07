@@ -4,16 +4,16 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountUpdateOrder } from '../src/account/account-update-order.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('accountUpdateOrder', () => {
   let walletId: string
   beforeEach(async () => {
-    await db.wallets.clear()
-    await db.accounts.clear()
-    walletId = await walletCreate(db, testWalletCreateInput())
+    await ctx.db.wallets.clear()
+    await ctx.db.accounts.clear()
+    walletId = await walletCreate(ctx, testWalletCreateInput())
   })
 
   describe('expected behavior', () => {
@@ -21,12 +21,12 @@ describe('accountUpdateOrder', () => {
 
     beforeEach(async () => {
       await Promise.all([
-        accountCreate(db, testAccountCreateInput({ name: 'Account 1', walletId })),
-        accountCreate(db, testAccountCreateInput({ name: 'Account 2', walletId })),
-        accountCreate(db, testAccountCreateInput({ name: 'Account 3', walletId })),
-        accountCreate(db, testAccountCreateInput({ name: 'Account 4', walletId })),
+        accountCreate(ctx, testAccountCreateInput({ name: 'Account 1', walletId })),
+        accountCreate(ctx, testAccountCreateInput({ name: 'Account 2', walletId })),
+        accountCreate(ctx, testAccountCreateInput({ name: 'Account 3', walletId })),
+        accountCreate(ctx, testAccountCreateInput({ name: 'Account 4', walletId })),
       ])
-      const accounts = await accountFindMany(db)
+      const accounts = await accountFindMany(ctx)
       account1 = accounts.find((a) => a.name === 'Account 1') as Account
       account2 = accounts.find((a) => a.name === 'Account 2') as Account
       account3 = accounts.find((a) => a.name === 'Account 3') as Account
@@ -38,8 +38,8 @@ describe('accountUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await accountUpdateOrder(db, { id: account4.id, order: 1 })
-      const result = await accountFindMany(db)
+      await accountUpdateOrder(ctx, { id: account4.id, order: 1 })
+      const result = await accountFindMany(ctx)
 
       // ASSERT
       expect(result.find((a) => a.id === account1.id)?.order).toBe(0)
@@ -53,8 +53,8 @@ describe('accountUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await accountUpdateOrder(db, { id: account1.id, order: 3 })
-      const result = await accountFindMany(db)
+      await accountUpdateOrder(ctx, { id: account1.id, order: 3 })
+      const result = await accountFindMany(ctx)
 
       // ASSERT
       expect(result.find((a) => a.id === account2.id)?.order).toBe(0)
@@ -68,8 +68,8 @@ describe('accountUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await accountUpdateOrder(db, { id: account2.id, order: 1 })
-      const result = await accountFindMany(db)
+      await accountUpdateOrder(ctx, { id: account2.id, order: 1 })
+      const result = await accountFindMany(ctx)
 
       // ASSERT
       expect(result.find((a) => a.id === account1.id)?.order).toBe(0)
@@ -83,8 +83,8 @@ describe('accountUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await accountUpdateOrder(db, { id: account3.id, order: -100 })
-      const result = await accountFindMany(db)
+      await accountUpdateOrder(ctx, { id: account3.id, order: -100 })
+      const result = await accountFindMany(ctx)
 
       // ASSERT
       expect(result.find((a) => a.id === account3.id)?.order).toBe(0)
@@ -98,8 +98,8 @@ describe('accountUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await accountUpdateOrder(db, { id: account2.id, order: 100 })
-      const result = await accountFindMany(db)
+      await accountUpdateOrder(ctx, { id: account2.id, order: 100 })
+      const result = await accountFindMany(ctx)
 
       // ASSERT
       expect(result.find((a) => a.id === account1.id)?.order).toBe(0)
@@ -123,7 +123,7 @@ describe('accountUpdateOrder', () => {
       expect.assertions(1)
 
       // ACT & ASSERT
-      await expect(accountUpdateOrder(db, { id: 'non-existent', order: 0 })).rejects.toThrow(
+      await expect(accountUpdateOrder(ctx, { id: 'non-existent', order: 0 })).rejects.toThrow(
         'Account with id non-existent not found',
       )
     })

@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAppContext } from '@workspace/db-react/use-app-context'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { devDbTableRecordsQueryKey } from './dev-db-query-keys.ts'
 import type { DevDbTableConfig } from './dev-db-table-config.ts'
 
 export function useDevDbRecordCreate(config: DevDbTableConfig | undefined) {
+  const ctx = useAppContext()
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (input: Record<string, unknown>) => {
@@ -12,7 +14,7 @@ export function useDevDbRecordCreate(config: DevDbTableConfig | undefined) {
         throw new Error('Table not found')
       }
 
-      return config.create(input)
+      return config.create(ctx, input)
     },
     onError: (error) =>
       toastError(error instanceof Error ? error.message : `Error creating ${config?.label ?? 'record'}`),

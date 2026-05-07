@@ -2,13 +2,13 @@ import type { z } from 'zod'
 import { accountCreateSchema } from './account/account-create-schema.ts'
 import { accountInternalSchema } from './account/account-internal-schema.ts'
 import { accountUpdateSchema } from './account/account-update-schema.ts'
+import type { AppContext } from './app-context.ts'
 import { bookmarkAccountCreateSchema } from './bookmark-account/bookmark-account-create-schema.ts'
 import { bookmarkAccountSchema } from './bookmark-account/bookmark-account-schema.ts'
 import { bookmarkAccountUpdateSchema } from './bookmark-account/bookmark-account-update-schema.ts'
 import { bookmarkTransactionCreateSchema } from './bookmark-transaction/bookmark-transaction-create-schema.ts'
 import { bookmarkTransactionSchema } from './bookmark-transaction/bookmark-transaction-schema.ts'
 import { bookmarkTransactionUpdateSchema } from './bookmark-transaction/bookmark-transaction-update-schema.ts'
-import type { Database } from './database.ts'
 import { networkCreateSchema } from './network/network-create-schema.ts'
 import { networkSchema } from './network/network-schema.ts'
 import { networkUpdateSchema } from './network/network-update-schema.ts'
@@ -91,10 +91,10 @@ export function getDbTableMetadata(name: string | undefined): DbTableMetadata | 
   return dbTableMetadata.find((metadata) => metadata.name === name)
 }
 
-export async function getDbTableRecord(db: Database, table: DbTableName, id: string): Promise<DbRecord | undefined> {
-  return (await db.table(table).get(id)) as DbRecord | undefined
+export async function getDbTableRecord(ctx: AppContext, table: DbTableName, id: string): Promise<DbRecord | undefined> {
+  return (await ctx.db.table(table).get(id)) as DbRecord | undefined
 }
 
-export function getDbTableRecords(db: Database, table: DbTableName): Promise<DbRecord[]> {
-  return db.table(table).toArray() as Promise<DbRecord[]>
+export function getDbTableRecords(ctx: AppContext, table: DbTableName): Promise<DbRecord[]> {
+  return ctx.db.table(table).toArray() as Promise<DbRecord[]>
 }

@@ -1,5 +1,5 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
-import { db } from '@workspace/db/db'
+import type { AppContext } from '@workspace/db/app-context'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { walletDelete } from '@workspace/db/wallet/wallet-delete'
@@ -20,46 +20,46 @@ export type WalletUpdateMutateOptions = MutateOptions<number, Error, { id: strin
 export type WalletUpdateOrderMutateOptions = MutateOptions<void, Error, { input: WalletUpdateOrderInput }>
 
 export const optionsWallet = {
-  create: (props: WalletCreateMutateOptions = {}) =>
+  create: (ctx: AppContext, props: WalletCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: WalletCreateInput }) => walletCreate(db, input),
+      mutationFn: ({ input }: { input: WalletCreateInput }) => walletCreate(ctx, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsSetting.findMany({}))
-        queryClient.invalidateQueries(optionsWallet.findMany({}))
+        queryClient.invalidateQueries(optionsSetting.findMany(ctx, {}))
+        queryClient.invalidateQueries(optionsWallet.findMany(ctx, {}))
       },
       ...props,
     }),
-  delete: (props: WalletDeleteMutateOptions = {}) =>
+  delete: (ctx: AppContext, props: WalletDeleteMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => walletDelete(db, id),
+      mutationFn: ({ id }: { id: string }) => walletDelete(ctx, id),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsWallet.findMany({}))
+        queryClient.invalidateQueries(optionsWallet.findMany(ctx, {}))
       },
       ...props,
     }),
-  findMany: (input: WalletFindManyInput) =>
+  findMany: (ctx: AppContext, input: WalletFindManyInput) =>
     queryOptions({
-      queryFn: () => walletFindMany(db, input),
+      queryFn: () => walletFindMany(ctx, input),
       queryKey: ['walletFindMany', input],
     }),
-  readMnemonic: (props: WalletReadMnemonicMutateOptions = {}) =>
+  readMnemonic: (ctx: AppContext, props: WalletReadMnemonicMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => walletReadMnemonic(db, id),
+      mutationFn: ({ id }: { id: string }) => walletReadMnemonic(ctx, id),
       ...props,
     }),
-  update: (props: WalletUpdateMutateOptions = {}) =>
+  update: (ctx: AppContext, props: WalletUpdateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id, input }: { id: string; input: WalletUpdateInput }) => walletUpdate(db, id, input),
+      mutationFn: ({ id, input }: { id: string; input: WalletUpdateInput }) => walletUpdate(ctx, id, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsWallet.findMany({}))
+        queryClient.invalidateQueries(optionsWallet.findMany(ctx, {}))
       },
       ...props,
     }),
-  updateOrder: (props: WalletUpdateOrderMutateOptions = {}) =>
+  updateOrder: (ctx: AppContext, props: WalletUpdateOrderMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: WalletUpdateOrderInput }) => walletUpdateOrder(db, input),
+      mutationFn: ({ input }: { input: WalletUpdateOrderInput }) => walletUpdateOrder(ctx, input),
       onSuccess: () => {
-        queryClient.invalidateQueries(optionsWallet.findMany({}))
+        queryClient.invalidateQueries(optionsWallet.findMany(ctx, {}))
       },
       ...props,
     }),

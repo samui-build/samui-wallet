@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Setting } from '../src/setting/setting.ts'
 import { settingFindMany } from '../src/setting/setting-find-many.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createDbTest, testSettingSetInput } from './test-helpers.ts'
+import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('setting-find-many', () => {
   beforeEach(async () => {
-    await db.settings.clear()
+    await ctx.db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,11 +17,11 @@ describe('setting-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const [key, value] = testSettingSetInput()
-      await settingSetValue(db, key, value)
-      await settingSetValue(db, 'apiEndpoint', 'https://api.samui.build')
+      await settingSetValue(ctx, key, value)
+      await settingSetValue(ctx, 'apiEndpoint', 'https://api.samui.build')
 
       // ACT
-      const result = await settingFindMany(db, { key })
+      const result = await settingFindMany(ctx, { key })
 
       // ASSERT
       expect(result).toHaveLength(1)
@@ -33,11 +32,11 @@ describe('setting-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const [key, value] = testSettingSetInput()
-      await settingSetValue(db, key, value)
-      await settingSetValue(db, 'apiEndpoint', 'https://api.samui.build')
+      await settingSetValue(ctx, key, value)
+      await settingSetValue(ctx, 'apiEndpoint', 'https://api.samui.build')
 
       // ACT
-      const result = await settingFindMany(db, { value })
+      const result = await settingFindMany(ctx, { value })
 
       // ASSERT
       expect(result).toHaveLength(1)
@@ -48,11 +47,11 @@ describe('setting-find-many', () => {
       // ARRANGE
       expect.assertions(2)
       const [key, value] = testSettingSetInput()
-      await settingSetValue(db, key, value)
-      await settingSetValue(db, 'apiEndpoint', 'https://api.samui.build')
+      await settingSetValue(ctx, key, value)
+      await settingSetValue(ctx, 'apiEndpoint', 'https://api.samui.build')
 
       // ACT
-      const result = await settingFindMany(db, { key, value })
+      const result = await settingFindMany(ctx, { key, value })
 
       // ASSERT
       expect(result).toHaveLength(1)
@@ -72,7 +71,7 @@ describe('setting-find-many', () => {
     it('should throw an error when finding settings fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.settings, 'orderBy').mockImplementation(
+      vi.spyOn(ctx.db.settings, 'orderBy').mockImplementation(
         () =>
           ({
             filter: () => ({
@@ -82,7 +81,7 @@ describe('setting-find-many', () => {
       )
 
       // ACT & ASSERT
-      await expect(settingFindMany(db)).rejects.toThrow('Error finding settings')
+      await expect(settingFindMany(ctx)).rejects.toThrow('Error finding settings')
     })
   })
 })

@@ -1,17 +1,16 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
-import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('account-find-unique', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
+    await ctx.db.accounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,10 +18,10 @@ describe('account-find-unique', () => {
       // ARRANGE
       expect.assertions(3)
       const input = testAccountCreateInput({ walletId: randomId() })
-      const id = await accountCreate(db, input)
+      const id = await accountCreate(ctx, input)
 
       // ACT
-      const item = await accountFindUnique(db, id)
+      const item = await accountFindUnique(ctx, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -45,12 +44,12 @@ describe('account-find-unique', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.accounts, 'get').mockImplementationOnce(
+      vi.spyOn(ctx.db.accounts, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<undefined | Account>,
       )
 
       // ACT & ASSERT
-      await expect(accountFindUnique(db, id)).rejects.toThrow(`Error finding account with id ${id}`)
+      await expect(accountFindUnique(ctx, id)).rejects.toThrow(`Error finding account with id ${id}`)
     })
   })
 })

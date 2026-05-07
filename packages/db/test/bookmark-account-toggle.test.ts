@@ -2,13 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindMany } from '../src/bookmark-account/bookmark-account-find-many.ts'
 import { bookmarkAccountToggle } from '../src/bookmark-account/bookmark-account-toggle.ts'
-import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-account-toggle', () => {
   beforeEach(async () => {
-    await db.bookmarkAccounts.clear()
+    await ctx.db.bookmarkAccounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,10 +18,10 @@ describe('bookmark-account-toggle', () => {
       const input = testBookmarkAccountCreateInput()
 
       // ACT
-      const result = await bookmarkAccountToggle(db, input.address)
+      const result = await bookmarkAccountToggle(ctx, input.address)
 
       // ASSERT
-      const items = await bookmarkAccountFindMany(db, { address: input.address })
+      const items = await bookmarkAccountFindMany(ctx, { address: input.address })
       expect(items.map((i) => i.address)).toContain(input.address)
       expect(result).toBe('created')
     })
@@ -30,13 +30,13 @@ describe('bookmark-account-toggle', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testBookmarkAccountCreateInput()
-      await bookmarkAccountCreate(db, input)
+      await bookmarkAccountCreate(ctx, input)
 
       // ACT
-      const result = await bookmarkAccountToggle(db, input.address)
+      const result = await bookmarkAccountToggle(ctx, input.address)
 
       // ASSERT
-      const items = await bookmarkAccountFindMany(db, { address: input.address })
+      const items = await bookmarkAccountFindMany(ctx, { address: input.address })
       expect(items.map((i) => i.address)).not.toContain(input.address)
       expect(result).toBe('deleted')
     })
@@ -55,12 +55,12 @@ describe('bookmark-account-toggle', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkAccountCreateInput()
-      vi.spyOn(db.bookmarkAccounts, 'where').mockImplementationOnce(() => {
+      vi.spyOn(ctx.db.bookmarkAccounts, 'where').mockImplementationOnce(() => {
         throw new Error('Test error')
       })
 
       // ACT & ASSERT
-      await expect(bookmarkAccountToggle(db, input.address)).rejects.toThrow('Test error')
+      await expect(bookmarkAccountToggle(ctx, input.address)).rejects.toThrow('Test error')
     })
   })
 })

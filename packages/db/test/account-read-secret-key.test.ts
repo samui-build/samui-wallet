@@ -4,14 +4,14 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { accountReadSecretKey } from '../src/account/account-read-secret-key.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('account-read-secret-key', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-    await db.wallets.clear()
+    await ctx.db.accounts.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,12 +19,12 @@ describe('account-read-secret-key', () => {
       // ARRANGE
       expect.assertions(1)
       const walletInput = testWalletCreateInput()
-      const walletId = await walletCreate(db, walletInput)
+      const walletId = await walletCreate(ctx, walletInput)
       const accountInput = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
-      const id = await accountCreate(db, accountInput)
+      const id = await accountCreate(ctx, accountInput)
 
       // ACT
-      const result = await accountReadSecretKey(db, id)
+      const result = await accountReadSecretKey(ctx, id)
 
       // ASSERT
       expect(result).toBe(accountInput.secretKey)
@@ -46,26 +46,26 @@ describe('account-read-secret-key', () => {
       const id = 'non-existent-id'
 
       // ACT & ASSERT
-      await expect(accountReadSecretKey(db, id)).rejects.toThrow(`Account with id ${id} not found`)
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow(`Account with id ${id} not found`)
     })
 
     it('should throw an error if the account is of type Watched', async () => {
       // ARRANGE
       expect.assertions(1)
       const walletInput = testWalletCreateInput()
-      const walletId = await walletCreate(db, walletInput)
+      const walletId = await walletCreate(ctx, walletInput)
       const accountInput = testAccountCreateInput({ type: 'Watched', walletId })
-      const id = await accountCreate(db, accountInput)
+      const id = await accountCreate(ctx, accountInput)
 
       // ACT & ASSERT
-      await expect(accountReadSecretKey(db, id)).rejects.toThrow(`Account with id ${id} does not have a secret key`)
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow(`Account with id ${id} does not have a secret key`)
     })
 
     it('should throw an error when reading the secret key fails', async () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.accounts, 'where').mockImplementationOnce(
+      vi.spyOn(ctx.db.accounts, 'where').mockImplementationOnce(
         () =>
           ({
             equals: () => ({
@@ -77,7 +77,7 @@ describe('account-read-secret-key', () => {
       )
 
       // ACT & ASSERT
-      await expect(accountReadSecretKey(db, id)).rejects.toThrow(`Error finding account with id ${id}`)
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow(`Error finding account with id ${id}`)
     })
   })
 })

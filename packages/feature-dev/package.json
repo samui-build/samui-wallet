@@ -4,6 +4,7 @@
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
     "@workspace/db": "workspace:*",
+    "@workspace/db-react": "workspace:*",
     "@workspace/feature-explorer": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",

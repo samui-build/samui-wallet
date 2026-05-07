@@ -2,13 +2,13 @@ import { address } from '@solana/kit'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindByAddress } from '../src/bookmark-account/bookmark-account-find-by-address.ts'
-import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-account-find-by-address', () => {
   beforeEach(async () => {
-    await db.bookmarkAccounts.clear()
+    await ctx.db.bookmarkAccounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -16,10 +16,10 @@ describe('bookmark-account-find-by-address', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testBookmarkAccountCreateInput()
-      await bookmarkAccountCreate(db, input)
+      await bookmarkAccountCreate(ctx, input)
 
       // ACT
-      const item = await bookmarkAccountFindByAddress(db, input.address)
+      const item = await bookmarkAccountFindByAddress(ctx, input.address)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -32,7 +32,7 @@ describe('bookmark-account-find-by-address', () => {
       const nonExistentAddress = address('So11111111111111111111111111111111111111113')
 
       // ACT
-      const item = await bookmarkAccountFindByAddress(db, nonExistentAddress)
+      const item = await bookmarkAccountFindByAddress(ctx, nonExistentAddress)
 
       // ASSERT
       expect(item).toBeNull()
@@ -52,10 +52,10 @@ describe('bookmark-account-find-by-address', () => {
       // ARRANGE
       const searchAddress = address('So11111111111111111111111111111111111111112')
       expect.assertions(1)
-      vi.spyOn(db.bookmarkAccounts, 'get').mockRejectedValue(new Error('Test error'))
+      vi.spyOn(ctx.db.bookmarkAccounts, 'get').mockRejectedValue(new Error('Test error'))
 
       // ACT & ASSERT
-      await expect(bookmarkAccountFindByAddress(db, searchAddress)).rejects.toThrow(
+      await expect(bookmarkAccountFindByAddress(ctx, searchAddress)).rejects.toThrow(
         `Error finding bookmark account with address ${searchAddress}`,
       )
     })

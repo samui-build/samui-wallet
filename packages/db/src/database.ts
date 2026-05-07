@@ -36,7 +36,7 @@ export class Database extends Dexie {
     this.wallets.hook('reading', walletReadingHook)
 
     this.on('populate', async () => {
-      await populate(this)
+      await populate({ db: this })
     })
   }
 }

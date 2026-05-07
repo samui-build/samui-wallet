@@ -1,14 +1,14 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 import type { Wallet } from './wallet.ts'
 import type { WalletUpdateOrderInput } from './wallet-update-order-input.ts'
 import { walletUpdateOrderSchema } from './wallet-update-order-schema.ts'
 
-export async function walletUpdateOrder(db: Database, input: WalletUpdateOrderInput): Promise<void> {
+export async function walletUpdateOrder(ctx: AppContext, input: WalletUpdateOrderInput): Promise<void> {
   const { id, order } = walletUpdateOrderSchema.parse(input)
 
-  return db.transaction('rw', db.wallets, async () => {
-    const [wallet, walletCount] = await Promise.all([db.wallets.get(id), db.wallets.count()])
+  return ctx.db.transaction('rw', ctx.db.wallets, async () => {
+    const [wallet, walletCount] = await Promise.all([ctx.db.wallets.get(id), ctx.db.wallets.count()])
     if (!wallet) {
       throw new Error(`Wallet with id ${id} not found`)
     }
@@ -29,7 +29,7 @@ export async function walletUpdateOrder(db: Database, input: WalletUpdateOrderIn
     const lower = increment ? newOrder : oldOrder + 1
     const upper = increment ? oldOrder - 1 : newOrder
     await tryCatchOrThrow(
-      db.wallets
+      ctx.db.wallets
         .where('order')
         .between(lower, upper, true, true)
         .modify((wallet: Wallet) => {
@@ -39,6 +39,6 @@ export async function walletUpdateOrder(db: Database, input: WalletUpdateOrderIn
     )
 
     // Finally, update the moved wallet's order
-    await tryCatchOrThrow(db.wallets.update(id, { order: newOrder }), `Error moving wallet with id ${id}`)
+    await tryCatchOrThrow(ctx.db.wallets.update(id, { order: newOrder }), `Error moving wallet with id ${id}`)
   })
 }

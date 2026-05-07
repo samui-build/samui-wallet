@@ -4,13 +4,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BookmarkAccount } from '../src/bookmark-account/bookmark-account.ts'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindMany } from '../src/bookmark-account/bookmark-account-find-many.ts'
-import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-account-find-many', () => {
   beforeEach(async () => {
-    await db.bookmarkAccounts.clear()
+    await ctx.db.bookmarkAccounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -20,12 +20,12 @@ describe('bookmark-account-find-many', () => {
       const bookmark1 = testBookmarkAccountCreateInput()
       const bookmark2 = testBookmarkAccountCreateInput()
       const bookmark3 = testBookmarkAccountCreateInput()
-      await bookmarkAccountCreate(db, bookmark1)
-      await bookmarkAccountCreate(db, bookmark2)
-      await bookmarkAccountCreate(db, bookmark3)
+      await bookmarkAccountCreate(ctx, bookmark1)
+      await bookmarkAccountCreate(ctx, bookmark2)
+      await bookmarkAccountCreate(ctx, bookmark3)
 
       // ACT
-      const items = await bookmarkAccountFindMany(db, {})
+      const items = await bookmarkAccountFindMany(ctx, {})
 
       // ASSERT
       expect(items).toHaveLength(3)
@@ -40,12 +40,12 @@ describe('bookmark-account-find-many', () => {
       const bookmark1 = testBookmarkAccountCreateInput({ label: 'Trading Account' })
       const bookmark2 = testBookmarkAccountCreateInput({ label: 'Staking Account' })
       const bookmark3 = testBookmarkAccountCreateInput({ label: 'Savings' })
-      await bookmarkAccountCreate(db, bookmark1)
-      await bookmarkAccountCreate(db, bookmark2)
-      await bookmarkAccountCreate(db, bookmark3)
+      await bookmarkAccountCreate(ctx, bookmark1)
+      await bookmarkAccountCreate(ctx, bookmark2)
+      await bookmarkAccountCreate(ctx, bookmark3)
 
       // ACT
-      const items = await bookmarkAccountFindMany(db, { label: 'Account' })
+      const items = await bookmarkAccountFindMany(ctx, { label: 'Account' })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -57,11 +57,11 @@ describe('bookmark-account-find-many', () => {
       expect.assertions(1)
       const bookmark1 = testBookmarkAccountCreateInput({ label: 'Test Label' })
       const bookmark2 = testBookmarkAccountCreateInput({ label: undefined })
-      await bookmarkAccountCreate(db, bookmark1)
-      await bookmarkAccountCreate(db, bookmark2)
+      await bookmarkAccountCreate(ctx, bookmark1)
+      await bookmarkAccountCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkAccountFindMany(db, { label: 'Test' })
+      const items = await bookmarkAccountFindMany(ctx, { label: 'Test' })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -72,11 +72,11 @@ describe('bookmark-account-find-many', () => {
       expect.assertions(2)
       const bookmark1 = testBookmarkAccountCreateInput({ label: 'Account 1' })
       const bookmark2 = testBookmarkAccountCreateInput({ label: 'Account 2' })
-      const id1 = await bookmarkAccountCreate(db, bookmark1)
-      await bookmarkAccountCreate(db, bookmark2)
+      const id1 = await bookmarkAccountCreate(ctx, bookmark1)
+      await bookmarkAccountCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkAccountFindMany(db, { id: id1 })
+      const items = await bookmarkAccountFindMany(ctx, { id: id1 })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -94,11 +94,11 @@ describe('bookmark-account-find-many', () => {
         address: address('So11111111111111111111111111111111111111113'),
         label: 'Account 2',
       })
-      await bookmarkAccountCreate(db, bookmark1)
-      await bookmarkAccountCreate(db, bookmark2)
+      await bookmarkAccountCreate(ctx, bookmark1)
+      await bookmarkAccountCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkAccountFindMany(db, { address: bookmark1.address })
+      const items = await bookmarkAccountFindMany(ctx, { address: bookmark1.address })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -119,7 +119,7 @@ describe('bookmark-account-find-many', () => {
       // ARRANGE
       expect.assertions(1)
 
-      vi.spyOn(db.bookmarkAccounts, 'orderBy').mockImplementation(() => ({
+      vi.spyOn(ctx.db.bookmarkAccounts, 'orderBy').mockImplementation(() => ({
         filter: () => ({
           // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
           reverse: () => ({
@@ -129,7 +129,7 @@ describe('bookmark-account-find-many', () => {
       }))
 
       // ACT & ASSERT
-      await expect(bookmarkAccountFindMany(db, {})).rejects.toThrow('Error finding bookmark accounts')
+      await expect(bookmarkAccountFindMany(ctx, {})).rejects.toThrow('Error finding bookmark accounts')
     })
   })
 })

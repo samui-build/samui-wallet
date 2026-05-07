@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-find-unique', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,10 +17,10 @@ describe('wallet-find-unique', () => {
       // ARRANGE
       expect.assertions(3)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT
-      const item = await walletFindUnique(db, id)
+      const item = await walletFindUnique(ctx, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -44,12 +43,12 @@ describe('wallet-find-unique', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.wallets, 'get').mockImplementationOnce(
+      vi.spyOn(ctx.db.wallets, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet | undefined>,
       )
 
       // ACT & ASSERT
-      await expect(walletFindUnique(db, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
+      await expect(walletFindUnique(ctx, id)).rejects.toThrow(`Error finding wallet with id ${id}`)
     })
   })
 })

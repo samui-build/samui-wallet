@@ -1,19 +1,18 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
-import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('account-create', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-    await db.settings.clear()
+    await ctx.db.accounts.clear()
+    await ctx.db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -24,10 +23,10 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ walletId })
 
       // ACT
-      const result = await accountCreate(db, input)
+      const result = await accountCreate(ctx, input)
 
       // ASSERT
-      const item = await accountFindUnique(db, result)
+      const item = await accountFindUnique(ctx, result)
       expect(item?.name).toEqual(input.name)
       // @ts-expect-error secretKey does not exist on the type. Here we ensure it's sanitized.
       expect(item?.secretKey).toBeUndefined()
@@ -40,10 +39,10 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ walletId })
 
       // ACT
-      const result = await accountCreate(db, input)
+      const result = await accountCreate(ctx, input)
 
       // ASSERT
-      const item = await accountFindUnique(db, result)
+      const item = await accountFindUnique(ctx, result)
       expect(item?.derivationIndex).toBe(0)
     })
 
@@ -54,12 +53,12 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ walletId })
 
       // ACT
-      const activeAccountIdBefore = await settingFindUnique(db, 'activeAccountId')
-      const result = await accountCreate(db, input)
-      const activeAccountIdAfter = await settingFindUnique(db, 'activeAccountId')
+      const activeAccountIdBefore = await settingFindUnique(ctx, 'activeAccountId')
+      const result = await accountCreate(ctx, input)
+      const activeAccountIdAfter = await settingFindUnique(ctx, 'activeAccountId')
 
       // ASSERT
-      const items = await accountFindMany(db, { walletId })
+      const items = await accountFindMany(ctx, { walletId })
       expect(items.map((i) => i.name)).toContain(input.name)
       expect(activeAccountIdBefore).toBeNull()
       expect(activeAccountIdAfter?.value).toBe(result)
@@ -81,7 +80,7 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ name: ' ', walletId: randomId() })
 
       // ACT & ASSERT
-      await expect(accountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(accountCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -103,7 +102,7 @@ describe('account-create', () => {
       const input = testAccountCreateInput({ name: 'a'.repeat(21), walletId: randomId() })
 
       // ACT & ASSERT
-      await expect(accountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(accountCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -123,12 +122,12 @@ describe('account-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testAccountCreateInput({ walletId: 'test-wallet' })
-      vi.spyOn(db.accounts, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.accounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(accountCreate(db, input)).rejects.toThrow('Error creating account')
+      await expect(accountCreate(ctx, input)).rejects.toThrow('Error creating account')
     })
   })
 })

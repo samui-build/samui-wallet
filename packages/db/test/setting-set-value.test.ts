@@ -1,15 +1,14 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createDbTest, testSettingSetInput } from './test-helpers.ts'
+import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('setting-set-value', () => {
   beforeEach(async () => {
-    await db.settings.clear()
+    await ctx.db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,10 +18,10 @@ describe('setting-set-value', () => {
       const [key, value] = testSettingSetInput()
 
       // ACT
-      await settingSetValue(db, key, value)
+      await settingSetValue(ctx, key, value)
 
       // ASSERT
-      const item = await settingFindUnique(db, key)
+      const item = await settingFindUnique(ctx, key)
       expect(item).toBeDefined()
       expect(item?.value).toBe(value)
     })
@@ -34,15 +33,15 @@ describe('setting-set-value', () => {
       const updatedValue = 'updated-value'
 
       // Create initial setting
-      await settingSetValue(db, key, value)
-      const initialItem = await settingFindUnique(db, key)
+      await settingSetValue(ctx, key, value)
+      const initialItem = await settingFindUnique(ctx, key)
       expect(initialItem?.value).toBe(value)
 
       // ACT
-      await settingSetValue(db, key, updatedValue)
+      await settingSetValue(ctx, key, updatedValue)
 
       // ASSERT
-      const updatedItem = await settingFindUnique(db, key)
+      const updatedItem = await settingFindUnique(ctx, key)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.value).toBe(updatedValue)
     })
@@ -64,7 +63,7 @@ describe('setting-set-value', () => {
       // ACT & ASSERT
       await expect(
         // @ts-expect-error: Testing invalid input
-        settingSetValue(db, 'invalid-key', 'test-value'),
+        settingSetValue(ctx, 'invalid-key', 'test-value'),
       ).rejects.toThrow('Invalid setting key')
     })
 
@@ -74,7 +73,7 @@ describe('setting-set-value', () => {
       const [key] = testSettingSetInput()
 
       // ACT & ASSERT
-      await expect(settingSetValue(db, key, '')).rejects.toThrow('Invalid setting value')
+      await expect(settingSetValue(ctx, key, '')).rejects.toThrow('Invalid setting value')
     })
 
     it('should throw an error with a non-string value', async () => {
@@ -85,7 +84,7 @@ describe('setting-set-value', () => {
       // ACT & ASSERT
       await expect(
         // @ts-expect-error: Testing invalid input
-        settingSetValue(db, key, 123),
+        settingSetValue(ctx, key, 123),
       ).rejects.toThrow('Invalid setting value')
     })
 
@@ -93,12 +92,12 @@ describe('setting-set-value', () => {
       // ARRANGE
       expect.assertions(1)
       const [key, value] = testSettingSetInput()
-      vi.spyOn(db.settings, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.settings, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(settingSetValue(db, key, value)).rejects.toThrow('Error creating setting')
+      await expect(settingSetValue(ctx, key, value)).rejects.toThrow('Error creating setting')
     })
 
     it('should throw an error when updating a setting fails', async () => {
@@ -106,15 +105,15 @@ describe('setting-set-value', () => {
       expect.assertions(1)
       const [key, value] = testSettingSetInput()
       // Create initial setting
-      await settingSetValue(db, key, value)
+      await settingSetValue(ctx, key, value)
 
       // Mock update to fail
-      vi.spyOn(db.settings, 'update').mockImplementationOnce(
+      vi.spyOn(ctx.db.settings, 'update').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<number>,
       )
 
       // ACT & ASSERT
-      await expect(settingSetValue(db, key, 'updated-value')).rejects.toThrow('Error updating setting')
+      await expect(settingSetValue(ctx, key, 'updated-value')).rejects.toThrow('Error updating setting')
     })
   })
 })

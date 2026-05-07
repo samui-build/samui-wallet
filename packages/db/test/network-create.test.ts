@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { networkCreate } from '../src/network/network-create.ts'
 import { networkFindMany } from '../src/network/network-find-many.ts'
-import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testNetworkCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('network-create', () => {
   beforeEach(async () => {
-    await db.networks.clear()
+    await ctx.db.networks.clear()
   })
 
   describe('expected behavior', () => {
@@ -28,10 +27,10 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ endpoint })
 
       // ACT
-      await networkCreate(db, input)
+      await networkCreate(ctx, input)
 
       // ASSERT
-      const items = await networkFindMany(db)
+      const items = await networkFindMany(ctx)
       expect(items.map((i) => i.name)).toContain(input.name)
     })
 
@@ -49,10 +48,10 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ endpointSubscriptions })
 
       // ACT
-      await networkCreate(db, input)
+      await networkCreate(ctx, input)
 
       // ASSERT
-      const items = await networkFindMany(db)
+      const items = await networkFindMany(ctx)
       expect(items.map((i) => i.endpointSubscriptions)).toContain(input.endpointSubscriptions)
     })
   })
@@ -70,12 +69,12 @@ describe('network-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testNetworkCreateInput()
-      vi.spyOn(db.networks, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.networks, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrow('Error creating network')
+      await expect(networkCreate(ctx, input)).rejects.toThrow('Error creating network')
     })
 
     it('should throw an error with an invalid endpoint', async () => {
@@ -84,7 +83,7 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ endpoint: 'not-a-url' })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrow()
+      await expect(networkCreate(ctx, input)).rejects.toThrow()
     })
 
     it('should throw an error with an invalid endpointSubscriptions', async () => {
@@ -93,7 +92,7 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ endpointSubscriptions: 'not-a-websocket-url' })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrow()
+      await expect(networkCreate(ctx, input)).rejects.toThrow()
     })
 
     it('should throw an error with a too short name', async () => {
@@ -102,7 +101,7 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ name: '' })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -124,7 +123,7 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ name: 'a'.repeat(21) })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -146,7 +145,7 @@ describe('network-create', () => {
       const input = testNetworkCreateInput({ name: ' ' })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -171,7 +170,7 @@ describe('network-create', () => {
       })
 
       // ACT & ASSERT
-      await expect(networkCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(networkCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "code": "invalid_value",

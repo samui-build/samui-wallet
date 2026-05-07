@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-create', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
-    await db.settings.clear()
+    await ctx.db.wallets.clear()
+    await ctx.db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -20,10 +19,10 @@ describe('wallet-create', () => {
       const input = testWalletCreateInput({ color: 'green' })
 
       // ACT
-      const result = await walletCreate(db, input)
+      const result = await walletCreate(ctx, input)
 
       // ASSERT
-      const item = await walletFindUnique(db, result)
+      const item = await walletFindUnique(ctx, result)
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(item?.mnemonic).toBe(undefined)
       expect(item?.name).toBe(input.name)
@@ -37,10 +36,10 @@ describe('wallet-create', () => {
       const input = testWalletCreateInput({ description: 'foo bar' })
 
       // ACT
-      const result = await walletCreate(db, input)
+      const result = await walletCreate(ctx, input)
 
       // ASSERT
-      const item = await walletFindUnique(db, result)
+      const item = await walletFindUnique(ctx, result)
       expect(item?.description).toBe(input.description)
       expect(item?.name).toBe(input.name)
     })
@@ -61,7 +60,7 @@ describe('wallet-create', () => {
       const input = testWalletCreateInput({ name: ' ' })
 
       // ACT & ASSERT
-      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -83,7 +82,7 @@ describe('wallet-create', () => {
       const input = testWalletCreateInput({ name: 'a'.repeat(21) })
 
       // ACT & ASSERT
-      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -105,7 +104,7 @@ describe('wallet-create', () => {
       const input = testWalletCreateInput({ description: 'a'.repeat(51) })
 
       // ACT & ASSERT
-      await expect(walletCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -125,12 +124,12 @@ describe('wallet-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      vi.spyOn(db.wallets, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.wallets, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(walletCreate(db, input)).rejects.toThrow('Error creating wallet')
+      await expect(walletCreate(ctx, input)).rejects.toThrow('Error creating wallet')
     })
   })
 })

@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Network } from '../src/network/network.ts'
 import { networkCreate } from '../src/network/network-create.ts'
 import { networkFindUnique } from '../src/network/network-find-unique.ts'
-import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testNetworkCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('network-find-unique', () => {
   beforeEach(async () => {
-    await db.networks.clear()
+    await ctx.db.networks.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,10 +17,10 @@ describe('network-find-unique', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testNetworkCreateInput()
-      const id = await networkCreate(db, input)
+      const id = await networkCreate(ctx, input)
 
       // ACT
-      const item = await networkFindUnique(db, id)
+      const item = await networkFindUnique(ctx, id)
 
       // ASSERT
       expect(item).toBeDefined()
@@ -42,12 +41,12 @@ describe('network-find-unique', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.networks, 'get').mockImplementationOnce(
+      vi.spyOn(ctx.db.networks, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<Network | undefined>,
       )
 
       // ACT & ASSERT
-      await expect(networkFindUnique(db, id)).rejects.toThrow(`Error finding network with id ${id}`)
+      await expect(networkFindUnique(ctx, id)).rejects.toThrow(`Error finding network with id ${id}`)
     })
   })
 })

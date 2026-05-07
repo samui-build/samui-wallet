@@ -3,7 +3,9 @@ import {
   type BookmarkTransactionUpdateMutateOptions,
   optionsBookmarkTransaction,
 } from './options-bookmark-transaction.tsx'
+import { useAppContext } from './use-app-context.tsx'
 
 export function useBookmarkTransactionUpdate(props: BookmarkTransactionUpdateMutateOptions = {}) {
-  return useMutation(optionsBookmarkTransaction.update(props))
+  const ctx = useAppContext()
+  return useMutation(optionsBookmarkTransaction.update(ctx, props))
 }

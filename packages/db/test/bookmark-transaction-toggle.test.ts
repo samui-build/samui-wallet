@@ -2,13 +2,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindMany } from '../src/bookmark-transaction/bookmark-transaction-find-many.ts'
 import { bookmarkTransactionToggle } from '../src/bookmark-transaction/bookmark-transaction-toggle.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-toggle', () => {
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
+    await ctx.db.bookmarkTransactions.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,10 +18,10 @@ describe('bookmark-transaction-toggle', () => {
       const input = testBookmarkTransactionCreateInput()
 
       // ACT
-      const result = await bookmarkTransactionToggle(db, input.signature)
+      const result = await bookmarkTransactionToggle(ctx, input.signature)
 
       // ASSERT
-      const items = await bookmarkTransactionFindMany(db, { signature: input.signature })
+      const items = await bookmarkTransactionFindMany(ctx, { signature: input.signature })
       expect(items.map((i) => i.signature)).toContain(input.signature)
       expect(result).toBe('created')
     })
@@ -30,13 +30,13 @@ describe('bookmark-transaction-toggle', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testBookmarkTransactionCreateInput()
-      await bookmarkTransactionCreate(db, input)
+      await bookmarkTransactionCreate(ctx, input)
 
       // ACT
-      const result = await bookmarkTransactionToggle(db, input.signature)
+      const result = await bookmarkTransactionToggle(ctx, input.signature)
 
       // ASSERT
-      const items = await bookmarkTransactionFindMany(db, { signature: input.signature })
+      const items = await bookmarkTransactionFindMany(ctx, { signature: input.signature })
       expect(items.map((i) => i.signature)).not.toContain(input.signature)
       expect(result).toBe('deleted')
     })
@@ -55,12 +55,12 @@ describe('bookmark-transaction-toggle', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkTransactionCreateInput()
-      vi.spyOn(db.bookmarkTransactions, 'where').mockImplementationOnce(() => {
+      vi.spyOn(ctx.db.bookmarkTransactions, 'where').mockImplementationOnce(() => {
         throw new Error('Test error')
       })
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionToggle(db, input.signature)).rejects.toThrow('Test error')
+      await expect(bookmarkTransactionToggle(ctx, input.signature)).rejects.toThrow('Test error')
     })
   })
 })

@@ -5,13 +5,13 @@ import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { randomId } from '../src/random-id.ts'
-import { createDbTest, testAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('account-find-many', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
+    await ctx.db.accounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -23,12 +23,12 @@ describe('account-find-many', () => {
       const account1 = testAccountCreateInput({ walletId: walletId1 })
       const account2 = testAccountCreateInput({ walletId: walletId1 })
       const account3 = testAccountCreateInput({ walletId: walletId2 })
-      await accountCreate(db, account1)
-      await accountCreate(db, account2)
-      await accountCreate(db, account3)
+      await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
+      await accountCreate(ctx, account3)
 
       // ACT
-      const items = await accountFindMany(db, { walletId: walletId1 })
+      const items = await accountFindMany(ctx, { walletId: walletId1 })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -44,12 +44,12 @@ describe('account-find-many', () => {
       const account1 = testAccountCreateInput({ name: 'Trading Account', walletId })
       const account2 = testAccountCreateInput({ name: 'Staking Account', walletId })
       const account3 = testAccountCreateInput({ name: 'Savings', walletId })
-      await accountCreate(db, account1)
-      await accountCreate(db, account2)
-      await accountCreate(db, account3)
+      await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
+      await accountCreate(ctx, account3)
 
       // ACT
-      const items = await accountFindMany(db, { name: 'Account', walletId })
+      const items = await accountFindMany(ctx, { name: 'Account', walletId })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -63,12 +63,12 @@ describe('account-find-many', () => {
       const account1 = testAccountCreateInput({ walletId })
       const account2 = testAccountCreateInput({ type: 'Imported', walletId })
       const account3 = testAccountCreateInput({ walletId })
-      await accountCreate(db, account1)
-      await accountCreate(db, account2)
-      await accountCreate(db, account3)
+      await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
+      await accountCreate(ctx, account3)
 
       // ACT
-      const items = await accountFindMany(db, { type: 'Derived', walletId })
+      const items = await accountFindMany(ctx, { type: 'Derived', walletId })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -83,13 +83,13 @@ describe('account-find-many', () => {
       const account2 = testAccountCreateInput({ name: 'Staking Account', type: 'Imported', walletId })
       const account3 = testAccountCreateInput({ name: 'Savings', type: 'Watched', walletId })
       const account4 = testAccountCreateInput({ name: 'Some Trading Account', type: 'Imported', walletId })
-      await accountCreate(db, account1)
-      await accountCreate(db, account2)
-      await accountCreate(db, account3)
-      await accountCreate(db, account4)
+      await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
+      await accountCreate(ctx, account3)
+      await accountCreate(ctx, account4)
 
       // ACT
-      const items = await accountFindMany(db, { name: 'Account', type: 'Derived', walletId })
+      const items = await accountFindMany(ctx, { name: 'Account', type: 'Derived', walletId })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -102,11 +102,11 @@ describe('account-find-many', () => {
       const walletId = randomId()
       const account1 = testAccountCreateInput({ name: 'Account 1', walletId })
       const account2 = testAccountCreateInput({ name: 'Account 2', type: 'Imported', walletId })
-      const id1 = await accountCreate(db, account1)
-      await accountCreate(db, account2)
+      const id1 = await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
 
       // ACT
-      const items = await accountFindMany(db, { id: id1, walletId })
+      const items = await accountFindMany(ctx, { id: id1, walletId })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -128,11 +128,11 @@ describe('account-find-many', () => {
         type: 'Imported',
         walletId,
       })
-      await accountCreate(db, account1)
-      await accountCreate(db, account2)
+      await accountCreate(ctx, account1)
+      await accountCreate(ctx, account2)
 
       // ACT
-      const items = await accountFindMany(db, { publicKey: account1.publicKey, walletId })
+      const items = await accountFindMany(ctx, { publicKey: account1.publicKey, walletId })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -154,7 +154,7 @@ describe('account-find-many', () => {
       expect.assertions(1)
       const walletId = 'test-wallet-id'
 
-      vi.spyOn(db.accounts, 'orderBy').mockImplementation(() => ({
+      vi.spyOn(ctx.db.accounts, 'orderBy').mockImplementation(() => ({
         // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
         filter: () => ({
           toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Account[]>,
@@ -162,7 +162,7 @@ describe('account-find-many', () => {
       }))
 
       // ACT & ASSERT
-      await expect(accountFindMany(db, { walletId })).rejects.toThrow(
+      await expect(accountFindMany(ctx, { walletId })).rejects.toThrow(
         `Error finding accounts for wallet id ${walletId}`,
       )
     })

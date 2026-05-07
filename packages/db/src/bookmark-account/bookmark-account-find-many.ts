@@ -1,17 +1,17 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 import type { BookmarkAccount } from './bookmark-account.ts'
 import type { BookmarkAccountFindManyInput } from './bookmark-account-find-many-input.ts'
 import { bookmarkAccountFindManySchema } from './bookmark-account-find-many-schema.ts'
 
 export async function bookmarkAccountFindMany(
-  db: Database,
+  ctx: AppContext,
   input: BookmarkAccountFindManyInput,
 ): Promise<BookmarkAccount[]> {
   const parsedInput = bookmarkAccountFindManySchema.parse(input)
-  return db.transaction('r', db.bookmarkAccounts, async () => {
+  return ctx.db.transaction('r', ctx.db.bookmarkAccounts, async () => {
     return tryCatchOrThrow(
-      db.bookmarkAccounts
+      ctx.db.bookmarkAccounts
         .orderBy('updatedAt')
         .filter((item) => {
           const matchId = !parsedInput.id || item.id === parsedInput.id

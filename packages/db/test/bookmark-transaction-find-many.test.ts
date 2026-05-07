@@ -4,13 +4,13 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BookmarkTransaction } from '../src/bookmark-transaction/bookmark-transaction.ts'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindMany } from '../src/bookmark-transaction/bookmark-transaction-find-many.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-find-many', () => {
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
+    await ctx.db.bookmarkTransactions.clear()
   })
 
   describe('expected behavior', () => {
@@ -20,12 +20,12 @@ describe('bookmark-transaction-find-many', () => {
       const bookmark1 = testBookmarkTransactionCreateInput()
       const bookmark2 = testBookmarkTransactionCreateInput()
       const bookmark3 = testBookmarkTransactionCreateInput()
-      await bookmarkTransactionCreate(db, bookmark1)
-      await bookmarkTransactionCreate(db, bookmark2)
-      await bookmarkTransactionCreate(db, bookmark3)
+      await bookmarkTransactionCreate(ctx, bookmark1)
+      await bookmarkTransactionCreate(ctx, bookmark2)
+      await bookmarkTransactionCreate(ctx, bookmark3)
 
       // ACT
-      const items = await bookmarkTransactionFindMany(db, {})
+      const items = await bookmarkTransactionFindMany(ctx, {})
 
       // ASSERT
       expect(items).toHaveLength(3)
@@ -40,12 +40,12 @@ describe('bookmark-transaction-find-many', () => {
       const bookmark1 = testBookmarkTransactionCreateInput({ label: 'Trading Transaction' })
       const bookmark2 = testBookmarkTransactionCreateInput({ label: 'Staking Transaction' })
       const bookmark3 = testBookmarkTransactionCreateInput({ label: 'Savings' })
-      await bookmarkTransactionCreate(db, bookmark1)
-      await bookmarkTransactionCreate(db, bookmark2)
-      await bookmarkTransactionCreate(db, bookmark3)
+      await bookmarkTransactionCreate(ctx, bookmark1)
+      await bookmarkTransactionCreate(ctx, bookmark2)
+      await bookmarkTransactionCreate(ctx, bookmark3)
 
       // ACT
-      const items = await bookmarkTransactionFindMany(db, { label: 'Transaction' })
+      const items = await bookmarkTransactionFindMany(ctx, { label: 'Transaction' })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -57,11 +57,11 @@ describe('bookmark-transaction-find-many', () => {
       expect.assertions(1)
       const bookmark1 = testBookmarkTransactionCreateInput({ label: 'Test Label' })
       const bookmark2 = testBookmarkTransactionCreateInput({ label: undefined })
-      await bookmarkTransactionCreate(db, bookmark1)
-      await bookmarkTransactionCreate(db, bookmark2)
+      await bookmarkTransactionCreate(ctx, bookmark1)
+      await bookmarkTransactionCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkTransactionFindMany(db, { label: 'Test' })
+      const items = await bookmarkTransactionFindMany(ctx, { label: 'Test' })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -72,11 +72,11 @@ describe('bookmark-transaction-find-many', () => {
       expect.assertions(2)
       const bookmark1 = testBookmarkTransactionCreateInput({ label: 'Transaction 1' })
       const bookmark2 = testBookmarkTransactionCreateInput({ label: 'Transaction 2' })
-      const id1 = await bookmarkTransactionCreate(db, bookmark1)
-      await bookmarkTransactionCreate(db, bookmark2)
+      const id1 = await bookmarkTransactionCreate(ctx, bookmark1)
+      await bookmarkTransactionCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkTransactionFindMany(db, { id: id1 })
+      const items = await bookmarkTransactionFindMany(ctx, { id: id1 })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -95,11 +95,11 @@ describe('bookmark-transaction-find-many', () => {
           '67QRhaJuZeRqoSiifT6yKfuQTUKfvu2exuppyNyT7r2sQCXfBBpr96mdF5TurVDKdWsZ48nx9u5r9uJ87SG9PfvU',
         ),
       })
-      await bookmarkTransactionCreate(db, bookmark1)
-      await bookmarkTransactionCreate(db, bookmark2)
+      await bookmarkTransactionCreate(ctx, bookmark1)
+      await bookmarkTransactionCreate(ctx, bookmark2)
 
       // ACT
-      const items = await bookmarkTransactionFindMany(db, { signature: bookmark1.signature })
+      const items = await bookmarkTransactionFindMany(ctx, { signature: bookmark1.signature })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -120,7 +120,7 @@ describe('bookmark-transaction-find-many', () => {
       // ARRANGE
       expect.assertions(1)
 
-      vi.spyOn(db.bookmarkTransactions, 'orderBy').mockImplementation(() => ({
+      vi.spyOn(ctx.db.bookmarkTransactions, 'orderBy').mockImplementation(() => ({
         filter: () => ({
           // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
           reverse: () => ({
@@ -130,7 +130,7 @@ describe('bookmark-transaction-find-many', () => {
       }))
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionFindMany(db, {})).rejects.toThrow('Error finding bookmark transactions')
+      await expect(bookmarkTransactionFindMany(ctx, {})).rejects.toThrow('Error finding bookmark transactions')
     })
   })
 })

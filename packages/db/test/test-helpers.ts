@@ -3,6 +3,7 @@ import { address, signature } from '@solana/kit'
 import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import type { BookmarkAccountCreateInput } from '../src/bookmark-account/bookmark-account-create-input.ts'
 import type { BookmarkTransactionCreateInput } from '../src/bookmark-transaction/bookmark-transaction-create-input.ts'
+import { createAppContext } from '../src/create-app-context.ts'
 import { createDb } from '../src/create-db.ts'
 import type { Database } from '../src/database.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
@@ -10,8 +11,12 @@ import { randomId } from '../src/random-id.ts'
 import type { SettingKey } from '../src/setting/setting-key.ts'
 import type { WalletCreateInput } from '../src/wallet/wallet-create-input.ts'
 
-export function createDbTest(): Database {
-  return createDb({ name: 'test' })
+export function createDbTest(name: string = randomName('test')): Database {
+  return createDb({ name })
+}
+
+export function createAppContextTest() {
+  return createAppContext(createDbTest())
 }
 
 export function randomName(prefix: string): string {

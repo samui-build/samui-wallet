@@ -1,14 +1,14 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 import type { Account } from './account.ts'
 import type { AccountUpdateOrderInput } from './account-update-order-input.ts'
 import { accountUpdateOrderSchema } from './account-update-order-schema.ts'
 
-export async function accountUpdateOrder(db: Database, input: AccountUpdateOrderInput): Promise<void> {
+export async function accountUpdateOrder(ctx: AppContext, input: AccountUpdateOrderInput): Promise<void> {
   const { id, order } = accountUpdateOrderSchema.parse(input)
 
-  return db.transaction('rw', db.accounts, async () => {
-    const [account, accountCount] = await Promise.all([db.accounts.get(id), db.accounts.count()])
+  return ctx.db.transaction('rw', ctx.db.accounts, async () => {
+    const [account, accountCount] = await Promise.all([ctx.db.accounts.get(id), ctx.db.accounts.count()])
     if (!account) {
       throw new Error(`Account with id ${id} not found`)
     }
@@ -29,7 +29,7 @@ export async function accountUpdateOrder(db: Database, input: AccountUpdateOrder
     const lower = increment ? newOrder : oldOrder + 1
     const upper = increment ? oldOrder - 1 : newOrder
     await tryCatchOrThrow(
-      db.accounts
+      ctx.db.accounts
         .where('order')
         .between(lower, upper, true, true)
         .modify((account: Account) => {
@@ -39,6 +39,6 @@ export async function accountUpdateOrder(db: Database, input: AccountUpdateOrder
     )
 
     // Finally, update the moved account's order
-    await tryCatchOrThrow(db.accounts.update(id, { order: newOrder }), `Error moving account with id ${id}`)
+    await tryCatchOrThrow(ctx.db.accounts.update(id, { order: newOrder }), `Error moving account with id ${id}`)
   })
 }

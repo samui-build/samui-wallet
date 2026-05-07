@@ -1,15 +1,14 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindMany } from '../src/bookmark-account/bookmark-account-find-many.ts'
-import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-account-create', () => {
   beforeEach(async () => {
-    await db.bookmarkAccounts.clear()
+    await ctx.db.bookmarkAccounts.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,10 +18,10 @@ describe('bookmark-account-create', () => {
       const input = testBookmarkAccountCreateInput()
 
       // ACT
-      await bookmarkAccountCreate(db, input)
+      await bookmarkAccountCreate(ctx, input)
 
       // ASSERT
-      const items = await bookmarkAccountFindMany(db, { address: input.address })
+      const items = await bookmarkAccountFindMany(ctx, { address: input.address })
       expect(items.map((i) => i.address)).toContain(input.address)
     })
   })
@@ -40,12 +39,12 @@ describe('bookmark-account-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkAccountCreateInput()
-      vi.spyOn(db.bookmarkAccounts, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.bookmarkAccounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(bookmarkAccountCreate(db, input)).rejects.toThrow('Error creating bookmark account')
+      await expect(bookmarkAccountCreate(ctx, input)).rejects.toThrow('Error creating bookmark account')
     })
 
     it('should throw an error when the label is too long', async () => {
@@ -56,7 +55,7 @@ describe('bookmark-account-create', () => {
       })
 
       // ACT & ASSERT
-      await expect(bookmarkAccountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(bookmarkAccountCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -81,7 +80,7 @@ describe('bookmark-account-create', () => {
       })
 
       // ACT & ASSERT
-      await expect(bookmarkAccountCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(bookmarkAccountCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "code": "custom",

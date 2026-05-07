@@ -3,13 +3,13 @@ import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
 import { walletUpdateOrder } from '../src/wallet/wallet-update-order.ts'
-import { createDbTest, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('walletUpdateOrder', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -17,12 +17,12 @@ describe('walletUpdateOrder', () => {
 
     beforeEach(async () => {
       await Promise.all([
-        walletCreate(db, testWalletCreateInput({ name: 'Wallet 1' })),
-        walletCreate(db, testWalletCreateInput({ name: 'Wallet 2' })),
-        walletCreate(db, testWalletCreateInput({ name: 'Wallet 3' })),
-        walletCreate(db, testWalletCreateInput({ name: 'Wallet 4' })),
+        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 1' })),
+        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 2' })),
+        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 3' })),
+        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 4' })),
       ])
-      const wallets = await walletFindMany(db)
+      const wallets = await walletFindMany(ctx)
       wallet1 = wallets.find((w) => w.name === 'Wallet 1') as Wallet
       wallet2 = wallets.find((w) => w.name === 'Wallet 2') as Wallet
       wallet3 = wallets.find((w) => w.name === 'Wallet 3') as Wallet
@@ -34,8 +34,8 @@ describe('walletUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await walletUpdateOrder(db, { id: wallet4.id, order: 1 })
-      const result = await walletFindMany(db)
+      await walletUpdateOrder(ctx, { id: wallet4.id, order: 1 })
+      const result = await walletFindMany(ctx)
 
       // ASSERT
       expect(result.find((w) => w.id === wallet1.id)?.order).toBe(0)
@@ -49,8 +49,8 @@ describe('walletUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await walletUpdateOrder(db, { id: wallet1.id, order: 3 })
-      const result = await walletFindMany(db)
+      await walletUpdateOrder(ctx, { id: wallet1.id, order: 3 })
+      const result = await walletFindMany(ctx)
 
       // ASSERT
       expect(result.find((w) => w.id === wallet2.id)?.order).toBe(0)
@@ -64,8 +64,8 @@ describe('walletUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await walletUpdateOrder(db, { id: wallet2.id, order: 1 })
-      const result = await walletFindMany(db)
+      await walletUpdateOrder(ctx, { id: wallet2.id, order: 1 })
+      const result = await walletFindMany(ctx)
 
       // ASSERT
       expect(result.find((w) => w.id === wallet1.id)?.order).toBe(0)
@@ -79,8 +79,8 @@ describe('walletUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await walletUpdateOrder(db, { id: wallet3.id, order: -100 })
-      const result = await walletFindMany(db)
+      await walletUpdateOrder(ctx, { id: wallet3.id, order: -100 })
+      const result = await walletFindMany(ctx)
 
       // ASSERT
       expect(result.find((w) => w.id === wallet3.id)?.order).toBe(0)
@@ -94,8 +94,8 @@ describe('walletUpdateOrder', () => {
       expect.assertions(4)
 
       // ACT
-      await walletUpdateOrder(db, { id: wallet2.id, order: 100 })
-      const result = await walletFindMany(db)
+      await walletUpdateOrder(ctx, { id: wallet2.id, order: 100 })
+      const result = await walletFindMany(ctx)
 
       // ASSERT
       expect(result.find((w) => w.id === wallet1.id)?.order).toBe(0)
@@ -119,7 +119,7 @@ describe('walletUpdateOrder', () => {
       expect.assertions(1)
 
       // ACT & ASSERT
-      await expect(walletUpdateOrder(db, { id: 'non-existent', order: 0 })).rejects.toThrow(
+      await expect(walletUpdateOrder(ctx, { id: 'non-existent', order: 0 })).rejects.toThrow(
         'Wallet with id non-existent not found',
       )
     })

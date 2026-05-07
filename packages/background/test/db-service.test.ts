@@ -7,9 +7,10 @@ const mocks = vi.hoisted(() => ({
   accountFindUnique: vi.fn(),
   accountReadSecretKey: vi.fn(),
   address: vi.fn(),
+  appContext: { db: { id: 'db' } },
+  createAppContext: vi.fn(),
   createKeyPairFromBytes: vi.fn(),
   createProxyService: vi.fn(),
-  db: { id: 'db' },
   deriveFromMnemonicAtIndex: vi.fn(),
   ellipsify: vi.fn(),
   getAddressEncoder: vi.fn(),
@@ -52,8 +53,8 @@ vi.mock('@workspace/db/account/account-read-secret-key', () => ({
   accountReadSecretKey: mocks.accountReadSecretKey,
 }))
 
-vi.mock('@workspace/db/db', () => ({
-  db: mocks.db,
+vi.mock('@workspace/db/create-app-context', () => ({
+  createAppContext: mocks.createAppContext,
 }))
 
 vi.mock('@workspace/db/setting/setting-find-unique', () => ({
@@ -85,6 +86,7 @@ describe('db-service', () => {
     vi.clearAllMocks()
 
     mocks.accountReadSecretKey.mockResolvedValue(secretKey)
+    mocks.createAppContext.mockReturnValue(mocks.appContext)
     mocks.createKeyPairFromBytes.mockResolvedValue(keyPair)
     mocks.settingFindUnique.mockResolvedValue({ value: accountId })
   })
@@ -99,9 +101,9 @@ describe('db-service', () => {
       const result = await service.account.keyPair()
 
       // ASSERT
-      expect(mocks.accountReadSecretKey).toHaveBeenCalledWith(mocks.db, accountId)
+      expect(mocks.accountReadSecretKey).toHaveBeenCalledWith(mocks.appContext, accountId)
       expect(mocks.createKeyPairFromBytes).toHaveBeenCalledWith(secretKeyBytes)
-      expect(mocks.settingFindUnique).toHaveBeenCalledWith(mocks.db, 'activeAccountId')
+      expect(mocks.settingFindUnique).toHaveBeenCalledWith(mocks.appContext, 'activeAccountId')
       expect(result).toBe(keyPair)
     })
   })

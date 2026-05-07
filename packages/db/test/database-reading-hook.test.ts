@@ -3,27 +3,27 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('database-reading-hook', () => {
   beforeEach(async () => {
-    await db.accounts.clear()
-    await db.settings.clear()
-    await db.wallets.clear()
+    await ctx.db.accounts.clear()
+    await ctx.db.settings.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
     it('should read account secret keys from raw account queries', async () => {
       // ARRANGE
       expect.assertions(1)
-      const walletId = await walletCreate(db, testWalletCreateInput())
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
       const input = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
-      const id = await accountCreate(db, input)
+      const id = await accountCreate(ctx, input)
 
       // ACT
-      const result = (await db.accounts.where('id').equals(id).raw().first()) as AccountInternal | undefined
+      const result = (await ctx.db.accounts.where('id').equals(id).raw().first()) as AccountInternal | undefined
 
       // ASSERT
       expect(result?.secretKey).toBe(input.secretKey)
@@ -33,10 +33,10 @@ describe('database-reading-hook', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput({ mnemonic: 'test mnemonic' })
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT
-      const result = (await db.wallets.where('id').equals(id).raw().first()) as WalletInternal | undefined
+      const result = (await ctx.db.wallets.where('id').equals(id).raw().first()) as WalletInternal | undefined
 
       // ASSERT
       expect(result?.mnemonic).toBe(input.mnemonic)
@@ -45,12 +45,12 @@ describe('database-reading-hook', () => {
     it('should sanitize account secret keys from default reads', async () => {
       // ARRANGE
       expect.assertions(2)
-      const walletId = await walletCreate(db, testWalletCreateInput())
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
       const input = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
-      const id = await accountCreate(db, input)
+      const id = await accountCreate(ctx, input)
 
       // ACT
-      const result = await db.accounts.get(id)
+      const result = await ctx.db.accounts.get(id)
 
       // ASSERT
       expect(result).toBeDefined()
@@ -61,10 +61,10 @@ describe('database-reading-hook', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testWalletCreateInput({ mnemonic: 'test mnemonic' })
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT
-      const result = await db.wallets.get(id)
+      const result = await ctx.db.wallets.get(id)
 
       // ASSERT
       expect(result).toBeDefined()
@@ -74,17 +74,17 @@ describe('database-reading-hook', () => {
     it('should sanitize wallet and account secrets from collection reads', async () => {
       // ARRANGE
       expect.assertions(4)
-      const walletId = await walletCreate(db, testWalletCreateInput({ mnemonic: 'test mnemonic' }))
-      await walletCreate(db, testWalletCreateInput({ mnemonic: 'other mnemonic' }))
-      await accountCreate(db, testAccountCreateInput({ secretKey: 'test-secret-key-1', walletId }))
-      await accountCreate(db, testAccountCreateInput({ secretKey: 'test-secret-key-2', walletId }))
+      const walletId = await walletCreate(ctx, testWalletCreateInput({ mnemonic: 'test mnemonic' }))
+      await walletCreate(ctx, testWalletCreateInput({ mnemonic: 'other mnemonic' }))
+      await accountCreate(ctx, testAccountCreateInput({ secretKey: 'test-secret-key-1', walletId }))
+      await accountCreate(ctx, testAccountCreateInput({ secretKey: 'test-secret-key-2', walletId }))
 
       // ACT
-      const dataWallets = await db.wallets
+      const dataWallets = await ctx.db.wallets
         .orderBy('order')
         .filter((wallet) => wallet.id === walletId)
         .toArray()
-      const dataAccounts = await db.accounts
+      const dataAccounts = await ctx.db.accounts
         .orderBy('order')
         .filter((account) => account.walletId === walletId)
         .toArray()
@@ -116,7 +116,7 @@ describe('database-reading-hook', () => {
       const id = 'missing-account-id'
 
       // ACT
-      const result = await db.accounts.get(id)
+      const result = await ctx.db.accounts.get(id)
 
       // ASSERT
       expect(result).toBeUndefined()
@@ -128,7 +128,7 @@ describe('database-reading-hook', () => {
       const id = 'missing-wallet-id'
 
       // ACT
-      const result = await db.wallets.get(id)
+      const result = await ctx.db.wallets.get(id)
 
       // ASSERT
       expect(result).toBeUndefined()

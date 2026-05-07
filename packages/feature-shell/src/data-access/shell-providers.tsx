@@ -1,5 +1,7 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
+import type { AppContext } from '@workspace/db/app-context'
+import { AppContextProvider } from '@workspace/db-react/app-context-provider'
 import { queryClient } from '@workspace/db-react/query-client'
 import { getEntrypoint } from '@workspace/env/get-entrypoint'
 import { Toaster } from '@workspace/ui/components/sonner'
@@ -15,6 +17,7 @@ const RequestFeatureDialog = lazy(() =>
 
 interface ShellProviderProps {
   children: ReactNode
+  ctx: AppContext
 }
 
 const persister = createAsyncStoragePersister({
@@ -34,17 +37,19 @@ const persister = createAsyncStoragePersister({
     : window.localStorage,
 })
 
-export function ShellProviders({ children }: ShellProviderProps) {
+export function ShellProviders({ children, ctx }: ShellProviderProps) {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-      {children}
-      <Toaster
-        closeButton
-        mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
-        offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
-        richColors
-      />
-      {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
+      <AppContextProvider ctx={ctx}>
+        {children}
+        <Toaster
+          closeButton
+          mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+          offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+          richColors
+        />
+        {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
+      </AppContextProvider>
     </PersistQueryClientProvider>
   )
 }

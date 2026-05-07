@@ -1,20 +1,19 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 import { randomId } from '../random-id.ts'
 import { walletCreateDetermineOrder } from './wallet-create-determine-order.ts'
 import type { WalletCreateInput } from './wallet-create-input.ts'
 import { walletCreateSchema } from './wallet-create-schema.ts'
 
-export async function walletCreate(db: Database, input: WalletCreateInput): Promise<string> {
+export async function walletCreate(ctx: AppContext, input: WalletCreateInput): Promise<string> {
   const now = new Date()
   const parsedInput = walletCreateSchema.parse(input)
 
-  return db.transaction('rw', db.wallets, db.settings, db.accounts, async () => {
-    const order = await walletCreateDetermineOrder(db)
+  return ctx.db.transaction('rw', ctx.db.wallets, ctx.db.settings, ctx.db.accounts, async () => {
+    const order = await walletCreateDetermineOrder(ctx)
 
     return tryCatchOrThrow(
-      db.wallets.add({
+      ctx.db.wallets.add({
         ...parsedInput,
         accounts: [],
         createdAt: now,

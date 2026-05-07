@@ -2,17 +2,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindBySignature } from '../src/bookmark-transaction/bookmark-transaction-find-by-signature.ts'
 import { bookmarkTransactionUpdate } from '../src/bookmark-transaction/bookmark-transaction-update.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-update', () => {
   const input = testBookmarkTransactionCreateInput({ label: 'Original Label' })
   let bookmarkId: string
 
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
-    bookmarkId = await bookmarkTransactionCreate(db, input)
+    await ctx.db.bookmarkTransactions.clear()
+    bookmarkId = await bookmarkTransactionCreate(ctx, input)
   })
 
   describe('expected behavior', () => {
@@ -20,11 +20,11 @@ describe('bookmark-transaction-update', () => {
       // ARRANGE
       expect.assertions(3)
       const newLabel = 'Updated Label'
-      const originalBookmark = await bookmarkTransactionFindBySignature(db, input.signature)
+      const originalBookmark = await bookmarkTransactionFindBySignature(ctx, input.signature)
 
       // ACT
-      const result = await bookmarkTransactionUpdate(db, bookmarkId, { label: newLabel })
-      const updatedBookmark = await bookmarkTransactionFindBySignature(db, input.signature)
+      const result = await bookmarkTransactionUpdate(ctx, bookmarkId, { label: newLabel })
+      const updatedBookmark = await bookmarkTransactionFindBySignature(ctx, input.signature)
 
       // ASSERT
       expect(result).toBe(1)
@@ -46,10 +46,10 @@ describe('bookmark-transaction-update', () => {
       // ARRANGE
       const id = 'test-id'
       expect.assertions(1)
-      vi.spyOn(db.bookmarkTransactions, 'update').mockRejectedValue(new Error('Test error'))
+      vi.spyOn(ctx.db.bookmarkTransactions, 'update').mockRejectedValue(new Error('Test error'))
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionUpdate(db, id, { label: 'new label' })).rejects.toThrow(
+      await expect(bookmarkTransactionUpdate(ctx, id, { label: 'new label' })).rejects.toThrow(
         `Error updating bookmark transaction with id ${id}`,
       )
     })
@@ -61,7 +61,7 @@ describe('bookmark-transaction-update', () => {
 
       // ACT & ASSERT
       await expect(
-        bookmarkTransactionUpdate(db, bookmarkId, { label: newLabel }),
+        bookmarkTransactionUpdate(ctx, bookmarkId, { label: newLabel }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {

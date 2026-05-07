@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Setting } from '../src/setting/setting.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createDbTest, testSettingSetInput } from './test-helpers.ts'
+import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('setting-get-value', () => {
   beforeEach(async () => {
-    await db.settings.clear()
+    await ctx.db.settings.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,10 +17,10 @@ describe('setting-get-value', () => {
       // ARRANGE
       expect.assertions(1)
       const [key, value] = testSettingSetInput()
-      await settingSetValue(db, key, value)
+      await settingSetValue(ctx, key, value)
 
       // ACT
-      const result = (await settingFindUnique(db, key))?.value
+      const result = (await settingFindUnique(ctx, key))?.value
 
       // ASSERT
       expect(value).toBe(result)
@@ -33,7 +32,7 @@ describe('setting-get-value', () => {
       const [key] = testSettingSetInput()
 
       // ACT
-      const result = (await settingFindUnique(db, key))?.value ?? null
+      const result = (await settingFindUnique(ctx, key))?.value ?? null
 
       // ASSERT
       expect(result).toBeNull()
@@ -53,12 +52,12 @@ describe('setting-get-value', () => {
       // ARRANGE
       expect.assertions(1)
       const [key] = testSettingSetInput()
-      vi.spyOn(db.settings, 'get').mockImplementationOnce(
+      vi.spyOn(ctx.db.settings, 'get').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<Setting>,
       )
 
       // ACT & ASSERT
-      await expect(settingFindUnique(db, key)).rejects.toThrow(`Error finding setting with key ${key}`)
+      await expect(settingFindUnique(ctx, key)).rejects.toThrow(`Error finding setting with key ${key}`)
     })
   })
 })

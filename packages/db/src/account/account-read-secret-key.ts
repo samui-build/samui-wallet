@@ -1,10 +1,10 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { Database } from '../database.ts'
+import type { AppContext } from '../app-context.ts'
 
-export function accountReadSecretKey(db: Database, id: string) {
-  return db.transaction('r', db.accounts, async () => {
+export function accountReadSecretKey(ctx: AppContext, id: string) {
+  return ctx.db.transaction('r', ctx.db.accounts, async () => {
     const account = await tryCatchOrThrow(
-      db.accounts.where('id').equals(id).raw().first(),
+      ctx.db.accounts.where('id').equals(id).raw().first(),
       `Error finding account with id ${id}`,
     )
     if (!account) {

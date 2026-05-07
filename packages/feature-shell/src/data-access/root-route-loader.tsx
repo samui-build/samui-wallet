@@ -1,14 +1,15 @@
+import type { AppContext } from '@workspace/db/app-context'
 import { rootLoader } from '@workspace/db-react/root-loader'
 import { i18n } from '@workspace/i18n'
 import { type LoaderFunctionArgs, redirect } from 'react-router'
 import { redirectToOnboarding } from './redirect-to-onboarding.tsx'
 
-export function rootRouteLoader() {
+export function rootRouteLoader(ctx: AppContext) {
   return async (args: LoaderFunctionArgs) => {
     const url = new URL(args.request.url)
     const pathname = url.pathname
 
-    const result = await rootLoader()
+    const result = await rootLoader(ctx)
     const { settings, networks } = result
 
     const activeAccountId = settings.find((s) => s.key === 'activeAccountId')?.value

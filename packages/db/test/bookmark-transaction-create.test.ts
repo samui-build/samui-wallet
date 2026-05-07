@@ -1,15 +1,14 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindMany } from '../src/bookmark-transaction/bookmark-transaction-find-many.ts'
-import { createDbTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-transaction-create', () => {
   beforeEach(async () => {
-    await db.bookmarkTransactions.clear()
+    await ctx.db.bookmarkTransactions.clear()
   })
 
   describe('expected behavior', () => {
@@ -19,10 +18,10 @@ describe('bookmark-transaction-create', () => {
       const input = testBookmarkTransactionCreateInput()
 
       // ACT
-      await bookmarkTransactionCreate(db, input)
+      await bookmarkTransactionCreate(ctx, input)
 
       // ASSERT
-      const items = await bookmarkTransactionFindMany(db, { signature: input.signature })
+      const items = await bookmarkTransactionFindMany(ctx, { signature: input.signature })
       expect(items.map((i) => i.signature)).toContain(input.signature)
     })
   })
@@ -40,12 +39,12 @@ describe('bookmark-transaction-create', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testBookmarkTransactionCreateInput()
-      vi.spyOn(db.bookmarkTransactions, 'add').mockImplementationOnce(
+      vi.spyOn(ctx.db.bookmarkTransactions, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionCreate(db, input)).rejects.toThrow('Error creating bookmark transaction')
+      await expect(bookmarkTransactionCreate(ctx, input)).rejects.toThrow('Error creating bookmark transaction')
     })
 
     it('should throw an error when the label is too long', async () => {
@@ -56,7 +55,7 @@ describe('bookmark-transaction-create', () => {
       })
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(bookmarkTransactionCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -81,7 +80,7 @@ describe('bookmark-transaction-create', () => {
       })
 
       // ACT & ASSERT
-      await expect(bookmarkTransactionCreate(db, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(bookmarkTransactionCreate(ctx, input)).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "code": "custom",

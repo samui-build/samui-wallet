@@ -2,17 +2,17 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindByAddress } from '../src/bookmark-account/bookmark-account-find-by-address.ts'
 import { bookmarkAccountUpdate } from '../src/bookmark-account/bookmark-account-update.ts'
-import { createDbTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('bookmark-account-update', () => {
   const input = testBookmarkAccountCreateInput({ label: 'Original Label' })
   let bookmarkId: string
 
   beforeEach(async () => {
-    await db.bookmarkAccounts.clear()
-    bookmarkId = await bookmarkAccountCreate(db, input)
+    await ctx.db.bookmarkAccounts.clear()
+    bookmarkId = await bookmarkAccountCreate(ctx, input)
   })
 
   describe('expected behavior', () => {
@@ -20,11 +20,11 @@ describe('bookmark-account-update', () => {
       // ARRANGE
       expect.assertions(3)
       const newLabel = 'Updated Label'
-      const originalBookmark = await bookmarkAccountFindByAddress(db, input.address)
+      const originalBookmark = await bookmarkAccountFindByAddress(ctx, input.address)
 
       // ACT
-      const result = await bookmarkAccountUpdate(db, bookmarkId, { label: newLabel })
-      const updatedBookmark = await bookmarkAccountFindByAddress(db, input.address)
+      const result = await bookmarkAccountUpdate(ctx, bookmarkId, { label: newLabel })
+      const updatedBookmark = await bookmarkAccountFindByAddress(ctx, input.address)
 
       // ASSERT
       expect(result).toBe(1)
@@ -46,10 +46,10 @@ describe('bookmark-account-update', () => {
       // ARRANGE
       const id = 'test-id'
       expect.assertions(1)
-      vi.spyOn(db.bookmarkAccounts, 'update').mockRejectedValue(new Error('Test error'))
+      vi.spyOn(ctx.db.bookmarkAccounts, 'update').mockRejectedValue(new Error('Test error'))
 
       // ACT & ASSERT
-      await expect(bookmarkAccountUpdate(db, id, { label: 'new label' })).rejects.toThrow(
+      await expect(bookmarkAccountUpdate(ctx, id, { label: 'new label' })).rejects.toThrow(
         `Error updating bookmark account with id ${id}`,
       )
     })
@@ -61,7 +61,7 @@ describe('bookmark-account-update', () => {
 
       // ACT & ASSERT
       await expect(
-        bookmarkAccountUpdate(db, bookmarkId, { label: newLabel }),
+        bookmarkAccountUpdate(ctx, bookmarkId, { label: newLabel }),
       ).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {

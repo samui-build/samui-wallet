@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useAppContext } from '@workspace/db-react/use-app-context'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
 import { devDbTableRecordQueryKey, devDbTableRecordsQueryKey } from './dev-db-query-keys.ts'
 import type { DevDbTableConfig } from './dev-db-table-config.ts'
 
 export function useDevDbRecordUpdate(config: DevDbTableConfig | undefined, id: string | undefined) {
+  const ctx = useAppContext()
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (input: Record<string, unknown>) => {
@@ -12,7 +14,7 @@ export function useDevDbRecordUpdate(config: DevDbTableConfig | undefined, id: s
         throw new Error('Record not found')
       }
 
-      return config.update(id, input)
+      return config.update(ctx, id, input)
     },
     onError: (error) =>
       toastError(error instanceof Error ? error.message : `Error updating ${config?.label ?? 'record'}`),

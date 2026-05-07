@@ -1,17 +1,16 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
-import { createDbTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-find-many', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -21,18 +20,18 @@ describe('wallet-find-many', () => {
       const wallet1 = testWalletCreateInput({ name: 'Alpha' })
       const wallet2 = testWalletCreateInput({ name: 'Beta' })
       const wallet3 = testWalletCreateInput({ name: 'Charlie' })
-      const wallet1Id = await walletCreate(db, wallet1)
-      const wallet2Id = await walletCreate(db, wallet2)
-      const wallet3Id = await walletCreate(db, wallet3)
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
+      const wallet1Id = await walletCreate(ctx, wallet1)
+      const wallet2Id = await walletCreate(ctx, wallet2)
+      const wallet3Id = await walletCreate(ctx, wallet3)
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet2Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet3Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet3Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
-      const items = await walletFindMany(db)
+      const items = await walletFindMany(ctx)
 
       // ASSERT
       expect(items).toHaveLength(3)
@@ -58,15 +57,15 @@ describe('wallet-find-many', () => {
       const wallet1 = testWalletCreateInput({ name: 'Test Wallet Alpha' })
       const wallet2 = testWalletCreateInput({ name: 'Test Wallet Beta' })
       const wallet3 = testWalletCreateInput({ name: 'Another One' })
-      const wallet1Id = await walletCreate(db, wallet1)
-      const wallet2Id = await walletCreate(db, wallet2)
-      const wallet3Id = await walletCreate(db, wallet3)
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet1Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet2Id }))
-      await accountCreate(db, testAccountCreateInput({ walletId: wallet3Id }))
+      const wallet1Id = await walletCreate(ctx, wallet1)
+      const wallet2Id = await walletCreate(ctx, wallet2)
+      const wallet3Id = await walletCreate(ctx, wallet3)
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet1Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet2Id }))
+      await accountCreate(ctx, testAccountCreateInput({ walletId: wallet3Id }))
 
       // ACT
-      const items = await walletFindMany(db, { name: 'Test Wallet' })
+      const items = await walletFindMany(ctx, { name: 'Test Wallet' })
 
       // ASSERT
       expect(items).toHaveLength(2)
@@ -78,11 +77,11 @@ describe('wallet-find-many', () => {
       expect.assertions(3)
       const wallet1 = testWalletCreateInput({ name: 'Test Wallet Alpha' })
       const wallet2 = testWalletCreateInput({ name: 'Test Wallet Beta' })
-      const id1 = await walletCreate(db, wallet1)
-      await walletCreate(db, wallet2)
+      const id1 = await walletCreate(ctx, wallet1)
+      await walletCreate(ctx, wallet2)
 
       // ACT
-      const items = await walletFindMany(db, { id: id1 })
+      const items = await walletFindMany(ctx, { id: id1 })
 
       // ASSERT
       expect(items).toHaveLength(1)
@@ -94,11 +93,11 @@ describe('wallet-find-many', () => {
     it('should not expose secret keys on nested wallet accounts', async () => {
       // ARRANGE
       expect.assertions(3)
-      const id = await walletCreate(db, testWalletCreateInput())
-      await accountCreate(db, testAccountCreateInput({ secretKey: 'raw-data-accounts-secret-key', walletId: id }))
+      const id = await walletCreate(ctx, testWalletCreateInput())
+      await accountCreate(ctx, testAccountCreateInput({ secretKey: 'raw-data-accounts-secret-key', walletId: id }))
 
       // ACT
-      const result = await walletFindMany(db, { id })
+      const result = await walletFindMany(ctx, { id })
 
       // ASSERT
       expect(result).toHaveLength(1)
@@ -120,7 +119,7 @@ describe('wallet-find-many', () => {
     it('should throw an error when finding wallets fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      vi.spyOn(db.wallets, 'orderBy').mockImplementation(() => ({
+      vi.spyOn(ctx.db.wallets, 'orderBy').mockImplementation(() => ({
         filter: () => ({
           // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
           toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet[]>,
@@ -128,7 +127,7 @@ describe('wallet-find-many', () => {
       }))
 
       // ACT & ASSERT
-      await expect(walletFindMany(db)).rejects.toThrow('Error finding wallets')
+      await expect(walletFindMany(ctx)).rejects.toThrow('Error finding wallets')
     })
   })
 })

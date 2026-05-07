@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createDb } from '../src/create-db.ts'
 import { Database } from '../src/database.ts'
+import { randomName } from './test-helpers.ts'
 
 describe('create-db', () => {
   describe('expected behavior', () => {
@@ -15,6 +16,23 @@ describe('create-db', () => {
       // ASSERT
       expect(result).toBeInstanceOf(Database)
       expect(result.name).toBe(name)
+    })
+
+    it('should have the expected tables', () => {
+      // ARRANGE
+      expect.assertions(1)
+      const db = createDb({ name: randomName('text') })
+      // ACT
+      const results = db.tables.map((t) => t.name)
+      // ASSERT
+      expect(results).toEqual([
+        'accounts',
+        'bookmarkAccounts',
+        'bookmarkTransactions',
+        'networks',
+        'settings',
+        'wallets',
+      ])
     })
   })
 

@@ -1,5 +1,5 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
-import { db } from '@workspace/db/db'
+import type { AppContext } from '@workspace/db/app-context'
 import { networkCreate } from '@workspace/db/network/network-create'
 import type { NetworkCreateInput } from '@workspace/db/network/network-create-input'
 import { networkDelete } from '@workspace/db/network/network-delete'
@@ -16,38 +16,38 @@ export type NetworkDeleteMutateOptions = MutateOptions<void, Error, { id: string
 export type NetworkUpdateMutateOptions = MutateOptions<number, Error, { input: NetworkUpdateInput }>
 
 export const optionsNetwork = {
-  create: (props: NetworkCreateMutateOptions = {}) =>
+  create: (ctx: AppContext, props: NetworkCreateMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ input }: { input: NetworkCreateInput }) => networkCreate(db, input),
+      mutationFn: ({ input }: { input: NetworkCreateInput }) => networkCreate(ctx, input),
       onError: () => toastError('Error creating network'),
       onSuccess: () => {
         toastSuccess('Network created')
-        queryClient.invalidateQueries(optionsNetwork.findMany({}))
+        queryClient.invalidateQueries(optionsNetwork.findMany(ctx, {}))
       },
       ...props,
     }),
-  delete: (props: NetworkDeleteMutateOptions = {}) =>
+  delete: (ctx: AppContext, props: NetworkDeleteMutateOptions = {}) =>
     mutationOptions({
-      mutationFn: ({ id }: { id: string }) => networkDelete(db, id),
+      mutationFn: ({ id }: { id: string }) => networkDelete(ctx, id),
       onError: () => toastError('Error deleting network'),
       onSuccess: () => {
         toastSuccess('Network deleted')
-        queryClient.invalidateQueries(optionsNetwork.findMany({}))
+        queryClient.invalidateQueries(optionsNetwork.findMany(ctx, {}))
       },
       ...props,
     }),
-  findMany: (input: NetworkFindManyInput) =>
+  findMany: (ctx: AppContext, input: NetworkFindManyInput) =>
     queryOptions({
-      queryFn: () => networkFindMany(db, input),
+      queryFn: () => networkFindMany(ctx, input),
       queryKey: ['networkFindMany', input],
     }),
-  update: (props: NetworkUpdateMutateOptions) =>
+  update: (ctx: AppContext, props: NetworkUpdateMutateOptions) =>
     mutationOptions({
-      mutationFn: ({ id, input }: { id: string; input: NetworkUpdateInput }) => networkUpdate(db, id, input),
+      mutationFn: ({ id, input }: { id: string; input: NetworkUpdateInput }) => networkUpdate(ctx, id, input),
       onError: () => toastError('Error updating network'),
       onSuccess: () => {
         toastSuccess('Network updated')
-        queryClient.invalidateQueries(optionsNetwork.findMany({}))
+        queryClient.invalidateQueries(optionsNetwork.findMany(ctx, {}))
       },
       ...props,
     }),

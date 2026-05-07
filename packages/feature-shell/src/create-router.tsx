@@ -1,3 +1,4 @@
+import type { AppContext } from '@workspace/db/app-context'
 import { optionsAccount } from '@workspace/db-react/options-account'
 import { optionsNetwork } from '@workspace/db-react/options-network'
 import { optionsSetting } from '@workspace/db-react/options-setting'
@@ -8,7 +9,7 @@ import { UiErrorBoundary } from '@workspace/ui/components/ui-error-boundary'
 import { UiLoaderFull } from '@workspace/ui/components/ui-loader-full'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { lazy } from 'react'
-import { createHashRouter, Navigate, type RouteObject, RouterProvider } from 'react-router'
+import { createHashRouter, Navigate, type RouteObject } from 'react-router'
 import { rootRouteLoader } from './data-access/root-route-loader.tsx'
 import { ShellUiLayout } from './ui/shell-ui-layout.tsx'
 
@@ -33,20 +34,20 @@ function getRoutes() {
   }
 }
 
-function createRouter() {
+export function createRouter(ctx: AppContext) {
   return createHashRouter([
     {
       children: getRoutes(),
       errorElement: <UiErrorBoundary />,
       hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
-      loader: rootRouteLoader(),
+      loader: rootRouteLoader(ctx),
       shouldRevalidate: () =>
         [
-          queryClient.getQueryState(optionsAccount.findMany({}).queryKey)?.isInvalidated,
-          queryClient.getQueryState(optionsNetwork.findMany({}).queryKey)?.isInvalidated,
-          queryClient.getQueryState(optionsSetting.findMany({}).queryKey)?.isInvalidated,
-          queryClient.getQueryState(optionsWallet.findMany({}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsAccount.findMany(ctx, {}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsNetwork.findMany(ctx, {}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsSetting.findMany(ctx, {}).queryKey)?.isInvalidated,
+          queryClient.getQueryState(optionsWallet.findMany(ctx, {}).queryKey)?.isInvalidated,
         ].some((isInvalidated) => isInvalidated || false),
     },
   ])
@@ -94,8 +95,4 @@ function getRequestRoutes(): RouteObject[] {
     },
     { element: <UiNotFound />, path: '*' },
   ]
-}
-
-export function ShellRoutes() {
-  return <RouterProvider router={createRouter()} />
 }

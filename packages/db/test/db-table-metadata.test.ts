@@ -7,13 +7,13 @@ import {
   getDbTableRecords,
 } from '../src/db-table-metadata.ts'
 import { networkCreate } from '../src/network/network-create.ts'
-import { createDbTest, testNetworkCreateInput } from './test-helpers.ts'
+import { createAppContextTest, testNetworkCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('db-table-metadata', () => {
   beforeEach(async () => {
-    await Promise.all(db.tables.map((table) => table.clear()))
+    await Promise.all(ctx.db.tables.map((table) => table.clear()))
   })
 
   describe('expected behavior', () => {
@@ -43,10 +43,10 @@ describe('db-table-metadata', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testNetworkCreateInput()
-      const id = await networkCreate(db, input)
+      const id = await networkCreate(ctx, input)
 
       // ACT
-      const result = await getDbTableRecord(db, 'networks', id)
+      const result = await getDbTableRecord(ctx, 'networks', id)
 
       // ASSERT
       expect(result?.id).toBe(id)
@@ -58,11 +58,11 @@ describe('db-table-metadata', () => {
       expect.assertions(2)
       const input1 = testNetworkCreateInput({ name: 'Network 1' })
       const input2 = testNetworkCreateInput({ name: 'Network 2' })
-      await networkCreate(db, input1)
-      await networkCreate(db, input2)
+      await networkCreate(ctx, input1)
+      await networkCreate(ctx, input2)
 
       // ACT
-      const result = await getDbTableRecords(db, 'networks')
+      const result = await getDbTableRecords(ctx, 'networks')
 
       // ASSERT
       expect(result).toHaveLength(2)

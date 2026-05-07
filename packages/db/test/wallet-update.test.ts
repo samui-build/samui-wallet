@@ -1,16 +1,15 @@
 import type { PromiseExtended } from 'dexie'
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
 import { walletUpdate } from '../src/wallet/wallet-update.ts'
-import { createDbTest, randomName, testWalletCreateInput } from './test-helpers.ts'
+import { createAppContextTest, randomName, testWalletCreateInput } from './test-helpers.ts'
 
-const db = createDbTest()
+const ctx = createAppContextTest()
 
 describe('wallet-update', () => {
   beforeEach(async () => {
-    await db.wallets.clear()
+    await ctx.db.wallets.clear()
   })
 
   describe('expected behavior', () => {
@@ -18,14 +17,14 @@ describe('wallet-update', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
       const newName = randomName('newName')
 
       // ACT
-      await walletUpdate(db, id, { name: newName })
+      await walletUpdate(ctx, id, { name: newName })
 
       // ASSERT
-      const updatedItem = await walletFindUnique(db, id)
+      const updatedItem = await walletFindUnique(ctx, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.name).toBe(newName)
     })
@@ -34,14 +33,14 @@ describe('wallet-update', () => {
       // ARRANGE
       expect.assertions(2)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
       const newDescription = randomName('newDescription')
 
       // ACT
-      await walletUpdate(db, id, { description: newDescription })
+      await walletUpdate(ctx, id, { description: newDescription })
 
       // ASSERT
-      const updatedItem = await walletFindUnique(db, id)
+      const updatedItem = await walletFindUnique(ctx, id)
       expect(updatedItem).toBeDefined()
       expect(updatedItem?.description).toBe(newDescription)
     })
@@ -60,22 +59,22 @@ describe('wallet-update', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(db.wallets, 'update').mockImplementationOnce(
+      vi.spyOn(ctx.db.wallets, 'update').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<number>,
       )
 
       // ACT & ASSERT
-      await expect(walletUpdate(db, id, {})).rejects.toThrow(`Error updating wallet with id ${id}`)
+      await expect(walletUpdate(ctx, id, {})).rejects.toThrow(`Error updating wallet with id ${id}`)
     })
 
     it('should throw an error when updating a wallet with a too short name', async () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT & ASSERT
-      await expect(walletUpdate(db, id, { name: ' ' })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletUpdate(ctx, id, { name: ' ' })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -95,10 +94,10 @@ describe('wallet-update', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT & ASSERT
-      await expect(walletUpdate(db, id, { name: 'a'.repeat(21) })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletUpdate(ctx, id, { name: 'a'.repeat(21) })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",
@@ -118,10 +117,10 @@ describe('wallet-update', () => {
       // ARRANGE
       expect.assertions(1)
       const input = testWalletCreateInput()
-      const id = await walletCreate(db, input)
+      const id = await walletCreate(ctx, input)
 
       // ACT & ASSERT
-      await expect(walletUpdate(db, id, { description: 'a'.repeat(51) })).rejects.toThrowErrorMatchingInlineSnapshot(`
+      await expect(walletUpdate(ctx, id, { description: 'a'.repeat(51) })).rejects.toThrowErrorMatchingInlineSnapshot(`
         [ZodError: [
           {
             "origin": "string",

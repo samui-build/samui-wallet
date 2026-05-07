@@ -1,9 +1,9 @@
 import type { Signature } from '@solana/kit'
 import { type MutateOptions, mutationOptions } from '@tanstack/react-query'
+import type { AppContext } from '@workspace/db/app-context'
 import { bookmarkTransactionToggle } from '@workspace/db/bookmark-transaction/bookmark-transaction-toggle'
 import { bookmarkTransactionUpdate } from '@workspace/db/bookmark-transaction/bookmark-transaction-update'
 import type { BookmarkTransactionUpdateInput } from '@workspace/db/bookmark-transaction/bookmark-transaction-update-input'
-import { db } from '@workspace/db/db'
 
 export type BookmarkTransactionToggleMutateOptions = MutateOptions<
   'created' | 'deleted',
@@ -16,15 +16,15 @@ export type BookmarkTransactionUpdateMutateOptions = MutateOptions<
   { signature: Signature; input: BookmarkTransactionUpdateInput }
 >
 export const optionsBookmarkTransaction = {
-  toggle: (props: BookmarkTransactionToggleMutateOptions) =>
+  toggle: (ctx: AppContext, props: BookmarkTransactionToggleMutateOptions) =>
     mutationOptions({
-      mutationFn: ({ signature }: { signature: Signature }) => bookmarkTransactionToggle(db, signature),
+      mutationFn: ({ signature }: { signature: Signature }) => bookmarkTransactionToggle(ctx, signature),
       ...props,
     }),
-  update: (props: BookmarkTransactionUpdateMutateOptions = {}) =>
+  update: (ctx: AppContext, props: BookmarkTransactionUpdateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id, input }: { id: string; signature: Signature; input: BookmarkTransactionUpdateInput }) =>
-        bookmarkTransactionUpdate(db, id, input),
+        bookmarkTransactionUpdate(ctx, id, input),
       ...props,
     }),
 }
