@@ -38,7 +38,12 @@ export function ShellProviders({ children }: ShellProviderProps) {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       {children}
-      <Toaster closeButton richColors />
+      <Toaster
+        closeButton
+        mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+        offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+        richColors
+      />
       {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
     </PersistQueryClientProvider>
   )
