@@ -5,6 +5,7 @@ import { AppContextProvider } from '@workspace/context-react/app-context-provide
 import { queryClient } from '@workspace/db-react/query-client'
 import { getEntrypoint } from '@workspace/env/get-entrypoint'
 import { Toaster } from '@workspace/ui/components/sonner'
+import { VaultUnlockProvider } from '@workspace/vault-react/vault-unlock-provider'
 import { browser } from '@wxt-dev/browser'
 import type { ReactNode } from 'react'
 import { lazy } from 'react'
@@ -41,14 +42,16 @@ export function ShellProviders({ children, ctx }: ShellProviderProps) {
   return (
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       <AppContextProvider ctx={ctx}>
-        {children}
-        <Toaster
-          closeButton
-          mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
-          offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
-          richColors
-        />
-        {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
+        <VaultUnlockProvider>
+          {children}
+          <Toaster
+            closeButton
+            mobileOffset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+            offset={{ bottom: 'calc(env(safe-area-inset-bottom) + 5rem)' }}
+            richColors
+          />
+          {getEntrypoint() === 'sidepanel' ? <RequestFeatureDialog /> : null}
+        </VaultUnlockProvider>
       </AppContextProvider>
     </PersistQueryClientProvider>
   )

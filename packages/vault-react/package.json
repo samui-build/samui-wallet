@@ -1,39 +1,35 @@
 {
   "dependencies": {
-    "@hookform/resolvers": "catalog:",
-    "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@workspace/context": "workspace:*",
     "@workspace/context-react": "workspace:*",
-    "@workspace/db": "workspace:*",
-    "@workspace/db-react": "workspace:*",
-    "@workspace/feature-explorer": "workspace:*",
     "@workspace/i18n": "workspace:*",
-    "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "@workspace/vault-react": "workspace:*",
-    "react-hook-form": "catalog:",
-    "react-router": "catalog:",
-    "zod": "catalog:"
+    "@workspace/vault": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@workspace/config-typescript": "workspace:*",
-    "typescript": "catalog:"
+    "@workspace/config-vitest": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": "./src/*.tsx"
   },
   "license": "MIT",
-  "name": "@workspace/feature-dev",
+  "name": "@workspace/vault-react",
   "peerDependencies": {
     "react": "catalog:",
     "react-dom": "catalog:"
   },
   "private": false,
   "scripts": {
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
   },
   "type": "module",
   "version": "0.0.0"

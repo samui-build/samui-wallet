@@ -18,7 +18,7 @@ export default function DevFeatureScratchPad() {
       description="Your place to quickly test some UI components"
       title="Scratch Pad"
     >
-      <div className="space-y-6">Start here</div>
+      <div>Start here</div>
     </UiCard>
   )
 }

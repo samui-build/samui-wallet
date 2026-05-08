@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "extends": "@workspace/config-typescript/react-library.json",
+  "include": ["src", "test"]
+}

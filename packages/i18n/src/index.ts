@@ -11,6 +11,7 @@ import enSettings from '../locales/en/settings.json' with { type: 'json' }
 import enShell from '../locales/en/shell.json' with { type: 'json' }
 import enTranslation from '../locales/en/translation.json' with { type: 'json' }
 import enUi from '../locales/en/ui.json' with { type: 'json' }
+import enVaultReact from '../locales/en/vault-react.json' with { type: 'json' }
 import esDbReact from '../locales/es/db-react.json' with { type: 'json' }
 import esExplorer from '../locales/es/explorer.json' with { type: 'json' }
 import esOnboarding from '../locales/es/onboarding.json' with { type: 'json' }
@@ -19,6 +20,7 @@ import esSettings from '../locales/es/settings.json' with { type: 'json' }
 import esShell from '../locales/es/shell.json' with { type: 'json' }
 import esTranslation from '../locales/es/translation.json' with { type: 'json' }
 import esUi from '../locales/es/ui.json' with { type: 'json' }
+import esVaultReact from '../locales/es/vault-react.json' with { type: 'json' }
 
 i18n.use(initReactI18next).init({
   defaultNS: 'translation',
@@ -37,6 +39,7 @@ i18n.use(initReactI18next).init({
       shell: enShell,
       translation: enTranslation,
       ui: enUi,
+      'vault-react': enVaultReact,
     },
     es: {
       'db-react': esDbReact,
@@ -47,6 +50,7 @@ i18n.use(initReactI18next).init({
       shell: esShell,
       translation: esTranslation,
       ui: esUi,
+      'vault-react': esVaultReact,
     },
   },
 })

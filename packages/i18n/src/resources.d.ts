@@ -305,6 +305,20 @@ interface Resources {
     relativeDateYesterday: 'Yesterday'
     textCopyFailed: 'Failed to copy text'
   }
+  'vault-react': {
+    unlockDialogActionCancel: 'Cancel'
+    unlockDialogActionContinue: 'Continue'
+    unlockDialogConfirmPasswordLabel: 'Confirm password'
+    unlockDialogDefaultDescription: 'Unlock to continue with this sensitive action.'
+    unlockDialogDefaultTitle: 'Unlock wallet'
+    unlockDialogPasswordLabel: 'Password'
+    unlockDialogPasswordMaxLengthMessage: 'Password must be at most {{passwordMaxLength, number}} characters'
+    unlockDialogPasswordMinLengthMessage: 'Password must be at least {{passwordMinLength, number}} characters'
+    unlockDialogPasswordMismatchMessage: 'Passwords do not match'
+    unlockDialogPinLabel: 'PIN'
+    unlockDialogSetupDescription: 'Create an app password once. You can add wallets later without repeating setup.'
+    unlockDialogSetupTitle: 'Create app password'
+  }
 }
 
 export default Resources

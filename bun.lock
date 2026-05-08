@@ -316,6 +316,7 @@
         "@workspace/i18n": "workspace:*",
         "@workspace/solana-client-react": "workspace:*",
         "@workspace/ui": "workspace:*",
+        "@workspace/vault-react": "workspace:*",
         "react-hook-form": "catalog:",
         "react-router": "catalog:",
         "zod": "catalog:",
@@ -495,6 +496,7 @@
         "@workspace/flags": "workspace:*",
         "@workspace/i18n": "workspace:*",
         "@workspace/ui": "workspace:*",
+        "@workspace/vault-react": "workspace:*",
         "@wxt-dev/browser": "catalog:",
         "react-router": "catalog:",
       },
@@ -712,6 +714,31 @@
         "@workspace/config-vitest": "workspace:*",
         "typescript": "catalog:",
         "vitest": "catalog:",
+      },
+    },
+    "packages/vault-react": {
+      "name": "@workspace/vault-react",
+      "version": "0.0.0",
+      "dependencies": {
+        "@tanstack/react-query": "catalog:",
+        "@workspace/context": "workspace:*",
+        "@workspace/context-react": "workspace:*",
+        "@workspace/i18n": "workspace:*",
+        "@workspace/ui": "workspace:*",
+        "@workspace/vault": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "@workspace/config-vitest": "workspace:*",
+        "typescript": "catalog:",
+        "vitest": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
       },
     },
     "packages/wallet-standard": {
@@ -2007,6 +2034,8 @@
     "@workspace/ui": ["@workspace/ui@workspace:packages/ui"],
 
     "@workspace/vault": ["@workspace/vault@workspace:packages/vault"],
+
+    "@workspace/vault-react": ["@workspace/vault-react@workspace:packages/vault-react"],
 
     "@workspace/wallet-standard": ["@workspace/wallet-standard@workspace:packages/wallet-standard"],
 

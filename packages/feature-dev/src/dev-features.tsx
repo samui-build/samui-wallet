@@ -7,9 +7,11 @@ const DevFeatureError = lazy(() => import('./dev-feature-error.tsx'))
 const DevFeatureScratchPad = lazy(() => import('./dev-feature-scratch-pad.tsx'))
 const DevFeatureSolana = lazy(() => import('./dev-feature-solana.tsx'))
 const DevFeatureUi = lazy(() => import('./dev-feature-ui.tsx'))
+const DevFeatureVault = lazy(() => import('./dev-feature-vault.tsx'))
 
 export const devFeatures: UiTabRoute[] = [
   { element: <DevFeatureScratchPad />, label: 'Scratch Pad', path: 'scratch-pad' },
+  { element: <DevFeatureVault />, label: 'Vault', path: 'vault' },
   { element: <DevFeatureDb />, label: 'DB', path: 'db' },
   { element: <DevFeatureError />, label: 'Error', path: 'error' },
   { element: <DevFeatureSolana />, label: 'Solana', path: 'solana' },
