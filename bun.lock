@@ -698,6 +698,20 @@
         "react-dom": "catalog:",
       },
     },
+    "packages/vault": {
+      "name": "@workspace/vault",
+      "version": "0.0.0",
+      "dependencies": {
+        "zod": "catalog:",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "@workspace/config-vitest": "workspace:*",
+        "typescript": "catalog:",
+        "vitest": "catalog:",
+      },
+    },
     "packages/wallet-standard": {
       "name": "@workspace/wallet-standard",
       "version": "0.0.0",
@@ -1989,6 +2003,8 @@
     "@workspace/solana-client-react": ["@workspace/solana-client-react@workspace:packages/solana-client-react"],
 
     "@workspace/ui": ["@workspace/ui@workspace:packages/ui"],
+
+    "@workspace/vault": ["@workspace/vault@workspace:packages/vault"],
 
     "@workspace/wallet-standard": ["@workspace/wallet-standard@workspace:packages/wallet-standard"],
 

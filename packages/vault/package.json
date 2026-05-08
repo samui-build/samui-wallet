@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@workspace/config-typescript": "workspace:*",
+    "@workspace/config-vitest": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
+  "name": "@workspace/vault",
+  "private": false,
+  "scripts": {
+    "check-types": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest --watch"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}
