@@ -3,6 +3,7 @@
     "@solana/kit": "catalog:",
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
+    "@workspace/vault": "workspace:*",
     "dexie": "4.4.2",
     "nanoid": "5.1.9",
     "zod": "catalog:"

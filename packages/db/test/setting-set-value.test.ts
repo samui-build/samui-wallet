@@ -26,6 +26,18 @@ describe('setting-set-value', () => {
       expect(item?.value).toBe(value)
     })
 
+    it('should set vault settings', async () => {
+      // ARRANGE
+      expect.assertions(1)
+
+      // ACT
+      await settingSetValue(ctx, 'vaultKey', 'encrypted-vault-key')
+      const result = await settingFindUnique(ctx, 'vaultKey')
+
+      // ASSERT
+      expect(result?.value).toBe('encrypted-vault-key')
+    })
+
     it('should update a setting when it already exists', async () => {
       // ARRANGE
       expect.assertions(3)

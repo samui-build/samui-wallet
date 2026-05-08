@@ -4,6 +4,7 @@ import type { AccountCreateInput } from '../src/account/account-create-input.ts'
 import type { BookmarkAccountCreateInput } from '../src/bookmark-account/bookmark-account-create-input.ts'
 import type { BookmarkTransactionCreateInput } from '../src/bookmark-transaction/bookmark-transaction-create-input.ts'
 import { createDb } from '../src/create-db.ts'
+import { createDbVault } from '../src/create-db-vault.ts'
 import type { Database } from '../src/database.ts'
 import type { DbContext } from '../src/db-context.ts'
 import type { NetworkCreateInput } from '../src/network/network-create-input.ts'
@@ -16,7 +17,8 @@ export function createDbTest(name: string = randomName('test')): Database {
 }
 
 export function createDbContextTest(): DbContext {
-  return { db: createDbTest() }
+  const db = createDbTest()
+  return { db, vault: createDbVault({ db }) }
 }
 
 export function randomName(prefix: string): string {

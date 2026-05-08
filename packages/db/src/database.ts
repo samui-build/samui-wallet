@@ -3,6 +3,7 @@ import type { AccountInternal } from './account/account-internal.ts'
 import { accountSanitizer } from './account/account-sanitizer.ts'
 import type { BookmarkAccount } from './bookmark-account/bookmark-account.ts'
 import type { BookmarkTransaction } from './bookmark-transaction/bookmark-transaction.ts'
+import { createDbVault } from './create-db-vault.ts'
 import type { Network } from './network/network.ts'
 import { populate } from './populate.ts'
 import type { Setting } from './setting/setting.ts'
@@ -36,7 +37,7 @@ export class Database extends Dexie {
     this.wallets.hook('reading', walletReadingHook)
 
     this.on('populate', async () => {
-      await populate({ db: this })
+      await populate({ db: this, vault: createDbVault({ db: this }) })
     })
   }
 }

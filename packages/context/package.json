@@ -1,6 +1,7 @@
 {
   "dependencies": {
-    "@workspace/db": "workspace:*"
+    "@workspace/db": "workspace:*",
+    "@workspace/vault": "workspace:*"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
