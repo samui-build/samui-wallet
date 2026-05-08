@@ -1,5 +1,5 @@
 [install]
 exact = true
-linker = "isolated"
+linker = "hoisted"
 minimumReleaseAge = 432000
 minimumReleaseAgeExcludes = ["@beeman/testcontainers"]
