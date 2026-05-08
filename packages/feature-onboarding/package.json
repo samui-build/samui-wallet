@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@hookform/resolvers": "catalog:",
+    "@workspace/context-react": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/env": "workspace:*",
     "@workspace/i18n": "workspace:*",

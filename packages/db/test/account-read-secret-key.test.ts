@@ -16,6 +16,7 @@ const ctx = createDbContextTest()
 describe('account-read-secret-key', () => {
   beforeEach(async () => {
     await ctx.db.accounts.clear()
+    await ctx.db.settings.clear()
     await ctx.db.wallets.clear()
     await createPasswordTestVault(ctx)
   })
@@ -121,6 +122,18 @@ describe('account-read-secret-key', () => {
 
       // ACT & ASSERT
       await expect(accountReadSecretKey(ctx, id)).rejects.toThrow(`Account with id ${id} does not have a secret key`)
+    })
+
+    it('should throw an error if a PIN wallet is locked', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const walletId = await walletCreate(ctx, testWalletCreateInput({ protection: { mode: 'pin', pin: '1234' } }))
+      await ctx.vault.unlockWallet({ credential: '1234', walletId })
+      const id = await accountCreate(ctx, testAccountCreateInput({ walletId }))
+      ctx.vault.lock()
+
+      // ACT & ASSERT
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow('Wallet is locked')
     })
 
     it('should throw an error when reading the secret key fails', async () => {

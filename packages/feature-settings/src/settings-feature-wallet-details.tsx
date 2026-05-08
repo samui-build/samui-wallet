@@ -1,13 +1,12 @@
-import { useAppContext } from '@workspace/context-react/use-app-context'
+// cspell:words Reprotect reprotect
+
 import type { Account } from '@workspace/db/account/account'
-import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useAccountActive } from '@workspace/db-react/use-account-active'
 import { useAccountDelete } from '@workspace/db-react/use-account-delete'
 import { useAccountUpdateOrder } from '@workspace/db-react/use-account-update-order'
 import { useAccountsForWalletLive } from '@workspace/db-react/use-accounts-for-wallet-live'
 import { useNetworkActive } from '@workspace/db-react/use-network-active'
 import { useWalletFindUnique } from '@workspace/db-react/use-wallet-find-unique'
-import { useWalletReprotect } from '@workspace/db-react/use-wallet-reprotect'
 import { useTranslation } from '@workspace/i18n'
 import { solToLamports } from '@workspace/solana-client/sol-to-lamports'
 import { useRequestAirdrop } from '@workspace/solana-client-react/use-request-airdrop'
@@ -22,7 +21,13 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 import { UiNotFound } from '@workspace/ui/components/ui-not-found'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
-import { VAULT_PIN_MAX_LENGTH, VAULT_PIN_MIN_LENGTH } from '@workspace/vault/encrypted-value-schema'
+import {
+  VAULT_PIN_MAX_LENGTH,
+  VAULT_PIN_MIN_LENGTH,
+  type WalletProtectionMode,
+} from '@workspace/vault/encrypted-value-schema'
+import { useWalletReprotect } from '@workspace/vault-react/use-wallet-reprotect'
+import { useWalletUnlock } from '@workspace/vault-react/use-wallet-unlock'
 import { useVaultUnlockDialog } from '@workspace/vault-react/vault-unlock-provider'
 import type { SyntheticEvent } from 'react'
 import { useId, useState } from 'react'
@@ -30,18 +35,9 @@ import { Link, useLocation, useParams } from 'react-router'
 import { SettingsUiAccountList } from './ui/settings-ui-account-list.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
+type ProtectionModeLabels = Record<WalletProtectionMode, string>
+
 type WalletProtectionInput = { mode: 'password' } | { mode: 'pin'; pin: string } | { mode: 'unsecured' }
-
-type ProtectionDraft = {
-  pin: string
-  pinConfirm: string
-  selectedMode: Wallet['protectionMode']
-  sourceMode: Wallet['protectionMode']
-  unsecuredConfirmed: boolean
-  walletId: string
-}
-
-type ProtectionModeLabels = Record<Wallet['protectionMode'], string>
 
 type WalletProtectionValidationMessages = {
   pinLength: string
@@ -51,13 +47,12 @@ type WalletProtectionValidationMessages = {
 
 export function SettingsFeatureWalletDetails() {
   const { t } = useTranslation('settings')
-  const context = useAppContext()
   const pinConfirmId = useId()
   const pinId = useId()
   const protectionId = useId()
   const unsecuredConfirmId = useId()
-  const { requestUnlock } = useVaultUnlockDialog()
   const { pathname: from } = useLocation()
+  const { requestUnlock } = useVaultUnlockDialog()
   const { walletId } = useParams<{ walletId: string }>()
   if (!walletId) {
     throw new Error('Parameter walletId is required')
@@ -98,10 +93,13 @@ export function SettingsFeatureWalletDetails() {
     protectionDraft.sourceMode === currentProtectionMode && protectionDraft.walletId === resolvedWalletId
       ? protectionDraft
       : createProtectionDraft(resolvedWalletId, currentProtectionMode)
-  const { pin, pinConfirm, selectedMode: selectedProtectionMode, unsecuredConfirmed } = draft
+  const { unsecuredConfirmed, pin, pinConfirm, selectedMode: selectedProtectionMode } = draft
   const reprotectMutation = useWalletReprotect({
     onError: (caught) => toastError(caught.message),
-    onSuccess: () => toastSuccess(t(($) => $.actionSave)),
+    onSuccess: () => toastSuccess(t(($) => $.walletProtectionActionSave)),
+  })
+  const unlockWalletMutation = useWalletUnlock({
+    onError: (caught) => toastError(caught.message),
   })
 
   if (!wallet) {
@@ -127,11 +125,7 @@ export function SettingsFeatureWalletDetails() {
 
   async function handleProtectionSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (!wallet) {
-      return
-    }
-
-    let protection: WalletProtectionInput
+    let protection: ReturnType<typeof getWalletProtectionInput>
     try {
       protection = getWalletProtectionInput({
         pin,
@@ -148,31 +142,26 @@ export function SettingsFeatureWalletDetails() {
     const unlocked = await requestUnlock({
       mode: currentProtectionMode,
       reason: 'walletProtection',
-      walletId: wallet.id,
+      walletId: resolvedWalletId,
     })
     if (!unlocked) {
       return
     }
 
-    const result = await reprotectMutation
-      .mutateAsync({ protection, walletId: wallet.id })
-      .then(() => true)
-      .catch(() => false)
-    if (!result) {
+    const result = await reprotectMutation.mutateAsync({ protection, walletId: resolvedWalletId }).catch(() => null)
+    if (result === null) {
       return
     }
-
     if (protection.mode === 'pin') {
-      await context.vault.unlockWallet({ credential: protection.pin, walletId: wallet.id }).catch((caught) => {
-        toastError(caught instanceof Error ? caught.message : `${caught}`)
-      })
+      await unlockWalletMutation
+        .mutateAsync({ credential: protection.pin, walletId: resolvedWalletId })
+        .catch(() => undefined)
     }
-
-    setProtectionDraft(createProtectionDraft(wallet.id, protection.mode))
+    setProtectionDraft(createProtectionDraft(resolvedWalletId, protection.mode))
   }
 
   const hasProtectionChange = selectedProtectionMode !== currentProtectionMode
-  const isProtectionBusy = reprotectMutation.isPending
+  const isProtectionBusy = reprotectMutation.isPending || unlockWalletMutation.isPending
 
   return (
     <UiCard
@@ -285,7 +274,7 @@ export function SettingsFeatureWalletDetails() {
             </div>
           ) : null}
           <Button disabled={isProtectionBusy || !hasProtectionChange} type="submit">
-            {t(($) => $.actionSave)}
+            {t(($) => $.walletProtectionActionSave)}
           </Button>
         </form>
 
@@ -305,26 +294,11 @@ export function SettingsFeatureWalletDetails() {
   )
 }
 
-function createProtectionDraft(walletId: string, mode: Wallet['protectionMode']): ProtectionDraft {
-  return {
-    pin: '',
-    pinConfirm: '',
-    selectedMode: mode,
-    sourceMode: mode,
-    unsecuredConfirmed: false,
-    walletId,
-  }
-}
-
-function getProtectionModeLabel(mode: Wallet['protectionMode'], labels: ProtectionModeLabels): string {
-  return labels[mode]
-}
-
 function getWalletProtectionInput(input: {
+  unsecuredConfirmed: boolean
   pin: string
   pinConfirm: string
-  protectionMode: Wallet['protectionMode']
-  unsecuredConfirmed: boolean
+  protectionMode: WalletProtectionMode
   validationMessages: WalletProtectionValidationMessages
 }): WalletProtectionInput {
   switch (input.protectionMode) {
@@ -346,7 +320,31 @@ function getWalletProtectionInput(input: {
   }
 }
 
-function parseWalletProtectionModeValue(value: string): Wallet['protectionMode'] {
+type ProtectionDraft = {
+  unsecuredConfirmed: boolean
+  pin: string
+  pinConfirm: string
+  selectedMode: WalletProtectionMode
+  sourceMode: WalletProtectionMode
+  walletId: string
+}
+
+function createProtectionDraft(walletId: string, mode: WalletProtectionMode): ProtectionDraft {
+  return {
+    pin: '',
+    pinConfirm: '',
+    selectedMode: mode,
+    sourceMode: mode,
+    unsecuredConfirmed: false,
+    walletId,
+  }
+}
+
+function getProtectionModeLabel(mode: WalletProtectionMode, labels: ProtectionModeLabels): string {
+  return labels[mode]
+}
+
+function parseWalletProtectionModeValue(value: string): WalletProtectionMode {
   switch (value) {
     case 'pin':
     case 'unsecured':

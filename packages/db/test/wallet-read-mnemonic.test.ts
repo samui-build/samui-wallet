@@ -9,6 +9,7 @@ const ctx = createDbContextTest()
 
 describe('wallet-read-mnemonic', () => {
   beforeEach(async () => {
+    await ctx.db.settings.clear()
     await ctx.db.wallets.clear()
     await createPasswordTestVault(ctx)
   })

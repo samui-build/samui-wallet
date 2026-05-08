@@ -1,3 +1,5 @@
+// cspell:words Reprotect reprotect
+
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
 import type { DbContext } from '@workspace/db/db-context'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'

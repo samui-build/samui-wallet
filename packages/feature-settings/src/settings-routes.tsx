@@ -4,6 +4,7 @@ import { SettingsFeatureGeneral } from './settings-feature-general.tsx'
 import { SettingsFeatureNetworkCreate } from './settings-feature-network-create.tsx'
 import { SettingsFeatureNetworkList } from './settings-feature-network-list.tsx'
 import { SettingsFeatureNetworkUpdate } from './settings-feature-network-update.tsx'
+import { SettingsFeatureSecurity } from './settings-feature-security.tsx'
 import { SettingsFeatureWalletAddAccount } from './settings-feature-wallet-add-account.tsx'
 import { SettingsFeatureWalletCreate } from './settings-feature-wallet-create.tsx'
 import { SettingsFeatureWalletDetails } from './settings-feature-wallet-details.tsx'
@@ -42,6 +43,10 @@ export default function SettingsRoutes() {
         {
           children: [{ element: <SettingsFeatureGeneral />, index: true }],
           path: 'general',
+        },
+        {
+          children: [{ element: <SettingsFeatureSecurity />, index: true }],
+          path: 'security',
         },
       ],
       element: <SettingsUiLayout />,

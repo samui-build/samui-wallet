@@ -3,6 +3,7 @@ import { OnboardingFeatureComplete } from './onboarding-feature-complete.tsx'
 import { OnboardingFeatureGenerate } from './onboarding-feature-generate.tsx'
 import { OnboardingFeatureImport } from './onboarding-feature-import.tsx'
 import { OnboardingFeatureIndex } from './onboarding-feature-index.tsx'
+import { OnboardingFeaturePassword } from './onboarding-feature-password.tsx'
 import { OnboardingUiLayout } from './ui/onboarding-ui-layout.tsx'
 
 export default function OnboardingRoutes({ redirectTo }: { redirectTo: string }) {
@@ -13,6 +14,7 @@ export default function OnboardingRoutes({ redirectTo }: { redirectTo: string })
         { element: <OnboardingFeatureGenerate redirectTo={redirectTo} />, path: 'generate' },
         { element: <OnboardingFeatureImport redirectTo={redirectTo} />, path: 'import' },
         { element: <OnboardingFeatureComplete />, path: 'complete' },
+        { element: <OnboardingFeaturePassword />, path: 'password' },
       ],
       element: <OnboardingUiLayout />,
     },

@@ -1,8 +1,8 @@
-import type { Wallet } from '@workspace/db/wallet/wallet'
 import { useTranslation } from '@workspace/i18n'
 import { Badge } from '@workspace/ui/components/badge'
 import { Item, ItemActions, ItemContent, ItemTitle } from '@workspace/ui/components/item'
 import { cn } from '@workspace/ui/lib/utils'
+import type { WalletProtectionMode } from '@workspace/vault/encrypted-value-schema'
 import { Link } from 'react-router'
 import { SettingsUiWalletItem } from './settings-ui-wallet-item.tsx'
 import { SettingsUiWalletMenu, type SettingsUiWalletMenuProps } from './settings-ui-wallet-menu.tsx'
@@ -43,7 +43,7 @@ export function SettingsUiWalletListItem({
   )
 }
 
-function getProtectionBadgeClassName(mode: Wallet['protectionMode']): string | undefined {
+function getProtectionBadgeClassName(mode: WalletProtectionMode): string | undefined {
   switch (mode) {
     case 'password':
       return undefined
@@ -54,7 +54,7 @@ function getProtectionBadgeClassName(mode: Wallet['protectionMode']): string | u
   }
 }
 
-function getProtectionBadgeVariant(mode: Wallet['protectionMode']): 'destructive' | 'outline' | 'success' {
+function getProtectionBadgeVariant(mode: WalletProtectionMode): 'destructive' | 'outline' | 'success' {
   switch (mode) {
     case 'password':
       return 'success'
@@ -65,9 +65,6 @@ function getProtectionBadgeVariant(mode: Wallet['protectionMode']): 'destructive
   }
 }
 
-function getProtectionModeLabel(
-  mode: Wallet['protectionMode'],
-  labels: Record<Wallet['protectionMode'], string>,
-): string {
+function getProtectionModeLabel(mode: WalletProtectionMode, labels: Record<WalletProtectionMode, string>): string {
   return labels[mode]
 }
