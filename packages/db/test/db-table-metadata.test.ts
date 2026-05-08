@@ -7,9 +7,9 @@ import {
   getDbTableRecords,
 } from '../src/db-table-metadata.ts'
 import { networkCreate } from '../src/network/network-create.ts'
-import { createAppContextTest, testNetworkCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testNetworkCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('db-table-metadata', () => {
   beforeEach(async () => {

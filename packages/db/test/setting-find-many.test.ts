@@ -3,9 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Setting } from '../src/setting/setting.ts'
 import { settingFindMany } from '../src/setting/setting-find-many.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
+import { createDbContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('setting-find-many', () => {
   beforeEach(async () => {

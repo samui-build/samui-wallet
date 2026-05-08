@@ -1,10 +1,10 @@
 import type { Signature } from '@solana/kit'
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import type { BookmarkTransaction } from './bookmark-transaction.ts'
 
 export async function bookmarkTransactionFindBySignature(
-  ctx: AppContext,
+  ctx: DbContext,
   signature: Signature,
 ): Promise<null | BookmarkTransaction> {
   return ctx.db.transaction('r', ctx.db.bookmarkTransactions, async () => {

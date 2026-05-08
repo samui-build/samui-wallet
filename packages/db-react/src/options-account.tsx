@@ -8,7 +8,7 @@ import { accountReadSecretKey } from '@workspace/db/account/account-read-secret-
 import { accountSetActive } from '@workspace/db/account/account-set-active'
 import { accountUpdateOrder } from '@workspace/db/account/account-update-order'
 import type { AccountUpdateOrderInput } from '@workspace/db/account/account-update-order-input'
-import type { AppContext } from '@workspace/db/app-context'
+import type { DbContext } from '@workspace/db/db-context'
 import { optionsSetting } from './options-setting.tsx'
 import { queryClient } from './query-client.tsx'
 
@@ -19,7 +19,7 @@ export type AccountSetActiveMutateOptions = MutateOptions<void, Error, { id: str
 export type AccountUpdateOrderMutateOptions = MutateOptions<void, Error, { input: AccountUpdateOrderInput }>
 
 export const optionsAccount = {
-  create: (ctx: AppContext, props: AccountCreateMutateOptions = {}) =>
+  create: (ctx: DbContext, props: AccountCreateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: AccountCreateInput }) => accountCreate(ctx, input),
       onSuccess: () => {
@@ -28,7 +28,7 @@ export const optionsAccount = {
       },
       ...props,
     }),
-  delete: (ctx: AppContext, props: AccountDeleteMutateOptions = {}) =>
+  delete: (ctx: DbContext, props: AccountDeleteMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountDelete(ctx, id),
       onSuccess: () => {
@@ -36,17 +36,17 @@ export const optionsAccount = {
       },
       ...props,
     }),
-  findMany: (ctx: AppContext, input: AccountFindManyInput) =>
+  findMany: (ctx: DbContext, input: AccountFindManyInput) =>
     queryOptions({
       queryFn: () => accountFindMany(ctx, input),
       queryKey: ['accountFindMany', input],
     }),
-  readSecretKey: (ctx: AppContext, props: AccountReadSecretKeyMutateOptions = {}) =>
+  readSecretKey: (ctx: DbContext, props: AccountReadSecretKeyMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountReadSecretKey(ctx, id),
       ...props,
     }),
-  setActive: (ctx: AppContext, props: AccountSetActiveMutateOptions = {}) =>
+  setActive: (ctx: DbContext, props: AccountSetActiveMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => accountSetActive(ctx, id),
       onSuccess: () => {
@@ -54,7 +54,7 @@ export const optionsAccount = {
       },
       ...props,
     }),
-  updateOrder: (ctx: AppContext, props: AccountUpdateOrderMutateOptions = {}) =>
+  updateOrder: (ctx: DbContext, props: AccountUpdateOrderMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: AccountUpdateOrderInput }) => accountUpdateOrder(ctx, input),
       onSuccess: () => {

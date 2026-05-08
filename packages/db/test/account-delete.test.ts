@@ -5,9 +5,9 @@ import { accountDelete } from '../src/account/account-delete.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createAppContextTest, testAccountCreateInput, testSettingSetInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testSettingSetInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-delete', () => {
   beforeEach(async () => {

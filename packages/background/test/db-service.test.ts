@@ -53,7 +53,7 @@ vi.mock('@workspace/db/account/account-read-secret-key', () => ({
   accountReadSecretKey: mocks.accountReadSecretKey,
 }))
 
-vi.mock('@workspace/db/create-app-context', () => ({
+vi.mock('@workspace/context/create-app-context', () => ({
   createAppContext: mocks.createAppContext,
 }))
 

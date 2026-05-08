@@ -4,9 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { networkCreate } from '../src/network/network-create.ts'
 import { networkFindUnique } from '../src/network/network-find-unique.ts'
 import { networkUpdate } from '../src/network/network-update.ts'
-import { createAppContextTest, randomName, testNetworkCreateInput } from './test-helpers.ts'
+import { createDbContextTest, randomName, testNetworkCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('network-update', () => {
   beforeEach(async () => {

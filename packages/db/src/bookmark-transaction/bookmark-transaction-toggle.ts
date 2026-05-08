@@ -1,11 +1,11 @@
 import type { Signature } from '@solana/kit'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 
 import { bookmarkTransactionCreate } from './bookmark-transaction-create.ts'
 import { bookmarkTransactionDelete } from './bookmark-transaction-delete.ts'
 import { bookmarkTransactionFindBySignature } from './bookmark-transaction-find-by-signature.ts'
 
-export async function bookmarkTransactionToggle(ctx: AppContext, signature: Signature): Promise<'created' | 'deleted'> {
+export async function bookmarkTransactionToggle(ctx: DbContext, signature: Signature): Promise<'created' | 'deleted'> {
   return ctx.db.transaction('rw', ctx.db.bookmarkTransactions, async () => {
     const existing = await bookmarkTransactionFindBySignature(ctx, signature)
     if (existing) {

@@ -2,6 +2,7 @@
   "dependencies": {
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@workspace/context-react": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/keypair": "workspace:*",

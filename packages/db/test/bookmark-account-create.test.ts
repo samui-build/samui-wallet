@@ -2,9 +2,9 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindMany } from '../src/bookmark-account/bookmark-account-find-many.ts'
-import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('bookmark-account-create', () => {
   beforeEach(async () => {

@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindByAddress } from '../src/bookmark-account/bookmark-account-find-by-address.ts'
 import { bookmarkAccountUpdate } from '../src/bookmark-account/bookmark-account-update.ts'
-import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('bookmark-account-update', () => {
   const input = testBookmarkAccountCreateInput({ label: 'Original Label' })

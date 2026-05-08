@@ -2,9 +2,9 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
+import { createDbContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('setting-set-value', () => {
   beforeEach(async () => {

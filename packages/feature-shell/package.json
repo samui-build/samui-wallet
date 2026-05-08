@@ -4,6 +4,8 @@
     "@tanstack/react-query": "catalog:",
     "@tanstack/react-query-persist-client": "catalog:",
     "@workspace/background": "workspace:*",
+    "@workspace/context": "workspace:*",
+    "@workspace/context-react": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/env": "workspace:*",

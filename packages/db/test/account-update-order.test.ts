@@ -4,9 +4,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountUpdateOrder } from '../src/account/account-update-order.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('accountUpdateOrder', () => {
   let walletId: string

@@ -1,5 +1,5 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
-import type { AppContext } from '@workspace/db/app-context'
+import type { DbContext } from '@workspace/db/db-context'
 import { networkCreate } from '@workspace/db/network/network-create'
 import type { NetworkCreateInput } from '@workspace/db/network/network-create-input'
 import { networkDelete } from '@workspace/db/network/network-delete'
@@ -16,7 +16,7 @@ export type NetworkDeleteMutateOptions = MutateOptions<void, Error, { id: string
 export type NetworkUpdateMutateOptions = MutateOptions<number, Error, { input: NetworkUpdateInput }>
 
 export const optionsNetwork = {
-  create: (ctx: AppContext, props: NetworkCreateMutateOptions = {}) =>
+  create: (ctx: DbContext, props: NetworkCreateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: NetworkCreateInput }) => networkCreate(ctx, input),
       onError: () => toastError('Error creating network'),
@@ -26,7 +26,7 @@ export const optionsNetwork = {
       },
       ...props,
     }),
-  delete: (ctx: AppContext, props: NetworkDeleteMutateOptions = {}) =>
+  delete: (ctx: DbContext, props: NetworkDeleteMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => networkDelete(ctx, id),
       onError: () => toastError('Error deleting network'),
@@ -36,12 +36,12 @@ export const optionsNetwork = {
       },
       ...props,
     }),
-  findMany: (ctx: AppContext, input: NetworkFindManyInput) =>
+  findMany: (ctx: DbContext, input: NetworkFindManyInput) =>
     queryOptions({
       queryFn: () => networkFindMany(ctx, input),
       queryKey: ['networkFindMany', input],
     }),
-  update: (ctx: AppContext, props: NetworkUpdateMutateOptions) =>
+  update: (ctx: DbContext, props: NetworkUpdateMutateOptions) =>
     mutationOptions({
       mutationFn: ({ id, input }: { id: string; input: NetworkUpdateInput }) => networkUpdate(ctx, id, input),
       onError: () => toastError('Error updating network'),

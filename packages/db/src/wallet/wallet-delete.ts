@@ -1,10 +1,10 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import { accountFindMany } from '../account/account-find-many.ts'
 import { accountFindUnique } from '../account/account-find-unique.ts'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { settingFindUnique } from '../setting/setting-find-unique.ts'
 
-export async function walletDelete(ctx: AppContext, id: string): Promise<void> {
+export async function walletDelete(ctx: DbContext, id: string): Promise<void> {
   return ctx.db.transaction('rw', ctx.db.accounts, ctx.db.settings, ctx.db.wallets, async () => {
     const activeAccountId = (await settingFindUnique(ctx, 'activeAccountId'))?.value
     if (!activeAccountId) {

@@ -152,6 +152,7 @@
         "@webext-core/messaging": "2.3.0",
         "@webext-core/proxy-service": "2.0.0",
         "@webext-core/storage": "1.2.0",
+        "@workspace/context": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/ui": "workspace:*",
@@ -197,6 +198,36 @@
         "wait-on": "9.0.3",
       },
     },
+    "packages/context": {
+      "name": "@workspace/context",
+      "version": "0.0.0",
+      "dependencies": {
+        "@workspace/db": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "typescript": "catalog:",
+      },
+    },
+    "packages/context-react": {
+      "name": "@workspace/context-react",
+      "version": "0.0.0",
+      "dependencies": {
+        "@workspace/context": "workspace:*",
+      },
+      "devDependencies": {
+        "@types/bun": "catalog:",
+        "@types/react": "catalog:",
+        "@types/react-dom": "catalog:",
+        "@workspace/config-typescript": "workspace:*",
+        "typescript": "catalog:",
+      },
+      "peerDependencies": {
+        "react": "catalog:",
+        "react-dom": "catalog:",
+      },
+    },
     "packages/core": {
       "name": "@workspace/core",
       "version": "0.0.0",
@@ -232,6 +263,7 @@
       "dependencies": {
         "@solana/kit": "catalog:",
         "@tanstack/react-query": "catalog:",
+        "@workspace/context-react": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/i18n": "workspace:*",
         "@workspace/keypair": "workspace:*",
@@ -275,6 +307,7 @@
         "@hookform/resolvers": "catalog:",
         "@solana/kit": "catalog:",
         "@tanstack/react-query": "catalog:",
+        "@workspace/context-react": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
         "@workspace/feature-explorer": "workspace:*",
@@ -445,6 +478,8 @@
         "@tanstack/react-query": "catalog:",
         "@tanstack/react-query-persist-client": "catalog:",
         "@workspace/background": "workspace:*",
+        "@workspace/context": "workspace:*",
+        "@workspace/context-react": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/db-react": "workspace:*",
         "@workspace/env": "workspace:*",
@@ -1912,6 +1947,10 @@
     "@workspace/config-vite": ["@workspace/config-vite@workspace:packages/config-vite"],
 
     "@workspace/config-vitest": ["@workspace/config-vitest@workspace:packages/config-vitest"],
+
+    "@workspace/context": ["@workspace/context@workspace:packages/context"],
+
+    "@workspace/context-react": ["@workspace/context-react@workspace:packages/context-react"],
 
     "@workspace/core": ["@workspace/core@workspace:packages/core"],
 

@@ -1,9 +1,9 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { settingFindUnique } from '../setting/setting-find-unique.ts'
 
-export async function accountDelete(ctx: AppContext, id: string): Promise<void> {
+export async function accountDelete(ctx: DbContext, id: string): Promise<void> {
   return ctx.db.transaction('rw', ctx.db.accounts, ctx.db.settings, async () => {
     const activeAccountId = (await settingFindUnique(ctx, 'activeAccountId'))?.value
     if (id === activeAccountId) {

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
+import { useAppContext } from '@workspace/context-react/use-app-context'
 import type { AccountDeleteMutateOptions } from './options-account.tsx'
 import { optionsAccount } from './options-account.tsx'
-import { useAppContext } from './use-app-context.tsx'
 
 export function useAccountDelete(props: AccountDeleteMutateOptions = {}) {
   const ctx = useAppContext()

@@ -1,11 +1,11 @@
 import { queryOptions, useQuery } from '@tanstack/react-query'
-import type { AppContext } from '@workspace/db/app-context'
-import { useAppContext } from '@workspace/db-react/use-app-context'
+import { useAppContext } from '@workspace/context-react/use-app-context'
+import type { DbContext } from '@workspace/db/db-context'
 import { devDbTableRecordQueryKey } from './dev-db-query-keys.ts'
 import type { DevDbTableConfig } from './dev-db-table-config.ts'
 import { getDevDbTableRecord } from './dev-db-table-config.ts'
 
-function devDbRecordQueryOptions(ctx: AppContext, config: DevDbTableConfig | undefined, id: string | undefined) {
+function devDbRecordQueryOptions(ctx: DbContext, config: DevDbTableConfig | undefined, id: string | undefined) {
   return queryOptions({
     enabled: !!config && !!id,
     queryFn: async () => {

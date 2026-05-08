@@ -3,9 +3,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountSetActive } from '../src/account/account-set-active.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-set-active', () => {
   beforeEach(async () => {

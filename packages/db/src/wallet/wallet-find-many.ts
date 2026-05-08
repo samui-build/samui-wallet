@@ -1,12 +1,12 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import type { Wallet } from './wallet.ts'
 import type { WalletFindManyInput } from './wallet-find-many-input.ts'
 
 import { walletFindManySchema } from './wallet-find-many-schema.ts'
 
-export async function walletFindMany(ctx: AppContext, input: WalletFindManyInput = {}): Promise<Wallet[]> {
+export async function walletFindMany(ctx: DbContext, input: WalletFindManyInput = {}): Promise<Wallet[]> {
   const parsedInput = walletFindManySchema.parse(input)
   return ctx.db.transaction('r', ctx.db.wallets, ctx.db.accounts, async () => {
     const [dataWallets, dataAccounts] = await Promise.all([

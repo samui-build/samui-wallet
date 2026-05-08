@@ -5,9 +5,9 @@ import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletDelete } from '../src/wallet/wallet-delete.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('wallet-delete', () => {
   beforeEach(async () => {

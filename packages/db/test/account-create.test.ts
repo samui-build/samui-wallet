@@ -5,9 +5,9 @@ import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
-import { createAppContextTest, testAccountCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-create', () => {
   beforeEach(async () => {

@@ -4,9 +4,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountCreateDetermineOrder } from '../src/account/account-create-determine-order.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-create-determine-order', () => {
   beforeEach(async () => {

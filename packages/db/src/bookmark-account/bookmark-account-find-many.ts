@@ -1,11 +1,11 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import type { BookmarkAccount } from './bookmark-account.ts'
 import type { BookmarkAccountFindManyInput } from './bookmark-account-find-many-input.ts'
 import { bookmarkAccountFindManySchema } from './bookmark-account-find-many-schema.ts'
 
 export async function bookmarkAccountFindMany(
-  ctx: AppContext,
+  ctx: DbContext,
   input: BookmarkAccountFindManyInput,
 ): Promise<BookmarkAccount[]> {
   const parsedInput = bookmarkAccountFindManySchema.parse(input)

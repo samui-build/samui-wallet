@@ -1,11 +1,11 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { randomId } from '../random-id.ts'
 import type { BookmarkAccountCreateInput } from './bookmark-account-create-input.ts'
 import { bookmarkAccountCreateSchema } from './bookmark-account-create-schema.ts'
 
-export async function bookmarkAccountCreate(ctx: AppContext, input: BookmarkAccountCreateInput): Promise<string> {
+export async function bookmarkAccountCreate(ctx: DbContext, input: BookmarkAccountCreateInput): Promise<string> {
   const now = new Date()
   const parsedInput = bookmarkAccountCreateSchema.parse(input)
 

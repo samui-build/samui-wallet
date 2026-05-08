@@ -4,9 +4,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('wallet-find-many', () => {
   beforeEach(async () => {

@@ -1,4 +1,4 @@
-import type { AppContext } from '@workspace/db/app-context'
+import type { AppContext } from '@workspace/context/app-context'
 import { useContext } from 'react'
 import { AppContextReact } from './app-context-provider.tsx'
 

@@ -1,9 +1,9 @@
 import { env } from '@workspace/env/env'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { populate } from '../src/populate.ts'
-import { createAppContextTest } from './test-helpers.ts'
+import { createDbContextTest } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('populate', () => {
   beforeEach(async () => {

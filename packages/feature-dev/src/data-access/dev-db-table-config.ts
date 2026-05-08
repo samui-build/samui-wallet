@@ -1,7 +1,6 @@
 import { accountCreate } from '@workspace/db/account/account-create'
 import type { AccountCreateInput } from '@workspace/db/account/account-create-input'
 import type { AccountUpdateInput } from '@workspace/db/account/account-update-input'
-import type { AppContext } from '@workspace/db/app-context'
 import { bookmarkAccountCreate } from '@workspace/db/bookmark-account/bookmark-account-create'
 import type { BookmarkAccountCreateInput } from '@workspace/db/bookmark-account/bookmark-account-create-input'
 import { bookmarkAccountUpdate } from '@workspace/db/bookmark-account/bookmark-account-update'
@@ -10,6 +9,7 @@ import { bookmarkTransactionCreate } from '@workspace/db/bookmark-transaction/bo
 import type { BookmarkTransactionCreateInput } from '@workspace/db/bookmark-transaction/bookmark-transaction-create-input'
 import { bookmarkTransactionUpdate } from '@workspace/db/bookmark-transaction/bookmark-transaction-update'
 import type { BookmarkTransactionUpdateInput } from '@workspace/db/bookmark-transaction/bookmark-transaction-update-input'
+import type { DbContext } from '@workspace/db/db-context'
 import type { DbRecord, DbTableMetadata, DbTableName } from '@workspace/db/db-table-metadata'
 import { getDbTableMetadata, getDbTableRecord, getDbTableRecords } from '@workspace/db/db-table-metadata'
 import { networkCreate } from '@workspace/db/network/network-create'
@@ -26,14 +26,14 @@ import { walletUpdate } from '@workspace/db/wallet/wallet-update'
 import type { WalletUpdateInput } from '@workspace/db/wallet/wallet-update-input'
 
 export interface DevDbTableConfig extends DbTableMetadata {
-  create: (ctx: AppContext, input: Record<string, unknown>) => Promise<unknown>
+  create: (ctx: DbContext, input: Record<string, unknown>) => Promise<unknown>
   createFields?: string[]
   defaultValues?: Record<string, unknown>
   detailFields?: string[]
   label: string
   listFields: string[]
   titleField: string
-  update: (ctx: AppContext, id: string, input: Record<string, unknown>) => Promise<unknown>
+  update: (ctx: DbContext, id: string, input: Record<string, unknown>) => Promise<unknown>
   updateFields?: string[]
 }
 
@@ -182,12 +182,12 @@ export function getDevDbTableConfig(name: string | undefined): DevDbTableConfig 
   return devDbTableConfigs.find((config) => config.name === name)
 }
 
-export function getDevDbTableRecords(ctx: AppContext, config: DevDbTableConfig): Promise<DbRecord[]> {
+export function getDevDbTableRecords(ctx: DbContext, config: DevDbTableConfig): Promise<DbRecord[]> {
   return getDbTableRecords(ctx, config.name)
 }
 
 export async function getDevDbTableRecord(
-  ctx: AppContext,
+  ctx: DbContext,
   config: DevDbTableConfig,
   id: string,
 ): Promise<DbRecord | undefined> {

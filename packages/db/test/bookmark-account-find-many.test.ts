@@ -4,9 +4,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BookmarkAccount } from '../src/bookmark-account/bookmark-account.ts'
 import { bookmarkAccountCreate } from '../src/bookmark-account/bookmark-account-create.ts'
 import { bookmarkAccountFindMany } from '../src/bookmark-account/bookmark-account-find-many.ts'
-import { createAppContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testBookmarkAccountCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('bookmark-account-find-many', () => {
   beforeEach(async () => {

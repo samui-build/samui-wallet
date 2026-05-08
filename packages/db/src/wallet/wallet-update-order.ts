@@ -1,10 +1,10 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import type { Wallet } from './wallet.ts'
 import type { WalletUpdateOrderInput } from './wallet-update-order-input.ts'
 import { walletUpdateOrderSchema } from './wallet-update-order-schema.ts'
 
-export async function walletUpdateOrder(ctx: AppContext, input: WalletUpdateOrderInput): Promise<void> {
+export async function walletUpdateOrder(ctx: DbContext, input: WalletUpdateOrderInput): Promise<void> {
   const { id, order } = walletUpdateOrderSchema.parse(input)
 
   return ctx.db.transaction('rw', ctx.db.wallets, async () => {

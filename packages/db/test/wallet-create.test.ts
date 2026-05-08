@@ -2,9 +2,9 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('wallet-create', () => {
   beforeEach(async () => {

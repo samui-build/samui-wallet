@@ -1,10 +1,10 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import type { Setting } from './setting.ts'
 import type { SettingFindManyInput } from './setting-find-many-input.ts'
 import { settingFindManySchema } from './setting-find-many-schema.ts'
 
-export async function settingFindMany(ctx: AppContext, input: SettingFindManyInput = {}): Promise<Setting[]> {
+export async function settingFindMany(ctx: DbContext, input: SettingFindManyInput = {}): Promise<Setting[]> {
   const parsedInput = settingFindManySchema.parse(input)
   return ctx.db.transaction('r', ctx.db.settings, async () => {
     return tryCatchOrThrow(

@@ -1,7 +1,7 @@
+import { useAppContext } from '@workspace/context-react/use-app-context'
 import type { Wallet } from '@workspace/db/wallet/wallet'
 import { walletFindMany } from '@workspace/db/wallet/wallet-find-many'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { useAppContext } from './use-app-context.tsx'
 import { useRootLoaderData } from './use-root-loader-data.tsx'
 
 export function useWalletLive() {

@@ -1,5 +1,5 @@
 import type { Database } from './database.ts'
 
-export interface AppContext {
+export interface DbContext {
   db: Database
 }

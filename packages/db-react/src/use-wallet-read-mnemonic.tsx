@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { useAppContext } from '@workspace/context-react/use-app-context'
 import { optionsWallet, type WalletReadMnemonicMutateOptions } from './options-wallet.tsx'
-import { useAppContext } from './use-app-context.tsx'
 
 export function useWalletReadMnemonic(props: WalletReadMnemonicMutateOptions = {}) {
   const ctx = useAppContext()

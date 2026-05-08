@@ -1,12 +1,12 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { randomId } from '../random-id.ts'
 import { settingFindUnique } from './setting-find-unique.ts'
 import type { SettingKey } from './setting-key.ts'
 import { settingKeySchema } from './setting-key-schema.ts'
 
-export async function settingSetValue(ctx: AppContext, key: SettingKey, value: string): Promise<void> {
+export async function settingSetValue(ctx: DbContext, key: SettingKey, value: string): Promise<void> {
   if (!settingKeySchema.safeParse(key).success) {
     throw new Error(`Invalid setting key: ${key}`)
   }

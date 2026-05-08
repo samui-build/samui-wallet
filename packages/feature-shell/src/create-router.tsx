@@ -1,4 +1,4 @@
-import type { AppContext } from '@workspace/db/app-context'
+import type { AppContext } from '@workspace/context/app-context'
 import { optionsAccount } from '@workspace/db-react/options-account'
 import { optionsNetwork } from '@workspace/db-react/options-network'
 import { optionsSetting } from '@workspace/db-react/options-setting'

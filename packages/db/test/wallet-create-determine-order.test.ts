@@ -3,9 +3,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletCreateDetermineOrder } from '../src/wallet/wallet-create-determine-order.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
-import { createAppContextTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('wallet-create-determine-order', () => {
   beforeEach(async () => {

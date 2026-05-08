@@ -4,9 +4,9 @@ import type { Account } from '../src/account/account.ts'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
-import { createAppContextTest, testAccountCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-find-unique', () => {
   beforeEach(async () => {

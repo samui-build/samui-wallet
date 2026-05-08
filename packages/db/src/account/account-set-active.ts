@@ -1,8 +1,8 @@
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { settingSetValue } from '../setting/setting-set-value.ts'
 import { accountFindUnique } from './account-find-unique.ts'
 
-export async function accountSetActive(ctx: AppContext, id: string) {
+export async function accountSetActive(ctx: DbContext, id: string) {
   return ctx.db.transaction('rw', ctx.db.wallets, ctx.db.settings, ctx.db.accounts, async () => {
     // get the requested account from the database
     const found = await accountFindUnique(ctx, id)

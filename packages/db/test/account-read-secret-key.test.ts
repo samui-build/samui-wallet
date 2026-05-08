@@ -4,9 +4,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { accountReadSecretKey } from '../src/account/account-read-secret-key.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('account-read-secret-key', () => {
   beforeEach(async () => {

@@ -1,4 +1,4 @@
-import type { AppContext } from '@workspace/db/app-context'
+import type { AppContext } from '@workspace/context/app-context'
 import { rootLoader } from '@workspace/db-react/root-loader'
 import { i18n } from '@workspace/i18n'
 import { type LoaderFunctionArgs, redirect } from 'react-router'

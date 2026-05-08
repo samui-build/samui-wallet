@@ -1,11 +1,11 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 import { parseStrict } from '../parse-strict.ts'
 import type { BookmarkAccountUpdateInput } from './bookmark-account-update-input.ts'
 import { bookmarkAccountUpdateSchema } from './bookmark-account-update-schema.ts'
 
 export async function bookmarkAccountUpdate(
-  ctx: AppContext,
+  ctx: DbContext,
   id: string,
   input: BookmarkAccountUpdateInput,
 ): Promise<number> {

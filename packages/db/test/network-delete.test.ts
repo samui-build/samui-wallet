@@ -5,9 +5,9 @@ import { networkCreate } from '../src/network/network-create.ts'
 import { networkDelete } from '../src/network/network-delete.ts'
 import { networkFindUnique } from '../src/network/network-find-unique.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createAppContextTest, testNetworkCreateInput, testSettingSetInput } from './test-helpers.ts'
+import { createDbContextTest, testNetworkCreateInput, testSettingSetInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('network-delete', () => {
   beforeEach(async () => {

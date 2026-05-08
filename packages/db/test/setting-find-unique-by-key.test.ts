@@ -4,9 +4,9 @@ import type { Setting } from '../src/setting/setting.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import type { SettingKey } from '../src/setting/setting-key.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createAppContextTest, testSettingSetInput } from './test-helpers.ts'
+import { createDbContextTest, testSettingSetInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('setting-find-unique-by-key', () => {
   beforeEach(async () => {

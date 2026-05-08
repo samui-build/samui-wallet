@@ -1,5 +1,5 @@
 import { type MutateOptions, mutationOptions, queryOptions } from '@tanstack/react-query'
-import type { AppContext } from '@workspace/db/app-context'
+import type { DbContext } from '@workspace/db/db-context'
 import { walletCreate } from '@workspace/db/wallet/wallet-create'
 import type { WalletCreateInput } from '@workspace/db/wallet/wallet-create-input'
 import { walletDelete } from '@workspace/db/wallet/wallet-delete'
@@ -20,7 +20,7 @@ export type WalletUpdateMutateOptions = MutateOptions<number, Error, { id: strin
 export type WalletUpdateOrderMutateOptions = MutateOptions<void, Error, { input: WalletUpdateOrderInput }>
 
 export const optionsWallet = {
-  create: (ctx: AppContext, props: WalletCreateMutateOptions = {}) =>
+  create: (ctx: DbContext, props: WalletCreateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: WalletCreateInput }) => walletCreate(ctx, input),
       onSuccess: () => {
@@ -29,7 +29,7 @@ export const optionsWallet = {
       },
       ...props,
     }),
-  delete: (ctx: AppContext, props: WalletDeleteMutateOptions = {}) =>
+  delete: (ctx: DbContext, props: WalletDeleteMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => walletDelete(ctx, id),
       onSuccess: () => {
@@ -37,17 +37,17 @@ export const optionsWallet = {
       },
       ...props,
     }),
-  findMany: (ctx: AppContext, input: WalletFindManyInput) =>
+  findMany: (ctx: DbContext, input: WalletFindManyInput) =>
     queryOptions({
       queryFn: () => walletFindMany(ctx, input),
       queryKey: ['walletFindMany', input],
     }),
-  readMnemonic: (ctx: AppContext, props: WalletReadMnemonicMutateOptions = {}) =>
+  readMnemonic: (ctx: DbContext, props: WalletReadMnemonicMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id }: { id: string }) => walletReadMnemonic(ctx, id),
       ...props,
     }),
-  update: (ctx: AppContext, props: WalletUpdateMutateOptions = {}) =>
+  update: (ctx: DbContext, props: WalletUpdateMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ id, input }: { id: string; input: WalletUpdateInput }) => walletUpdate(ctx, id, input),
       onSuccess: () => {
@@ -55,7 +55,7 @@ export const optionsWallet = {
       },
       ...props,
     }),
-  updateOrder: (ctx: AppContext, props: WalletUpdateOrderMutateOptions = {}) =>
+  updateOrder: (ctx: DbContext, props: WalletUpdateOrderMutateOptions = {}) =>
     mutationOptions({
       mutationFn: ({ input }: { input: WalletUpdateOrderInput }) => walletUpdateOrder(ctx, input),
       onSuccess: () => {

@@ -1,7 +1,7 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
-import type { AppContext } from '../app-context.ts'
+import type { DbContext } from '../db-context.ts'
 
-export function walletReadMnemonic(ctx: AppContext, id: string) {
+export function walletReadMnemonic(ctx: DbContext, id: string) {
   return ctx.db.transaction('r', ctx.db.wallets, async () => {
     const wallet = await tryCatchOrThrow(
       ctx.db.wallets.where('id').equals(id).raw().first(),

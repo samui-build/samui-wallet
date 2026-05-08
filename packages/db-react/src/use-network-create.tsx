@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
+import { useAppContext } from '@workspace/context-react/use-app-context'
 import type { NetworkCreateMutateOptions } from './options-network.tsx'
 import { optionsNetwork } from './options-network.tsx'
-import { useAppContext } from './use-app-context.tsx'
 
 export function useNetworkCreate(props: NetworkCreateMutateOptions = {}) {
   const ctx = useAppContext()

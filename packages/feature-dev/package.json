@@ -3,6 +3,7 @@
     "@hookform/resolvers": "catalog:",
     "@solana/kit": "catalog:",
     "@tanstack/react-query": "catalog:",
+    "@workspace/context-react": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/feature-explorer": "workspace:*",

@@ -2,9 +2,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { bookmarkTransactionCreate } from '../src/bookmark-transaction/bookmark-transaction-create.ts'
 import { bookmarkTransactionFindMany } from '../src/bookmark-transaction/bookmark-transaction-find-many.ts'
 import { bookmarkTransactionToggle } from '../src/bookmark-transaction/bookmark-transaction-toggle.ts'
-import { createAppContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testBookmarkTransactionCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('bookmark-transaction-toggle', () => {
   beforeEach(async () => {

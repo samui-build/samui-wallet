@@ -8,6 +8,7 @@
     "@webext-core/messaging": "2.3.0",
     "@webext-core/proxy-service": "2.0.0",
     "@webext-core/storage": "1.2.0",
+    "@workspace/context": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",

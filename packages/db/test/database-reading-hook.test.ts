@@ -3,9 +3,9 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
-import { createAppContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
 
-const ctx = createAppContextTest()
+const ctx = createDbContextTest()
 
 describe('database-reading-hook', () => {
   beforeEach(async () => {

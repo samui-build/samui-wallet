@@ -1,10 +1,10 @@
 import { env } from '@workspace/env/env'
 
-import type { AppContext } from './app-context.ts'
+import type { DbContext } from './db-context.ts'
 import { populateNetworks } from './populate-networks.ts'
 import { randomId } from './random-id.ts'
 
-export async function populate(ctx: AppContext) {
+export async function populate(ctx: DbContext) {
   const now = new Date()
   await ctx.db.networks.bulkAdd(populateNetworks())
   await ctx.db.settings.bulkAdd([

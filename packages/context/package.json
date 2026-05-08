@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "@workspace/db": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/bun": "catalog:",
+    "@workspace/config-typescript": "workspace:*",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "license": "MIT",
+  "name": "@workspace/context",
+  "private": false,
+  "scripts": {
+    "check-types": "tsc --noEmit"
+  },
+  "type": "module",
+  "version": "0.0.0"
+}
