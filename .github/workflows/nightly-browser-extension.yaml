@@ -1,9 +1,8 @@
 name: Browser Extension Nightly
 
 env:
-  CHROME_ASSET_NAME: samui-wallet-extension-chrome.zip
-  RELEASE_TAG: nightly
-  RELEASE_TITLE: Samui Wallet Browser Extension Nightly
+  ASSET_NAME_PREFIX: samui-wallet-extension
+  RELEASE_TIMEZONE: UTC
 
 permissions:
   contents: write
@@ -20,37 +19,60 @@ concurrency:
 
 jobs:
   publish:
-    if: github.ref == 'refs/heads/main'
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
     name: Publish Chrome Nightly
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
+      - name: Prepare Release Metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        id: release
+        run: |
+          date_stamp="$(TZ="${RELEASE_TIMEZONE}" date +'%Y-%m-%d')"
+          latest_release_tag="$(gh release list --exclude-drafts --limit 100 --json publishedAt,tagName --jq '[.[] | select(.tagName | test("^[0-9]{4}-[0-9]{2}-[0-9]{2}-[0-9]+$"))] | sort_by(.publishedAt) | last | .tagName // ""')"
+          suffix=1
+
+          while gh release view "${date_stamp}-${suffix}" >/dev/null 2>&1; do
+            suffix="$((suffix + 1))"
+          done
+
+          release_tag="${date_stamp}-${suffix}"
+
+          echo "chrome_asset_name=${ASSET_NAME_PREFIX}-chrome-${release_tag}.zip" >> "${GITHUB_OUTPUT}"
+          echo "latest_release_tag=${latest_release_tag}" >> "${GITHUB_OUTPUT}"
+          echo "release_tag=${release_tag}" >> "${GITHUB_OUTPUT}"
+          echo "release_title=Samui Wallet Browser Extension Nightly ${release_tag}" >> "${GITHUB_OUTPUT}"
+
       - name: Check for Changes
         env:
           GH_TOKEN: ${{ github.token }}
         id: changes
         run: |
-          git fetch --force origin "refs/tags/${RELEASE_TAG}:refs/tags/${RELEASE_TAG}" || true
-          previous_sha="$(git rev-list -n 1 "refs/tags/${RELEASE_TAG}" 2>/dev/null || true)"
-          release_json="$(gh release view "${RELEASE_TAG}" --json assets,body 2>/dev/null || true)"
+          release_json=""
           asset_exists="false"
           body_has_commit="false"
 
+          if [ -n "${{ steps.release.outputs.latest_release_tag }}" ]; then
+            release_json="$(gh release view "${{ steps.release.outputs.latest_release_tag }}" --json assets,body 2>/dev/null || true)"
+          fi
+
           if [ -n "${release_json}" ]; then
-            asset_exists="$(printf '%s' "${release_json}" | jq -r --arg name "${CHROME_ASSET_NAME}" 'any(.assets[]; .name == $name)')"
+            asset_exists="$(printf '%s' "${release_json}" | jq -r --arg pattern "^${ASSET_NAME_PREFIX}-chrome-.*\\.zip$" 'any(.assets[]; .name | test($pattern))')"
             body_has_commit="$(printf '%s' "${release_json}" | jq -r --arg marker "Commit: ${GITHUB_SHA}" '(.body // "") | contains($marker)')"
           fi
 
-          if [ "${previous_sha}" = "${GITHUB_SHA}" ] && [ "${asset_exists}" = "true" ] && [ "${body_has_commit}" = "true" ]; then
+          if [ "${asset_exists}" = "true" ] && [ "${body_has_commit}" = "true" ]; then
             echo "changed=false" >> "${GITHUB_OUTPUT}"
-            echo "No changes since ${RELEASE_TAG} (${previous_sha})."
+            echo "No changes since ${{ steps.release.outputs.latest_release_tag }}."
           else
             echo "changed=true" >> "${GITHUB_OUTPUT}"
             echo "Chrome asset exists: ${asset_exists}"
+            echo "Latest release: ${{ steps.release.outputs.latest_release_tag }}"
             echo "Release notes match current commit: ${body_has_commit}"
-            echo "Previous nightly: ${previous_sha:-none}"
+            echo "Release tag: ${{ steps.release.outputs.release_tag }}"
             echo "Current commit: ${GITHUB_SHA}"
           fi
 
@@ -60,20 +82,22 @@ jobs:
 
       - name: Build Chrome Extension
         if: steps.changes.outputs.changed == 'true'
-        run: bun run --cwd apps/extension zip -- --browser chrome
+        run: bun run --cwd apps/extension build -- --browser chrome
 
       - name: Prepare Chrome Artifact
         if: steps.changes.outputs.changed == 'true'
         run: |
           mkdir -p artifacts
-          chrome_zip="$(find apps/extension/.output -maxdepth 1 -type f -name '*chrome*.zip' | sort | head -n 1)"
 
-          if [ -z "${chrome_zip}" ]; then
-            echo "Could not find Chrome extension zip in apps/extension/.output."
+          if [ ! -f apps/extension/.output/chrome-mv3/manifest.json ]; then
+            echo "Could not find Chrome extension output in apps/extension/.output/chrome-mv3."
             exit 1
           fi
 
-          cp "${chrome_zip}" "artifacts/${CHROME_ASSET_NAME}"
+          (
+            cd apps/extension/.output/chrome-mv3
+            zip -r "${GITHUB_WORKSPACE}/artifacts/${{ steps.release.outputs.chrome_asset_name }}" .
+          )
 
       - name: Prepare Release Notes
         if: steps.changes.outputs.changed == 'true'
@@ -81,13 +105,14 @@ jobs:
           cat > release-notes.md <<NOTES
           Chrome install:
 
-          1. Download \`${CHROME_ASSET_NAME}\` from Assets.
+          1. Download \`${{ steps.release.outputs.chrome_asset_name }}\` from Assets.
           2. Unzip it.
           3. Open \`chrome://extensions\`.
           4. Enable Developer mode.
           5. Click Load unpacked and select the unzipped folder.
 
           Commit: ${GITHUB_SHA}
+          Release: ${{ steps.release.outputs.release_tag }}
           NOTES
 
       - name: Publish Release
@@ -95,15 +120,10 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         if: steps.changes.outputs.changed == 'true'
         run: |
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git config user.name "github-actions[bot]"
-          git tag --force "${RELEASE_TAG}" "${GITHUB_SHA}"
-          git push --force origin "refs/tags/${RELEASE_TAG}"
-
-          if gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
-            gh release upload "${RELEASE_TAG}" "artifacts/${CHROME_ASSET_NAME}#${CHROME_ASSET_NAME}" --clobber
-            gh release edit "${RELEASE_TAG}" --notes-file release-notes.md --prerelease --title "${RELEASE_TITLE}"
-          else
-            gh release create "${RELEASE_TAG}" --notes-file release-notes.md --prerelease --title "${RELEASE_TITLE}" --verify-tag
-            gh release upload "${RELEASE_TAG}" "artifacts/${CHROME_ASSET_NAME}#${CHROME_ASSET_NAME}" --clobber
-          fi
+          gh release create "${{ steps.release.outputs.release_tag }}" \
+            "artifacts/${{ steps.release.outputs.chrome_asset_name }}#${{ steps.release.outputs.chrome_asset_name }}" \
+            --latest=false \
+            --notes-file release-notes.md \
+            --prerelease \
+            --target "${GITHUB_SHA}" \
+            --title "${{ steps.release.outputs.release_title }}"
