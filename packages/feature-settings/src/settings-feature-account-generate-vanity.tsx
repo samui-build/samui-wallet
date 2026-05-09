@@ -17,6 +17,7 @@ import {
   type VanityWalletFormFields,
 } from './ui/settings-ui-wallet-form-generate-vanity.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
+import VanityWorker from './workers/vanity-worker.ts?worker'
 import type { VanityWorkerMessage } from './workers/vanity-worker-message.ts'
 
 type VanityGeneratorState =
@@ -76,7 +77,7 @@ function useVanityGenerator() {
 
     dispatch({ type: 'start' })
     workerRef.current?.terminate()
-    const worker = new Worker(new URL('./workers/vanity-worker.ts', import.meta.url), { type: 'module' })
+    const worker = new VanityWorker()
     workerRef.current = worker
 
     worker.onmessage = (event: MessageEvent<VanityWorkerMessage>) => {
