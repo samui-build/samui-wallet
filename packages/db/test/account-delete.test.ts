@@ -3,24 +3,33 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountDelete } from '../src/account/account-delete.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
-import { randomId } from '../src/random-id.ts'
 import { settingSetValue } from '../src/setting/setting-set-value.ts'
-import { createDbContextTest, testAccountCreateInput, testSettingSetInput } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testSettingSetInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('account-delete', () => {
   beforeEach(async () => {
     await ctx.db.accounts.clear()
-    await ctx.db.settings.clear()
+    await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
     it('should delete an account', async () => {
       // ARRANGE
       expect.assertions(1)
-      await accountCreate(ctx, testAccountCreateInput({ walletId: randomId() }))
-      const input = testAccountCreateInput({ walletId: randomId() })
+      const walletId1 = await walletCreate(ctx, testWalletCreateInput())
+      const walletId2 = await walletCreate(ctx, testWalletCreateInput())
+      await accountCreate(ctx, testAccountCreateInput({ walletId: walletId1 }))
+      const input = testAccountCreateInput({ walletId: walletId2 })
       const id = await accountCreate(ctx, input)
 
       // ACT
@@ -44,7 +53,8 @@ describe('account-delete', () => {
     it('should not delete an active account', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testAccountCreateInput({ walletId: randomId() })
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
+      const input = testAccountCreateInput({ walletId })
       const id = await accountCreate(ctx, input)
       const [_, value] = testSettingSetInput(id)
 

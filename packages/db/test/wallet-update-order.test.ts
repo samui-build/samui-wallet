@@ -3,25 +3,24 @@ import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
 import { walletUpdateOrder } from '../src/wallet/wallet-update-order.ts'
-import { createDbContextTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, createPasswordTestVault, testWalletCreateInput } from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('walletUpdateOrder', () => {
   beforeEach(async () => {
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
     let wallet1: Wallet, wallet2: Wallet, wallet3: Wallet, wallet4: Wallet
 
     beforeEach(async () => {
-      await Promise.all([
-        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 1' })),
-        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 2' })),
-        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 3' })),
-        walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 4' })),
-      ])
+      await walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 1' }))
+      await walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 2' }))
+      await walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 3' }))
+      await walletCreate(ctx, testWalletCreateInput({ name: 'Wallet 4' }))
       const wallets = await walletFindMany(ctx)
       wallet1 = wallets.find((w) => w.name === 'Wallet 1') as Wallet
       wallet2 = wallets.find((w) => w.name === 'Wallet 2') as Wallet

@@ -35,7 +35,6 @@ export function SettingsUiWalletFormImport({
       derivationPath: derivationPaths.default,
       mnemonic: '',
       name,
-      secret: '',
     },
   })
 

@@ -1,5 +1,7 @@
-import { expect, type Page } from '@playwright/test'
+import type { Page } from '@playwright/test'
+import { expect } from '@playwright/test'
 import { testWalletMenuLabel, testWalletSeedPhrase } from '../fixtures/wallet.ts'
+import { setupVaultPassword } from './vault.ts'
 
 export async function importExistingWallet(page: Page) {
   await page.goto('')
@@ -12,5 +14,6 @@ export async function importExistingWallet(page: Page) {
   }
 
   await page.getByRole('button', { name: 'Import wallet' }).click()
+  await setupVaultPassword(page)
   await expect(page.getByTestId('wallet-menu-trigger')).toContainText(testWalletMenuLabel)
 }

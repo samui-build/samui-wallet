@@ -4,13 +4,20 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('wallet-find-many', () => {
   beforeEach(async () => {
+    await ctx.db.accounts.clear()
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {

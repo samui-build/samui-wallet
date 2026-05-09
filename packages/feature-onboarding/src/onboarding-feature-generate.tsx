@@ -46,8 +46,10 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
 
   async function submit(input: OnboardingGenerateForm) {
     try {
-      await create(input.mnemonic)
-      await navigate(redirectTo)
+      const created = await create(input.mnemonic)
+      if (created) {
+        await navigate(redirectTo)
+      }
     } catch (error) {
       toastError(`${error}`)
     }

@@ -1,4 +1,10 @@
-import { Dexie, type Table } from 'dexie'
+import { encryptWithVaultKey, isEncryptedValue } from '@workspace/vault/encrypted-value'
+import {
+  createUnsecuredWalletProtection,
+  isWalletProtection,
+  unlockUnsecuredWalletProtection,
+} from '@workspace/vault/wallet-protection'
+import { Dexie, type Table, type Transaction } from 'dexie'
 import type { AccountInternal } from './account/account-internal.ts'
 import { accountSanitizer } from './account/account-sanitizer.ts'
 import type { BookmarkAccount } from './bookmark-account/bookmark-account.ts'
@@ -24,14 +30,17 @@ export class Database extends Dexie {
 
   constructor(config: DatabaseConfig) {
     super(config.name)
-    this.version(1).stores({
+    const stores = {
       accounts: 'id, [order+walletId], derivationIndex, order, publicKey, type, walletId',
       bookmarkAccounts: 'id, address, label, updatedAt',
       bookmarkTransactions: 'id, signature, label, updatedAt',
       networks: 'id, name, type',
       settings: 'id, &key',
       wallets: 'id, name, order',
-    })
+    }
+
+    this.version(1).stores(stores)
+    this.version(2).stores(stores).upgrade(migrateLegacyPlaintextWalletsToUnsecured)
 
     this.accounts.hook('reading', accountReadingHook)
     this.wallets.hook('reading', walletReadingHook)
@@ -48,4 +57,33 @@ function accountReadingHook(account: AccountInternal | undefined) {
 
 function walletReadingHook(wallet: WalletInternal | undefined) {
   return wallet ? walletSanitizer(wallet) : wallet
+}
+
+async function migrateLegacyPlaintextWalletsToUnsecured(transaction: Transaction): Promise<void> {
+  const accounts = transaction.table<AccountInternal, string>('accounts')
+  const wallets = transaction.table<WalletInternal, string>('wallets')
+  const legacyWallets = await wallets.toCollection().raw().toArray()
+
+  for (const wallet of legacyWallets) {
+    if (!wallet.mnemonic || isEncryptedValue(wallet.mnemonic) || isWalletProtection(wallet.secret)) {
+      continue
+    }
+
+    const protection = createUnsecuredWalletProtection()
+    const key = await Dexie.waitFor(unlockUnsecuredWalletProtection({ protection }))
+    await wallets.update(wallet.id, {
+      mnemonic: await Dexie.waitFor(encryptWithVaultKey({ key, value: wallet.mnemonic })),
+      secret: protection,
+    })
+
+    const walletAccounts = await accounts.where('walletId').equals(wallet.id).raw().toArray()
+    for (const account of walletAccounts) {
+      if (!account.secretKey || isEncryptedValue(account.secretKey)) {
+        continue
+      }
+      await accounts.update(account.id, {
+        secretKey: await Dexie.waitFor(encryptWithVaultKey({ key, value: account.secretKey })),
+      })
+    }
+  }
 }

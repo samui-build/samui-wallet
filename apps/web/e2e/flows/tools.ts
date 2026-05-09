@@ -8,7 +8,7 @@ export type CreatedToken = {
 export type TokenProgram = 'SPL Token' | 'SPL Token 2022'
 
 export async function createToken(page: Page, tokenProgram: TokenProgram): Promise<CreatedToken> {
-  await page.goto('/#/tools/create-token')
+  await navigateInApp(page, '/tools/create-token')
 
   if (tokenProgram === 'SPL Token 2022') {
     await page.getByRole('combobox').click()
@@ -34,7 +34,7 @@ export async function createToken(page: Page, tokenProgram: TokenProgram): Promi
 }
 
 export async function requestLocalnetAirdrop(page: Page) {
-  await page.goto('/#/tools/airdrop')
+  await navigateInApp(page, '/tools/airdrop')
   await page.getByRole('combobox').click()
   await page.getByRole('option').first().click()
   await page.getByRole('spinbutton', { name: 'Amount' }).fill('2')
@@ -58,6 +58,13 @@ async function closeToasts(page: Page) {
       .waitFor({ state: 'detached', timeout: 1_000 })
       .catch(() => undefined)
   }
+}
+
+async function navigateInApp(page: Page, path: string) {
+  await page.evaluate((hash) => {
+    window.location.hash = hash
+  }, path)
+  await expect(page).toHaveURL((url) => url.hash === `#${path}`)
 }
 
 function addressFromLink(href: null | string) {

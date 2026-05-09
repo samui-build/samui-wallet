@@ -4,7 +4,7 @@ import { walletSanitizer } from '../src/wallet/wallet-sanitizer.ts'
 
 describe('wallet-sanitizer', () => {
   describe('expected behavior', () => {
-    it('should remove the mnemonic from a wallet', () => {
+    it('should remove the mnemonic and secret from a wallet', () => {
       // ARRANGE
       expect.assertions(3)
       const now = new Date()
@@ -25,8 +25,8 @@ describe('wallet-sanitizer', () => {
 
       // ASSERT
       expect(result.name).toBe(input.name)
-      expect(result.secret).toBe(input.secret)
       expect(result).not.toHaveProperty('mnemonic')
+      expect(result).not.toHaveProperty('secret')
     })
   })
 

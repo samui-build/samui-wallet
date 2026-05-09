@@ -5,7 +5,13 @@ import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountFindUnique } from '../src/account/account-find-unique.ts'
 import { randomId } from '../src/random-id.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
-import { createDbContextTest, testAccountCreateInput } from './test-helpers.ts'
+import { walletCreate } from '../src/wallet/wallet-create.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
@@ -13,13 +19,15 @@ describe('account-create', () => {
   beforeEach(async () => {
     await ctx.db.accounts.clear()
     await ctx.db.settings.clear()
+    await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
     it('should create an account', async () => {
       // ARRANGE
-      expect.assertions(2)
-      const walletId = randomId()
+      expect.assertions(4)
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
       const input = testAccountCreateInput({ walletId })
 
       // ACT
@@ -27,15 +35,18 @@ describe('account-create', () => {
 
       // ASSERT
       const item = await accountFindUnique(ctx, result)
+      const raw = await ctx.db.accounts.where('id').equals(result).raw().first()
       expect(item?.name).toEqual(input.name)
       // @ts-expect-error secretKey does not exist on the type. Here we ensure it's sanitized.
       expect(item?.secretKey).toBeUndefined()
+      expect(raw?.secretKey).toBeDefined()
+      expect(raw?.secretKey).not.toContain(input.secretKey ?? '')
     })
 
     it('should create an account with a default derivationIndex of 0', async () => {
       // ARRANGE
       expect.assertions(1)
-      const walletId = randomId()
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
       const input = testAccountCreateInput({ walletId })
 
       // ACT
@@ -49,7 +60,7 @@ describe('account-create', () => {
     it('should create an account and set activeAccountId setting', async () => {
       // ARRANGE
       expect.assertions(3)
-      const walletId = randomId()
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
       const input = testAccountCreateInput({ walletId })
 
       // ACT
@@ -121,7 +132,8 @@ describe('account-create', () => {
     it('should throw an error when creating an account fails', async () => {
       // ARRANGE
       expect.assertions(1)
-      const input = testAccountCreateInput({ walletId: 'test-wallet' })
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
+      const input = testAccountCreateInput({ walletId })
       vi.spyOn(ctx.db.accounts, 'add').mockImplementationOnce(
         () => Promise.reject(new Error('Test error')) as PromiseExtended<string>,
       )

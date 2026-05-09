@@ -2,20 +2,20 @@ import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
-import { createDbContextTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, createPasswordTestVault, testWalletCreateInput } from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('wallet-create', () => {
   beforeEach(async () => {
     await ctx.db.wallets.clear()
-    await ctx.db.settings.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
     it('should create a wallet', async () => {
       // ARRANGE
-      expect.assertions(4)
+      expect.assertions(7)
       const input = testWalletCreateInput({ color: 'green' })
 
       // ACT
@@ -23,11 +23,16 @@ describe('wallet-create', () => {
 
       // ASSERT
       const item = await walletFindUnique(ctx, result)
+      const raw = await ctx.db.wallets.where('id').equals(result).raw().first()
+      const protection = JSON.parse(raw?.secret ?? '{}')
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(item?.mnemonic).toBe(undefined)
       expect(item?.name).toBe(input.name)
       expect(item?.color).toBe('green')
       expect(item?.order).toBe(0)
+      expect(raw?.mnemonic).not.toContain(input.mnemonic)
+      expect(protection).toEqual({ mode: 'password', version: 1 })
+      expect(raw?.secret).not.toContain(input.mnemonic)
     })
 
     it('should create a wallet with a description', async () => {

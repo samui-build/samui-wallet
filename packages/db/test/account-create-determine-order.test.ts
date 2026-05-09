@@ -4,15 +4,20 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountCreateDetermineOrder } from '../src/account/account-create-determine-order.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('account-create-determine-order', () => {
   beforeEach(async () => {
     await ctx.db.accounts.clear()
-    await ctx.db.settings.clear()
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {

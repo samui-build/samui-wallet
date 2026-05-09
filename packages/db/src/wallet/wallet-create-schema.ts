@@ -5,5 +5,6 @@ export const walletCreateSchema = walletInternalSchema.omit({
   createdAt: true,
   id: true,
   order: true,
+  secret: true,
   updatedAt: true,
 })

@@ -4,7 +4,12 @@ import { accountCreate } from '../src/account/account-create.ts'
 import { accountFindMany } from '../src/account/account-find-many.ts'
 import { accountUpdateOrder } from '../src/account/account-update-order.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
@@ -13,6 +18,7 @@ describe('accountUpdateOrder', () => {
   beforeEach(async () => {
     await ctx.db.wallets.clear()
     await ctx.db.accounts.clear()
+    await createPasswordTestVault(ctx)
     walletId = await walletCreate(ctx, testWalletCreateInput())
   })
 
@@ -20,12 +26,10 @@ describe('accountUpdateOrder', () => {
     let account1: Account, account2: Account, account3: Account, account4: Account
 
     beforeEach(async () => {
-      await Promise.all([
-        accountCreate(ctx, testAccountCreateInput({ name: 'Account 1', walletId })),
-        accountCreate(ctx, testAccountCreateInput({ name: 'Account 2', walletId })),
-        accountCreate(ctx, testAccountCreateInput({ name: 'Account 3', walletId })),
-        accountCreate(ctx, testAccountCreateInput({ name: 'Account 4', walletId })),
-      ])
+      await accountCreate(ctx, testAccountCreateInput({ name: 'Account 1', walletId }))
+      await accountCreate(ctx, testAccountCreateInput({ name: 'Account 2', walletId }))
+      await accountCreate(ctx, testAccountCreateInput({ name: 'Account 3', walletId }))
+      await accountCreate(ctx, testAccountCreateInput({ name: 'Account 4', walletId }))
       const accounts = await accountFindMany(ctx)
       account1 = accounts.find((a) => a.name === 'Account 1') as Account
       account2 = accounts.find((a) => a.name === 'Account 2') as Account

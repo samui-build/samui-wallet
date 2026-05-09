@@ -3,13 +3,14 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletCreateDetermineOrder } from '../src/wallet/wallet-create-determine-order.ts'
 import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
-import { createDbContextTest, testWalletCreateInput } from './test-helpers.ts'
+import { createDbContextTest, createPasswordTestVault, testWalletCreateInput } from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('wallet-create-determine-order', () => {
   beforeEach(async () => {
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {

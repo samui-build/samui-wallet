@@ -4,7 +4,12 @@ import { accountCreate } from '../src/account/account-create.ts'
 import type { AccountInternal } from '../src/account/account-internal.ts'
 import { accountReadSecretKey } from '../src/account/account-read-secret-key.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
@@ -12,6 +17,7 @@ describe('account-read-secret-key', () => {
   beforeEach(async () => {
     await ctx.db.accounts.clear()
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
@@ -47,6 +53,18 @@ describe('account-read-secret-key', () => {
 
       // ACT & ASSERT
       await expect(accountReadSecretKey(ctx, id)).rejects.toThrow(`Account with id ${id} not found`)
+    })
+
+    it('should throw when reading a secret key while the vault is locked', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const walletId = await walletCreate(ctx, testWalletCreateInput())
+      const accountInput = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
+      const id = await accountCreate(ctx, accountInput)
+      ctx.vault.lock()
+
+      // ACT & ASSERT
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow('Vault is locked')
     })
 
     it('should throw an error if the account is of type Watched', async () => {

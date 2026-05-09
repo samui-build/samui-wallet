@@ -1,8 +1,9 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
+import { decryptWithVaultKey } from '@workspace/vault/encrypted-value'
 import type { DbContext } from '../db-context.ts'
 
-export function walletReadMnemonic(ctx: DbContext, id: string) {
-  return ctx.db.transaction('r', ctx.db.wallets, async () => {
+export async function walletReadMnemonic(ctx: DbContext, id: string): Promise<string> {
+  const wallet = await ctx.db.transaction('r', ctx.db.wallets, async () => {
     const wallet = await tryCatchOrThrow(
       ctx.db.wallets.where('id').equals(id).raw().first(),
       `Error finding wallet with id ${id}`,
@@ -10,7 +11,11 @@ export function walletReadMnemonic(ctx: DbContext, id: string) {
     if (!wallet) {
       throw new Error(`Wallet with id ${id} not found`)
     }
-    // TODO: Decrypt wallet.secret here and use it to decrypt wallet.mnemonic
-    return wallet.mnemonic
+    return wallet
+  })
+
+  return await decryptWithVaultKey({
+    encrypted: wallet.mnemonic,
+    key: await ctx.vault.requireWalletKey({ walletId: id }),
   })
 }

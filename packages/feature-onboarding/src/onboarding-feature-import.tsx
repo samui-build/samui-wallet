@@ -90,8 +90,10 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
 
     try {
       const mnemonic = validateMnemonic({ mnemonic: words.slice(0, wordCount).join(' ') })
-      await create(mnemonic)
-      await navigate(redirectTo)
+      const created = await create(mnemonic)
+      if (created) {
+        await navigate(redirectTo)
+      }
     } catch (error) {
       toastError(`${error}`)
     }

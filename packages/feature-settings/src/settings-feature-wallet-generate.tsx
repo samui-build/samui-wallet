@@ -3,6 +3,7 @@ import { useWalletGenerateWithAccount } from '@workspace/db-react/use-wallet-gen
 import { useTranslation } from '@workspace/i18n'
 import { generateMnemonic } from '@workspace/keypair/generate-mnemonic'
 import { UiCard } from '@workspace/ui/components/ui-card'
+import { useVaultUnlockDialog } from '@workspace/vault-react/vault-unlock-provider'
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router'
 import { SettingsUiWalletFormGenerate } from './ui/settings-ui-wallet-form-generate.tsx'
@@ -15,6 +16,7 @@ export function SettingsFeatureWalletGenerate() {
   const [strength, setStrength] = useState<128 | 256>(128)
   const name = useWalletDetermineName()
   const mnemonic = useMemo(() => generateMnemonic({ strength }), [strength])
+  const { requestUnlock } = useVaultUnlockDialog()
 
   return (
     <UiCard
@@ -27,6 +29,10 @@ export function SettingsFeatureWalletGenerate() {
         mnemonic={mnemonic}
         name={name}
         submit={async (input) => {
+          const unlocked = await requestUnlock({ mode: 'password', reason: 'createWallet' })
+          if (!unlocked) {
+            return
+          }
           await generateWalletWithAccountMutation.mutateAsync(input).then(async (walletId) => {
             await navigate(`/settings/wallets/${walletId}`)
           })

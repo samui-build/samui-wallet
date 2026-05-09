@@ -1,9 +1,14 @@
-import { beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { accountSetActive } from '../src/account/account-set-active.ts'
 import { settingFindUnique } from '../src/setting/setting-find-unique.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
@@ -12,6 +17,7 @@ describe('account-set-active', () => {
     await ctx.db.accounts.clear()
     await ctx.db.settings.clear()
     await ctx.db.wallets.clear()
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {
@@ -41,6 +47,14 @@ describe('account-set-active', () => {
   })
 
   describe('unexpected behavior', () => {
+    beforeEach(() => {
+      vi.spyOn(console, 'log').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
     it('should throw an error when account does not exist', async () => {
       // ARRANGE
       expect.assertions(1)

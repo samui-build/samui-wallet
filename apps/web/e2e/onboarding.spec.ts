@@ -1,17 +1,9 @@
 import { expect, test } from '@playwright/test'
-import { testWalletMenuLabel, testWalletSeedPhrase } from './fixtures/wallet.ts'
+import { importExistingWallet } from './flows/onboarding.ts'
 
 test('onboarding - import existing wallet', async ({ page }) => {
-  await page.goto('')
-  await page.getByRole('link', { name: 'I already have a wallet' }).click()
-
-  for (const [index, word] of testWalletSeedPhrase.entries()) {
-    const name = (index + 1).toString()
-    await page.getByRole('textbox', { exact: true, name }).click()
-    await page.getByRole('textbox', { exact: true, name }).fill(word)
-  }
-
-  await page.getByRole('button', { name: 'Import wallet' }).click()
-  await page.getByRole('button', { name: 'Copy public key' }).click()
-  await expect(page.getByTestId('wallet-menu-trigger')).toContainText(testWalletMenuLabel)
+  await importExistingWallet(page)
+  const copyPublicKeyButton = page.getByRole('button', { name: 'Copy public key' })
+  await expect(copyPublicKeyButton).toBeVisible()
+  await copyPublicKeyButton.click()
 })

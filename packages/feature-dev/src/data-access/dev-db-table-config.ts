@@ -157,14 +157,13 @@ export const devDbTableConfigs: DevDbTableConfig[] = [
   },
   {
     create: (ctx, input) => walletCreate(ctx, input as WalletCreateInput),
-    createFields: ['color', 'derivationPath', 'description', 'mnemonic', 'name', 'secret'],
+    createFields: ['color', 'derivationPath', 'description', 'mnemonic', 'name'],
     createSchema: walletTableMetadata.createSchema,
     defaultValues: {
       derivationPath: "m/44'/501'/0'/0'",
       description: '',
       mnemonic: '',
       name: '',
-      secret: '',
     },
     detailFields: ['color', 'createdAt', 'derivationPath', 'description', 'id', 'name', 'order', 'updatedAt'],
     label: 'Wallets',

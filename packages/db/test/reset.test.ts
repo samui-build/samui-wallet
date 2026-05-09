@@ -2,13 +2,19 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
 import { reset } from '../src/reset.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
-import { createDbContextTest, testAccountCreateInput, testWalletCreateInput } from './test-helpers.ts'
+import {
+  createDbContextTest,
+  createPasswordTestVault,
+  testAccountCreateInput,
+  testWalletCreateInput,
+} from './test-helpers.ts'
 
 const ctx = createDbContextTest()
 
 describe('reset', () => {
   beforeEach(async () => {
     await Promise.all(ctx.db.tables.map((table) => table.clear()))
+    await createPasswordTestVault(ctx)
   })
 
   describe('expected behavior', () => {

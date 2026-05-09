@@ -21,6 +21,12 @@ export function createDbContextTest(): DbContext {
   return { db, vault: createDbVault({ db }) }
 }
 
+export async function createPasswordTestVault(ctx: DbContext, password = 'password-one'): Promise<void> {
+  ctx.vault.lock()
+  await ctx.db.settings.clear()
+  await ctx.vault.create({ password })
+}
+
 export function randomName(prefix: string): string {
   return `${prefix}-${randomId(8)}`
 }
@@ -70,7 +76,6 @@ export function testWalletCreateInput(input: Partial<WalletCreateInput> = {}): W
     derivationPath: 'd',
     mnemonic: 'baz',
     name: randomName('wallet'),
-    secret: 'bar',
     ...input,
   }
 }
