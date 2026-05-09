@@ -35,6 +35,38 @@ describe('account-read-secret-key', () => {
       // ASSERT
       expect(result).toBe(accountInput.secretKey)
     })
+
+    it('should read an unsecured wallet account while the vault is locked', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const walletId = await walletCreate(ctx, testWalletCreateInput({ protection: { mode: 'unsecured' } }))
+      const accountInput = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
+      const id = await accountCreate(ctx, accountInput)
+      ctx.vault.lock()
+
+      // ACT
+      const result = await accountReadSecretKey(ctx, id)
+
+      // ASSERT
+      expect(result).toBe(accountInput.secretKey)
+    })
+
+    it('should read a PIN wallet account after unlocking the wallet', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const walletId = await walletCreate(ctx, testWalletCreateInput({ protection: { mode: 'pin', pin: '1234' } }))
+      await ctx.vault.unlockWallet({ credential: '1234', walletId })
+      const accountInput = testAccountCreateInput({ secretKey: 'test-secret-key', walletId })
+      const id = await accountCreate(ctx, accountInput)
+      ctx.vault.lock()
+      await ctx.vault.unlockWallet({ credential: '1234', walletId })
+
+      // ACT
+      const result = await accountReadSecretKey(ctx, id)
+
+      // ASSERT
+      expect(result).toBe(accountInput.secretKey)
+    })
   })
 
   describe('unexpected behavior', () => {
@@ -65,6 +97,18 @@ describe('account-read-secret-key', () => {
 
       // ACT & ASSERT
       await expect(accountReadSecretKey(ctx, id)).rejects.toThrow('Vault is locked')
+    })
+
+    it('should throw an error if a PIN wallet account is locked', async () => {
+      // ARRANGE
+      expect.assertions(1)
+      const walletId = await walletCreate(ctx, testWalletCreateInput({ protection: { mode: 'pin', pin: '1234' } }))
+      await ctx.vault.unlockWallet({ credential: '1234', walletId })
+      const id = await accountCreate(ctx, testAccountCreateInput({ walletId }))
+      ctx.vault.lock()
+
+      // ACT & ASSERT
+      await expect(accountReadSecretKey(ctx, id)).rejects.toThrow('Wallet is locked')
     })
 
     it('should throw an error if the account is of type Watched', async () => {

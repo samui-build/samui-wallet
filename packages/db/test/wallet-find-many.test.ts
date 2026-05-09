@@ -1,9 +1,9 @@
 import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { accountCreate } from '../src/account/account-create.ts'
-import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindMany } from '../src/wallet/wallet-find-many.ts'
+import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
 import {
   createDbContextTest,
   createPasswordTestVault,
@@ -48,12 +48,13 @@ describe('wallet-find-many', () => {
           accountsOrders: i.accounts.map((a) => a.order),
           id: i.id,
           order: i.order,
+          protectionMode: i.protectionMode,
         })),
       ).toEqual(
         expect.arrayContaining([
-          { accountsLength: 2, accountsOrders: [0, 1], id: wallet1Id, order: 0 },
-          { accountsLength: 1, accountsOrders: [0], id: wallet2Id, order: 1 },
-          { accountsLength: 3, accountsOrders: [0, 1, 2], id: wallet3Id, order: 2 },
+          { accountsLength: 2, accountsOrders: [0, 1], id: wallet1Id, order: 0, protectionMode: 'password' },
+          { accountsLength: 1, accountsOrders: [0], id: wallet2Id, order: 1, protectionMode: 'password' },
+          { accountsLength: 3, accountsOrders: [0, 1, 2], id: wallet3Id, order: 2, protectionMode: 'password' },
         ]),
       )
     })
@@ -129,7 +130,9 @@ describe('wallet-find-many', () => {
       vi.spyOn(ctx.db.wallets, 'orderBy').mockImplementation(() => ({
         filter: () => ({
           // @ts-expect-error - Mocking Dexie's chained methods confuses Vitest's type inference.
-          toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet[]>,
+          raw: () => ({
+            toArray: () => Promise.reject(new Error('Test error')) as PromiseExtended<WalletInternal[]>,
+          }),
         }),
       }))
 

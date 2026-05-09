@@ -15,6 +15,7 @@ export interface VaultStorage {
 
 export interface Vault {
   changePassword(input: { newPassword: string; oldPassword: string }): Promise<void>
+  clearWalletKey(input: { walletId: string }): void
   create(input: { password: string }): Promise<void>
   isConfigured(): Promise<boolean>
   isUnlocked(): boolean
@@ -57,6 +58,9 @@ export function createVault(store: VaultStorage): Vault {
       } catch (error) {
         throw new Error('Unable to change vault password', { cause: error })
       }
+    },
+    clearWalletKey({ walletId }) {
+      walletKeys.delete(walletId)
     },
     async create({ password }) {
       if (await isConfigured()) {

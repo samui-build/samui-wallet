@@ -1,8 +1,8 @@
 import type { PromiseExtended } from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Wallet } from '../src/wallet/wallet.ts'
 import { walletCreate } from '../src/wallet/wallet-create.ts'
 import { walletFindUnique } from '../src/wallet/wallet-find-unique.ts'
+import type { WalletInternal } from '../src/wallet/wallet-internal.ts'
 import { createDbContextTest, createPasswordTestVault, testWalletCreateInput } from './test-helpers.ts'
 
 const ctx = createDbContextTest()
@@ -16,7 +16,7 @@ describe('wallet-find-unique', () => {
   describe('expected behavior', () => {
     it('should find a unique wallet', async () => {
       // ARRANGE
-      expect.assertions(3)
+      expect.assertions(4)
       const input = testWalletCreateInput()
       const id = await walletCreate(ctx, input)
 
@@ -26,6 +26,7 @@ describe('wallet-find-unique', () => {
       // ASSERT
       expect(item).toBeDefined()
       expect(item?.name).toBe(input.name)
+      expect(item?.protectionMode).toBe('password')
       // @ts-expect-error mnemonic does not exist on the type. Here we ensure it's sanitized.
       expect(item?.mnemonic).toBe(undefined)
     })
@@ -44,8 +45,15 @@ describe('wallet-find-unique', () => {
       // ARRANGE
       expect.assertions(1)
       const id = 'test-id'
-      vi.spyOn(ctx.db.wallets, 'get').mockImplementationOnce(
-        () => Promise.reject(new Error('Test error')) as PromiseExtended<Wallet | undefined>,
+      vi.spyOn(ctx.db.wallets, 'where').mockImplementationOnce(
+        () =>
+          ({
+            equals: () => ({
+              raw: () => ({
+                first: () => Promise.reject(new Error('Test error')) as PromiseExtended<WalletInternal | undefined>,
+              }),
+            }),
+          }) as never,
       )
 
       // ACT & ASSERT

@@ -62,6 +62,7 @@ const config: CSpellSettings = {
     'netinfo',
     'nvmrc',
     'nums',
+    'reprotect',
     'rtishchev',
     'samui',
     'seti',

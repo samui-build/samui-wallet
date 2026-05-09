@@ -11,6 +11,7 @@ function createWallet(input: Pick<Wallet, 'name' | 'order'>): Wallet {
     id: input.name,
     name: input.name,
     order: input.order,
+    protectionMode: 'password',
     updatedAt: now,
   }
 }

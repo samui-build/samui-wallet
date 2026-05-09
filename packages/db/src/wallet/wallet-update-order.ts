@@ -1,6 +1,6 @@
 import { tryCatchOrThrow } from '@workspace/core/try-catch-or-throw'
 import type { DbContext } from '../db-context.ts'
-import type { Wallet } from './wallet.ts'
+import type { WalletInternal } from './wallet-internal.ts'
 import type { WalletUpdateOrderInput } from './wallet-update-order-input.ts'
 import { walletUpdateOrderSchema } from './wallet-update-order-schema.ts'
 
@@ -32,7 +32,7 @@ export async function walletUpdateOrder(ctx: DbContext, input: WalletUpdateOrder
       ctx.db.wallets
         .where('order')
         .between(lower, upper, true, true)
-        .modify((wallet: Wallet) => {
+        .modify((wallet: WalletInternal) => {
           wallet.order = increment ? wallet.order + 1 : wallet.order - 1
         }),
       `Error updating wallet order (${increment ? 'increment' : 'decrement'})`,

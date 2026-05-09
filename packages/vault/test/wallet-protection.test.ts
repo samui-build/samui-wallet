@@ -126,6 +126,30 @@ describe('wallet-protection', () => {
       expect(result).toBeDefined()
       await expect(vault.requireWalletKey({ walletId })).rejects.toThrow('Wallet is locked')
     })
+
+    it('should clear the cached wallet key for one wallet', async () => {
+      // ARRANGE
+      expect.assertions(5)
+      const vault = createVault(storage)
+      const protection1 = await createPinWalletProtection({ pin: '1234' })
+      const protection2 = await createPinWalletProtection({ pin: '5678' })
+      const walletId1 = createWallet(protection1)
+      const walletId2 = createWallet(protection2)
+      await vault.unlockWallet({ credential: '1234', walletId: walletId1 })
+      await vault.unlockWallet({ credential: '5678', walletId: walletId2 })
+
+      // ACT
+      const result1 = await vault.requireWalletKey({ walletId: walletId1 })
+      const result2 = await vault.requireWalletKey({ walletId: walletId2 })
+      vault.clearWalletKey({ walletId: walletId1 })
+
+      // ASSERT
+      expect(result1).toBeDefined()
+      expect(result2).toBeDefined()
+      await expect(vault.requireWalletKey({ walletId: walletId1 })).rejects.toThrow('Wallet is locked')
+      await expect(vault.requireWalletKey({ walletId: walletId2 })).resolves.toBe(result2)
+      await expect(vault.unlockWallet({ credential: '1234', walletId: walletId1 })).resolves.toBeUndefined()
+    })
   })
 
   describe('unexpected behavior', () => {
