@@ -26,6 +26,8 @@ export function SettingsFeatureNetworkList() {
           <Link to="create">{t(($) => $.actionCreate)}</Link>
         </Button>
       }
+      backButtonProps={{ className: 'md:hidden' }}
+      backButtonTo="/settings"
       description={page.description}
       title={page.name}
     >

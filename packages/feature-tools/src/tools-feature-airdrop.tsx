@@ -17,7 +17,12 @@ export default function ToolsFeatureAirdrop(props: { account: Account; network: 
   const [results, setResults] = useState<AirdropResult[]>([])
 
   return (
-    <UiCard backButtonTo="/tools" contentProps={{ className: 'space-y-2 md:space-y-6' }} title="Airdrop">
+    <UiCard
+      backButtonProps={{ className: 'md:hidden' }}
+      backButtonTo="/tools"
+      contentProps={{ className: 'space-y-2 md:space-y-6' }}
+      title="Airdrop"
+    >
       <ToolsUiAirdropForm
         disabled={isPending}
         submit={async (input) => {

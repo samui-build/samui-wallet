@@ -124,7 +124,7 @@ export default function ToolsFeatureCreateToken({
   ])
 
   return (
-    <UiCard backButtonTo="/tools" title="Create Token">
+    <UiCard backButtonProps={{ className: 'md:hidden' }} backButtonTo="/tools" title="Create Token">
       {resultMint && resultTx ? (
         <div className="flex flex-col gap-6">
           <div>Token created!</div>

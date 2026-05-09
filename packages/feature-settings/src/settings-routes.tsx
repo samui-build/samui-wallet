@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from 'react-router'
+import { useRoutes } from 'react-router'
 import { SettingsFeatureAccountGenerateVanity } from './settings-feature-account-generate-vanity.tsx'
 import { SettingsFeatureGeneral } from './settings-feature-general.tsx'
 import { SettingsFeatureNetworkCreate } from './settings-feature-network-create.tsx'
@@ -17,7 +17,7 @@ export default function SettingsRoutes() {
   return useRoutes([
     {
       children: [
-        { element: <Navigate replace to="general" />, index: true },
+        { element: <SettingsFeatureGeneral />, index: true },
         {
           children: [
             { element: <SettingsFeatureWalletList />, index: true },

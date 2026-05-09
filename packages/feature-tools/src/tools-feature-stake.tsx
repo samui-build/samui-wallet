@@ -31,7 +31,12 @@ export default function ToolsFeatureStake({
 }) {
   return (
     <div className="space-y-2 md:space-y-6">
-      <UiCard backButtonTo="/tools" contentProps={{ className: 'space-y-2 md:space-y-6' }} title="Stake">
+      <UiCard
+        backButtonProps={{ className: 'md:hidden' }}
+        backButtonTo="/tools"
+        contentProps={{ className: 'space-y-2 md:space-y-6' }}
+        title="Stake"
+      >
         <Routes>
           <Route element={<Navigate replace to="/tools/stake/accounts" />} index />
           <Route

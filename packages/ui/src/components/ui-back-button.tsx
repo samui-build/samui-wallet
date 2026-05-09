@@ -3,7 +3,10 @@ import type { ComponentProps } from 'react'
 import { Link } from 'react-router'
 import { Button } from './button.tsx'
 
-export function UiBackButton({ to = '..', ...props }: ComponentProps<typeof Button> & { to?: string }) {
+export interface UiBackButtonProps extends ComponentProps<typeof Button> {
+  to?: string
+}
+export function UiBackButton({ to = '..', ...props }: UiBackButtonProps) {
   return (
     <Button asChild size="icon" variant="outline" {...props}>
       <Link to={to}>

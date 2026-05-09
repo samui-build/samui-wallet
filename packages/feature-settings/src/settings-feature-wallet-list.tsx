@@ -37,6 +37,8 @@ export function SettingsFeatureWalletList() {
           <Link to="create">{t(($) => $.actionCreate)}</Link>
         </Button>
       }
+      backButtonProps={{ className: 'md:hidden' }}
+      backButtonTo="/settings"
       description={page.description}
       title={page.name}
     >
@@ -49,7 +51,7 @@ export function SettingsFeatureWalletList() {
       />
     </UiCard>
   ) : (
-    <UiCard>
+    <UiCard backButtonProps={{ className: 'md:hidden' }} backButtonTo="/settings" title={page.name}>
       <SettingsUiWalletCreateOptions />
     </UiCard>
   )

@@ -1,21 +1,28 @@
-import { UiPage } from '@workspace/ui/components/ui-page'
+import { UiLayoutListDetail } from '@workspace/ui/components/ui-layout-list-detail'
+import { UiSideNav } from '@workspace/ui/components/ui-side-nav'
 import { Outlet } from 'react-router'
+
 import { useSettingsPages } from '../data-access/use-settings-pages.tsx'
-import { SettingsUiPageList } from './settings-ui-page-list.tsx'
 
 export function SettingsUiLayout() {
   const pages = useSettingsPages()
 
   return (
-    <UiPage>
-      <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 md:gap-4 md:gap-y-4">
-        <div>
-          <SettingsUiPageList pages={pages} />
-        </div>
-        <div className="col-span-2">
-          <Outlet />
-        </div>
-      </div>
-    </UiPage>
+    <UiLayoutListDetail
+      basePath="/settings"
+      list={
+        <UiSideNav
+          basePath="/settings"
+          items={pages.map((page) => ({
+            description: page.description,
+            icon: page.icon,
+            label: page.name,
+            path: page.id,
+          }))}
+        />
+      }
+    >
+      <Outlet />
+    </UiLayoutListDetail>
   )
 }

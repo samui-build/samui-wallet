@@ -28,6 +28,7 @@ export default function ToolsFeatureTransactionInspector() {
           </Button>
         ) : null
       }
+      backButtonProps={{ className: 'md:hidden' }}
       backButtonTo="/tools"
       contentProps={{ className: 'space-y-4' }}
       title="Transaction Inspector"
