@@ -14,10 +14,16 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
-import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
+import {
+  type CreateNewWalletProtectionMode,
+  getCreateNewWalletProtection,
+  parseCreateNewWalletProtectionMode,
+  useCreateNewWallet,
+} from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
 import { OnboardingUiMnemonicShow } from './ui/onboarding-ui-mnemonic-show.tsx'
+import { OnboardingUiWalletProtection } from './ui/onboarding-ui-wallet-protection.tsx'
 
 const onboardingGenerateSchema = z.object({
   mnemonic: z.string(),
@@ -30,7 +36,11 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
   const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
   const navigate = useNavigate()
+  const [pin, setPin] = useState('')
+  const [pinConfirm, setPinConfirm] = useState('')
+  const [protectionMode, setProtectionMode] = useState<CreateNewWalletProtectionMode>('password')
   const [revealed, setRevealed] = useState<boolean>(false)
+  const [unsecuredConfirmed, setUnsecuredConfirmed] = useState(false)
 
   const form = useForm<OnboardingGenerateForm>({
     defaultValues: {
@@ -46,13 +56,31 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
 
   async function submit(input: OnboardingGenerateForm) {
     try {
-      const created = await create(input.mnemonic)
+      const created = await create(
+        input.mnemonic,
+        getCreateNewWalletProtection({
+          pin,
+          pinConfirm,
+          protectionMode,
+          unsecuredConfirmed,
+        }),
+      )
       if (created) {
         await navigate(redirectTo)
       }
     } catch (error) {
       toastError(`${error}`)
     }
+  }
+
+  function handleProtectionModeChange(value: string) {
+    if (!value) {
+      return
+    }
+    setPin('')
+    setPinConfirm('')
+    setProtectionMode(parseCreateNewWalletProtectionMode(value))
+    setUnsecuredConfirmed(false)
   }
 
   return (
@@ -97,6 +125,16 @@ export function OnboardingFeatureGenerate({ redirectTo }: { redirectTo: string }
               </Button>
             </div>
             <OnboardingUiMnemonicShow mnemonic={mnemonic} revealed={revealed} />
+            <OnboardingUiWalletProtection
+              onPinChange={setPin}
+              onPinConfirmChange={setPinConfirm}
+              onProtectionModeChange={handleProtectionModeChange}
+              onUnsecuredConfirmedChange={setUnsecuredConfirmed}
+              pin={pin}
+              pinConfirm={pinConfirm}
+              protectionMode={protectionMode}
+              unsecuredConfirmed={unsecuredConfirmed}
+            />
           </div>
         </UiCard>
       </form>

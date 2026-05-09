@@ -6,6 +6,7 @@
     "@workspace/i18n": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@workspace/vault": "workspace:*",
     "@workspace/vault-react": "workspace:*",
     "@wxt-dev/browser": "catalog:",
     "react-hook-form": "catalog:",

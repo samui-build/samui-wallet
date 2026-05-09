@@ -7,14 +7,20 @@ import { UiBackButton } from '@workspace/ui/components/ui-back-button'
 import { UiCard } from '@workspace/ui/components/ui-card'
 import { UiTextPasteButton } from '@workspace/ui/components/ui-text-paste-button'
 import { toastError } from '@workspace/ui/lib/toast-error'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router'
 import { z } from 'zod'
-import { useCreateNewWallet } from './data-access/use-create-new-wallet.tsx'
+import {
+  type CreateNewWalletProtectionMode,
+  getCreateNewWalletProtection,
+  parseCreateNewWalletProtectionMode,
+  useCreateNewWallet,
+} from './data-access/use-create-new-wallet.tsx'
 import { OnboardingUiMnemonicWordInput } from './onboarding-ui-mnemonic-word-input.tsx'
 import { OnboardingUiMnemonicSave } from './ui/onboarding-ui-mnemonic-save.tsx'
 import { OnboardingUiMnemonicSelectStrength } from './ui/onboarding-ui-mnemonic-select-strength.tsx'
+import { OnboardingUiWalletProtection } from './ui/onboarding-ui-wallet-protection.tsx'
 
 const onboardingImportSchema = z.object({
   strength: z.union([z.literal(128), z.literal(256)]),
@@ -27,6 +33,10 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
   const { t } = useTranslation('onboarding')
   const create = useCreateNewWallet()
   const navigate = useNavigate()
+  const [pin, setPin] = useState('')
+  const [pinConfirm, setPinConfirm] = useState('')
+  const [protectionMode, setProtectionMode] = useState<CreateNewWalletProtectionMode>('password')
+  const [unsecuredConfirmed, setUnsecuredConfirmed] = useState(false)
 
   const form = useForm<OnboardingImportForm>({
     defaultValues: {
@@ -78,6 +88,16 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
     }
   }
 
+  function handleProtectionModeChange(value: string) {
+    if (!value) {
+      return
+    }
+    setPin('')
+    setPinConfirm('')
+    setProtectionMode(parseCreateNewWalletProtectionMode(value))
+    setUnsecuredConfirmed(false)
+  }
+
   const isFormComplete = useMemo(() => {
     return words.slice(0, wordCount).every((word) => word.trim().length > 1)
   }, [words, wordCount])
@@ -90,7 +110,15 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
 
     try {
       const mnemonic = validateMnemonic({ mnemonic: words.slice(0, wordCount).join(' ') })
-      const created = await create(mnemonic)
+      const created = await create(
+        mnemonic,
+        getCreateNewWalletProtection({
+          pin,
+          pinConfirm,
+          protectionMode,
+          unsecuredConfirmed,
+        }),
+      )
       if (created) {
         await navigate(redirectTo)
       }
@@ -152,6 +180,17 @@ export function OnboardingFeatureImport({ redirectTo }: { redirectTo: string }) 
             {form.formState.errors.words ? (
               <p className="mt-4 text-center text-red-500 text-sm">{form.formState.errors.words.message}</p>
             ) : null}
+
+            <OnboardingUiWalletProtection
+              onPinChange={setPin}
+              onPinConfirmChange={setPinConfirm}
+              onProtectionModeChange={handleProtectionModeChange}
+              onUnsecuredConfirmedChange={setUnsecuredConfirmed}
+              pin={pin}
+              pinConfirm={pinConfirm}
+              protectionMode={protectionMode}
+              unsecuredConfirmed={unsecuredConfirmed}
+            />
           </div>
         </UiCard>
       </form>

@@ -86,6 +86,14 @@ interface Resources {
     onboardingPageTitle: "You're all set!"
     uiMnemonicUnexpectedLength: 'Unexpected mnemonic length'
     uiMnemonicWords: '{{words, number}} words'
+    walletProtectionPassword: 'Password'
+    walletProtectionPin: 'PIN'
+    walletProtectionPinConfirmLabel: 'Confirm PIN'
+    walletProtectionPinLabel: 'PIN'
+    walletProtectionTitle: 'Advanced protection'
+    walletProtectionUnsecured: 'Unsecured'
+    walletProtectionUnsecuredConfirm: 'I understand this wallet is not protected by a password or PIN.'
+    walletProtectionUnsecuredWarning: 'Anyone with access to this browser profile may be able to use this wallet.'
   }
   portfolio: {
     actionBurn: 'Burn'

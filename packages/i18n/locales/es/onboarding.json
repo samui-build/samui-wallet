@@ -17,5 +17,13 @@
   "onboardingPageDescription": "¡Ya puedes empezar a usar 🏝 Samui Wallet!",
   "onboardingPageTitle": "¡Todo listo!",
   "uiMnemonicUnexpectedLength": "Longitud mnemónica inesperada",
-  "uiMnemonicWords": "{{words, number}} palabras"
+  "uiMnemonicWords": "{{words, number}} palabras",
+  "walletProtectionPassword": "Contraseña",
+  "walletProtectionPin": "PIN",
+  "walletProtectionPinConfirmLabel": "Confirmar PIN",
+  "walletProtectionPinLabel": "PIN",
+  "walletProtectionTitle": "Protección avanzada",
+  "walletProtectionUnsecured": "Sin protección",
+  "walletProtectionUnsecuredConfirm": "Entiendo que esta billetera no está protegida por contraseña ni PIN.",
+  "walletProtectionUnsecuredWarning": "Cualquier persona con acceso a este perfil de navegador podría usar esta billetera."
 }
