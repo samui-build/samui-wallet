@@ -13,6 +13,10 @@ updates:
         patterns:
           - "@effect/*"
           - "effect"
+      playwright:
+        patterns:
+          - "@playwright/*"
+          - "playwright"
       tanstack-query:
         patterns:
           - "@tanstack/query-*"
