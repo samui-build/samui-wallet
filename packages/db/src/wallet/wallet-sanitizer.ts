@@ -12,9 +12,5 @@ export function walletSanitizer(internal: WalletInternal): Wallet {
 }
 
 function parseWalletProtectionMode(value: string): WalletProtectionMode {
-  try {
-    return walletProtectionSchema.parse(JSON.parse(value)).mode
-  } catch {
-    return 'password'
-  }
+  return walletProtectionSchema.parse(JSON.parse(value)).mode
 }

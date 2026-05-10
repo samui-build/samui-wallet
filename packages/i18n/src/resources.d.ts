@@ -270,6 +270,18 @@ export default interface Resources {
     walletPageEditTitle: 'Edit wallet'
     walletPageGenerateTitle: 'Generate wallet'
     walletPageImportTitle: 'Import wallet'
+    walletProtectionCurrentLabel: 'Current'
+    walletProtectionPassword: 'Password'
+    walletProtectionPin: 'PIN'
+    walletProtectionPinConfirmLabel: 'Confirm PIN'
+    walletProtectionPinLabel: 'PIN'
+    walletProtectionPinLengthError: 'PIN must be {{min, number}}-{{max, number}} digits'
+    walletProtectionPinMismatchError: 'PINs do not match'
+    walletProtectionTitle: 'Wallet protection'
+    walletProtectionUnsecured: 'Unsecured'
+    walletProtectionUnsecuredConfirm: 'I understand this wallet is not protected by a password or PIN.'
+    walletProtectionUnsecuredConfirmError: 'Confirm this wallet is not protected'
+    walletProtectionUnsecuredWarning: 'Anyone with access to this browser profile may be able to use this wallet.'
   }
   shell: {
     accountAdd: 'Add account'

@@ -110,5 +110,17 @@
   "walletPageAddTitle": "Crear billetera",
   "walletPageEditTitle": "Editar billetera",
   "walletPageGenerateTitle": "Generar billetera",
-  "walletPageImportTitle": "Importar billetera"
+  "walletPageImportTitle": "Importar billetera",
+  "walletProtectionCurrentLabel": "Actual",
+  "walletProtectionPassword": "Contraseña",
+  "walletProtectionPin": "PIN",
+  "walletProtectionPinConfirmLabel": "Confirmar PIN",
+  "walletProtectionPinLabel": "PIN",
+  "walletProtectionPinLengthError": "El PIN debe tener entre {{min, number}} y {{max, number}} dígitos",
+  "walletProtectionPinMismatchError": "Los PIN no coinciden",
+  "walletProtectionTitle": "Protección de billetera",
+  "walletProtectionUnsecured": "Sin protección",
+  "walletProtectionUnsecuredConfirm": "Entiendo que esta billetera no está protegida por contraseña ni PIN.",
+  "walletProtectionUnsecuredConfirmError": "Confirma que esta billetera no está protegida",
+  "walletProtectionUnsecuredWarning": "Cualquier persona con acceso a este perfil del navegador podría usar esta billetera."
 }

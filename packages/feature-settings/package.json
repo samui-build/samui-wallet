@@ -2,6 +2,7 @@
   "dependencies": {
     "@hookform/resolvers": "catalog:",
     "@solana/kit": "catalog:",
+    "@workspace/context-react": "workspace:*",
     "@workspace/db": "workspace:*",
     "@workspace/db-react": "workspace:*",
     "@workspace/feature-explorer": "workspace:*",
@@ -10,6 +11,7 @@
     "@workspace/solana-client": "workspace:*",
     "@workspace/solana-client-react": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@workspace/vault": "workspace:*",
     "@workspace/vault-react": "workspace:*",
     "react-hook-form": "catalog:",
     "react-router": "catalog:",
