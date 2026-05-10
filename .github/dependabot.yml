@@ -9,6 +9,10 @@ updates:
       default-days: 5
     directory: /
     groups:
+      effect:
+        patterns:
+          - "@effect/*"
+          - "effect"
       tanstack-query:
         patterns:
           - "@tanstack/query-*"

@@ -9,7 +9,7 @@
     "@tailwindcss/vite": "catalog:",
     "@wallet-standard/core": "catalog:",
     "@wallet-standard/react": "1.0.1",
-    "@wallet-standard/ui-registry": "1.0.1",
+    "@wallet-standard/ui-registry": "1.1.0",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "react": "catalog:",
