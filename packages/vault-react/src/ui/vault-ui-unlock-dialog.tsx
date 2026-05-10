@@ -10,7 +10,7 @@ import {
 } from '@workspace/ui/components/dialog'
 import { Input } from '@workspace/ui/components/input'
 import { Label } from '@workspace/ui/components/label'
-import type { ChangeEvent, FormEvent } from 'react'
+import type { ChangeEvent, SyntheticEvent } from 'react'
 import { useId } from 'react'
 import type { VaultUnlockDialogActions, VaultUnlockDialogState } from '../data-access/use-vault-unlock-provider.ts'
 
@@ -40,7 +40,7 @@ export function VaultUiUnlockDialog({
   const confirmPasswordId = useId()
   const credentialId = useId()
 
-  function submit(event: FormEvent<HTMLFormElement>) {
+  function submit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     if (isSubmitting) {
       return

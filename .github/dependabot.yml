@@ -5,10 +5,22 @@ updates:
     commit-message:
       include: scope
       prefix: chore
+    open-pull-requests-limit: 100
     cooldown:
       default-days: 5
     directory: /
     groups:
+      astro:
+        patterns:
+          - "@astrojs/*"
+          - "astro"
+      cloudflare:
+        patterns:
+          - "@cloudflare/*"
+          - "wrangler"
+      commitlint:
+        patterns:
+          - "@commitlint/*"
       effect:
         patterns:
           - "@effect/*"
@@ -17,10 +29,31 @@ updates:
         patterns:
           - "@playwright/*"
           - "playwright"
+      radix:
+        patterns:
+          - "@radix-ui/*"
+      solana:
+        patterns:
+          - "@solana/*"
+          - "@solana-program/*"
       tanstack-query:
         patterns:
           - "@tanstack/query-*"
           - "@tanstack/react-query*"
+      turbo:
+        patterns:
+          - "@turbo/*"
+          - "turbo"
+      wallet-standard:
+        patterns:
+          - "@wallet-standard/*"
+      webext-core:
+        patterns:
+          - "@webext-core/*"
+      wxt:
+        patterns:
+          - "@wxt-dev/*"
+          - "wxt"
     schedule:
       day: sunday
       interval: weekly
@@ -31,6 +64,7 @@ updates:
     commit-message:
       include: scope
       prefix: chore
+    open-pull-requests-limit: 100
     cooldown:
       default-days: 5
     directory: /

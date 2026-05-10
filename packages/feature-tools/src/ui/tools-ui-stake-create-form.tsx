@@ -12,7 +12,7 @@ import { UiEmpty } from '@workspace/ui/components/ui-empty'
 import { UiLoader } from '@workspace/ui/components/ui-loader'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
-import { type FormEvent, useId, useMemo, useState } from 'react'
+import { type SyntheticEvent, useId, useMemo, useState } from 'react'
 import { ToolsUiStakeAccountCardField } from './tools-ui-stake-account-card-field.tsx'
 import { ToolsUiStakeCreateValidatorCombobox } from './tools-ui-stake-create-validator-combobox.tsx'
 import { getSortedVoteAccounts, getStakeAmountValidation, toBigIntLamports } from './tools-ui-stake-utils.ts'
@@ -70,7 +70,7 @@ export function ToolsUiStakeCreateForm({
         ? 'Wallet balance unavailable. Reconnect your wallet.'
         : undefined
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     if (!selectedVoteAddress) {
       return

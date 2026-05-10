@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@base-ui/react": "1.4.0",
+    "@base-ui/react": "catalog:",
     "@hookform/resolvers": "catalog:",
     "@nkzw/use-relative-time": "1.2.3",
     "@radix-ui/react-alert-dialog": "1.1.15",
@@ -26,7 +26,7 @@
     "lucide-react": "catalog:",
     "next-themes": "0.4.6",
     "react-hook-form": "catalog:",
-    "react-qrcode-logo": "4.0.0",
+    "react-qrcode-logo": "catalog:",
     "react-router": "catalog:",
     "sonner": "2.0.7",
     "superjson": "catalog:",

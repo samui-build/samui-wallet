@@ -19,6 +19,15 @@
 - **Testing**: Vitest globals, jsdom env, ARRANGE/ACT/ASSERT pattern
 - **Imports**: Type imports separate, alphabetical sorting
 
+## Dependency Update Guidelines
+
+- Do not treat currently open Dependabot PRs as a complete source of truth; always compute the full eligible set before and after the update pass.
+- Group Dependabot updates by explicit vendor or ecosystem patterns, not generic buckets.
+- Keep workspace manifest `catalog:` references intact. If tooling rewrites a `catalog:` entry to a pinned version, restore `catalog:` and move the version bump to root `package.json` `catalog`.
+- Match local dependency update behavior to Dependabot cooldown policy. With `cooldown.default-days: 5`, use `--minimum-release-age=432000` in update and verification commands.
+- Run `bun check-types` after lockfile regeneration for dependency update batches.
+- Use `bun update --latest --minimum-release-age=432000 -r` for the update pass, then require zero remaining rows from `bun outdated --minimum-release-age=432000 -r --no-progress` before calling it complete.
+
 ## Testing Guidelines
 
 ### Test Structure
