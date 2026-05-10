@@ -8,7 +8,7 @@
     "@workspace/keypair": "workspace:*",
     "@workspace/solana-client": "workspace:*",
     "@workspace/ui": "workspace:*",
-    "dexie-react-hooks": "4.2.0",
+    "dexie-react-hooks": "4.4.0",
     "react-router": "catalog:",
     "superjson": "catalog:"
   },
