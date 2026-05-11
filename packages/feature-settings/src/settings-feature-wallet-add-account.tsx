@@ -15,12 +15,15 @@ import { UiPrompt } from '@workspace/ui/components/ui-prompt'
 import { ellipsify } from '@workspace/ui/lib/ellipsify'
 import { toastError } from '@workspace/ui/lib/toast-error'
 import { toastSuccess } from '@workspace/ui/lib/toast-success'
+import { useVaultUnlockDialog } from '@workspace/vault-react/vault-unlock-provider'
+import { useRef } from 'react'
 import { Link, useParams } from 'react-router'
 import { AccountUiIcon } from './ui/account-ui-icon.tsx'
 import { SettingsUiWalletItem } from './ui/settings-ui-wallet-item.tsx'
 
 export function SettingsFeatureWalletAddAccount() {
   const { t } = useTranslation('settings')
+  const { requestUnlock } = useVaultUnlockDialog()
   const { walletId } = useParams<{ walletId: string }>()
   if (!walletId) {
     throw new Error('Parameter walletId is required')
@@ -30,27 +33,47 @@ export function SettingsFeatureWalletAddAccount() {
   const deriveAccount = useWalletDeriveAndCreateAccount()
   const createAccountMutation = useAccountCreate()
   const accounts = useAccountsForWalletLive({ walletId })
+  const accountsRef = useRef(accounts)
+  accountsRef.current = accounts
 
   async function createAccountDerived(wallet: Wallet) {
+    const unlocked = await requestUnlock({
+      mode: wallet.protectionMode,
+      reason: 'generic',
+      walletId: wallet.id,
+    })
+    if (!unlocked) {
+      return
+    }
+
     try {
-      await deriveAccount.mutateAsync({ index: accounts?.length ?? 0, item: wallet })
+      await deriveAccount.mutateAsync({ index: accountsRef.current?.length ?? 0, item: wallet })
       toastSuccess(`Account derived for ${wallet.name}`)
     } catch (e) {
       toastError(`${e}`)
     }
   }
 
-  async function createAccountImported(walletId: string, input: string) {
+  async function createAccountImported(wallet: Wallet, input: string) {
     if (!input.trim().length) {
       return
     }
     try {
       const { publicKey, secretKey } = await importKeyPairToPublicKeySecretKey(input, true)
       assertIsAddress(publicKey)
-      await createAccountMutation.mutateAsync({
-        input: { name: ellipsify(publicKey), publicKey, secretKey, type: 'Imported', walletId },
+      const unlocked = await requestUnlock({
+        mode: wallet.protectionMode,
+        reason: 'generic',
+        walletId: wallet.id,
       })
-      toastSuccess(`Account imported for ${wallet?.name}`)
+      if (!unlocked) {
+        return
+      }
+
+      await createAccountMutation.mutateAsync({
+        input: { name: ellipsify(publicKey), publicKey, secretKey, type: 'Imported', walletId: wallet.id },
+      })
+      toastSuccess(`Account imported for ${wallet.name}`)
     } catch (e) {
       toastError(`${e}`)
     }
@@ -122,7 +145,7 @@ export function SettingsFeatureWalletAddAccount() {
           </ItemContent>
           <ItemActions>
             <UiPrompt
-              action={(value) => createAccountImported(wallet.id, value)}
+              action={(value) => createAccountImported(wallet, value)}
               actionLabel={t(($) => $.actionImport)}
               description={t(($) => $.walletAddAccountImportDescription)}
               label={t(($) => $.walletAddAccountImportLabel)}
