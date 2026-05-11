@@ -153,6 +153,7 @@
         "@webext-core/proxy-service": "2.0.0",
         "@webext-core/storage": "1.2.0",
         "@workspace/context": "workspace:*",
+        "@workspace/core": "workspace:*",
         "@workspace/db": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/ui": "workspace:*",

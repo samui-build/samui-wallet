@@ -1,3 +1,4 @@
+import type { AppContext } from '@workspace/context/app-context'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { registerDbService } from '../src/services/db.ts'
@@ -7,10 +8,10 @@ const mocks = vi.hoisted(() => ({
   accountFindUnique: vi.fn(),
   accountReadSecretKey: vi.fn(),
   address: vi.fn(),
-  appContext: { db: { id: 'db' } },
-  createAppContext: vi.fn(),
+  addressEncode: vi.fn(),
   createKeyPairFromBytes: vi.fn(),
   createProxyService: vi.fn(),
+  db: { id: 'db' },
   deriveFromMnemonicAtIndex: vi.fn(),
   ellipsify: vi.fn(),
   getAddressEncoder: vi.fn(),
@@ -53,10 +54,6 @@ vi.mock('@workspace/db/account/account-read-secret-key', () => ({
   accountReadSecretKey: mocks.accountReadSecretKey,
 }))
 
-vi.mock('@workspace/context/create-app-context', () => ({
-  createAppContext: mocks.createAppContext,
-}))
-
 vi.mock('@workspace/db/setting/setting-find-unique', () => ({
   settingFindUnique: mocks.settingFindUnique,
 }))
@@ -73,11 +70,17 @@ vi.mock('@workspace/ui/lib/ellipsify', () => ({
   ellipsify: mocks.ellipsify,
 }))
 
+const activeAccount = {
+  publicKey: 'active-public-key',
+  walletId: 'wallet-id',
+}
 const accountId = 'active-account-id'
+const backgroundContext = { db: mocks.db, vault: { id: 'vault' } } as unknown as AppContext
 const keyPair = {
   privateKey: { id: 'private-key' } as unknown as CryptoKey,
   publicKey: { id: 'public-key' } as unknown as CryptoKey,
 }
+const publicKeyBytes = new Uint8Array([5, 6])
 const secretKey = JSON.stringify([1, 2, 3, 4])
 const secretKeyBytes = new Uint8Array([1, 2, 3, 4])
 
@@ -85,9 +88,12 @@ describe('db-service', () => {
   beforeEach(() => {
     vi.clearAllMocks()
 
+    mocks.accountFindUnique.mockResolvedValue(activeAccount)
     mocks.accountReadSecretKey.mockResolvedValue(secretKey)
-    mocks.createAppContext.mockReturnValue(mocks.appContext)
+    mocks.address.mockReturnValue(activeAccount.publicKey)
+    mocks.addressEncode.mockReturnValue(publicKeyBytes)
     mocks.createKeyPairFromBytes.mockResolvedValue(keyPair)
+    mocks.getAddressEncoder.mockReturnValue({ encode: mocks.addressEncode })
     mocks.settingFindUnique.mockResolvedValue({ value: accountId })
   })
 
@@ -95,16 +101,32 @@ describe('db-service', () => {
     it('should create the active account key pair from the active secret key', async () => {
       // ARRANGE
       expect.assertions(4)
-      const service = registerDbService()
+      const service = registerDbService(backgroundContext)
 
       // ACT
       const result = await service.account.keyPair()
 
       // ASSERT
-      expect(mocks.accountReadSecretKey).toHaveBeenCalledWith(mocks.appContext, accountId)
+      expect(mocks.accountReadSecretKey).toHaveBeenCalledWith(backgroundContext, accountId)
       expect(mocks.createKeyPairFromBytes).toHaveBeenCalledWith(secretKeyBytes)
-      expect(mocks.settingFindUnique).toHaveBeenCalledWith(mocks.appContext, 'activeAccountId')
+      expect(mocks.settingFindUnique).toHaveBeenCalledWith(backgroundContext, 'activeAccountId')
       expect(result).toBe(keyPair)
+    })
+
+    it('should return public account metadata without reading secret data', async () => {
+      // ARRANGE
+      expect.assertions(5)
+      const service = registerDbService(backgroundContext)
+
+      // ACT
+      const result = await service.account.walletAccounts()
+
+      // ASSERT
+      expect(mocks.accountReadSecretKey).not.toHaveBeenCalled()
+      expect(mocks.addressEncode).toHaveBeenCalledWith(activeAccount.publicKey)
+      expect(result.accounts[0]).not.toHaveProperty('secretKey')
+      expect(result.accounts[0]?.address).toBe(activeAccount.publicKey)
+      expect(result.accounts[0]?.publicKey).toBe(publicKeyBytes)
     })
   })
 
@@ -123,7 +145,7 @@ describe('db-service', () => {
       // ARRANGE
       expect.assertions(2)
       mocks.accountReadSecretKey.mockResolvedValue(undefined)
-      const service = registerDbService()
+      const service = registerDbService(backgroundContext)
 
       // ACT & ASSERT
       await expect(service.account.keyPair()).rejects.toThrow('Active account secretKey not found')

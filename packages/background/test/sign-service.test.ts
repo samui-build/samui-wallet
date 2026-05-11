@@ -5,7 +5,7 @@ import type {
   SolanaSignTransactionInput,
 } from '@solana/wallet-standard-features'
 import type { StandardConnectOutput } from '@wallet-standard/core'
-
+import type { AppContext } from '@workspace/context/app-context'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import { registerSignService } from '../src/services/sign.ts'
@@ -31,6 +31,8 @@ const mocks = vi.hoisted(() => ({
   signTransaction: vi.fn(),
   transactionDecode: vi.fn(),
   transactionEncode: vi.fn(),
+  vaultLock: vi.fn(),
+  vaultRequireWalletKey: vi.fn(),
 }))
 
 vi.mock('@solana/kit', () => ({
@@ -58,7 +60,13 @@ vi.mock('../src/services/db.ts', () => ({
   getDbService: mocks.getDbService,
 }))
 
-const activeAccount = { publicKey: 'active-public-key' }
+const activeAccount = { publicKey: 'active-public-key', walletId: 'active-wallet-id' }
+const backgroundContext = {
+  vault: {
+    lock: mocks.vaultLock,
+    requireWalletKey: mocks.vaultRequireWalletKey,
+  },
+} as unknown as AppContext
 const decodedTransaction = { id: 'decoded-transaction' }
 const encodedTransactionBytes = new Uint8Array([14, 15])
 const privateKey = { id: 'private-key' } as unknown as CryptoKey
@@ -103,31 +111,35 @@ describe('sign-service', () => {
     mocks.signTransaction.mockResolvedValue(signedTransaction)
     mocks.transactionDecode.mockReturnValue(decodedTransaction)
     mocks.transactionEncode.mockReturnValue(encodedTransactionBytes)
+    mocks.vaultRequireWalletKey.mockResolvedValue({ id: 'wallet-key' })
   })
 
   describe('expected behavior', () => {
     it('should sign and send a transaction with the active secret key', async () => {
       // ARRANGE
-      expect.assertions(6)
-      const service = registerSignService()
+      expect.assertions(9)
+      const service = registerSignService(backgroundContext)
       const input = { transaction: transactionBytes } as SolanaSignAndSendTransactionInput
 
       // ACT
       const result = await service.signAndSendTransaction([input])
 
       // ASSERT
+      expect(mocks.accountActive).toHaveBeenCalledTimes(1)
       expect(mocks.accountKeyPair).toHaveBeenCalledTimes(1)
       expect(mocks.assertIsSendableTransaction).toHaveBeenCalledWith(signedTransaction)
       expect(mocks.base58Encode).toHaveBeenCalledWith(signatureValue)
       expect(mocks.sendTransaction).toHaveBeenCalledWith(signedTransaction, { commitment: 'confirmed' })
       expect(mocks.signTransaction).toHaveBeenCalledWith([keyPair], decodedTransaction)
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
+      expect(mocks.vaultRequireWalletKey).toHaveBeenCalledWith({ walletId: activeAccount.walletId })
       expect(result).toEqual([{ signature: signatureBytes }])
     })
 
     it('should sign in with the active secret key', async () => {
       // ARRANGE
-      expect.assertions(5)
-      const service = registerSignService()
+      expect.assertions(7)
+      const service = registerSignService(backgroundContext)
       const input = {} as SolanaSignInInput
 
       // ACT
@@ -141,6 +153,8 @@ describe('sign-service', () => {
         domain: 'localhost',
       })
       expect(mocks.signBytes).toHaveBeenCalledWith(privateKey, signedMessage)
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
+      expect(mocks.vaultRequireWalletKey).toHaveBeenCalledWith({ walletId: activeAccount.walletId })
       expect(result).toEqual([
         {
           account: walletAccount,
@@ -153,57 +167,77 @@ describe('sign-service', () => {
 
     it('should sign a message with the active secret key', async () => {
       // ARRANGE
-      expect.assertions(3)
-      const service = registerSignService()
+      expect.assertions(6)
+      const service = registerSignService(backgroundContext)
       const input = { message: transactionBytes } as SolanaSignMessageInput
 
       // ACT
       const result = await service.signMessage([input])
 
       // ASSERT
+      expect(mocks.accountActive).toHaveBeenCalledTimes(1)
       expect(mocks.accountKeyPair).toHaveBeenCalledTimes(1)
       expect(mocks.signBytes).toHaveBeenCalledWith(privateKey, transactionBytes)
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
+      expect(mocks.vaultRequireWalletKey).toHaveBeenCalledWith({ walletId: activeAccount.walletId })
       expect(result).toEqual([{ signature, signatureType: 'ed25519', signedMessage: transactionBytes }])
     })
 
     it('should sign a transaction with the active secret key', async () => {
       // ARRANGE
-      expect.assertions(4)
-      const service = registerSignService()
+      expect.assertions(7)
+      const service = registerSignService(backgroundContext)
       const input = { transaction: transactionBytes } as SolanaSignTransactionInput
 
       // ACT
       const result = await service.signTransaction([input])
 
       // ASSERT
+      expect(mocks.accountActive).toHaveBeenCalledTimes(1)
       expect(mocks.accountKeyPair).toHaveBeenCalledTimes(1)
       expect(mocks.signTransaction).toHaveBeenCalledWith([keyPair], decodedTransaction)
       expect(mocks.transactionEncode).toHaveBeenCalledWith(signedTransaction)
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
+      expect(mocks.vaultRequireWalletKey).toHaveBeenCalledWith({ walletId: activeAccount.walletId })
       expect(result).toEqual([{ signedTransaction: encodedTransactionBytes }])
     })
   })
 
   describe('unexpected behavior', () => {
-    let consoleLogSpy: ReturnType<typeof vi.spyOn>
-
     beforeEach(() => {
-      consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+      vi.spyOn(console, 'log').mockImplementation(() => {})
     })
 
     afterEach(() => {
-      consoleLogSpy.mockRestore()
+      vi.restoreAllMocks()
     })
 
     it('should throw an error when the active account key pair is not available', async () => {
       // ARRANGE
-      expect.assertions(2)
+      expect.assertions(4)
       mocks.accountKeyPair.mockRejectedValue(new Error('Active account secretKey not found'))
-      const service = registerSignService()
+      const service = registerSignService(backgroundContext)
       const input = { message: transactionBytes } as SolanaSignMessageInput
 
       // ACT & ASSERT
       await expect(service.signMessage([input])).rejects.toThrow('Active account secretKey not found')
       expect(mocks.signBytes).not.toHaveBeenCalled()
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
+      expect(mocks.vaultRequireWalletKey).toHaveBeenCalledWith({ walletId: activeAccount.walletId })
+    })
+
+    it('should throw an error when the active wallet key is locked', async () => {
+      // ARRANGE
+      expect.assertions(4)
+      mocks.vaultRequireWalletKey.mockRejectedValue(new Error('Vault is locked'))
+      const service = registerSignService(backgroundContext)
+      const input = { message: transactionBytes } as SolanaSignMessageInput
+
+      // ACT & ASSERT
+      await expect(service.signMessage([input])).rejects.toThrow('Vault is locked')
+      expect(mocks.accountKeyPair).not.toHaveBeenCalled()
+      expect(mocks.signBytes).not.toHaveBeenCalled()
+      expect(mocks.vaultLock).toHaveBeenCalledTimes(1)
     })
   })
 })

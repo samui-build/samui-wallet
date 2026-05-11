@@ -22,11 +22,24 @@ import type {
 import { createSignInMessage } from '@solana/wallet-standard-util'
 import type { ProxyService, ProxyServiceKey } from '@webext-core/proxy-service'
 import { createProxyService, registerService } from '@webext-core/proxy-service'
+import type { AppContext } from '@workspace/context/app-context'
+import type { Account } from '@workspace/db/account/account'
 
 import { decodeTransportBytes } from '../transport-bytes.ts'
 import { getDbService } from './db.ts'
 
 const rpc = createSolanaRpc('https://api.devnet.solana.com')
+
+async function withUnlockedActiveWallet<T>(ctx: AppContext, operation: (active: Account) => Promise<T>): Promise<T> {
+  const active = await getDbService().account.active()
+
+  try {
+    await ctx.vault.requireWalletKey({ walletId: active.walletId })
+    return await operation(active)
+  } finally {
+    ctx.vault.lock()
+  }
+}
 
 // TODO: None of this code is safe for production use.
 // Private keys should not be handled in this way.
@@ -36,87 +49,94 @@ const rpc = createSolanaRpc('https://api.devnet.solana.com')
 // Nothing about this code should be trusted.
 // This is acceptable for a POC
 // This will be improved post-hackathon.
-function createSignService() {
+function createSignService(ctx: AppContext) {
   return {
     signAndSendTransaction: async (
       inputs: SolanaSignAndSendTransactionInput[],
     ): Promise<SolanaSignAndSendTransactionOutput[]> => {
-      const results: SolanaSignAndSendTransactionOutput[] = []
-      const key = await getDbService().account.keyPair()
+      return await withUnlockedActiveWallet(ctx, async () => {
+        const results: SolanaSignAndSendTransactionOutput[] = []
+        const key = await getDbService().account.keyPair()
 
-      for (const input of inputs) {
-        const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
-        const transaction = await signTransaction([key], decoded)
-        assertIsSendableTransaction(transaction)
-        const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
-        await sendTransaction(transaction, { commitment: 'confirmed' })
+        for (const input of inputs) {
+          const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
+          const transaction = await signTransaction([key], decoded)
+          assertIsSendableTransaction(transaction)
+          const sendTransaction = sendTransactionWithoutConfirmingFactory({ rpc })
+          await sendTransaction(transaction, { commitment: 'confirmed' })
 
-        results.push({
-          signature: new Uint8Array(getBase58Encoder().encode(getSignatureFromTransaction(transaction))),
-        })
-      }
+          results.push({
+            signature: new Uint8Array(getBase58Encoder().encode(getSignatureFromTransaction(transaction))),
+          })
+        }
 
-      return results
+        return results
+      })
     },
     signIn: async (inputs: SolanaSignInInput[]): Promise<SolanaSignInOutput[]> => {
-      const results: SolanaSignInOutput[] = []
-      const active = await getDbService().account.active()
-      const accounts = await getDbService().account.walletAccounts()
+      return await withUnlockedActiveWallet(ctx, async (active) => {
+        const results: SolanaSignInOutput[] = []
+        const accounts = await getDbService().account.walletAccounts()
 
-      if (accounts.accounts[0] === undefined) {
-        throw new Error('No wallet account found')
-      }
+        if (accounts.accounts[0] === undefined) {
+          throw new Error('No wallet account found')
+        }
 
-      const { privateKey } = await getDbService().account.keyPair()
+        const { privateKey } = await getDbService().account.keyPair()
 
-      for (const input of inputs) {
-        const signedMessage = createSignInMessage({
-          ...input,
-          address: input.address || active.publicKey,
-          domain: input.domain || globalThis.self?.location?.hostname || 'localhost',
-        })
-        const signature = await signBytes(privateKey, signedMessage)
+        for (const input of inputs) {
+          const signedMessage = createSignInMessage({
+            ...input,
+            address: input.address || active.publicKey,
+            domain: input.domain || globalThis.self?.location?.hostname || 'localhost',
+          })
+          const signature = await signBytes(privateKey, signedMessage)
 
-        results.push({
-          account: accounts.accounts[0],
-          signature,
-          signatureType: 'ed25519',
-          signedMessage,
-        })
-      }
+          results.push({
+            account: accounts.accounts[0],
+            signature,
+            signatureType: 'ed25519',
+            signedMessage,
+          })
+        }
 
-      return results
+        return results
+      })
     },
     signMessage: async (inputs: SolanaSignMessageInput[]): Promise<SolanaSignMessageOutput[]> => {
-      const results: SolanaSignMessageOutput[] = []
-      const { privateKey } = await getDbService().account.keyPair()
+      return await withUnlockedActiveWallet(ctx, async () => {
+        const results: SolanaSignMessageOutput[] = []
+        const { privateKey } = await getDbService().account.keyPair()
 
-      for (const input of inputs) {
-        const signedMessage = decodeTransportBytes(input.message)
-        const signature = await signBytes(privateKey, signedMessage)
+        for (const input of inputs) {
+          const signedMessage = decodeTransportBytes(input.message)
+          const signature = await signBytes(privateKey, signedMessage)
 
-        results.push({
-          signature,
-          signatureType: 'ed25519',
-          signedMessage,
-        })
-      }
+          results.push({
+            signature,
+            signatureType: 'ed25519',
+            signedMessage,
+          })
+        }
 
-      return results
+        return results
+      })
     },
     signTransaction: async (inputs: SolanaSignTransactionInput[]): Promise<SolanaSignTransactionOutput[]> => {
-      const results: SolanaSignTransactionOutput[] = []
-      const key = await getDbService().account.keyPair()
+      return await withUnlockedActiveWallet(ctx, async () => {
+        const results: SolanaSignTransactionOutput[] = []
+        const key = await getDbService().account.keyPair()
 
-      for (const input of inputs) {
-        const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
-        const signed = await signTransaction([key], decoded)
-        results.push({
-          signedTransaction: new Uint8Array(getTransactionEncoder().encode(signed)),
-        })
-      }
+        for (const input of inputs) {
+          const decoded = getTransactionDecoder().decode(decodeTransportBytes(input.transaction))
+          const signed = await signTransaction([key], decoded)
+          results.push({
+            signedTransaction: new Uint8Array(getTransactionEncoder().encode(signed)),
+          })
+        }
 
-      return results
+        return results
+      })
     },
   }
 }
@@ -130,8 +150,8 @@ export function getSignService(): ProxyService<SignService> {
   return (signService ?? createProxyService(signServiceKey)) as ProxyService<SignService>
 }
 
-export function registerSignService(): SignService {
-  signService = createSignService()
+export function registerSignService(ctx: AppContext): SignService {
+  signService = createSignService(ctx)
   registerService(signServiceKey, signService)
   return signService
 }

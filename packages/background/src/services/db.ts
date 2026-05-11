@@ -10,7 +10,6 @@ import type { StandardConnectOutput } from '@wallet-standard/core'
 import type { ProxyService, ProxyServiceKey } from '@webext-core/proxy-service'
 import { createProxyService, registerService } from '@webext-core/proxy-service'
 import type { AppContext } from '@workspace/context/app-context'
-import { createAppContext } from '@workspace/context/create-app-context'
 import type { Account } from '@workspace/db/account/account'
 import { accountCreate } from '@workspace/db/account/account-create'
 import { accountFindUnique } from '@workspace/db/account/account-find-unique'
@@ -101,8 +100,7 @@ export function getDbService(): ProxyService<DbService> {
   return (dbService ?? createProxyService(dbServiceKey)) as ProxyService<DbService>
 }
 
-export function registerDbService(): DbService {
-  const ctx = createAppContext()
+export function registerDbService(ctx: AppContext): DbService {
   dbService = createDbService(ctx)
   registerService(dbServiceKey, dbService)
   return dbService
