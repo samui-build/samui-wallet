@@ -430,6 +430,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@solana/wallet-standard-features": "catalog:",
+        "@tanstack/react-query": "catalog:",
         "@workspace/background": "workspace:*",
         "@workspace/ui": "workspace:*",
         "react-router": "catalog:",
