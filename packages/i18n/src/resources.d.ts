@@ -305,6 +305,9 @@ export default interface Resources {
     labelSettings: 'Settings'
     labelTools: 'Tools'
     networkSettings: 'Network settings'
+    unlockGateAction: 'Unlock'
+    unlockGateDescription: 'Unlock {{walletName}} to continue.'
+    unlockGateTitle: 'Wallet locked'
     walletEdit: 'Edit wallet'
     walletSettings: 'Wallet settings'
   }

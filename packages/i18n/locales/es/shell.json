@@ -20,6 +20,9 @@
   "labelSettings": "Ajustes",
   "labelTools": "Herramientas",
   "networkSettings": "Ajustes de red",
+  "unlockGateAction": "Desbloquear",
+  "unlockGateDescription": "Desbloquea {{walletName}} para continuar.",
+  "unlockGateTitle": "Billetera bloqueada",
   "walletEdit": "Editar billetera",
   "walletSettings": "Ajustes de la billetera"
 }
