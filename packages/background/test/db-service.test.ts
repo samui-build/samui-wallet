@@ -76,6 +76,10 @@ const activeAccount = {
 }
 const accountId = 'active-account-id'
 const backgroundContext = { db: mocks.db, vault: { id: 'vault' } } as unknown as AppContext
+const derivedAccount = {
+  publicKey: 'derived-public-key',
+  secretKey: 'derived-secret-key',
+}
 const keyPair = {
   privateKey: { id: 'private-key' } as unknown as CryptoKey,
   publicKey: { id: 'public-key' } as unknown as CryptoKey,
@@ -83,6 +87,7 @@ const keyPair = {
 const publicKeyBytes = new Uint8Array([5, 6])
 const secretKey = JSON.stringify([1, 2, 3, 4])
 const secretKeyBytes = new Uint8Array([1, 2, 3, 4])
+const walletId = 'wallet-id'
 
 describe('db-service', () => {
   beforeEach(() => {
@@ -93,11 +98,35 @@ describe('db-service', () => {
     mocks.address.mockReturnValue(activeAccount.publicKey)
     mocks.addressEncode.mockReturnValue(publicKeyBytes)
     mocks.createKeyPairFromBytes.mockResolvedValue(keyPair)
+    mocks.deriveFromMnemonicAtIndex.mockResolvedValue(derivedAccount)
+    mocks.ellipsify.mockReturnValue('derived-public...')
     mocks.getAddressEncoder.mockReturnValue({ encode: mocks.addressEncode })
     mocks.settingFindUnique.mockResolvedValue({ value: accountId })
+    mocks.walletCreate.mockResolvedValue(walletId)
   })
 
   describe('expected behavior', () => {
+    it('should create a wallet and account with the shared background context', async () => {
+      // ARRANGE
+      expect.assertions(4)
+      const service = registerDbService(backgroundContext)
+      const input = { derivationPath: "m/44'/501'/0'/0'", mnemonic: 'test mnemonic', name: 'Test Wallet' }
+
+      // ACT
+      const result = await service.wallet.createWithAccount(input)
+
+      // ASSERT
+      expect(mocks.accountCreate).toHaveBeenCalledWith(backgroundContext, {
+        ...derivedAccount,
+        name: 'derived-public...',
+        type: 'Derived',
+        walletId,
+      })
+      expect(mocks.deriveFromMnemonicAtIndex).toHaveBeenCalledWith({ mnemonic: input.mnemonic })
+      expect(mocks.walletCreate).toHaveBeenCalledWith(backgroundContext, input)
+      expect(result).toBe(walletId)
+    })
+
     it('should create the active account key pair from the active secret key', async () => {
       // ARRANGE
       expect.assertions(4)
