@@ -2,7 +2,7 @@
   "dependencies": {
     "i18next": "26.0.8",
     "i18next-cli": "1.56.9",
-    "react-i18next": "17.0.6"
+    "react-i18next": "17.0.7"
   },
   "devDependencies": {
     "@types/bun": "catalog:",
