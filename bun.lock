@@ -582,7 +582,7 @@
       "version": "0.0.0",
       "dependencies": {
         "i18next": "26.0.8",
-        "i18next-cli": "1.56.9",
+        "i18next-cli": "1.56.12",
         "react-i18next": "17.0.6",
       },
       "devDependencies": {
@@ -2678,7 +2678,7 @@
 
     "i18next": ["i18next@26.0.8", "", { "peerDependencies": { "typescript": "^5 || ^6" }, "optionalPeers": ["typescript"] }, "sha512-BRzLom0mhDhV9v0QhgUUHWQJuwFmnr1194xEcNLYD6ym8y8s542n4jXUvRLnhNTbh9PmpU6kGZamyuGHQMsGjw=="],
 
-    "i18next-cli": ["i18next-cli@1.56.9", "", { "dependencies": { "@croct/json5-parser": "^0.2.2", "@swc/core": "^1.15.26", "chokidar": "^5.0.0", "commander": "^14.0.3", "execa": "^9.6.1", "glob": "^13.0.6", "i18next-resources-for-ts": "^2.1.0", "inquirer": "^13.4.1", "jiti": "^2.6.1", "jsonc-parser": "^3.3.1", "magic-string": "^0.30.21", "minimatch": "^10.2.5", "ora": "^9.3.0", "react": "^19.2.5", "react-i18next": "^17.0.6", "yaml": "^2.8.3" }, "bin": { "i18next-cli": "dist/esm/cli.js" } }, "sha512-ToG5MpeVsdtCGqJmESVEoInrQ3nk95LaHr7fraJJbhWDlZZORCqK7zzKpCgxNVMA6JN5WhBFBWeEhBDcVaBq+g=="],
+    "i18next-cli": ["i18next-cli@1.56.12", "", { "dependencies": { "@croct/json5-parser": "^0.2.2", "@swc/core": "^1.15.26", "chokidar": "^5.0.0", "commander": "^14.0.3", "execa": "^9.6.1", "glob": "^13.0.6", "i18next-resources-for-ts": "^2.1.0", "inquirer": "^13.4.1", "jiti": "^2.6.1", "jsonc-parser": "^3.3.1", "magic-string": "^0.30.21", "minimatch": "^10.2.5", "ora": "^9.3.0", "react": "^19.2.5", "react-i18next": "^17.0.7", "yaml": "^2.8.3" }, "bin": { "i18next-cli": "dist/esm/cli.js" } }, "sha512-wCHRq8wBdmtUomHzh6b2wWwYeq1ExHzcHbhHbO9q50yOv00fWvMLfEv/zkQdydO/5RhXE+aNYG1sszEWxPBOOg=="],
 
     "i18next-resources-for-ts": ["i18next-resources-for-ts@2.1.0", "", { "dependencies": { "@babel/runtime": "^7.28.6", "@swc/core": "^1.15.18", "chokidar": "^5.0.0", "yaml": "^2.8.2" }, "bin": { "i18next-resources-for-ts": "bin/i18next-resources-for-ts.js" } }, "sha512-n5UexwEVt0OoIAhG2MWpSnAVJW1U8mQrQTmXyxc5DMAx+NLhcLZhSMJo/FnUsA5JQ3obTYqTgB7YIuZKWpDgow=="],
 
@@ -4043,6 +4043,8 @@
     "htmlparser2/entities": ["entities@6.0.1", "", {}, "sha512-aN97NXWF6AWBTahfVOIrB/NShkzi5H7F9r1s9mD3cDj4Ko5f2qhhVoYMibXF7GlLveb/D2ioWay8lxI97Ven3g=="],
 
     "i18next-cli/commander": ["commander@14.0.3", "", {}, "sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw=="],
+
+    "i18next-cli/react-i18next": ["react-i18next@17.0.7", "", { "dependencies": { "@babel/runtime": "^7.29.2", "html-parse-stringify": "^3.0.1", "use-sync-external-store": "^1.6.0" }, "peerDependencies": { "i18next": ">= 26.0.10", "react": ">= 16.8.0", "typescript": "^5 || ^6" }, "optionalPeers": ["typescript"] }, "sha512-rwtPXsb/zwzDafN+gytcjF5YnqGQQIRmCQ6DctBC1VSipRB8GD/MWEVrFP42vjMyuYydxWxM8CZRt+yiNuuoHg=="],
 
     "import-fresh/resolve-from": ["resolve-from@4.0.0", "", {}, "sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g=="],
 
