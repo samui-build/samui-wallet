@@ -69,7 +69,7 @@
     "cspell": "10.0.0",
     "editorconfig-checker": "6.1.1",
     "lefthook": "2.1.6",
-    "pkg-pr-new": "0.0.70",
+    "pkg-pr-new": "0.0.71",
     "playwright": "catalog:",
     "syncpack": "15.0.0",
     "turbo": "2.9.9",
