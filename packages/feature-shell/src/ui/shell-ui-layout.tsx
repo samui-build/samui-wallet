@@ -9,6 +9,7 @@ import { NavLink, Outlet } from 'react-router'
 import { ShellUiCommandMenu } from './shell-ui-command-menu.tsx'
 import { ShellUiMenu } from './shell-ui-menu.tsx'
 import { ShellUiMenuActions } from './shell-ui-menu-actions.tsx'
+import { ShellUiUnlockGate } from './shell-ui-unlock-gate.tsx'
 import { ShellUiWarningExperimental } from './shell-ui-warning-experimental.tsx'
 
 export interface ShellLayoutLink {
@@ -43,7 +44,9 @@ export function ShellUiLayout() {
         </div>
       </header>
       <main className="flex-1 overflow-y-auto p-1 md:p-2 lg:p-4">
-        <Outlet />
+        <ShellUiUnlockGate>
+          <Outlet />
+        </ShellUiUnlockGate>
       </main>
       <footer className="flex items-center justify-between bg-secondary/30 pb-[env(safe-area-inset-bottom)]">
         {links.map(({ icon, label, to }) => (

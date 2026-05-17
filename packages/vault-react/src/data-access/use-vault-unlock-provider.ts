@@ -218,7 +218,7 @@ export function useVaultUnlockProvider(): VaultUnlockProviderValue {
       confirmPassword,
       confirmPasswordLabel: copy.confirmPasswordLabel,
       credential,
-      credentialInputType: pending?.mode === 'pin' ? 'text' : 'password',
+      credentialInputType: 'password',
       credentialLabel: pending?.mode === 'pin' ? copy.pinLabel : copy.passwordLabel,
       description: setupMode ? copy.setupDescription : (pending?.description ?? copy.defaultDescription),
       error,
