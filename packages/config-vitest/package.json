@@ -5,7 +5,7 @@
     "@workspace/config-typescript": "workspace:*",
     "typescript": "catalog:",
     "vitest": "catalog:",
-    "wait-on": "9.0.5"
+    "wait-on": "9.0.10"
   },
   "exports": {
     ".": "./src/index.ts",

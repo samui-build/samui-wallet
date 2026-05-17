@@ -25,6 +25,11 @@ updates:
         patterns:
           - "@effect/*"
           - "effect"
+      i18n:
+        patterns:
+          - "i18next"
+          - "i18next-cli"
+          - "react-i18next"
       playwright:
         patterns:
           - "@playwright/*"
