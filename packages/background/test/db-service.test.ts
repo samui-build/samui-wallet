@@ -70,11 +70,11 @@ vi.mock('@workspace/ui/lib/ellipsify', () => ({
   ellipsify: mocks.ellipsify,
 }))
 
+const accountId = 'active-account-id'
 const activeAccount = {
   publicKey: 'active-public-key',
   walletId: 'wallet-id',
 }
-const accountId = 'active-account-id'
 const backgroundContext = { db: mocks.db, vault: { id: 'vault' } } as unknown as AppContext
 const derivedAccount = {
   publicKey: 'derived-public-key',
@@ -142,6 +142,27 @@ describe('db-service', () => {
       expect(result).toBe(keyPair)
     })
 
+    it('should create a wallet and account with the shared background context', async () => {
+      // ARRANGE
+      expect.assertions(4)
+      const service = registerDbService(backgroundContext)
+      const input = { derivationPath: "m/44'/501'/0'/0'", mnemonic: 'test mnemonic', name: 'Test Wallet' }
+
+      // ACT
+      const result = await service.wallet.createWithAccount(input)
+
+      // ASSERT
+      expect(mocks.accountCreate).toHaveBeenCalledWith(backgroundContext, {
+        ...derivedAccount,
+        name: 'derived-public...',
+        type: 'Derived',
+        walletId,
+      })
+      expect(mocks.deriveFromMnemonicAtIndex).toHaveBeenCalledWith({ mnemonic: input.mnemonic })
+      expect(mocks.walletCreate).toHaveBeenCalledWith(backgroundContext, input)
+      expect(result).toBe(walletId)
+    })
+
     it('should return public account metadata without reading secret data', async () => {
       // ARRANGE
       expect.assertions(5)
@@ -160,14 +181,12 @@ describe('db-service', () => {
   })
 
   describe('unexpected behavior', () => {
-    let consoleLogSpy: ReturnType<typeof vi.spyOn>
-
     beforeEach(() => {
-      consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {})
+      vi.spyOn(console, 'log').mockImplementation(() => {})
     })
 
     afterEach(() => {
-      consoleLogSpy.mockRestore()
+      vi.restoreAllMocks()
     })
 
     it('should throw an error when the active secret key is not found', async () => {

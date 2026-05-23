@@ -13,6 +13,7 @@
     "@workspace/db": "workspace:*",
     "@workspace/keypair": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "@workspace/vault": "workspace:*",
     "@wxt-dev/browser": "catalog:"
   },
   "devDependencies": {

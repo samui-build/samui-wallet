@@ -18,10 +18,10 @@ export function OnboardingFeatureIndex() {
       )}
       <div className="flex w-full flex-col space-y-2">
         <Button asChild>
-          <Link to="generate">{t(($) => $.indexLinkGenerate)}</Link>
+          <Link to="password?next=generate">{t(($) => $.indexLinkGenerate)}</Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link to="import">{t(($) => $.indexLinkImport)}</Link>
+          <Link to="password?next=import">{t(($) => $.indexLinkImport)}</Link>
         </Button>
       </div>
     </div>

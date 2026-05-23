@@ -22,6 +22,7 @@ const ToolsRoutes = lazy(() => import('@workspace/feature-tools/tools-routes'))
 const SettingsFeatureReset = lazy(() => import('@workspace/feature-settings/settings-feature-reset'))
 const SettingsRoutes = lazy(() => import('@workspace/feature-settings/settings-routes'))
 const RequestRoutes = lazy(() => import('@workspace/feature-request/request-routes'))
+const UnlockFeature = lazy(() => import('./unlock-feature.tsx'))
 
 function getRoutes() {
   switch (getEntrypoint()) {
@@ -42,7 +43,8 @@ export function createRouter(ctx: AppContext) {
       hydrateFallbackElement: <UiLoaderFull />,
       id: 'root',
       loader: rootRouteLoader(ctx),
-      shouldRevalidate: () =>
+      shouldRevalidate: ({ currentUrl, nextUrl }) =>
+        currentUrl.href !== nextUrl.href ||
         [
           queryClient.getQueryState(optionsAccount.findMany(ctx, {}).queryKey)?.isInvalidated,
           queryClient.getQueryState(optionsNetwork.findMany(ctx, {}).queryKey)?.isInvalidated,
@@ -63,6 +65,7 @@ function getAppRoutes(): RouteObject[] {
         { element: <PortfolioRoutes />, path: 'portfolio/*' },
         { element: <SettingsRoutes />, path: 'settings/*' },
         { element: <ToolsRoutes />, path: 'tools/*' },
+        { element: <UnlockFeature />, path: 'unlock' },
         { element: <UiNotFound />, path: '*' },
       ],
       element: <ShellUiLayout />,

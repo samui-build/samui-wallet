@@ -157,6 +157,7 @@
         "@workspace/db": "workspace:*",
         "@workspace/keypair": "workspace:*",
         "@workspace/ui": "workspace:*",
+        "@workspace/vault": "workspace:*",
         "@wxt-dev/browser": "catalog:",
       },
       "devDependencies": {
@@ -368,6 +369,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@hookform/resolvers": "catalog:",
+        "@workspace/context-react": "workspace:*",
         "@workspace/db-react": "workspace:*",
         "@workspace/env": "workspace:*",
         "@workspace/i18n": "workspace:*",
@@ -503,6 +505,7 @@
         "@workspace/flags": "workspace:*",
         "@workspace/i18n": "workspace:*",
         "@workspace/ui": "workspace:*",
+        "@workspace/vault": "workspace:*",
         "@workspace/vault-react": "workspace:*",
         "@wxt-dev/browser": "catalog:",
         "react-router": "catalog:",
@@ -730,6 +733,8 @@
         "@tanstack/react-query": "catalog:",
         "@workspace/context": "workspace:*",
         "@workspace/context-react": "workspace:*",
+        "@workspace/db": "workspace:*",
+        "@workspace/db-react": "workspace:*",
         "@workspace/i18n": "workspace:*",
         "@workspace/ui": "workspace:*",
         "@workspace/vault": "workspace:*",

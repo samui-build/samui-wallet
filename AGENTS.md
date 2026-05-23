@@ -9,6 +9,10 @@
 - **Single Test**: `bun run test <path/to/test.ts>`
 - **Format**: `bun format` / `bun format:check`
 
+## Browser QA
+
+- Use the `$browser-use:browser` skill for in-app browser checks whenever the Browser Use runtime is available.
+
 ## Code Style
 
 - **TypeScript**: Strict mode, consistent type definitions/imports

@@ -17,6 +17,12 @@ export function useSettingsPages(): SettingsPage[] {
       name: t(($) => $.pageNetworkName),
     },
     {
+      description: t(($) => $.pageSecurityDescription),
+      icon: 'lock',
+      id: 'security',
+      name: t(($) => $.pageSecurityName),
+    },
+    {
       description: t(($) => $.pageWalletDescription),
       icon: 'wallet',
       id: 'wallets',
