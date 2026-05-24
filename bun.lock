@@ -16,7 +16,7 @@
         "cspell": "10.0.0",
         "editorconfig-checker": "6.1.1",
         "lefthook": "2.1.6",
-        "pkg-pr-new": "0.0.71",
+        "pkg-pr-new": "0.0.74",
         "playwright": "catalog:",
         "syncpack": "15.1.2",
         "turbo": "2.9.12",
@@ -3110,7 +3110,7 @@
 
     "pino-std-serializers": ["pino-std-serializers@7.0.0", "", {}, "sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA=="],
 
-    "pkg-pr-new": ["pkg-pr-new@0.0.71", "", { "bin": { "pkg-pr-new": "bin/cli.js" } }, "sha512-Ln7I7NaOXN6CjBLVrNqsWOo6mIaNW4chH4eCR2t4tnQSmYtyQiWCqlMG6bL2JYCT1MOiKEiDObnnzePGh0TNFQ=="],
+    "pkg-pr-new": ["pkg-pr-new@0.0.74", "", { "bin": { "pkg-pr-new": "bin/cli.js" } }, "sha512-f2gScB4cjpVcMLeCMEhkrkt3KJCx3TgHTqaWZx54dUgvQcYASh+Hj+txMLjCkSN5ofHEGEmzi1gXK3lWZ2imTA=="],
 
     "pkg-types": ["pkg-types@2.3.0", "", { "dependencies": { "confbox": "^0.2.2", "exsolve": "^1.0.7", "pathe": "^2.0.3" } }, "sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig=="],
 
