@@ -5,7 +5,7 @@
     "@solana/wallet-standard-features": "catalog:",
     "@solana/wallet-standard-util": "1.1.2",
     "@wallet-standard/core": "catalog:",
-    "@webext-core/messaging": "2.3.0",
+    "@webext-core/messaging": "3.0.1",
     "@webext-core/proxy-service": "2.0.0",
     "@webext-core/storage": "1.2.0",
     "@workspace/context": "workspace:*",
