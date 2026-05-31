@@ -71,7 +71,7 @@
     "lefthook": "2.1.6",
     "pkg-pr-new": "0.0.71",
     "playwright": "catalog:",
-    "syncpack": "15.1.2",
+    "syncpack": "15.3.1",
     "turbo": "2.9.12",
     "vitest": "catalog:"
   },
