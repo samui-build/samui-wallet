@@ -22,7 +22,7 @@
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "cmdk": "1.1.1",
-    "date-fns": "4.1.0",
+    "date-fns": "4.3.0",
     "lucide-react": "catalog:",
     "next-themes": "0.4.6",
     "react-hook-form": "catalog:",
