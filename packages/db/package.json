@@ -4,7 +4,7 @@
     "@workspace/core": "workspace:*",
     "@workspace/env": "workspace:*",
     "@workspace/vault": "workspace:*",
-    "dexie": "4.4.2",
+    "dexie": "4.4.3",
     "nanoid": "5.1.11",
     "zod": "catalog:"
   },
