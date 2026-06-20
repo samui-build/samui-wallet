@@ -72,7 +72,7 @@
     "pkg-pr-new": "0.0.71",
     "playwright": "catalog:",
     "syncpack": "15.1.2",
-    "turbo": "2.9.12",
+    "turbo": "2.9.14",
     "vitest": "catalog:"
   },
   "engines": {
