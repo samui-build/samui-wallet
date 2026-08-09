@@ -13,7 +13,7 @@
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@workspace/config-typescript": "workspace:*",
-    "@wxt-dev/auto-icons": "1.1.1",
+    "@wxt-dev/auto-icons": "1.1.2",
     "@wxt-dev/module-react": "1.2.2",
     "babel-plugin-react-compiler": "catalog:",
     "baseline-browser-mapping": "catalog:",
