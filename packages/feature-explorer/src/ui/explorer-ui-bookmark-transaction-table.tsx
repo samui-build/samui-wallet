@@ -53,7 +53,12 @@ export function ExplorerUiBookmarkTransactionTable({
                   title={t(($) => $.editLabel)}
                   value={item.label ?? ''}
                 >
-                  <Button size="icon" title={t(($) => $.editLabel)} variant="outline">
+                  <Button
+                    aria-label={t(($) => $.editLabel)}
+                    size="icon"
+                    title={t(($) => $.editLabel)}
+                    variant="outline"
+                  >
                     <UiIcon icon="edit" />
                   </Button>
                 </UiPrompt>
@@ -65,7 +70,12 @@ export function ExplorerUiBookmarkTransactionTable({
                   description={t(($) => $.bookmarkDeleteDescription)}
                   title={t(($) => $.bookmarkDeleteTitle)}
                   trigger={
-                    <Button size="icon" title={t(($) => $.bookmarkDelete)} variant="outline">
+                    <Button
+                      aria-label={t(($) => $.bookmarkDelete)}
+                      size="icon"
+                      title={t(($) => $.bookmarkDelete)}
+                      variant="outline"
+                    >
                       <UiIcon className="text-red-500" icon="delete" />
                     </Button>
                   }

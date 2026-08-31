@@ -181,7 +181,13 @@ export function SettingsFeatureWalletDetails() {
         <div className="flex w-full items-center justify-between whitespace-nowrap">
           <div className="flex items-center gap-2">
             <SettingsUiWalletItem item={wallet} />
-            <Button asChild size="icon" title={t(($) => $.actionEditWallet)} variant="ghost">
+            <Button
+              aria-label={t(($) => $.actionEditWallet)}
+              asChild
+              size="icon"
+              title={t(($) => $.actionEditWallet)}
+              variant="ghost"
+            >
               <Link state={{ from }} to={`./edit`}>
                 <UiIcon className="size-4" icon="edit" />
               </Link>

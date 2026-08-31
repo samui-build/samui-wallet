@@ -221,7 +221,9 @@ function ComboboxChip({
       {showRemove && (
         <ComboboxPrimitive.ChipRemove
           data-slot="combobox-chip-remove"
-          render={<Button className="size-5 rounded-sm p-0" size="icon" variant="ghost" />}
+          render={
+            <Button aria-label="Remove selected item" className="size-5 rounded-sm p-0" size="icon" variant="ghost" />
+          }
         >
           <XIcon className="pointer-events-none" />
         </ComboboxPrimitive.ChipRemove>

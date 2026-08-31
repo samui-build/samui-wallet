@@ -175,7 +175,12 @@ export default function ToolsFeatureCreateToken({
             <FieldDescription>The address of the mint</FieldDescription>
             <div className="flex items-center gap-2">
               <Input id={addressId} readOnly required value={queryKeypair.data?.address} />
-              <Button onClick={() => queryKeypair.refetch()} size="icon" variant="outline">
+              <Button
+                aria-label="Regenerate mint address"
+                onClick={() => queryKeypair.refetch()}
+                size="icon"
+                variant="outline"
+              >
                 <UiIcon icon="refresh" />
               </Button>
             </div>

@@ -16,7 +16,13 @@ export function SettingsUiNetworkDeleteConfirm({
   const [open, setOpen] = useState(false)
   return (
     <Fragment>
-      <Button onClick={() => setOpen((value) => !value)} size="icon" title={t(($) => $.actionDelete)} variant="outline">
+      <Button
+        aria-label={t(($) => $.actionDelete)}
+        onClick={() => setOpen((value) => !value)}
+        size="icon"
+        title={t(($) => $.actionDelete)}
+        variant="outline"
+      >
         <UiIcon className="size-4 text-red-500" icon="delete" />
       </Button>
       <UiConfirm

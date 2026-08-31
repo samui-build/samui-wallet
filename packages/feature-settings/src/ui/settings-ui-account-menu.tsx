@@ -43,7 +43,7 @@ export function SettingsUiAccountMenu({
     <Fragment>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button aria-label="Account actions" size="icon" variant="outline">
             <UiIcon icon="menu" />
           </Button>
         </DropdownMenuTrigger>

@@ -5,7 +5,7 @@ import { Link } from 'react-router'
 
 export function ShellUiDeveloperModeLink() {
   return isEnabled('developerMode') ? (
-    <Button asChild size="icon" variant="outline">
+    <Button aria-label="Developer tools" asChild size="icon" variant="outline">
       <Link to="/dev">
         <UiIcon icon="bug" />
       </Link>

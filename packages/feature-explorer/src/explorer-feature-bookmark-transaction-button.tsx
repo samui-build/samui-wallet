@@ -8,7 +8,13 @@ export function ExplorerFeatureBookmarkTransactionButton({ signature }: { signat
   const { hasBookmark, toggle } = useExplorerBookmarkTransaction({ signature })
 
   return (
-    <Button onClick={toggle} size="sm" title={`${hasBookmark ? 'Remove' : 'Add'} bookmark`} variant="secondary">
+    <Button
+      aria-label={`${hasBookmark ? 'Remove' : 'Add'} bookmark`}
+      onClick={toggle}
+      size="sm"
+      title={`${hasBookmark ? 'Remove' : 'Add'} bookmark`}
+      variant="secondary"
+    >
       <UiIcon
         className={cn({ 'text-yellow-500': hasBookmark })}
         icon={hasBookmark ? 'bookmarkRemove' : 'bookmarkAdd'}

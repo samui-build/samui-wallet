@@ -11,6 +11,7 @@ export function ExplorerFeatureBookmarkAccountButton({ address }: { address: Add
 
   return (
     <Button
+      aria-label={`${hasBookmark ? t(($) => $.bookmarkRemove) : t(($) => $.bookmarkAdd)}`}
       onClick={toggle}
       size="sm"
       title={`${hasBookmark ? t(($) => $.bookmarkRemove) : t(($) => $.bookmarkAdd)}`}

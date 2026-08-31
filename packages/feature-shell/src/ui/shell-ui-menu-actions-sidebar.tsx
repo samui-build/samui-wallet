@@ -6,7 +6,13 @@ import { UiIcon } from '@workspace/ui/components/ui-icon'
 export function ShellUiMenuActionsSidebar() {
   const { t } = useTranslation('shell')
   return (
-    <Button onClick={closeSidePanel} size="icon" title={t(($) => $.actionsSidebarHide)} variant="secondary">
+    <Button
+      aria-label={t(($) => $.actionsSidebarHide)}
+      onClick={closeSidePanel}
+      size="icon"
+      title={t(($) => $.actionsSidebarHide)}
+      variant="secondary"
+    >
       <UiIcon icon="sidebarClose" />
     </Button>
   )

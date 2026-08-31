@@ -18,7 +18,7 @@ export function PortfolioUiTokenBalanceItemMenu({ item }: { item: TokenBalance }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="ghost">
+        <Button aria-label="Token actions" size="icon" variant="ghost">
           <UiIcon icon="menu" />
         </Button>
       </DropdownMenuTrigger>

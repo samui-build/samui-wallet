@@ -6,9 +6,9 @@ import { Button } from './button.tsx'
 export interface UiBackButtonProps extends ComponentProps<typeof Button> {
   to?: string
 }
-export function UiBackButton({ to = '..', ...props }: UiBackButtonProps) {
+export function UiBackButton({ 'aria-label': ariaLabel = 'Back', to = '..', ...props }: UiBackButtonProps) {
   return (
-    <Button asChild size="icon" variant="outline" {...props}>
+    <Button aria-label={ariaLabel} asChild size="icon" variant="outline" {...props}>
       <Link to={to}>
         <LucideArrowLeft />
       </Link>

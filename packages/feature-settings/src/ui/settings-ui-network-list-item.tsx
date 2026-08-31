@@ -32,7 +32,13 @@ export function SettingsUiNetworkListItem({
         </ItemTitle>
       </ItemContent>
       <ItemActions>
-        <Button asChild size="icon" title={t(($) => $.actionEdit)} variant="outline">
+        <Button
+          aria-label={t(($) => $.actionEdit)}
+          asChild
+          size="icon"
+          title={t(($) => $.actionEdit)}
+          variant="outline"
+        >
           <Link to={`./${item.id}`}>
             <UiIcon className="size-4" icon="edit" />
           </Link>
