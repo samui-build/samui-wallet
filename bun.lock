@@ -14,7 +14,7 @@
         "@types/node": "catalog:",
         "bundlemon": "3.1.0",
         "cspell": "10.0.0",
-        "editorconfig-checker": "6.1.1",
+        "editorconfig-checker": "6.2.0",
         "lefthook": "2.1.6",
         "pkg-pr-new": "0.0.71",
         "playwright": "catalog:",
@@ -2368,7 +2368,7 @@
 
     "eastasianwidth": ["eastasianwidth@0.2.0", "", {}, "sha512-I88TYZWc9XiYHRQ4/3c5rjjfgkjhLyW2luGIheGERbNQ6OY7yTybanSpDXZa8y7VUP9YmDcYa+eyq4ca7iLqWA=="],
 
-    "editorconfig-checker": ["editorconfig-checker@6.1.1", "", { "bin": { "ec": "dist/index.js", "editorconfig-checker": "dist/index.js" } }, "sha512-kiOb6qaWpMNt7Z/43ba0Pa1Inhr2/t9nKbvEKtCeXJ5AesztoM9AgLOOQVB4QUv/nGjgz3xkbx4pcogVRD2NWw=="],
+    "editorconfig-checker": ["editorconfig-checker@6.2.0", "", { "bin": { "ec": "dist/index.js", "editorconfig-checker": "dist/index.js" } }, "sha512-5zrNwlxUWyOvAcrSK4mPIGNYrf1KK5pH2D3VXDB1AcDsDdBfLNPOjBL5jHgYh+JykOIuXlQHMeYvXPrZwGNmHA=="],
 
     "effect": ["effect@3.21.2", "", { "dependencies": { "@standard-schema/spec": "^1.0.0", "fast-check": "^3.23.1" } }, "sha512-rXd2FGDM8KdjSIrc+mqEELo7ScW7xTVxEf1iInmPSpIde9/nyGuFM710cjTo7/EreGXiUX2MOonPpprbz2XHCg=="],
 
