@@ -116,6 +116,76 @@ Keep discussions focused on the task at hand. The primary goal of a Pull Request
 
 Ultimately, we ship code, not comments. Let's prioritize actions that help us meet our goals and maintain a healthy ratio of commits to comments.
 
+## Package Guidelines
+
+Samui is organized as a monorepo of apps, packages, examples, and shared tooling. Before adding a new package,
+check whether the change belongs in an existing package with the same ownership boundary.
+
+### Naming Files
+
+Files inside a package should use the package name as their prefix. This keeps imports, tabs, and GitHub diffs
+easy to scan when multiple packages use similar concepts.
+
+-   Feature package files use the feature prefix, for example
+    `packages/feature-onboarding/src/onboarding-feature-create.tsx`.
+-   UI files add the `-ui-` segment after the package prefix, for example
+    `packages/feature-portfolio/src/ui/portfolio-ui-balance.tsx`.
+-   Data access files describe the hook, provider, loader, service, or helper they expose, for example
+    `packages/feature-settings/src/data-access/use-settings.tsx`.
+
+### Feature Packages
+
+A feature package owns a product area that can be routed to, rendered, or composed by the app, such as onboarding,
+portfolio, settings, explorer, request, tools, shell, or dev.
+
+Use a `feature-*` package when the code is specific to one product workflow and should not become shared UI or
+shared domain infrastructure. Keep route components, page-level composition, and workflow-specific state in the
+feature package.
+
+Do not create a generic `features` folder inside an app for reusable feature logic. Prefer a package so the boundary
+is explicit and other apps can consume it through normal workspace imports.
+
+### Data Access
+
+Use `src/data-access` for code that connects UI to state, persistence, routing data, network clients, or application
+services.
+
+Good fits for `data-access` include:
+
+-   React hooks that read or write database/query state.
+-   Providers and context adapters for a feature.
+-   Router loaders, redirects, and helpers that prepare data for a route.
+-   Types or utility functions whose main purpose is shaping feature data before it reaches UI.
+
+Keep presentational markup out of `data-access`. If a file renders visible UI, it usually belongs in `src` or
+`src/ui`.
+
+### UI
+
+Use `src/ui` for reusable presentational components owned by a package. These components should be easy to compose
+and should receive the data they need through props.
+
+Use the package's top-level `src` folder for route components, feature entry points, and components that coordinate
+several UI and data-access pieces. A file can still include `-ui-` in its name when it is a UI component, but if it
+lives in top-level `src`, it should be closely tied to that feature's composition rather than shared broadly inside
+the package.
+
+If a component is generic across product areas, move it to `packages/ui` instead of copying it into multiple feature
+packages.
+
+## Internationalization
+
+User-facing strings must go through the i18n helpers instead of being hard-coded in components, hooks, route loaders,
+or error messages.
+
+-   Use `useTranslation` in React components and hooks.
+-   Use the exported `i18n` instance for non-React code.
+-   Add the English string to the matching file in `packages/i18n/locales/en`.
+-   Add the same key to `packages/i18n/locales/es`. If a Spanish translation is not available yet, set the value to
+    `null`, not an empty string. `null` keeps the English fallback working.
+-   Put strings in the namespace for the feature or package that owns them. Shared UI strings belong in the shared UI
+    namespace.
+
 ## A Note on AI-Generated Code
 
 We are supportive of using AI tools to _assist_ your development process (e.g., for boilerplate, optimization suggestions, or debugging).
