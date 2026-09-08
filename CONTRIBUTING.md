@@ -123,8 +123,9 @@ check whether the change belongs in an existing package with the same ownership 
 
 ### Naming Files
 
-Files inside a package should use the package name as their prefix. This keeps imports, tabs, and GitHub diffs
-easy to scan when multiple packages use similar concepts.
+Files inside a package should use the package slug as their prefix. For feature packages, the slug is the part
+after `feature-`, such as `onboarding` for `packages/feature-onboarding`. This keeps imports, tabs, and GitHub
+diffs easy to scan when multiple packages use similar concepts.
 
 -   Feature package files use the feature prefix, for example
     `packages/feature-onboarding/src/onboarding-feature-create.tsx`.
