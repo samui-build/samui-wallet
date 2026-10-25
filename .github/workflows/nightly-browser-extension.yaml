@@ -19,7 +19,8 @@ concurrency:
 
 jobs:
   publish:
-    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main'
+    # Change false to true to re-enable releases.
+    if: ${{ false && !github.event.repository.archived && (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/main') }}
     name: Publish Chrome Nightly
     runs-on: ubuntu-latest
     steps:
