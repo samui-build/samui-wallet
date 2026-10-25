@@ -85,6 +85,8 @@ jobs:
         run: bun spell-check
 
   editorconfig:
+    # Disabled: the checker cannot download its Linux binary.
+    if: false
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

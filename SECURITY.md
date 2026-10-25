@@ -2,8 +2,8 @@
 
 ## Reporting a Vulnerability
 
-The Samui team and community take security bugs in Samui seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+Samui is an unmaintained experimental hackathon prototype. It has not been security audited and has known security limitations. Do not use it with real funds or production accounts. No fixes or further releases are planned.
 
 To report a security issue, please use the GitHub Security Advisory ["Report a Vulnerability"](https://github.com/samui-build/samui-wallet/security/advisories/new) tab.
 
-The Samui team will send a response indicating the next steps in handling your report. After the initial reply to your report, the security team will keep you informed of the progress towards a fix and full announcement, and may ask for additional information or guidance.
+We appreciate responsible disclosure, but cannot commit to a response or remediation timeline.

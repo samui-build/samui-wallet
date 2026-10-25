@@ -10,6 +10,9 @@
 
 <p align="center">Open Source Solana wallet and toolbox for builders 🏟 Cypherpunk Hackathon</p>
 
+> **Unmaintained experimental software. Do not use with real funds or production accounts.**
+> Samui was built for a hackathon, has not been security audited, and has known security limitations. No fixes or further releases are planned.
+
 <p align="center">
     <a href="https://samui.build/go/discord">
         <img alt="Discord" src="https://img.shields.io/discord/1426222948162863275?style=flat-square&label=discord" />
@@ -47,7 +50,7 @@ For more info on how to configure Samui [head over to our docs](https://samui.bu
 
 If you're interested in contributing to Samui, please read our [contributing docs](./CONTRIBUTING.md) before submitting a pull request.
 
-Samui is currently maintained by [beeman](https://x.com/beeman_nl) and [tobeycodes](https://x.com/tobeycodes), with support from a number of contributors.
+Samui was built by [beeman](https://x.com/beeman_nl) and [tobeycodes](https://x.com/tobeycodes), with support from a number of contributors.
 
 <a href="https://github.com/samui-build/samui-wallet/graphs/contributors">
     <img src="https://contrib.rocks/image?repo=samui-build/samui-wallet" />
